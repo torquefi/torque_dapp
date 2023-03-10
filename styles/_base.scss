@@ -1,0 +1,60 @@
+html,
+body {
+  font-family: Helvetica, 'Open Sans', sans-serif;
+  background: #030303 !important;
+  @apply bg-gray-100;
+  @apply text-base;
+  @apply box-border;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover,
+a:focus {
+  text-decoration: none;
+}
+
+.main-container {
+  margin-left: auto;
+  margin-right: auto;
+  width: 94%;
+  @screen xs {
+    width: 93%;
+    max-width: none;
+  }
+  @screen sm {
+    width: 92%;
+    max-width: none;
+  }
+  @screen md {
+    width: 90%;
+    max-width: none;
+  }
+  @screen lg {
+    width: 88%;
+    @apply max-w-screen-lg;
+  }
+  @screen xl {
+    width: 86%;
+    @apply max-w-screen-xl;
+  }
+  @screen 2xl {
+    width: 84%;
+    @apply max-w-screen-xl;
+  }
+}
+
+.no-focus:not(.btn) {
+  outline: none;
+}
+
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input:focus {
+  outline: none;
+}

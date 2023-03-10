@@ -1,0 +1,19 @@
+.bg-gradient-primary {
+  @apply bg-gradient-to-b from-[#AA5BFF] to-[#912BFF];
+}
+
+.bg-gradient-secondary {
+  @apply bg-gradient-to-tl from-[#101010] to-[#1c1c1c]
+}
+
+.bg-gradient-divider {
+  @apply bg-[#282828];
+  background: linear-gradient(
+    90deg,
+    rgba(40, 40, 40, 0) 0%,
+    rgba(40, 40, 40, 0.6) 30%,
+    rgba(40, 40, 40, 0.8) 50%,
+    rgba(40, 40, 40, 0.6) 70%,
+    rgba(40, 40, 40, 0) 100%
+  );
+}

@@ -1,0 +1,175 @@
+html {
+  @apply font-body;
+  scroll-behavior: smooth;
+}
+
+@font-face {
+  font-family: Helvetica, sans-serif;
+
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Helvetica, sans-serif;
+
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+// Custom project-specific class here
+:root {
+  --color-primary-light: #cfe4fd;
+  --color-primary: #60a5fa;
+  --color-primary-dark: #232749;
+  --color-accent-light: #5694e1;
+  --color-accent: #292f45;
+  --color-accent-dark: #161d30;
+
+  --secondary-color: #7366f0;
+  --bs-blue: #0d6efd;
+  --bs-indigo: #543ea4;
+  --bs-purple: #6f42c1;
+  --bs-pink: #943a4c;
+  --bs-red: #dc3545;
+  --bs-orange: #fd7e14;
+  --bs-yellow: #ffc107;
+  --bs-green: #198754;
+  --bs-teal: #20c997;
+  --bs-cyan: #0dcaf0;
+  --bs-white: #fff;
+  --bs-gray: #6c757d;
+  --bs-gray-dark: #343a40;
+  --bs-primary: #0d6efd;
+  --bs-secondary: #6c757d;
+  --bs-success: #198754;
+  --bs-info: #0dcaf0;
+  --bs-warning: #ffc107;
+  --bs-danger: #dc3545;
+  --bs-light: #f8f9fa;
+  --bs-dark: #212529;
+}
+
+.bg-gradient {
+  @apply bg-gradient-to-r from-accent to-primary hover:from-accent hover:to-primary-dark;
+  &:not(.loading)[disabled] {
+    background-image: none !important;
+  }
+}
+
+//menu in navbar
+
+.hamburger1 {
+  height: 5px;
+  display: -ms-grid;
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  justify-items: center;
+  z-index: 500;
+}
+.hamburger1 div {
+  background-color: #e2164d;
+  position: relative;
+  width: 40px;
+  height: 4px;
+  margin-top: 10px;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+#toggle1 {
+  display: none;
+}
+#toggle1:checked + .hamburger1 .top {
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  margin-top: 30px;
+}
+#toggle1:checked + .hamburger1 .meat {
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+  margin-top: -5px;
+}
+#toggle1:checked + .hamburger1 .bottom {
+  -webkit-transform: scale(0);
+  transform: scale(0);
+}
+#toggle1:checked ~ .menu1 {
+  height: 450px;
+}
+/* Menu */
+.menu1 {
+  height: 0;
+  transition: height 350ms linear;
+  width: 100%;
+  margin-top: 83px;
+  display: -ms-grid;
+  display: grid;
+  grid-template-rows: 1fr repeat(4, 0.5fr);
+  grid-row-gap: 25px;
+  padding: 0;
+  list-style: none;
+  clear: both;
+  width: auto;
+  text-align: center;
+  height: 0px;
+  overflow: hidden;
+  z-index: 500;
+  /* 
+    transition: height .4s ease;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease; */
+}
+.menu1 a:first-child {
+  margin-top: 40px;
+}
+.menu1 a:last-child {
+  margin-bottom: 40px;
+}
+.link1 {
+  position: relative;
+  bottom: 0px;
+  width: 100%;
+  margin: 0;
+  padding: 10px 0;
+  font: 700 20px 'Oswald', sans-serif;
+}
+.link1:hover {
+  background-color: #fff;
+  color: rgb(61, 61, 61);
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+.Toastify__toast {
+  margin-top: 55px !important;
+  border-radius: 15px !important;
+  padding: 0px !important;
+}
+
+.Toastify__toast-icon {
+  height: 100%;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background-color: #ee3ea4;
+  padding: 2px !important;
+  width: 45px !important;
+}
+
+.Toastify__toast-body {
+  margin: 0px !important;
+  padding: 0px !important;
+}
+
+.Toastify__toast-body > div:last-child {
+  flex: 1;
+  padding: 10px 0px 10px 0px;
+}
+
+.Toastify__close-button {
+  @apply mt-2;
+  @apply mr-2;
+  color: #ee3ea4 !important;
+}

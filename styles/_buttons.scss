@@ -1,0 +1,396 @@
+.btn {
+  @apply inline-flex;
+  @apply justify-center;
+  @apply items-center;
+  @apply relative;
+  @apply h-10;
+  @apply py-0;
+  @apply px-5;
+  @apply text-base;
+  @apply font-semibold;
+  @apply text-gray-600;
+  @apply cursor-pointer;
+  @apply rounded;
+  @apply transition-all;
+  @apply bg-transparent;
+  @apply outline-none;
+
+  &:focus {
+    @apply outline-none;
+  }
+
+  &.no-focus {
+    box-shadow: none !important;
+  }
+
+  span {
+    @apply inline-flex;
+    @apply items-center;
+  }
+
+  &:not(.flex-col) {
+    span + i {
+      @apply ml-1.5;
+    }
+    &:not(.flex-row-reverse) {
+      i + span {
+        @apply ml-1.5;
+      }
+    }
+    &.flex-row-reverse {
+      i + span {
+        @apply mr-1.5;
+      }
+    }
+  }
+
+  &.btn-sm {
+    @apply px-4;
+    @apply h-8;
+    @apply text-13;
+  }
+
+  &.btn-md {
+    @apply px-4;
+    @apply h-9;
+    @apply text-13;
+  }
+
+  &.btn-lg {
+    @apply px-6;
+    @apply h-11;
+    @apply text-15;
+  }
+
+  &.absolute {
+    position: absolute !important;
+  }
+
+  &.loading[disabled] {
+    pointer-events: none;
+    opacity: 0.75;
+  }
+
+  &.hover-darken {
+    &:hover {
+      @apply text-gray-800;
+      @apply border-gray-600;
+    }
+  }
+  &.hover-accent {
+    &:hover {
+      @apply text-accent;
+      @apply border-accent;
+    }
+  }
+  &.hover-info {
+    &:hover {
+      @apply text-info;
+      @apply border-info;
+    }
+  }
+  &.hover-warning {
+    &:hover {
+      @apply text-warning;
+      @apply border-warning;
+    }
+  }
+  &.hover-success {
+    &:hover {
+      @apply text-success;
+      @apply border-success;
+    }
+  }
+  &.hover-danger {
+    &:hover {
+      @apply text-danger;
+      @apply border-danger;
+    }
+  }
+  &.hover-white {
+    &:hover {
+      @apply text-white;
+      @apply border-white;
+    }
+  }
+}
+
+.btn-default {
+  @extend .btn;
+  &:not(.loading)[disabled] {
+    pointer-events: none;
+    @apply text-gray-400 #{!important};
+  }
+  &:not([class^="hover-"]):not([class*=" hover-"]):not([class*=" is-"]):not([class*=" is-"]):hover {
+    @apply text-primary;
+  }
+}
+
+.btn-gray {
+  @extend .btn;
+  @apply bg-gray-200;
+  @apply text-gray-600;
+  &:not(.loading)[disabled] {
+    pointer-events: none;
+    @apply bg-gray-100 text-gray-400 #{!important};
+  }
+  &:hover {
+    @apply bg-gray-300;
+  }
+  &:not([class^="hover-"]):not([class*=" hover-"]):not([class*=" is-"]):not([class*=" is-"]) {
+    &:hover {
+      @apply text-primary;
+    }
+  }
+}
+
+.btn-default,
+.btn-gray {
+  &.is-primary {
+    @apply text-primary hover:text-primary-dark;
+  }
+  &.is-accent {
+    @apply text-accent hover:text-accent-dark;
+  }
+  &.is-info {
+    @apply text-info hover:text-info-dark;
+  }
+  &.is-success {
+    @apply text-success hover:text-success-dark;
+  }
+  &.is-danger {
+    @apply text-danger hover:text-danger-dark;
+  }
+  &.is-warning {
+    @apply text-warning hover:text-warning-dark;
+  }
+  &.is-white {
+    @apply text-white hover:text-white;
+  }
+}
+
+.btn-outline {
+  @extend .btn;
+  @apply border;
+  @apply border-gray-400;
+  &:not(.loading)[disabled] {
+    pointer-events: none;
+    @apply border-gray-300 bg-gray-100 text-gray-400 #{!important};
+  }
+  &:not([class^="hover-"]):not([class*=" hover-"]):not([class^="is-"]):not([class*=" is-"]) {
+    &:hover {
+      @apply border-primary;
+      @apply text-primary;
+      @apply focus:ring-primary focus:ring-opacity-50;
+    }
+  }
+  &.is-primary {
+    @apply border-primary;
+    @apply text-primary;
+    &:hover {
+      @apply bg-primary;
+      @apply text-white;
+    }
+  }
+  &.is-danger {
+    @apply border-danger;
+    @apply text-danger;
+    &:hover {
+      @apply bg-danger;
+      @apply text-white;
+    }
+  }
+  &.is-accent {
+    @apply border-accent;
+    @apply text-accent;
+    &:hover {
+      @apply bg-accent;
+      @apply text-white;
+    }
+  }
+  &.is-info {
+    @apply border-info;
+    @apply text-info;
+    &:hover {
+      @apply bg-info;
+      @apply text-white;
+    }
+  }
+  &.is-success {
+    @apply border-success;
+    @apply text-success;
+    &:hover {
+      @apply bg-success;
+      @apply text-white;
+    }
+  }
+  &.is-warning {
+    @apply border-warning;
+    @apply text-warning;
+    &:hover {
+      @apply bg-warning;
+      @apply text-white;
+    }
+  }
+}
+
+.btn-primary {
+  @extend .btn;
+  @apply bg-primary;
+  @apply text-gray-50;
+  @apply border-primary;
+  &:not(.loading)[disabled] {
+    pointer-events: none;
+    @apply border border-gray-300 bg-gray-100 text-gray-400 #{!important};
+  }
+  &:hover {
+    @apply text-white;
+    @apply bg-primary-dark;
+  }
+}
+
+.btn-accent {
+  @extend .btn;
+  @apply bg-accent;
+  @apply text-gray-50;
+  @apply border-accent;
+  &:not(.loading)[disabled] {
+    pointer-events: none;
+    @apply border border-gray-300 bg-gray-100 text-gray-400 #{!important};
+  }
+  &:hover {
+    @apply text-white;
+    @apply bg-accent-dark;
+  }
+}
+
+.btn-info {
+  @extend .btn;
+  @apply bg-info;
+  @apply text-gray-50;
+  @apply border-info;
+  &:not(.loading)[disabled] {
+    pointer-events: none;
+    @apply border border-gray-300 bg-gray-100 text-gray-400 #{!important};
+  }
+  &:hover {
+    @apply text-white;
+    @apply bg-info-dark;
+  }
+}
+
+.btn-success {
+  @extend .btn;
+  @apply bg-success;
+  @apply text-gray-50;
+  @apply border-success;
+  &:not(.loading)[disabled] {
+    pointer-events: none;
+    @apply border border-gray-300 bg-gray-100 text-gray-400 #{!important};
+  }
+  &:hover {
+    @apply text-white;
+    @apply bg-success-dark;
+  }
+}
+
+.btn-warning {
+  @extend .btn;
+  @apply bg-warning;
+  @apply text-gray-50;
+  @apply border-warning;
+  &:not(.loading)[disabled] {
+    pointer-events: none;
+    @apply border border-gray-300 bg-gray-100 text-gray-400 #{!important};
+  }
+  &:hover {
+    @apply text-white;
+    @apply bg-warning-dark;
+  }
+}
+
+.btn-danger {
+  @extend .btn;
+  @apply bg-danger;
+  @apply text-gray-50;
+  @apply border-danger;
+  &:not(.loading)[disabled] {
+    pointer-events: none;
+    @apply border border-gray-300 bg-gray-100 text-gray-400 #{!important};
+  }
+  &:hover {
+    @apply text-white;
+    @apply bg-danger-dark;
+  }
+}
+
+button.has-focus,
+form button {
+  @apply focus:ring-2;
+  &.btn-default,
+  &.btn-gray {
+    @apply focus:ring-black focus:ring-opacity-50;
+  }
+  &.btn-outline {
+    @apply focus:ring-black focus:ring-opacity-50;
+    &:not([class*=" is-"]):not([class*=" is-"]) {
+      @apply focus:ring-black focus:ring-opacity-50;
+      &:hover {
+        &:not([class^="hover-"]):not([class*=" hover-"]) {
+          @apply focus:ring-primary focus:ring-opacity-50;
+        }
+        &.hover-danger {
+          @apply focus:ring-danger focus:ring-opacity-50;
+        }
+        &.hover-accent {
+          @apply focus:ring-accent focus:ring-opacity-50;
+        }
+        &.hover-info {
+          @apply focus:ring-info focus:ring-opacity-50;
+        }
+        &.hover-success {
+          @apply focus:ring-success focus:ring-opacity-50;
+        }
+        &.hover-warning {
+          @apply focus:ring-warning focus:ring-opacity-50;
+        }
+      }
+    }
+    &.is-primary {
+      @apply focus:ring-primary focus:ring-opacity-50;
+    }
+    &.is-danger {
+      @apply focus:ring-danger focus:ring-opacity-50;
+    }
+    &.is-accent {
+      @apply focus:ring-accent focus:ring-opacity-50;
+    }
+    &.is-info {
+      @apply focus:ring-info focus:ring-opacity-50;
+    }
+    &.is-success {
+      @apply focus:ring-success focus:ring-opacity-50;
+    }
+    &.is-warning {
+      @apply focus:ring-warning focus:ring-opacity-50;
+    }
+  }
+  &.btn-primary {
+    @apply focus:ring-primary focus:ring-opacity-50;
+  }
+  &.btn-accent {
+    @apply focus:ring-accent focus:ring-opacity-50;
+  }
+  &.btn-success {
+    @apply focus:ring-success focus:ring-opacity-50;
+  }
+  &.btn-danger {
+    @apply focus:ring-danger focus:ring-opacity-50;
+  }
+  &.btn-info {
+    @apply focus:ring-info focus:ring-opacity-50;
+  }
+  &.btn-warning {
+    @apply focus:ring-warning focus:ring-opacity-50;
+  }
+}

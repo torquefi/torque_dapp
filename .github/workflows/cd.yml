@@ -1,0 +1,17 @@
+name: CD
+on:
+  push:
+    branches: [master]
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Executing remote ssh and build
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          script: cd /var/www/storm_ladipage/ && git pull origin master && yarn install && yarn build && pm2 restart ecosystem.config.js && pm2 save

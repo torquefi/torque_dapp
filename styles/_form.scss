@@ -1,0 +1,355 @@
+.form-control {
+  @apply block w-full py-0 px-3 min-h-10 rounded border bg-white border-gray-400 hover:border-gray-500;
+  @apply focus:ring-1 focus:ring-primary focus:ring-opacity-50 focus:border-primary;
+  @apply focus-within:ring-1 focus-within:ring-primary focus-within:ring-opacity-50 focus-within:border-primary;
+  &[readonly],
+  &[disabled],
+  &.readonly {
+    @apply bg-gray-100 hover:border-gray-500 focus:border-gray-500;
+    @apply focus-within:ring-0 focus:ring-0;
+  }
+  input,
+  select {
+    min-width: 0px;
+  }
+  &.error {
+    @apply border-danger hover:border-danger-dark focus:border-danger focus:ring-danger #{!important};
+    @apply focus-within:ring-danger focus-within:border-danger #{!important};
+  }
+  &.no-focus {
+    box-shadow: none !important;
+  }
+}
+
+input.form-control,
+select.form-control {
+  min-width: 0px;
+}
+
+select.form-control {
+  outline: 0;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink= 'http://www.w3.org/1999/xlink' height='20' width='20' viewBox='0 0 20 20'%3E%3Cpath fill='%236B7280' d='M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat, repeat;
+  background-position: right 8px top 50%, 0 0;
+  background-size: 20px;
+  padding-right: 36px;
+  &:hover {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink= 'http://www.w3.org/1999/xlink' height='20' width='20' viewBox='0 0 20 20'%3E%3Cpath fill='%23374151' d='M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z'%3E%3C/path%3E%3C/svg%3E");
+  }
+}
+
+.react-select__control--is-disabled {
+  @apply bg-gray-100 hover:border-gray-500 focus:border-gray-500  #{!important};
+  @apply focus-within:ring-0 focus:ring-0 #{!important};
+}
+.react-select__control {
+  border: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  .react-select__value-container--is-multi {
+    padding: 2px 4px;
+    .react-select__placeholder {
+      padding-left: 4px;
+    }
+  }
+  .react-select__dropdown-indicator {
+    @apply text-gray-500;
+  }
+  .react-select__clear-indicator {
+    @apply cursor-pointer text-gray-500 hover:text-gray-700;
+  }
+  .react-select__clear-indicator ~ .react-select__dropdown-indicator {
+    display: none;
+  }
+  .react-select__indicator-separator {
+    display: none;
+  }
+  &:hover {
+    .react-select__dropdown-indicator {
+      @apply text-gray-700;
+    }
+  }
+}
+.react-select__menu {
+  z-index: 20 !important;
+}
+.form-control {
+  &.react-select-autosize {
+    .react-select__menu {
+      width: max-content !important;
+    }
+  }
+  &:not(.react-select-autosize) {
+    .react-select__menu {
+      width: 100% !important;
+    }
+  }
+}
+.react-select__single-value {
+  overflow: visible !important;
+}
+.react-select__single-value + div {
+  z-index: -1;
+}
+
+.react-datepicker-popper {
+  z-index: 20 !important;
+}
+.react-select__placeholder {
+  line-height: 18px;
+  white-space: nowrap;
+}
+
+.react-datepicker-wrapper {
+  width: 100%;
+  display: block;
+}
+.react-datepicker__date-icon {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='20' width='20' viewBox='0 0 20 20' aria-hidden='true' focusable='false'%3E%3Cpath fill='%236B7280' d='M14.348 14.849c-0.469 0.469-1.229 0.469-1.697 0l-2.651-3.030-2.651 3.029c-0.469 0.469-1.229 0.469-1.697 0-0.469-0.469-0.469-1.229 0-1.697l2.758-3.15-2.759-3.152c-0.469-0.469-0.469-1.228 0-1.697s1.228-0.469 1.697 0l2.652 3.031 2.651-3.031c0.469-0.469 1.228-0.469 1.697 0s0.469 1.229 0 1.697l-2.758 3.152 2.758 3.15c0.469 0.469 0.469 1.229 0 1.698z'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat, repeat;
+  background-position: right 8px top 50%, 0 0;
+  background-size: 20px;
+  width: 36px;
+  &:hover {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='20' width='20' viewBox='0 0 20 20' aria-hidden='true' focusable='false'%3E%3Cpath fill='%23374151' d='M14.348 14.849c-0.469 0.469-1.229 0.469-1.697 0l-2.651-3.030-2.651 3.029c-0.469 0.469-1.229 0.469-1.697 0-0.469-0.469-0.469-1.229 0-1.697l2.758-3.15-2.759-3.152c-0.469-0.469-0.469-1.228 0-1.697s1.228-0.469 1.697 0l2.652 3.031 2.651-3.031c0.469-0.469 1.228-0.469 1.697 0s0.469 1.229 0 1.697l-2.758 3.152 2.758 3.15c0.469 0.469 0.469 1.229 0 1.698z'%3E%3C/path%3E%3C/svg%3E");
+  }
+}
+input[disabled] ~ .react-datepicker__close-icon {
+  display: none !important;
+}
+.react-datepicker__close-icon,
+.form-control__close-icon {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='20' width='20' viewBox='0 0 20 20' aria-hidden='true' focusable='false'%3E%3Cpath fill='%236B7280' d='M14.348 14.849c-0.469 0.469-1.229 0.469-1.697 0l-2.651-3.030-2.651 3.029c-0.469 0.469-1.229 0.469-1.697 0-0.469-0.469-0.469-1.229 0-1.697l2.758-3.15-2.759-3.152c-0.469-0.469-0.469-1.228 0-1.697s1.228-0.469 1.697 0l2.652 3.031 2.651-3.031c0.469-0.469 1.228-0.469 1.697 0s0.469 1.229 0 1.697l-2.758 3.152 2.758 3.15c0.469 0.469 0.469 1.229 0 1.698z'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat, repeat;
+  background-position: right 8px top 50%, 0 0;
+  background-size: 20px;
+  width: 36px;
+  &:hover {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='20' width='20' viewBox='0 0 20 20' aria-hidden='true' focusable='false'%3E%3Cpath fill='%23374151' d='M14.348 14.849c-0.469 0.469-1.229 0.469-1.697 0l-2.651-3.030-2.651 3.029c-0.469 0.469-1.229 0.469-1.697 0-0.469-0.469-0.469-1.229 0-1.697l2.758-3.15-2.759-3.152c-0.469-0.469-0.469-1.228 0-1.697s1.228-0.469 1.697 0l2.652 3.031 2.651-3.031c0.469-0.469 1.228-0.469 1.697 0s0.469 1.229 0 1.697l-2.758 3.152 2.758 3.15c0.469 0.469 0.469 1.229 0 1.698z'%3E%3C/path%3E%3C/svg%3E");
+  }
+  &::after {
+    display: none !important;
+    content: "";
+  }
+  &:focus {
+    outline: none;
+  }
+}
+.react-datepicker__day,
+.react-datepicker__time-list-item {
+  @apply focus:ring focus:ring-primary focus:ring-opacity-50 outline-none rounded;
+}
+.react-datepicker__day--today,
+.react-datepicker__day--in-selecting-range,
+.react-datepicker__day--keyboard-selected {
+  @apply bg-primary-light text-primary hover:bg-primary-dark hover:text-white #{!important};
+}
+.react-datepicker__day--keyboard-selected {
+  @apply ring ring-primary ring-opacity-50;
+}
+.react-datepicker__day--selected,
+.react-datepicker__time-list-item--selected {
+  @apply bg-primary hover:bg-primary-dark text-white #{!important};
+}
+.react-datepicker__day--in-range {
+  @apply bg-primary hover:bg-primary-dark text-white #{!important};
+}
+.react-datepicker__month-text {
+  @apply inline-flex justify-center items-center w-16 h-8 #{!important};
+}
+.react-datepicker__month-text--keyboard-selected {
+  @apply bg-primary hover:bg-primary-dark text-white #{!important};
+}
+.react-datepicker__current-month {
+  @apply text-gray-800;
+}
+.react-datepicker__navigation--previous {
+  background-image: url("data:image/svg+xml,%3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' height='20' width='20' viewBox='0 0 20 20'%3E%3Cpath fill='%236B7280' d='M13.1,4.5c0.4,0.4,0.5,1,0,1.6L9.3,10l3.7,3.9c0.5,0.5,0.4,1.1,0,1.6c-0.4,0.4-1.2,0.4-1.6,0 c-0.4-0.4-4.5-4.7-4.5-4.7c-0.2-0.2-0.3-0.5-0.3-0.8s0.1-0.6,0.3-0.8c0,0,4.1-4.3,4.5-4.7S12.6,4.1,13.1,4.5z'/%3E%3C/svg%3E%0A");
+  background-repeat: no-repeat, repeat;
+  background-position: right 8px top 50%, 0 0;
+  background-size: 20px;
+  width: 36px;
+  height: 20px;
+  border: none;
+  &:hover {
+    background-image: url("data:image/svg+xml,%3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' height='20' width='20' viewBox='0 0 20 20'%3E%3Cpath fill='%23374151' d='M13.1,4.5c0.4,0.4,0.5,1,0,1.6L9.3,10l3.7,3.9c0.5,0.5,0.4,1.1,0,1.6c-0.4,0.4-1.2,0.4-1.6,0 c-0.4-0.4-4.5-4.7-4.5-4.7c-0.2-0.2-0.3-0.5-0.3-0.8s0.1-0.6,0.3-0.8c0,0,4.1-4.3,4.5-4.7S12.6,4.1,13.1,4.5z'/%3E%3C/svg%3E%0A");
+  }
+}
+.react-datepicker__navigation--next {
+  background-image: url("data:image/svg+xml,%3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' height='20' width='20' viewBox='0 0 20 20'%3E%3Cpath fill='%236B7280' d='M6.9,15.5c-0.4-0.4-0.5-1,0-1.6l3.8-3.9L7,6.1C6.5,5.6,6.6,5,7,4.5c0.4-0.4,1.2-0.4,1.6,0 c0.4,0.4,4.5,4.7,4.5,4.7c0.2,0.2,0.3,0.5,0.3,0.8s-0.1,0.6-0.3,0.8c0,0-4.1,4.3-4.5,4.7S7.4,15.9,6.9,15.5z'/%3E%3C/svg%3E%0A");
+  background-repeat: no-repeat, repeat;
+  background-position: right 8px top 50%, 0 0;
+  background-size: 20px;
+  width: 36px;
+  height: 20px;
+  border: none;
+  &:hover {
+    background-image: url("data:image/svg+xml,%3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' height='20' width='20' viewBox='0 0 20 20'%3E%3Cpath fill='%23374151' d='M6.9,15.5c-0.4-0.4-0.5-1,0-1.6l3.8-3.9L7,6.1C6.5,5.6,6.6,5,7,4.5c0.4-0.4,1.2-0.4,1.6,0 c0.4,0.4,4.5,4.7,4.5,4.7c0.2,0.2,0.3,0.5,0.3,0.8s-0.1,0.6-0.3,0.8c0,0-4.1,4.3-4.5,4.7S7.4,15.9,6.9,15.5z'/%3E%3C/svg%3E%0A");
+  }
+}
+.react-datepicker__navigation-icon {
+  opacity: 0;
+}
+.form-checkbox {
+  @apply w-auto;
+  @apply bg-transparent;
+  @apply cursor-pointer;
+  @apply text-gray-600;
+  @apply min-h-10;
+  @apply flex;
+
+  > span,
+  > div {
+    @apply pl-1.5 pt-1.5 pr-3 text-base;
+  }
+  i {
+    @apply text-2xl;
+    @apply mt-1.5;
+    &:not(.check) {
+      @apply text-gray-500;
+    }
+    &.check {
+      @apply text-primary;
+    }
+  }
+  &:hover {
+    @apply text-gray-800;
+    i {
+      &:not(.check) {
+        @apply text-gray-700;
+      }
+      &.check {
+        @apply text-primary-dark;
+      }
+    }
+  }
+  &:not(.checked) {
+    i {
+      &:not(.check) {
+        display: inline;
+      }
+      &.check {
+        display: none;
+      }
+    }
+  }
+  &.checked {
+    i {
+      &:not(.check) {
+        display: none;
+      }
+      &.check {
+        display: inline;
+      }
+    }
+  }
+
+  &.readonly,
+  &.disabled {
+    opacity: 0.65;
+    pointer-events: none;
+  }
+
+  &.white {
+    @apply text-gray-50;
+    i {
+      &:not(.check) {
+        @apply text-gray-50;
+      }
+    }
+    &:hover {
+      @apply text-white;
+      i {
+        &:not(.check) {
+          @apply text-white;
+        }
+      }
+    }
+  }
+}
+
+.form-switch {
+  @apply min-h-10;
+  @apply flex items-center;
+
+  &.readonly,
+  &.disabled {
+    opacity: 0.65;
+    pointer-events: none;
+  }
+
+  .switch-text {
+    @apply text-gray-600;
+  }
+  &:hover {
+    .switch {
+      .slider {
+        @apply bg-gray-400;
+      }
+      input:checked + .slider {
+        @apply bg-primary-dark;
+      }
+    }
+    .switch-text {
+      @apply text-gray-800;
+    }
+  }
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 25px;
+
+  input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+  }
+
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 2px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.4s;
+  }
+
+  input:checked + .slider {
+    @apply bg-primary;
+  }
+
+  input:focus + .slider {
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.4);
+  }
+
+  input:checked + .slider:before {
+    transform: translateX(26px);
+  }
+
+  .slider.round {
+    border-radius: 34px;
+  }
+
+  .slider.round:before {
+    border-radius: 50%;
+  }
+}
+.ck-focused {
+  @apply border-transparent outline-none shadow-md #{!important};
+}
