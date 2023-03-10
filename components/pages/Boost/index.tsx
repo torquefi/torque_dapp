@@ -23,12 +23,11 @@ export const BoostPage = () => {
             className="h-[50vh] w-full rounded-xl object-cover"
           />
         )}
-
-        <button className="absolute top-[5%] left-[2%] rounded-full bg-black p-4">
-          <i className="">
-            <FaAngleLeft />
-          </i>
-        </button>
+        <Link href="/overview">
+          <a className="absolute top-[24px] left-[24px] flex h-[48px] w-[48px] items-center justify-center rounded-full bg-[#030303]">
+            <img className="w-[12px]" src="/icons/arrow-left.svg" alt="" />
+          </a>
+        </Link>
       </div>
       <div className="mt-10 font-larken">
         {isLoading ? (

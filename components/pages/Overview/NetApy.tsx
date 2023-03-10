@@ -14,7 +14,7 @@ export default function NetApy() {
           <SkeletonDefault height={'50vh'} width={'100%'} />
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center space-y-10 rounded-xl border border-[#1A1A1A] bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 py-[24px] md:h-[400px]">
+        <div className="flex flex-col items-center justify-center space-y-10 rounded-xl border border-[#1A1A1A] bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 py-[24px]">
           <div className="flex h-[65px] w-[65px] items-center justify-center rounded-full border border-[#1A1A1A] bg-gradient-to-b from-[#232323] to-[#232323]/0">
             <img
               className="w-[40px]"
@@ -44,7 +44,7 @@ export default function NetApy() {
           <SkeletonDefault height={'50vh'} width={'100%'} />
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center space-y-10 rounded-xl border border-[#1A1A1A] bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 py-[24px] md:h-[400px]">
+        <div className="flex flex-col items-center justify-center space-y-10 rounded-xl border border-[#1A1A1A] bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 py-[24px]">
           <div className="flex h-[65px] w-[65px] items-center justify-center rounded-full border border-[#1A1A1A] bg-gradient-to-b from-[#232323] to-[#232323]/0">
             <img
               className="w-[40px]"

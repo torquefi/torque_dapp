@@ -110,8 +110,10 @@ export const Header = () => {
                     onClick={(e) => e.stopPropagation()}
                   >
                     <Link
-                      href={`${network?.blockchainExplorer || 'https://bscscan.com'
-                        }/address/${user.attributes.ethAddress}`}
+                      href={`${
+                        network?.blockchainExplorer ||
+                        'https://goerli.etherscan.io/'
+                      }/address/${user.attributes.ethAddress}`}
                     >
                       <a
                         className="flex justify-between p-[16px]"
@@ -157,7 +159,8 @@ export const Header = () => {
                   <a
                     className={
                       'relative flex h-[35px] w-1/4 items-center justify-center pr-[4px]' +
-                      ` ${activeTabIndex === i ? ' text-white' : 'text-[#959595]'
+                      ` ${
+                        activeTabIndex === i ? ' text-white' : 'text-[#959595]'
                       }`
                     }
                     onMouseEnter={() => setActiveTabIndex(i)}
