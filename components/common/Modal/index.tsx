@@ -28,7 +28,7 @@ const Modal = ({
 
   return (
     <div
-      className={`fixed top-0 left-0 z-500 h-screen w-full overflow-y-auto bg-[#030303] bg-opacity-60 transition-all ${
+      className={` fixed top-0 left-0 z-500 h-screen w-full overflow-y-auto bg-[#030303] bg-opacity-60 transition-all ${
         open ? `opacity-1` : `pointer-events-none opacity-0 `
       }`}
       onClick={() => handleClose()}
