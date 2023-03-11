@@ -47,7 +47,7 @@ export default function ConnectWalletModal({
         <HoverIndicator
           direction="vertical"
           divider
-          indicatorClassName="rounded-[18px]"
+          indicatorClassName="!rounded-[18px]"
         >
           {connectors.map((item, i) => (
             <div

@@ -43,7 +43,7 @@ export const MenuMobile = () => {
 
   return (
     <>
-      <div className="fixed inset-x-0 bottom-0 h-[56px] border-t-2 border-[#181818] md:hidden">
+      <div className="fixed inset-x-0 bottom-0 z-500 h-[56px] border-t-2 border-[#181818] md:hidden">
         <div ref={menuContainer} className="relative z-10 flex h-full w-full">
           <div
             className="absolute top-[-8px] z-[-1] transition-all duration-300"
