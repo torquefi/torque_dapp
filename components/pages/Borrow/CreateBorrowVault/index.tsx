@@ -41,7 +41,7 @@ export default function CreateBorrowVault() {
                     trigger="hover"
                     placement="bottom-right"
                     className={`mt-[8px] w-[230px] text-center text-sm leading-tight`}
-                    content="The projected TORQ rewards after 1 year of $1,000 supplied"
+                    content="The projected TORQ rewards after 1 year of $1,000 borrowed"
                   >
                     <Link href="#">
                       <a href="#" className="" target={'_blank'}>
