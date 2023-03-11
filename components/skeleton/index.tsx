@@ -13,7 +13,7 @@ const SkeletonDefault: React.FC<SkeletonProps> = ({
     <Skeleton
       height={height}
       width={width}
-      borderRadius={borderRadius ? borderRadius : 8}
+      borderRadius={borderRadius ? borderRadius : 12}
     />
   </SkeletonTheme>
 )

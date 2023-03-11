@@ -21,13 +21,7 @@ export default function BorrowItem() {
     <div className="flex w-full text-center md:w-[400px] lg:w-[500px]">
       <div className="w-1/4 space-y-1">
         <p className="whitespace-nowrap font-larken text-[22px]">
-          {isLoading ? (
-            <div className="">
-              <SkeletonDefault height={'4vh'} width={'10vw'} />
-            </div>
-          ) : (
-            `${(12.1).toFixed(1)} BTC`
-          )}
+          {(12.1).toFixed(1)} BTC
         </p>
         <p className="whitespace-nowrap text-[14px] text-[#959595]">
           Collateral
@@ -35,25 +29,13 @@ export default function BorrowItem() {
       </div>
       <div className="w-1/4 space-y-1">
         <p className="whitespace-nowrap font-larken text-[22px]">
-          {isLoading ? (
-            <div className="">
-              <SkeletonDefault height={'4vh'} width={'10vw'} />
-            </div>
-          ) : (
-            `$${(168.4).toFixed(1)}k`
-          )}
+          ${(168.4).toFixed(1)}k
         </p>
         <p className="whitespace-nowrap text-[14px] text-[#959595]">Borrowed</p>
       </div>
       <div className="w-1/4 space-y-1">
         <p className="whitespace-nowrap font-larken text-[22px]">
-          {isLoading ? (
-            <div className="">
-              <SkeletonDefault height={'4vh'} width={'10vw'} />
-            </div>
-          ) : (
-            `${(59.36).toFixed(2)}%`
-          )}
+          {(59.36).toFixed(2)}%
         </p>
         <p className="whitespace-nowrap text-[14px] text-[#959595]">
           Loan-to-value
@@ -61,13 +43,7 @@ export default function BorrowItem() {
       </div>
       <div className="w-1/4 space-y-1">
         <p className="whitespace-nowrap font-larken text-[22px]">
-          {isLoading ? (
-            <div className="">
-              <SkeletonDefault height={'4vh'} width={'10vw'} />
-            </div>
-          ) : (
-            `${(-1.16).toFixed(2)}%`
-          )}
+          {(-1.16).toFixed(2)}%
         </p>
         <p className="whitespace-nowrap text-[14px] text-[#959595]">Net APY</p>
       </div>

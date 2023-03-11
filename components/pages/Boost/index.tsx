@@ -9,6 +9,26 @@ export const BoostPage = () => {
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1500)
   }, [])
+
+  const summaryInfor = (item: any) => {
+    return (
+      <>
+        <div className="flex flex-col items-center justify-center gap-2">
+          <div className="text-[22px]">{item.deposited}</div>
+          <div className="font-sans text-[#959595]">Deposited</div>
+        </div>
+        <div className="flex flex-col items-center justify-center gap-2">
+          <div className="text-[22px]">{item.earnings}</div>
+          <div className="font-sans text-[#959595]">Earnings</div>
+        </div>
+        <div className="flex flex-col items-center justify-center gap-2">
+          <div className="text-[22px]">{item.APY}</div>
+          <div className="font-sans text-[#959595]">Variable APY</div>
+        </div>
+      </>
+    )
+  }
+
   return (
     <>
       <div className="relative">
@@ -17,11 +37,7 @@ export const BoostPage = () => {
             <SkeletonDefault height={'50vh'} width={'100%'} />
           </div>
         ) : (
-          <img
-            src="/assets/pages/boost/banner.svg"
-            alt=""
-            className="h-[50vh] w-full rounded-xl object-cover"
-          />
+          <img src="/assets/pages/boost/banner.svg" alt="" className="" />
         )}
         <Link href="/overview">
           <a className="absolute top-[24px] left-[24px] flex h-[48px] w-[48px] items-center justify-center rounded-full bg-[#030303]">
@@ -48,7 +64,7 @@ export const BoostPage = () => {
               )
             } else
               return (
-                <div className="rounded-[12px] border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#16161679] px-8 py-6">
+                <div className="rounded-[12px] border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#16161679] px-3 py-6 xl:px-8">
                   <div className="flex w-full items-center justify-between">
                     <div className="flex items-center">
                       <img
@@ -80,13 +96,7 @@ export const BoostPage = () => {
                   <div className="flex w-full items-center justify-center gap-4 ">
                     <div className="flex w-full flex-col items-center justify-center gap-2 rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#16161679] p-10">
                       <div className="text-[32px]">
-                        {isLoading ? (
-                          <div className="">
-                            <SkeletonDefault height={'4vh'} width={'10vw'} />
-                          </div>
-                        ) : (
-                          `$${Number(item.deposit).toFixed(2)}`
-                        )}
+                        ${Number(item.deposit).toFixed(2)}
                       </div>
                       <div className="font-sans text-[20px] text-[#959595]">
                         Deposit
@@ -94,13 +104,7 @@ export const BoostPage = () => {
                     </div>
                     <div className="flex w-full flex-col items-center justify-center gap-2 rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#16161679] p-10">
                       <div className="text-[32px]">
-                        {isLoading ? (
-                          <div className="">
-                            <SkeletonDefault height={'4vh'} width={'10vw'} />
-                          </div>
-                        ) : (
-                          `$${Number(item.deposit).toFixed(2)}`
-                        )}
+                        ${Number(item.deposit).toFixed(2)}
                       </div>
                       <div className="font-sans text-[20px] text-[#959595]">
                         3-Year Value
@@ -155,7 +159,7 @@ export const BoostPage = () => {
           else
             return (
               <div className="mt-[24px] grid w-full rounded-[12px] border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#16161679] p-4 xl:p-8">
-                <div className="grid grid-cols-1 lg:grid-cols-2">
+                <div className="grid w-full grid-cols-2">
                   <div className="flex items-center gap-8">
                     <img
                       src={`/icons/coin/${item?.token?.toLocaleLowerCase()}.svg`}
@@ -173,20 +177,9 @@ export const BoostPage = () => {
                       </button>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex flex-col items-center justify-center gap-2">
-                      <div className="text-[22px]">{item.deposited}</div>
-                      <div className="font-sans text-[#959595]">Deposited</div>
-                    </div>
-                    <div className="flex flex-col items-center justify-center gap-2">
-                      <div className="text-[22px]">{item.earnings}</div>
-                      <div className="font-sans text-[#959595]">Earnings</div>
-                    </div>
-                    <div className="flex flex-col items-center justify-center gap-2">
-                      <div className="text-[22px]">{item.APY}</div>
-                      <div className="font-sans text-[#959595]">
-                        Variable APY
-                      </div>
+                  <div className="flex items-center justify-end">
+                    <div className="hidden items-center justify-between gap-4 xl:flex">
+                      {summaryInfor(item)}
                     </div>
                     <div className="flex flex-col items-center justify-center gap-2">
                       <button
@@ -215,6 +208,9 @@ export const BoostPage = () => {
                       : 'max-h-0 py-0 opacity-0 ease-out'
                   }`}
                 >
+                  <div className="flex items-center justify-between gap-4 xl:hidden">
+                    {summaryInfor(item)}
+                  </div>
                   <div className="">
                     <img
                       src="/assets/pages/boost/chart.svg"
