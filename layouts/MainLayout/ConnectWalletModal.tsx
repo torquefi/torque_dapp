@@ -1,6 +1,8 @@
+import HoverIndicator from '@/components/common/HoverIndicator'
 import Modal from '@/components/common/Modal'
 import { useEffect, useRef, useState } from 'react'
 import { useMoralis } from 'react-moralis'
+
 interface ConnectWalletModalProps {
   open: boolean
   handleClose: () => void
@@ -11,9 +13,6 @@ export default function ConnectWalletModal({
   handleClose,
 }: ConnectWalletModalProps) {
   const { authenticate } = useMoralis()
-  const [activeTabIndex, setActiveTabIndex] = useState(null)
-  const menuContainer = useRef<HTMLDivElement>(null)
-  const menuIndicator = useRef<HTMLDivElement>(null)
 
   const connectors = [
     {
@@ -37,26 +36,6 @@ export default function ConnectWalletModal({
     },
   ]
 
-  useEffect(() => {
-    const handleUpdateIndicatorPosition = () => {
-      if (menuIndicator.current && menuContainer.current) {
-        if (activeTabIndex === null) {
-          menuIndicator.current.style.opacity = '0'
-        } else {
-          const menuRect = menuContainer.current.getBoundingClientRect()
-          const top = (menuRect.height / connectors.length) * activeTabIndex
-          menuIndicator.current.style.top = `${top}px`
-          menuIndicator.current.style.opacity = '1'
-        }
-      }
-    }
-    handleUpdateIndicatorPosition()
-    window.addEventListener('resize', handleUpdateIndicatorPosition)
-    return () => {
-      window.removeEventListener('resize', handleUpdateIndicatorPosition)
-    }
-  }, [activeTabIndex])
-
   return (
     <>
       <Modal
@@ -65,19 +44,16 @@ export default function ConnectWalletModal({
         handleClose={handleClose}
         hideCloseIcon
       >
-        <div ref={menuContainer} className="relative">
-          <div
-            className="absolute left-0 h-[200px] w-full rounded-[18px] bg-gradient-to-br from-[#1c1c1c] to-[#101010] transition-all duration-300"
-            ref={menuIndicator}
-          ></div>
-          <div className="bg-gradient-divider absolute inset-x-0 top-1/2 h-[1px]" />
+        <HoverIndicator
+          direction="vertical"
+          divider
+          indicatorClassName="!rounded-[18px]"
+        >
           {connectors.map((item, i) => (
             <div
-              className="relative flex h-[200px] cursor-pointer flex-col items-center justify-center space-y-2 text-center"
+              className="flex h-[200px] cursor-pointer flex-col items-center justify-center space-y-2 text-center"
               key={i}
               onClick={item.action}
-              onMouseEnter={() => setActiveTabIndex(i)}
-              onMouseLeave={() => setActiveTabIndex(null)}
             >
               <img className="w-[64px]" src={item.icon} alt="" />
               <p className="font-larken text-[20px]">{item.name}</p>
@@ -86,7 +62,7 @@ export default function ConnectWalletModal({
               </p>
             </div>
           ))}
-        </div>
+        </HoverIndicator>
       </Modal>
     </>
   )

@@ -1,3 +1,4 @@
+import Popover from '@/components/common/Popover'
 import SkeletonDefault from '@/components/skeleton'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
@@ -33,23 +34,30 @@ export default function CreateBorrowVault() {
               >
                 <div className="flex items-center">
                   <img className="w-20" src={item.coinIcon} alt="" />
-                  <div className="grow font-larken text-[18px] text-[24px] leading-[1.1]">
+                  <div className="grow font-larken text-[18px] leading-[1.1] lg:text-[24px]">
                     Deposit {item.depositCoin},<br /> Borrow {item.borrowCoin}
                   </div>
-                  <Link href="#">
-                    <a href="#" className="" target={'_blank'}>
-                      <div className="flex items-center rounded-full bg-[#AA5BFF] bg-opacity-20 p-1">
-                        <img
-                          src="/assets/t-logo-circle.svg"
-                          alt=""
-                          className="h-[32px] w-[32px]"
-                        />
-                        <p className="mx-1 text-[#AA5BFF]">
-                          +{item.getTORQ} TORQ
-                        </p>
-                      </div>
-                    </a>
-                  </Link>
+                  <Popover
+                    trigger="hover"
+                    placement="bottom-right"
+                    className={`mt-[8px] w-[230px] text-center text-sm leading-tight`}
+                    content="The projected TORQ rewards after 1 year of $1,000 borrowed"
+                  >
+                    <Link href="#">
+                      <a href="#" className="" target={'_blank'}>
+                        <div className="flex items-center rounded-full bg-[#AA5BFF] bg-opacity-20 p-1">
+                          <img
+                            src="/assets/t-logo-circle.svg"
+                            alt=""
+                            className="h-[32px] w-[32px]"
+                          />
+                          <p className="mx-1 text-[#AA5BFF]">
+                            +{item.getTORQ} TORQ
+                          </p>
+                        </div>
+                      </a>
+                    </Link>
+                  </Popover>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="flex h-[140px] flex-col items-center justify-center rounded-xl bg-gradient-to-b from-[#161616] to-[#161616]/40">

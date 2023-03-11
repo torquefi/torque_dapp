@@ -14,26 +14,29 @@ type Placement =
   | 'right'
   | 'right-bottom'
 
+type Trigger = 'hover' | 'click'
+
 interface PopoverProps {
   className?: string
   content?: any
   placement?: Placement
   children?: any
-  title?: string
-  hideCloseIcon?: boolean
+  trigger?: Trigger
 }
 
 const Popover = ({
   className,
-  title,
   content,
   placement = 'bottom-right',
-  hideCloseIcon = false,
   children,
+  trigger = 'click',
 }: PopoverProps) => {
   const [isOpen, setOpen] = useState(false)
 
   const popoverContainerRef = useRef(null)
+
+  const isTriggerClick = trigger === 'click'
+  const isTriggerHover = trigger === 'hover'
 
   function closeMoreMenu(e: MouseEvent) {
     if (
@@ -44,18 +47,27 @@ const Popover = ({
     }
   }
 
-  useEffect(function () {
-    window.addEventListener('click', closeMoreMenu)
-    return () => {
-      window.removeEventListener('click', closeMoreMenu)
-    }
-  }, [])
+  useEffect(
+    function () {
+      if (isTriggerClick) {
+        window.addEventListener('click', closeMoreMenu)
+      }
+      return () => {
+        if (isTriggerClick) {
+          window.removeEventListener('click', closeMoreMenu)
+        }
+      }
+    },
+    [isTriggerClick]
+  )
 
   return (
     <div
       ref={popoverContainerRef}
       className="relative"
-      onClick={() => setOpen(!isOpen)}
+      onClick={() => isTriggerClick && setOpen(!isOpen)}
+      onMouseEnter={() => isTriggerHover && setOpen(true)}
+      onMouseLeave={() => isTriggerHover && setOpen(false)}
     >
       {children}
       <div
@@ -87,8 +99,16 @@ const Popover = ({
           }` +
           ` ${placement === 'right-bottom' ? 'left-full bottom-0' : ''}`
         }
+        onClick={(e) => e.stopPropagation()}
       >
-        {content}
+        <div
+          className={
+            'rounded-[8px] border border-[#1D1D1D] bg-[#030303] p-[6px]' +
+            ` ${className}`
+          }
+        >
+          {content}
+        </div>
       </div>
     </div>
   )

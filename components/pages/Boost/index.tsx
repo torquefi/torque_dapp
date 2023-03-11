@@ -1,3 +1,4 @@
+import Popover from '@/components/common/Popover'
 import SkeletonDefault from '@/components/skeleton'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
@@ -77,21 +78,28 @@ export const BoostPage = () => {
                         {item.token}
                       </div>
                     </div>
-                    <Link href="#">
-                      <a href="#" className="" target={'_blank'}>
-                        <div className="flex items-center gap-2 rounded-full bg-[#AA5BFF] bg-opacity-20 p-1">
-                          <img
-                            src="/assets/t-logo-circle.svg"
-                            alt=""
-                            className="h-[32px] w-[32px]"
-                          />
+                    <Popover
+                      trigger="hover"
+                      placement="bottom-right"
+                      className={`mt-[8px] w-[230px] text-center font-mona text-sm leading-tight`}
+                      content="The projected TORQ rewards after 1 year of $1,000 supplied"
+                    >
+                      <Link href="#">
+                        <a href="#" className="" target={'_blank'}>
+                          <div className="flex items-center gap-2 rounded-full bg-[#AA5BFF] bg-opacity-20 p-1">
+                            <img
+                              src="/assets/t-logo-circle.svg"
+                              alt=""
+                              className="h-[32px] w-[32px]"
+                            />
 
-                          <div className="font-sans text-[#AA5BFF]">
-                            +{item.bonus_TORQ} TORQ
+                            <div className="font-sans text-[#AA5BFF]">
+                              +{item.bonus_TORQ} TORQ
+                            </div>
                           </div>
-                        </div>
-                      </a>
-                    </Link>
+                        </a>
+                      </Link>
+                    </Popover>
                   </div>
                   <div className="flex w-full items-center justify-center gap-4 ">
                     <div className="flex w-full flex-col items-center justify-center gap-2 rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#16161679] p-10">
