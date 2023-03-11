@@ -11,7 +11,7 @@ export default function ManageBorrowVault() {
     <div className="space-y-[24px]">
       {isLoading ? (
         <div className="">
-          <SkeletonDefault height={'5vh'} width={'30%'} />
+          <SkeletonDefault height={'5vh'} width={'20%'} />
         </div>
       ) : (
         <h3 className="font-larken text-[24px]">Manage Borrow Vault</h3>

@@ -49,7 +49,7 @@ export const BoostPage = () => {
       <div className="mt-[36px] font-larken">
         {isLoading ? (
           <div className="mt-[24px]">
-            <SkeletonDefault height={'5vh'} width={'30%'} />
+            <SkeletonDefault height={'5vh'} width={'20%'} />
           </div>
         ) : (
           <div className="text-[24px]">Create Boost Vault</div>
@@ -151,7 +151,7 @@ export const BoostPage = () => {
       <div className="mt-[36px] font-larken">
         {isLoading ? (
           <div className="">
-            <SkeletonDefault height={'5vh'} width={'30%'} />
+            <SkeletonDefault height={'5vh'} width={'20%'} />
           </div>
         ) : (
           <div className="text-[24px]">Manage Boost Vaults</div>
