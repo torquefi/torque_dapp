@@ -40,7 +40,7 @@ export default function CreateBorrowVault() {
                   <Popover
                     trigger="hover"
                     placement="bottom-right"
-                    className={`mt-[8px] w-[230px] text-center text-sm leading-tight`}
+                    className={`mt-[8px] w-[230px] bg-[#161616] text-center text-sm leading-tight`}
                     content="The projected TORQ rewards after 1 year of $1,000 borrowed"
                   >
                     <Link href="#">
