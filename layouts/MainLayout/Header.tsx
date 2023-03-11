@@ -1,3 +1,4 @@
+import HoverIndicator from '@/components/common/HoverIndicator'
 import Popover from '@/components/common/Popover'
 import { shortenAddress } from '@/lib/helpers/utils'
 import useNetwork from '@/lib/hooks/useNetwork'
@@ -16,8 +17,6 @@ export const Header = () => {
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
   const [activeTabIndex, setActiveTabIndex] = useState(0)
   const router = useRouter()
-  const menuContainer = useRef<HTMLDivElement>(null)
-  const menuIndicator = useRef<HTMLDivElement>(null)
 
   const { requestSwitchNetwork } = useNetwork()
 
@@ -46,21 +45,6 @@ export const Header = () => {
       setActiveTabIndex(currentTabIndex)
     }
   }, [router])
-
-  useEffect(() => {
-    const handleUpdateIndicatorPosition = () => {
-      if (menuIndicator.current && menuContainer.current) {
-        const menuRect = menuContainer.current.getBoundingClientRect()
-        const left = (menuRect.width / menu.length) * activeTabIndex
-        menuIndicator.current.style.left = `${left}px`
-      }
-    }
-    handleUpdateIndicatorPosition()
-    window.addEventListener('resize', handleUpdateIndicatorPosition)
-    return () => {
-      window.removeEventListener('resize', handleUpdateIndicatorPosition)
-    }
-  }, [activeTabIndex])
 
   return (
     <>
@@ -104,10 +88,12 @@ export const Header = () => {
             {isAuthenticated ? (
               <Popover
                 placement="bottom-right"
+                className={`mt-[12px] w-[200px] leading-none`}
                 content={
-                  <div
-                    className={`relative mx-auto mt-[12px] w-[200px] rounded-[8px] border border-[#1D1D1D] bg-[#030303] leading-none transition-all`}
-                    onClick={(e) => e.stopPropagation()}
+                  <HoverIndicator
+                    divider
+                    direction="vertical"
+                    indicatorClassName="rounded-[6px]"
                   >
                     <Link
                       href={`${
@@ -116,20 +102,19 @@ export const Header = () => {
                       }/address/${user.attributes.ethAddress}`}
                     >
                       <a
-                        className="flex justify-between p-[16px]"
+                        className="flex justify-between p-[12px]"
                         target="_blank"
                       >
                         Etherscan <HiOutlineExternalLink />
                       </a>
                     </Link>
-                    <div className="bg-gradient-divider h-[1px]" />
                     <div
-                      className="flex cursor-pointer justify-between p-[16px]"
+                      className="flex cursor-pointer justify-between p-[12px]"
                       onClick={() => logout()}
                     >
                       Disconnect <FiLogOut />
                     </div>
-                  </div>
+                  </HoverIndicator>
                 }
               >
                 <div className="cursor-pointer rounded-full border border-primary py-[6px] px-[18px] text-[14px] uppercase leading-none text-primary transition-all duration-200 ease-in hover:scale-x-[102%] xs:py-[4px] xs:px-[16px] lg:py-[6px] lg:px-[32px] lg:text-[16px]">
@@ -146,25 +131,19 @@ export const Header = () => {
             )}
           </div>
           <div className="absolute top-1/2 left-1/2 hidden -translate-x-1/2 -translate-y-1/2 md:block">
-            <div
-              ref={menuContainer}
-              className="relative flex w-[320px] lg:w-[400px] xl:w-[480px]"
+            <HoverIndicator
+              activeIndex={activeTabIndex}
+              className="w-[320px] lg:w-[400px] xl:w-[480px]"
             >
-              <div
-                className="absolute top-0 h-[35px] w-1/4 rounded-md bg-gradient-to-br from-[#1c1c1c] to-[#101010] transition-all duration-300"
-                ref={menuIndicator}
-              ></div>
               {menu.map((item, i) => (
                 <Link href={item.path} key={i}>
                   <a
                     className={
-                      'relative flex h-[35px] w-1/4 items-center justify-center pr-[4px]' +
+                      'relative flex h-[35px] items-center justify-center pr-[4px]' +
                       ` ${
                         activeTabIndex === i ? ' text-white' : 'text-[#959595]'
                       }`
                     }
-                    onMouseEnter={() => setActiveTabIndex(i)}
-                    onMouseLeave={() => setActiveTabIndex(currentTabIndex)}
                   >
                     <img
                       className="mr-[4px] w-[16px] lg:w-[20px] xl:w-[24px]"
@@ -177,7 +156,7 @@ export const Header = () => {
                   </a>
                 </Link>
               ))}
-            </div>
+            </HoverIndicator>
           </div>
           <div className="bg-gradient-divider absolute bottom-0 left-0 h-[1px] w-full" />
         </div>
