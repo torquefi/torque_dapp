@@ -144,6 +144,8 @@ export const Header = () => {
                         activeTabIndex === i ? ' text-white' : 'text-[#959595]'
                       }`
                     }
+                    onMouseEnter={() => setActiveTabIndex(i)}
+                    onMouseLeave={() => setActiveTabIndex(currentTabIndex)}
                   >
                     <img
                       className="mr-[4px] w-[16px] lg:w-[20px] xl:w-[24px]"
