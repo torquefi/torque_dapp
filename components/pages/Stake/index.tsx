@@ -58,7 +58,7 @@ export const StakePage = () => {
         )}
       </div>
 
-      <div className="mt-10 font-larken">
+      <div className="mt-[36px] font-larken">
         <div className="font-larken text-[32px]">
           {isLoading ? (
             <div className="">
@@ -69,7 +69,7 @@ export const StakePage = () => {
           )}
         </div>
 
-        <div className="mt-4 grid w-full grid-cols-1 gap-6 lg:grid-cols-2">
+        <div className="mt-[24px] grid w-full grid-cols-1 gap-6 lg:grid-cols-2">
           {STAKING_POOLS.map((item: any) => {
             if (isLoading)
               return (
@@ -144,7 +144,7 @@ export const StakePage = () => {
         </div>
       </div>
 
-      <div className="mt-10 font-larken">
+      <div className="mt-[36px] font-larken">
         {isLoading ? (
           <div className="">
             <SkeletonDefault height={'5vh'} width={'30%'} />
@@ -156,13 +156,13 @@ export const StakePage = () => {
         {dataStake.map((item) => {
           if (isLoading)
             return (
-              <div className="">
+              <div className="mt-[24px]">
                 <SkeletonDefault height={'20vh'} width={'100%'} />
               </div>
             )
           else
             return (
-              <div className="mt-4 grid w-full rounded-[12px] border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#16161679] p-4 xl:p-8">
+              <div className="mt-[36px] grid w-full rounded-[12px] border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#16161679] p-4 xl:p-8">
                 <div className="grid grid-cols-1 lg:grid-cols-2">
                   <div className="flex items-center gap-8">
                     <img
