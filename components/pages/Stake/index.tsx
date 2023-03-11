@@ -62,7 +62,7 @@ export const StakePage = () => {
         <div className="font-larken text-[32px]">
           {isLoading ? (
             <div className="">
-              <SkeletonDefault height={'5vh'} width={'20%'} />
+              <SkeletonDefault height={'5vh'} width={'16%'} />
             </div>
           ) : (
             <div className="text-[24px]">Staking Pools</div>
@@ -147,7 +147,7 @@ export const StakePage = () => {
       <div className="mt-[36px] font-larken">
         {isLoading ? (
           <div className="">
-            <SkeletonDefault height={'5vh'} width={'30%'} />
+            <SkeletonDefault height={'5vh'} width={'18%'} />
           </div>
         ) : (
           <div className="text-[24px]">Manage Staking</div>
