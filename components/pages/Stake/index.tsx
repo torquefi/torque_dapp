@@ -116,7 +116,7 @@ export const StakePage = () => {
                         alt=""
                         className="h-[32px] w-[32px]"
                       />
-                      <div className="uppercase text-[#AA5BFF]">
+                      <div className="font-mona uppercase text-[#AA5BFF]">
                         get {item.label}
                       </div>
                     </div>
