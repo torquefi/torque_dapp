@@ -1,17 +1,17 @@
-import React, { createContext, ReactText, useContext } from 'react'
+import React, { createContext, useContext } from 'react'
 import {
   BiCheckCircle,
   BiError,
   BiErrorAlt,
   BiErrorCircle,
 } from 'react-icons/bi'
-import { FaCheckCircle, FaRegCheckCircle } from 'react-icons/fa'
+import { FaCheckCircle } from 'react-icons/fa'
 import {
-  ToastContainer,
+  Slide,
   toast as toastify,
+  ToastContainer,
   ToastContent,
   ToastOptions,
-  Slide,
 } from 'react-toastify'
 
 const ToastContext = createContext<{

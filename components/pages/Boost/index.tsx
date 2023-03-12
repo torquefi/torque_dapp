@@ -88,14 +88,14 @@ export const BoostPage = () => {
                     >
                       <Link href="#">
                         <a href="#" className="" target={'_blank'}>
-                          <div className="flex items-center gap-2 rounded-full bg-[#AA5BFF] bg-opacity-20 p-1">
+                          <div className="flex items-center gap-2 rounded-full bg-[#AA5BFF] bg-opacity-20 p-1 pr-[3px]">
                             <img
                               src="/assets/t-logo-circle.svg"
                               alt=""
                               className="h-[32px] w-[32px]"
                             />
 
-                            <div className="font-sans text-[#AA5BFF]">
+                            <div className="font-sans text-[18px] leading-[1.1] text-[#AA5BFF] lg:text-[18px]">
                               +{item.bonus_TORQ} TORQ
                             </div>
                           </div>

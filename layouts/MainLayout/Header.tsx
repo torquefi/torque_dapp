@@ -59,8 +59,8 @@ export const Header = () => {
           Torque is not supported on this network. Please switch to Goerli.
         </div>
         <div className="relative flex h-[72px] items-center justify-between px-4 sm:px-8">
-          <Link href="#">
-            <a className="flex items-center" target="_blank">
+          <Link href="/">
+            <a className="flex items-center">
               <img
                 className="h-[32px] sm:h-[32px]"
                 src="/assets/t-logo.svg"

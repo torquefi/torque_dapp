@@ -22,6 +22,7 @@ export default function ConnectWalletModal({
         await authenticate({ signingMessage: 'Welcome to Torque' })
         handleClose()
       },
+      message: 'Connect to your MetaMask wallet',
     },
     {
       name: 'WalletConnect',
@@ -33,6 +34,7 @@ export default function ConnectWalletModal({
         })
         handleClose()
       },
+      message: 'Scan with WalletConnect to connect',
     },
   ]
 
@@ -58,7 +60,7 @@ export default function ConnectWalletModal({
               <img className="w-[64px]" src={item.icon} alt="" />
               <p className="font-larken text-[20px]">{item.name}</p>
               <p className="text-[12px] text-[#959595] xs:text-[14px] sm:text-[16px]">
-                Connect to your {item.name} wallet
+                {item.message}
               </p>
             </div>
           ))}

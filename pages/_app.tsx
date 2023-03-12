@@ -10,6 +10,7 @@ import { AlertProvider } from '../lib/providers/alert-dialog'
 import { ToastProvider } from '../lib/providers/toast-provider'
 import SEO from '../next-seo.config'
 import '../styles/style.scss'
+import { Toaster, toast } from 'sonner'
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -41,6 +42,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   return (
     <MoralisProvider appId={appId} serverUrl={serverUrl}>
       <ToastProvider>
+        <Toaster theme="dark" />
         <AlertProvider>
           <DefaultSeo {...SEO} />
           {getLayout(<Component {...pageProps} />)}

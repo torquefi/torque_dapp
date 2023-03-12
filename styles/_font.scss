@@ -1,13 +1,15 @@
-@font-face {
-  font-family: Larken;
-  src: url('/fonts/larken-bold.ttf');
-  font-size: normal;
-  font-style: normal;
-}
+$monasans: 'Mona Sans';
+
+// @font-face {
+//   font-family: Larken;
+//   src: url('/fonts/larken-bold.ttf');
+//   font-size: normal;
+//   font-style: normal;
+// }
 
 @font-face {
-  font-family: 'Mona Sans';
-  src: url('/fonts/Mona-Sans-Medium.otf');
+  font-family: $monasans;
+  src: url('/fonts/Mona-Sans-Regular.otf');
   font-size: normal;
   font-style: normal;
 }
