@@ -14,15 +14,15 @@ export const StakePage = () => {
       <>
         <div className="flex min-w-[100px] flex-col items-center justify-center gap-2">
           <div className="text-[22px]">{Number(item.deposited).toFixed(2)}</div>
-          <div className="font-sans text-[14px] text-[#959595]">Deposited</div>
+          <div className="text-[14px] text-[#959595]">Deposited</div>
         </div>
         <div className="flex min-w-[100px] flex-col items-center justify-center gap-2">
           <div className="text-[22px]">{Number(item.earnings).toFixed(2)}</div>
-          <div className="font-sans text-[14px] text-[#959595]">Earnings</div>
+          <div className="text-[14px] text-[#959595]">Earnings</div>
         </div>
         <div className="flex min-w-[100px] flex-col items-center justify-center gap-2">
           <div className="text-[22px]">{item.APY}%</div>
-          <div className="font-sans text-[14px] text-[#959595]">Net APY</div>
+          <div className="text-[14px] text-[#959595]">Net APY</div>
         </div>
       </>
     )
@@ -117,7 +117,7 @@ export const StakePage = () => {
                         alt=""
                         className="h-[32px] w-[32px]"
                       />
-                      <div className="font-sans uppercase text-[#AA5BFF]">
+                      <div className="uppercase text-[#AA5BFF]">
                         get {item.label}
                       </div>
                     </div>
@@ -127,22 +127,20 @@ export const StakePage = () => {
                       <div className="text-[32px]">
                         ${Number(item.deposit).toFixed(2)}
                       </div>
-                      <div className="font-sans text-[#959595]">Your Stake</div>
+                      <div className="text-[#959595]">Your Stake</div>
                     </div>
                     <div className="flex w-full flex-col items-center justify-center gap-3 rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0 py-6 lg:py-8 ">
                       <div className="text-[32px]">
                         ${Number(item.deposit).toFixed(2)}
                       </div>
-                      <div className="font-sans text-[#959595]">
-                        3-Year Value
-                      </div>
+                      <div className="text-[#959595]">3-Year Value</div>
                     </div>
                   </div>
-                  <div className="mt-2 flex w-full items-center justify-between font-sans text-[#959595]">
+                  <div className="mt-2 flex w-full items-center justify-between text-[#959595]">
                     <div className="">Variable APY</div>
                     <div className="">{item.APY}%</div>
                   </div>
-                  <button className="mt-4 w-full rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 font-sans uppercase hover:bg-gradient-to-t">
+                  <button className="mt-4 w-full rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 font-mona uppercase hover:bg-gradient-to-t">
                     Deposit TORQ
                   </button>
                 </div>
@@ -234,19 +232,19 @@ export const StakePage = () => {
                     <div className="mt-2 flex w-full items-center justify-between rounded-[12px] border border-[#1A1A1A] bg-gradient-to-b from-[#0d0d0d] to-[#0d0d0d]/0 px-2 py-4">
                       <input
                         type="number"
-                        className="w-full bg-none px-2 font-sans focus:outline-none"
+                        className="w-full bg-none px-2 focus:outline-none"
                         style={{ backgroundColor: 'transparent' }}
                         placeholder="Select amount"
                       />
                       <div className="flex items-center gap-2">
                         {[25, 50, 100].map((item: any) => (
-                          <button className="rounded bg-[#1A1A1A] px-2 py-1 font-sans text-sm">
+                          <button className="rounded bg-[#1A1A1A] px-2 py-1 text-sm">
                             {item}%
                           </button>
                         ))}
                       </div>
                     </div>
-                    <button className="mt-4 w-full rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 font-sans text-[16px] uppercase transition-all duration-300 ease-linear hover:bg-gradient-to-t">
+                    <button className="mt-4 w-full rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[16px] uppercase transition-all duration-300 ease-linear hover:bg-gradient-to-t">
                       Withdraw
                     </button>
                   </div>

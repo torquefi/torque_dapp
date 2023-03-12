@@ -8,7 +8,7 @@ interface MainLayoutProps {
 
 export const MainLayout = ({ children }: MainLayoutProps) => {
   return (
-    <div className="min-h-screen bg-[#030303] font-mona text-[#fff]">
+    <div className="min-h-screen bg-[#030303] font-larken text-[#fff]">
       <Header />
       <div className="container mx-auto min-h-[calc(100vh-140px)] max-w-screen-xl p-4 lg:p-8">
         {children}

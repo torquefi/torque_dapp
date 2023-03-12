@@ -141,7 +141,7 @@ export const BoostPage = () => {
                     <div className="">Variable APY</div>
                     <div className="">{item.APY}%</div>
                   </div>
-                  <button className="mt-4 w-full rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 font-sans uppercase transition-all duration-300 ease-linear hover:bg-gradient-to-t">
+                  <button className="mt-4 w-full rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 font-mona uppercase transition-all duration-300 ease-linear hover:bg-gradient-to-t">
                     Deposit and Earn
                   </button>
                 </div>

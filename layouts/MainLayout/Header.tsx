@@ -123,7 +123,7 @@ export const Header = () => {
               </Popover>
             ) : (
               <div
-                className="cursor-pointer rounded-full border border-primary py-[6px] px-[18px] text-[14px] uppercase leading-none text-primary transition-all duration-200 ease-in hover:scale-x-[102%] xs:py-[4px] xs:px-[16px] lg:py-[6px] lg:px-[32px] lg:text-[16px]"
+                className="cursor-pointer rounded-full border border-primary py-[6px] px-[18px] font-mona text-[14px] uppercase leading-none text-primary transition-all duration-200 ease-in hover:scale-x-[102%] xs:py-[4px] xs:px-[16px] lg:py-[6px] lg:px-[32px] lg:text-[16px]"
                 onClick={() => setOpenConnectWalletModal(true)}
               >
                 Connect
@@ -139,7 +139,7 @@ export const Header = () => {
                 <Link href={item.path} key={i}>
                   <a
                     className={
-                      'relative flex h-[35px] items-center justify-center pr-[4px]' +
+                      'relative flex h-[35px] items-center justify-center pr-[4px] font-mona' +
                       ` ${
                         activeTabIndex === i ? ' text-white' : 'text-[#959595]'
                       }`

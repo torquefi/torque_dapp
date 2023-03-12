@@ -67,7 +67,7 @@ export const MenuMobile = () => {
               <Link href={item.path} key={i}>
                 <a
                   className={
-                    'flex h-[35px] w-1/5 items-center justify-center transition-all' +
+                    'flex h-[35px] w-1/5 items-center justify-center font-mona transition-all' +
                     ` ${
                       activeTabIndex === i ? ' origin-bottom scale-[1.4]' : ''
                     }`

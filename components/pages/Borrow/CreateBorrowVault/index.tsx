@@ -116,7 +116,7 @@ export default function CreateBorrowVault() {
                   <p>Liquidity</p>
                   <p>$187.2m</p>
                 </div>
-                <button className="bg-gradient-primary w-full rounded-full py-[4px] uppercase">
+                <button className="bg-gradient-primary w-full rounded-full py-[4px] font-mona uppercase">
                   Deposit and Borrow
                 </button>
               </div>
