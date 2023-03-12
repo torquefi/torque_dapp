@@ -16,15 +16,17 @@ export const BoostPage = () => {
       <>
         <div className="flex flex-col items-center justify-center gap-2">
           <div className="text-[22px]">{item.deposited}</div>
-          <div className="font-sans text-[#959595]">Deposited</div>
+          <div className="font-sans text-[14px] text-[#959595]">Deposited</div>
         </div>
         <div className="flex flex-col items-center justify-center gap-2">
           <div className="text-[22px]">{item.earnings}</div>
-          <div className="font-sans text-[#959595]">Earnings</div>
+          <div className="font-sans text-[14px] text-[#959595]">Earnings</div>
         </div>
         <div className="flex flex-col items-center justify-center gap-2">
           <div className="text-[22px]">{item.APY}</div>
-          <div className="font-sans text-[#959595]">Variable APY</div>
+          <div className="font-sans text-[14px] text-[#959595]">
+            Variable APY
+          </div>
         </div>
       </>
     )
@@ -65,7 +67,7 @@ export const BoostPage = () => {
               )
             } else
               return (
-                <div className="rounded-[12px] border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#16161679] px-3 py-6 xl:px-8">
+                <div className="rounded-[12px] border border-[#1A1A1A] bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 px-3 py-6 lg:px-8">
                   <div className="flex w-full items-center justify-between">
                     <div className="flex items-center">
                       <img
@@ -73,7 +75,7 @@ export const BoostPage = () => {
                         alt=""
                         className="w-20"
                       />
-                      <div className="text-[24px] leading-[1.1]">
+                      <div className="text-[18px] leading-[1.1] lg:text-[24px]">
                         Deposit {item.token},<br className="" /> Earn{' '}
                         {item.token}
                       </div>
@@ -81,7 +83,7 @@ export const BoostPage = () => {
                     <Popover
                       trigger="hover"
                       placement="bottom-right"
-                      className={`mt-[8px] w-[230px] bg-[#161616] text-center font-mona text-sm leading-tight`}
+                      className={`mt-[8px] w-[230px] bg-[#0d0d0d] text-center font-mona text-sm leading-tight`}
                       content="The projected TORQ rewards after 1 year of $1,000 supplied"
                     >
                       <Link href="#">
@@ -101,20 +103,20 @@ export const BoostPage = () => {
                       </Link>
                     </Popover>
                   </div>
-                  <div className="flex w-full items-center justify-center gap-4 ">
-                    <div className="flex w-full flex-col items-center justify-center gap-2 rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#16161679] p-10">
+                  <div className="mt-4 flex w-full items-center justify-center gap-4 ">
+                    <div className="flex w-full flex-col items-center justify-center gap-3 rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0 py-6 lg:py-8">
                       <div className="text-[32px]">
                         ${Number(item.deposit).toFixed(2)}
                       </div>
-                      <div className="font-sans text-[20px] text-[#959595]">
+                      <div className="font-sans text-[16px] text-[#959595] lg:text-[20px]">
                         Deposit
                       </div>
                     </div>
-                    <div className="flex w-full flex-col items-center justify-center gap-2 rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#16161679] p-10">
+                    <div className="flex w-full flex-col items-center justify-center gap-3 rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0 py-6 lg:py-8">
                       <div className="text-[32px]">
                         ${Number(item.deposit).toFixed(2)}
                       </div>
-                      <div className="font-sans text-[20px] text-[#959595]">
+                      <div className="font-sans text-[16px] text-[#959595] lg:text-[20px]">
                         3-Year Value
                       </div>
                     </div>
@@ -166,13 +168,13 @@ export const BoostPage = () => {
             )
           else
             return (
-              <div className="mt-[24px] grid w-full rounded-[12px] border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#16161679] p-4 xl:p-8">
+              <div className="mt-[24px] grid w-full rounded-[12px] border border-[#1A1A1A] bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 px-[24px] py-[20px]">
                 <div className="grid w-full grid-cols-2">
-                  <div className="flex items-center gap-8">
+                  <div className="flex items-center gap-2">
                     <img
                       src={`/icons/coin/${item?.token?.toLocaleLowerCase()}.svg`}
                       alt=""
-                      className="w-[54px]"
+                      className="h-[54px] w-[54px] object-cover"
                     />
                     <div className="flex items-center gap-1 text-[22px]">
                       {item.name}
@@ -185,8 +187,8 @@ export const BoostPage = () => {
                       </button>
                     </div>
                   </div>
-                  <div className="flex items-center justify-end">
-                    <div className="hidden items-center justify-between gap-4 xl:flex">
+                  <div className="flex items-center justify-end gap-14">
+                    <div className="hidden items-center justify-between gap-14 lg:flex">
                       {summaryInfor(item)}
                     </div>
                     <div className="flex flex-col items-center justify-center gap-2">
@@ -216,7 +218,7 @@ export const BoostPage = () => {
                       : 'max-h-0 py-0 opacity-0 ease-out'
                   }`}
                 >
-                  <div className="flex items-center justify-between gap-4 xl:hidden">
+                  <div className="flex items-center justify-between gap-4 lg:hidden">
                     {summaryInfor(item)}
                   </div>
                   <div className="">
@@ -228,7 +230,7 @@ export const BoostPage = () => {
                   </div>
                   <div className="mt-10">
                     <div className="text-[28px]">Withdraw ETH</div>
-                    <div className="mt-2 flex w-full items-center justify-between rounded-[12px] border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#16161679] px-2 py-4">
+                    <div className="mt-2 flex w-full items-center justify-between rounded-[12px] border border-[#1A1A1A] bg-gradient-to-b from-[#0d0d0d] to-[#0d0d0d]/0 px-2 py-4">
                       <input
                         type="number"
                         className="w-full bg-none px-2 font-sans focus:outline-none"

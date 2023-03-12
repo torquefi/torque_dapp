@@ -9,6 +9,25 @@ export const StakePage = () => {
     setTimeout(() => setIsLoading(false), 1000)
   }, [])
 
+  const summaryInfor = (item: any) => {
+    return (
+      <>
+        <div className="flex flex-col items-center justify-center gap-2">
+          <div className="text-[22px]">{Number(item.deposited).toFixed(2)}</div>
+          <div className="font-sans text-[14px] text-[#959595]">Deposited</div>
+        </div>
+        <div className="flex flex-col items-center justify-center gap-2">
+          <div className="text-[22px]">{Number(item.earnings).toFixed(2)}</div>
+          <div className="font-sans text-[14px] text-[#959595]">Earnings</div>
+        </div>
+        <div className="flex flex-col items-center justify-center gap-2">
+          <div className="text-[22px]">{item.APY}%</div>
+          <div className="font-sans text-[14px] text-[#959595]">Net APY</div>
+        </div>
+      </>
+    )
+  }
+
   return (
     <>
       <div className=" grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -87,7 +106,7 @@ export const StakePage = () => {
                         alt=""
                         className="mr-2 w-[52px]"
                       />
-                      <div className="text-[24px] leading-[1.1]">
+                      <div className="text-[18px] leading-[1.1] lg:text-[24px]">
                         Deposit {item.label},
                         <br className="" /> Earn TORQ
                       </div>
@@ -103,28 +122,16 @@ export const StakePage = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="my-4 flex w-full items-center justify-center gap-4 ">
-                    <div className="flex w-full flex-col items-center justify-center gap-2 rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#16161679] p-10">
+                  <div className="mt-6 flex w-full items-center justify-center gap-4 ">
+                    <div className="flex w-full flex-col items-center justify-center gap-3 rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0 py-6 lg:py-8 ">
                       <div className="text-[32px]">
-                        {isLoading ? (
-                          <div className="">
-                            <SkeletonDefault height={'4vh'} width={'10vw'} />
-                          </div>
-                        ) : (
-                          `$${Number(item.deposit).toFixed(2)}`
-                        )}
+                        ${Number(item.deposit).toFixed(2)}
                       </div>
                       <div className="font-sans text-[#959595]">Your Stake</div>
                     </div>
-                    <div className="flex w-full flex-col items-center justify-center gap-2 rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#16161679] p-10">
+                    <div className="flex w-full flex-col items-center justify-center gap-3 rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0 py-6 lg:py-8 ">
                       <div className="text-[32px]">
-                        {isLoading ? (
-                          <div className="">
-                            <SkeletonDefault height={'4vh'} width={'10vw'} />
-                          </div>
-                        ) : (
-                          `$${Number(item.deposit).toFixed(2)}`
-                        )}
+                        ${Number(item.deposit).toFixed(2)}
                       </div>
                       <div className="font-sans text-[#959595]">
                         3-Year Value
@@ -162,13 +169,13 @@ export const StakePage = () => {
             )
           else
             return (
-              <div className="mt-[36px] grid w-full rounded-[12px] border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#16161679] p-4 xl:p-8">
-                <div className="grid grid-cols-1 lg:grid-cols-2">
-                  <div className="flex items-center gap-8">
+              <div className="mt-[24px] grid w-full rounded-[12px] border border-[#1A1A1A] bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 px-[24px] py-[20px]">
+                <div className="grid w-full grid-cols-2">
+                  <div className="flex items-center gap-4">
                     <img
-                      src={'/assets/t-logo-circle.svg'}
+                      src={`assets/t-logo-circle.svg`}
                       alt=""
-                      className="w-[54px]"
+                      className="h-[54px] w-[54px] object-cover"
                     />
                     <div className="flex items-center gap-1 text-[22px]">
                       {item.name}
@@ -181,20 +188,9 @@ export const StakePage = () => {
                       </button>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex flex-col items-center justify-center gap-2">
-                      <div className="text-[22px]">${item.deposited}</div>
-                      <div className="font-sans text-[#959595]">Deposited</div>
-                    </div>
-                    <div className="flex flex-col items-center justify-center gap-2">
-                      <div className="text-[22px]">${item.earnings}</div>
-                      <div className="font-sans text-[#959595]">Earnings</div>
-                    </div>
-                    <div className="flex flex-col items-center justify-center gap-2">
-                      <div className="text-[22px]">{item.APY}%</div>
-                      <div className="font-sans text-[#959595]">
-                        Variable APY
-                      </div>
+                  <div className="flex items-center justify-end gap-14">
+                    <div className="hidden items-center justify-between gap-14 lg:flex">
+                      {summaryInfor(item)}
                     </div>
                     <div className="flex flex-col items-center justify-center gap-2">
                       <button
@@ -223,6 +219,9 @@ export const StakePage = () => {
                       : 'max-h-0 py-0 opacity-0 ease-out'
                   }`}
                 >
+                  <div className="flex items-center justify-between gap-4 lg:hidden">
+                    {summaryInfor(item)}
+                  </div>
                   <div className="">
                     <img
                       src="/assets/pages/boost/chart.svg"
@@ -232,7 +231,7 @@ export const StakePage = () => {
                   </div>
                   <div className="mt-10">
                     <div className="text-[28px]">Withdraw TORQ</div>
-                    <div className="mt-2 flex w-full items-center justify-between rounded-[12px] border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#16161679] px-2 py-4">
+                    <div className="mt-2 flex w-full items-center justify-between rounded-[12px] border border-[#1A1A1A] bg-gradient-to-b from-[#0d0d0d] to-[#0d0d0d]/0 px-2 py-4">
                       <input
                         type="number"
                         className="w-full bg-none px-2 font-sans focus:outline-none"
@@ -269,7 +268,7 @@ const DATA_STAKE = [
     isOpen: false,
   },
   {
-    name: 'Lampo',
+    name: 'LP',
     deposited: 0.0,
     earnings: 0.0,
     APY: 56,
