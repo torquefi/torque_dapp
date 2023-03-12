@@ -2,7 +2,6 @@ import Popover from '@/components/common/Popover'
 import SkeletonDefault from '@/components/skeleton'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { FaAngleLeft, FaAngleUp } from 'react-icons/fa'
 
 export const BoostPage = () => {
   const [dataBoostVault, setDataBoostVault] = useState(DATA_BOOST_VAULT)
@@ -16,15 +15,17 @@ export const BoostPage = () => {
       <>
         <div className="flex min-w-[100px] flex-col items-center justify-center gap-2">
           <div className="text-[22px]">{item.deposited}</div>
-          <div className="text-[14px] text-[#959595]">Deposited</div>
+          <div className="font-mona text-[14px] text-[#959595]">Deposited</div>
         </div>
-        <div className="flex min-w-[100px] flex-col items-center justify-center gap-2">
+        <div className=" lex min-w-[100px] flex-col items-center justify-center gap-2">
           <div className="text-[22px]">{item.earnings}</div>
-          <div className="text-[14px] text-[#959595]">Earnings</div>
+          <div className="font-mona text-[14px] text-[#959595]">Earnings</div>
         </div>
         <div className="flex min-w-[100px] flex-col items-center justify-center gap-2">
           <div className="text-[22px]">{item.APY}</div>
-          <div className="text-[14px] text-[#959595]">Variable APY</div>
+          <div className="font-mona text-[14px] text-[#959595]">
+            Variable APY
+          </div>
         </div>
       </>
     )
@@ -73,7 +74,7 @@ export const BoostPage = () => {
                         alt=""
                         className="w-20"
                       />
-                      <div className="text-[18px] leading-[1.1] lg:text-[24px]">
+                      <div className="font-larken text-[18px] leading-[1.1] lg:text-[24px]">
                         Deposit {item.token},<br className="" /> Earn{' '}
                         {item.token}
                       </div>
@@ -93,7 +94,7 @@ export const BoostPage = () => {
                               className="h-[32px] w-[32px]"
                             />
 
-                            <div className="text-[18px] leading-[1.1] text-[#AA5BFF] lg:text-[18px]">
+                            <div className="font-mona text-[18px] leading-[1.1] text-[#AA5BFF] lg:text-[18px]">
                               +{item.bonus_TORQ} TORQ
                             </div>
                           </div>
@@ -106,7 +107,7 @@ export const BoostPage = () => {
                       <div className="text-[32px]">
                         ${Number(item.deposit).toFixed(2)}
                       </div>
-                      <div className="text-[16px] text-[#959595] lg:text-[20px]">
+                      <div className="font-mona text-[16px] text-[#959595] lg:text-[20px]">
                         Deposit
                       </div>
                     </div>
@@ -114,13 +115,13 @@ export const BoostPage = () => {
                       <div className="text-[32px]">
                         ${Number(item.deposit).toFixed(2)}
                       </div>
-                      <div className="text-[16px] text-[#959595] lg:text-[20px]">
+                      <div className="font-mona text-[16px] text-[#959595] lg:text-[20px]">
                         3-Year Value
                       </div>
                     </div>
                   </div>
-                  <div className="flex w-full items-center justify-between py-2 text-[16px] text-[#959595]">
-                    <div className="">Yield provider</div>
+                  <div className="flex w-full items-center justify-between py-2 font-mona text-[16px] text-[#959595]">
+                    <div className="font-mona">Yield provider</div>
                     <Link href="https://stargate.finance/">
                       <a
                         href="https://stargate.finance/"
@@ -135,8 +136,8 @@ export const BoostPage = () => {
                       </a>
                     </Link>
                   </div>
-                  <div className="flex w-full items-center justify-between text-[16px] text-[#959595]">
-                    <div className="">Variable APY</div>
+                  <div className="flex w-full items-center justify-between font-mona text-[16px] text-[#959595]">
+                    <div className="font-mona">Variable APY</div>
                     <div className="">{item.APY}%</div>
                   </div>
                   <button className="mt-4 w-full rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 font-mona uppercase transition-all duration-300 ease-linear hover:bg-gradient-to-t">
@@ -231,19 +232,19 @@ export const BoostPage = () => {
                     <div className="mt-2 flex w-full items-center justify-between rounded-[12px] border border-[#1A1A1A] bg-gradient-to-b from-[#0d0d0d] to-[#0d0d0d]/0 px-2 py-4">
                       <input
                         type="number"
-                        className="w-full bg-none px-2 focus:outline-none"
+                        className="w-full bg-none px-2 font-mona focus:outline-none"
                         style={{ backgroundColor: 'transparent' }}
                         placeholder="Select amount"
                       />
                       <div className="flex items-center gap-2">
                         {[25, 50, 100].map((item: any) => (
-                          <button className="rounded bg-[#1A1A1A] px-2 py-1 text-sm">
+                          <button className="rounded bg-[#1A1A1A] px-2 py-1 font-mona text-sm text-[#959595]">
                             {item}%
                           </button>
                         ))}
                       </div>
                     </div>
-                    <button className="mt-4 w-full rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[16px] uppercase transition-all duration-300 ease-linear hover:bg-gradient-to-t">
+                    <button className="mt-4 w-full rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 font-mona text-[16px] uppercase transition-all duration-300 ease-linear hover:bg-gradient-to-t">
                       Withdraw
                     </button>
                   </div>
