@@ -14,15 +14,15 @@ export const BoostPage = () => {
   const summaryInfor = (item: any) => {
     return (
       <>
-        <div className="flex flex-col items-center justify-center gap-2">
+        <div className="flex min-w-[100px] flex-col items-center justify-center gap-2">
           <div className="text-[22px]">{item.deposited}</div>
           <div className="font-sans text-[14px] text-[#959595]">Deposited</div>
         </div>
-        <div className="flex flex-col items-center justify-center gap-2">
+        <div className="flex min-w-[100px] flex-col items-center justify-center gap-2">
           <div className="text-[22px]">{item.earnings}</div>
           <div className="font-sans text-[14px] text-[#959595]">Earnings</div>
         </div>
-        <div className="flex flex-col items-center justify-center gap-2">
+        <div className="flex min-w-[100px] flex-col items-center justify-center gap-2">
           <div className="text-[22px]">{item.APY}</div>
           <div className="font-sans text-[14px] text-[#959595]">
             Variable APY
