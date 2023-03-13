@@ -105,7 +105,7 @@ export const StakePage = () => {
                         alt=""
                         className="xs:w-26 m-2 w-12 lg:w-20"
                       />
-                      <div className="grow pb-2 font-larken text-[16px] leading-[1.1] xs:text-[18px] lg:text-[26px]">
+                      <div className="grow pb-2 font-larken text-[16px] leading-tight xs:text-[18px] lg:text-[26px]">
                         Deposit {item.label},
                         <br className="" /> Earn TORQ
                       </div>

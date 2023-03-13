@@ -74,7 +74,7 @@ export const BoostPage = () => {
                         alt=""
                         className="w-16 xs:w-20 lg:w-24"
                       />
-                      <div className="grow pb-2 font-larken text-[16px] leading-[1.1] xs:text-[18px] lg:text-[26px]">
+                      <div className="grow pb-2 font-larken text-[16px] leading-tight xs:text-[18px] lg:text-[26px]">
                         Deposit {item.token},<br className="" /> Earn{' '}
                         {item.token}
                       </div>

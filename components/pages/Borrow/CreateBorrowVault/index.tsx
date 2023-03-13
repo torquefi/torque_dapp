@@ -38,7 +38,7 @@ export default function CreateBorrowVault() {
                     src={item.coinIcon}
                     alt=""
                   />
-                  <div className="grow pb-2 font-larken text-[16px] leading-[1.1] xs:text-[18px] lg:text-[26px]">
+                  <div className="grow pb-2 font-larken text-[16px] leading-tight xs:text-[18px] lg:text-[26px]">
                     Deposit {item.depositCoin},<br /> Borrow {item.borrowCoin}
                   </div>
                   <Popover
