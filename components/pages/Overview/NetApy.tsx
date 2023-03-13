@@ -1,6 +1,7 @@
 import SkeletonDefault from '@/components/skeleton'
 import { useEffect, useState } from 'react'
 import { NumericFormat } from 'react-number-format'
+import { toast } from 'sonner'
 
 export default function NetApy() {
   const [isLoading, setIsLoading] = useState(true)
@@ -64,7 +65,10 @@ export default function NetApy() {
             </p>
             <p className="text-[#959595]">Rewards</p>
           </div>
-          <button className="bg-gradient-primary w-[140px] rounded-full py-[6px] font-mona uppercase transition-all duration-200 ease-linear hover:w-[154px]">
+          <button
+            className="bg-gradient-primary w-[140px] rounded-full py-[6px] font-mona uppercase transition-all duration-200 ease-linear hover:w-[154px]"
+            // onClick={() => console.log(toast.success('claim'))}
+          >
             Claim
           </button>
         </div>
