@@ -2,6 +2,7 @@ import Popover from '@/components/common/Popover'
 import SkeletonDefault from '@/components/skeleton'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 
 export default function CreateBorrowVault() {
   const [isLoading, setIsLoading] = useState(true)
@@ -120,7 +121,10 @@ export default function CreateBorrowVault() {
                   <p>Liquidity</p>
                   <p>$187.2m</p>
                 </div>
-                <button className="bg-gradient-primary w-full rounded-full py-[4px] font-mona uppercase">
+                <button
+                  className="bg-gradient-primary w-full rounded-full py-[4px] font-mona uppercase"
+                  onClick={() => toast.message('Coming soon')}
+                >
                   Deposit and Borrow
                 </button>
               </div>

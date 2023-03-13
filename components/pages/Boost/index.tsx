@@ -2,6 +2,7 @@ import Popover from '@/components/common/Popover'
 import SkeletonDefault from '@/components/skeleton'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 
 export const BoostPage = () => {
   const [dataBoostVault, setDataBoostVault] = useState(DATA_BOOST_VAULT)
@@ -140,7 +141,10 @@ export const BoostPage = () => {
                     <div className="font-mona">Variable APY</div>
                     <div className="">{item.APY}%</div>
                   </div>
-                  <button className="mt-4 w-full rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 font-mona uppercase transition-all duration-300 ease-linear hover:bg-gradient-to-t">
+                  <button
+                    className="mt-4 w-full rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 font-mona uppercase transition-all duration-300 ease-linear hover:bg-gradient-to-t"
+                    onClick={() => toast.message('Coming soon')}
+                  >
                     Deposit and Earn
                   </button>
                 </div>
@@ -244,7 +248,10 @@ export const BoostPage = () => {
                         ))}
                       </div>
                     </div>
-                    <button className="mt-4 w-full rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 font-mona text-[16px] uppercase transition-all duration-300 ease-linear hover:bg-gradient-to-t">
+                    <button
+                      className="mt-4 w-full rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 font-mona text-[16px] uppercase transition-all duration-300 ease-linear hover:bg-gradient-to-t"
+                      onClick={() => toast.message('Coming soon')}
+                    >
                       Withdraw
                     </button>
                   </div>

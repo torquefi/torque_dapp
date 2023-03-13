@@ -2,6 +2,7 @@ import SkeletonDefault from '@/components/skeleton'
 import { useEffect, useState } from 'react'
 import { AiOutlineEdit } from 'react-icons/ai'
 import { NumericFormat } from 'react-number-format'
+import { toast } from 'sonner'
 
 enum Action {
   Repay = 'Repay',
@@ -133,7 +134,10 @@ export default function BorrowItem() {
                 ))}
               </div>
             </div>
-            <button className="bg-gradient-primary w-full rounded-full py-[4px] uppercase">
+            <button
+              className="bg-gradient-primary w-full rounded-full py-[4px] uppercase"
+              onClick={() => toast.message('Coming soon')}
+            >
               {action}
             </button>
           </div>

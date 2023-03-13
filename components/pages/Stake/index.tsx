@@ -1,5 +1,6 @@
 import SkeletonDefault from '@/components/skeleton'
 import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 
 export const StakePage = () => {
   const [dataStake, setDataStake] = useState(DATA_STAKE)
@@ -141,8 +142,11 @@ export const StakePage = () => {
                     <div className="">Variable APY</div>
                     <div className="">{item.APY}%</div>
                   </div>
-                  <button className="mt-4 w-full rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 font-mona uppercase hover:bg-gradient-to-t">
-                    Deposit TORQ
+                  <button
+                    className="mt-4 w-full rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 font-mona uppercase hover:bg-gradient-to-t"
+                    onClick={() => toast.message('Coming soon')}
+                  >
+                    Deposit {item?.label}
                   </button>
                 </div>
               )
