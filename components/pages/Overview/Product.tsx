@@ -14,7 +14,7 @@ export default function Product() {
           <SkeletonDefault height={'5vh'} width={'10%'} />
         </div>
       ) : (
-        <h3 className="font-larken text-[24px]">Products</h3>
+        <h3 className="font-larken text-[27px]">Products</h3>
       )}
 
       <div className="grid gap-4 md:grid-cols-2">
@@ -39,11 +39,11 @@ export default function Product() {
                       <div className="flex h-[65px] w-[65px] items-center justify-center rounded-full border border-[#1A1A1A] bg-gradient-to-b from-[#232323] to-[#232323]/0">
                         <img className="w-[30px]" src={item.icon} alt="" />
                       </div>
-                      <p className="ml-[24px] font-larken text-[24px]">
+                      <p className="ml-[24px] font-larken text-[26px]">
                         {item.name}
                       </p>
                     </div>
-                    <p className="max-w-[400px] text-[#959595]">
+                    <p className="max-w-[390px] text-[#959595]">
                       {item.description}
                     </p>
                   </div>
