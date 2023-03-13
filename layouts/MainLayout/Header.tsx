@@ -76,7 +76,7 @@ export const Header = () => {
                 target={'_blank'}
               >
                 <img
-                  className="h-[24px] lg:h-[32px]"
+                  className="h-[24px] lg:h-[26px] mr-1"
                   src="/assets/t-logo-circle.svg"
                   alt=""
                 />
@@ -130,7 +130,7 @@ export const Header = () => {
               </div>
             )}
           </div>
-          <div className="absolute top-1/2 left-1/2 hidden -translate-x-1/2 -translate-y-1/2 md:block">
+          <div className="absolute hidden -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 md:block">
             <HoverIndicator
               activeIndex={activeTabIndex}
               className="w-[320px] lg:w-[400px] xl:w-[480px]"
@@ -139,7 +139,7 @@ export const Header = () => {
                 <Link href={item.path} key={i}>
                   <a
                     className={
-                      'relative flex h-[35px] items-center justify-center pr-[4px] font-mona' +
+                      'relative flex h-[35px] items-center transition-all duration-200 ease-in justify-center pr-[4px] font-mona' +
                       ` ${
                         activeTabIndex === i ? ' text-white' : 'text-[#959595]'
                       }`
