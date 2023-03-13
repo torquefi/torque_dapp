@@ -72,9 +72,9 @@ export const BoostPage = () => {
                       <img
                         src={`/icons/coin/${item.token.toLocaleLowerCase()}.svg`}
                         alt=""
-                        className="w-20"
+                        className="w-16 xs:w-20 lg:w-24"
                       />
-                      <div className="font-larken text-[18px] leading-[1.1] lg:text-[24px]">
+                      <div className="grow pb-2 font-larken text-[16px] leading-[1.1] xs:text-[18px] lg:text-[26px]">
                         Deposit {item.token},<br className="" /> Earn{' '}
                         {item.token}
                       </div>
@@ -87,14 +87,14 @@ export const BoostPage = () => {
                     >
                       <Link href="#">
                         <a href="#" className="" target={'_blank'}>
-                          <div className="flex items-center gap-2 rounded-full bg-[#AA5BFF] bg-opacity-20 p-1 pr-[3px]">
+                          <div className="flex items-center gap-2 rounded-full bg-[#AA5BFF] bg-opacity-20 p-1  text-[12px] xs:text-[14px]">
                             <img
                               src="/assets/t-logo-circle.svg"
                               alt=""
-                              className="h-[32px] w-[32px]"
+                              className="w-[24px] xs:w-[28px]"
                             />
 
-                            <div className="font-mona text-[18px] leading-[1.1] text-[#AA5BFF] lg:text-[18px]">
+                            <div className="mx-1 font-mona uppercase text-[#AA5BFF] xs:mx-2">
                               +{item.bonus_TORQ} TORQ
                             </div>
                           </div>

@@ -33,8 +33,12 @@ export default function CreateBorrowVault() {
                 key={i}
               >
                 <div className="flex items-center">
-                  <img className="w-20" src={item.coinIcon} alt="" />
-                  <div className="grow font-larken text-[18px] leading-[1.1] lg:text-[24px]">
+                  <img
+                    className="w-16 xs:w-20 lg:w-24"
+                    src={item.coinIcon}
+                    alt=""
+                  />
+                  <div className="grow pb-2 font-larken text-[16px] leading-[1.1] xs:text-[18px] lg:text-[26px]">
                     Deposit {item.depositCoin},<br /> Borrow {item.borrowCoin}
                   </div>
                   <Popover
@@ -45,13 +49,13 @@ export default function CreateBorrowVault() {
                   >
                     <Link href="#">
                       <a href="#" className="" target={'_blank'}>
-                        <div className="flex items-center rounded-full bg-[#AA5BFF] bg-opacity-20 p-1">
+                        <div className="flex items-center rounded-full bg-[#AA5BFF] bg-opacity-20 p-1 text-[12px] xs:text-[14px]">
                           <img
                             src="/assets/t-logo-circle.svg"
                             alt=""
-                            className="h-[32px] w-[32px]"
+                            className="w-[24px] xs:w-[28px]"
                           />
-                          <p className="mx-1 text-[#AA5BFF]">
+                          <p className="mx-1 text-[#AA5BFF] xs:mx-2">
                             +{item.getTORQ} TORQ
                           </p>
                         </div>

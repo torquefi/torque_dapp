@@ -103,20 +103,20 @@ export const StakePage = () => {
                       <img
                         src={`/assets/t-logo-circle.svg`}
                         alt=""
-                        className="mr-2 w-[52px]"
+                        className="xs:w-26 m-2 w-12 lg:w-20"
                       />
-                      <div className="text-[18px] leading-[1.1] lg:text-[24px]">
+                      <div className="grow pb-2 font-larken text-[16px] leading-[1.1] xs:text-[18px] lg:text-[26px]">
                         Deposit {item.label},
                         <br className="" /> Earn TORQ
                       </div>
                     </div>
-                    <div className="flex items-center gap-2 rounded-full bg-[#AA5BFF] bg-opacity-20 p-2">
+                    <div className="flex items-center gap-2 rounded-full bg-[#AA5BFF] bg-opacity-20 p-1 text-[12px] xs:text-[14px]">
                       <img
                         src="/assets/t-logo-circle.svg"
                         alt=""
-                        className="h-[32px] w-[32px]"
+                        className="w-[24px] xs:w-[28px]"
                       />
-                      <div className="font-mona uppercase text-[#AA5BFF]">
+                      <div className="mx-1 font-mona uppercase text-[#AA5BFF] xs:mx-2">
                         get {item.label}
                       </div>
                     </div>
