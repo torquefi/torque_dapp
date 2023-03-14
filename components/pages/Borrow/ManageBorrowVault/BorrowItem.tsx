@@ -1,3 +1,4 @@
+import CurrencySwitch from '@/components/common/CurrencySwitch'
 import SkeletonDefault from '@/components/skeleton'
 import { useEffect, useState } from 'react'
 import { AiOutlineEdit } from 'react-icons/ai'
@@ -21,17 +22,24 @@ export default function BorrowItem() {
   const summaryInfo = (
     <div className="flex w-full text-center md:w-[400px] lg:w-[500px]">
       <div className="w-1/4 space-y-1">
-        <p className="whitespace-nowrap font-larken text-[22px]">
-          {(12.1).toFixed(1)} BTC
-        </p>
+        <CurrencySwitch
+          tokenSymbol="BTC"
+          tokenValue={12192}
+          className="whitespace-nowrap font-larken text-[22px]"
+          decimalScale={1}
+        />
         <p className="whitespace-nowrap text-[14px] text-[#959595]">
           Collateral
         </p>
       </div>
       <div className="w-1/4 space-y-1">
-        <p className="whitespace-nowrap font-larken text-[22px]">
-          ${(168.4).toFixed(1)}k
-        </p>
+        <CurrencySwitch
+          tokenSymbol="BTC"
+          tokenValue={0.76}
+          usdDefault
+          className="whitespace-nowrap font-larken text-[22px]"
+          decimalScale={1}
+        />
         <p className="whitespace-nowrap text-[14px] text-[#959595]">Borrowed</p>
       </div>
       <div className="w-1/4 space-y-1">

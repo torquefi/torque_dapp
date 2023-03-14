@@ -1,3 +1,4 @@
+import CurrencySwitch from '@/components/common/CurrencySwitch'
 import SkeletonDefault from '@/components/skeleton'
 import { useEffect, useState } from 'react'
 import { NumericFormat } from 'react-number-format'
@@ -57,15 +58,18 @@ export default function NetApy() {
             />
           </div>
           <div className="space-y-2">
-            <p className="font-larken text-[28px]">
-              {isLoading ? (
-                <div className="">
-                  <SkeletonDefault height={'4vh'} width={'10vw'} />
-                </div>
-              ) : (
-                `$${(0).toFixed(2)}`
-              )}
-            </p>
+            {isLoading ? (
+              <div className="">
+                <SkeletonDefault height={'4vh'} width={'10vw'} />
+              </div>
+            ) : (
+              <CurrencySwitch
+                tokenSymbol="TORQ"
+                tokenValue={0}
+                usdDefault
+                className="font-larken text-[28px]"
+              />
+            )}
             <p className="text-[#959595]">Rewards</p>
           </div>
           <button

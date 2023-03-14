@@ -1,3 +1,4 @@
+import CurrencySwitch from '@/components/common/CurrencySwitch'
 import SkeletonDefault from '@/components/skeleton'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
@@ -13,11 +14,23 @@ export const StakePage = () => {
     return (
       <>
         <div className="flex min-w-[100px] flex-col items-center justify-center gap-2">
-          <div className="text-[22px]">{Number(item.deposited).toFixed(2)}</div>
+          <CurrencySwitch
+            tokenSymbol={item?.name}
+            tokenValue={item.deposited}
+            usdDefault
+            className="text-[22px]"
+            decimalScale={2}
+          />
           <div className="font-mona text-[14px] text-[#959595]">Deposited</div>
         </div>
         <div className="flex min-w-[100px] flex-col items-center justify-center gap-2">
-          <div className="text-[22px]">{Number(item.earnings).toFixed(2)}</div>
+          <CurrencySwitch
+            tokenSymbol={item?.name}
+            tokenValue={item.deposited}
+            usdDefault
+            className="text-[22px]"
+            decimalScale={2}
+          />
           <div className="font-mona text-[14px] text-[#959595]">Earnings</div>
         </div>
         <div className="flex min-w-[100px] flex-col items-center justify-center gap-2">
@@ -124,15 +137,23 @@ export const StakePage = () => {
                   </div>
                   <div className="mt-6 flex w-full items-center justify-center gap-4 ">
                     <div className="flex w-full flex-col items-center justify-center gap-3 rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0 py-6 lg:py-8 ">
-                      <div className="text-[32px]">
-                        ${Number(item.deposit).toFixed(2)}
-                      </div>
+                      <CurrencySwitch
+                        tokenSymbol={item?.label}
+                        tokenValue={item.deposit}
+                        usdDefault
+                        className="text-[32px]"
+                        decimalScale={2}
+                      />
                       <div className="font-mona text-[#959595]">Your Stake</div>
                     </div>
                     <div className="flex w-full flex-col items-center justify-center gap-3 rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0 py-6 lg:py-8 ">
-                      <div className="text-[32px]">
-                        ${Number(item.deposit).toFixed(2)}
-                      </div>
+                      <CurrencySwitch
+                        tokenSymbol={item?.token}
+                        tokenValue={item.deposit}
+                        usdDefault
+                        className="text-[32px]"
+                        decimalScale={2}
+                      />
                       <div className="font-mona text-[#959595]">
                         3-Year Value
                       </div>
@@ -282,7 +303,7 @@ const DATA_STAKE = [
 const STAKING_POOLS = [
   {
     label: 'TORQ',
-    token: 'ETH',
+    token: 'TORQ',
     bonus_TORQ: 24,
     deposit: 100.8,
     threeYearValue: 195.3,
@@ -290,7 +311,7 @@ const STAKING_POOLS = [
   },
   {
     label: 'LP',
-    token: 'USDC',
+    token: 'TORQ',
     bonus_TORQ: 24,
     deposit: 0,
     threeYearValue: 0,

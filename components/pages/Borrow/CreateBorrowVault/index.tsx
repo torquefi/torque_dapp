@@ -1,3 +1,4 @@
+import CurrencySwitch from '@/components/common/CurrencySwitch'
 import Popover from '@/components/common/Popover'
 import SkeletonDefault from '@/components/skeleton'
 import Link from 'next/link'
@@ -66,27 +67,33 @@ export default function CreateBorrowVault() {
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="flex h-[140px] flex-col items-center justify-center rounded-xl bg-gradient-to-b from-[#161616] to-[#161616]/40">
-                    <p className="font-larken text-[32px]">
-                      {isLoading ? (
-                        <div className="">
-                          <SkeletonDefault height={'4vh'} width={'10vw'} />
-                        </div>
-                      ) : (
-                        `$${(0).toFixed(2)}`
-                      )}
-                    </p>
+                    {isLoading ? (
+                      <div className="">
+                        <SkeletonDefault height={'4vh'} width={'10vw'} />
+                      </div>
+                    ) : (
+                      <CurrencySwitch
+                        tokenSymbol={item?.depositCoin}
+                        tokenValue={0}
+                        usdDefault
+                        className="font-larken text-[28px]"
+                      />
+                    )}
                     <p className="mt-[12px] text-[#959595]">Collateral</p>
                   </div>
                   <div className="flex h-[140px] flex-col items-center justify-center rounded-xl bg-gradient-to-b from-[#161616] to-[#161616]/40">
-                    <p className="font-larken text-[32px]">
-                      {isLoading ? (
-                        <div className="">
-                          <SkeletonDefault height={'4vh'} width={'10vw'} />
-                        </div>
-                      ) : (
-                        `$${(0).toFixed(2)}`
-                      )}
-                    </p>
+                    {isLoading ? (
+                      <div className="">
+                        <SkeletonDefault height={'4vh'} width={'10vw'} />
+                      </div>
+                    ) : (
+                      <CurrencySwitch
+                        tokenSymbol={item?.borrowCoin}
+                        tokenValue={0}
+                        usdDefault
+                        className="font-larken text-[28px]"
+                      />
+                    )}
                     <p className="mt-[12px] text-[#959595]">Borrowing</p>
                   </div>
                 </div>

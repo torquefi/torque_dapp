@@ -1,3 +1,4 @@
+import CurrencySwitch from '@/components/common/CurrencySwitch'
 import Popover from '@/components/common/Popover'
 import SkeletonDefault from '@/components/skeleton'
 import Link from 'next/link'
@@ -15,11 +16,22 @@ export const BoostPage = () => {
     return (
       <>
         <div className="flex min-w-[100px] flex-col items-center justify-center gap-2">
-          <div className="text-[22px]">{item.deposited}</div>
+          <CurrencySwitch
+            tokenSymbol={item?.token}
+            tokenValue={item.deposited}
+            className="text-[22px]"
+            decimalScale={1}
+          />
           <div className="font-mona text-[14px] text-[#959595]">Deposited</div>
         </div>
-        <div className=" lex min-w-[100px] flex-col items-center justify-center gap-2">
-          <div className="text-[22px]">{item.earnings}</div>
+        <div className="flex min-w-[100px] flex-col items-center justify-center gap-2">
+          <CurrencySwitch
+            tokenSymbol={item?.token}
+            tokenValue={item.earnings}
+            usdDefault
+            className="text-[22px]"
+            decimalScale={1}
+          />
           <div className="font-mona text-[14px] text-[#959595]">Earnings</div>
         </div>
         <div className="flex min-w-[100px] flex-col items-center justify-center gap-2">
@@ -105,17 +117,25 @@ export const BoostPage = () => {
                   </div>
                   <div className="mt-4 flex w-full items-center justify-center gap-4 ">
                     <div className="flex w-full flex-col items-center justify-center gap-3 rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0 py-6 lg:py-8">
-                      <div className="text-[32px]">
-                        ${Number(item.deposit).toFixed(2)}
-                      </div>
+                      <CurrencySwitch
+                        tokenSymbol={item?.token}
+                        tokenValue={item.deposit}
+                        usdDefault
+                        className="text-[32px]"
+                        decimalScale={2}
+                      />
                       <div className="font-mona text-[16px] text-[#959595] lg:text-[20px]">
                         Deposit
                       </div>
                     </div>
                     <div className="flex w-full flex-col items-center justify-center gap-3 rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0 py-6 lg:py-8">
-                      <div className="text-[32px]">
-                        ${Number(item.deposit).toFixed(2)}
-                      </div>
+                      <CurrencySwitch
+                        tokenSymbol={item?.token}
+                        tokenValue={item.deposit}
+                        usdDefault
+                        className="text-[32px]"
+                        decimalScale={2}
+                      />
                       <div className="font-mona text-[16px] text-[#959595] lg:text-[20px]">
                         3-Year Value
                       </div>
@@ -268,16 +288,16 @@ const DATA_BOOST_VAULT = [
   {
     token: 'ETH',
     name: 'Vault #1',
-    deposited: '10.6 ETH',
-    earnings: '0.24 ETH',
+    deposited: 10.6,
+    earnings: 0.24,
     APY: '5.19%',
     isOpen: false,
   },
   {
     token: 'USDC',
     name: 'Vault #2',
-    deposited: '$158.4k',
-    earnings: '$14.2k',
+    deposited: 158130,
+    earnings: 142271,
     APY: '4.49%',
     isOpen: false,
   },
