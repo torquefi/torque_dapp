@@ -43,7 +43,7 @@ export const StakePage = () => {
 
   return (
     <>
-      <div className=" grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
         {isLoading ? (
           <div className="">
             <SkeletonDefault height={'18vh'} width={'100%'} />
@@ -51,7 +51,7 @@ export const StakePage = () => {
         ) : (
           <div className="flex h-full w-full flex-col items-center justify-center gap-2 rounded-[12px] border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#16161679] p-8">
             <div className="flex w-full items-center justify-center font-larken text-[32px]">
-              165.4m
+              0.00
             </div>
             <div className="text-[#959595]">TORQ Staked</div>
           </div>
@@ -63,7 +63,7 @@ export const StakePage = () => {
           </div>
         ) : (
           <div className="flex h-full w-full flex-col items-center justify-center gap-2 rounded-[12px] border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#16161679] p-8">
-            <div className="font-larken text-[32px]">16.54%</div>
+            <div className="font-larken text-[32px]">0.00%</div>
             <div className="text-[#959595]">Supply Staked</div>
           </div>
         )}
@@ -74,7 +74,7 @@ export const StakePage = () => {
           </div>
         ) : (
           <div className="flex h-full w-full flex-col items-center justify-center gap-2 rounded-[12px] border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#16161679] p-8">
-            <div className="font-larken text-[32px]">28.6k</div>
+            <div className="font-larken text-[32px]">0.00</div>
             <div className="text-[#959595]">TORQ LP Staked</div>
           </div>
         )}
@@ -84,7 +84,7 @@ export const StakePage = () => {
           </div>
         ) : (
           <div className="flex h-full w-full flex-col items-center justify-center gap-2 rounded-[12px] border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#16161679] p-8">
-            <div className="font-larken text-[32px]">11.8m</div>
+            <div className="font-larken text-[32px]">0.00</div>
             <div className="text-[#959595]">TORQ Distributed</div>
           </div>
         )}
@@ -112,12 +112,12 @@ export const StakePage = () => {
             else
               return (
                 <div className="rounded-[12px] border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#16161679] px-8 py-6">
-                  <div className="flex w-full items-center justify-between">
+                  <div className="flex items-center justify-between w-full">
                     <div className="flex items-center gap-2">
                       <img
                         src={`/assets/t-logo-circle.svg`}
                         alt=""
-                        className="xs:w-26 m-2 w-12 lg:w-20"
+                        className="w-12 m-2 xs:w-26 lg:w-[64px]"
                       />
                       <div className="grow pb-2 font-larken text-[16px] leading-tight xs:text-[18px] lg:text-[26px]">
                         Deposit {item.label},
@@ -135,7 +135,7 @@ export const StakePage = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="mt-6 flex w-full items-center justify-center gap-4 ">
+                  <div className="flex items-center justify-center w-full gap-4 mt-6 ">
                     <div className="flex w-full flex-col items-center justify-center gap-3 rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0 py-6 lg:py-8 ">
                       <CurrencySwitch
                         tokenSymbol={item?.label}
@@ -199,7 +199,7 @@ export const StakePage = () => {
                     <img
                       src={`assets/t-logo-circle.svg`}
                       alt=""
-                      className="h-[54px] w-[54px] object-cover"
+                      className="w-[42px] object-cover"
                     />
                     <div className="flex items-center gap-1 text-[22px]">
                       {item.name}
@@ -213,7 +213,7 @@ export const StakePage = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-end gap-14">
-                    <div className="hidden items-center justify-between gap-14 lg:flex">
+                    <div className="items-center justify-between hidden gap-14 lg:flex">
                       {summaryInfor(item)}
                     </div>
                     <div className="flex flex-col items-center justify-center gap-2">
@@ -258,7 +258,7 @@ export const StakePage = () => {
                     <div className="mt-2 flex w-full items-center justify-between rounded-[12px] border border-[#1A1A1A] bg-gradient-to-b from-[#0d0d0d] to-[#0d0d0d]/0 px-2 py-4">
                       <input
                         type="number"
-                        className="w-full bg-none px-2 font-mona focus:outline-none"
+                        className="w-full px-2 bg-none font-mona focus:outline-none"
                         style={{ backgroundColor: 'transparent' }}
                         placeholder="Select amount"
                       />
@@ -305,9 +305,9 @@ const STAKING_POOLS = [
     label: 'TORQ',
     token: 'TORQ',
     bonus_TORQ: 24,
-    deposit: 100.8,
-    threeYearValue: 195.3,
-    APY: 5.19,
+    deposit: 0,
+    threeYearValue: 0,
+    APY: 24,
   },
   {
     label: 'LP',
@@ -315,6 +315,6 @@ const STAKING_POOLS = [
     bonus_TORQ: 24,
     deposit: 0,
     threeYearValue: 0,
-    APY: 4.49,
+    APY: 56,
   },
 ]
