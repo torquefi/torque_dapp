@@ -52,7 +52,7 @@ export const BoostPage = () => {
             <SkeletonDefault height={'50vh'} width={'100%'} />
           </div>
         ) : (
-          <img src="/assets/pages/boost/banner.svg" alt="" className="" />
+          <img src="/assets/banners/boost.png" alt="Torque Boost" className="rounded-xl" />
         )}
         <Link href="/overview">
           <a className="absolute top-[24px] left-[24px] flex h-[48px] w-[48px] items-center justify-center rounded-full bg-[#030303]">
@@ -80,7 +80,7 @@ export const BoostPage = () => {
             } else
               return (
                 <div className="rounded-[12px] border border-[#1A1A1A] bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 px-3 py-6 lg:px-8">
-                  <div className="flex w-full items-center justify-between">
+                  <div className="flex items-center justify-between w-full">
                     <div className="flex items-center">
                       <img
                         src={`/icons/coin/${item.token.toLocaleLowerCase()}.svg`}
@@ -115,7 +115,7 @@ export const BoostPage = () => {
                       </Link>
                     </Popover>
                   </div>
-                  <div className="mt-4 flex w-full items-center justify-center gap-4 ">
+                  <div className="flex items-center justify-center w-full gap-4 mt-4 ">
                     <div className="flex w-full flex-col items-center justify-center gap-3 rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0 py-6 lg:py-8">
                       <CurrencySwitch
                         tokenSymbol={item?.token}
@@ -211,7 +211,7 @@ export const BoostPage = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-end gap-14">
-                    <div className="hidden items-center justify-between gap-14 lg:flex">
+                    <div className="items-center justify-between hidden gap-14 lg:flex">
                       {summaryInfor(item)}
                     </div>
                     <div className="flex flex-col items-center justify-center gap-2">
@@ -256,7 +256,7 @@ export const BoostPage = () => {
                     <div className="mt-2 flex w-full items-center justify-between rounded-[12px] border border-[#1A1A1A] bg-gradient-to-b from-[#0d0d0d] to-[#0d0d0d]/0 px-2 py-4">
                       <input
                         type="number"
-                        className="w-full bg-none px-2 font-mona focus:outline-none"
+                        className="w-full px-2 bg-none font-mona focus:outline-none"
                         style={{ backgroundColor: 'transparent' }}
                         placeholder="Select amount"
                       />
