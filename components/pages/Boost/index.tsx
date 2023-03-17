@@ -59,7 +59,11 @@ export const BoostPage = () => {
             <SkeletonDefault height={'50vh'} width={'100%'} />
           </div>
         ) : (
-          <img src="/assets/pages/boost/banner.svg" alt="" className="" />
+          <img
+            src="/assets/banners/boost.png"
+            alt="Torque Boost"
+            className="rounded-xl"
+          />
         )}
         <Link href="/overview">
           <a className="absolute top-[24px] left-[24px] flex h-[48px] w-[48px] items-center justify-center rounded-full bg-[#030303]">
