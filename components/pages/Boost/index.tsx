@@ -1,24 +1,31 @@
 import CurrencySwitch from '@/components/common/CurrencySwitch'
 import Popover from '@/components/common/Popover'
 import SkeletonDefault from '@/components/skeleton'
+import NumberFormat from '@/components/NumberFormat'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
+import classNames from 'classnames'
+import { floorFraction } from '@/lib/helpers/number'
 
 export const BoostPage = () => {
   const [dataBoostVault, setDataBoostVault] = useState(DATA_BOOST_VAULT)
+  const [boostVault, setBoostVault] = useState(BOOST_VAULTS)
+  const [amount, setAmount] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1500)
   }, [])
-
   const summaryInfor = (item: any) => {
+    console.log(item)
+
     return (
       <>
         <div className="flex min-w-[100px] flex-col items-center justify-center gap-2">
           <CurrencySwitch
             tokenSymbol={item?.token}
-            tokenValue={item.deposited}
+            tokenValue={item.deposit}
+            usdDefault
             className="text-[22px]"
             decimalScale={1}
           />
@@ -43,7 +50,7 @@ export const BoostPage = () => {
       </>
     )
   }
-
+  console.log(boostVault)
   return (
     <>
       <div className="relative">
@@ -70,7 +77,7 @@ export const BoostPage = () => {
         )}
 
         <div className="mt-[24px] grid w-full grid-cols-1 gap-6 lg:grid-cols-2">
-          {BOOST_VAULTS.map((item: any) => {
+          {boostVault.map((item: any) => {
             if (isLoading) {
               return (
                 <div className="">
@@ -116,13 +123,20 @@ export const BoostPage = () => {
                     </Popover>
                   </div>
                   <div className="mt-4 flex w-full items-center justify-center gap-4 ">
-                    <div className="flex w-full flex-col items-center justify-center gap-3 rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0 py-6 lg:py-8">
-                      <CurrencySwitch
-                        tokenSymbol={item?.token}
-                        tokenValue={item.deposit}
-                        usdDefault
-                        className="text-[32px]"
-                        decimalScale={2}
+                    <div className="flex w-1/2 flex-col items-center justify-center gap-3 rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0 py-6 lg:py-8">
+                      <NumberFormat
+                        suffix={' ' + item.token}
+                        className={`h-[24px] max-w-full bg-transparent pt-2 text-center text-[28px] font-bold`}
+                        value={floorFraction(amount) || null}
+                        onChange={(event: any) => {
+                          item.amount = event.target.value.replace(
+                            item.token,
+                            ''
+                          )
+                          setBoostVault([...boostVault])
+                        }}
+                        thousandSeparator
+                        placeholder={'0.00 ' + item.token}
                       />
                       <div className="font-mona text-[16px] text-[#959595] lg:text-[20px]">
                         Deposit
@@ -131,7 +145,9 @@ export const BoostPage = () => {
                     <div className="flex w-full flex-col items-center justify-center gap-3 rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0 py-6 lg:py-8">
                       <CurrencySwitch
                         tokenSymbol={item?.token}
-                        tokenValue={item.deposit}
+                        tokenValue={
+                          (Number(item.amount) * Number(item.APY)) / 100
+                        }
                         usdDefault
                         className="text-[32px]"
                         decimalScale={2}
@@ -290,16 +306,18 @@ const DATA_BOOST_VAULT = [
     name: 'Vault #1',
     deposited: 10.6,
     earnings: 0.24,
-    APY: '5.19%',
+    APY: '5.19',
     isOpen: false,
+    amount: 0,
   },
   {
     token: 'USDC',
     name: 'Vault #2',
     deposited: 158130,
     earnings: 142271,
-    APY: '4.49%',
+    APY: '4.49',
     isOpen: false,
+    amount: 0,
   },
 ]
 
@@ -310,6 +328,7 @@ const BOOST_VAULTS = [
     deposit: 0,
     threeYearValue: 0,
     APY: 5.19,
+    amount: 0,
   },
   {
     token: 'USDC',
@@ -317,5 +336,6 @@ const BOOST_VAULTS = [
     deposit: 0,
     threeYearValue: 0,
     APY: 4.49,
+    amount: 0,
   },
 ]

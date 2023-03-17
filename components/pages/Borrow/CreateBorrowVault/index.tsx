@@ -1,12 +1,15 @@
+import NumberFormat from '@/components/NumberFormat'
 import CurrencySwitch from '@/components/common/CurrencySwitch'
 import Popover from '@/components/common/Popover'
 import SkeletonDefault from '@/components/skeleton'
+import { floorFraction } from '@/lib/helpers/number'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 
 export default function CreateBorrowVault() {
   const [isLoading, setIsLoading] = useState(true)
+  const [dataBorrow, setDataBorrow] = useState(fakeBorrow)
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1000)
   }, [])
@@ -67,33 +70,29 @@ export default function CreateBorrowVault() {
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="flex h-[140px] flex-col items-center justify-center rounded-xl bg-gradient-to-b from-[#161616] to-[#161616]/40">
-                    {isLoading ? (
-                      <div className="">
-                        <SkeletonDefault height={'4vh'} width={'10vw'} />
-                      </div>
-                    ) : (
-                      <CurrencySwitch
-                        tokenSymbol={item?.depositCoin}
-                        tokenValue={0}
-                        usdDefault
-                        className="font-larken text-[28px]"
-                      />
-                    )}
+                    <NumberFormat
+                      suffix={' ' + item.borrowCoin}
+                      className={`h-[24px] max-w-full bg-transparent pt-2 text-center font-larken text-[28px] font-bold`}
+                      value={floorFraction(item.amount) || null}
+                      onChange={(event: any) => {
+                        item.amount = event.target.value.replace(
+                          item.borrowCoin,
+                          ''
+                        )
+                        setDataBorrow([...dataBorrow])
+                      }}
+                      thousandSeparator
+                      placeholder={'0.00 ' + item.borrowCoin}
+                    />
                     <p className="mt-[12px] text-[#959595]">Collateral</p>
                   </div>
                   <div className="flex h-[140px] flex-col items-center justify-center rounded-xl bg-gradient-to-b from-[#161616] to-[#161616]/40">
-                    {isLoading ? (
-                      <div className="">
-                        <SkeletonDefault height={'4vh'} width={'10vw'} />
-                      </div>
-                    ) : (
-                      <CurrencySwitch
-                        tokenSymbol={item?.borrowCoin}
-                        tokenValue={0}
-                        usdDefault
-                        className="font-larken text-[28px]"
-                      />
-                    )}
+                    <CurrencySwitch
+                      tokenSymbol={item?.borrowCoin}
+                      tokenValue={item.amount / 2}
+                      usdDefault
+                      className="font-larken text-[28px]"
+                    />
                     <p className="mt-[12px] text-[#959595]">Borrowing</p>
                   </div>
                 </div>
@@ -149,6 +148,7 @@ const fakeBorrow = [
     borrowCoin: 'USDC',
     loanToValue: 70,
     getTORQ: 28,
+    amount: 0,
   },
   {
     coinIcon: '/icons/coin/eth.png',
@@ -156,5 +156,6 @@ const fakeBorrow = [
     borrowCoin: 'USDC',
     loanToValue: 83,
     getTORQ: 32,
+    amount: 0,
   },
 ]

@@ -1,10 +1,13 @@
+import NumberFormat from '@/components/NumberFormat'
 import CurrencySwitch from '@/components/common/CurrencySwitch'
 import SkeletonDefault from '@/components/skeleton'
+import { floorFraction } from '@/lib/helpers/number'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 
 export const StakePage = () => {
   const [dataStake, setDataStake] = useState(DATA_STAKE)
+  const [stakingPool, setStakingPool] = useState(STAKING_POOLS)
   const [isLoading, setIsLoading] = useState(true)
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1000)
@@ -102,7 +105,7 @@ export const StakePage = () => {
         </div>
 
         <div className="mt-[24px] grid w-full grid-cols-1 gap-6 lg:grid-cols-2">
-          {STAKING_POOLS.map((item: any) => {
+          {stakingPool.map((item: any) => {
             if (isLoading)
               return (
                 <div className="">
@@ -112,12 +115,12 @@ export const StakePage = () => {
             else
               return (
                 <div className="rounded-[12px] border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#16161679] px-8 py-6">
-                  <div className="flex items-center justify-between w-full">
+                  <div className="flex w-full items-center justify-between">
                     <div className="flex items-center gap-2">
                       <img
                         src={`/assets/t-logo-circle.svg`}
                         alt=""
-                        className="w-12 m-2 xs:w-26 lg:w-[64px]"
+                        className="xs:w-26 m-2 w-12 lg:w-[64px]"
                       />
                       <div className="grow pb-2 font-larken text-[16px] leading-tight xs:text-[18px] lg:text-[26px]">
                         Deposit {item.label},
@@ -135,21 +138,28 @@ export const StakePage = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center justify-center w-full gap-4 mt-6 ">
-                    <div className="flex w-full flex-col items-center justify-center gap-3 rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0 py-6 lg:py-8 ">
-                      <CurrencySwitch
-                        tokenSymbol={item?.label}
-                        tokenValue={item.deposit}
-                        usdDefault
-                        className="text-[32px]"
-                        decimalScale={2}
+                  <div className="mt-6 flex w-full items-center justify-center gap-4 ">
+                    <div className="flex w-1/2 flex-col items-center justify-center gap-3 rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0 py-6 lg:py-8 ">
+                      <NumberFormat
+                        suffix={' ' + item.token}
+                        className={`h-[24px] max-w-full bg-transparent pt-2 text-center text-[28px] font-bold`}
+                        value={floorFraction(item.amount) || null}
+                        onChange={(event: any) => {
+                          item.amount = event.target.value.replace(
+                            item.token,
+                            ''
+                          )
+                          setStakingPool([...stakingPool])
+                        }}
+                        thousandSeparator
+                        placeholder={'0.00 ' + item.token}
                       />
                       <div className="font-mona text-[#959595]">Your Stake</div>
                     </div>
                     <div className="flex w-full flex-col items-center justify-center gap-3 rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0 py-6 lg:py-8 ">
                       <CurrencySwitch
                         tokenSymbol={item?.token}
-                        tokenValue={item.deposit}
+                        tokenValue={(item.amount * item.APY) / 100}
                         usdDefault
                         className="text-[32px]"
                         decimalScale={2}
@@ -213,7 +223,7 @@ export const StakePage = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-end gap-14">
-                    <div className="items-center justify-between hidden gap-14 lg:flex">
+                    <div className="hidden items-center justify-between gap-14 lg:flex">
                       {summaryInfor(item)}
                     </div>
                     <div className="flex flex-col items-center justify-center gap-2">
@@ -258,7 +268,7 @@ export const StakePage = () => {
                     <div className="mt-2 flex w-full items-center justify-between rounded-[12px] border border-[#1A1A1A] bg-gradient-to-b from-[#0d0d0d] to-[#0d0d0d]/0 px-2 py-4">
                       <input
                         type="number"
-                        className="w-full px-2 bg-none font-mona focus:outline-none"
+                        className="w-full bg-none px-2 font-mona focus:outline-none"
                         style={{ backgroundColor: 'transparent' }}
                         placeholder="Select amount"
                       />
@@ -290,6 +300,7 @@ const DATA_STAKE = [
     earnings: 0.0,
     APY: 24,
     isOpen: false,
+    amount: 0,
   },
   {
     name: 'LP',
@@ -297,6 +308,7 @@ const DATA_STAKE = [
     earnings: 0.0,
     APY: 56,
     isOpen: false,
+    amount: 0,
   },
 ]
 

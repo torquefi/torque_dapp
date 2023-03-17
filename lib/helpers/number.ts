@@ -14,3 +14,10 @@ export function toHumanRead(num: number, fixed: number = 2) {
   // }
   return num.toFixed(fixed) + units[count]
 }
+
+export const floorFraction = (number: number, fraction = 5) => {
+  return (
+
+    Math.floor(+(number || 0) * Math.pow(10, fraction)) / Math.pow(10, fraction)
+  )
+}
