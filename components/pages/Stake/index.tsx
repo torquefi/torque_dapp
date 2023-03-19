@@ -142,7 +142,7 @@ export const StakePage = () => {
                     <div className="flex w-1/2 flex-col items-center justify-center gap-3 rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0 py-6 lg:py-8 ">
                       <NumberFormat
                         suffix={' ' + item.token}
-                        className={`h-[24px] max-w-full bg-transparent pt-2 text-center text-[28px] font-bold`}
+                        className={`h-[24px] max-w-full bg-transparent pt-1 text-center text-[28px] font-bold text-white placeholder-gray-50`}
                         value={floorFraction(item.amount) || null}
                         onChange={(event: any) => {
                           item.amount = event.target.value.replace(

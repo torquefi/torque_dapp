@@ -71,18 +71,18 @@ export default function CreateBorrowVault() {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="flex h-[140px] flex-col items-center justify-center rounded-xl bg-gradient-to-b from-[#161616] to-[#161616]/40">
                     <NumberFormat
-                      suffix={' ' + item.borrowCoin}
-                      className={`h-[24px] max-w-full bg-transparent pt-2 text-center font-larken text-[28px] font-bold`}
+                      suffix={' ' + item.depositCoin}
+                      className={`h-[24px] max-w-full bg-transparent pt-1 text-center font-larken text-[28px] font-bold`}
                       value={floorFraction(item.amount) || null}
                       onChange={(event: any) => {
                         item.amount = event.target.value.replace(
-                          item.borrowCoin,
+                          item.depositCoin,
                           ''
                         )
                         setDataBorrow([...dataBorrow])
                       }}
                       thousandSeparator
-                      placeholder={'0.00 ' + item.borrowCoin}
+                      placeholder={'0.00 ' + item.depositCoin}
                     />
                     <p className="mt-[12px] text-[#959595]">Collateral</p>
                   </div>
