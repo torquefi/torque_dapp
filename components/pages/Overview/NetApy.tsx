@@ -12,7 +12,7 @@ export default function NetApy() {
   return (
     <div className="grid gap-4 text-center leading-none xs:grid-cols-2">
       {isLoading ? (
-        <div className="">
+        <div className="mt-1">
           <SkeletonDefault height={'50vh'} width={'100%'} />
         </div>
       ) : (
@@ -45,7 +45,7 @@ export default function NetApy() {
         </div>
       )}
       {isLoading ? (
-        <div className="">
+        <div className="mt-1">
           <SkeletonDefault height={'50vh'} width={'100%'} />
         </div>
       ) : (
