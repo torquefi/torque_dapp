@@ -21,26 +21,36 @@ export const BoostPage = () => {
 
     return (
       <>
-        <div className="flex min-w-[100px] flex-col items-center justify-center gap-2">
-          <CurrencySwitch
-            tokenSymbol={item?.token}
-            tokenValue={item.deposit}
-            usdDefault
-            className="text-[22px]"
-            decimalScale={1}
-          />
-          <div className="font-mona text-[14px] text-[#959595]">Deposited</div>
-        </div>
-        <div className="flex min-w-[100px] flex-col items-center justify-center gap-2">
-          <CurrencySwitch
-            tokenSymbol={item?.token}
-            tokenValue={item.earnings}
-            usdDefault
-            className="text-[22px]"
-            decimalScale={1}
-          />
-          <div className="font-mona text-[14px] text-[#959595]">Earnings</div>
-        </div>
+        <CurrencySwitch
+          tokenSymbol={item?.token}
+          tokenValue={item.deposit}
+          usdDefault
+          className="-my-4 flex h-full min-w-[100px] flex-col items-center justify-center gap-2 py-4"
+          render={(value) => (
+            <>
+              <p className="text-[22px]">{value}</p>
+              <div className="font-mona text-[14px] text-[#959595]">
+                Deposited
+              </div>
+            </>
+          )}
+          decimalScale={1}
+        />
+        <CurrencySwitch
+          tokenSymbol={item?.token}
+          tokenValue={item.earnings}
+          usdDefault
+          className="-my-4 flex h-full min-w-[100px] flex-col items-center justify-center gap-2 py-4"
+          decimalScale={1}
+          render={(value) => (
+            <>
+              <p className="text-[22px]">{value}</p>
+              <div className="font-mona text-[14px] text-[#959595]">
+                Earnings
+              </div>
+            </>
+          )}
+        />
         <div className="flex min-w-[100px] flex-col items-center justify-center gap-2">
           <div className="text-[22px]">{item.APY}</div>
           <div className="font-mona text-[14px] text-[#959595]">
@@ -50,7 +60,7 @@ export const BoostPage = () => {
       </>
     )
   }
-  console.log(boostVault)
+
   return (
     <>
       <div className="relative">
@@ -146,19 +156,27 @@ export const BoostPage = () => {
                         Deposit
                       </div>
                     </div>
-                    <div className="flex w-full flex-col items-center justify-center gap-3 rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0 py-6 lg:py-8">
+                    <div className="flex w-full flex-col items-center justify-center rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0">
                       <CurrencySwitch
                         tokenSymbol={item?.token}
                         tokenValue={
                           (Number(item.amount) * Number(item.APY)) / 100
                         }
                         usdDefault
-                        className="text-[32px]"
+                        className="w-full space-y-3 py-6 lg:py-8"
                         decimalScale={2}
+                        render={(value) => (
+                          <>
+                            <p className="text-[32px]">{value}</p>
+                            <div className="font-mona text-[16px] text-[#959595] lg:text-[20px]">
+                              3-Year Value
+                            </div>
+                          </>
+                        )}
                       />
-                      <div className="font-mona text-[16px] text-[#959595] lg:text-[20px]">
+                      {/* <div className="font-mona text-[16px] text-[#959595] lg:text-[20px]">
                         3-Year Value
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                   <div className="flex w-full items-center justify-between py-2 font-mona text-[16px] text-[#959595]">

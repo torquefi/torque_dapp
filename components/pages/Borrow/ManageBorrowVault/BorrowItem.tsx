@@ -21,27 +21,31 @@ export default function BorrowItem() {
 
   const summaryInfo = (
     <div className="flex w-full text-center md:w-[400px] lg:w-[500px]">
-      <div className="w-1/4 space-y-1">
-        <CurrencySwitch
-          tokenSymbol="BTC"
-          tokenValue={12192}
-          className="whitespace-nowrap font-larken text-[22px]"
-          decimalScale={1}
-        />
-        <p className="whitespace-nowrap text-[14px] text-[#959595]">
-          Collateral
-        </p>
-      </div>
-      <div className="w-1/4 space-y-1">
-        <CurrencySwitch
-          tokenSymbol="BTC"
-          tokenValue={0.76}
-          usdDefault
-          className="whitespace-nowrap font-larken text-[22px]"
-          decimalScale={1}
-        />
-        <p className="whitespace-nowrap text-[14px] text-[#959595]">Borrowed</p>
-      </div>
+      <CurrencySwitch
+        tokenSymbol="BTC"
+        tokenValue={12192}
+        className="-my-4 w-1/4 space-y-1 py-4 font-larken"
+        decimalScale={1}
+        render={(value) => (
+          <>
+            <p className="text-[22px]">{value}</p>
+            <p className="font-mona text-[14px] text-[#959595]">Collateral</p>
+          </>
+        )}
+      />
+      <CurrencySwitch
+        tokenSymbol="BTC"
+        tokenValue={0.76}
+        usdDefault
+        className="-my-4 w-1/4 space-y-1 py-4 font-larken"
+        decimalScale={1}
+        render={(value) => (
+          <>
+            <p className="text-[22px]">{value}</p>
+            <p className="font-mona text-[14px] text-[#959595]">Borrowed</p>
+          </>
+        )}
+      />
       <div className="w-1/4 space-y-1">
         <p className="whitespace-nowrap font-larken text-[22px]">
           {(59.36).toFixed(2)}%

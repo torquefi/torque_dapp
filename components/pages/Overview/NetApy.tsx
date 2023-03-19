@@ -57,21 +57,24 @@ export default function NetApy() {
               alt=""
             />
           </div>
-          <div className="space-y-2">
-            {isLoading ? (
-              <div className="">
-                <SkeletonDefault height={'4vh'} width={'10vw'} />
-              </div>
-            ) : (
-              <CurrencySwitch
-                tokenSymbol="TORQ"
-                tokenValue={0}
-                usdDefault
-                className="font-larken text-[28px]"
-              />
-            )}
-            <p className="text-[#959595]">Rewards</p>
-          </div>
+          {isLoading ? (
+            <div className="">
+              <SkeletonDefault height={'4vh'} width={'10vw'} />
+            </div>
+          ) : (
+            <CurrencySwitch
+              tokenSymbol="TORQ"
+              tokenValue={0}
+              usdDefault
+              className="w-full space-y-2 text-center font-larken text-[28px]"
+              render={(value) => (
+                <>
+                  <p>{value}</p>
+                  <p className="font-mona text-16 text-[#959595]">Rewards</p>
+                </>
+              )}
+            />
+          )}
           <button
             className="bg-gradient-primary w-[140px] rounded-full py-[6px] font-mona uppercase transition-all duration-200 ease-linear hover:w-[154px]"
             onClick={() => toast.message('Coming soon')}
