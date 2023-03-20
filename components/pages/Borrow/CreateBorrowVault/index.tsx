@@ -86,14 +86,21 @@ export default function CreateBorrowVault() {
                     />
                     <p className="mt-[12px] text-[#959595]">Collateral</p>
                   </div>
-                  <div className="flex h-[140px] flex-col items-center justify-center rounded-xl bg-gradient-to-b from-[#161616] to-[#161616]/40">
+                  <div className="rounded-xl bg-gradient-to-b from-[#161616] to-[#161616]/40">
                     <CurrencySwitch
                       tokenSymbol={item?.borrowCoin}
                       tokenValue={item.amount / 2}
                       usdDefault
-                      className="font-larken text-[28px]"
+                      className="flex h-[140px] w-full flex-col items-center justify-center font-larken text-[28px]"
+                      render={(value) => (
+                        <>
+                          <p>{value}</p>
+                          <p className="mt-[12px] font-mona text-16 text-[#959595]">
+                            Borrowing
+                          </p>
+                        </>
+                      )}
                     />
-                    <p className="mt-[12px] text-[#959595]">Borrowing</p>
                   </div>
                 </div>
                 <div className="flex justify-between text-[#959595]">

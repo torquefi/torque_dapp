@@ -16,26 +16,32 @@ export const StakePage = () => {
   const summaryInfor = (item: any) => {
     return (
       <>
-        <div className="flex min-w-[100px] flex-col items-center justify-center gap-2">
-          <CurrencySwitch
-            tokenSymbol={item?.name}
-            tokenValue={item.deposited}
-            usdDefault
-            className="text-[22px]"
-            decimalScale={2}
-          />
-          <div className="font-mona text-[14px] text-[#959595]">Deposited</div>
-        </div>
-        <div className="flex min-w-[100px] flex-col items-center justify-center gap-2">
-          <CurrencySwitch
-            tokenSymbol={item?.name}
-            tokenValue={item.deposited}
-            usdDefault
-            className="text-[22px]"
-            decimalScale={2}
-          />
-          <div className="font-mona text-[14px] text-[#959595]">Earnings</div>
-        </div>
+        <CurrencySwitch
+          tokenSymbol={item?.name}
+          tokenValue={item.deposited}
+          usdDefault
+          className="-my-4 flex min-w-[100px] flex-col items-center justify-center gap-2 py-4"
+          render={(value) => (
+            <>
+              <p className="text-[22px]">{value}</p>
+              <p className="font-mona text-[14px] text-[#959595]">Deposited</p>
+            </>
+          )}
+          decimalScale={2}
+        />
+        <CurrencySwitch
+          tokenSymbol={item?.name}
+          tokenValue={item.deposited}
+          usdDefault
+          className="-my-4 flex min-w-[100px] flex-col items-center justify-center gap-2 py-4"
+          render={(value) => (
+            <>
+              <p className="text-[22px]">{value}</p>
+              <p className="font-mona text-[14px] text-[#959595]">Earnings</p>
+            </>
+          )}
+          decimalScale={2}
+        />
         <div className="flex min-w-[100px] flex-col items-center justify-center gap-2">
           <div className="text-[22px]">{item.APY}%</div>
           <div className="font-mona text-[14px] text-[#959595]">Net APY</div>
@@ -156,17 +162,22 @@ export const StakePage = () => {
                       />
                       <div className="font-mona text-[#959595]">Your Stake</div>
                     </div>
-                    <div className="flex w-full flex-col items-center justify-center gap-3 rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0 py-6 lg:py-8 ">
+                    <div className="w-full rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0">
                       <CurrencySwitch
                         tokenSymbol={item?.token}
                         tokenValue={(item.amount * item.APY) / 100}
                         usdDefault
-                        className="text-[32px]"
+                        className="flex w-full flex-col items-center justify-center gap-3 py-6 lg:py-8"
                         decimalScale={2}
+                        render={(value) => (
+                          <>
+                            <p className="text-[32px]">{value}</p>
+                            <div className="font-mona text-[#959595]">
+                              3-Year Value
+                            </div>
+                          </>
+                        )}
                       />
-                      <div className="font-mona text-[#959595]">
-                        3-Year Value
-                      </div>
                     </div>
                   </div>
                   <div className="mt-2 flex w-full items-center justify-between font-mona text-[#959595]">

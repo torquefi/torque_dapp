@@ -8,9 +8,8 @@ interface CurrencySwitchProps {
   tokenValue: number
   usdDefault?: boolean
   className?: string
-  prefix?: string
-  suffix?: string
   decimalScale?: number
+  render?: (str: string) => any
 }
 
 export default function CurrencySwitch({
@@ -18,9 +17,8 @@ export default function CurrencySwitch({
   tokenValue,
   usdDefault = false,
   className = '',
-  prefix = '',
-  suffix = '',
   decimalScale = 2,
+  render,
 }: CurrencySwitchProps) {
   const [isShowUsd, setShowUsd] = useState(usdDefault)
   const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
@@ -29,19 +27,20 @@ export default function CurrencySwitch({
     ? tokenValue * (usdPrice?.[tokenSymbol] || 1)
     : tokenValue
 
+  const strToShow =
+    (isShowUsd ? '$' : '') +
+    toHumanRead(valueToShow, decimalScale) +
+    (isShowUsd ? '' : ' ' + tokenSymbol)
+
   return (
     <div
       className={
-        'cursor-pointer select-none transition-all active:scale-90' +
+        'cursor-pointer select-none text-center transition-all active:scale-90' +
         ` ${className}`
       }
       onClick={() => setShowUsd(!isShowUsd)}
     >
-      {prefix}
-      {isShowUsd ? '$' : ''}
-      {toHumanRead(valueToShow, decimalScale)}
-      {isShowUsd ? '' : ' ' + tokenSymbol}
-      {suffix}
+      {render ? render(strToShow) : strToShow}
     </div>
   )
 }
