@@ -1,5 +1,6 @@
 import NumberFormat from '@/components/NumberFormat'
 import CurrencySwitch from '@/components/common/CurrencySwitch'
+import InputCurrencySwitch from '@/components/common/InputCurrencySwitch'
 import Popover from '@/components/common/Popover'
 import SkeletonDefault from '@/components/skeleton'
 import { floorFraction } from '@/lib/helpers/number'
@@ -13,6 +14,12 @@ export default function CreateBorrowVault() {
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1000)
   }, [])
+
+  const price: any = {
+    eth: 1780,
+    btc: 28000,
+    usdc: 1,
+  }
   return (
     <div className="space-y-[24px]">
       {isLoading ? (
@@ -69,27 +76,28 @@ export default function CreateBorrowVault() {
                   </Popover>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="flex h-[140px] flex-col items-center justify-center rounded-xl bg-gradient-to-b from-[#161616] to-[#161616]/40">
-                    <NumberFormat
-                      suffix={' ' + item.depositCoin}
-                      className={`h-[24px] max-w-full bg-transparent pt-1 text-center font-larken text-[28px] font-bold`}
-                      value={floorFraction(item.amount) || null}
-                      onChange={(event: any) => {
-                        item.amount = event.target.value.replace(
-                          item.depositCoin,
-                          ''
-                        )
+                  <div className="flex h-[140px] flex-col items-center justify-center rounded-xl bg-gradient-to-b from-[#161616] to-[#161616]/40 font-larken">
+                    <InputCurrencySwitch
+                      tokenSymbol={item?.depositCoin}
+                      tokenValue={Number(item.amount)}
+                      usdDefault
+                      className="w-full space-y-3 py-4 font-larken lg:py-7"
+                      decimalScale={2}
+                      subtitle="Collateral"
+                      onChange={(e) => {
+                        item.amount = e
                         setDataBorrow([...dataBorrow])
                       }}
-                      thousandSeparator
-                      placeholder={'0.00 ' + item.depositCoin}
                     />
-                    <p className="mt-[12px] text-[#959595]">Collateral</p>
                   </div>
                   <div className="rounded-xl bg-gradient-to-b from-[#161616] to-[#161616]/40">
                     <CurrencySwitch
                       tokenSymbol={item?.borrowCoin}
-                      tokenValue={item.amount / 2}
+                      tokenValue={
+                        (item.amount *
+                          price[item?.depositCoin.toLocaleLowerCase()]) /
+                        2
+                      }
                       usdDefault
                       className="flex h-[140px] w-full flex-col items-center justify-center font-larken text-[28px]"
                       render={(value) => (

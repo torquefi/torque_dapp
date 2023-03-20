@@ -2,7 +2,7 @@
   "name": "doraemon",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3001",
+    "dev": "next dev -p 3888",
     "build": "next build",
     "start": "next start -p 3001",
     "lint": "next lint"

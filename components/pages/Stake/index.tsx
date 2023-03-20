@@ -1,5 +1,6 @@
 import NumberFormat from '@/components/NumberFormat'
 import CurrencySwitch from '@/components/common/CurrencySwitch'
+import InputCurrencySwitch from '@/components/common/InputCurrencySwitch'
 import SkeletonDefault from '@/components/skeleton'
 import { floorFraction } from '@/lib/helpers/number'
 import { useEffect, useState } from 'react'
@@ -145,27 +146,24 @@ export const StakePage = () => {
                     </div>
                   </div>
                   <div className="mt-6 flex w-full items-center justify-center gap-4 ">
-                    <div className="flex w-1/2 flex-col items-center justify-center gap-3 rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0 py-6 lg:py-8 ">
-                      <NumberFormat
-                        suffix={' ' + item.token}
-                        className={`h-[24px] max-w-full bg-transparent pt-1 text-center text-[28px] font-bold text-white placeholder-gray-50`}
-                        value={floorFraction(item.amount) || null}
-                        onChange={(event: any) => {
-                          item.amount = event.target.value.replace(
-                            item.token,
-                            ''
-                          )
+                    <div className="to-[#161616]/08 flex w-1/2 flex-col items-center justify-center gap-3 rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616]">
+                      <InputCurrencySwitch
+                        tokenSymbol={item?.token}
+                        tokenValue={Number(item.amount)}
+                        usdDefault
+                        className="w-full space-y-3 py-6 lg:py-7"
+                        decimalScale={2}
+                        subtitle="Your Stake"
+                        onChange={(e) => {
+                          item.amount = e
                           setStakingPool([...stakingPool])
                         }}
-                        thousandSeparator
-                        placeholder={'0.00 ' + item.token}
                       />
-                      <div className="font-mona text-[#959595]">Your Stake</div>
                     </div>
                     <div className="w-full rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0">
                       <CurrencySwitch
                         tokenSymbol={item?.token}
-                        tokenValue={(item.amount * item.APY) / 100}
+                        tokenValue={(item.amount * (1 + item.APY * 3)) / 100}
                         usdDefault
                         className="flex w-full flex-col items-center justify-center gap-3 py-6 lg:py-8"
                         decimalScale={2}
@@ -181,7 +179,7 @@ export const StakePage = () => {
                     </div>
                   </div>
                   <div className="mt-2 flex w-full items-center justify-between font-mona text-[#959595]">
-                    <div className="">Variable APY</div>
+                    <div className="">Variable APR</div>
                     <div className="">{item.APY}%</div>
                   </div>
                   <button

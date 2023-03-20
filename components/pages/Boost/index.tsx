@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import classNames from 'classnames'
 import { floorFraction } from '@/lib/helpers/number'
+import InputCurrencySwitch from '@/components/common/InputCurrencySwitch'
 
 export const BoostPage = () => {
   const [dataBoostVault, setDataBoostVault] = useState(DATA_BOOST_VAULT)
@@ -17,8 +18,6 @@ export const BoostPage = () => {
     setTimeout(() => setIsLoading(false), 1500)
   }, [])
   const summaryInfor = (item: any) => {
-    console.log(item)
-
     return (
       <>
         <CurrencySwitch
@@ -137,38 +136,31 @@ export const BoostPage = () => {
                     </Popover>
                   </div>
                   <div className="mt-4 flex w-full items-center justify-center gap-4 ">
-                    <div className="flex w-1/2 flex-col items-center justify-center gap-3 rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0 py-6 lg:py-8">
-                      <NumberFormat
-                        suffix={' ' + item.token}
-                        className={`h-[24px] max-w-full bg-transparent pt-1 text-center text-[28px] font-bold`}
-                        value={floorFraction(amount) || null}
-                        onChange={(event: any) => {
-                          item.amount = event.target.value.replace(
-                            item.token,
-                            ''
-                          )
+                    <div className="to-[#161616]/08 flex w-1/2 flex-col items-center justify-center gap-3 rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616]">
+                      <InputCurrencySwitch
+                        tokenSymbol={item?.token}
+                        tokenValue={Number(item.amount)}
+                        usdDefault
+                        className="w-full space-y-3 py-6 lg:py-7"
+                        decimalScale={2}
+                        subtitle="Deposit"
+                        onChange={(e) => {
+                          item.amount = e
                           setBoostVault([...boostVault])
                         }}
-                        thousandSeparator
-                        placeholder={'0.00 ' + item.token}
                       />
-                      <div className="font-mona text-[16px] text-[#959595] lg:text-[20px]">
-                        Deposit
-                      </div>
                     </div>
                     <div className="flex w-full flex-col items-center justify-center rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0">
                       <CurrencySwitch
                         tokenSymbol={item?.token}
-                        tokenValue={
-                          (Number(item.amount) * Number(item.APY)) / 100
-                        }
+                        tokenValue={(Number(item.amount) * 1.16391500742) / 100}
                         usdDefault
                         className="w-full space-y-3 py-6 lg:py-8"
                         decimalScale={2}
                         render={(value) => (
                           <>
                             <p className="text-[32px]">{value}</p>
-                            <div className="font-mona text-[16px] text-[#959595] lg:text-[20px]">
+                            <div className="font-mona text-[16px] text-[#959595]">
                               3-Year Value
                             </div>
                           </>
