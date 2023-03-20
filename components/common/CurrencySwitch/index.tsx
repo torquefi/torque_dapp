@@ -1,4 +1,4 @@
-import { toHumanRead } from '@/lib/helpers/number'
+import { toMetricUnits } from '@/lib/helpers/number'
 import { AppStore } from '@/types/store'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -29,7 +29,7 @@ export default function CurrencySwitch({
 
   const strToShow =
     (isShowUsd ? '$' : '') +
-    toHumanRead(valueToShow, decimalScale) +
+    toMetricUnits(valueToShow, decimalScale) +
     (isShowUsd ? '' : ' ' + tokenSymbol)
 
   return (
