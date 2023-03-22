@@ -56,26 +56,23 @@ export function Chart(props: any) {
       </g>
     )
   }
+
   const dataFake = [
     {
       time: new Date().toISOString(),
-      balanceUsd: 0,
-      balanceUsdDisplay: 50,
+      balanceUsd: 18,
     },
     {
       time: new Date().toISOString(),
-      balanceUsd: 0,
-      balanceUsdDisplay: 50,
+      balanceUsd: 13,
     },
     {
       time: new Date().toISOString(),
-      balanceUsd: 0,
-      balanceUsdDisplay: 50,
+      balanceUsd: 24,
     },
     {
       time: new Date().toISOString(),
-      balanceUsd: 0,
-      balanceUsdDisplay: 50,
+      balanceUsd: 30,
     },
   ]
   return (
@@ -89,11 +86,6 @@ export function Chart(props: any) {
             axisLine={{ color: '#77838F', opacity: 0.3 }}
             tickLine={false}
             tick={<CustomizedAxisTick />}
-            // tick={{
-            //   fontSize: 16,
-            //   color: '#77838F',
-            //   fontFamily: 'BrinnanRegular',
-            // }}
             padding={{ left: 10, right: 10 }}
             dataKey="time"
             minTickGap={80}
@@ -102,7 +94,7 @@ export function Chart(props: any) {
               format(parseISO(timestamp), 'MMM dd').toUpperCase()
             }
           />
-          <YAxis domain={[-50, 50]} hide />
+          <YAxis domain={[0, 50]} hide />
           <Tooltip content={CustomTooltip} />
 
           <defs>
@@ -128,7 +120,7 @@ export function Chart(props: any) {
           />
           <Area
             type="monotone"
-            dataKey="balanceUsdDisplay"
+            dataKey="balanceUsd"
             name="area"
             strokeWidth={0}
             fillOpacity={1}
