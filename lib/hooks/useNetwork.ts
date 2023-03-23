@@ -86,7 +86,7 @@ export default function useNetwork() {
     })
 
   return {
-    network: objNetworks[chainIdNumber],
+    network: objNetworks[chainIdNumber as any],
     requestSwitchNetwork,
   }
 }
