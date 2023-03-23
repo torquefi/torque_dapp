@@ -1,5 +1,4 @@
 import NumberFormat from '@/components/common/NumberFormat'
-import { floorFraction, toHumanRead } from '@/lib/helpers/number'
 import { floorFraction, toMetricUnits } from '@/lib/helpers/number'
 import { AppStore } from '@/types/store'
 import { useEffect, useRef, useState } from 'react'
