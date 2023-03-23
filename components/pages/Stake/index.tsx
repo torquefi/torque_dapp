@@ -5,6 +5,7 @@ import SkeletonDefault from '@/components/skeleton'
 import { floorFraction } from '@/lib/helpers/number'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
+import { Chart } from '@/components/common/Chart'
 
 export const StakePage = () => {
   const [dataStake, setDataStake] = useState(DATA_STAKE)
@@ -266,11 +267,7 @@ export const StakePage = () => {
                     {summaryInfor(item)}
                   </div>
                   <div className="">
-                    <img
-                      src="/assets/pages/boost/chart.svg"
-                      alt=""
-                      className=""
-                    />
+                    <Chart />
                   </div>
                   <div className="mt-10">
                     <div className="text-[28px]">Withdraw TORQ</div>
