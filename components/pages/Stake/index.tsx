@@ -267,8 +267,8 @@ export const StakePage = () => {
                     {summaryInfor(item)}
                   </div>
                   <div className="">
-                    {/* <Chart /> */}
-                    <img src="/assets/pages/boost/chart.svg" alt="" />
+                    <Chart />
+                    {/* <img src="/assets/pages/boost/chart.svg" alt="" /> */}
                   </div>
                   <div className="mt-10">
                     <div className="text-[28px]">Withdraw TORQ</div>

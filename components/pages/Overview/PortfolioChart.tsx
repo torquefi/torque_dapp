@@ -29,10 +29,10 @@ export default function PortfolioChart() {
             )}
           </p>
         </div>
-        <img src="/assets/overview-page/chart.png" alt="" />
-        {/* <div className="pt-[100px]">
+        {/* <img src="/assets/overview-page/chart.png" alt="" /> */}
+        <div className="pt-[100px]">
           <Chart />
-        </div> */}
+        </div>
       </div>
     )
 }
