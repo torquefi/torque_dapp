@@ -151,7 +151,7 @@ export const StakePage = () => {
                         tokenSymbol={item?.token}
                         tokenValue={Number(item.amount)}
                         usdDefault
-                        className="w-full space-y-3 py-6 lg:py-7"
+                        className="w-full py-6 lg:py-7"
                         decimalScale={2}
                         subtitle="Your Stake"
                         onChange={(e) => {
@@ -163,7 +163,7 @@ export const StakePage = () => {
                     <div className="w-full rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0">
                       <CurrencySwitch
                         tokenSymbol={item?.token}
-                        tokenValue={(item.amount * (1 + item.APY * 3)) / 100}
+                        tokenValue={item.amount * item.rate}
                         usdDefault
                         className="flex w-full flex-col items-center justify-center gap-3 py-6 lg:py-8"
                         decimalScale={2}
@@ -328,6 +328,7 @@ const STAKING_POOLS = [
     bonus_TORQ: 24,
     deposit: 0,
     threeYearValue: 0,
+    rate: 1.72,
     APY: 24,
   },
   {
@@ -336,6 +337,7 @@ const STAKING_POOLS = [
     bonus_TORQ: 24,
     deposit: 0,
     threeYearValue: 0,
+    rate: 2.68,
     APY: 56,
   },
 ]

@@ -141,7 +141,7 @@ export const BoostPage = () => {
                         tokenSymbol={item?.token}
                         tokenValue={Number(item.amount)}
                         usdDefault
-                        className="w-full space-y-3 py-6 lg:py-7"
+                        className="w-full py-6 lg:py-7"
                         decimalScale={2}
                         subtitle="Deposit"
                         onChange={(e) => {
@@ -153,7 +153,7 @@ export const BoostPage = () => {
                     <div className="flex w-full flex-col items-center justify-center rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0">
                       <CurrencySwitch
                         tokenSymbol={item?.token}
-                        tokenValue={(Number(item.amount) * 1.16391500742) / 100}
+                        tokenValue={Number(item.amount) * item.rate}
                         usdDefault
                         className="w-full space-y-3 py-6 lg:py-8"
                         decimalScale={2}
@@ -342,6 +342,7 @@ const BOOST_VAULTS = [
     deposit: 0,
     threeYearValue: 0,
     APY: 5.19,
+    rate: 1.16391500742,
     amount: 0,
   },
   {
@@ -350,6 +351,7 @@ const BOOST_VAULTS = [
     deposit: 0,
     threeYearValue: 0,
     APY: 4.49,
+    rate: 1.14082698313,
     amount: 0,
   },
 ]
