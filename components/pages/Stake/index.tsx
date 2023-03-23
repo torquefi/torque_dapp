@@ -1,4 +1,4 @@
-import NumberFormat from '@/components/NumberFormat'
+import NumberFormat from '@/components/common/NumberFormat'
 import CurrencySwitch from '@/components/common/CurrencySwitch'
 import InputCurrencySwitch from '@/components/common/InputCurrencySwitch'
 import SkeletonDefault from '@/components/skeleton'
