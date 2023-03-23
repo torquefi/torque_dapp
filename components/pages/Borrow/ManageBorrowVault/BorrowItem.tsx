@@ -1,3 +1,4 @@
+import { Chart } from '@/components/common/Chart'
 import CurrencySwitch from '@/components/common/CurrencySwitch'
 import SkeletonDefault from '@/components/skeleton'
 import { useEffect, useState } from 'react'
@@ -102,12 +103,8 @@ export default function BorrowItem() {
           }
         >
           <div className="w-full md:hidden">{summaryInfo}</div>
-          <div className="h-[250px] w-full md:w-[40%] lg:w-[50%] xl:w-[55%]">
-            <img
-              src="/assets/pages/boost/chart.svg"
-              alt=""
-              className="w-full"
-            />
+          <div className=" w-full md:w-[40%] lg:w-[50%] xl:w-[55%]">
+            <Chart />
           </div>
           <div className="w-full space-y-6 md:w-[60%] md:pl-[36px] lg:w-[50%] xl:w-[45%]">
             <div className="flex items-center justify-between">
