@@ -75,6 +75,7 @@ export function Chart(props: any) {
       balanceUsd: 24,
     },
   ]
+
   return (
     <div className="w-full">
       <ResponsiveContainer width="100%" height={280}>

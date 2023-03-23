@@ -1,8 +1,8 @@
-import { floorFraction, toHumanRead } from '@/lib/helpers/number'
+import NumberFormat from '@/components/common/NumberFormat'
+import { floorFraction, toMetricUnits } from '@/lib/helpers/number'
 import { AppStore } from '@/types/store'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
-import NumberFormat from '../NumberFormat'
 
 interface InputCurrencySwitchProps {
   tokenSymbol: string
@@ -40,14 +40,11 @@ export default function InputCurrencySwitch({
 
   const strToShow =
     (isShowUsd ? '$' : '') +
-    toHumanRead(valueToShow, decimalScale) +
+    toMetricUnits(valueToShow, decimalScale) +
     (isShowUsd ? '' : ' ' + tokenSymbol)
 
   useEffect(() => {
-    if (onChange)
-      if (isShowUsd)
-        onChange(inputAmount / price[tokenSymbol.toLocaleLowerCase()])
-      else onChange(inputAmount)
+    if (onChange) onChange(inputAmount)
   }, [inputAmount])
 
   useEffect(() => {
@@ -65,19 +62,22 @@ export default function InputCurrencySwitch({
       onClick={() => setShowUsd(!isShowUsd)}
     >
       <NumberFormat
-        suffix={!isShowUsd && ' ' + tokenSymbol}
-        prefix={isShowUsd && '$ '}
-        className={` max-w-full bg-transparent pb-1 text-center text-[32px] font-bold text-white placeholder-gray-50`}
-        value={floorFraction(inputAmount) + tokenSymbol || null}
-        onChange={(event: any) => {
-          setInputAmount(
-            event.target.value
-              ?.replaceAll(/($|,|\b)/g, '')
-              .replace(tokenSymbol, '')
-          )
+        suffix={!isShowUsd ? ' ' + tokenSymbol : ''}
+        prefix={isShowUsd ? '$ ' : ''}
+        className={`h-auto max-w-[95%] bg-transparent pt-1 text-center text-[28px] font-bold text-white placeholder-gray-50`}
+        value={floorFraction(inputAmount) || null}
+        onChange={(event: any, value: any) => {
+          setInputAmount(value)
         }}
         thousandSeparator
-        placeholder={'0.00 ' + tokenSymbol}
+        placeholder={
+          (isShowUsd ? '$' : '') +
+          '0.00 ' +
+          (isShowUsd ? '' : ' ' + tokenSymbol)
+        }
+        inputProps={{
+          onClick: (e: any) => e?.stopPropagation(),
+        }}
       />
       {subtitle && (
         <div className="font-mona text-[16px] text-[#959595]">{subtitle}</div>
