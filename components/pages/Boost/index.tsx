@@ -8,7 +8,6 @@ import { toast } from 'sonner'
 import classNames from 'classnames'
 import { floorFraction } from '@/lib/helpers/number'
 import InputCurrencySwitch from '@/components/common/InputCurrencySwitch'
-import { Chart } from '@/components/common/Chart'
 
 export const BoostPage = () => {
   const [dataBoostVault, setDataBoostVault] = useState(DATA_BOOST_VAULT)
@@ -276,7 +275,11 @@ export const BoostPage = () => {
                     {summaryInfor(item)}
                   </div>
                   <div className="">
-                    <Chart />
+                    <img
+                      src="/assets/pages/boost/chart.svg"
+                      alt=""
+                      className=""
+                    />
                   </div>
                   <div className="mt-10">
                     <div className="text-[28px]">Withdraw ETH</div>
