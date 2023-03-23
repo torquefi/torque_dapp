@@ -142,7 +142,7 @@ export const BoostPage = () => {
                         tokenSymbol={item?.token}
                         tokenValue={Number(item.amount)}
                         usdDefault
-                        className="w-full py-6 lg:py-7"
+                        className="w-full py-4 lg:py-6"
                         decimalScale={2}
                         subtitle="Deposit"
                         onChange={(e) => {
