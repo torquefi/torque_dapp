@@ -1,7 +1,7 @@
 import CurrencySwitch from '@/components/common/CurrencySwitch'
 import Popover from '@/components/common/Popover'
 import SkeletonDefault from '@/components/skeleton'
-import NumberFormat from '@/components/common/NumberFormat'
+import NumberFormat from '@/components/NumberFormat'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
