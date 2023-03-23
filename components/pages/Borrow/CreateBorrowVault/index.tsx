@@ -96,7 +96,7 @@ export default function CreateBorrowVault() {
                       tokenValue={
                         (item.amount *
                           price[item?.depositCoin.toLocaleLowerCase()] *
-                          Number(item.loanToValue)) /
+                          50) /
                         100
                       }
                       usdDefault
