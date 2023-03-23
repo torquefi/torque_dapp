@@ -18,7 +18,7 @@ export default function Banner() {
       <div className="relative">
         <img
           className="rounded-xl"
-          src="/assets/banners/borrow.png"
+          src="/assets/banners/borrow-compressed.png"
           alt="Torque Borrow"
         />
         <Link href="/overview">
