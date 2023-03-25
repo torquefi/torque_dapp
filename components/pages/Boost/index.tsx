@@ -104,7 +104,7 @@ export const BoostPage = () => {
                   <div className="flex items-center justify-between w-full">
                     <div className="flex items-center">
                       <img
-                        src={`/icons/coin/${item.token.toLocaleLowerCase()}.svg`}
+                        src={`/icons/coin/${item.token.toLocaleLowerCase()}.png`}
                         alt=""
                         className="w-16 xs:w-20 lg:w-24"
                       />
