@@ -2,6 +2,7 @@ import { toMetricUnits } from '@/lib/helpers/number'
 import { AppStore } from '@/types/store'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
+import NumberFormat from '../NumberFormat'
 
 interface CurrencySwitchProps {
   tokenSymbol: string
@@ -29,13 +30,17 @@ export default function CurrencySwitch({
 
   const strToShow =
     (isShowUsd ? '$' : '') +
-    toMetricUnits(valueToShow, decimalScale) +
+    // toMetricUnits(valueToShow, decimalScale) +
+    Intl.NumberFormat(undefined, {
+      maximumFractionDigits: decimalScale,
+      minimumFractionDigits: decimalScale,
+    }).format(+valueToShow) +
     (isShowUsd ? '' : ' ' + tokenSymbol)
 
   return (
     <div
       className={
-        'cursor-pointer select-none text-center transition-all active:scale-90' +
+        'cursor-pointer select-none text-center leading-none transition-all active:scale-90' +
         ` ${className}`
       }
       onClick={() => setShowUsd(!isShowUsd)}

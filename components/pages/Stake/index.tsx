@@ -152,7 +152,7 @@ export const StakePage = () => {
                         tokenSymbol={item?.token}
                         tokenValue={Number(item.amount)}
                         usdDefault
-                        className="w-full py-6 lg:py-7"
+                        className="w-full space-y-3 py-6 lg:py-8"
                         decimalScale={2}
                         subtitle="Your Stake"
                         onChange={(e) => {
@@ -164,13 +164,13 @@ export const StakePage = () => {
                     <div className="w-full rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0">
                       <CurrencySwitch
                         tokenSymbol={item?.token}
-                        tokenValue={item.amount * item.rate}
+                        tokenValue={+item.amount || 0 * item.rate}
                         usdDefault
-                        className="flex w-full flex-col items-center justify-center gap-3 py-6 lg:py-8"
+                        className="flex w-full flex-col items-center justify-center space-y-3 py-6 lg:py-8"
                         decimalScale={2}
                         render={(value) => (
                           <>
-                            <p className="text-[32px]">{value}</p>
+                            <p className="text-[28px] leading-none">{value}</p>
                             <div className="font-mona text-[#959595]">
                               3-Year Value
                             </div>
@@ -328,6 +328,7 @@ const STAKING_POOLS = [
     threeYearValue: 0,
     rate: 1.72,
     APY: 24,
+    amount: 0,
   },
   {
     label: 'LP',
@@ -337,5 +338,6 @@ const STAKING_POOLS = [
     threeYearValue: 0,
     rate: 2.68,
     APY: 56,
+    amount: 0,
   },
 ]

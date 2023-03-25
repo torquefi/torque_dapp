@@ -23,7 +23,7 @@ export const BoostPage = () => {
       <>
         <CurrencySwitch
           tokenSymbol={item?.token}
-          tokenValue={item.deposit}
+          tokenValue={item.deposited}
           usdDefault
           className="-my-4 flex h-full min-w-[100px] flex-col items-center justify-center gap-2 py-4"
           render={(value) => (
@@ -142,7 +142,7 @@ export const BoostPage = () => {
                         tokenSymbol={item?.token}
                         tokenValue={Number(item.amount)}
                         usdDefault
-                        className="w-full py-6 lg:py-7"
+                        className="w-full space-y-3 py-6 lg:py-8"
                         decimalScale={2}
                         subtitle="Deposit"
                         onChange={(e) => {
@@ -151,7 +151,7 @@ export const BoostPage = () => {
                         }}
                       />
                     </div>
-                    <div className="flex w-full flex-col items-center justify-center rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0">
+                    <div className="flex w-[50%] flex-col items-center justify-center rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0">
                       <CurrencySwitch
                         tokenSymbol={item?.token}
                         tokenValue={Number(item.amount) * item.rate}
@@ -160,7 +160,7 @@ export const BoostPage = () => {
                         decimalScale={2}
                         render={(value) => (
                           <>
-                            <p className="text-[32px]">{value}</p>
+                            <p className="text-[28px] leading-none">{value}</p>
                             <div className="font-mona text-[16px] text-[#959595]">
                               3-Year Value
                             </div>

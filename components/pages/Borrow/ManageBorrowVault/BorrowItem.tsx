@@ -21,7 +21,7 @@ export default function BorrowItem() {
   }, [])
 
   const summaryInfo = (
-    <div className="flex w-full text-center md:w-[400px] lg:w-[500px]">
+    <div className="flex w-full text-center md:w-[400px] lg:w-[500px] xl:w-[600px]">
       <CurrencySwitch
         tokenSymbol="BTC"
         tokenValue={12192}
@@ -29,7 +29,7 @@ export default function BorrowItem() {
         decimalScale={1}
         render={(value) => (
           <>
-            <p className="text-[22px]">{value}</p>
+            <p className="whitespace-nowrap text-[22px]">{value}</p>
             <p className="font-mona text-[14px] text-[#959595]">Collateral</p>
           </>
         )}
@@ -42,7 +42,7 @@ export default function BorrowItem() {
         decimalScale={1}
         render={(value) => (
           <>
-            <p className="text-[22px]">{value}</p>
+            <p className="text-[22px] leading-none">{value}</p>
             <p className="font-mona text-[14px] text-[#959595]">Borrowed</p>
           </>
         )}
@@ -73,7 +73,7 @@ export default function BorrowItem() {
     return (
       <div className="rounded-xl border border-[#1A1A1A] bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0">
         <div className="flex items-center px-[24px] py-[16px]">
-          <div className="flex w-[calc(100%-64px)] items-center space-x-2 md:w-[calc(100%-400px-64px)] lg:w-[calc(100%-500px-64px)]">
+          <div className="xlg:w-[calc(100%-600px-64px)] flex w-[calc(100%-64px)] items-center space-x-2 md:w-[calc(100%-400px-64px)] lg:w-[calc(100%-500px-64px)]">
             <img className="w-[54px]" src="/icons/coin/btc.png" alt="" />
             <p className="font-larken text-[22px]">Lambo</p>
             <AiOutlineEdit className="text-[22px]" />

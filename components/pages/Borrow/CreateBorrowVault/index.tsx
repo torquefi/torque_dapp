@@ -81,7 +81,7 @@ export default function CreateBorrowVault() {
                       tokenSymbol={item?.depositCoin}
                       tokenValue={Number(item.amount)}
                       usdDefault
-                      className="w-full py-4 font-larken lg:py-7"
+                      className="w-full space-y-[12px] py-4 font-larken lg:py-7"
                       decimalScale={2}
                       subtitle="Collateral"
                       onChange={(e) => {
@@ -100,7 +100,7 @@ export default function CreateBorrowVault() {
                         100
                       }
                       usdDefault
-                      className="flex h-[140px] w-full flex-col items-center justify-center font-larken text-[32px]"
+                      className="flex h-[140px] w-full flex-col items-center justify-center font-larken text-[28px]"
                       render={(value) => (
                         <>
                           <p>{value}</p>

@@ -56,7 +56,7 @@ export default function InputCurrencySwitch({
   return (
     <div
       className={
-        'cursor-pointer select-none text-center transition-all active:scale-90' +
+        'cursor-pointer select-none text-center leading-none transition-all active:scale-90' +
         ` ${className}`
       }
       onClick={() => setShowUsd(!isShowUsd)}
@@ -64,7 +64,7 @@ export default function InputCurrencySwitch({
       <NumberFormat
         suffix={!isShowUsd ? ' ' + tokenSymbol : ''}
         prefix={isShowUsd ? '$ ' : ''}
-        className={`h-auto max-w-[95%] bg-transparent pt-1 text-center text-[28px] font-bold text-white placeholder-gray-50`}
+        className={`h-[28px] max-w-[95%] bg-transparent text-center text-[28px] font-bold leading-none text-white placeholder-gray-50`}
         value={floorFraction(inputAmount) || null}
         onChange={(event: any, value: any) => {
           setInputAmount(value)
