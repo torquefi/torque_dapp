@@ -226,7 +226,7 @@ export const BoostPage = () => {
                 <div className="grid w-full grid-cols-2">
                   <div className="flex items-center gap-2">
                     <img
-                      src={`/icons/coin/${item?.token?.toLocaleLowerCase()}.svg`}
+                      src={`/icons/coin/${item?.token?.toLocaleLowerCase()}.png`}
                       alt=""
                       className="h-[54px] w-[54px] object-cover"
                     />
@@ -318,7 +318,7 @@ const DATA_BOOST_VAULT = [
     name: 'Vault #1',
     deposited: 10.6,
     earnings: 0.24,
-    APY: '5.19',
+    APY: '5.19%',
     isOpen: false,
     amount: 0,
   },
@@ -327,7 +327,7 @@ const DATA_BOOST_VAULT = [
     name: 'Vault #2',
     deposited: 158130,
     earnings: 142271,
-    APY: '4.49',
+    APY: '4.49%',
     isOpen: false,
     amount: 0,
   },
