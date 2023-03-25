@@ -44,7 +44,10 @@ export default function InputCurrencySwitch({
     (isShowUsd ? '' : ' ' + tokenSymbol)
 
   useEffect(() => {
-    if (onChange) onChange(inputAmount)
+    if (onChange)
+      if (isShowUsd)
+        onChange(inputAmount / price[tokenSymbol.toLocaleLowerCase()])
+      else onChange(inputAmount)
   }, [inputAmount])
 
   useEffect(() => {
@@ -64,7 +67,7 @@ export default function InputCurrencySwitch({
       <NumberFormat
         suffix={!isShowUsd ? ' ' + tokenSymbol : ''}
         prefix={isShowUsd ? '$ ' : ''}
-        className={`h-[28px] max-w-[95%] bg-transparent text-center text-[28px] font-bold leading-none text-white placeholder-gray-50`}
+        className={`max-w-full bg-transparent pb-[2px] text-center text-[32px] font-bold text-white placeholder-gray-50`}
         value={floorFraction(inputAmount) || null}
         onChange={(event: any, value: any) => {
           setInputAmount(value)
@@ -80,7 +83,9 @@ export default function InputCurrencySwitch({
         }}
       />
       {subtitle && (
-        <div className="font-mona text-[16px] text-[#959595]">{subtitle}</div>
+        <div className="pb-2 font-mona text-[16px] text-[#959595]">
+          {subtitle}
+        </div>
       )}
     </div>
   )

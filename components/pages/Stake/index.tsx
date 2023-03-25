@@ -152,7 +152,7 @@ export const StakePage = () => {
                         tokenSymbol={item?.token}
                         tokenValue={Number(item.amount)}
                         usdDefault
-                        className="w-full space-y-3 py-6 lg:py-8"
+                        className="w-full py-4 lg:py-6"
                         decimalScale={2}
                         subtitle="Your Stake"
                         onChange={(e) => {
