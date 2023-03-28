@@ -10,13 +10,26 @@ import { HiOutlineExternalLink } from 'react-icons/hi'
 import { useMoralis } from 'react-moralis'
 import Web3 from 'web3'
 import ConnectWalletModal from './ConnectWalletModal'
+import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
+import { signIn } from 'next-auth/react'
+import { useAccount, useConnect, useSignMessage, useDisconnect } from 'wagmi'
+import { useAuthRequestChallengeEvm } from '@moralisweb3/next'
 
 export const Header = () => {
+  const [address, setAddress] = useState('')
   const { chainId, user, isAuthenticated, logout } = useMoralis()
   const { network } = useNetwork()
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
   const [activeTabIndex, setActiveTabIndex] = useState(0)
   const router = useRouter()
+
+  const { connectAsync } = useConnect()
+  const { disconnectAsync } = useDisconnect()
+  const { isConnected } = useAccount()
+  const { signMessageAsync } = useSignMessage()
+  const { requestChallengeAsync } = useAuthRequestChallengeEvm()
+
+  console.log('isConnected', isConnected)
 
   const { requestSwitchNetwork } = useNetwork()
 
@@ -40,10 +53,18 @@ export const Header = () => {
     [router.pathname]
   )
 
+  const getAccount = async () => {
+    const { account, chain } = await connectAsync({
+      connector: new MetaMaskConnector(),
+    })
+    setAddress(account)
+  }
+
   useEffect(() => {
     if (router.isReady) {
       setActiveTabIndex(currentTabIndex)
     }
+    getAccount()
   }, [router])
 
   return (
@@ -76,7 +97,7 @@ export const Header = () => {
                 target={'_blank'}
               >
                 <img
-                  className="h-[24px] lg:h-[26px] mr-1"
+                  className="mr-1 h-[24px] lg:h-[26px]"
                   src="/assets/t-logo-circle.svg"
                   alt=""
                 />
@@ -85,7 +106,7 @@ export const Header = () => {
                 </p>
               </a>
             </Link>
-            {isAuthenticated ? (
+            {isConnected ? (
               <Popover
                 placement="bottom-right"
                 className={`mt-[12px] w-[200px] leading-none`}
@@ -99,7 +120,7 @@ export const Header = () => {
                       href={`${
                         network?.blockchainExplorer ||
                         'https://goerli.etherscan.io/'
-                      }/address/${user.attributes.ethAddress}`}
+                      }/address/${address}`}
                     >
                       <a
                         className="flex justify-between p-[12px]"
@@ -110,7 +131,7 @@ export const Header = () => {
                     </Link>
                     <div
                       className="flex cursor-pointer justify-between p-[12px]"
-                      onClick={() => logout()}
+                      onClick={() => disconnectAsync()}
                     >
                       Disconnect <FiLogOut />
                     </div>
@@ -118,7 +139,7 @@ export const Header = () => {
                 }
               >
                 <div className="cursor-pointer rounded-full border border-primary py-[6px] px-[18px] text-[14px] uppercase leading-none text-primary transition-all duration-200 ease-in hover:scale-x-[102%] xs:py-[4px] xs:px-[16px] lg:py-[6px] lg:px-[32px] lg:text-[16px]">
-                  {shortenAddress(user.attributes.ethAddress)}
+                  {shortenAddress(address)}
                 </div>
               </Popover>
             ) : (
@@ -130,7 +151,7 @@ export const Header = () => {
               </div>
             )}
           </div>
-          <div className="absolute hidden -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 md:block">
+          <div className="absolute top-1/2 left-1/2 hidden -translate-x-1/2 -translate-y-1/2 md:block">
             <HoverIndicator
               activeIndex={activeTabIndex}
               className="w-[320px] lg:w-[400px] xl:w-[480px]"
@@ -139,7 +160,7 @@ export const Header = () => {
                 <Link href={item.path} key={i}>
                   <a
                     className={
-                      'relative flex h-[35px] items-center transition-all duration-200 ease-in justify-center pr-[4px] font-mona' +
+                      'relative flex h-[35px] items-center justify-center pr-[4px] font-mona transition-all duration-200 ease-in' +
                       ` ${
                         activeTabIndex === i ? ' text-white' : 'text-[#959595]'
                       }`
