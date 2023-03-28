@@ -2,6 +2,9 @@ import HoverIndicator from '@/components/common/HoverIndicator'
 import Modal from '@/components/common/Modal'
 import { useEffect, useRef, useState } from 'react'
 import { useMoralis } from 'react-moralis'
+import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
+import { useAccount, useConnect, useSignMessage, useDisconnect } from 'wagmi'
+import { useAuthRequestChallengeEvm } from '@moralisweb3/next'
 
 interface ConnectWalletModalProps {
   open: boolean
@@ -13,14 +16,35 @@ export default function ConnectWalletModal({
   handleClose,
 }: ConnectWalletModalProps) {
   const { authenticate } = useMoralis()
+  const { connectAsync } = useConnect()
+  const { disconnectAsync } = useDisconnect()
+  const { isConnected } = useAccount()
+  const { signMessageAsync } = useSignMessage()
+  const { requestChallengeAsync } = useAuthRequestChallengeEvm()
+
+  const onConnectWallet = async () => {
+    try {
+      const { account, chain } = await connectAsync({
+        connector: new MetaMaskConnector(),
+      })
+
+      const { message } = await requestChallengeAsync({
+        address: account,
+        chainId: chain.id,
+      })
+
+      const signature = await signMessageAsync({ message })
+    } catch (e) {
+      console.log(e)
+    }
+  }
 
   const connectors = [
     {
       name: 'MetaMask',
       icon: '/assets/wallet/metamask.svg',
       action: async () => {
-        await authenticate({ signingMessage: 'Welcome to Torque' })
-        handleClose()
+        await onConnectWallet()
       },
       message: 'Connect to your MetaMask wallet',
     },

@@ -12,6 +12,10 @@ import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/lib/integration/react'
 import { Toaster } from 'sonner'
 import SEO from '../next-seo.config'
+import { createClient, configureChains, WagmiConfig } from 'wagmi'
+import { publicProvider } from 'wagmi/providers/public'
+import { SessionProvider } from 'next-auth/react'
+import { mainnet } from 'wagmi/chains'
 import '../styles/style.scss'
 
 type NextPageWithLayout = NextPage & {
@@ -20,6 +24,7 @@ type NextPageWithLayout = NextPage & {
 
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout
+  pageProps?: any
 }
 
 export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
@@ -34,6 +39,17 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     return library
   }
 
+  const { provider, webSocketProvider } = configureChains(
+    [mainnet],
+    [publicProvider()]
+  )
+
+  const client = createClient({
+    provider,
+    webSocketProvider,
+    autoConnect: true,
+  })
+
   useEffect(() => {
     Moralis.start({
       serverUrl: serverUrl,
@@ -42,19 +58,23 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   }, [])
 
   return (
-    <MoralisProvider appId={appId} serverUrl={serverUrl}>
-      <DefaultSeo {...SEO} />
-      <Provider store={store}>
-        <PersistGate persistor={persistor}>
-          {() => (
-            <>
-              <CurrencySwitchInit />
-              {getLayout(<Component {...pageProps} />)}
-            </>
-          )}
-        </PersistGate>
-      </Provider>
-      <Toaster theme="dark" />
-    </MoralisProvider>
+    <WagmiConfig client={client}>
+      <MoralisProvider appId={appId} serverUrl={serverUrl}>
+        <SessionProvider session={pageProps.session} refetchInterval={0}>
+          <DefaultSeo {...SEO} />
+          <Provider store={store}>
+            <PersistGate persistor={persistor}>
+              {() => (
+                <>
+                  <CurrencySwitchInit />
+                  {getLayout(<Component {...pageProps} />)}
+                </>
+              )}
+            </PersistGate>
+          </Provider>
+          <Toaster theme="dark" />
+        </SessionProvider>
+      </MoralisProvider>
+    </WagmiConfig>
   )
 }
