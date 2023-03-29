@@ -80,31 +80,28 @@ export const Header = () => {
           Torque is not supported on this network. Please switch to Goerli.
         </div>
         <div className="relative flex h-[72px] items-center justify-between px-4 sm:px-8">
-          <Link href="/">
-            <a className="flex items-center">
-              <img
-                className="h-[32px] sm:h-[32px]"
-                src="/assets/t-logo.svg"
-                alt=""
-              />
-              <h2 className="ml-[16px] font-larken text-[24px]">Torque</h2>
-            </a>
+          <Link href="/" className="flex items-center">
+            <img
+              className="h-[32px] sm:h-[32px]"
+              src="/assets/t-logo.svg"
+              alt=""
+            />
+            <h2 className="ml-[16px] font-larken text-[24px]">Torque</h2>
           </Link>
           <div className="flex items-center">
-            <Link href="#">
-              <a
-                className="mr-[12px] hidden items-center xs:flex lg:mr-[24px]"
-                target={'_blank'}
-              >
-                <img
-                  className="mr-1 h-[24px] lg:h-[26px]"
-                  src="/assets/t-logo-circle.svg"
-                  alt=""
-                />
-                <p className="ml-[6px] font-larken text-[16px] lg:text-[18px]">
-                  $0.00
-                </p>
-              </a>
+            <Link
+              href="#"
+              className="mr-[12px] hidden items-center xs:flex lg:mr-[24px]"
+              target={'_blank'}
+            >
+              <img
+                className="mr-1 h-[24px] lg:h-[26px]"
+                src="/assets/t-logo-circle.svg"
+                alt=""
+              />
+              <p className="ml-[6px] font-larken text-[16px] lg:text-[18px]">
+                $0.00
+              </p>
             </Link>
             {isConnected ? (
               <Popover
@@ -121,13 +118,10 @@ export const Header = () => {
                         network?.blockchainExplorer ||
                         'https://goerli.etherscan.io/'
                       }/address/${address}`}
+                      className="flex justify-between p-[12px]"
+                      target="_blank"
                     >
-                      <a
-                        className="flex justify-between p-[12px]"
-                        target="_blank"
-                      >
-                        Etherscan <HiOutlineExternalLink />
-                      </a>
+                      Etherscan <HiOutlineExternalLink />
                     </Link>
                     <div
                       className="flex cursor-pointer justify-between p-[12px]"
@@ -138,45 +132,45 @@ export const Header = () => {
                   </HoverIndicator>
                 }
               >
-                <div className="cursor-pointer rounded-full border border-primary py-[6px] px-[18px] text-[14px] uppercase leading-none text-primary transition-all duration-200 ease-in hover:scale-x-[102%] xs:py-[4px] xs:px-[16px] lg:py-[6px] lg:px-[32px] lg:text-[16px]">
+                <div className="cursor-pointer rounded-full border border-primary px-[18px] py-[6px] text-[14px] uppercase leading-none text-primary transition-all duration-200 ease-in hover:scale-x-[102%] xs:px-[16px] xs:py-[4px] lg:px-[32px] lg:py-[6px] lg:text-[16px]">
                   {shortenAddress(address)}
                 </div>
               </Popover>
             ) : (
               <div
-                className="cursor-pointer rounded-full border border-primary py-[6px] px-[18px] font-mona text-[14px] uppercase leading-none text-primary transition-all duration-200 ease-in hover:scale-x-[102%] xs:py-[4px] xs:px-[16px] lg:py-[6px] lg:px-[32px] lg:text-[16px]"
+                className="cursor-pointer rounded-full border border-primary px-[18px] py-[6px] font-mona text-[14px] uppercase leading-none text-primary transition-all duration-200 ease-in hover:scale-x-[102%] xs:px-[16px] xs:py-[4px] lg:px-[32px] lg:py-[6px] lg:text-[16px]"
                 onClick={() => setOpenConnectWalletModal(true)}
               >
                 Connect
               </div>
             )}
           </div>
-          <div className="absolute top-1/2 left-1/2 hidden -translate-x-1/2 -translate-y-1/2 md:block">
+          <div className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 md:block">
             <HoverIndicator
               activeIndex={activeTabIndex}
               className="w-[320px] lg:w-[400px] xl:w-[480px]"
             >
               {menu.map((item, i) => (
-                <Link href={item.path} key={i}>
-                  <a
-                    className={
-                      'relative flex h-[35px] items-center justify-center pr-[4px] font-mona transition-all duration-200 ease-in' +
-                      ` ${
-                        activeTabIndex === i ? ' text-white' : 'text-[#959595]'
-                      }`
-                    }
-                    onMouseEnter={() => setActiveTabIndex(i)}
-                    onMouseLeave={() => setActiveTabIndex(currentTabIndex)}
-                  >
-                    <img
-                      className="mr-[4px] w-[16px] lg:w-[20px] xl:w-[24px]"
-                      src={activeTabIndex === i ? item.iconActive : item.icon}
-                      alt=""
-                    />
-                    <p className="text-[12px] lg:text-[14px] xl:text-[16px]">
-                      {item.label}
-                    </p>
-                  </a>
+                <Link
+                  href={item.path}
+                  key={i}
+                  className={
+                    'relative flex h-[35px] items-center justify-center pr-[4px] font-mona transition-all duration-200 ease-in' +
+                    ` ${
+                      activeTabIndex === i ? ' text-white' : 'text-[#959595]'
+                    }`
+                  }
+                  onMouseEnter={() => setActiveTabIndex(i)}
+                  onMouseLeave={() => setActiveTabIndex(currentTabIndex)}
+                >
+                  <img
+                    className="mr-[4px] w-[16px] lg:w-[20px] xl:w-[24px]"
+                    src={activeTabIndex === i ? item.iconActive : item.icon}
+                    alt=""
+                  />
+                  <p className="text-[12px] lg:text-[14px] xl:text-[16px]">
+                    {item.label}
+                  </p>
                 </Link>
               ))}
             </HoverIndicator>

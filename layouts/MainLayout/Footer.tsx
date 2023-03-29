@@ -8,23 +8,23 @@ export default function Footer() {
       </div>
       <div className="flex space-x-2 text-[10px] xs:text-[10px]">
         {socials.map((item, i) => (
-          <Link href={item.link} key={i}>
-            <a
-              className="block transition-colors duration-100 ease-linear hover:text-white hover:underline"
-              target="_blank"
-            >
-              {item.label}
-            </a>
+          <Link
+            href={item.link}
+            key={i}
+            className="block transition-colors duration-100 ease-linear hover:text-white hover:underline"
+            target="_blank"
+          >
+            {item.label}
           </Link>
         ))}
         {privacies.map((item, i) => (
-          <Link href={item.link} key={i}>
-            <a
-              className="hidden transition-colors duration-100 ease-linear hover:text-white hover:underline xs:block"
-              target="_blank"
-            >
-              {item.label}
-            </a>
+          <Link
+            href={item.link}
+            key={i}
+            className="hidden transition-colors duration-100 ease-linear hover:text-white hover:underline xs:block"
+            target="_blank"
+          >
+            {item.label}
           </Link>
         ))}
       </div>

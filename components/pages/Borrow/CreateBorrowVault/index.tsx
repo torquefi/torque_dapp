@@ -59,19 +59,17 @@ export default function CreateBorrowVault() {
                     className={`mt-[8px] w-[230px] bg-[#161616] text-center text-sm leading-tight`}
                     content="The projected TORQ rewards after 1 year of $1,000 borrowed"
                   >
-                    <Link href="#">
-                      <a href="#" className="" target={'_blank'}>
-                        <div className="flex items-center rounded-full bg-[#AA5BFF] bg-opacity-20 p-1 text-[12px] xs:text-[14px]">
-                          <img
-                            src="/assets/t-logo-circle.svg"
-                            alt=""
-                            className="w-[24px] xs:w-[28px]"
-                          />
-                          <p className="mx-1 text-[#AA5BFF] xs:mx-2">
-                            +{item.getTORQ} TORQ
-                          </p>
-                        </div>
-                      </a>
+                    <Link href="#" className="" target={'_blank'}>
+                      <div className="flex items-center rounded-full bg-[#AA5BFF] bg-opacity-20 p-1 text-[12px] xs:text-[14px]">
+                        <img
+                          src="/assets/t-logo-circle.svg"
+                          alt=""
+                          className="w-[24px] xs:w-[28px]"
+                        />
+                        <p className="mx-1 text-[#AA5BFF] xs:mx-2">
+                          +{item.getTORQ} TORQ
+                        </p>
+                      </div>
                     </Link>
                   </Popover>
                 </div>
@@ -114,18 +112,16 @@ export default function CreateBorrowVault() {
                 </div>
                 <div className="flex justify-between text-[#959595]">
                   <p>Loan provider</p>
-                  <Link href="https://compound.finance/">
-                    <a
-                      href="https://compound.finance/"
-                      className=""
-                      target={'_blank'}
-                    >
-                      <img
-                        className="my-[-6px] w-[32px]"
-                        src="/icons/coin/comp.png"
-                        alt=""
-                      />
-                    </a>
+                  <Link
+                    href="https://compound.finance/"
+                    className=""
+                    target={'_blank'}
+                  >
+                    <img
+                      className="my-[-6px] w-[32px]"
+                      src="/icons/coin/comp.png"
+                      alt=""
+                    />
                   </Link>
                 </div>
                 <div className="flex justify-between text-[#959595]">

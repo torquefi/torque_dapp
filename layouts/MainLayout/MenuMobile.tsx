@@ -64,17 +64,15 @@ export const MenuMobile = () => {
           </div>
           <div className="flex h-full w-full items-center bg-[#030303]">
             {menu.map((item, i) => (
-              <Link href={item.path} key={i}>
-                <a
-                  className={
-                    'flex h-[35px] w-1/5 items-center justify-center font-mona transition-all' +
-                    ` ${
-                      activeTabIndex === i ? ' origin-bottom scale-[1.4]' : ''
-                    }`
-                  }
-                >
-                  <img className="w-[24px]" src={item.icon} alt="" />
-                </a>
+              <Link
+                href={item.path}
+                key={i}
+                className={
+                  'flex h-[35px] w-1/5 items-center justify-center font-mona transition-all' +
+                  ` ${activeTabIndex === i ? ' origin-bottom scale-[1.4]' : ''}`
+                }
+              >
+                <img className="w-[24px]" src={item.icon} alt="" />
               </Link>
             ))}
           </div>

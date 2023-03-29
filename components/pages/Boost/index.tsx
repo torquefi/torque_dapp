@@ -75,10 +75,11 @@ export const BoostPage = () => {
             className="rounded-xl"
           />
         )}
-        <Link href="/overview">
-          <a className="absolute top-[24px] left-[24px] flex h-[48px] w-[48px] items-center justify-center rounded-full bg-[#030303]">
-            <img className="w-[12px]" src="/icons/arrow-left.svg" alt="" />
-          </a>
+        <Link
+          href="/overview"
+          className="absolute left-[24px] top-[24px] flex h-[48px] w-[48px] items-center justify-center rounded-full bg-[#030303]"
+        >
+          <img className="w-[12px]" src="/icons/arrow-left.svg" alt="" />
         </Link>
       </div>
       <div className="mt-[36px] font-larken">
@@ -101,7 +102,7 @@ export const BoostPage = () => {
             } else
               return (
                 <div className="rounded-[12px] border border-[#1A1A1A] bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 px-3 py-6 lg:px-8">
-                  <div className="flex items-center justify-between w-full">
+                  <div className="flex w-full items-center justify-between">
                     <div className="flex items-center">
                       <img
                         src={`/icons/coin/${item.token.toLocaleLowerCase()}.png`}
@@ -119,24 +120,22 @@ export const BoostPage = () => {
                       className={`mt-[8px] w-[230px] bg-[#0d0d0d] text-center font-mona text-sm leading-tight`}
                       content="The projected TORQ rewards after 1 year of $1,000 supplied"
                     >
-                      <Link href="#">
-                        <a href="#" className="" target={'_blank'}>
-                          <div className="flex items-center gap-2 rounded-full bg-[#AA5BFF] bg-opacity-20 p-1  text-[12px] xs:text-[14px]">
-                            <img
-                              src="/assets/t-logo-circle.svg"
-                              alt=""
-                              className="w-[24px] xs:w-[28px]"
-                            />
+                      <Link href="#" className="" target={'_blank'}>
+                        <div className="flex items-center gap-2 rounded-full bg-[#AA5BFF] bg-opacity-20 p-1  text-[12px] xs:text-[14px]">
+                          <img
+                            src="/assets/t-logo-circle.svg"
+                            alt=""
+                            className="w-[24px] xs:w-[28px]"
+                          />
 
-                            <div className="mx-1 font-mona uppercase text-[#AA5BFF] xs:mx-2">
-                              +{item.bonus_TORQ} TORQ
-                            </div>
+                          <div className="mx-1 font-mona uppercase text-[#AA5BFF] xs:mx-2">
+                            +{item.bonus_TORQ} TORQ
                           </div>
-                        </a>
+                        </div>
                       </Link>
                     </Popover>
                   </div>
-                  <div className="flex items-center justify-center w-full gap-4 mt-4 ">
+                  <div className="mt-4 flex w-full items-center justify-center gap-4 ">
                     <div className="to-[#161616]/08 flex w-1/2 flex-col items-center justify-center gap-3 rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616]">
                       <InputCurrencySwitch
                         tokenSymbol={item?.token}
@@ -156,7 +155,7 @@ export const BoostPage = () => {
                         tokenSymbol={item?.token}
                         tokenValue={Number(item.amount) * item.rate}
                         usdDefault
-                        className="w-full py-6 space-y-3 lg:py-8"
+                        className="w-full space-y-3 py-6 lg:py-8"
                         decimalScale={2}
                         render={(value) => (
                           <>
@@ -174,18 +173,16 @@ export const BoostPage = () => {
                   </div>
                   <div className="flex w-full items-center justify-between py-2 font-mona text-[16px] text-[#959595]">
                     <div className="font-mona">Yield provider</div>
-                    <Link href="https://stargate.finance/">
-                      <a
-                        href="https://stargate.finance/"
+                    <Link
+                      href="https://stargate.finance/"
+                      className=""
+                      target={'_blank'}
+                    >
+                      <img
+                        src="/icons/coin/stargate.png"
+                        alt="Stargate"
                         className=""
-                        target={'_blank'}
-                      >
-                        <img
-                          src="/icons/coin/stargate.png"
-                          alt="Stargate"
-                          className=""
-                        />
-                      </a>
+                      />
                     </Link>
                   </div>
                   <div className="flex w-full items-center justify-between font-mona text-[16px] text-[#959595]">
@@ -242,7 +239,7 @@ export const BoostPage = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-end gap-14">
-                    <div className="items-center justify-between hidden gap-14 lg:flex">
+                    <div className="hidden items-center justify-between gap-14 lg:flex">
                       {summaryInfor(item)}
                     </div>
                     <div className="flex flex-col items-center justify-center gap-2">
@@ -284,7 +281,7 @@ export const BoostPage = () => {
                     <div className="mt-2 flex w-full items-center justify-between rounded-[12px] border border-[#1A1A1A] bg-gradient-to-b from-[#0d0d0d] to-[#0d0d0d]/0 px-2 py-4">
                       <input
                         type="number"
-                        className="w-full px-2 bg-none font-mona focus:outline-none"
+                        className="w-full bg-none px-2 font-mona focus:outline-none"
                         style={{ backgroundColor: 'transparent' }}
                         placeholder="Select amount"
                       />
