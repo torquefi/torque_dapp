@@ -8,15 +8,11 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { FiLogOut } from 'react-icons/fi'
 import { HiOutlineExternalLink } from 'react-icons/hi'
 import { useMoralis } from 'react-moralis'
-import Web3 from 'web3'
 import ConnectWalletModal from './ConnectWalletModal'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
-import { signIn } from 'next-auth/react'
 import { useAccount, useConnect, useSignMessage, useDisconnect } from 'wagmi'
 import { useAuthRequestChallengeEvm } from '@moralisweb3/next'
 import { useDispatch, useSelector } from 'react-redux'
-import { AppStore } from '@/types/store'
-import { updateAddress } from '@/lib/redux/auth/auth'
 import { switchNetwork } from '@wagmi/core'
 
 export const Header = () => {
@@ -27,14 +23,13 @@ export const Header = () => {
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
   const [activeTabIndex, setActiveTabIndex] = useState(0)
   const router = useRouter()
-  const { address, isConnecting, isDisconnected } = useAccount()
+  const { address, isConnecting, isDisconnected, isConnected } = useAccount()
   const { connectAsync } = useConnect()
   const { disconnectAsync } = useDisconnect()
-  const { isConnected } = useAccount()
   const { signMessageAsync } = useSignMessage()
   const { requestChallengeAsync } = useAuthRequestChallengeEvm()
-
   const { chain, chains } = useNetwork()
+  console.log('isConnected', isConnected, address)
 
   const goerliTestnetInfo = {
     name: 'Goerli',

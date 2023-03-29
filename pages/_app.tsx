@@ -15,7 +15,7 @@ import SEO from '../next-seo.config'
 import { createClient, configureChains, WagmiConfig } from 'wagmi'
 import { publicProvider } from 'wagmi/providers/public'
 import { SessionProvider } from 'next-auth/react'
-import { mainnet } from 'wagmi/chains'
+import { mainnet, goerli } from 'wagmi/chains'
 import '../styles/style.scss'
 
 type NextPageWithLayout = NextPage & {
@@ -40,13 +40,14 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   }
 
   const { provider, webSocketProvider } = configureChains(
-    [mainnet],
+    [mainnet, goerli],
     [publicProvider()]
   )
 
   const client = createClient({
     provider,
     webSocketProvider,
+
     autoConnect: true,
   })
 
