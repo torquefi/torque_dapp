@@ -1,7 +1,7 @@
 import HoverIndicator from '@/components/common/HoverIndicator'
 import Popover from '@/components/common/Popover'
 import { shortenAddress } from '@/lib/helpers/utils'
-import useNetwork from '@/lib/hooks/useNetwork'
+import { useNetwork } from 'wagmi'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo, useRef, useState } from 'react'
@@ -14,26 +14,27 @@ import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 import { signIn } from 'next-auth/react'
 import { useAccount, useConnect, useSignMessage, useDisconnect } from 'wagmi'
 import { useAuthRequestChallengeEvm } from '@moralisweb3/next'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppStore } from '@/types/store'
+import { updateAddress } from '@/lib/redux/auth/auth'
+import { switchNetwork } from '@wagmi/core'
 
 export const Header = () => {
-  const [address, setAddress] = useState('')
-  const { chainId, user, isAuthenticated, logout } = useMoralis()
-  const { network } = useNetwork()
+  const dispatch = useDispatch()
+  const { user, isAuthenticated, logout } = useMoralis()
+
+  const [isShowNetworkAlert, setIsShowNetworkAlert] = useState(false)
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
   const [activeTabIndex, setActiveTabIndex] = useState(0)
   const router = useRouter()
-
+  const { address, isConnecting, isDisconnected } = useAccount()
   const { connectAsync } = useConnect()
   const { disconnectAsync } = useDisconnect()
   const { isConnected } = useAccount()
   const { signMessageAsync } = useSignMessage()
   const { requestChallengeAsync } = useAuthRequestChallengeEvm()
 
-  console.log('isConnected', isConnected)
-
-  const { requestSwitchNetwork } = useNetwork()
-
-  const chainIdNumber = new Web3().utils.hexToNumber(chainId)
+  const { chain, chains } = useNetwork()
 
   const goerliTestnetInfo = {
     name: 'Goerli',
@@ -45,8 +46,6 @@ export const Header = () => {
     rpcUrls: ['https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161'],
     blockchainExplorer: 'https://goerli.etherscan.io',
   }
-  const isShowNetworkAlert =
-    isAuthenticated && chainIdNumber !== goerliTestnetInfo.chainId
 
   const currentTabIndex = useMemo(
     () => menu.map((item) => item.path).indexOf(router.pathname),
@@ -54,10 +53,11 @@ export const Header = () => {
   )
 
   const getAccount = async () => {
-    const { account, chain } = await connectAsync({
-      connector: new MetaMaskConnector(),
-    })
-    setAddress(account)
+    if (isConnected) {
+      const { account, chain } = await connectAsync({
+        connector: new MetaMaskConnector(),
+      })
+    }
   }
 
   useEffect(() => {
@@ -67,6 +67,12 @@ export const Header = () => {
     getAccount()
   }, [router])
 
+  useEffect(() => {
+    if (isConnected && chain.id != -1) {
+      setIsShowNetworkAlert(chain.id !== goerliTestnetInfo.chainId)
+    }
+  }, [chain])
+
   return (
     <>
       <header className="fixed inset-x-0 top-0 z-[100] bg-[#030303]">
@@ -75,7 +81,7 @@ export const Header = () => {
             'flex cursor-pointer items-center justify-center bg-[#FF6969] text-center text-[14px] transition-all' +
             ` ${!isShowNetworkAlert ? 'h-0 overflow-hidden' : 'h-[44px]'}`
           }
-          onClick={() => requestSwitchNetwork(goerliTestnetInfo)}
+          onClick={() => switchNetwork({ chainId: goerliTestnetInfo?.chainId })}
         >
           Torque is not supported on this network. Please switch to Goerli.
         </div>
@@ -114,10 +120,7 @@ export const Header = () => {
                     indicatorClassName="rounded-[6px]"
                   >
                     <Link
-                      href={`${
-                        network?.blockchainExplorer ||
-                        'https://goerli.etherscan.io/'
-                      }/address/${address}`}
+                      href={`https://goerli.etherscan.io/address/${address}`}
                       className="flex justify-between p-[12px]"
                       target="_blank"
                     >

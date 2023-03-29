@@ -5,6 +5,8 @@ import { useMoralis } from 'react-moralis'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 import { useAccount, useConnect, useSignMessage, useDisconnect } from 'wagmi'
 import { useAuthRequestChallengeEvm } from '@moralisweb3/next'
+import { useDispatch } from 'react-redux'
+import { updateAddress } from '@/lib/redux/auth/auth'
 
 interface ConnectWalletModalProps {
   open: boolean
@@ -15,6 +17,7 @@ export default function ConnectWalletModal({
   open,
   handleClose,
 }: ConnectWalletModalProps) {
+  const dispath = useDispatch()
   const { authenticate } = useMoralis()
   const { connectAsync } = useConnect()
   const { disconnectAsync } = useDisconnect()
@@ -27,6 +30,8 @@ export default function ConnectWalletModal({
       const { account, chain } = await connectAsync({
         connector: new MetaMaskConnector(),
       })
+      console.log('account, chain', account, chain)
+      dispath(updateAddress(account as any))
       handleClose()
       const { message } = await requestChallengeAsync({
         address: account,
