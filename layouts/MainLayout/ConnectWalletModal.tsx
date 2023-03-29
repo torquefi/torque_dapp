@@ -27,7 +27,7 @@ export default function ConnectWalletModal({
       const { account, chain } = await connectAsync({
         connector: new MetaMaskConnector(),
       })
-
+      handleClose()
       const { message } = await requestChallengeAsync({
         address: account,
         chainId: chain.id,
