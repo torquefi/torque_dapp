@@ -49,11 +49,11 @@ const socials = [
 
 const privacies = [
   {
-    label: 'TERM',
+    label: 'BOUNTY',
     link: '#',
   },
   {
-    label: 'PRIVACY',
+    label: 'AUDITS',
     link: '#',
   },
 ]
