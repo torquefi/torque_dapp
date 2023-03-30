@@ -28,8 +28,8 @@ type AppPropsWithLayout = AppProps & {
 }
 
 export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
-  const serverUrl = 'https://t18lcsfgwrdy.grandmoralis.com:2053/server'
-  const appId = 'xxGYAnXLzPcsW42Ci9pmkuasJ2NJUyjt7uioTUij'
+  const serverUrl = 'https://moralis.torque.fi/server'
+  const appId = '1'
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page)
 
