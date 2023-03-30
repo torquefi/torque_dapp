@@ -83,9 +83,9 @@ export const Header = () => {
     }
   }, [chain])
 
-  useEffect(() => {
-    if (isConnected) changeWalletAddress()
-  }, [address])
+  // useEffect(() => {
+  //   if (isConnected) changeWalletAddress()
+  // }, [address])
 
   useEffect(() => {
     setAddressOld(address)

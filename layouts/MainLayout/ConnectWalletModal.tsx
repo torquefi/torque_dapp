@@ -33,18 +33,22 @@ export default function ConnectWalletModal({
 
   const onConnectMetamaskWallet = async () => {
     try {
-      await enableWeb3({ provider: 'metamask' })
-      const { account, chainId } = Moralis
+      // await enableWeb3({ provider: 'metamask' })
+      // const { account, chainId } = Moralis
 
-      const { message } = await Moralis.Cloud.run('requestMessage', {
-        address: account,
-        chain: parseInt(chainId, 16),
-        networkType: 'evm',
-      })
-      await authenticate({
-        signingMessage: message,
-        throwOnError: true,
-      })
+      // const { message } = await Moralis.Cloud.run('requestMessage', {
+      //   address: account,
+      //   chain: parseInt(chainId, 16),
+      //   networkType: 'evm',
+      // })
+      try {
+        await authenticate({
+          signingMessage: 'Welcome to Torque',
+          throwOnError: true,
+        })
+      } catch (e) {
+        console.log(e)
+      }
       await connectAsync({
         connector: new MetaMaskConnector(),
       })
