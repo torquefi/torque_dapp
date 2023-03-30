@@ -17,6 +17,7 @@ import { useAuthRequestChallengeEvm } from '@moralisweb3/next'
 import { useDispatch } from 'react-redux'
 import { updateAddress } from '@/lib/redux/auth/auth'
 import { WalletConnectLegacyConnector } from '@wagmi/core/connectors/walletConnectLegacy'
+import Moralis from 'moralis-v1'
 
 interface ConnectWalletModalProps {
   open: boolean
@@ -27,36 +28,35 @@ export default function ConnectWalletModal({
   open,
   handleClose,
 }: ConnectWalletModalProps) {
-  const dispath = useDispatch()
-  const { authenticate } = useMoralis()
+  const { authenticate, enableWeb3 } = useMoralis()
   const { connectAsync } = useConnect()
-  const { disconnectAsync } = useDisconnect()
-  const { isConnected } = useAccount()
-  const { signMessageAsync } = useSignMessage()
-  const { chain, chains } = useNetwork()
-  const { requestChallengeAsync } = useAuthRequestChallengeEvm()
 
   const onConnectMetamaskWallet = async () => {
     try {
-      const { account, chain } = await connectAsync({
+      await enableWeb3({ provider: 'metamask' })
+      const { account, chainId } = Moralis
+
+      const { message } = await Moralis.Cloud.run('requestMessage', {
+        address: account,
+        chain: parseInt(chainId, 16),
+        networkType: 'evm',
+      })
+      await authenticate({
+        signingMessage: message,
+        throwOnError: true,
+      })
+      await connectAsync({
         connector: new MetaMaskConnector(),
       })
-      dispath(updateAddress(account as any))
       handleClose()
-      const { message } = await requestChallengeAsync({
-        address: account,
-        chainId: chain.id,
-      })
-
-      const signature = await signMessageAsync({ message })
     } catch (e) {
       console.log(e)
     }
   }
 
-  const onConnectWallet = async () => {
+  const onConnectWalletConnect = async () => {
     try {
-      const { account, chain } = await connectAsync({
+      await connectAsync({
         connector: new WalletConnectLegacyConnector({
           options: {
             qrcode: true,
@@ -81,7 +81,7 @@ export default function ConnectWalletModal({
       name: 'WalletConnect',
       icon: '/assets/wallet/wallet-connect.svg',
       action: async () => {
-        await onConnectWallet()
+        await onConnectWalletConnect()
         handleClose()
       },
       message: 'Scan with WalletConnect to connect',

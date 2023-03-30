@@ -33,12 +33,6 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page)
 
-  function getLibrary(provider: any) {
-    const library = new Web3Provider(provider)
-    library.pollingInterval = 12000
-    return library
-  }
-
   const { provider, webSocketProvider } = configureChains(
     [mainnet, goerli],
     [publicProvider()]
@@ -47,7 +41,6 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const client = createClient({
     provider,
     webSocketProvider,
-
     autoConnect: true,
   })
 

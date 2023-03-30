@@ -14,22 +14,23 @@ import { useAccount, useConnect, useSignMessage, useDisconnect } from 'wagmi'
 import { useAuthRequestChallengeEvm } from '@moralisweb3/next'
 import { useDispatch, useSelector } from 'react-redux'
 import { switchNetwork } from '@wagmi/core'
+import Moralis from 'moralis-v1'
 
 export const Header = () => {
   const dispatch = useDispatch()
-  const { user, isAuthenticated, logout } = useMoralis()
+  const { user, isAuthenticated, logout, enableWeb3, authenticate } =
+    useMoralis()
+  const { connectAsync } = useConnect()
+  const { disconnectAsync } = useDisconnect()
+  const { chain, chains } = useNetwork()
+  const { address, isConnecting, isDisconnected, isConnected } = useAccount()
 
   const [isShowNetworkAlert, setIsShowNetworkAlert] = useState(false)
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
+  const [addressOld, setAddressOld] = useState(address)
   const [activeTabIndex, setActiveTabIndex] = useState(0)
+
   const router = useRouter()
-  const { address, isConnecting, isDisconnected, isConnected } = useAccount()
-  const { connectAsync } = useConnect()
-  const { disconnectAsync } = useDisconnect()
-  const { signMessageAsync } = useSignMessage()
-  const { requestChallengeAsync } = useAuthRequestChallengeEvm()
-  const { chain, chains } = useNetwork()
-  console.log('isConnected', isConnected, address)
 
   const goerliTestnetInfo = {
     name: 'Goerli',
@@ -49,12 +50,26 @@ export const Header = () => {
 
   const getAccount = async () => {
     if (isConnected) {
-      const { account, chain } = await connectAsync({
+      await connectAsync({
         connector: new MetaMaskConnector(),
       })
     }
   }
 
+  const changeWalletAddress = async () => {
+    if (address != addressOld) {
+      setAddressOld(address)
+      const { message } = await Moralis.Cloud.run('requestMessage', {
+        address: address,
+        chain: parseInt(chain.id as any, 16),
+        networkType: 'evm',
+      })
+      await authenticate({
+        signingMessage: message,
+        throwOnError: true,
+      })
+    }
+  }
   useEffect(() => {
     if (router.isReady) {
       setActiveTabIndex(currentTabIndex)
@@ -67,6 +82,14 @@ export const Header = () => {
       setIsShowNetworkAlert(chain.id !== goerliTestnetInfo.chainId)
     }
   }, [chain])
+
+  useEffect(() => {
+    if (isConnected) changeWalletAddress()
+  }, [address])
+
+  useEffect(() => {
+    setAddressOld(address)
+  }, [])
 
   return (
     <>
