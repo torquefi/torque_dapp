@@ -14,12 +14,7 @@ export default function CreateBorrowVault() {
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1000)
   }, [])
-
-  const price: any = {
-    eth: 1780,
-    btc: 28000,
-    usdc: 1,
-  }
+  console.log('dataBorrow', dataBorrow)
   return (
     <div className="space-y-[24px]">
       {isLoading ? (
@@ -74,39 +69,32 @@ export default function CreateBorrowVault() {
                   </Popover>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="flex h-[140px] flex-col items-center border border-[#1A1A1A] justify-center rounded-md bg-gradient-to-b from-[#161616] to-[#161616]/0 font-larken">
+                  <div className="flex h-[140px] flex-col items-center justify-center rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0 font-larken">
                     <InputCurrencySwitch
                       tokenSymbol={item?.depositCoin}
                       tokenValue={Number(item.amount)}
                       usdDefault
                       className="w-full py-4 leading-none lg:py-6"
-                      decimalScale={2}
                       subtitle="Collateral"
                       onChange={(e) => {
                         item.amount = e
+                        item.amountRecieve = (e * 50) / 100
                         setDataBorrow([...dataBorrow])
                       }}
                     />
                   </div>
-                  <div className="rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0">
-                    <CurrencySwitch
-                      tokenSymbol={item?.borrowCoin}
-                      tokenValue={
-                        (item.amount *
-                          price[item?.depositCoin.toLocaleLowerCase()] *
-                          50) /
-                        100
-                      }
+                  <div className="flex h-[140px] flex-col items-center justify-center rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0 font-larken">
+                    <InputCurrencySwitch
+                      tokenSymbol={item?.depositCoin}
+                      tokenValue={Number(item.amountRecieve)}
+                      tokenValueChange={Number((item.amount * 50) / 100)}
                       usdDefault
-                      className="flex h-[140px] w-full flex-col items-center justify-center font-larken text-[32px]"
-                      render={(value) => (
-                        <>
-                          <p>{value}</p>
-                          <p className="mt-[10px] font-mona text-16 text-[#959595]">
-                            Borrowing
-                          </p>
-                        </>
-                      )}
+                      className="w-full py-4 leading-none lg:py-6"
+                      subtitle="Borrowing"
+                      onChange={(e) => {
+                        item.amountRecieve = e
+                        setDataBorrow([...dataBorrow])
+                      }}
                     />
                   </div>
                 </div>
@@ -141,7 +129,14 @@ export default function CreateBorrowVault() {
                 </div>
                 <button
                   className="bg-gradient-primary w-full rounded-full py-[4px] font-mona uppercase"
-                  onClick={() => toast.message('Coming soon')}
+                  onClick={() => {
+                    if (
+                      item.amountRecieve / item.amount >
+                      item.loanToValue / 100
+                    ) {
+                      toast.error(`Loan-to-value exceeds ${item.loanToValue}%`)
+                    }
+                  }}
                 >
                   Deposit and Borrow
                 </button>
@@ -161,6 +156,7 @@ const fakeBorrow = [
     loanToValue: 70,
     getTORQ: 28,
     amount: 0,
+    amountRecieve: 0,
   },
   {
     coinIcon: '/icons/coin/eth.png',
@@ -169,5 +165,6 @@ const fakeBorrow = [
     loanToValue: 83,
     getTORQ: 32,
     amount: 0,
+    amountRecieve: 0,
   },
 ]

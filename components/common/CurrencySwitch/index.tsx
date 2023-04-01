@@ -18,7 +18,7 @@ export default function CurrencySwitch({
   tokenValue,
   usdDefault = false,
   className = '',
-  decimalScale = 2,
+  decimalScale = 0,
   render,
 }: CurrencySwitchProps) {
   const [isShowUsd, setShowUsd] = useState(usdDefault)
