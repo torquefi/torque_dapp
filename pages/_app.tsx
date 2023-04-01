@@ -66,7 +66,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
               )}
             </PersistGate>
           </Provider>
-          <Toaster theme="dark" />
+          <Toaster theme="dark" richColors />
         </SessionProvider>
       </MoralisProvider>
     </WagmiConfig>
