@@ -50,7 +50,7 @@ export default function CreateBorrowVault() {
                     src={item.coinIcon}
                     alt=""
                   />
-                  <div className="grow pb-2 font-larken text-[16px] leading-tight xs:text-[18px] lg:text-[26px]">
+                  <div className="grow pb-2 font-larken text-[22px] leading-tight xs:text-[18px] lg:text-[26px]">
                     Deposit {item.depositCoin},<br /> Borrow {item.borrowCoin}
                   </div>
                   <Popover
@@ -74,7 +74,7 @@ export default function CreateBorrowVault() {
                   </Popover>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="flex h-[140px] flex-col items-center justify-center rounded-xl bg-gradient-to-b from-[#161616] to-[#161616]/40 font-larken">
+                  <div className="flex h-[140px] flex-col items-center border border-[#1A1A1A] justify-center rounded-md bg-gradient-to-b from-[#161616] to-[#161616]/0 font-larken">
                     <InputCurrencySwitch
                       tokenSymbol={item?.depositCoin}
                       tokenValue={Number(item.amount)}
@@ -88,7 +88,7 @@ export default function CreateBorrowVault() {
                       }}
                     />
                   </div>
-                  <div className="rounded-xl bg-gradient-to-b from-[#161616] to-[#161616]/40">
+                  <div className="rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0">
                     <CurrencySwitch
                       tokenSymbol={item?.borrowCoin}
                       tokenValue={
@@ -98,11 +98,11 @@ export default function CreateBorrowVault() {
                         100
                       }
                       usdDefault
-                      className="flex h-[140px] w-full flex-col items-center justify-center font-larken text-[28px]"
+                      className="flex h-[140px] w-full flex-col items-center justify-center font-larken text-[32px]"
                       render={(value) => (
                         <>
                           <p>{value}</p>
-                          <p className="mt-[12px] font-mona text-16 text-[#959595]">
+                          <p className="mt-[10px] font-mona text-16 text-[#959595]">
                             Borrowing
                           </p>
                         </>
