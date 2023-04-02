@@ -142,7 +142,7 @@ export const StakePage = () => {
                         alt=""
                         className="w-[24px] xs:w-[28px]"
                       />
-                      <Link href={'#'}>
+                      <Link href={'#'} target="_blank">
                         <div className="mx-1 font-mona uppercase text-[#AA5BFF] xs:mx-2">
                           get {item.label}
                         </div>
