@@ -25,11 +25,11 @@ export default function BorrowItem() {
       <CurrencySwitch
         tokenSymbol="BTC"
         tokenValue={12192}
-        className="-my-4 w-1/4 space-y-1 py-4 font-larken"
+        className="w-1/4 py-4 -my-4 space-y-1 font-larken"
         decimalScale={1}
         render={(value) => (
           <>
-            <p className="whitespace-nowrap text-[22px]">{value}</p>
+            <p className="whitespace-nowrap text-[22px] mb-[12px]">{value}</p>
             <p className="font-mona text-[14px] text-[#959595]">Collateral</p>
           </>
         )}
@@ -38,11 +38,11 @@ export default function BorrowItem() {
         tokenSymbol="BTC"
         tokenValue={0.76}
         usdDefault
-        className="-my-4 w-1/4 space-y-1 py-4 font-larken"
+        className="w-1/4 py-4 -my-4 space-y-1 font-larken"
         decimalScale={1}
         render={(value) => (
           <>
-            <p className="text-[22px] leading-none">{value}</p>
+            <p className="text-[22px] mb-[12px] leading-none">{value}</p>
             <p className="font-mona text-[14px] text-[#959595]">Borrowed</p>
           </>
         )}
