@@ -7,11 +7,14 @@ import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import { Chart } from '@/components/common/Chart'
 import Link from 'next/link'
+import StakeDepositModal from './DepositModal'
 
 export const StakePage = () => {
   const [dataStake, setDataStake] = useState(DATA_STAKE)
   const [stakingPool, setStakingPool] = useState(STAKING_POOLS)
   const [isLoading, setIsLoading] = useState(true)
+  const [isOpenDepositModal, setOpenDepositModal] = useState(false)
+
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1000)
   }, [])
@@ -189,7 +192,8 @@ export const StakePage = () => {
                   </div>
                   <button
                     className="mt-4 w-full rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 font-mona uppercase hover:bg-gradient-to-t"
-                    onClick={() => toast.message('Coming soon')}
+                    // onClick={() => toast.message('Coming soon')}
+                    onClick={() => setOpenDepositModal(true)}
                   >
                     Deposit {item?.label}
                   </button>
@@ -300,6 +304,11 @@ export const StakePage = () => {
             )
         })}
       </div>
+      <StakeDepositModal
+        open={isOpenDepositModal}
+        handleClose={() => setOpenDepositModal(false)}
+        coin={{}}
+      />
     </>
   )
 }
