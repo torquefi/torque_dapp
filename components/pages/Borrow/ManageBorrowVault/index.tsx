@@ -17,9 +17,28 @@ export default function ManageBorrowVault() {
         <h3 className="font-larken text-[24px]">Manage Borrow Vault</h3>
       )}
 
-      {[...new Array(3)].map((item, i) => (
-        <BorrowItem key={i} />
+      {DATA_BORROW.map((item, i) => (
+        <BorrowItem key={i} item={item} />
       ))}
     </div>
   )
 }
+
+const DATA_BORROW = [
+  {
+    token: 'BTC',
+    label: 'House',
+    collateral: 12.1,
+    borrow: '6',
+    ltv: 59.36,
+    apy: -1.16,
+  },
+  {
+    token: 'ETH',
+    label: 'Lambo',
+    collateral: 220,
+    borrow: '138',
+    ltv: 66.57,
+    apy: -1.16,
+  },
+]

@@ -11,7 +11,7 @@ enum Action {
   Withdraw = 'Withdraw',
 }
 
-export default function BorrowItem() {
+export default function BorrowItem({ item }: any) {
   const [isExpand, setExpand] = useState(false)
   const [action, setAction] = useState(Action.Repay)
 
@@ -23,42 +23,38 @@ export default function BorrowItem() {
   const summaryInfo = (
     <div className="flex w-full text-center md:w-[400px] lg:w-[500px] xl:w-[600px]">
       <CurrencySwitch
-        tokenSymbol="BTC"
-        tokenValue={12192}
-        className="w-1/4 py-4 -my-4 space-y-1 font-larken"
+        tokenSymbol={item.token}
+        tokenValue={item.collateral}
+        className="-my-4 w-1/4 space-y-1 py-4 font-larken"
         decimalScale={1}
         render={(value) => (
           <>
-            <p className="whitespace-nowrap text-[22px] mb-[12px]">{value}</p>
+            <p className="mb-[12px] whitespace-nowrap text-[22px]">{value}</p>
             <p className="font-mona text-[14px] text-[#959595]">Collateral</p>
           </>
         )}
       />
       <CurrencySwitch
-        tokenSymbol="BTC"
-        tokenValue={0.76}
+        tokenSymbol={item.token}
+        tokenValue={item.borrow}
         usdDefault
-        className="w-1/4 py-4 -my-4 space-y-1 font-larken"
+        className="-my-4 w-1/4 space-y-1 py-4 font-larken"
         decimalScale={1}
         render={(value) => (
           <>
-            <p className="text-[22px] mb-[12px] leading-none">{value}</p>
+            <p className="mb-[12px] text-[22px] leading-none">{value}</p>
             <p className="font-mona text-[14px] text-[#959595]">Borrowed</p>
           </>
         )}
       />
       <div className="w-1/4 space-y-1">
-        <p className="whitespace-nowrap font-larken text-[22px]">
-          {(59.36).toFixed(2)}%
-        </p>
+        <p className="whitespace-nowrap font-larken text-[22px]">{item.ltv}%</p>
         <p className="whitespace-nowrap text-[14px] text-[#959595]">
           Loan-to-value
         </p>
       </div>
       <div className="w-1/4 space-y-1">
-        <p className="whitespace-nowrap font-larken text-[22px]">
-          {(-1.16).toFixed(2)}%
-        </p>
+        <p className="whitespace-nowrap font-larken text-[22px]">{item.apy}%</p>
         <p className="whitespace-nowrap text-[14px] text-[#959595]">Net APY</p>
       </div>
     </div>
@@ -74,8 +70,12 @@ export default function BorrowItem() {
       <div className="rounded-xl border border-[#1A1A1A] bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0">
         <div className="flex items-center px-[24px] py-[16px]">
           <div className="xlg:w-[calc(100%-600px-64px)] flex w-[calc(100%-64px)] items-center space-x-2 md:w-[calc(100%-400px-64px)] lg:w-[calc(100%-500px-64px)]">
-            <img className="w-[54px]" src="/icons/coin/btc.png" alt="" />
-            <p className="font-larken text-[22px]">Lambo</p>
+            <img
+              className="w-[54px]"
+              src={`/icons/coin/${item.token.toLowerCase()}.png`}
+              alt=""
+            />
+            <p className="font-larken text-[22px]">{item.label}</p>
             <AiOutlineEdit className="text-[22px]" />
           </div>
           <div className="hidden md:block">{summaryInfo}</div>
@@ -136,7 +136,7 @@ export default function BorrowItem() {
               <div className="flex select-none justify-between space-x-1 text-[12px] text-[#959595] sm:text-[14px]">
                 {[25, 50, 100].map((percent, i) => (
                   <div
-                    className="cursor-pointer rounded-md bg-[#171717] py-[2px] px-[6px] transition active:scale-95 xs:py-[4px] xs:px-[8px]"
+                    className="cursor-pointer rounded-md bg-[#171717] px-[6px] py-[2px] transition active:scale-95 xs:px-[8px] xs:py-[4px]"
                     key={i}
                   >
                     {percent}%
