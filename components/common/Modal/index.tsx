@@ -48,7 +48,7 @@ const Modal = ({
           )}
           {!hideCloseIcon ? (
             <div
-              className="absolute top-2 right-2 flex h-[32px] w-[32px] cursor-pointer items-center justify-center rounded-full bg-[#fff] bg-opacity-10 hover:bg-opacity-20"
+              className="absolute top-2 right-2 z-10 flex h-[32px] w-[32px] cursor-pointer items-center justify-center rounded-full bg-[#fff] bg-opacity-10 hover:bg-opacity-20"
               onClick={() => handleClose()}
             >
               <IoMdClose className="stroke-[#fff] text-[18px]" />

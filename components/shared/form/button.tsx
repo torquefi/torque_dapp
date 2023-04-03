@@ -166,7 +166,7 @@ export function Button({
           }`}
         >
           {!props.icon && loading && (
-            <i className="transition animate-spin absolute -left-5">
+            <i className="absolute -left-5 animate-spin transition">
               <CgSpinner />
             </i>
           )}
@@ -178,18 +178,17 @@ export function Button({
   )
 
   return props.href ? (
-    <Link href={props.href}>
-      <a
-        ref={props.innerRef as MutableRefObject<HTMLAnchorElement>}
-        className={finalClassName}
-        style={style}
-        onClick={(e) => onClick(e)}
-        tabIndex={props.unfocusable && -1}
-        data-tooltip={props.tooltip}
-        data-placement={props.placement || 'top'}
-      >
-        {Children}
-      </a>
+    <Link
+      href={props.href}
+      ref={props.innerRef as MutableRefObject<HTMLAnchorElement>}
+      className={finalClassName}
+      style={style}
+      onClick={(e) => onClick(e)}
+      tabIndex={props.unfocusable && -1}
+      data-tooltip={props.tooltip}
+      data-placement={props.placement || 'top'}
+    >
+      {Children}
     </Link>
   ) : (
     <button

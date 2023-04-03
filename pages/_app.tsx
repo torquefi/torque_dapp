@@ -12,6 +12,10 @@ import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/lib/integration/react'
 import { Toaster } from 'sonner'
 import SEO from '../next-seo.config'
+import { createClient, configureChains, WagmiConfig } from 'wagmi'
+import { publicProvider } from 'wagmi/providers/public'
+import { SessionProvider } from 'next-auth/react'
+import { mainnet, goerli } from 'wagmi/chains'
 import '../styles/style.scss'
 
 type NextPageWithLayout = NextPage & {
@@ -20,19 +24,25 @@ type NextPageWithLayout = NextPage & {
 
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout
+  pageProps?: any
 }
 
 export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
-  const serverUrl = 'https://t18lcsfgwrdy.grandmoralis.com:2053/server'
-  const appId = 'xxGYAnXLzPcsW42Ci9pmkuasJ2NJUyjt7uioTUij'
+  const serverUrl = 'https://moralis.torque.fi/server'
+  const appId = '1'
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page)
 
-  function getLibrary(provider: any) {
-    const library = new Web3Provider(provider)
-    library.pollingInterval = 12000
-    return library
-  }
+  const { provider, webSocketProvider } = configureChains(
+    [mainnet, goerli],
+    [publicProvider()]
+  )
+
+  const client = createClient({
+    provider,
+    webSocketProvider,
+    autoConnect: true,
+  })
 
   useEffect(() => {
     Moralis.start({
@@ -42,19 +52,23 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   }, [])
 
   return (
-    <MoralisProvider appId={appId} serverUrl={serverUrl}>
-      <DefaultSeo {...SEO} />
-      <Provider store={store}>
-        <PersistGate persistor={persistor}>
-          {() => (
-            <>
-              <CurrencySwitchInit />
-              {getLayout(<Component {...pageProps} />)}
-            </>
-          )}
-        </PersistGate>
-      </Provider>
-      <Toaster theme="dark" />
-    </MoralisProvider>
+    <WagmiConfig client={client}>
+      <MoralisProvider appId={appId} serverUrl={serverUrl}>
+        <SessionProvider session={pageProps.session} refetchInterval={0}>
+          <DefaultSeo {...SEO} />
+          <Provider store={store}>
+            <PersistGate persistor={persistor}>
+              {() => (
+                <>
+                  <CurrencySwitchInit />
+                  {getLayout(<Component {...pageProps} />)}
+                </>
+              )}
+            </PersistGate>
+          </Provider>
+          <Toaster theme="dark" richColors />
+        </SessionProvider>
+      </MoralisProvider>
+    </WagmiConfig>
   )
 }

@@ -2,6 +2,22 @@ import HoverIndicator from '@/components/common/HoverIndicator'
 import Modal from '@/components/common/Modal'
 import { useEffect, useRef, useState } from 'react'
 import { useMoralis } from 'react-moralis'
+import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
+import {
+  useAccount,
+  useConnect,
+  useSignMessage,
+  useDisconnect,
+  useNetwork,
+  createClient,
+} from 'wagmi'
+import { mainnet, optimism, polygon, goerli } from '@wagmi/core/chains'
+import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
+import { useAuthRequestChallengeEvm } from '@moralisweb3/next'
+import { useDispatch } from 'react-redux'
+import { updateAddress } from '@/lib/redux/auth/auth'
+import { WalletConnectLegacyConnector } from '@wagmi/core/connectors/walletConnectLegacy'
+import Moralis from 'moralis-v1'
 
 interface ConnectWalletModalProps {
   open: boolean
@@ -12,15 +28,56 @@ export default function ConnectWalletModal({
   open,
   handleClose,
 }: ConnectWalletModalProps) {
-  const { authenticate } = useMoralis()
+  const { authenticate, enableWeb3 } = useMoralis()
+  const { connectAsync } = useConnect()
+
+  const onConnectMetamaskWallet = async () => {
+    try {
+      // await enableWeb3({ provider: 'metamask' })
+      // const { account, chainId } = Moralis
+
+      // const { message } = await Moralis.Cloud.run('requestMessage', {
+      //   address: account,
+      //   chain: parseInt(chainId, 16),
+      //   networkType: 'evm',
+      // })
+      try {
+        await authenticate({
+          signingMessage: 'Welcome to Torque',
+          throwOnError: true,
+        })
+      } catch (e) {
+        console.log(e)
+      }
+      await connectAsync({
+        connector: new MetaMaskConnector(),
+      })
+      handleClose()
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  const onConnectWalletConnect = async () => {
+    try {
+      await connectAsync({
+        connector: new WalletConnectLegacyConnector({
+          options: {
+            qrcode: true,
+          },
+        }),
+      })
+    } catch (e) {
+      console.log(e)
+    }
+  }
 
   const connectors = [
     {
       name: 'MetaMask',
       icon: '/assets/wallet/metamask.svg',
       action: async () => {
-        await authenticate({ signingMessage: 'Welcome to Torque' })
-        handleClose()
+        await onConnectMetamaskWallet()
       },
       message: 'Connect to your MetaMask wallet',
     },
@@ -28,10 +85,7 @@ export default function ConnectWalletModal({
       name: 'WalletConnect',
       icon: '/assets/wallet/wallet-connect.svg',
       action: async () => {
-        await authenticate({
-          signingMessage: 'Welcome to Torque',
-          provider: 'walletconnect',
-        })
+        await onConnectWalletConnect()
         handleClose()
       },
       message: 'Scan with WalletConnect to connect',

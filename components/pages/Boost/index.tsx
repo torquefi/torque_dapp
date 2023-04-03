@@ -23,7 +23,7 @@ export const BoostPage = () => {
       <>
         <CurrencySwitch
           tokenSymbol={item?.token}
-          tokenValue={item.deposit}
+          tokenValue={item.deposited}
           usdDefault
           className="-my-4 flex h-full min-w-[100px] flex-col items-center justify-center gap-2 py-4"
           render={(value) => (
@@ -70,15 +70,16 @@ export const BoostPage = () => {
           </div>
         ) : (
           <img
-            src="/assets/banners/boost.png"
+            src="/assets/banners/boost-compressed.png"
             alt="Torque Boost"
             className="rounded-xl"
           />
         )}
-        <Link href="/overview">
-          <a className="absolute top-[24px] left-[24px] flex h-[48px] w-[48px] items-center justify-center rounded-full bg-[#030303]">
-            <img className="w-[12px]" src="/icons/arrow-left.svg" alt="" />
-          </a>
+        <Link
+          href="/overview"
+          className="absolute left-[24px] top-[24px] flex h-[48px] w-[48px] items-center justify-center rounded-full bg-[#030303]"
+        >
+          <img className="w-[12px]" src="/icons/arrow-left.svg" alt="" />
         </Link>
       </div>
       <div className="mt-[36px] font-larken">
@@ -104,11 +105,11 @@ export const BoostPage = () => {
                   <div className="flex w-full items-center justify-between">
                     <div className="flex items-center">
                       <img
-                        src={`/icons/coin/${item.token.toLocaleLowerCase()}.svg`}
+                        src={`/icons/coin/${item.token.toLocaleLowerCase()}.png`}
                         alt=""
                         className="w-16 xs:w-20 lg:w-24"
                       />
-                      <div className="grow pb-2 font-larken text-[16px] leading-tight xs:text-[18px] lg:text-[26px]">
+                      <div className="grow pb-2 font-larken text-[22px] leading-tight xs:text-[18px] sm:text-[22px] lg:text-[26px]">
                         Deposit {item.token},<br className="" /> Earn{' '}
                         {item.token}
                       </div>
@@ -119,30 +120,28 @@ export const BoostPage = () => {
                       className={`mt-[8px] w-[230px] bg-[#0d0d0d] text-center font-mona text-sm leading-tight`}
                       content="The projected TORQ rewards after 1 year of $1,000 supplied"
                     >
-                      <Link href="#">
-                        <a href="#" className="" target={'_blank'}>
-                          <div className="flex items-center gap-2 rounded-full bg-[#AA5BFF] bg-opacity-20 p-1  text-[12px] xs:text-[14px]">
-                            <img
-                              src="/assets/t-logo-circle.svg"
-                              alt=""
-                              className="w-[24px] xs:w-[28px]"
-                            />
+                      <Link href="#" className="" target={'_blank'}>
+                        <div className="flex items-center rounded-full bg-[#AA5BFF] bg-opacity-20 p-1  text-[12px] xs:text-[14px]">
+                          <img
+                            src="/assets/t-logo-circle.svg"
+                            alt=""
+                            className="w-[24px] xs:w-[28px]"
+                          />
 
-                            <div className="mx-1 font-mona uppercase text-[#AA5BFF] xs:mx-2">
-                              +{item.bonus_TORQ} TORQ
-                            </div>
+                          <div className="mx-1 font-mona uppercase text-[#AA5BFF] xs:mx-2">
+                            +{item.bonus_TORQ} TORQ
                           </div>
-                        </a>
+                        </div>
                       </Link>
                     </Popover>
                   </div>
                   <div className="mt-4 flex w-full items-center justify-center gap-4 ">
-                    <div className="to-[#161616]/08 flex w-1/2 flex-col items-center justify-center gap-3 rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616]">
+                    <div className="flex h-[140px] w-1/2 flex-col items-center justify-center gap-3 rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0">
                       <InputCurrencySwitch
                         tokenSymbol={item?.token}
                         tokenValue={Number(item.amount)}
                         usdDefault
-                        className="w-full py-6 lg:py-7"
+                        className="w-full py-4 lg:py-6"
                         decimalScale={2}
                         subtitle="Deposit"
                         onChange={(e) => {
@@ -151,41 +150,36 @@ export const BoostPage = () => {
                         }}
                       />
                     </div>
-                    <div className="flex w-full flex-col items-center justify-center rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0">
+                    <div className="flex h-[140px] w-[50%] flex-col items-center justify-center rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0">
                       <CurrencySwitch
                         tokenSymbol={item?.token}
                         tokenValue={Number(item.amount) * item.rate}
                         usdDefault
-                        className="w-full space-y-3 py-6 lg:py-8"
+                        className="w-full space-y-2 py-6 py-[23px] lg:py-[31px]"
                         decimalScale={2}
                         render={(value) => (
                           <>
-                            <p className="text-[32px]">{value}</p>
+                            <p className="text-[32px] leading-none">{value}</p>
                             <div className="font-mona text-[16px] text-[#959595]">
                               3-Year Value
                             </div>
                           </>
                         )}
                       />
-                      {/* <div className="font-mona text-[16px] text-[#959595] lg:text-[20px]">
-                        3-Year Value
-                      </div> */}
                     </div>
                   </div>
                   <div className="flex w-full items-center justify-between py-2 font-mona text-[16px] text-[#959595]">
                     <div className="font-mona">Yield provider</div>
-                    <Link href="https://stargate.finance/">
-                      <a
-                        href="https://stargate.finance/"
+                    <Link
+                      href="https://stargate.finance/"
+                      className=""
+                      target={'_blank'}
+                    >
+                      <img
+                        src="/icons/coin/stargate.png"
+                        alt="Stargate"
                         className=""
-                        target={'_blank'}
-                      >
-                        <img
-                          src="/icons/coin/stargate.png"
-                          alt="Stargate"
-                          className=""
-                        />
-                      </a>
+                      />
                     </Link>
                   </div>
                   <div className="flex w-full items-center justify-between font-mona text-[16px] text-[#959595]">
@@ -226,11 +220,11 @@ export const BoostPage = () => {
                 <div className="grid w-full grid-cols-2">
                   <div className="flex items-center gap-2">
                     <img
-                      src={`/icons/coin/${item?.token?.toLocaleLowerCase()}.svg`}
+                      src={`/icons/coin/${item?.token?.toLocaleLowerCase()}.png`}
                       alt=""
                       className="h-[54px] w-[54px] object-cover"
                     />
-                    <div className="flex items-center gap-1 text-[22px]">
+                    <div className="flex min-w-[160px] items-center gap-1 text-[22px]">
                       {item.name}
                       <button className="ml-2">
                         <img
@@ -318,7 +312,7 @@ const DATA_BOOST_VAULT = [
     name: 'Vault #1',
     deposited: 10.6,
     earnings: 0.24,
-    APY: '5.19',
+    APY: '5.19%',
     isOpen: false,
     amount: 0,
   },
@@ -327,7 +321,7 @@ const DATA_BOOST_VAULT = [
     name: 'Vault #2',
     deposited: 158130,
     earnings: 142271,
-    APY: '4.49',
+    APY: '4.49%',
     isOpen: false,
     amount: 0,
   },
