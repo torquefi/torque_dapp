@@ -21,8 +21,8 @@ export default function DepositModal({ coin, onSuccess }: DepositModalProps) {
   const [isUsdDeposit, setUsdDeposit] = useState<boolean>(false)
   const [loading, setLoading] = useState(false)
 
-  const isDisabled = false
   const balance = 5000
+  const isDisabled = !amount || +amount < 0 || +amount > +balance
 
   const approveToken = async () => {}
 
