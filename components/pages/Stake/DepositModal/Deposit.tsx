@@ -44,8 +44,8 @@ export default function DepositModal({ coin, onSuccess }: DepositModalProps) {
           <NumberFormat
             className={
               'bg-transparent text-[25px] font-bold dark:focus:text-white sm:text-[50px]' +
-              ` ${amount ? 'min-w-[0px]' : 'min-w-[70px] sm:min-w-[140px]'}` +
-              ` ${isUsdDeposit ? 'min-w-[270px]' : 'max-w-[300px]'}`
+              ` ${amount ? 'min-w-[0px]' : 'min-w-[70px] sm:min-w-[120px]'}` +
+              ` ${isUsdDeposit ? 'max-w-[270px]' : 'max-w-[300px]'}`
             }
             value={amount || null}
             onValueChange={(event: any) => {
@@ -56,6 +56,11 @@ export default function DepositModal({ coin, onSuccess }: DepositModalProps) {
             customInput={AutoWidthInput}
           />
         </div>
+        {!isUsdDeposit && (
+          <span className="text-[25px] text-[#77838F] sm:text-[50px]">
+            {coin?.label}
+          </span>
+        )}
         <div
           className="absolute inset-y-0 right-0 flex flex-col items-center justify-center"
           onClick={() => setUsdDeposit(!isUsdDeposit)}
@@ -66,7 +71,7 @@ export default function DepositModal({ coin, onSuccess }: DepositModalProps) {
             </div>
           </div>
           <div className="flex h-[30px] w-full items-center justify-center">
-            {isUsdDeposit ? 'USD' : 'TORQ'}
+            {isUsdDeposit ? 'USD' : coin?.label}
           </div>
         </div>
       </div>
