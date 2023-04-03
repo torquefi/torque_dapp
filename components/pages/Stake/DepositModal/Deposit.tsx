@@ -1,10 +1,13 @@
 import NumberFormat from '@/components/common/NumberFormat'
+import { TORQ } from '@/constants/coins'
 import useNetwork from '@/lib/hooks/useNetwork'
 import classNames from 'classnames'
-import { useEffect, useState } from 'react'
+import { ethers } from 'ethers'
+import { useEffect, useMemo, useState } from 'react'
 import AutoWidthInput from 'react-autowidth-input'
 import { AiOutlineSwap } from 'react-icons/ai'
 import { useMoralis } from 'react-moralis'
+import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 import ChoosePercent from './ChoosePercent'
 
@@ -15,22 +18,93 @@ interface DepositModalProps {
 
 export default function DepositModal({ coin, onSuccess }: DepositModalProps) {
   const { network } = useNetwork()
+  const { address } = useAccount()
   const web3 = new Web3(Web3.givenProvider)
   const { user } = useMoralis()
-  const [amount, setAmount] = useState<number>()
+  const [amount, setAmount] = useState<number>(0)
   const [isUsdDeposit, setUsdDeposit] = useState<boolean>(false)
   const [loading, setLoading] = useState(false)
+  const [allowance, setAllowance] = useState('0')
 
   const balance = 5000
   const isDisabled = !amount || +amount < 0 || +amount > +balance
+  const isApproved = +allowance >= +amount
 
-  const approveToken = async () => {}
+  const tokenContract = useMemo(() => {
+    const web3 = new Web3(Web3.givenProvider)
+    const contract = new web3.eth.Contract(
+      JSON.parse(TORQ.contractAbi),
+      TORQ.contractAddress
+    )
+    return contract
+  }, [])
 
-  const stakeToken = async () => {}
+  const stakeToken = async () => {
+    setLoading(true)
+    try {
+      const stakingContract = new web3.eth.Contract(
+        JSON.parse(coin?.stakingContractAbi),
+        coin?.stakingContractAddress
+      )
+
+      const decimals = await tokenContract.methods.decimals().call()
+      const tokenAmount = ethers.utils
+        .parseUnits(amount.toString(), decimals)
+        .toString()
+      console.log(tokenAmount)
+
+      await stakingContract.methods.deposit(tokenAmount).send({ from: address })
+    } catch (error) {
+      console.log('Staking.DepositModal.stakeToken', error)
+    }
+    setLoading(false)
+  }
+
+  const approveToken = async () => {
+    setLoading(true)
+    try {
+      await tokenContract.methods
+        .approve(
+          coin?.stakingContractAddress,
+          '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+        )
+        .send({ from: address })
+      handleGetAllowance()
+    } catch (error) {
+      console.log('Staking.DepositModal.approveToken', error)
+    }
+    setLoading(false)
+  }
+
+  const handleGetAllowance = async () => {
+    if (!coin?.symbol) {
+      return
+    }
+    setLoading(true)
+    try {
+      const allowanceToken = await tokenContract.methods
+        .allowance(address, coin?.stakingContractAddress)
+        .call()
+      const decimals = await tokenContract.methods.decimals().call()
+      const allowance = ethers.utils
+        .formatUnits(allowanceToken, decimals)
+        .toString()
+
+      // console.log('allowance', allowance)
+      setAllowance(allowance)
+    } catch (error) {
+      console.log('Staking.DepositModal.handleGetAllowance', error)
+    }
+    setLoading(false)
+  }
 
   useEffect(() => {
     setAmount(balance)
-  }, [balance])
+  }, [balance, coin?.symbol])
+
+  useEffect(() => {
+    handleGetAllowance()
+  }, [coin?.symbol, tokenContract])
 
   return (
     <>
@@ -96,19 +170,19 @@ export default function DepositModal({ coin, onSuccess }: DepositModalProps) {
         />
         <div className="bg-gradient-primary w-full cursor-pointer rounded-[10px] p-[1px]">
           <button
-            disabled={isDisabled}
-            onClick={() => stakeToken()}
+            disabled={isDisabled || loading}
+            onClick={() => (!isApproved ? approveToken() : stakeToken())}
             className={
               `flex w-full items-center justify-center  rounded-xl bg-black py-4 text-16 md:text-18` +
               ` ${
-                isDisabled
+                isDisabled || loading
                   ? 'cursor-not-allowed text-[#8d8d8d]'
                   : 'cursor-pointer '
               }`
             }
           >
             {loading && <Loading />}
-            Approve
+            {!isApproved ? 'Approve' : 'Deposit'}
           </button>
         </div>
       </div>

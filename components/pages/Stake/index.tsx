@@ -8,6 +8,7 @@ import { toast } from 'sonner'
 import { Chart } from '@/components/common/Chart'
 import Link from 'next/link'
 import StakeDepositModal from './DepositModal'
+import { STAKING_POOLS } from './constant'
 
 export const StakePage = () => {
   const [dataStake, setDataStake] = useState(DATA_STAKE)
@@ -328,29 +329,6 @@ const DATA_STAKE = [
     earnings: 0.0,
     APY: 56,
     isOpen: false,
-    amount: 0,
-  },
-]
-
-const STAKING_POOLS = [
-  {
-    label: 'TORQ',
-    token: 'TORQ',
-    bonus_TORQ: 24,
-    deposit: 0,
-    threeYearValue: 0,
-    rate: 1.72,
-    APY: 24,
-    amount: 0,
-  },
-  {
-    label: 'LP',
-    token: 'TORQ',
-    bonus_TORQ: 24,
-    deposit: 0,
-    threeYearValue: 0,
-    rate: 2.68,
-    APY: 56,
     amount: 0,
   },
 ]
