@@ -29,7 +29,7 @@ export default function StakeDepositModal({
       <div className="relative flex justify-between border-b border-[#1A1A1A] px-4 py-4 text-24 font-bold">
         <div className="flex items-center justify-start">
           {/* <img src={coin?.url} className="h-[40px] w-[40px]" /> */}
-          <p className="ml-2 text-[25px] font-bold md:ml-3">TORQ</p>
+          <p className="ml-2 text-[25px] font-bold md:ml-3">{coin?.label}</p>
           {/* <div className="">
             <ul className="mb-0 flex list-none flex-nowrap" role="tablist">
               <li className="ml-[10px] flex items-center md:ml-[15px]">

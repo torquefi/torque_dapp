@@ -13,7 +13,7 @@ export const StakePage = () => {
   const [dataStake, setDataStake] = useState(DATA_STAKE)
   const [stakingPool, setStakingPool] = useState(STAKING_POOLS)
   const [isLoading, setIsLoading] = useState(true)
-  const [isOpenDepositModal, setOpenDepositModal] = useState(false)
+  const [coinToOpenDepositModal, setCoinToOpenDepositModal] = useState(null)
 
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1000)
@@ -193,7 +193,7 @@ export const StakePage = () => {
                   <button
                     className="mt-4 w-full rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 font-mona uppercase hover:bg-gradient-to-t"
                     // onClick={() => toast.message('Coming soon')}
-                    onClick={() => setOpenDepositModal(true)}
+                    onClick={() => setCoinToOpenDepositModal(item)}
                   >
                     Deposit {item?.label}
                   </button>
@@ -305,9 +305,9 @@ export const StakePage = () => {
         })}
       </div>
       <StakeDepositModal
-        open={isOpenDepositModal}
-        handleClose={() => setOpenDepositModal(false)}
-        coin={{}}
+        open={!!coinToOpenDepositModal}
+        handleClose={() => setCoinToOpenDepositModal(null)}
+        coin={coinToOpenDepositModal}
       />
     </>
   )
