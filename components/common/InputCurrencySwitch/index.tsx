@@ -93,7 +93,7 @@ export default function InputCurrencySwitch({
     >
       <NumberFormat
         suffix={!isShowUsd ? ' ' + tokenSymbol : ''}
-        prefix={isShowUsd ? '$ ' : ''}
+        prefix={isShowUsd ? '$' : ''}
         className={`max-w-full bg-transparent pb-[2px] text-center text-[32px] font-bold text-white placeholder-gray-50`}
         value={floorFraction(inputAmount) || null}
         onChange={(event: any, value: any) => {
