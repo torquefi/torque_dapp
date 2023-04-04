@@ -21,12 +21,12 @@ export default function DepositModal({ coin, onSuccess }: DepositModalProps) {
   const { address } = useAccount()
   const web3 = new Web3(Web3.givenProvider)
   const { user } = useMoralis()
+  const [balance, setBalance] = useState<number>(0)
   const [amount, setAmount] = useState<number>(0)
   const [isUsdDeposit, setUsdDeposit] = useState<boolean>(false)
   const [loading, setLoading] = useState(false)
   const [allowance, setAllowance] = useState('0')
 
-  const balance = 5000
   const isDisabled = !amount || +amount < 0 || +amount > +balance
   const isApproved = +allowance >= +amount
 
@@ -103,6 +103,30 @@ export default function DepositModal({ coin, onSuccess }: DepositModalProps) {
   }, [balance, coin?.symbol])
 
   useEffect(() => {
+    const handleGetBalance = async () => {
+      if (!coin?.symbol) {
+        return
+      }
+      setLoading(true)
+      try {
+        const balanceToken = await tokenContract.methods
+          .balanceOf(address)
+          .call()
+        const decimals = await tokenContract.methods.decimals().call()
+        const balance = ethers.utils
+          .formatUnits(balanceToken, decimals)
+          .toString()
+
+        setBalance(+balance)
+      } catch (error) {
+        console.log('Staking.DepositModal.handleGetBalance', error)
+      }
+      setLoading(false)
+    }
+    handleGetBalance()
+  }, [coin?.symbol, tokenContract])
+
+  useEffect(() => {
     handleGetAllowance()
   }, [coin?.symbol, tokenContract])
 
@@ -119,7 +143,7 @@ export default function DepositModal({ coin, onSuccess }: DepositModalProps) {
             className={
               'bg-transparent text-[25px] font-bold dark:focus:text-white sm:text-[50px]' +
               ` ${amount ? 'min-w-[0px]' : 'min-w-[70px] sm:min-w-[120px]'}` +
-              ` ${isUsdDeposit ? 'max-w-[270px]' : 'max-w-[300px]'}`
+              ` ${isUsdDeposit ? 'max-w-[270px]' : 'max-w-[155px]'}`
             }
             value={amount || null}
             onValueChange={(event: any) => {

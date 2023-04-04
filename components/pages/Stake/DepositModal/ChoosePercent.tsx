@@ -19,8 +19,7 @@ const ChoosePercent: React.FC<ChoosePercentProps> = ({
             className={
               `w-[25%] cursor-pointer  rounded-lg p-[1px]` +
               ` ${
-                ((total * item) / 100 == value && +value != 0) ||
-                (+value == 0 && item === 100)
+                (total * item) / 100 == value && +value != 0
                   ? 'bg-gradient-primary'
                   : 'bg-[#525252]'
               }`
@@ -31,8 +30,7 @@ const ChoosePercent: React.FC<ChoosePercentProps> = ({
               className={
                 `flex w-full  items-center  justify-center rounded-lg py-2 text-12 leading-none md:text-14` +
                 ` ${
-                  ((total * item) / 100 == value && +value != 0) ||
-                  (+value == 0 && item === 100)
+                  (total * item) / 100 == value && +value != 0
                     ? 'bg-black'
                     : 'bg-[#292A2D]'
                 }`
