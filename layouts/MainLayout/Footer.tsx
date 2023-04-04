@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export default function Footer() {
   return (
-    <footer className="flex justify-between px-4 py-4 text-[#959595] sm:px-8">
+    <footer className="flex justify-between px-4 py-4 mt-8 text-[#959595] sm:px-8">
       <div className="cursor-pointer text-[10px] transition-colors duration-100 ease-linear hover:text-white hover:underline xs:text-[10px]">
         © 2023 TORQUE INC.
       </div>
@@ -11,7 +11,7 @@ export default function Footer() {
           <Link
             href={item.link}
             key={i}
-            className="block transition-colors duration-100 ease-linear hover:text-white hover:underline"
+            className="block transition-colors duration-300 ease-linear hover:text-white hover:-translate-y-[1px]"
             target="_blank"
           >
             {item.label}
@@ -21,7 +21,7 @@ export default function Footer() {
           <Link
             href={item.link}
             key={i}
-            className="hidden transition-colors duration-100 ease-linear hover:text-white hover:underline xs:block"
+            className="hidden transition-colors duration-300 ease-linear hover:text-white hover:-translate-y-[1px] xs:block"
             target="_blank"
           >
             {item.label}
