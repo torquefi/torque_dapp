@@ -44,6 +44,11 @@ export default function InputCurrencySwitch({
     usdc: 1,
   })
 
+  const tokenPrice =
+    price[tokenSymbol.toLocaleLowerCase()] ||
+    usdPrice[tokenSymbol.toLocaleLowerCase()] ||
+    1
+
   const getPrice = async () => {
     setPrice({
       eth: (await getPriceToken('ETH')) || 1800,
@@ -63,22 +68,30 @@ export default function InputCurrencySwitch({
 
   useEffect(() => {
     if (onChange)
-      if (isShowUsd)
-        onChange(inputAmount / price[tokenSymbol.toLocaleLowerCase()])
-      else onChange(inputAmount)
+      if (isShowUsd) {
+        onChange(inputAmount / tokenPrice)
+      } else {
+        onChange(inputAmount)
+      }
   }, [inputAmount])
 
   useEffect(() => {
-    if (isShowUsd)
-      setInputAmount(tokenValueChange * price[tokenSymbol.toLocaleLowerCase()])
-    else setInputAmount(tokenValueChange)
+    if (isShowUsd) {
+      setInputAmount(tokenValueChange * tokenPrice)
+    } else {
+      setInputAmount(tokenValueChange)
+    }
   }, [tokenValueChange])
 
   useEffect(() => {
-    if (isShowUsd)
-      setInputAmount(inputAmount * price[tokenSymbol.toLocaleLowerCase()])
-    else setInputAmount(inputAmount / price[tokenSymbol.toLocaleLowerCase()])
+    if (isShowUsd) setInputAmount(inputAmount * tokenPrice)
+    else setInputAmount(inputAmount / tokenPrice)
   }, [isShowUsd])
+
+  useEffect(() => {
+    setInputAmount(tokenValue)
+  }, [tokenValue])
+
   useEffect(() => {
     getPrice()
   }, [])
