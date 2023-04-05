@@ -119,7 +119,7 @@ export default function StakingPoolItem({ coin }: StakingPoolItemProps) {
       setSubmitLoadingLoading(false)
     }
     handleGetBalance()
-  }, [coin?.symbol, tokenContract])
+  }, [coin?.symbol, tokenContract, address])
 
   useEffect(() => {
     handleGetAllowance()
@@ -176,7 +176,6 @@ export default function StakingPoolItem({ coin }: StakingPoolItemProps) {
             onChange={(e) => {
               // coin.amount = e
               // setStakingPool([...stakingPool])
-              console.log(e)
               setAmount(e)
             }}
           />
