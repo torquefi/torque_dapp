@@ -3,19 +3,18 @@ import CurrencySwitch from '@/components/common/CurrencySwitch'
 import SkeletonDefault from '@/components/skeleton'
 import { useEffect, useState } from 'react'
 import { AiOutlineEdit } from 'react-icons/ai'
+import { useMoralis } from 'react-moralis'
 import { NumericFormat } from 'react-number-format'
 import { toast } from 'sonner'
-
 enum Action {
   Repay = 'Repay',
   Withdraw = 'Withdraw',
 }
-
 export default function BorrowItem({ item }: any) {
   const [isExpand, setExpand] = useState(false)
   const [action, setAction] = useState(Action.Repay)
-
   const [isLoading, setIsLoading] = useState(true)
+
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1000)
   }, [])

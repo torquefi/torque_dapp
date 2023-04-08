@@ -17,7 +17,7 @@ interface InputCurrencySwitchProps {
   render?: (str: string) => any
 }
 
-const getPriceToken = async (symbol: string) => {
+export const getPriceToken = async (symbol: string) => {
   let data = await axios.get(
     `https://api.binance.com/api/v3/ticker/price?symbol=${symbol.toUpperCase()}USDT`
   )
