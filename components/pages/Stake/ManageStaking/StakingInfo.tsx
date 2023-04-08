@@ -154,7 +154,7 @@ export default function StakingInfo({ stakeInfo }: StakingInfoProps) {
           <img src="/assets/pages/boost/chart.svg" alt="" />
         </div>
         <div className="mt-10">
-          <div className="text-[28px]">Withdraw TORQ</div>
+          <div className="text-[28px]">Withdraw {stakeInfo?.symbol}</div>
           <div className="mt-2 flex w-full items-center justify-between rounded-[12px] border border-[#1A1A1A] bg-gradient-to-b from-[#0d0d0d] to-[#0d0d0d]/0 px-2 py-4">
             <NumberFormat
               className="w-full bg-transparent bg-none px-2 font-mona focus:outline-none"
