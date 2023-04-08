@@ -33,8 +33,8 @@ export default function DepositModal({ coin, onSuccess }: DepositModalProps) {
   const tokenContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
     const contract = new web3.eth.Contract(
-      JSON.parse(TORQ.contractAbi),
-      TORQ.contractAddress
+      JSON.parse(TORQ.contract.abi),
+      TORQ.contract.address
     )
     return contract
   }, [])

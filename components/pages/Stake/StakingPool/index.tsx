@@ -8,7 +8,7 @@ export default function StakingPool() {
   return (
     <div className="mt-[24px] grid w-full grid-cols-1 gap-6 lg:grid-cols-2">
       {stakingPool.map((item: any, i) => (
-        <StakingPoolItem coin={item} key={i} />
+        <StakingPoolItem stakeInfo={item} key={i} />
       ))}
     </div>
   )

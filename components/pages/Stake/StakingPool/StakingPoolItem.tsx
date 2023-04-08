@@ -9,15 +9,16 @@ import { useEffect, useMemo, useState } from 'react'
 import { toast } from 'sonner'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
+import { IStakingInfo } from '../types'
 
 interface StakingPoolItemProps {
-  coin: any
+  stakeInfo: IStakingInfo
 }
 
-export default function StakingPoolItem({ coin }: StakingPoolItemProps) {
-  const { address } = useAccount()
+export default function StakingPoolItem({ stakeInfo }: StakingPoolItemProps) {
+  const { address, isConnected } = useAccount()
   const [isLoading, setLoading] = useState(true)
-  const [isSubmitLoading, setSubmitLoadingLoading] = useState(true)
+  const [isSubmitLoading, setSubmitLoading] = useState(false)
 
   const [balance, setBalance] = useState<number>(0)
   const [amount, setAmount] = useState<number>(0)
@@ -29,21 +30,30 @@ export default function StakingPoolItem({ coin }: StakingPoolItemProps) {
   const tokenContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
     const contract = new web3.eth.Contract(
-      JSON.parse(TORQ.contractAbi),
-      TORQ.contractAddress
+      JSON.parse(stakeInfo?.tokenContract.abi),
+      stakeInfo?.tokenContract.address
     )
     return contract
-  }, [Web3.givenProvider])
+  }, [Web3.givenProvider, stakeInfo?.symbol])
+
+  const stakingContract = useMemo(() => {
+    const web3 = new Web3(Web3.givenProvider)
+    const contract = new web3.eth.Contract(
+      JSON.parse(stakeInfo?.stakeContract.abi),
+      stakeInfo?.stakeContract.address
+    )
+    return contract
+  }, [Web3.givenProvider, stakeInfo?.symbol])
 
   const stakeToken = async () => {
-    setSubmitLoadingLoading(true)
+    if (!isConnected) {
+      return toast.error('You need connect your wallet first')
+    }
+    if (!+amount) {
+      return toast.error('You must input amount to deposit')
+    }
+    setSubmitLoading(true)
     try {
-      const web3 = new Web3(Web3.givenProvider)
-      const stakingContract = new web3.eth.Contract(
-        JSON.parse(coin?.stakingContractAbi),
-        coin?.stakingContractAddress
-      )
-
       const decimals = await tokenContract.methods.decimals().call()
       const tokenAmount = ethers.utils
         .parseUnits(amount.toString(), decimals)
@@ -56,15 +66,18 @@ export default function StakingPoolItem({ coin }: StakingPoolItemProps) {
       toast.error('Deposit failed ' + error?.message)
       console.log('Staking.DepositModal.stakeToken', error)
     }
-    setSubmitLoadingLoading(false)
+    setSubmitLoading(false)
   }
 
   const approveToken = async () => {
-    setSubmitLoadingLoading(true)
+    if (!isConnected) {
+      return toast.error('You need connect your wallet first')
+    }
+    setSubmitLoading(true)
     try {
       await tokenContract.methods
         .approve(
-          coin?.stakingContractAddress,
+          stakeInfo?.stakeContract?.address,
           '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
         )
         .send({ from: address })
@@ -72,17 +85,17 @@ export default function StakingPoolItem({ coin }: StakingPoolItemProps) {
     } catch (error) {
       console.log('Staking.DepositModal.approveToken', error)
     }
-    setSubmitLoadingLoading(false)
+    setSubmitLoading(false)
   }
 
   const handleGetAllowance = async () => {
-    if (!coin?.symbol) {
-      return
+    if (!isConnected || !tokenContract) {
+      return setBalance(0)
     }
-    setSubmitLoadingLoading(true)
+    setSubmitLoading(true)
     try {
       const allowanceToken = await tokenContract.methods
-        .allowance(address, coin?.stakingContractAddress)
+        .allowance(address, stakeInfo?.stakeContract?.address)
         .call()
       const decimals = await tokenContract.methods.decimals().call()
       const allowance = ethers.utils
@@ -94,15 +107,15 @@ export default function StakingPoolItem({ coin }: StakingPoolItemProps) {
     } catch (error) {
       console.log('Staking.DepositModal.handleGetAllowance', error)
     }
-    setSubmitLoadingLoading(false)
+    setSubmitLoading(false)
   }
 
   useEffect(() => {
     const handleGetBalance = async () => {
-      if (!coin?.symbol) {
-        return
+      if (!isConnected || !tokenContract) {
+        return setBalance(0)
       }
-      setSubmitLoadingLoading(true)
+      setSubmitLoading(true)
       try {
         const balanceToken = await tokenContract.methods
           .balanceOf(address)
@@ -116,14 +129,14 @@ export default function StakingPoolItem({ coin }: StakingPoolItemProps) {
       } catch (error) {
         console.log('Staking.DepositModal.handleGetBalance', error)
       }
-      setSubmitLoadingLoading(false)
+      setSubmitLoading(false)
     }
     handleGetBalance()
-  }, [coin?.symbol, tokenContract, address])
+  }, [tokenContract, isConnected])
 
   useEffect(() => {
     handleGetAllowance()
-  }, [coin?.symbol, tokenContract, address])
+  }, [tokenContract, isConnected])
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 1000)
@@ -147,7 +160,7 @@ export default function StakingPoolItem({ coin }: StakingPoolItemProps) {
             className="xs:w-26 m-2 w-12 lg:w-[64px]"
           />
           <div className="grow pb-2 font-larken text-[16px] leading-tight xs:text-[18px] lg:text-[26px]">
-            Deposit {coin.label},
+            Deposit {stakeInfo.label},
             <br className="" /> Earn TORQ
           </div>
         </div>
@@ -159,7 +172,7 @@ export default function StakingPoolItem({ coin }: StakingPoolItemProps) {
           />
           <Link href={'#'} target="_blank">
             <div className="mx-1 font-mona uppercase text-[#AA5BFF] xs:mx-2">
-              get {coin.label}
+              get {stakeInfo.label}
             </div>
           </Link>
         </div>
@@ -167,14 +180,14 @@ export default function StakingPoolItem({ coin }: StakingPoolItemProps) {
       <div className="mt-4 flex w-full items-center justify-center gap-4 ">
         <div className="flex h-[140px] w-1/2 flex-col items-center justify-center gap-3 rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0">
           <InputCurrencySwitch
-            tokenSymbol={coin?.token}
+            tokenSymbol={stakeInfo?.symbol}
             tokenValue={+amount}
             usdDefault
             className="w-full py-4 lg:py-6"
             decimalScale={2}
             subtitle="Your Stake"
             onChange={(e) => {
-              // coin.amount = e
+              // stakeInfo.amount = e
               // setStakingPool([...stakingPool])
               setAmount(e)
             }}
@@ -182,8 +195,8 @@ export default function StakingPoolItem({ coin }: StakingPoolItemProps) {
         </div>
         <div className="flex h-[140px] w-[50%] flex-col items-center justify-center rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0">
           <CurrencySwitch
-            tokenSymbol={coin?.token}
-            tokenValue={+amount || 0 * coin.rate}
+            tokenSymbol={stakeInfo?.symbol}
+            tokenValue={+amount || 0 * stakeInfo.rate}
             usdDefault
             className="w-full space-y-2 py-6 py-[23px] lg:py-[31px]"
             decimalScale={2}
@@ -201,7 +214,7 @@ export default function StakingPoolItem({ coin }: StakingPoolItemProps) {
 
       <div className="mt-2 flex w-full items-center justify-between font-mona text-[#959595]">
         <div className="">Variable APR</div>
-        <div className="">{coin.APY}%</div>
+        <div className="">{stakeInfo.APY}%</div>
       </div>
       <button
         className={
@@ -216,7 +229,7 @@ export default function StakingPoolItem({ coin }: StakingPoolItemProps) {
         onClick={() => (!isApproved ? approveToken() : stakeToken())}
       >
         {isSubmitLoading && <LoadingCircle />}
-        {!isApproved ? 'Approve' : 'Deposit'} {coin?.label}
+        {!isApproved ? 'Approve' : 'Deposit'} {stakeInfo?.label}
       </button>
     </div>
   )
