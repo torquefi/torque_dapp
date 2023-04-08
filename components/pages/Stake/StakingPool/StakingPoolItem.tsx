@@ -33,7 +33,7 @@ export default function StakingPoolItem({ coin }: StakingPoolItemProps) {
       TORQ.contractAddress
     )
     return contract
-  }, [])
+  }, [Web3.givenProvider])
 
   const stakeToken = async () => {
     setSubmitLoadingLoading(true)
@@ -123,7 +123,7 @@ export default function StakingPoolItem({ coin }: StakingPoolItemProps) {
 
   useEffect(() => {
     handleGetAllowance()
-  }, [coin?.symbol, tokenContract])
+  }, [coin?.symbol, tokenContract, address])
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 1000)
