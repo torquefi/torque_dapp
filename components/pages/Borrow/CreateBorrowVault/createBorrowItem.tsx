@@ -20,6 +20,7 @@ export default function CreateBorrowItem({ item }: any) {
   const [contractAsset, setContractAsset] = useState(null)
   const [contractBorrow, setContractBorrow] = useState(null)
   const [allowance, setAllowance] = useState(0)
+  const [buttonLoading, setButtonLoading] = useState(false)
   const [price, setPrice] = useState<any>({
     eth: 1800,
     btc: 28000,
@@ -83,6 +84,7 @@ export default function CreateBorrowItem({ item }: any) {
 
   const onApprove = async () => {
     try {
+      setButtonLoading(true)
       await contractAsset.methods
         .approve(
           contractBorrow._address,
@@ -95,21 +97,22 @@ export default function CreateBorrowItem({ item }: any) {
       await getAllowance()
     } catch (e) {
       toast.error('Approve Failed')
+    } finally {
+      setButtonLoading(false)
     }
   }
-  console.log(allowance)
+
   const onBorrow = async () => {
-    console.log(
-      Web3.utils.toWei(Number(dataBorrow.amount / 10).toFixed(9), 'gwei'),
-      Web3.utils.toWei(
-        Number(
-          dataBorrow.amountRecieve *
-            price[`${dataBorrow.depositCoin.toLowerCase()}`]
-        ).toFixed(2),
-        'mwei'
-      )
-    )
     try {
+      if (dataBorrow.amount <= 0) {
+        toast.error('You must deposit BTC to borrow')
+        return
+      }
+      if (dataBorrow.amountRecieve * price['btc'] <= 1000) {
+        toast.error('You just borrow more $1,000')
+        return
+      }
+      setButtonLoading(true)
       await contractBorrow.methods
         .borrow(
           Web3.utils.toWei(Number(dataBorrow.amount / 10).toFixed(9), 'gwei'),
@@ -128,6 +131,8 @@ export default function CreateBorrowItem({ item }: any) {
     } catch (e) {
       console.log(e)
       toast.error('Borrow Failed')
+    } finally {
+      setButtonLoading(false)
     }
   }
   useEffect(() => {
@@ -248,7 +253,10 @@ export default function CreateBorrowItem({ item }: any) {
           <p>$187.2m</p>
         </div>
         <button
-          className="bg-gradient-primary w-full rounded-full py-[4px] font-mona uppercase"
+          className={`bg-gradient-primary w-full rounded-full py-[4px] font-mona uppercase transition-all duration-200 ${
+            buttonLoading && 'cursor-not-allowed opacity-50'
+          }`}
+          disabled={buttonLoading}
           onClick={() => {
             if (
               dataBorrow.amountRecieve / dataBorrow.amount >

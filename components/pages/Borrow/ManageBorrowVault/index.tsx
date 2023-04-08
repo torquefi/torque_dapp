@@ -32,6 +32,10 @@ const DATA_BORROW = [
     borrow: '6',
     ltv: 59.36,
     apy: -1.16,
+    address_asset: '0x07865c6E87B9F70255377e024ace6630C1Eaa37F',
+    name_ABI_asset: 'usdc_abi',
+    decimals_asset: 6,
+    name_ABI_borrow: 'borrow_wbtc_abi',
   },
   {
     token: 'ETH',
