@@ -2,7 +2,7 @@ import NumberFormat from '@/components/common/NumberFormat'
 import { floorFraction, toMetricUnits } from '@/lib/helpers/number'
 import { AppStore } from '@/types/store'
 import axios from 'axios'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 
 interface InputCurrencySwitchProps {
@@ -44,10 +44,13 @@ export default function InputCurrencySwitch({
     usdc: 1,
   })
 
-  const tokenPrice =
-    price[tokenSymbol.toLocaleLowerCase()] ||
-    usdPrice[tokenSymbol.toLocaleLowerCase()] ||
-    1
+  const tokenPrice = useMemo(
+    () =>
+      price[tokenSymbol.toLocaleLowerCase()] ||
+      usdPrice[tokenSymbol.toLocaleLowerCase()] ||
+      1,
+    price
+  )
 
   const getPrice = async () => {
     setPrice({
@@ -87,10 +90,6 @@ export default function InputCurrencySwitch({
     if (isShowUsd) setInputAmount(inputAmount * tokenPrice)
     else setInputAmount(inputAmount / tokenPrice)
   }, [isShowUsd])
-
-  useEffect(() => {
-    setInputAmount(tokenValue)
-  }, [tokenValue])
 
   useEffect(() => {
     getPrice()
