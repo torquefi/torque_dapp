@@ -30,7 +30,7 @@ export default function PortfolioChart() {
           </p>
         </div>
         <img src="/assets/overview-page/chart.png" alt="" />
-        <div className="pt-[100px]">
+        <div className="">
           {/* <Chart /> */}
         </div>
       </div>
