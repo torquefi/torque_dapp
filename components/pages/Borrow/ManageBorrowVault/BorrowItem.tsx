@@ -119,6 +119,18 @@ export default function BorrowItem({ item }: any) {
     console.log(Web3.utils.toWei(Number(inputValue).toFixed(2), 'mwei'))
     try {
       setButtonLoading(true)
+      if (!isApproved) {
+        await contractAsset.methods
+          .approve(
+            contractBorrow._address,
+            Web3.utils.toWei(Number(inputValue).toFixed(2), 'ether')
+          )
+          .send({
+            from: address,
+          })
+        toast.success('Approve Successful')
+        await getAllowance()
+      }
       await contractBorrow.methods
         .repay(Web3.utils.toWei(Number(inputValue).toFixed(2), 'mwei'))
         .send({
@@ -294,9 +306,9 @@ export default function BorrowItem({ item }: any) {
                 buttonLoading && 'cursor-not-allowed opacity-50'
               }`}
               disabled={buttonLoading}
-              onClick={() => (isApproved ? onRepay() : onApprove())}
+              onClick={() => onRepay()}
             >
-              {isApproved ? action : 'Approve'}
+              {action}
             </button>
           </div>
         </div>

@@ -113,6 +113,17 @@ export default function CreateBorrowItem({ item }: any) {
         return
       }
       setButtonLoading(true)
+      if (!isApproved) {
+        await contractAsset.methods
+          .approve(
+            contractBorrow._address,
+            Web3.utils.toWei(Number(dataBorrow.amount).toFixed(2), 'ether')
+          )
+          .send({
+            from: address,
+          })
+        toast.success('Approve Successful')
+      }
       await contractBorrow.methods
         .borrow(
           Web3.utils.toWei(Number(dataBorrow.amount / 10).toFixed(9), 'gwei'),
@@ -264,12 +275,11 @@ export default function CreateBorrowItem({ item }: any) {
             ) {
               toast.error(`Loan-to-value exceeds ${dataBorrow.loanToValue}%`)
             } else {
-              if (!isApproved) onApprove()
-              else onBorrow()
+              onBorrow()
             }
           }}
         >
-          {isApproved ? 'Deposit and Borrow' : 'Approve'}
+          Deposit and Borrow
         </button>
       </div>
     )
