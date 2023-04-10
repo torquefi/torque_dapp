@@ -184,7 +184,7 @@ export default function BorrowItem({ item }: any) {
       <CurrencySwitch
         tokenSymbol={item.token}
         tokenValue={dataUserBorrow?.supplied || item.collateral}
-        className="-my-4 w-1/4 space-y-1 py-4 font-larken"
+        className="w-1/4 py-4 -my-4 space-y-1 font-larken"
         decimalScale={1}
         render={(value) => (
           <>
@@ -200,7 +200,7 @@ export default function BorrowItem({ item }: any) {
           item.borrow
         }
         usdDefault
-        className="-my-4 w-1/4 space-y-1 py-4 font-larken"
+        className="w-1/4 py-4 -my-4 space-y-1 font-larken"
         decimalScale={1}
         render={(value) => (
           <>
@@ -237,6 +237,11 @@ export default function BorrowItem({ item }: any) {
                 className="flex cursor-pointer items-center text-[22px] transition-all hover:scale-105"
                 onClick={() => setEdit(!isEdit)}
               >
+              <img
+              className="w-[54px] mr-2"
+              src={`/icons/coin/${item.token.toLowerCase()}.png`}
+              alt=""
+              />
                 {label}
                 <button className="ml-2">
                   <AiOutlineEdit />
