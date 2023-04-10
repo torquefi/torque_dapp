@@ -4,7 +4,9 @@ import LoadingCircle from '@/components/common/Loading/LoadingCircle'
 import NumberFormat from '@/components/common/NumberFormat'
 import SkeletonDefault from '@/components/skeleton'
 import { ethers } from 'ethers'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { AutowidthInput } from 'react-autowidth-input'
+import { AiOutlineCheck, AiOutlineEdit } from 'react-icons/ai'
 import { toast } from 'sonner'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
@@ -23,6 +25,10 @@ export default function StakingInfo({ stakeInfo }: StakingInfoProps) {
   const [balance, setBalance] = useState<number>(0)
   const [amount, setAmount] = useState<number>(0)
   const [allowance, setAllowance] = useState('0')
+
+  const [label, setLabel] = useState(stakeInfo?.label)
+  const [isEdit, setEdit] = useState(false)
+  const refLabelInput = useRef<HTMLInputElement>(null)
 
   const isDisabled = !amount || +amount < 0 || +amount > +balance
   const isApproved = +allowance >= +amount
@@ -68,6 +74,12 @@ export default function StakingInfo({ stakeInfo }: StakingInfoProps) {
     }
     setSubmitLoading(false)
   }
+
+  useEffect(() => {
+    if (isEdit && refLabelInput.current) {
+      refLabelInput.current.focus()
+    }
+  }, [isEdit])
 
   const summaryInfor = (item: IStakingInfo) => {
     return (
@@ -115,12 +127,34 @@ export default function StakingInfo({ stakeInfo }: StakingInfoProps) {
             alt=""
             className="w-[42px] object-cover"
           />
-          <div className="flex items-center gap-1 text-[22px]">
-            {stakeInfo.label}
-            <button className="ml-2">
-              <img src="/assets/pages/boost/edit.svg" alt="" className="" />
-            </button>
-          </div>
+          {!isEdit && (
+            <div
+              className="flex cursor-pointer items-center text-[22px] transition-all hover:scale-105"
+              onClick={() => setEdit(!isEdit)}
+            >
+              {label}
+              <button className="ml-2">
+                <AiOutlineEdit />
+              </button>
+            </div>
+          )}
+          {isEdit && (
+            <div className="flex cursor-pointer items-center text-[22px]">
+              <AutowidthInput
+                ref={refLabelInput}
+                className="min-w-[60px] bg-transparent"
+                value={label}
+                onChange={(e) => setLabel(e.target.value)}
+                onKeyUp={(e) => e.key === 'Enter' && setEdit(false)}
+              />
+              <button className="ml-2">
+                <AiOutlineCheck
+                  className="transition-all hover:scale-105"
+                  onClick={() => setEdit(!isEdit)}
+                />
+              </button>
+            </div>
+          )}
         </div>
         <div className="flex items-center justify-end gap-14">
           <div className="hidden items-center justify-between gap-14 lg:flex">
