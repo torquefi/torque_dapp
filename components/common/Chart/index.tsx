@@ -19,7 +19,7 @@ export function Chart(props: any) {
     })
     if (active && payload && payload.length) {
       return (
-        <div className="z-10 rounded border-2 border-[#1C1C1C] bg-[#0E0E0E] py-2 px-4 text-left">
+        <div className="z-10 rounded border-2 border-[#1C1C1C] bg-[#0E0E0E] px-4 py-2 text-left">
           <div className="text-24 font-semibold text-[#AA5BFF] ">
             {formatCurrency.format(0)}
           </div>
@@ -57,7 +57,7 @@ export function Chart(props: any) {
     )
   }
 
-  const dataFake = [
+  const dataFake = chartData || [
     {
       time: new Date().toISOString(),
       balanceUsd: 24,
@@ -80,7 +80,7 @@ export function Chart(props: any) {
     <div className="w-full">
       <ResponsiveContainer width="100%" height={280}>
         <AreaChart
-          data={dataFake}
+          data={chartData}
           margin={{ left: -10, right: -10, bottom: 20 }}
         >
           <XAxis
@@ -99,16 +99,16 @@ export function Chart(props: any) {
           <Tooltip content={CustomTooltip} />
 
           <defs>
-            <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+            <linearGradient id="balanceUsd" x1="0" y1="0" x2="0" y2="1">
               <stop offset="15%" stopColor="#AA5BFF" stopOpacity={0.15} />
               <stop offset="100%" stopColor="#AA5BFF" stopOpacity={0.05} />
               <stop offset="100%" stopColor="#AA5BFF" stopOpacity={0} />
             </linearGradient>
-            <linearGradient id="colorUvNegative" x1="0" y1="0" x2="0" y2="1">
+            {/* <linearGradient id="colorUvNegative" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor="#AA5BFF" stopOpacity={0.05} />
               <stop offset="20%" stopColor="#AA5BFF" stopOpacity={0.01} />
               <stop offset="100%" stopColor="#AA5BFF" stopOpacity={0} />
-            </linearGradient>
+            </linearGradient> */}
           </defs>
           <Area
             type="monotone"
@@ -117,9 +117,9 @@ export function Chart(props: any) {
             strokeWidth={2}
             fillOpacity={1}
             stroke="#AA5BFF"
-            fill="url(#colorUv)"
+            fill="url(#balanceUsd)"
           />
-          <Area
+          {/* <Area
             type="monotone"
             dataKey="balanceUsd"
             name="area"
@@ -127,7 +127,7 @@ export function Chart(props: any) {
             fillOpacity={1}
             stroke="transparent"
             fill="url(#colorUvNegative)"
-          />
+          /> */}
         </AreaChart>
       </ResponsiveContainer>
     </div>

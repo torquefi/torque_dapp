@@ -116,7 +116,6 @@ export default function BorrowItem({ item }: any) {
   }
 
   const onRepay = async () => {
-    console.log(Web3.utils.toWei(Number(inputValue).toFixed(2), 'mwei'))
     try {
       setButtonLoading(true)
       if (!isApproved) {
@@ -155,20 +154,17 @@ export default function BorrowItem({ item }: any) {
   }, [])
 
   useEffect(() => {
-    if (isWeb3Enabled) {
-      initContract()
-    } else enableWeb3()
+    initContract()
   }, [isWeb3Enabled, address, isConnected])
 
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1000)
   }, [])
-  console.log('allowance', allowance)
+
   const isApproved = useMemo(
     () => inputValue < allowance,
     [allowance, inputValue]
   )
-
   const summaryInfo = (
     <div className="flex w-full text-center md:w-[400px] lg:w-[500px] xl:w-[600px]">
       <CurrencySwitch
@@ -184,11 +180,8 @@ export default function BorrowItem({ item }: any) {
         )}
       />
       <CurrencySwitch
-        tokenSymbol={item.token}
-        tokenValue={
-          dataUserBorrow?.borrowed / price[item.token.toLowerCase()] ||
-          item.borrow
-        }
+        tokenSymbol={'USDC'}
+        tokenValue={dataUserBorrow?.borrowed || item.borrow}
         usdDefault
         className="-my-4 w-1/4 space-y-1 py-4 font-larken"
         decimalScale={1}
@@ -256,12 +249,27 @@ export default function BorrowItem({ item }: any) {
         >
           <div className="w-full md:hidden">{summaryInfo}</div>
           <div className=" w-full md:w-[40%] lg:w-[50%] xl:w-[55%]">
-            {/* <Chart /> */}
-            <img src="/assets/pages/boost/chart.svg" alt="" />
+            <Chart
+              chartData={[
+                {
+                  time: new Date().toISOString(),
+                  balanceUsd:
+                    dataUserBorrow?.supplied * price[item.token.toLowerCase()],
+                },
+                {
+                  time: new Date().toISOString(),
+                  balanceUsd:
+                    dataUserBorrow?.supplied * price[item.token.toLowerCase()],
+                },
+              ]}
+            />
+            {/* <img src="/assets/pages/boost/chart.svg" alt="" /> */}
           </div>
           <div className="w-full space-y-6 md:w-[60%] md:pl-[36px] lg:w-[50%] xl:w-[45%]">
             <div className="flex items-center justify-between">
-              <p className="font-larken text-[24px]">{action} USDC</p>
+              <p className="font-larken text-[24px]">
+                {action} {action == Action.Repay ? 'USDC' : item.token}
+              </p>
               <div className="rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] via-[#161616]/40 to-[#0e0e0e]">
                 {[Action.Repay, Action.Withdraw].map((item, i) => (
                   <button
@@ -284,7 +292,7 @@ export default function BorrowItem({ item }: any) {
               <NumericFormat
                 className="w-[120px] bg-transparent"
                 placeholder="Select amount"
-                value={inputValue}
+                value={inputValue || null}
                 onChange={(e) => setInputValue(Number(e.target.value))}
               />
               <div className="flex select-none justify-between space-x-1 text-[12px] text-[#959595] sm:text-[14px]">
