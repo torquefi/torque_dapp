@@ -2,9 +2,10 @@ import { Chart } from '@/components/common/Chart'
 import CurrencySwitch from '@/components/common/CurrencySwitch'
 import { getPriceToken } from '@/components/common/InputCurrencySwitch'
 import SkeletonDefault from '@/components/skeleton'
-import { useEffect, useMemo, useState } from 'react'
-import { AiOutlineEdit } from 'react-icons/ai'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useMoralis } from 'react-moralis'
+import { AutowidthInput } from 'react-autowidth-input'
+import { AiOutlineCheck, AiOutlineEdit } from 'react-icons/ai'
 import { NumericFormat } from 'react-number-format'
 import { toast } from 'sonner'
 import { useAccount } from 'wagmi'
@@ -29,6 +30,9 @@ export default function BorrowItem({ item }: any) {
     btc: 28000,
     usdc: 1,
   })
+  const [label, setLabel] = useState(item?.label)
+  const [isEdit, setEdit] = useState(false)
+  const refLabelInput = useRef<HTMLInputElement>(null)
   const { address, isConnected } = useAccount()
   const { Moralis, enableWeb3, isWeb3Enabled } = useMoralis()
 
@@ -165,6 +169,13 @@ export default function BorrowItem({ item }: any) {
     () => inputValue < allowance,
     [allowance, inputValue]
   )
+
+  useEffect(() => {
+    if (isEdit && refLabelInput.current) {
+      refLabelInput.current.focus()
+    }
+  }, [isEdit])
+
   const summaryInfo = (
     <div className="flex w-full text-center md:w-[400px] lg:w-[500px] xl:w-[600px]">
       <CurrencySwitch
@@ -214,14 +225,40 @@ export default function BorrowItem({ item }: any) {
     return (
       <div className="rounded-xl border border-[#1A1A1A] bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0">
         <div className="flex items-center px-[24px] py-[16px]">
-          <div className="xlg:w-[calc(100%-600px-64px)] flex w-[calc(100%-64px)] items-center space-x-2 md:w-[calc(100%-400px-64px)] lg:w-[calc(100%-500px-64px)]">
-            <img
-              className="w-[54px]"
-              src={`/icons/coin/${item.token.toLowerCase()}.png`}
-              alt=""
-            />
-            <p className="font-larken text-[22px]">{item.label}</p>
-            <AiOutlineEdit className="text-[22px]" />
+          <div className="xlg:w-[calc(100%-600px-64px)] flex w-[calc(100%-64px)] items-center space-x-2 font-larken text-[22px] md:w-[calc(100%-400px-64px)] lg:w-[calc(100%-500px-64px)]">
+            {!isEdit && (
+              <div
+                className="flex cursor-pointer items-center text-[22px] transition-all hover:scale-105"
+                onClick={() => setEdit(!isEdit)}
+              >
+                <img
+                  className="mr-2 w-[54px]"
+                  src={`/icons/coin/${item.token.toLowerCase()}.png`}
+                  alt=""
+                />
+                {label}
+                <button className="ml-2">
+                  <AiOutlineEdit />
+                </button>
+              </div>
+            )}
+            {isEdit && (
+              <div className="flex cursor-pointer items-center text-[22px]">
+                <AutowidthInput
+                  ref={refLabelInput}
+                  className="min-w-[60px] bg-transparent"
+                  value={label}
+                  onChange={(e) => setLabel(e.target.value)}
+                  onKeyUp={(e) => e.key === 'Enter' && setEdit(false)}
+                />
+                <button className="ml-2">
+                  <AiOutlineCheck
+                    className="transition-all hover:scale-105"
+                    onClick={() => setEdit(!isEdit)}
+                  />
+                </button>
+              </div>
+            )}
           </div>
           <div className="hidden md:block">{summaryInfo}</div>
           <div
