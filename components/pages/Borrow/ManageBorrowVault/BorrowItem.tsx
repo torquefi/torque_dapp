@@ -181,7 +181,7 @@ export default function BorrowItem({ item }: any) {
       <CurrencySwitch
         tokenSymbol={item.token}
         tokenValue={dataUserBorrow?.supplied || item.collateral}
-        className="-my-4 w-1/4 space-y-1 py-4 font-larken"
+        className="w-1/4 py-4 -my-4 space-y-1 font-larken"
         decimalScale={1}
         render={(value) => (
           <>
@@ -194,7 +194,7 @@ export default function BorrowItem({ item }: any) {
         tokenSymbol={'USDC'}
         tokenValue={dataUserBorrow?.borrowed || item.borrow}
         usdDefault
-        className="-my-4 w-1/4 space-y-1 py-4 font-larken"
+        className="w-1/4 py-4 -my-4 space-y-1 font-larken"
         decimalScale={1}
         render={(value) => (
           <>
@@ -228,7 +228,7 @@ export default function BorrowItem({ item }: any) {
           <div className="xlg:w-[calc(100%-600px-64px)] flex w-[calc(100%-64px)] items-center space-x-2 font-larken text-[22px] md:w-[calc(100%-400px-64px)] lg:w-[calc(100%-500px-64px)]">
             {!isEdit && (
               <div
-                className="flex cursor-pointer items-center text-[22px] transition-all hover:scale-105"
+                className="flex cursor-pointer items-center text-[22px]"
                 onClick={() => setEdit(!isEdit)}
               >
                 <img
@@ -244,6 +244,11 @@ export default function BorrowItem({ item }: any) {
             )}
             {isEdit && (
               <div className="flex cursor-pointer items-center text-[22px]">
+                <img
+                  className="mr-2 w-[54px]"
+                  src={`/icons/coin/${item.token.toLowerCase()}.png`}
+                  alt=""
+                />
                 <AutowidthInput
                   ref={refLabelInput}
                   className="min-w-[60px] bg-transparent"
@@ -251,9 +256,9 @@ export default function BorrowItem({ item }: any) {
                   onChange={(e) => setLabel(e.target.value)}
                   onKeyUp={(e) => e.key === 'Enter' && setEdit(false)}
                 />
-                <button className="ml-2">
+                <button className="">
                   <AiOutlineCheck
-                    className="transition-all hover:scale-105"
+                    className=""
                     onClick={() => setEdit(!isEdit)}
                   />
                 </button>

@@ -14,7 +14,7 @@ export const BorrowPage = () => {
   if (isLoading) {
     return (
       <div className="space-y-[36px]">
-        <SkeletonDefault height={'25vw'} />
+        <SkeletonDefault height={'50vh'} />
         <div className="">
           <SkeletonDefault height={40} className="w-full max-w-[200px]" />
           <div className="mt-[24px] grid gap-4 md:grid-cols-2">
