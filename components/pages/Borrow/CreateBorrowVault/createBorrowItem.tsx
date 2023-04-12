@@ -158,7 +158,7 @@ export default function CreateBorrowItem({ item }: any) {
   useEffect(() => {
     if (isWeb3Enabled) {
       initContract()
-    }
+    } else enableWeb3()
   }, [isWeb3Enabled, address, isConnected])
 
   const isApproved = useMemo(
