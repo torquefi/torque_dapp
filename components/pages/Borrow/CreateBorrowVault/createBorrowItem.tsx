@@ -108,7 +108,7 @@ export default function CreateBorrowItem({ item }: any) {
         toast.error('You must deposit BTC to borrow')
         return
       }
-      if (dataBorrow.amountRecieve * price['btc'] <= 1000) {
+      if (dataBorrow.amountRecieve * price['btc'] <= 100) {
         toast.error('You just borrow more $1,000')
         return
       }
