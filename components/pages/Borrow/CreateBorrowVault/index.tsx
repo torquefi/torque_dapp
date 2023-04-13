@@ -47,5 +47,9 @@ const fakeBorrow = [
     getTORQ: 32,
     amount: 0,
     amountRecieve: 0,
+    address_asset: '0x42a71137C09AE83D8d05974960fd607d40033499',
+    name_ABI_asset: 'eth_abi',
+    decimals_asset: 18,
+    name_ABI_borrow: 'borrow_eth_abi',
   },
 ]
