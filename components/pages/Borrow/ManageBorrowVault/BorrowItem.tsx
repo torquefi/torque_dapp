@@ -10,6 +10,7 @@ import { NumericFormat } from 'react-number-format'
 import { toast } from 'sonner'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
+import BigNumber from 'bignumber.js'
 enum Action {
   Repay = 'Repay',
   Withdraw = 'Withdraw',
@@ -74,9 +75,10 @@ export default function BorrowItem({ item }: any) {
           let data = await contract.methods.borrowInfoMap(address).call({
             from: address,
           })
+          console.log('data', data)
           setDataUserBorrow({
-            supplied: Moralis.Units.FromWei(Number(data.supplied), 8),
-            borrowed: Moralis.Units.FromWei(Number(data.borrowed), 6),
+            supplied: Moralis.Units.FromWei(data.supplied, item.decimals_asset),
+            borrowed: Moralis.Units.FromWei(data.borrowed, item.decimals_USDC),
           })
         }
         setContractBorrow(contract)

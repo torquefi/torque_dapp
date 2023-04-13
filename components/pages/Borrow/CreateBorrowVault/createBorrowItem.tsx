@@ -122,17 +122,7 @@ export default function CreateBorrowItem({ item }: any) {
         toast.success('Approve Successful')
       }
       setButtonLoading('BORROWING...')
-      console.log(
-        'Moralis.Units.Token',
-        Moralis.Units.Token(
-          Number(dataBorrow.amount).toFixed(9),
-          item.decimals_asset
-        ),
-        Moralis.Units.Token(
-          Number(dataBorrow.amountRecieve).toFixed(2),
-          item.decimals_USDC
-        )
-      )
+
       if (item.depositCoin == 'BTC') {
         await contractBorrow.methods
           .borrow(
