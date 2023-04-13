@@ -107,7 +107,7 @@ export default function InputCurrencySwitch({
         suffix={!isShowUsd ? ' ' + tokenSymbol : ''}
         prefix={isShowUsd ? '$' : ''}
         className={`max-w-full bg-transparent pb-[2px] text-center text-[32px] font-bold text-white placeholder-gray-50`}
-        value={floorFraction(inputAmount) || null}
+        value={inputAmount || null}
         onChange={(event: any, value: any) => {
           setInputAmount(value)
         }}
@@ -120,6 +120,7 @@ export default function InputCurrencySwitch({
         inputProps={{
           onClick: (e: any) => e?.stopPropagation(),
         }}
+        decimalScale={7}
       />
       {subtitle && (
         <div className="pb-2 font-mona text-[16px] text-[#959595]">
