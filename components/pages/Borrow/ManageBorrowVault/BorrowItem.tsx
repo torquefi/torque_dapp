@@ -14,6 +14,8 @@ enum Action {
   Repay = 'Repay',
   Withdraw = 'Withdraw',
 }
+
+const SECONDS_PER_YEAR = 60 * 60 * 24 * 365
 export default function BorrowItem({ item }: any) {
   const [dataBorrow, setDataBorrow] = useState(item)
   const [isExpand, setExpand] = useState(false)
@@ -32,6 +34,7 @@ export default function BorrowItem({ item }: any) {
   })
   const [label, setLabel] = useState(item?.label)
   const [isEdit, setEdit] = useState(false)
+  const [borrowRate, setBorrowRate] = useState(0)
   const refLabelInput = useRef<HTMLInputElement>(null)
   const { address, isConnected } = useAccount()
   const { Moralis, enableWeb3, isWeb3Enabled } = useMoralis()
@@ -78,6 +81,28 @@ export default function BorrowItem({ item }: any) {
         }
         setContractBorrow(contract)
       }
+
+      // const dataABICompound = await Moralis.Cloud.run('getAbi', {
+      //   name: 'compound_abi',
+      // })
+      // if (dataABICompound?.abi) {
+      //   const web3 = new Web3(Web3.givenProvider)
+      //   const contract = new web3.eth.Contract(
+      //     JSON.parse(dataABICompound?.abi),
+      //     dataABICompound?.address
+      //   )
+      //   if (contract) {
+      //     let utilization = await contract.methods.getUtilization().call({
+      //       from: address,
+      //     })
+      //     let borrowRate = await contract.methods
+      //       .getBorrowRate(utilization)
+      //       .call({
+      //         from: address,
+      //       })
+      //     setBorrowRate(borrowRate)
+      //   }
+      // }
     } catch (e) {
       console.log(e)
     }
@@ -181,8 +206,8 @@ export default function BorrowItem({ item }: any) {
       <CurrencySwitch
         tokenSymbol={item.token}
         tokenValue={dataUserBorrow?.supplied || item.collateral}
-        className="w-1/4 py-4 -my-4 space-y-1 font-larken"
-        decimalScale={1}
+        className="-my-4 w-1/4 space-y-1 py-4 font-larken"
+        decimalScale={2}
         render={(value) => (
           <>
             <p className="mb-[12px] whitespace-nowrap text-[22px]">{value}</p>
@@ -194,8 +219,8 @@ export default function BorrowItem({ item }: any) {
         tokenSymbol={'USDC'}
         tokenValue={dataUserBorrow?.borrowed || item.borrow}
         usdDefault
-        className="w-1/4 py-4 -my-4 space-y-1 font-larken"
-        decimalScale={1}
+        className="-my-4 w-1/4 space-y-1 py-4 font-larken"
+        decimalScale={2}
         render={(value) => (
           <>
             <p className="mb-[12px] text-[22px] leading-none">{value}</p>
@@ -204,7 +229,15 @@ export default function BorrowItem({ item }: any) {
         )}
       />
       <div className="w-1/4 space-y-1">
-        <p className="whitespace-nowrap font-larken text-[22px]">{item.ltv}%</p>
+        <p className="whitespace-nowrap font-larken text-[22px]">
+          {(
+            (dataUserBorrow?.borrowed /
+              (dataUserBorrow?.supplied *
+                price[`${item.token.toLowerCase()}`])) *
+              100 || 0
+          ).toFixed(2)}
+          %
+        </p>
         <p className="whitespace-nowrap text-[14px] text-[#959595]">
           Loan-to-value
         </p>

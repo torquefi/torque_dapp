@@ -20,7 +20,7 @@ export default function CreateBorrowItem({ item }: any) {
   const [contractAsset, setContractAsset] = useState(null)
   const [contractBorrow, setContractBorrow] = useState(null)
   const [allowance, setAllowance] = useState(0)
-  const [buttonLoading, setButtonLoading] = useState(false)
+  const [buttonLoading, setButtonLoading] = useState('')
   const [price, setPrice] = useState<any>({
     eth: 1800,
     btc: 28000,
@@ -82,25 +82,25 @@ export default function CreateBorrowItem({ item }: any) {
     }
   }
 
-  const onApprove = async () => {
-    try {
-      setButtonLoading(true)
-      await contractAsset.methods
-        .approve(
-          contractBorrow._address,
-          Web3.utils.toWei(Number(dataBorrow.amount).toFixed(2), 'ether')
-        )
-        .send({
-          from: address,
-        })
-      toast.success('Approve Successful')
-      await getAllowance()
-    } catch (e) {
-      toast.error('Approve Failed')
-    } finally {
-      setButtonLoading(false)
-    }
-  }
+  // const onApprove = async () => {
+  //   try {
+  //     setButtonLoading('true')
+  //     await contractAsset.methods
+  //       .approve(
+  //         contractBorrow._address,
+  //         Web3.utils.toWei(Number(dataBorrow.amount).toFixed(2), 'ether')
+  //       )
+  //       .send({
+  //         from: address,
+  //       })
+  //     toast.success('Approve Successful')
+  //     await getAllowance()
+  //   } catch (e) {
+  //     toast.error('Approve Failed')
+  //   } finally {
+  //     setButtonLoading('false')
+  //   }
+  // }
 
   const onBorrow = async () => {
     try {
@@ -108,11 +108,11 @@ export default function CreateBorrowItem({ item }: any) {
         toast.error('You must deposit BTC to borrow')
         return
       }
-      if (dataBorrow.amountRecieve * price['btc'] <= 100) {
-        toast.error('You just borrow more $1,000')
+      if (dataBorrow.amountRecieve <= 100) {
+        toast.error('You just borrow more $100')
         return
       }
-      setButtonLoading(true)
+      setButtonLoading('APPROVING...')
       if (!isApproved) {
         await contractAsset.methods
           .approve(
@@ -124,16 +124,11 @@ export default function CreateBorrowItem({ item }: any) {
           })
         toast.success('Approve Successful')
       }
+      setButtonLoading('BORROWING...')
       await contractBorrow.methods
         .borrow(
           Web3.utils.toWei(Number(dataBorrow.amount / 10).toFixed(9), 'gwei'),
-          Web3.utils.toWei(
-            Number(
-              dataBorrow.amountRecieve *
-                price[`${dataBorrow.depositCoin.toLowerCase()}`]
-            ).toFixed(2),
-            'mwei'
-          )
+          Web3.utils.toWei(Number(dataBorrow.amountRecieve).toFixed(2), 'mwei')
         )
         .send({
           from: address,
@@ -143,7 +138,7 @@ export default function CreateBorrowItem({ item }: any) {
       console.log(e)
       toast.error('Borrow Failed')
     } finally {
-      setButtonLoading(false)
+      setButtonLoading('')
     }
   }
   useEffect(() => {
@@ -205,7 +200,6 @@ export default function CreateBorrowItem({ item }: any) {
           <InputCurrencySwitch
             tokenSymbol={item?.depositCoin}
             tokenValue={Number(dataBorrow.amount)}
-            usdDefault
             className="w-full py-4 leading-none lg:py-6"
             subtitle="Collateral"
             onChange={(e) => {
@@ -217,9 +211,14 @@ export default function CreateBorrowItem({ item }: any) {
         </div>
         <div className="flex h-[140px] flex-col items-center justify-center rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0 font-larken">
           <InputCurrencySwitch
-            tokenSymbol={item?.depositCoin}
+            tokenSymbol={'USDC'}
             tokenValue={Number(dataBorrow.amountRecieve)}
-            tokenValueChange={Number((dataBorrow.amount * 50) / 100)}
+            tokenValueChange={Number(
+              (dataBorrow.amount *
+                price[`${dataBorrow.depositCoin.toLowerCase()}`] *
+                50) /
+                100
+            )}
             usdDefault
             className="w-full py-4 leading-none lg:py-6"
             subtitle="Borrowing"
@@ -259,10 +258,12 @@ export default function CreateBorrowItem({ item }: any) {
         className={`bg-gradient-primary w-full rounded-full py-[4px] font-mona uppercase transition-all duration-200 ${
           buttonLoading && 'cursor-not-allowed opacity-50'
         }`}
-        disabled={buttonLoading}
+        disabled={buttonLoading != ''}
         onClick={() => {
           if (
-            dataBorrow.amountRecieve / dataBorrow.amount >
+            dataBorrow.amountRecieve /
+              (dataBorrow.amount *
+                price[`${dataBorrow.depositCoin.toLowerCase()}`]) >
             dataBorrow.loanToValue / 100
           ) {
             toast.error(`Loan-to-value exceeds ${dataBorrow.loanToValue}%`)
@@ -271,7 +272,7 @@ export default function CreateBorrowItem({ item }: any) {
           }
         }}
       >
-        Deposit and Borrow
+        {buttonLoading != '' ? buttonLoading : 'Deposit and Borrow'}
       </button>
     </div>
   )

@@ -60,14 +60,14 @@ export default function InputCurrencySwitch({
     })
   }
 
-  const valueToShow = isShowUsd
-    ? tokenValue * (usdPrice?.[tokenSymbol] || 1)
-    : tokenValue
+  // const valueToShow = isShowUsd
+  //   ? tokenValue * (usdPrice?.[tokenSymbol] || 1)
+  //   : tokenValue
 
-  const strToShow =
-    (isShowUsd ? '$' : '') +
-    toMetricUnits(valueToShow, decimalScale) +
-    (isShowUsd ? '' : ' ' + tokenSymbol)
+  // const strToShow =
+  //   (isShowUsd ? '$' : '') +
+  //   toMetricUnits(valueToShow, decimalScale) +
+  //   (isShowUsd ? '' : ' ' + tokenSymbol)
 
   useEffect(() => {
     if (onChange)
