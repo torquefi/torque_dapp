@@ -29,7 +29,7 @@ export default function StakingPoolItem({ stakeInfo }: StakingPoolItemProps) {
   const isDisabled = !amount || +amount < 0
   const isApproved = +allowance >= +amount
 
-  console.log(stakeInfo?.symbol, balance, allowance)
+  console.log(stakeInfo.symbol, address, balance, allowance)
 
   const tokenContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
