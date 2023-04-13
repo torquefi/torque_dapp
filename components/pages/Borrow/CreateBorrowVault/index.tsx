@@ -38,6 +38,7 @@ const fakeBorrow = [
     name_ABI_asset: 'wbtc_abi',
     decimals_asset: 8,
     name_ABI_borrow: 'borrow_wbtc_abi',
+    decimals_USDC: 6,
   },
   {
     coinIcon: '/icons/coin/eth.png',
@@ -51,5 +52,6 @@ const fakeBorrow = [
     name_ABI_asset: 'eth_abi',
     decimals_asset: 18,
     name_ABI_borrow: 'borrow_eth_abi',
+    decimals_USDC: 6,
   },
 ]

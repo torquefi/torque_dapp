@@ -4,15 +4,12 @@ import InputCurrencySwitch, {
   getPriceToken,
 } from '@/components/common/InputCurrencySwitch'
 import Popover from '@/components/common/Popover'
-import SkeletonDefault from '@/components/skeleton'
-import { floorFraction } from '@/lib/helpers/number'
 import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
 import { toast } from 'sonner'
 import { useMoralis } from 'react-moralis'
 import Web3 from 'web3'
 import { useAccount } from 'wagmi'
-import BigNumber from 'bignumber.js'
 
 export default function CreateBorrowItem({ item }: any) {
   const [dataBorrow, setDataBorrow] = useState(item)
@@ -125,14 +122,48 @@ export default function CreateBorrowItem({ item }: any) {
         toast.success('Approve Successful')
       }
       setButtonLoading('BORROWING...')
-      await contractBorrow.methods
-        .borrow(
-          Web3.utils.toWei(Number(dataBorrow.amount / 10).toFixed(9), 'gwei'),
-          Web3.utils.toWei(Number(dataBorrow.amountRecieve).toFixed(2), 'mwei')
+      console.log(
+        'Moralis.Units.Token',
+        Moralis.Units.Token(
+          Number(dataBorrow.amount).toFixed(9),
+          item.decimals_asset
+        ),
+        Moralis.Units.Token(
+          Number(dataBorrow.amountRecieve).toFixed(2),
+          item.decimals_USDC
         )
-        .send({
-          from: address,
-        })
+      )
+      if (item.depositCoin == 'BTC') {
+        await contractBorrow.methods
+          .borrow(
+            Moralis.Units.Token(
+              Number(dataBorrow.amount).toFixed(9),
+              item.decimals_asset
+            ),
+            Moralis.Units.Token(
+              Number(dataBorrow.amountRecieve).toFixed(2),
+              item.decimals_USDC
+            )
+          )
+          .send({
+            from: address,
+          })
+      } else if (item.depositCoin == 'ETH') {
+        await contractBorrow.methods
+          .borrow(
+            Moralis.Units.Token(
+              Number(dataBorrow.amountRecieve).toFixed(2),
+              item.decimals_USDC
+            )
+          )
+          .send({
+            value: Moralis.Units.Token(
+              Number(dataBorrow.amount).toFixed(9),
+              item.decimals_asset
+            ),
+            from: address,
+          })
+      }
       toast.success('Borrow Successful')
     } catch (e) {
       console.log(e)
@@ -151,9 +182,7 @@ export default function CreateBorrowItem({ item }: any) {
   }, [])
 
   useEffect(() => {
-    if (isWeb3Enabled) {
-      initContract()
-    } else enableWeb3()
+    initContract()
   }, [isWeb3Enabled, address, isConnected])
 
   const isApproved = useMemo(
