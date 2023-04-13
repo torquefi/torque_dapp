@@ -37,6 +37,7 @@ export default function InputCurrencySwitch({
 }: InputCurrencySwitchProps) {
   const [isShowUsd, setShowUsd] = useState(usdDefault)
   const [inputAmount, setInputAmount] = useState(0)
+  const [tokenPrice, setTokenPrice] = useState(0)
   const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
   const [price, setPrice] = useState<any>({
     eth: 1800,
@@ -44,20 +45,18 @@ export default function InputCurrencySwitch({
     usdc: 1,
   })
 
-  const tokenPrice = useMemo(
-    () =>
-      price[tokenSymbol.toLocaleLowerCase()] ||
-      usdPrice[tokenSymbol.toLocaleLowerCase()] ||
-      1,
-    price
-  )
-
   const getPrice = async () => {
-    setPrice({
+    let price: any = {
       eth: (await getPriceToken('ETH')) || 1800,
       btc: (await getPriceToken('BTC')) || 28000,
       usdc: (await getPriceToken('USDC')) || 1,
-    })
+    }
+    setPrice(price)
+    setTokenPrice(
+      price[tokenSymbol.toLocaleLowerCase()] ||
+        usdPrice[tokenSymbol.toLocaleLowerCase()] ||
+        0
+    )
   }
 
   // const valueToShow = isShowUsd
