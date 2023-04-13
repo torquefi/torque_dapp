@@ -70,6 +70,13 @@
   },
   {
     "inputs": [],
+    "name": "USDT",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "apr",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
@@ -124,6 +131,16 @@
     "type": "function"
   },
   {
+    "inputs": [
+      { "internalType": "address", "name": "_token", "type": "address" },
+      { "internalType": "uint256", "name": "_amount", "type": "uint256" }
+    ],
+    "name": "getUSDPrice",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "owner",
     "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
@@ -158,6 +175,15 @@
   },
   {
     "inputs": [],
+    "name": "router",
+    "outputs": [
+      { "internalType": "contract IRouter", "name": "", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "sTorque",
     "outputs": [
       {
@@ -167,6 +193,15 @@
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_cooldownTime", "type": "uint256" }
+    ],
+    "name": "setCooldownTime",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -211,6 +246,24 @@
       { "internalType": "uint256", "name": "_apr", "type": "uint256" }
     ],
     "name": "updateAPR",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_router", "type": "address" }
+    ],
+    "name": "updateRouter",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_usdt", "type": "address" }
+    ],
+    "name": "updateUSDT",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

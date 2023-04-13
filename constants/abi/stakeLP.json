@@ -68,6 +68,13 @@
   },
   {
     "inputs": [],
+    "name": "USDT",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "apr",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
@@ -138,6 +145,16 @@
     "type": "function"
   },
   {
+    "inputs": [
+      { "internalType": "address", "name": "_token", "type": "address" },
+      { "internalType": "uint256", "name": "_amount", "type": "uint256" }
+    ],
+    "name": "getUSDPrice",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "owner",
     "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
@@ -202,6 +219,15 @@
     "type": "function"
   },
   {
+    "inputs": [
+      { "internalType": "uint256", "name": "_cooldownTime", "type": "uint256" }
+    ],
+    "name": "setCooldownTime",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [{ "internalType": "bool", "name": "_enabled", "type": "bool" }],
     "name": "setEnabled",
     "outputs": [],
@@ -253,6 +279,15 @@
       { "internalType": "address", "name": "_router", "type": "address" }
     ],
     "name": "updateRouter",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_usdt", "type": "address" }
+    ],
+    "name": "updateUSDT",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
