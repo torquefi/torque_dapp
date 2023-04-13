@@ -6,7 +6,7 @@ export interface IContractInfo {
 }
 
 export const tokenTorqContract: IContractInfo = {
-  address: '0x4Aa7aed6BDa411534801D1d64227Bc1CFA79A1Dd',
+  address: '0xB98EfE47A7Ed24CBAF02318BCe8e6413A2d11a49',
   abi: JSON.stringify(tokenTorqAbi),
 }
 
@@ -16,11 +16,11 @@ export const tokenLpContract: IContractInfo = {
 }
 
 export const stakeTorqContract: IContractInfo = {
-  address: '0xB98E83dffb89e0CeD48331703729B2F9d833b993',
+  address: '0xE757159Ecc5B51DfDb696c99eF4436962D05d68C',
   abi: JSON.stringify(stakeTorqAbi),
 }
 
 export const stakeLpContract: IContractInfo = {
-  address: '0xcc06ABe6c581111f3B8e58A039E0026BcD17CD9F',
+  address: '0x24137780670faA6772EC8f4Ec7B128500407Fa1e',
   abi: JSON.stringify(stakeLpAbi),
 }

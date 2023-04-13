@@ -1,6 +1,7 @@
 import CurrencySwitch from '@/components/common/CurrencySwitch'
 import InputCurrencySwitch from '@/components/common/InputCurrencySwitch'
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
+import ConfirmModal from '@/components/common/Modal/ConfirmModal'
 import SkeletonDefault from '@/components/skeleton'
 import { TORQ } from '@/constants/coins'
 import { ethers } from 'ethers'
@@ -19,13 +20,16 @@ export default function StakingPoolItem({ stakeInfo }: StakingPoolItemProps) {
   const { address, isConnected } = useAccount()
   const [isLoading, setLoading] = useState(true)
   const [isSubmitLoading, setSubmitLoading] = useState(false)
+  const [isOpenConfirmModal, setOpenConfirmModal] = useState(false)
 
   const [balance, setBalance] = useState<number>(0)
   const [amount, setAmount] = useState<number>(0)
   const [allowance, setAllowance] = useState('0')
 
-  const isDisabled = !amount || +amount < 0 || +amount > +balance
+  const isDisabled = !amount || +amount < 0
   const isApproved = +allowance >= +amount
+
+  console.log(stakeInfo?.symbol, balance, allowance)
 
   const tokenContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
@@ -124,7 +128,7 @@ export default function StakingPoolItem({ stakeInfo }: StakingPoolItemProps) {
         const balance = ethers.utils
           .formatUnits(balanceToken, decimals)
           .toString()
-
+        console.log('balance', balance)
         setBalance(+balance)
       } catch (error) {
         console.log('Staking.DepositModal.handleGetBalance', error)
@@ -226,11 +230,23 @@ export default function StakingPoolItem({ stakeInfo }: StakingPoolItemProps) {
           }`
         }
         disabled={isDisabled || isSubmitLoading}
-        onClick={() => (!isApproved ? approveToken() : stakeToken())}
+        onClick={() =>
+          !isApproved ? approveToken() : setOpenConfirmModal(true)
+        }
       >
         {isSubmitLoading && <LoadingCircle />}
         {!isApproved ? 'Approve' : 'Deposit'} {stakeInfo?.label}
       </button>
+      <ConfirmModal
+        open={isOpenConfirmModal}
+        handleClose={() => setOpenConfirmModal(false)}
+        title="Confirm stake"
+        content={`Do you want to deposit ${amount} ${stakeInfo.symbol}?`}
+        onConfirm={() => {
+          stakeToken()
+          setOpenConfirmModal(false)
+        }}
+      />
     </div>
   )
 }
