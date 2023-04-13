@@ -11,7 +11,7 @@ export const tokenTorqContract: IContractInfo = {
 }
 
 export const tokenLpContract: IContractInfo = {
-  address: '0x221ec2bab33c18e2fead382fefff6f1949494c52',
+  address: '0x88da624eD11CfAf1967B1D19B090636080Ece2f5',
   abi: JSON.stringify(tokenLpAbi),
 }
 
