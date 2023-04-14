@@ -11,6 +11,8 @@ import { toast } from 'sonner'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 import BigNumber from 'bignumber.js'
+import { useSelector } from 'react-redux'
+import { AppStore } from '@/types/store'
 enum Action {
   Repay = 'Repay',
   Withdraw = 'Withdraw',
@@ -18,6 +20,8 @@ enum Action {
 
 const SECONDS_PER_YEAR = 60 * 60 * 24 * 365
 export default function BorrowItem({ item }: any) {
+  const borrowTime = useSelector((store: AppStore) => store.borrow)
+
   const [dataBorrow, setDataBorrow] = useState(item)
   const [isExpand, setExpand] = useState(false)
   const [action, setAction] = useState(Action.Repay)
@@ -35,10 +39,13 @@ export default function BorrowItem({ item }: any) {
   })
   const [label, setLabel] = useState(item?.label)
   const [isEdit, setEdit] = useState(false)
-  const [borrowRate, setBorrowRate] = useState(0)
+  const [borrowRate, setBorrowRate] = useState(1359200263)
   const refLabelInput = useRef<HTMLInputElement>(null)
   const { address, isConnected } = useAccount()
   const { Moralis, enableWeb3, isWeb3Enabled } = useMoralis()
+
+  const borrowAPR =
+    Number(Moralis.Units.FromWei(borrowRate, 18)) * SECONDS_PER_YEAR * 100
 
   const getPrice = async () => {
     setPrice({
@@ -186,7 +193,7 @@ export default function BorrowItem({ item }: any) {
 
   useEffect(() => {
     initContract()
-  }, [isWeb3Enabled, address, isConnected])
+  }, [isWeb3Enabled, address, isConnected, borrowTime])
 
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1000)
@@ -245,7 +252,9 @@ export default function BorrowItem({ item }: any) {
         </p>
       </div>
       <div className="w-1/4 space-y-1">
-        <p className="whitespace-nowrap font-larken text-[22px]">{item.apy}%</p>
+        <p className="whitespace-nowrap font-larken text-[22px]">
+          {borrowAPR.toFixed(2)}%
+        </p>
         <p className="whitespace-nowrap text-[14px] text-[#959595]">Net APY</p>
       </div>
     </div>

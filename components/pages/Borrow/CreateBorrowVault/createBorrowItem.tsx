@@ -10,6 +10,8 @@ import { toast } from 'sonner'
 import { useMoralis } from 'react-moralis'
 import Web3 from 'web3'
 import { useAccount } from 'wagmi'
+import { useDispatch } from 'react-redux'
+import { updateBorrowTime } from '@/lib/redux/auth/borrow'
 
 export default function CreateBorrowItem({ item }: any) {
   const [dataBorrow, setDataBorrow] = useState(item)
@@ -25,6 +27,8 @@ export default function CreateBorrowItem({ item }: any) {
   })
   const { address, isConnected } = useAccount()
   const { Moralis, enableWeb3, isWeb3Enabled } = useMoralis()
+
+  const dispatch = useDispatch()
 
   const getPrice = async () => {
     setPrice({
@@ -154,6 +158,7 @@ export default function CreateBorrowItem({ item }: any) {
             from: address,
           })
       }
+      dispatch(updateBorrowTime(new Date().toISOString() as any))
       toast.success('Borrow Successful')
     } catch (e) {
       console.log(e)
