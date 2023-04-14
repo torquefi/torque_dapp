@@ -110,6 +110,7 @@ export default function InputCurrencySwitch({
         onChange={(event: any, value: any) => {
           setInputAmount(value)
         }}
+        decimalScale={5}
         thousandSeparator
         placeholder={
           (isShowUsd ? '$' : '') +
@@ -119,7 +120,6 @@ export default function InputCurrencySwitch({
         inputProps={{
           onClick: (e: any) => e?.stopPropagation(),
         }}
-        decimalScale={7}
       />
       {subtitle && (
         <div className="pb-2 font-mona text-[16px] text-[#959595]">
