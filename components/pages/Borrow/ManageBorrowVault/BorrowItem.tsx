@@ -196,7 +196,7 @@ export default function BorrowItem({ item }: any) {
     })
 
     data[`${item.data_key}`] = name
-    data[`address}`] = address
+    data[`address`] = address
     console.log(data)
     await Moralis.Cloud.run('updateDataBorrowUser', {
       ...data,
@@ -246,6 +246,7 @@ export default function BorrowItem({ item }: any) {
         tokenValue={dataUserBorrow?.supplied || item.collateral}
         className="-my-4 w-1/4 space-y-1 py-4 font-larken"
         decimalScale={2}
+        usdDefault
         render={(value) => (
           <>
             <p className="mb-[12px] whitespace-nowrap text-[22px]">{value}</p>
