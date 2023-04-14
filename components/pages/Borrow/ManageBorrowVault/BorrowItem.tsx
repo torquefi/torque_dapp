@@ -202,6 +202,7 @@ export default function BorrowItem({ item }: any) {
       ...data,
     })
       .then(() => {
+        getDataNameBorrow()
         toast.success('Update name successful')
       })
       .catch(() => {
