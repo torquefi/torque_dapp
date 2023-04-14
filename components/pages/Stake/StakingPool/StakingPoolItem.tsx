@@ -200,7 +200,7 @@ export default function StakingPoolItem({ stakeInfo }: StakingPoolItemProps) {
         <div className="flex h-[140px] w-[50%] flex-col items-center justify-center rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0">
           <CurrencySwitch
             tokenSymbol={stakeInfo?.symbol}
-            tokenValue={+amount || 0 * stakeInfo.rate}
+            tokenValue={+amount || 0 * stakeInfo.rate || 0}
             usdDefault
             className="w-full space-y-2 py-6 py-[23px] lg:py-[31px]"
             decimalScale={2}
