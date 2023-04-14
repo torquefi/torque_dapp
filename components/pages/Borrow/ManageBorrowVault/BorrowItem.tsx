@@ -13,6 +13,7 @@ import Web3 from 'web3'
 import BigNumber from 'bignumber.js'
 import { useSelector } from 'react-redux'
 import { AppStore } from '@/types/store'
+import LoadingCircle from '@/components/common/Loading/LoadingCircle'
 enum Action {
   Repay = 'Repay',
   Withdraw = 'Withdraw',
@@ -82,7 +83,6 @@ export default function BorrowItem({ item }: any) {
           let data = await contract.methods.borrowInfoMap(address).call({
             from: address,
           })
-          console.log('data', data)
           setDataUserBorrow({
             supplied: Moralis.Units.FromWei(data.supplied, item.decimals_asset),
             borrowed: Moralis.Units.FromWei(data.borrowed, item.decimals_USDC),
@@ -91,27 +91,27 @@ export default function BorrowItem({ item }: any) {
         setContractBorrow(contract)
       }
 
-      // const dataABICompound = await Moralis.Cloud.run('getAbi', {
-      //   name: 'compound_abi',
-      // })
-      // if (dataABICompound?.abi) {
-      //   const web3 = new Web3(Web3.givenProvider)
-      //   const contract = new web3.eth.Contract(
-      //     JSON.parse(dataABICompound?.abi),
-      //     dataABICompound?.address
-      //   )
-      //   if (contract) {
-      //     let utilization = await contract.methods.getUtilization().call({
-      //       from: address,
-      //     })
-      //     let borrowRate = await contract.methods
-      //       .getBorrowRate(utilization)
-      //       .call({
-      //         from: address,
-      //       })
-      //     setBorrowRate(borrowRate)
-      //   }
-      // }
+      const dataABICompound = await Moralis.Cloud.run('getAbi', {
+        name: 'compound_abi',
+      })
+      if (dataABICompound?.abi) {
+        const web3 = new Web3('https://rpc.ankr.com/eth')
+        const contract = new web3.eth.Contract(
+          JSON.parse(dataABICompound?.abi),
+          dataABICompound?.address
+        )
+        if (contract) {
+          let utilization = await contract.methods.getUtilization().call({
+            from: address,
+          })
+          let borrowRate = await contract.methods
+            .getBorrowRate(utilization)
+            .call({
+              from: address,
+            })
+          setBorrowRate(borrowRate)
+        }
+      }
     } catch (e) {
       console.log(e)
     }
@@ -174,12 +174,39 @@ export default function BorrowItem({ item }: any) {
           from: address,
         })
       toast.success('Repay Successful')
+      initContract()
     } catch (e) {
       console.log(e)
       toast.error('Repay Failed')
     } finally {
       setButtonLoading(false)
     }
+  }
+
+  const getDataNameBorrow = async () => {
+    const data = await Moralis.Cloud.run('getDataBorrowUser', {
+      address: address,
+    })
+    setLabel(data[`${item.data_key}`] || 'Vault')
+  }
+
+  const updateDataNameBorrow = async (name: string) => {
+    const data = await Moralis.Cloud.run('getDataBorrowUser', {
+      address: address,
+    })
+
+    data[`${item.data_key}`] = name
+    data[`address}`] = address
+    console.log(data)
+    await Moralis.Cloud.run('updateDataBorrowUser', {
+      ...data,
+    })
+      .then(() => {
+        toast.success('Update name successful')
+      })
+      .catch(() => {
+        toast.error('Update name failed')
+      })
   }
 
   useEffect(() => {
@@ -193,6 +220,7 @@ export default function BorrowItem({ item }: any) {
 
   useEffect(() => {
     initContract()
+    getDataNameBorrow()
   }, [isWeb3Enabled, address, isConnected, borrowTime])
 
   useEffect(() => {
@@ -303,7 +331,11 @@ export default function BorrowItem({ item }: any) {
                 <button className="">
                   <AiOutlineCheck
                     className=""
-                    onClick={() => setEdit(!isEdit)}
+                    onClick={() => {
+                      updateDataNameBorrow(label)
+                      getDataNameBorrow()
+                      setEdit(!isEdit)
+                    }}
                   />
                 </button>
               </div>
@@ -396,12 +428,13 @@ export default function BorrowItem({ item }: any) {
               </div>
             </div>
             <button
-              className={`bg-gradient-primary w-full rounded-full py-[4px] uppercase transition-all duration-200 ${
+              className={`bg-gradient-primary flex w-full items-center justify-center rounded-full py-[4px] uppercase transition-all duration-200 ${
                 buttonLoading && 'cursor-not-allowed opacity-50'
               }`}
               disabled={buttonLoading}
               onClick={() => onRepay()}
             >
+              {buttonLoading && <LoadingCircle />}
               {action}
             </button>
           </div>
