@@ -227,6 +227,7 @@ export default function CreateBorrowItem({ item }: any) {
             tokenValue={Number(dataBorrow.amount)}
             className="w-full py-4 leading-none lg:py-6"
             subtitle="Collateral"
+            usdDefault
             onChange={(e) => {
               dataBorrow.amount = e
               dataBorrow.amountRecieve = (e * 50) / 100
