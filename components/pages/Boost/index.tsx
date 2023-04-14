@@ -153,7 +153,7 @@ export const BoostPage = () => {
                     <div className="flex h-[140px] w-[50%] flex-col items-center justify-center rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0">
                       <CurrencySwitch
                         tokenSymbol={item?.token}
-                        tokenValue={Number(item.amount) * item.rate}
+                        tokenValue={Number(item.amount || 0) * (item.rate || 0)}
                         usdDefault
                         className="w-full space-y-2 py-6 py-[23px] lg:py-[31px]"
                         decimalScale={2}
