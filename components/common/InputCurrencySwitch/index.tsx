@@ -19,7 +19,7 @@ interface InputCurrencySwitchProps {
 
 export const getPriceToken = async (symbol: string) => {
   let data = await axios.get(
-    `https://api.binance.com/api/v3/ticker/price?symbol=${symbol.toUpperCase()}USDT`
+    `https://api.binance.us/api/v3/ticker/price?symbol=${symbol.toUpperCase()}USDT`
   )
   return (await Number(data?.data?.price)) || 0
 }
