@@ -164,7 +164,7 @@ export default function StakingInfo({ stakeInfo }: StakingInfoProps) {
         .toString()
 
       await stakingContract.methods.redeem(tokenAmount).send({ from: address })
-      toast.success('Withdraw successful')
+      toast.success('Withdraw successfully')
       handleGetInterestInfo()
       handleGetInfoStaked()
       setAmount(0)
