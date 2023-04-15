@@ -2,6 +2,8 @@ import {
   stakeLpContract,
   stakeTorqContract,
   tokenLpContract,
+  tokenStakingLpContract,
+  tokenStakingTorqContract,
   tokenTorqContract,
 } from '@/constants/contracts'
 import { IStakingInfo } from './types'
@@ -15,6 +17,7 @@ export const STAKING_POOLS: IStakingInfo[] = [
     APY: 24,
     tokenContract: tokenTorqContract,
     stakeContract: stakeTorqContract,
+    tokenStakeContract: tokenStakingTorqContract,
   },
   {
     label: 'LP',
@@ -24,6 +27,7 @@ export const STAKING_POOLS: IStakingInfo[] = [
     APY: 56,
     tokenContract: tokenLpContract,
     stakeContract: stakeLpContract,
+    tokenStakeContract: tokenStakingLpContract,
   },
 ]
 
@@ -36,6 +40,7 @@ export const STAKING_DATA: IStakingInfo[] = [
     APY: 24,
     tokenContract: tokenTorqContract,
     stakeContract: stakeTorqContract,
+    tokenStakeContract: tokenStakingTorqContract,
   },
   {
     label: 'LP',
@@ -45,5 +50,6 @@ export const STAKING_DATA: IStakingInfo[] = [
     APY: 56,
     tokenContract: tokenLpContract,
     stakeContract: stakeLpContract,
+    tokenStakeContract: tokenStakingLpContract,
   },
 ]

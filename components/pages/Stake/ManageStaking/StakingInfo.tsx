@@ -1,8 +1,6 @@
-import { Chart } from '@/components/common/Chart'
 import CurrencySwitch from '@/components/common/CurrencySwitch'
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
 import NumberFormat from '@/components/common/NumberFormat'
-import SkeletonDefault from '@/components/skeleton'
 import { ethers } from 'ethers'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { AutowidthInput } from 'react-autowidth-input'
@@ -25,19 +23,30 @@ export default function StakingInfo({ stakeInfo }: StakingInfoProps) {
   const [balance, setBalance] = useState<number>(0)
   const [amount, setAmount] = useState<number>(0)
   const [allowance, setAllowance] = useState('0')
+  const [totalEarnings, setTotalEarnings] = useState<string | number>(0)
+  const [totalStaked, setTotalStake] = useState<string | number>(0)
 
   const [label, setLabel] = useState(stakeInfo?.label)
   const [isEdit, setEdit] = useState(false)
   const refLabelInput = useRef<HTMLInputElement>(null)
 
   const isDisabled = !amount || +amount < 0 || +amount > +balance
-  const isApproved = +allowance >= +amount
+  const isApproved = +allowance
 
   const tokenContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
     const contract = new web3.eth.Contract(
       JSON.parse(stakeInfo?.tokenContract.abi),
       stakeInfo?.tokenContract.address
+    )
+    return contract
+  }, [Web3.givenProvider, stakeInfo?.symbol])
+
+  const tokenStakeContract = useMemo(() => {
+    const web3 = new Web3(Web3.givenProvider)
+    const contract = new web3.eth.Contract(
+      JSON.parse(stakeInfo?.tokenStakeContract.abi),
+      stakeInfo?.tokenStakeContract.address
     )
     return contract
   }, [Web3.givenProvider, stakeInfo?.symbol])
@@ -50,6 +59,48 @@ export default function StakingInfo({ stakeInfo }: StakingInfoProps) {
     )
     return contract
   }, [Web3.givenProvider, stakeInfo?.symbol])
+
+  const handleGetInfoStaked = async () => {
+    try {
+      if (!isConnected || !tokenContract || !address) {
+        return setTotalStake(0)
+      }
+      const decimals = await tokenContract.methods.decimals().call()
+
+      const response = await stakingContract.methods.stakers(address).call()
+      const principal = response?.principal
+      const totalStaked = ethers.utils
+        .formatUnits(principal, decimals)
+        .toString()
+      setTotalStake(totalStaked)
+    } catch (error) {
+      console.log('error :>> ', error)
+    }
+  }
+
+  const handleGetInterestInfo = async () => {
+    try {
+      if (!isConnected || !tokenStakeContract || !address) {
+        return setTotalStake(0)
+      }
+      const decimals = await tokenStakeContract.methods.decimals().call()
+      const response = await stakingContract.methods.getInterest(address).call()
+      const totalEarnings = ethers.utils
+        .formatUnits(response, decimals)
+        .toString()
+      setTotalEarnings(totalEarnings)
+    } catch (error) {
+      console.log('error :>> ', error)
+    }
+  }
+
+  useEffect(() => {
+    handleGetInterestInfo()
+  }, [stakingContract, isConnected, tokenStakeContract, address])
+
+  useEffect(() => {
+    handleGetInfoStaked()
+  }, [stakingContract, isConnected, tokenContract, address])
 
   const handleWithdraw = async () => {
     if (!isConnected) {
@@ -86,7 +137,7 @@ export default function StakingInfo({ stakeInfo }: StakingInfoProps) {
       <>
         <CurrencySwitch
           tokenSymbol={item?.symbol}
-          tokenValue={item.deposited}
+          tokenValue={+totalStaked}
           usdDefault
           className="-my-4 flex min-w-[100px] flex-col items-center justify-center gap-2 py-4"
           render={(value) => (
@@ -99,7 +150,7 @@ export default function StakingInfo({ stakeInfo }: StakingInfoProps) {
         />
         <CurrencySwitch
           tokenSymbol={item?.symbol}
-          tokenValue={item.deposited}
+          tokenValue={+totalEarnings}
           usdDefault
           className="-my-4 flex min-w-[100px] flex-col items-center justify-center gap-2 py-4"
           render={(value) => (
@@ -108,7 +159,7 @@ export default function StakingInfo({ stakeInfo }: StakingInfoProps) {
               <p className="font-mona text-[14px] text-[#959595]">Earnings</p>
             </>
           )}
-          decimalScale={2}
+          decimalScale={5}
         />
         <div className="flex min-w-[100px] flex-col items-center justify-center gap-2">
           <div className="text-[22px]">{item.APY}%</div>
