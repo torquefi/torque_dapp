@@ -273,7 +273,7 @@ export default function CreateBorrowItem({ item }: any) {
         </p>
       </div>
       <div className="flex justify-between text-[#959595]">
-        <p>Variable APY</p>
+        <p>Variable APR</p>
         <p>-1.16%</p>
       </div>
       <div className="flex justify-between text-[#959595]">
