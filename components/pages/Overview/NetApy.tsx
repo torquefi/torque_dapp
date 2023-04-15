@@ -34,7 +34,7 @@ export default function NetApy() {
                 `${(0).toFixed(2)}%`
               )}
             </p>
-            <p className="text-[#959595]">Net APY</p>
+            <p className="text-[#959595]">Net APR</p>
           </div>
           <button
             className="bg-gradient-primary w-[140px] rounded-full py-[6px] font-mona uppercase transition-all duration-200 ease-linear hover:w-[154px]"

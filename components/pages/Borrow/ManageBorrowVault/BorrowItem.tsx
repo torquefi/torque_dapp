@@ -21,7 +21,7 @@ enum Action {
 
 const SECONDS_PER_YEAR = 60 * 60 * 24 * 365
 export default function BorrowItem({ item }: any) {
-  const borrowTime = useSelector((store: AppStore) => store.borrow)
+  const borrowTime = useSelector((store: AppStore) => store.dataUser)
 
   const [dataBorrow, setDataBorrow] = useState(item)
   const [isExpand, setExpand] = useState(false)
@@ -45,8 +45,11 @@ export default function BorrowItem({ item }: any) {
   const { address, isConnected } = useAccount()
   const { Moralis, enableWeb3, isWeb3Enabled } = useMoralis()
 
-  const borrowAPR =
-    Number(Moralis.Units.FromWei(borrowRate, 18)) * SECONDS_PER_YEAR * 100
+  const borrowAPR = useMemo(
+    () =>
+      Number(Moralis.Units.FromWei(borrowRate, 18)) * SECONDS_PER_YEAR * 100,
+    [borrowRate]
+  )
 
   const getPrice = async () => {
     setPrice({
@@ -187,7 +190,7 @@ export default function BorrowItem({ item }: any) {
     const data = await Moralis.Cloud.run('getDataBorrowUser', {
       address: address,
     })
-    setLabel(data[`${item.data_key}`] || 'Vault')
+    setLabel(data[`${item.data_key}`] || item?.label)
   }
 
   const updateDataNameBorrow = async (name: string) => {
@@ -202,8 +205,8 @@ export default function BorrowItem({ item }: any) {
       ...data,
     })
       .then(() => {
-        getDataNameBorrow()
         toast.success('Update name successful')
+        getDataNameBorrow()
       })
       .catch(() => {
         toast.error('Update name failed')
@@ -218,6 +221,10 @@ export default function BorrowItem({ item }: any) {
     setTimeout(() => setIsLoading(false), 1000)
     getPrice()
   }, [])
+
+  useEffect(() => {
+    getDataNameBorrow()
+  }, [address])
 
   useEffect(() => {
     initContract()
@@ -244,7 +251,7 @@ export default function BorrowItem({ item }: any) {
       <CurrencySwitch
         tokenSymbol={item.token}
         tokenValue={dataUserBorrow?.supplied || item.collateral}
-        className="w-1/4 py-4 -my-4 space-y-1 font-larken"
+        className="-my-4 w-1/4 space-y-1 py-4 font-larken"
         decimalScale={2}
         render={(value) => (
           <>
@@ -257,7 +264,7 @@ export default function BorrowItem({ item }: any) {
         tokenSymbol={'USDC'}
         tokenValue={dataUserBorrow?.borrowed || item.borrow}
         usdDefault
-        className="w-1/4 py-4 -my-4 space-y-1 font-larken"
+        className="-my-4 w-1/4 space-y-1 py-4 font-larken"
         decimalScale={2}
         render={(value) => (
           <>
@@ -301,7 +308,7 @@ export default function BorrowItem({ item }: any) {
           <div className="xlg:w-[calc(100%-600px-64px)] flex w-[calc(100%-64px)] items-center space-x-2 font-larken text-[22px] md:w-[calc(100%-400px-64px)] lg:w-[calc(100%-500px-64px)]">
             {!isEdit && (
               <div
-                className="flex cursor-pointer items-center text-[22px]"
+                className="flex min-w-max cursor-pointer items-center text-[22px]"
                 onClick={() => setEdit(!isEdit)}
               >
                 <img
@@ -334,7 +341,6 @@ export default function BorrowItem({ item }: any) {
                     className=""
                     onClick={() => {
                       updateDataNameBorrow(label)
-                      getDataNameBorrow()
                       setEdit(!isEdit)
                     }}
                   />
