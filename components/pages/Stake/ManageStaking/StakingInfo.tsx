@@ -111,8 +111,8 @@ export default function StakingInfo({ stakeInfo }: StakingInfoProps) {
           decimalScale={2}
         />
         <div className="flex min-w-[100px] flex-col items-center justify-center gap-2">
-          <div className="text-[22px]">{item.APY}%</div>
-          <div className="font-mona text-[14px] text-[#959595]">Net APY</div>
+          <div className="text-[22px]">{item.APR}%</div>
+          <div className="font-mona text-[14px] text-[#959595]">Net APR</div>
         </div>
       </>
     )

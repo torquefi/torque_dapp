@@ -21,7 +21,7 @@ enum Action {
 
 const SECONDS_PER_YEAR = 60 * 60 * 24 * 365
 export default function BorrowItem({ item }: any) {
-  const borrowTime = useSelector((store: AppStore) => store.borrow)
+  const borrowTime = useSelector((store: AppStore) => store.dataUser)
 
   const [dataBorrow, setDataBorrow] = useState(item)
   const [isExpand, setExpand] = useState(false)
@@ -45,8 +45,11 @@ export default function BorrowItem({ item }: any) {
   const { address, isConnected } = useAccount()
   const { Moralis, enableWeb3, isWeb3Enabled } = useMoralis()
 
-  const borrowAPR =
-    Number(Moralis.Units.FromWei(borrowRate, 18)) * SECONDS_PER_YEAR * 100
+  const borrowAPR = useMemo(
+    () =>
+      Number(Moralis.Units.FromWei(borrowRate, 18)) * SECONDS_PER_YEAR * 100,
+    [borrowRate]
+  )
 
   const getPrice = async () => {
     setPrice({
@@ -284,7 +287,7 @@ export default function BorrowItem({ item }: any) {
         <p className="whitespace-nowrap font-larken text-[22px]">
           {borrowAPR.toFixed(2)}%
         </p>
-        <p className="whitespace-nowrap text-[14px] text-[#959595]">Net APY</p>
+        <p className="whitespace-nowrap text-[14px] text-[#959595]">Net APR</p>
       </div>
     </div>
   )

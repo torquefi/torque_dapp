@@ -11,15 +11,17 @@ import { useMoralis } from 'react-moralis'
 import Web3 from 'web3'
 import { useAccount } from 'wagmi'
 import { useDispatch } from 'react-redux'
-import { updateBorrowTime } from '@/lib/redux/auth/borrow'
+import { updateborrowTime } from '@/lib/redux/auth/dataUser'
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
 
+const SECONDS_PER_YEAR = 60 * 60 * 24 * 365
 export default function CreateBorrowItem({ item }: any) {
   const [dataBorrow, setDataBorrow] = useState(item)
   const [isLoading, setIsLoading] = useState(true)
   const [contractAsset, setContractAsset] = useState(null)
   const [contractBorrow, setContractBorrow] = useState(null)
   const [allowance, setAllowance] = useState(0)
+  const [borrowRate, setBorrowRate] = useState(1359200263)
   const [buttonLoading, setButtonLoading] = useState('')
   const [price, setPrice] = useState<any>({
     eth: 1800,
@@ -30,7 +32,11 @@ export default function CreateBorrowItem({ item }: any) {
   const { Moralis, enableWeb3, isWeb3Enabled } = useMoralis()
 
   const dispatch = useDispatch()
-
+  const borrowAPR = useMemo(
+    () =>
+      Number(Moralis.Units.FromWei(borrowRate, 18)) * SECONDS_PER_YEAR * 100,
+    [borrowRate]
+  )
   const getPrice = async () => {
     setPrice({
       eth: (await getPriceToken('ETH')) || 1800,
@@ -63,6 +69,27 @@ export default function CreateBorrowItem({ item }: any) {
           dataABIBorrow?.address
         )
         setContractBorrow(contract)
+      }
+      const dataABICompound = await Moralis.Cloud.run('getAbi', {
+        name: 'compound_abi',
+      })
+      if (dataABICompound?.abi) {
+        const web3 = new Web3('https://rpc.ankr.com/eth')
+        const contract = new web3.eth.Contract(
+          JSON.parse(dataABICompound?.abi),
+          dataABICompound?.address
+        )
+        if (contract) {
+          let utilization = await contract.methods.getUtilization().call({
+            from: address,
+          })
+          let borrowRate = await contract.methods
+            .getBorrowRate(utilization)
+            .call({
+              from: address,
+            })
+          setBorrowRate(borrowRate)
+        }
       }
     } catch (e) {
       console.log(e)
@@ -159,7 +186,7 @@ export default function CreateBorrowItem({ item }: any) {
             from: address,
           })
       }
-      dispatch(updateBorrowTime(new Date().toISOString() as any))
+      dispatch(updateborrowTime(new Date().toISOString() as any))
       toast.success('Borrow Successful')
     } catch (e) {
       console.log(e)
@@ -273,8 +300,8 @@ export default function CreateBorrowItem({ item }: any) {
         </p>
       </div>
       <div className="flex justify-between text-[#959595]">
-        <p>Variable APY</p>
-        <p>-1.16%</p>
+        <p>Variable APR</p>
+        <p>{borrowAPR.toFixed(2)}%</p>
       </div>
       <div className="flex justify-between text-[#959595]">
         <p>Liquidity</p>

@@ -216,7 +216,7 @@ export default function StakingPoolItem({ stakeInfo }: StakingPoolItemProps) {
 
       <div className="mt-2 flex w-full items-center justify-between font-mona text-[#959595]">
         <div className="">Variable APR</div>
-        <div className="">{stakeInfo.APY}%</div>
+        <div className="">{stakeInfo.APR}%</div>
       </div>
       <button
         className={
