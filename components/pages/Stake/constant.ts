@@ -27,7 +27,7 @@ export const STAKING_POOLS: IStakingInfo[] = [
     APY: 56,
     tokenContract: tokenLpContract,
     stakeContract: stakeLpContract,
-    tokenStakeContract: tokenStakingLpContract,
+    tokenStakeContract: tokenStakingTorqContract,
   },
 ]
 

@@ -46,7 +46,7 @@ export default function StakingInfo({ stakeInfo }: StakingInfoProps) {
     const web3 = new Web3(Web3.givenProvider)
     const contract = new web3.eth.Contract(
       JSON.parse(stakeInfo?.tokenStakeContract.abi),
-      stakeInfo?.tokenStakeContract.address
+      stakeInfo?.tokenStakeContract?.address
     )
     return contract
   }, [Web3.givenProvider, stakeInfo?.symbol])
@@ -74,7 +74,7 @@ export default function StakingInfo({ stakeInfo }: StakingInfoProps) {
         .toString()
       setTotalStake(totalStaked)
     } catch (error) {
-      console.log('error :>> ', error)
+      console.log('error handle get info staked:>> ', error)
     }
   }
 
@@ -90,7 +90,7 @@ export default function StakingInfo({ stakeInfo }: StakingInfoProps) {
         .toString()
       setTotalEarnings(totalEarnings)
     } catch (error) {
-      console.log('error :>> ', error)
+      console.log('error get interest info:>> ', error)
     }
   }
 
@@ -101,6 +101,53 @@ export default function StakingInfo({ stakeInfo }: StakingInfoProps) {
   useEffect(() => {
     handleGetInfoStaked()
   }, [stakingContract, isConnected, tokenContract, address])
+
+  const handleGetAllowance = async () => {
+    if (!isConnected || !tokenStakeContract) {
+      return setAllowance('0')
+    }
+    setSubmitLoading(true)
+
+    try {
+      const allowanceToken = await tokenStakeContract.methods
+        .allowance(address, stakeInfo?.stakeContract?.address)
+        .call()
+      const decimals = await tokenStakeContract.methods.decimals().call()
+      const allowance = ethers.utils
+        .formatUnits(allowanceToken, decimals)
+        .toString()
+      console.log('allowance :>> ', allowance)
+      setAllowance(allowance)
+    } catch (error) {
+      console.log('Staking.DepositModal.handleGetAllowance', error)
+    }
+    setSubmitLoading(false)
+  }
+
+  const approveToken = async () => {
+    if (!isConnected) {
+      return toast.error('You need connect your wallet first')
+    }
+
+    setSubmitLoading(true)
+
+    try {
+      await tokenStakeContract.methods
+        .approve(
+          stakeInfo?.stakeContract?.address,
+          '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+        )
+        .send({ from: address })
+      handleGetAllowance()
+    } catch (error) {
+      console.log('Staking.DepositModal.approveToken', error)
+    }
+    setSubmitLoading(false)
+  }
+
+  useEffect(() => {
+    handleGetAllowance()
+  }, [tokenStakeContract, isConnected])
 
   const handleWithdraw = async () => {
     if (!isConnected) {
@@ -116,8 +163,10 @@ export default function StakingInfo({ stakeInfo }: StakingInfoProps) {
         .parseUnits(amount.toString(), decimals)
         .toString()
 
-      await stakingContract.methods.deposit(tokenAmount).send({ from: address })
+      await stakingContract.methods.redeem(tokenAmount).send({ from: address })
       toast.success('Withdraw successful')
+      handleGetInterestInfo()
+      handleGetInfoStaked()
       setAmount(0)
     } catch (error) {
       toast.error('Withdraw failed ' + error?.message)
@@ -251,7 +300,10 @@ export default function StakingInfo({ stakeInfo }: StakingInfoProps) {
             />
             <div className="flex items-center gap-2">
               {[25, 50, 100].map((item: any) => (
-                <button className="rounded bg-[#1A1A1A] px-2 py-1 font-mona text-sm text-[#959595]">
+                <button
+                  className="rounded bg-[#1A1A1A] px-2 py-1 font-mona text-sm text-[#959595]"
+                  onClick={() => setAmount((Number(totalStaked) * item) / 100)}
+                >
                   {item}%
                 </button>
               ))}
@@ -259,10 +311,10 @@ export default function StakingInfo({ stakeInfo }: StakingInfoProps) {
           </div>
           <button
             className="mt-4 flex w-full justify-center rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 font-mona text-[16px] uppercase transition-all duration-300 ease-linear hover:bg-gradient-to-t"
-            onClick={() => handleWithdraw()}
+            onClick={() => (!isApproved ? approveToken() : handleWithdraw())}
           >
             {isSubmitLoading && <LoadingCircle />}
-            Withdraw
+            {!isApproved ? 'Approve' : 'Withdraw'}
           </button>
         </div>
       </div>
