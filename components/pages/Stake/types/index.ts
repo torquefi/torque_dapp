@@ -10,4 +10,5 @@ export interface IStakingInfo {
   APY?: number
   stakeContract: IContractInfo
   tokenContract: IContractInfo
+  tokenStakeContract: IContractInfo
 }

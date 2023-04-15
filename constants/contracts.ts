@@ -1,4 +1,10 @@
-import { stakeLpAbi, stakeTorqAbi, tokenLpAbi, tokenTorqAbi } from './abi'
+import {
+  stakeLpAbi,
+  stakeTorqAbi,
+  tokenLpAbi,
+  tokenStakeTORQAbi,
+  tokenTorqAbi,
+} from './abi'
 
 export interface IContractInfo {
   address: string
@@ -10,17 +16,27 @@ export const tokenTorqContract: IContractInfo = {
   abi: JSON.stringify(tokenTorqAbi),
 }
 
+export const tokenStakingTorqContract: IContractInfo = {
+  address: '0xD373522e549a29A7E46988ad5dD151Ea702C82E5',
+  abi: JSON.stringify(tokenStakeTORQAbi),
+}
+
+export const stakeTorqContract: IContractInfo = {
+  address: '0x4AC7f4Cf1a3913DBd407d0C3926Af41B87C3B593',
+  abi: JSON.stringify(stakeTorqAbi),
+}
+
 export const tokenLpContract: IContractInfo = {
   address: '0x88da624eD11CfAf1967B1D19B090636080Ece2f5',
   abi: JSON.stringify(tokenLpAbi),
 }
 
-export const stakeTorqContract: IContractInfo = {
-  address: '0x918a19768447cF20b206ADD0919Bb408aB31A043',
-  abi: JSON.stringify(stakeTorqAbi),
+export const stakeLpContract: IContractInfo = {
+  address: '0x6b5E355DBc00007C5B0D5AE6EFC0375AB48C8F87',
+  abi: JSON.stringify(stakeLpAbi),
 }
 
-export const stakeLpContract: IContractInfo = {
-  address: '0x78cfB34BcE04c114A6C3F0996057A846dFDB311c',
-  abi: JSON.stringify(stakeLpAbi),
+export const tokenStakingLpContract: IContractInfo = {
+  address: '0x4AC7f4Cf1a3913DBd407d0C3926Af41B87C3B593',
+  abi: JSON.stringify(tokenStakeTORQAbi),
 }
