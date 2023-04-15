@@ -10,4 +10,5 @@ export interface IStakingInfo {
   APR?: number
   stakeContract: IContractInfo
   tokenContract: IContractInfo
+  tokenStakeContract: IContractInfo
 }

@@ -3,7 +3,6 @@ import InputCurrencySwitch from '@/components/common/InputCurrencySwitch'
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
 import ConfirmModal from '@/components/common/Modal/ConfirmModal'
 import SkeletonDefault from '@/components/skeleton'
-import { TORQ } from '@/constants/coins'
 import { ethers } from 'ethers'
 import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
@@ -27,7 +26,7 @@ export default function StakingPoolItem({ stakeInfo }: StakingPoolItemProps) {
   const [allowance, setAllowance] = useState('0')
 
   const isDisabled = !amount || +amount < 0
-  const isApproved = +allowance >= +amount
+  const isApproved = +allowance
 
   const tokenContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
@@ -55,6 +54,7 @@ export default function StakingPoolItem({ stakeInfo }: StakingPoolItemProps) {
       return toast.error('You must input amount to deposit')
     }
     setSubmitLoading(true)
+
     try {
       const decimals = await tokenContract.methods.decimals().call()
       const tokenAmount = ethers.utils
@@ -75,7 +75,9 @@ export default function StakingPoolItem({ stakeInfo }: StakingPoolItemProps) {
     if (!isConnected) {
       return toast.error('You need connect your wallet first')
     }
+
     setSubmitLoading(true)
+
     try {
       await tokenContract.methods
         .approve(
@@ -95,6 +97,7 @@ export default function StakingPoolItem({ stakeInfo }: StakingPoolItemProps) {
       return setBalance(0)
     }
     setSubmitLoading(true)
+
     try {
       const allowanceToken = await tokenContract.methods
         .allowance(address, stakeInfo?.stakeContract?.address)
@@ -104,7 +107,6 @@ export default function StakingPoolItem({ stakeInfo }: StakingPoolItemProps) {
         .formatUnits(allowanceToken, decimals)
         .toString()
 
-      // console.log('allowance', allowance)
       setAllowance(allowance)
     } catch (error) {
       console.log('Staking.DepositModal.handleGetAllowance', error)
@@ -126,7 +128,6 @@ export default function StakingPoolItem({ stakeInfo }: StakingPoolItemProps) {
         const balance = ethers.utils
           .formatUnits(balanceToken, decimals)
           .toString()
-        console.log('balance', balance)
         setBalance(+balance)
       } catch (error) {
         console.log('Staking.DepositModal.handleGetBalance', error)
@@ -189,8 +190,6 @@ export default function StakingPoolItem({ stakeInfo }: StakingPoolItemProps) {
             decimalScale={2}
             subtitle="Your Stake"
             onChange={(e) => {
-              // stakeInfo.amount = e
-              // setStakingPool([...stakingPool])
               setAmount(e)
             }}
           />
@@ -222,12 +221,12 @@ export default function StakingPoolItem({ stakeInfo }: StakingPoolItemProps) {
         className={
           'mt-4 flex w-full items-center justify-center rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 font-mona uppercase hover:bg-gradient-to-t' +
           ` ${
-            isDisabled || isSubmitLoading
+            (isApproved && isDisabled) || isSubmitLoading
               ? 'cursor-not-allowed text-[#eee]'
               : 'cursor-pointer '
           }`
         }
-        disabled={isDisabled || isSubmitLoading}
+        disabled={(isApproved && isDisabled) || isSubmitLoading}
         onClick={() =>
           !isApproved ? approveToken() : setOpenConfirmModal(true)
         }
@@ -235,6 +234,7 @@ export default function StakingPoolItem({ stakeInfo }: StakingPoolItemProps) {
         {isSubmitLoading && <LoadingCircle />}
         {!isApproved ? 'Approve' : 'Deposit'} {stakeInfo?.label}
       </button>
+
       <ConfirmModal
         open={isOpenConfirmModal}
         handleClose={() => setOpenConfirmModal(false)}
