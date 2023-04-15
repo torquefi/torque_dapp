@@ -39,7 +39,7 @@ export function ManageBoostVault() {
 const DATA_BOOST_VAULT = [
   {
     token: 'ETH',
-    name: 'Vault #1',
+    label: 'Vault #1',
     deposited: 10.6,
     earnings: 0.24,
     APR: '5.19%',
@@ -49,7 +49,7 @@ const DATA_BOOST_VAULT = [
   },
   {
     token: 'USDC',
-    name: 'Vault #2',
+    label: 'Vault #2',
     deposited: 158130,
     earnings: 142271,
     APR: '4.49%',

@@ -19,7 +19,7 @@ export function BoostItem({ item }: any) {
     const data = await Moralis.Cloud.run('getDataBorrowUser', {
       address: address,
     })
-    setLabel(data[`${item.data_key}`] || 'Vault')
+    setLabel(data[`${item.data_key}`] || item?.label)
   }
   const updateDataNameBoost = async (name: string) => {
     const data = await Moralis.Cloud.run('getDataBorrowUser', {
@@ -98,7 +98,7 @@ export function BoostItem({ item }: any) {
         <div className="xlg:w-[calc(100%-600px-64px)] flex w-[calc(100%-64px)] items-center space-x-2 font-larken text-[22px] md:w-[calc(100%-400px-64px)] lg:w-[calc(100%-500px-64px)]">
           {!isEdit && (
             <div
-              className="flex cursor-pointer items-center text-[22px]"
+              className="flex min-w-max cursor-pointer items-center text-[22px]"
               onClick={() => setEdit(!isEdit)}
             >
               <img
@@ -131,7 +131,6 @@ export function BoostItem({ item }: any) {
                   className=""
                   onClick={() => {
                     updateDataNameBoost(label)
-                    getDataNameBoost()
                     setEdit(!isEdit)
                   }}
                 />
