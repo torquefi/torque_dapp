@@ -443,6 +443,7 @@ export default function BorrowItem({ item }: any) {
             >
               {buttonLoading && <LoadingCircle />}
               {action}
+              {buttonLoading && 'ING...'}
             </button>
           </div>
         </div>
