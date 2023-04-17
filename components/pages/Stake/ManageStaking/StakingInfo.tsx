@@ -25,6 +25,7 @@ export default function StakingInfo({ stakeInfo }: StakingInfoProps) {
   const [allowance, setAllowance] = useState('0')
   const [totalEarnings, setTotalEarnings] = useState<string | number>(0)
   const [totalStaked, setTotalStake] = useState<string | number>(0)
+  const [apr, setApr] = useState<string | number>(0)
 
   const [label, setLabel] = useState(stakeInfo?.label)
   const [isEdit, setEdit] = useState(false)
@@ -93,6 +94,17 @@ export default function StakingInfo({ stakeInfo }: StakingInfoProps) {
       console.log('error get interest info:>> ', error)
     }
   }
+
+  useEffect(() => {
+    ;(async () => {
+      try {
+        const response = await stakingContract.methods.apr().call()
+        setApr(response / 100)
+      } catch (error) {
+        console.log('error :>> ', error)
+      }
+    })()
+  }, [stakingContract])
 
   useEffect(() => {
     handleGetInterestInfo()
@@ -210,7 +222,7 @@ export default function StakingInfo({ stakeInfo }: StakingInfoProps) {
           decimalScale={5}
         />
         <div className="flex min-w-[100px] flex-col items-center justify-center gap-2">
-          <div className="text-[22px]">{item.APR}%</div>
+          <div className="text-[22px]">{apr}%</div>
           <div className="font-mona text-[14px] text-[#959595]">Net APR</div>
         </div>
       </>

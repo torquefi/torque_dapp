@@ -20,6 +20,7 @@ export default function StakingPoolItem({ stakeInfo }: StakingPoolItemProps) {
   const [isLoading, setLoading] = useState(true)
   const [isSubmitLoading, setSubmitLoading] = useState(false)
   const [isOpenConfirmModal, setOpenConfirmModal] = useState(false)
+  const [apr, setApr] = useState<string | number>(0)
 
   const [balance, setBalance] = useState<number>(0)
   const [amount, setAmount] = useState<number>(0)
@@ -145,6 +146,17 @@ export default function StakingPoolItem({ stakeInfo }: StakingPoolItemProps) {
   useEffect(() => {
     ;(async () => {
       try {
+        const response = await stakingContract.methods.apr().call()
+        setApr(response / 100)
+      } catch (error) {
+        console.log('error :>> ', error)
+      }
+    })()
+  }, [stakingContract])
+
+  useEffect(() => {
+    ;(async () => {
+      try {
         const decimals = await tokenContract.methods.decimals().call()
         const amount = ethers.utils.parseUnits('1', decimals).toString()
         const response = await stakingContract.methods
@@ -231,7 +243,7 @@ export default function StakingPoolItem({ stakeInfo }: StakingPoolItemProps) {
 
       <div className="mt-2 flex w-full items-center justify-between font-mona text-[#959595]">
         <div className="">Variable APR</div>
-        <div className="">{stakeInfo.APR}%</div>
+        <div className="">{apr}%</div>
       </div>
       <button
         className={

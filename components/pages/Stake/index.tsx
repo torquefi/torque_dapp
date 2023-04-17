@@ -3,13 +3,19 @@ import { useEffect, useMemo, useState } from 'react'
 import ManageStaking from './ManageStaking'
 import StakingPool from './StakingPool'
 import Web3 from 'web3'
-import { stakeTorqContract, tokenTorqContract } from '@/constants/contracts'
+import {
+  stakeLpContract,
+  stakeTorqContract,
+  tokenLpContract,
+  tokenTorqContract,
+} from '@/constants/contracts'
 import { ethers } from 'ethers'
 import NumberFormat from '@/components/common/NumberFormat'
 
 export const StakePage = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [totalStaked, setTotalStaked] = useState<string | number>(0)
+  const [totalLpStaked, setTotalLpStaked] = useState<string | number>(0)
   const [totalDistributed, setTotalDistributed] = useState<string | number>(0)
 
   useEffect(() => {
@@ -25,6 +31,15 @@ export const StakePage = () => {
     return contract
   }, [Web3.givenProvider, stakeTorqContract])
 
+  const stakingLpContract = useMemo(() => {
+    const web3 = new Web3(Web3.givenProvider)
+    const contract = new web3.eth.Contract(
+      JSON.parse(stakeLpContract?.abi),
+      stakeLpContract.address
+    )
+    return contract
+  }, [Web3.givenProvider, stakeLpContract])
+
   const tokenContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
     const contract = new web3.eth.Contract(
@@ -34,6 +49,15 @@ export const StakePage = () => {
     return contract
   }, [Web3.givenProvider, tokenTorqContract])
 
+  const lpContract = useMemo(() => {
+    const web3 = new Web3(Web3.givenProvider)
+    const contract = new web3.eth.Contract(
+      JSON.parse(tokenLpContract.abi),
+      tokenLpContract?.address
+    )
+    return contract
+  }, [Web3.givenProvider, tokenLpContract])
+
   const handleGetTotalStaked = async () => {
     try {
       const decimals = await tokenContract.methods.decimals().call()
@@ -42,6 +66,19 @@ export const StakePage = () => {
         .formatUnits(response, decimals)
         .toString()
       setTotalStaked(totalStaked)
+    } catch (error) {
+      console.log('get total stake full', error)
+    }
+  }
+
+  const handleGetTotalLpStaked = async () => {
+    try {
+      const decimals = await lpContract.methods.decimals().call()
+      const response = await stakingLpContract.methods.lpTorqStake().call()
+      const totalStaked = ethers.utils
+        .formatUnits(response, decimals)
+        .toString()
+      setTotalLpStaked(totalStaked)
     } catch (error) {
       console.log('get total stake full', error)
     }
@@ -63,7 +100,8 @@ export const StakePage = () => {
   useEffect(() => {
     handleGetTotalStaked()
     handleGetTotalDistributed()
-  }, [stakingContract, tokenContract])
+    handleGetTotalLpStaked()
+  }, [stakingContract, tokenContract, stakingLpContract, lpContract])
 
   return (
     <>
@@ -103,7 +141,14 @@ export const StakePage = () => {
           </div>
         ) : (
           <div className="flex h-full w-full flex-col items-center justify-center gap-2 rounded-[12px] border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#16161679] p-8">
-            <div className="font-larken text-[32px]">0.00</div>
+            <div className="font-larken text-[32px]">
+              <NumberFormat
+                displayType="text"
+                thousandSeparator
+                value={totalLpStaked}
+                decimalScale={2}
+              />
+            </div>
             <div className="text-[#959595]">TORQ LP Staked</div>
           </div>
         )}
