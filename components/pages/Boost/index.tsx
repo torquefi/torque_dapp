@@ -22,14 +22,19 @@ export const BoostPage = () => {
     <>
       <div className="relative">
         {isLoading ? (
-          <div className="">
-            <SkeletonDefault height={'50vh'} width={'100%'} />
-          </div>
+          <>
+            <div className="hidden lg:block">
+              <SkeletonDefault height={'50vh'} width={'100%'} />
+            </div>
+            <div className="lg:hidden">
+              <SkeletonDefault height={'15vh'} width={'100%'} />
+            </div>
+          </>
         ) : (
           <img
             src="/assets/banners/boost-compressed.png"
             alt="Torque Boost"
-            className="rounded-xl"
+            className="w-full rounded-xl"
           />
         )}
         <Link

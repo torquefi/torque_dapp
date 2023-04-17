@@ -248,7 +248,7 @@ export default function CreateBorrowItem({ item }: any) {
         </Popover>
       </div>
       <div className="grid grid-cols-2 gap-4">
-        <div className="flex h-[140px] flex-col items-center justify-center rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0 font-larken">
+        <div className=" h-[140px] rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0 font-larken">
           <InputCurrencySwitch
             tokenSymbol={item?.depositCoin}
             tokenValue={Number(dataBorrow.amount)}

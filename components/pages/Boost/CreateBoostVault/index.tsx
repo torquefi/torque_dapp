@@ -13,24 +13,30 @@ export function CreateBoostVault() {
   const [boostVault, setBoostVault] = useState(BOOST_VAULTS)
   const [isLoading, setIsLoading] = useState(true)
 
-  const { Moralis } = useMoralis()
+  const { Moralis, isInitialized } = useMoralis()
 
   const getAPR = async () => {
-    let data = await Moralis.Cloud.run('getAPR_Stargate')
-    boostVault.forEach((item) => {
-      for (var i = 0; i < data.length; i++) {
-        if (item.token == data[i].token) {
-          item.APR = Number(Number(data[i].apr * 100).toFixed(2))
-          break
+    try {
+      let data = await Moralis.Cloud.run('getAPR_Stargate')
+      boostVault.forEach((item) => {
+        for (var i = 0; i < data.length; i++) {
+          if (item.token == data[i].token) {
+            item.APR = Number(Number(data[i].apr * 100).toFixed(2))
+            break
+          }
         }
-      }
-      setBoostVault([...boostVault])
-    })
+        setBoostVault([...boostVault])
+      })
+    } catch (e) {
+      console.log(e)
+    }
   }
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1500)
-    getAPR()
   }, [])
+  useEffect(() => {
+    getAPR()
+  }, [isInitialized])
 
   return (
     <div className="mt-[36px] font-larken">

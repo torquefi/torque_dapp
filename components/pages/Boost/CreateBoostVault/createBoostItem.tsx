@@ -41,8 +41,8 @@ export function CreateBoostItem({ item }: any) {
           </Link>
         </Popover>
       </div>
-      <div className="mt-4 flex w-full items-center justify-center gap-4 ">
-        <div className="flex h-[140px] w-1/2 flex-col items-center justify-center gap-3 rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0">
+      <div className="mt-4 grid grid-cols-2 gap-4 ">
+        <div className="flex h-[140px] w-full flex-col items-center justify-center gap-3 rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0">
           <InputCurrencySwitch
             tokenSymbol={item?.token}
             tokenValue={Number(item.amount)}
@@ -56,7 +56,7 @@ export function CreateBoostItem({ item }: any) {
             }}
           />
         </div>
-        <div className="flex h-[140px] w-[50%] flex-col items-center justify-center rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0">
+        <div className="flex h-[140px] w-full flex-col items-center justify-center rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0">
           <CurrencySwitch
             tokenSymbol={item?.token}
             tokenValue={Number(item.amount || 0) * (item.rate || 0)}
