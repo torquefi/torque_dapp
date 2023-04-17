@@ -29,7 +29,6 @@ export function AuthProvider({ children }: { children: any }) {
   const router = useRouter()
   const alert = useAlert()
   const [admin, setAdmin] = useState<User>(undefined)
-  console.log('admin', admin)
   const adminGetMe = async () => {
     await callAPI({
       method: 'GET',
