@@ -68,8 +68,6 @@ export default function InputCurrencySwitch({
   //   toMetricUnits(valueToShow, decimalScale) +
   //   (isShowUsd ? '' : ' ' + tokenSymbol)
 
-  console.log('tokenPrice :>> ', tokenPrice)
-
   useEffect(() => {
     if (onChange)
       if (isShowUsd) {
@@ -110,7 +108,6 @@ export default function InputCurrencySwitch({
         className={`max-w-full bg-transparent pb-[2px] text-center text-[32px] font-bold text-white placeholder-gray-50`}
         value={inputAmount || null}
         onChange={(event: any, value: any) => {
-          console.log('value :>> ', value)
           setInputAmount(value)
         }}
         decimalScale={5}

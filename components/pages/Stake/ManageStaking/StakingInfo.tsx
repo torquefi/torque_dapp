@@ -116,7 +116,6 @@ export default function StakingInfo({ stakeInfo }: StakingInfoProps) {
       const allowance = ethers.utils
         .formatUnits(allowanceToken, decimals)
         .toString()
-      console.log('allowance :>> ', allowance)
       setAllowance(allowance)
     } catch (error) {
       console.log('Staking.DepositModal.handleGetAllowance', error)
