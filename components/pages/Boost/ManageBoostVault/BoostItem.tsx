@@ -191,7 +191,7 @@ export function BoostItem({ item }: any) {
         </div>
         <div className="mt-10">
           <div className="text-[28px]">Withdraw ETH</div>
-          <div className="mt-2 flex w-full items-center justify-between rounded-[12px] border dark:border-[#1A1A1A] bg-[#161616] bg-white px-2 py-4">
+          <div className="mt-2 flex w-full items-center justify-between rounded-[12px] border dark:border-[#1A1A1A] dark:bg-[#161616] bg-white px-2 py-4">
             <input
               type="number"
               className="font-mona w-full bg-none px-2 focus:outline-none"

@@ -313,7 +313,7 @@ export default function CreateBorrowItem({ item }: any) {
         <p>$187.2m</p>
       </div>
       <button
-        className={`bg-gradient-primary flex w-full items-center justify-center rounded-full py-[4px] font-mona uppercase transition-all duration-200 ${
+        className={`bg-gradient-primary text-white flex w-full items-center justify-center rounded-full py-[4px] font-mona uppercase transition-all duration-200 ${
           (buttonLoading || !dataBorrow.amount) &&
           'cursor-not-allowed opacity-50'
         }`}
