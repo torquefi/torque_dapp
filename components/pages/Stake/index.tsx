@@ -118,7 +118,7 @@ export const StakePage = () => {
     handleGetTotalStaked()
     handleGetTotalDistributed()
     handleGetTotalLpStaked()
-  }, [stakingContract, tokenContract, stakingLpContract, lpContract])
+  }, [stakingContract, tokenContract, stakingLpContract, lpContract, isRefresh])
 
   return (
     <>
