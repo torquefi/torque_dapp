@@ -12,9 +12,13 @@ import { IStakingInfo } from '../types'
 
 interface StakingInfoProps {
   stakeInfo: IStakingInfo
+  isRefresh?: boolean
 }
 
-export default function StakingInfo({ stakeInfo }: StakingInfoProps) {
+export default function StakingInfo({
+  stakeInfo,
+  isRefresh,
+}: StakingInfoProps) {
   const { address, isConnected } = useAccount()
 
   const [isSubmitLoading, setSubmitLoading] = useState(false)
@@ -31,7 +35,6 @@ export default function StakingInfo({ stakeInfo }: StakingInfoProps) {
   const [isEdit, setEdit] = useState(false)
   const refLabelInput = useRef<HTMLInputElement>(null)
 
-  const isDisabled = !amount || +amount < 0 || +amount > +balance
   const isApproved = +allowance
 
   const tokenContract = useMemo(() => {
@@ -108,11 +111,11 @@ export default function StakingInfo({ stakeInfo }: StakingInfoProps) {
 
   useEffect(() => {
     handleGetInterestInfo()
-  }, [stakingContract, isConnected, tokenStakeContract, address])
+  }, [stakingContract, isConnected, tokenStakeContract, address, isRefresh])
 
   useEffect(() => {
     handleGetInfoStaked()
-  }, [stakingContract, isConnected, tokenContract, address])
+  }, [stakingContract, isConnected, tokenContract, address, isRefresh])
 
   const handleGetAllowance = async () => {
     if (!isConnected || !tokenStakeContract) {
