@@ -31,7 +31,7 @@ export default function BorrowItem({ item }: any) {
   const [contractAsset, setContractAsset] = useState(null)
   const [contractBorrow, setContractBorrow] = useState(null)
   const [allowance, setAllowance] = useState(0)
-  const [buttonLoading, setButtonLoading] = useState(false)
+  const [buttonLoading, setButtonLoading] = useState('')
   const [dataUserBorrow, setDataUserBorrow] = useState<any>()
   const [price, setPrice] = useState<any>({
     eth: 1800,
@@ -137,7 +137,7 @@ export default function BorrowItem({ item }: any) {
 
   const onApprove = async () => {
     try {
-      setButtonLoading(true)
+      setButtonLoading('')
       await contractAsset.methods
         .approve(
           contractBorrow._address,
@@ -152,13 +152,13 @@ export default function BorrowItem({ item }: any) {
       toast.error('Approve Failed')
       console.log(e)
     } finally {
-      setButtonLoading(false)
+      setButtonLoading('false')
     }
   }
 
   const onRepay = async () => {
     try {
-      setButtonLoading(true)
+      setButtonLoading('APPROVING...')
       if (!isApproved) {
         await contractAsset.methods
           .approve(
@@ -171,6 +171,7 @@ export default function BorrowItem({ item }: any) {
         toast.success('Approve Successful')
         await getAllowance()
       }
+      setButtonLoading('REPAYING...')
       await contractBorrow.methods
         .repay(Web3.utils.toWei(Number(inputValue).toFixed(2), 'mwei'))
         .send({
@@ -182,7 +183,7 @@ export default function BorrowItem({ item }: any) {
       console.log(e)
       toast.error('Repay Failed')
     } finally {
-      setButtonLoading(false)
+      setButtonLoading('')
     }
   }
 
@@ -438,12 +439,11 @@ export default function BorrowItem({ item }: any) {
               className={`bg-gradient-primary flex w-full items-center justify-center rounded-full py-[4px] uppercase transition-all duration-200 ${
                 buttonLoading && 'cursor-not-allowed opacity-50'
               }`}
-              disabled={buttonLoading}
+              disabled={buttonLoading != ''}
               onClick={() => onRepay()}
             >
-              {buttonLoading && <LoadingCircle />}
-              {action}
-              {buttonLoading && 'ING...'}
+              {buttonLoading != '' && <LoadingCircle />}
+              {buttonLoading != '' ? buttonLoading : action}
             </button>
           </div>
         </div>

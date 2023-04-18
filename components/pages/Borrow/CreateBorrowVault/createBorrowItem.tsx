@@ -212,7 +212,7 @@ export default function CreateBorrowItem({ item }: any) {
     () => dataBorrow.amount < allowance,
     [allowance, dataBorrow]
   )
-
+  console.log(dataBorrow.amountRecieve)
   return (
     <div
       className="space-y-4 rounded-xl border border-[#1A1A1A] bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 px-[16px] py-[24px] xl:px-[32px]"
@@ -257,7 +257,7 @@ export default function CreateBorrowItem({ item }: any) {
             usdDefault
             onChange={(e) => {
               dataBorrow.amount = e
-              dataBorrow.amountRecieve = (e * 50) / 100
+              dataBorrow.amountRecieve = Math.round((e * 50) / 100)
               setDataBorrow({ ...dataBorrow })
             }}
           />
@@ -267,12 +267,17 @@ export default function CreateBorrowItem({ item }: any) {
             tokenSymbol={'USDC'}
             tokenValue={Number(dataBorrow.amountRecieve)}
             tokenValueChange={Number(
-              (dataBorrow.amount *
-                price[`${dataBorrow.depositCoin.toLowerCase()}`] *
-                50) /
-                100
+              Math.round(
+                (Number(
+                  dataBorrow.amount *
+                    price[`${dataBorrow.depositCoin.toLowerCase()}`]
+                ) *
+                  50) /
+                  100
+              )
             )}
             usdDefault
+            decimalScale={0}
             className="w-full py-4 leading-none lg:py-6"
             subtitle="Borrowing"
             onChange={(e) => {
@@ -309,9 +314,10 @@ export default function CreateBorrowItem({ item }: any) {
       </div>
       <button
         className={`bg-gradient-primary flex w-full items-center justify-center rounded-full py-[4px] font-mona uppercase transition-all duration-200 ${
-          buttonLoading && 'cursor-not-allowed opacity-50'
+          (buttonLoading || !dataBorrow.amount) &&
+          'cursor-not-allowed opacity-50'
         }`}
-        disabled={buttonLoading != ''}
+        disabled={buttonLoading != '' || !dataBorrow.amount}
         onClick={() => {
           if (
             dataBorrow.amountRecieve /

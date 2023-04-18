@@ -30,7 +30,7 @@ export default function InputCurrencySwitch({
   tokenValueChange,
   usdDefault = false,
   className = '',
-  decimalScale = 2,
+  decimalScale = 3,
   subtitle,
   onChange,
   render,
@@ -68,8 +68,6 @@ export default function InputCurrencySwitch({
   //   toMetricUnits(valueToShow, decimalScale) +
   //   (isShowUsd ? '' : ' ' + tokenSymbol)
 
-  console.log('tokenPrice :>> ', tokenPrice)
-
   useEffect(() => {
     if (onChange)
       if (isShowUsd) {
@@ -86,7 +84,6 @@ export default function InputCurrencySwitch({
       setInputAmount(tokenValueChange)
     }
   }, [tokenValueChange])
-
   useEffect(() => {
     if (isShowUsd) setInputAmount(inputAmount * tokenPrice)
     else setInputAmount(inputAmount / tokenPrice)
@@ -95,7 +92,6 @@ export default function InputCurrencySwitch({
   useEffect(() => {
     getPrice()
   }, [])
-
   return (
     <div
       className={
@@ -110,10 +106,9 @@ export default function InputCurrencySwitch({
         className={`max-w-full bg-transparent pb-[2px] text-center text-[32px] font-bold text-white placeholder-gray-50`}
         value={inputAmount || null}
         onChange={(event: any, value: any) => {
-          console.log('value :>> ', value)
           setInputAmount(value)
         }}
-        decimalScale={5}
+        decimalScale={decimalScale}
         thousandSeparator
         placeholder={
           (isShowUsd ? '$' : '') +

@@ -8,6 +8,7 @@ import Popover from '@/components/common/Popover'
 import { BoostItem } from '../ManageBoostVault/BoostItem'
 import { CreateBoostItem } from './createBoostItem'
 import { useMoralis } from 'react-moralis'
+import axios from 'axios'
 
 export function CreateBoostVault() {
   const [boostVault, setBoostVault] = useState(BOOST_VAULTS)
@@ -17,6 +18,20 @@ export function CreateBoostVault() {
 
   const getAPR = async () => {
     try {
+      // let dta = axios
+      //   .get('https://stargate.finance/.netlify/functions/farms', {
+      //     headers: {
+      //       'Access-Control-Allow-Origin': '*',
+      //       'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+      //     },
+      //   })
+      //   .then((response) => {
+      //     console.log(response.data)
+      //   })
+      //   .catch((error) => {
+      //     console.log(error)
+      //   })
+      // console.log('dta', dta)
       let data = await Moralis.Cloud.run('getAPR_Stargate')
       boostVault.forEach((item) => {
         for (var i = 0; i < data.length; i++) {
