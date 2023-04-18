@@ -9,22 +9,18 @@ function getSemanticColors(color) {
 }
 
 module.exports = {
-  darkMode: false, // or 'media' or 'class'
-  // purge: {
-  //   content: ['./next/**/*.tsx', './**/*.tsx'],
-  //   options: {
-  //     safelist: {
-  //       standard: [/^col-span\-/, /^text\-/, /^bg\-/, 'scroll-block'],
-  //       greedy: [/^react-select/, /^react-datepicker/, /^swiper/],
-  //     },
-  //   },
-  // },
+  darkMode: 'class', // or 'media' or 'class'
+  purge: {
+    content: ['./next/**/*.tsx', './**/*.tsx'],
+    // options: {
+    //   safelist: {
+    //     // standard: [/^col-span\-/, /^text\-/, /^bg\-/, 'scroll-block'],
+    //     greedy: [/^react-select/, /^react-datepicker/, /^swiper/],
+    //   },
+    // },
+  },
   mode: 'jit',
-  content: [
-    './pages/**/*.{js,ts,jsx,tsx}',
-    './components/**/*.{js,ts,jsx,tsx}',
-    './layouts/**/*.{js,ts,jsx,tsx}',
-  ],
+  // purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
   theme: {
     screens: {
       xs: '480px',
@@ -38,7 +34,7 @@ module.exports = {
       colors: {
         primary: {
           light: 'var(--color-primary-light)',
-          DEFAULT: '#AA5BFF',
+          DEFAULT: 'var(--color-primary)',
           dark: 'var(--color-primary-dark)',
         },
         accent: {
@@ -58,13 +54,26 @@ module.exports = {
         cyan: getSemanticColors(colors.cyan),
         purple: getSemanticColors(colors.purple),
         pink: getSemanticColors(colors.pink),
+        primaryBtn: '#f037a5',
+        secondaryBtn: '#2d46b9',
+        paragraphText: {
+          light: '#575757',
+          DEFAULT: '#575757',
+          dark: '#8a8f98',
+        },
       },
       fontFamily: {
         // body: ['Open Sans', 'sans-serif'],
         body: ['hk_grotesk', 'sans-serif'],
-        mona: ['Mona Sans'],
-        larken: ['Larken'],
       },
+      // boxShadow: (theme) => {
+      //   const colors = {
+      //     primary, accent, bluegray
+      //   } = theme('colors')
+      //   return {
+      //     ...buildShadowPalette(colors),
+      //   }
+      // },
       fontSize: {
         8: '8px',
         9: '9px',
@@ -274,18 +283,6 @@ module.exports = {
         'slide-in-right': 'slideInRight .2s ease-in',
         'slide-out-right': 'slideOutRight .2s ease-out forwards',
       },
-      boxShadow: {
-        sm: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
-        DEFAULT:
-          '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
-        md: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-        lg: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-        xl: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-        '2xl': '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-        '3xl': '0 35px 60px -15px rgba(0, 0, 0, 0.3)',
-        inner: 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)',
-        none: 'none',
-      },
     },
   },
   variants: {
@@ -301,14 +298,7 @@ module.exports = {
       opacity: ['disabled'],
     },
   },
-  plugins: [
-    require('@tailwindcss/aspect-ratio'),
-    require('tailwind-scrollbar'),
-  ],
-  variants: {
-    // ...
-    scrollbar: ['dark'],
-  },
+  plugins: [require('@tailwindcss/aspect-ratio')],
 }
 
 function hexToRgb(hex) {

@@ -32,7 +32,16 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const appId = '1'
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page)
-
+  if (typeof window !== 'undefined') {
+    if (
+      window.localStorage.getItem('theme') === 'dark' ||
+      !('theme' in window.localStorage)
+    ) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+  }
   const { provider, webSocketProvider } = configureChains(
     [mainnet, goerli],
     [publicProvider()]

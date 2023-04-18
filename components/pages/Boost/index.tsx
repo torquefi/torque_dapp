@@ -13,11 +13,18 @@ import { ManageBoostVault } from './ManageBoostVault'
 import { CreateBoostVault } from './CreateBoostVault'
 
 export const BoostPage = () => {
+  const [theme, setTheme] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1500)
   }, [])
-
+  useEffect(() => {
+    setTheme(
+      typeof window !== 'undefined'
+        ? window.localStorage.getItem('theme')
+        : null
+    )
+  }, [typeof window !== 'undefined'])
   return (
     <>
       <div className="relative">
@@ -32,7 +39,11 @@ export const BoostPage = () => {
           </>
         ) : (
           <img
-            src="/assets/banners/boost-compressed.png"
+            src={
+              theme == 'light'
+                ? '/assets/banners/boost-light-large.png'
+                : '/assets/banners/boost-compressed.png'
+            }
             alt="Torque Boost"
             className="w-full rounded-xl"
           />

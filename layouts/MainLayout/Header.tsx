@@ -93,7 +93,7 @@ export const Header = () => {
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-[100] bg-[#030303]">
+      <header className="fixed inset-x-0 top-0 z-[100] bg-white dark:bg-[#030303] ">
         <div
           className={
             'flex cursor-pointer items-center justify-center bg-[#FF6969] text-center text-[14px] transition-all' +
@@ -110,7 +110,9 @@ export const Header = () => {
               src="/assets/t-logo.svg"
               alt=""
             />
-            <h2 className="ml-[16px] font-larken text-[24px]">Torque</h2>
+            <h2 className="ml-[16px] font-larken text-[24px] text-[#404040] dark:text-white">
+              Torque
+            </h2>
           </Link>
           <div className="flex items-center">
             <Link
@@ -123,7 +125,7 @@ export const Header = () => {
                 src="/assets/t-logo-circle.svg"
                 alt=""
               />
-              <p className="ml-[6px] font-larken text-[16px] lg:text-[18px]">
+              <p className="ml-[6px] font-larken text-[16px] text-[#404040] dark:text-white lg:text-[18px]">
                 $0.00
               </p>
             </Link>

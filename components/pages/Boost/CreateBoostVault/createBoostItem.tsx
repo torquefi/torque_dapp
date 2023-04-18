@@ -8,7 +8,7 @@ import { toast } from 'sonner'
 export function CreateBoostItem({ item }: any) {
   const [boostVault, setBoostVault] = useState(item)
   return (
-    <div className="rounded-[12px] border border-[#1A1A1A] bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 px-3 py-6 lg:px-8">
+    <div className="rounded-[12px] border border-[#E6E6E6] bg-white  px-3 py-6 text-[#000] dark:border-[#1A1A1A] dark:bg-[#1A1A1A] dark:text-[#fff] lg:px-8">
       <div className="flex w-full items-center justify-between">
         <div className="flex items-center">
           <img
@@ -16,14 +16,14 @@ export function CreateBoostItem({ item }: any) {
             alt=""
             className="w-16 xs:w-20 lg:w-24"
           />
-          <div className="grow pb-2 font-larken text-[22px] leading-tight xs:text-[18px] sm:text-[22px] lg:text-[26px]">
+          <div className="font-larken  grow pb-2 text-[22px] leading-tight xs:text-[18px] sm:text-[22px] lg:text-[26px]">
             Deposit {item.token},<br className="" /> Earn {item.token}
           </div>
         </div>
         <Popover
           trigger="hover"
           placement="bottom-right"
-          className={`mt-[8px] w-[230px] bg-[#0d0d0d] text-center font-mona text-sm leading-tight`}
+          className={`font-mona bg-[#fff]  mt-[8px] w-[230px] dark:bg-[#0d0d0d] text-center text-sm leading-tight`}
           content="The projected TORQ rewards after 1 year of $1,000 supplied"
         >
           <Link href="#" className="" target={'_blank'}>
@@ -34,7 +34,7 @@ export function CreateBoostItem({ item }: any) {
                 className="w-[24px] xs:w-[28px]"
               />
 
-              <div className="mx-1 font-mona uppercase text-[#AA5BFF] xs:mx-2">
+              <div className="font-mona mx-1 uppercase text-[#AA5BFF] xs:mx-2">
                 +{item.bonus_TORQ} TORQ
               </div>
             </div>
@@ -42,12 +42,12 @@ export function CreateBoostItem({ item }: any) {
         </Popover>
       </div>
       <div className="mt-4 grid grid-cols-2 gap-4 ">
-        <div className="flex h-[140px] w-full flex-col items-center justify-center gap-3 rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0">
+        <div className="flex h-[140px] w-full flex-col items-center justify-center gap-3 rounded-md border  dark:border-[#1A1A1A] dark:bg-[#161616]">
           <InputCurrencySwitch
             tokenSymbol={item?.token}
             tokenValue={Number(item.amount)}
             usdDefault
-            className="w-full py-4 lg:py-6"
+            className="w-full py-4 text-[#000] dark:text-[#fff] lg:py-6 "
             decimalScale={2}
             subtitle="Deposit"
             onChange={(e) => {
@@ -56,7 +56,7 @@ export function CreateBoostItem({ item }: any) {
             }}
           />
         </div>
-        <div className="flex h-[140px] w-full flex-col items-center justify-center rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0">
+        <div className="flex h-[140px] w-full flex-col items-center justify-center rounded-md border border-[#F4F4F4] bg-white dark:border-[#1A1A1A] dark:bg-[#161616]">
           <CurrencySwitch
             tokenSymbol={item?.token}
             tokenValue={Number(item.amount || 0) * (item.rate || 0)}
@@ -74,18 +74,18 @@ export function CreateBoostItem({ item }: any) {
           />
         </div>
       </div>
-      <div className="flex w-full items-center justify-between py-2 font-mona text-[16px] text-[#959595]">
+      <div className="font-mona flex w-full items-center justify-between py-2 text-[16px] text-[#959595]">
         <div className="font-mona">Yield provider</div>
         <Link href="https://stargate.finance/" className="" target={'_blank'}>
           <img src="/icons/coin/stargate.png" alt="Stargate" className="" />
         </Link>
       </div>
-      <div className="flex w-full items-center justify-between font-mona text-[16px] text-[#959595]">
+      <div className="font-mona flex w-full items-center justify-between text-[16px] text-[#959595]">
         <div className="font-mona">Variable APR</div>
         <div className="">{item.APR}%</div>
       </div>
       <button
-        className="mt-4 w-full rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 font-mona uppercase transition-all duration-300 ease-linear hover:bg-gradient-to-t"
+        className="font-mona mt-4 w-full rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-[#fff] transition-all duration-300 ease-linear hover:bg-gradient-to-t dark:text-[#000]"
         onClick={() => toast.message('Coming soon')}
       >
         Deposit and Earn
