@@ -13,9 +13,13 @@ import { useMoralis } from 'react-moralis'
 
 interface StakingInfoProps {
   stakeInfo: IStakingInfo
+  isRefresh?: boolean
 }
 
-export default function StakingInfo({ stakeInfo }: StakingInfoProps) {
+export default function StakingInfo({
+  stakeInfo,
+  isRefresh,
+}: StakingInfoProps) {
   const { address, isConnected } = useAccount()
   const { Moralis } = useMoralis()
 
@@ -33,7 +37,6 @@ export default function StakingInfo({ stakeInfo }: StakingInfoProps) {
   const [isEdit, setEdit] = useState(false)
   const refLabelInput = useRef<HTMLInputElement>(null)
 
-  const isDisabled = !amount || +amount < 0 || +amount > +balance
   const isApproved = +allowance
 
   const tokenContract = useMemo(() => {
@@ -136,11 +139,11 @@ export default function StakingInfo({ stakeInfo }: StakingInfoProps) {
 
   useEffect(() => {
     handleGetInterestInfo()
-  }, [stakingContract, isConnected, tokenStakeContract, address])
+  }, [stakingContract, isConnected, tokenStakeContract, address, isRefresh])
 
   useEffect(() => {
     handleGetInfoStaked()
-  }, [stakingContract, isConnected, tokenContract, address])
+  }, [stakingContract, isConnected, tokenContract, address, isRefresh])
 
   const handleGetAllowance = async () => {
     if (!isConnected || !tokenStakeContract) {
@@ -156,7 +159,28 @@ export default function StakingInfo({ stakeInfo }: StakingInfoProps) {
       const allowance = ethers.utils
         .formatUnits(allowanceToken, decimals)
         .toString()
-      setAllowance(allowance)
+      return allowance
+    } catch (error) {
+      console.log('Staking.DepositModal.handleGetAllowance', error)
+    }
+    setSubmitLoading(false)
+  }
+
+  const handleGetTokenAllowance = async () => {
+    if (!isConnected || !tokenContract) {
+      return setAllowance('0')
+    }
+    setSubmitLoading(true)
+
+    try {
+      const allowanceToken = await tokenContract.methods
+        .allowance(address, stakeInfo?.stakeContract?.address)
+        .call()
+      const decimals = await tokenStakeContract.methods.decimals().call()
+      const allowance = ethers.utils
+        .formatUnits(allowanceToken, decimals)
+        .toString()
+      return allowance
     } catch (error) {
       console.log('Staking.DepositModal.handleGetAllowance', error)
     }
@@ -184,10 +208,6 @@ export default function StakingInfo({ stakeInfo }: StakingInfoProps) {
     setSubmitLoading(false)
   }
 
-  useEffect(() => {
-    handleGetAllowance()
-  }, [tokenStakeContract, isConnected])
-
   const handleWithdraw = async () => {
     if (!isConnected) {
       return toast.error('You need connect your wallet first')
@@ -197,6 +217,26 @@ export default function StakingInfo({ stakeInfo }: StakingInfoProps) {
     }
     setSubmitLoading(true)
     try {
+      const allowanceToken = await handleGetTokenAllowance()
+      if (!+allowanceToken) {
+        await tokenContract.methods
+          .approve(
+            stakeInfo?.stakeContract?.address,
+            '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+          )
+          .send({ from: address })
+      }
+
+      const allowance = await handleGetAllowance()
+      if (!+allowance) {
+        await tokenStakeContract.methods
+          .approve(
+            stakeInfo?.stakeContract?.address,
+            '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+          )
+          .send({ from: address })
+      }
+
       const decimals = await tokenContract.methods.decimals().call()
       const tokenAmount = ethers.utils
         .parseUnits(amount.toString(), decimals)
@@ -353,10 +393,10 @@ export default function StakingInfo({ stakeInfo }: StakingInfoProps) {
           </div>
           <button
             className="mt-4 flex w-full justify-center rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 font-mona text-[16px] uppercase transition-all duration-300 ease-linear hover:bg-gradient-to-t"
-            onClick={() => (!isApproved ? approveToken() : handleWithdraw())}
+            onClick={() => handleWithdraw()}
           >
             {isSubmitLoading && <LoadingCircle />}
-            {!isApproved ? 'Approve' : 'Withdraw'}
+            Withdraw
           </button>
         </div>
       </div>

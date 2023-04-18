@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { STAKING_DATA } from '../constant'
 import StakingInfo from './StakingInfo'
 
-export default function ManageStaking() {
+export default function ManageStaking({ isRefresh }: { isRefresh?: boolean }) {
   const [dataStake, setDataStake] = useState(STAKING_DATA)
   const [isSkeletonLoading, setSkeletonLoading] = useState(true)
 
@@ -29,7 +29,7 @@ export default function ManageStaking() {
       <div className="text-[24px]">Manage Staking</div>
 
       {dataStake.map((item) => (
-        <StakingInfo stakeInfo={item} />
+        <StakingInfo stakeInfo={item} isRefresh={isRefresh} />
       ))}
     </div>
   )
