@@ -13,13 +13,16 @@ import { IStakingInfo } from '../types'
 
 interface StakingPoolItemProps {
   stakeInfo: IStakingInfo
+  setIsRefresh: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function StakingPoolItem({ stakeInfo }: StakingPoolItemProps) {
+export default function StakingPoolItem({
+  stakeInfo,
+  setIsRefresh,
+}: StakingPoolItemProps) {
   const { address, isConnected } = useAccount()
   const [isLoading, setLoading] = useState(true)
   const [isSubmitLoading, setSubmitLoading] = useState(false)
-  const [isOpenConfirmModal, setOpenConfirmModal] = useState(false)
   const [apr, setApr] = useState<string | number>(0)
 
   const [balance, setBalance] = useState<number>(0)
@@ -56,41 +59,30 @@ export default function StakingPoolItem({ stakeInfo }: StakingPoolItemProps) {
       return toast.error('You must input amount to deposit')
     }
     setSubmitLoading(true)
-
     try {
+      const allowance = await handleGetAllowance()
+      if (!+allowance) {
+        await tokenContract.methods
+          .approve(
+            stakeInfo?.stakeContract?.address,
+            '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+          )
+          .send({ from: address })
+      }
+
       const decimals = await tokenContract.methods.decimals().call()
       const tokenAmount = ethers.utils
         .parseUnits(amount.toString(), decimals)
         .toString()
 
       await stakingContract.methods.deposit(tokenAmount).send({ from: address })
-      toast.success('Deposit successful')
+      toast.success('Deposit successfully')
+      setIsRefresh((isRefresh) => !isRefresh)
       setAmount(0)
-    } catch (error) {
-      toast.error('Deposit failed ' + error?.message)
-      console.log('Staking.DepositModal.stakeToken', error)
-    }
-    setSubmitLoading(false)
-  }
-
-  const approveToken = async () => {
-    if (!isConnected) {
-      return toast.error('You need connect your wallet first')
-    }
-
-    setSubmitLoading(true)
-
-    try {
-      await tokenContract.methods
-        .approve(
-          stakeInfo?.stakeContract?.address,
-          '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
-        )
-        .send({ from: address })
-      handleGetAllowance()
     } catch (error) {
       console.log('Staking.DepositModal.approveToken', error)
     }
+
     setSubmitLoading(false)
   }
 
@@ -98,7 +90,6 @@ export default function StakingPoolItem({ stakeInfo }: StakingPoolItemProps) {
     if (!isConnected || !tokenContract) {
       return setBalance(0)
     }
-    setSubmitLoading(true)
 
     try {
       const allowanceToken = await tokenContract.methods
@@ -109,11 +100,11 @@ export default function StakingPoolItem({ stakeInfo }: StakingPoolItemProps) {
         .formatUnits(allowanceToken, decimals)
         .toString()
 
-      setAllowance(allowance)
+      return allowance
     } catch (error) {
       console.log('Staking.DepositModal.handleGetAllowance', error)
+      return 0
     }
-    setSubmitLoading(false)
   }
 
   useEffect(() => {
@@ -162,7 +153,6 @@ export default function StakingPoolItem({ stakeInfo }: StakingPoolItemProps) {
         const response = await stakingContract.methods
           .getUSDPrice(stakeInfo.tokenContract.address, amount)
           .call()
-        console.log('response :>> ', response)
       } catch (error) {
         console.log('error :>> ', error)
       }
@@ -255,24 +245,11 @@ export default function StakingPoolItem({ stakeInfo }: StakingPoolItemProps) {
           }`
         }
         disabled={(isApproved && isDisabled) || isSubmitLoading}
-        onClick={() =>
-          !isApproved ? approveToken() : setOpenConfirmModal(true)
-        }
+        onClick={() => stakeToken()}
       >
         {isSubmitLoading && <LoadingCircle />}
-        {!isApproved ? 'Approve' : 'Deposit'} {stakeInfo?.label}
+        Deposit {stakeInfo?.label}
       </button>
-
-      <ConfirmModal
-        open={isOpenConfirmModal}
-        handleClose={() => setOpenConfirmModal(false)}
-        title="Confirm stake"
-        content={`Do you want to deposit ${amount} ${stakeInfo.symbol}?`}
-        onConfirm={() => {
-          stakeToken()
-          setOpenConfirmModal(false)
-        }}
-      />
     </div>
   )
 }

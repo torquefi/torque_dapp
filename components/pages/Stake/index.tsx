@@ -17,6 +17,8 @@ export const StakePage = () => {
   const [totalStaked, setTotalStaked] = useState<string | number>(0)
   const [totalLpStaked, setTotalLpStaked] = useState<string | number>(0)
   const [totalDistributed, setTotalDistributed] = useState<string | number>(0)
+  const [totalSupply, setTotalSupply] = useState<string | number>(0)
+  const [isRefresh, setIsRefresh] = useState(false)
 
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1000)
@@ -98,10 +100,25 @@ export const StakePage = () => {
   }
 
   useEffect(() => {
+    ;(async () => {
+      try {
+        const decimals = await tokenContract.methods.decimals().call()
+        const response = await tokenContract.methods.totalSupply().call()
+        const totalSupply = ethers.utils
+          .formatUnits(response, decimals)
+          .toString()
+        setTotalSupply(totalSupply)
+      } catch (error) {
+        console.log('get total stake full', error)
+      }
+    })()
+  }, [tokenContract])
+
+  useEffect(() => {
     handleGetTotalStaked()
     handleGetTotalDistributed()
     handleGetTotalLpStaked()
-  }, [stakingContract, tokenContract, stakingLpContract, lpContract])
+  }, [stakingContract, tokenContract, stakingLpContract, lpContract, isRefresh])
 
   return (
     <>
@@ -130,7 +147,19 @@ export const StakePage = () => {
           </div>
         ) : (
           <div className="flex h-full w-full flex-col items-center justify-center gap-2 rounded-[12px] border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#16161679] p-8">
-            <div className="font-larken text-[32px]">0.00%</div>
+            <div className="font-larken text-[32px]">
+              <NumberFormat
+                displayType="text"
+                thousandSeparator
+                value={
+                  totalSupply
+                    ? (Number(totalStaked) / Number(totalSupply)) * 100
+                    : 0
+                }
+                decimalScale={2}
+              />
+              %
+            </div>
             <div className="text-[#959595]">Supply Staked</div>
           </div>
         )}
@@ -182,9 +211,9 @@ export const StakePage = () => {
           )}
         </div>
 
-        <StakingPool />
+        <StakingPool setIsRefresh={setIsRefresh} />
       </div>
-      <ManageStaking />
+      <ManageStaking isRefresh={isRefresh} />
     </>
   )
 }
