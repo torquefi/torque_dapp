@@ -16,7 +16,7 @@ export default function PortfolioChart() {
     )
   else
     return (
-      <div className="relative rounded-xl border border-[#1A1A1A] bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 ">
+      <div className="relative rounded-xl border dark:border-[#1A1A1A] dark:bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 ">
         <div className="absolute left-[24px] top-[24px] space-y-2">
           <p className="text-[14px] text-[#959595]">Portfolio</p>
           <p className="font-larken text-[28px]">

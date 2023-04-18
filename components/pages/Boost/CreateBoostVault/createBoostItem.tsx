@@ -23,7 +23,7 @@ export function CreateBoostItem({ item }: any) {
         <Popover
           trigger="hover"
           placement="bottom-right"
-          className={`font-mona bg-[#fff]  mt-[8px] w-[230px] dark:bg-[#0d0d0d] text-center text-sm leading-tight`}
+          className={`font-mona mt-[8px]  w-[230px] bg-[#fff] text-center text-sm leading-tight dark:bg-[#0d0d0d]`}
           content="The projected TORQ rewards after 1 year of $1,000 supplied"
         >
           <Link href="#" className="" target={'_blank'}>
@@ -85,7 +85,7 @@ export function CreateBoostItem({ item }: any) {
         <div className="">{item.APR}%</div>
       </div>
       <button
-        className="font-mona mt-4 w-full rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-[#fff] transition-all duration-300 ease-linear hover:bg-gradient-to-t dark:text-[#000]"
+        className="font-mona mt-4 w-full rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-[#fff] transition-all duration-300 ease-linear hover:bg-gradient-to-t "
         onClick={() => toast.message('Coming soon')}
       >
         Deposit and Earn
