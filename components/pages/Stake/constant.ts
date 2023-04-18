@@ -50,6 +50,6 @@ export const STAKING_DATA: IStakingInfo[] = [
     APR: 56,
     tokenContract: tokenLpContract,
     stakeContract: stakeLpContract,
-    tokenStakeContract: tokenStakingLpContract,
+    tokenStakeContract: tokenStakingTorqContract,
   },
 ]

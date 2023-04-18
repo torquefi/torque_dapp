@@ -20,10 +20,12 @@ export default function StakingPoolItem({ stakeInfo }: StakingPoolItemProps) {
   const [isLoading, setLoading] = useState(true)
   const [isSubmitLoading, setSubmitLoading] = useState(false)
   const [isOpenConfirmModal, setOpenConfirmModal] = useState(false)
+  const [apr, setApr] = useState<string | number>(0)
 
   const [balance, setBalance] = useState<number>(0)
   const [amount, setAmount] = useState<number>(0)
   const [allowance, setAllowance] = useState('0')
+  const [tokenUsd, setTokenUsd] = useState<string | number>(0)
 
   const isDisabled = !amount || +amount < 0
   const isApproved = +allowance
@@ -142,6 +144,32 @@ export default function StakingPoolItem({ stakeInfo }: StakingPoolItemProps) {
   }, [tokenContract, isConnected])
 
   useEffect(() => {
+    ;(async () => {
+      try {
+        const response = await stakingContract.methods.apr().call()
+        setApr(response / 100)
+      } catch (error) {
+        console.log('error :>> ', error)
+      }
+    })()
+  }, [stakingContract])
+
+  useEffect(() => {
+    ;(async () => {
+      try {
+        const decimals = await tokenContract.methods.decimals().call()
+        const amount = ethers.utils.parseUnits('1', decimals).toString()
+        const response = await stakingContract.methods
+          .getUSDPrice(stakeInfo.tokenContract.address, amount)
+          .call()
+        console.log('response :>> ', response)
+      } catch (error) {
+        console.log('error :>> ', error)
+      }
+    })()
+  }, [tokenContract, stakingContract])
+
+  useEffect(() => {
     setTimeout(() => setLoading(false), 1000)
   }, [])
 
@@ -197,7 +225,7 @@ export default function StakingPoolItem({ stakeInfo }: StakingPoolItemProps) {
         <div className="flex h-[140px] w-[50%] flex-col items-center justify-center rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0">
           <CurrencySwitch
             tokenSymbol={stakeInfo?.symbol}
-            tokenValue={+amount || 0 * stakeInfo.rate || 0}
+            tokenValue={+(amount || 0) * (stakeInfo.rate || 0) || 0}
             usdDefault
             className="w-full space-y-2 py-6 py-[23px] lg:py-[31px]"
             decimalScale={2}
@@ -215,7 +243,7 @@ export default function StakingPoolItem({ stakeInfo }: StakingPoolItemProps) {
 
       <div className="mt-2 flex w-full items-center justify-between font-mona text-[#959595]">
         <div className="">Variable APR</div>
-        <div className="">{stakeInfo.APR}%</div>
+        <div className="">{apr}%</div>
       </div>
       <button
         className={
