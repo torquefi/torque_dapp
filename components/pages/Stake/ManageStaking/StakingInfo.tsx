@@ -9,6 +9,7 @@ import { toast } from 'sonner'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 import { IStakingInfo } from '../types'
+import { useMoralis } from 'react-moralis'
 
 interface StakingInfoProps {
   stakeInfo: IStakingInfo
@@ -16,6 +17,7 @@ interface StakingInfoProps {
 
 export default function StakingInfo({ stakeInfo }: StakingInfoProps) {
   const { address, isConnected } = useAccount()
+  const { Moralis } = useMoralis()
 
   const [isSubmitLoading, setSubmitLoading] = useState(false)
   const [isOpen, setOpen] = useState(false)
@@ -93,6 +95,32 @@ export default function StakingInfo({ stakeInfo }: StakingInfoProps) {
     } catch (error) {
       console.log('error get interest info:>> ', error)
     }
+  }
+
+  const getDataNameStaking = async () => {
+    const data = await Moralis.Cloud.run('getDataBorrowUser', {
+      address: address,
+    })
+    setLabel(data[`${stakeInfo.data_key}`] || stakeInfo?.label)
+  }
+
+  const updateDataNameStaking = async (name: string) => {
+    const data = await Moralis.Cloud.run('getDataBorrowUser', {
+      address: address,
+    })
+
+    data[`${stakeInfo.data_key}`] = name
+    data[`address`] = address
+    await Moralis.Cloud.run('updateDataBorrowUser', {
+      ...data,
+    })
+      .then(() => {
+        toast.success('Update name successful')
+        getDataNameStaking()
+      })
+      .catch(() => {
+        toast.error('Update name failed')
+      })
   }
 
   useEffect(() => {
@@ -261,7 +289,10 @@ export default function StakingInfo({ stakeInfo }: StakingInfoProps) {
               <button className="ml-2">
                 <AiOutlineCheck
                   className="transition-all hover:scale-105"
-                  onClick={() => setEdit(!isEdit)}
+                  onClick={() => {
+                    updateDataNameStaking(label)
+                    setEdit(!isEdit)
+                  }}
                 />
               </button>
             </div>

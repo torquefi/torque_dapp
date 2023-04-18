@@ -18,20 +18,6 @@ export function CreateBoostVault() {
 
   const getAPR = async () => {
     try {
-      // let dta = axios
-      //   .get('https://stargate.finance/.netlify/functions/farms', {
-      //     headers: {
-      //       'Access-Control-Allow-Origin': '*',
-      //       'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-      //     },
-      //   })
-      //   .then((response) => {
-      //     console.log(response.data)
-      //   })
-      //   .catch((error) => {
-      //     console.log(error)
-      //   })
-      // console.log('dta', dta)
       let data = await Moralis.Cloud.run('getAPR_Stargate')
       boostVault.forEach((item) => {
         for (var i = 0; i < data.length; i++) {

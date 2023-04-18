@@ -7,6 +7,7 @@ export interface IStakingInfo {
   earnings?: number
   threeYearValue?: number
   rate?: number
+  data_key?: string
   APR?: number
   stakeContract: IContractInfo
   tokenContract: IContractInfo
