@@ -15,11 +15,11 @@ export default function Footer() {
   const handleDarkMode = (e: any) => {
     if (typeof window != 'undefined') {
       if (e.target.checked) {
-        dispatch(updateTheme('light'))
+        dispatch(updateTheme('light' as any))
         window.localStorage.setItem('theme', 'light')
         window.location.reload()
       } else {
-        dispatch(updateTheme('dark'))
+        dispatch(updateTheme('dark' as any))
         window.localStorage.setItem('theme', 'dark')
         window.location.reload()
       }
