@@ -1,7 +1,7 @@
 .form-control {
-  @apply block w-full py-0 px-3 min-h-10 rounded border bg-white border-gray-400 hover:border-gray-500;
-  @apply focus:ring-1 focus:ring-primary focus:ring-opacity-50 focus:border-primary;
-  @apply focus-within:ring-1 focus-within:ring-primary focus-within:ring-opacity-50 focus-within:border-primary;
+  @apply block min-h-10 w-full rounded border border-gray-400 bg-[#FCFAFF] px-3 py-0 hover:border-gray-500;
+  @apply focus:border-primary focus:ring-1 focus:ring-primary focus:ring-opacity-50;
+  @apply focus-within:border-primary focus-within:ring-1 focus-within:ring-primary focus-within:ring-opacity-50;
   &[readonly],
   &[disabled],
   &.readonly {
@@ -14,7 +14,7 @@
   }
   &.error {
     @apply border-danger hover:border-danger-dark focus:border-danger focus:ring-danger #{!important};
-    @apply focus-within:ring-danger focus-within:border-danger #{!important};
+    @apply focus-within:border-danger focus-within:ring-danger #{!important};
   }
   &.no-focus {
     box-shadow: none !important;
@@ -130,7 +130,7 @@ input[disabled] ~ .react-datepicker__close-icon {
   }
   &::after {
     display: none !important;
-    content: "";
+    content: '';
   }
   &:focus {
     outline: none;
@@ -138,7 +138,7 @@ input[disabled] ~ .react-datepicker__close-icon {
 }
 .react-datepicker__day,
 .react-datepicker__time-list-item {
-  @apply focus:ring focus:ring-primary focus:ring-opacity-50 outline-none rounded;
+  @apply rounded outline-none focus:ring focus:ring-primary focus:ring-opacity-50;
 }
 .react-datepicker__day--today,
 .react-datepicker__day--in-selecting-range,
@@ -150,16 +150,16 @@ input[disabled] ~ .react-datepicker__close-icon {
 }
 .react-datepicker__day--selected,
 .react-datepicker__time-list-item--selected {
-  @apply bg-primary hover:bg-primary-dark text-white #{!important};
+  @apply bg-primary text-white hover:bg-primary-dark #{!important};
 }
 .react-datepicker__day--in-range {
-  @apply bg-primary hover:bg-primary-dark text-white #{!important};
+  @apply bg-primary text-white hover:bg-primary-dark #{!important};
 }
 .react-datepicker__month-text {
-  @apply inline-flex justify-center items-center w-16 h-8 #{!important};
+  @apply inline-flex h-8 w-16 items-center justify-center #{!important};
 }
 .react-datepicker__month-text--keyboard-selected {
-  @apply bg-primary hover:bg-primary-dark text-white #{!important};
+  @apply bg-primary text-white hover:bg-primary-dark #{!important};
 }
 .react-datepicker__current-month {
   @apply text-gray-800;
@@ -201,7 +201,7 @@ input[disabled] ~ .react-datepicker__close-icon {
 
   > span,
   > div {
-    @apply pl-1.5 pt-1.5 pr-3 text-base;
+    @apply pl-1.5 pr-3 pt-1.5 text-base;
   }
   i {
     @apply text-2xl;
@@ -321,7 +321,7 @@ input[disabled] ~ .react-datepicker__close-icon {
 
   .slider:before {
     position: absolute;
-    content: "";
+    content: '';
     height: 20px;
     width: 20px;
     left: 2px;
@@ -351,5 +351,5 @@ input[disabled] ~ .react-datepicker__close-icon {
   }
 }
 .ck-focused {
-  @apply border-transparent outline-none shadow-md #{!important};
+  @apply border-transparent shadow-md outline-none #{!important};
 }

@@ -17,7 +17,7 @@ export default function Banner() {
       />
       <Link
         href="/overview"
-        className="absolute left-[24px] top-[24px] flex h-[48px] w-[48px] items-center justify-center rounded-full bg-white dark:bg-[#030303]"
+        className="absolute left-[24px] top-[24px] flex h-[48px] w-[48px] items-center justify-center rounded-full bg-[#FCFAFF] dark:bg-[#030303]"
       >
         <img
           className="w-[12px]"

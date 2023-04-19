@@ -101,7 +101,7 @@ export function BoostItem({ item }: any) {
     )
   }
   return (
-    <div className="dark-text-[#000] mt-[24px] grid w-full rounded-[12px] border border-[#E6E6E6] bg-white px-[24px] py-[20px] text-[#464646] dark:border-[#1A1A1A] dark:bg-[#1A1A1A] dark:text-[#fff]">
+    <div className="dark-text-[#000] mt-[24px] grid w-full rounded-[12px] border border-[#E6E6E6] bg-[#FCFAFF] px-[24px] py-[20px] text-[#464646] dark:border-[#1A1A1A] dark:bg-[#1A1A1A] dark:text-[#fff]">
       <div className="grid w-full grid-cols-2">
         <div className="xlg:w-[calc(100%-600px-64px)] font-larken flex w-[calc(100%-64px)] items-center space-x-2 text-[22px] md:w-[calc(100%-400px-64px)] lg:w-[calc(100%-500px-64px)]">
           {!isEdit && (
@@ -191,7 +191,7 @@ export function BoostItem({ item }: any) {
         </div>
         <div className="mt-10">
           <div className="text-[28px]">Withdraw ETH</div>
-          <div className="mt-2 flex w-full items-center justify-between rounded-[12px] border dark:border-[#1A1A1A] dark:bg-[#161616] bg-white px-2 py-4">
+          <div className="mt-2 flex w-full items-center justify-between rounded-[12px] border bg-[#FCFAFF] px-2 py-4 dark:border-[#1A1A1A] dark:bg-[#161616]">
             <input
               type="number"
               className="font-mona w-full bg-none px-2 focus:outline-none"

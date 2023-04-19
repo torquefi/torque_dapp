@@ -70,21 +70,21 @@ export function AlertDialog({
       root="alert-root"
       width="400px"
       style={{ zIndex: 10000 }}
-      dialogClass="relative bg-white shadow-md rounded m-auto p-5"
+      dialogClass="relative bg-[#FCFAFF] shadow-md rounded m-auto p-5"
       isOpen={props.isOpen}
       onClose={onClose}
       slideFromBottom="none"
     >
-      <div className="flex md:flex-col md:items-center mt-2">
+      <div className="mt-2 flex md:flex-col md:items-center">
         <i className={`text-5xl opacity-75 text-${iconColors[type]}`}>
           {icons[type]}
         </i>
-        <div className="w-full pt-0 pl-3 md:pt-2 md:px-3 text-left md:text-center">
-          <h3 className="text-gray-800 font-semibold text-xl mb-1">{title}</h3>
-          <p className="text-gray-700 mb-4 break-words">{content}</p>
+        <div className="w-full pl-3 pt-0 text-left md:px-3 md:pt-2 md:text-center">
+          <h3 className="mb-1 text-xl font-semibold text-gray-800">{title}</h3>
+          <p className="mb-4 break-words text-gray-700">{content}</p>
         </div>
       </div>
-      <form className="flex flex-row-reverse justify-start mt-4 p-2 -mb-5 -mx-5 border-t border-gray-200">
+      <form className="-mx-5 -mb-5 mt-4 flex flex-row-reverse justify-start border-t border-gray-200 p-2">
         <Button
           autoFocus
           id="alert-button"

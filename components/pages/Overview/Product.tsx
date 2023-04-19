@@ -31,7 +31,7 @@ export default function Product() {
             return (
               <Link
                 href={item.path}
-                className="block overflow-hidden rounded-xl border bg-white text-[#404040] transition-opacity duration-300  hover:opacity-80 dark:border-[#1A1A1A] dark:bg-[#1A1A1A] dark:text-white"
+                className="block overflow-hidden rounded-xl border bg-[#FCFAFF] text-[#404040] transition-opacity duration-300  hover:opacity-80 dark:border-[#1A1A1A] dark:bg-[#1A1A1A] dark:text-white"
               >
                 <img
                   className="h-[170px] w-full object-cover"
@@ -40,7 +40,7 @@ export default function Product() {
                 />
                 <div className="space-y-[18px] p-[24px] xs:p-[36px]">
                   <div className="flex items-center justify-start">
-                    <div className="flex h-[65px] w-[65px] items-center justify-center rounded-full border dark:border-[#1A1A1A]  dark:bg-gradient-to-b from-[#232323] to-[#232323]/0">
+                    <div className="flex h-[65px] w-[65px] items-center justify-center rounded-full border from-[#232323]  to-[#232323]/0 dark:border-[#1A1A1A] dark:bg-gradient-to-b">
                       <img className="w-[30px]" src={item.icon} alt="" />
                     </div>
                     <p className="font-larken ml-[24px] text-[26px]">

@@ -95,7 +95,7 @@ export default function ConnectWalletModal({
   return (
     <>
       <Modal
-        className="w-full max-w-[500px] p-[12px]"
+        className="w-full max-w-[500px]  bg-[#FCFAFF] dark:bg-[#030303] p-[12px]"
         open={open}
         handleClose={handleClose}
         hideCloseIcon
@@ -103,16 +103,16 @@ export default function ConnectWalletModal({
         <HoverIndicator
           direction="vertical"
           divider
-          indicatorClassName="!rounded-[18px]"
+          indicatorClassName="!rounded-[18px] "
         >
           {connectors.map((item, i) => (
             <div
-              className="flex h-[200px] cursor-pointer flex-col items-center justify-center space-y-2 text-center"
+              className="flex h-[200px] text-[#404040] dark:text-[#FFFFFF] cursor-pointer flex-col items-center justify-center space-y-2 text-center"
               key={i}
               onClick={item.action}
             >
               <img className="w-[64px]" src={item.icon} alt="" />
-              <p className="font-larken text-[20px]">{item.name}</p>
+              <p className="font-larken  text-[20px]">{item.name}</p>
               <p className="text-[12px] text-[#959595] xs:text-[14px] sm:text-[16px]">
                 {item.message}
               </p>

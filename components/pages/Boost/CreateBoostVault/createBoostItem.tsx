@@ -8,7 +8,7 @@ import { toast } from 'sonner'
 export function CreateBoostItem({ item }: any) {
   const [boostVault, setBoostVault] = useState(item)
   return (
-    <div className="rounded-[12px] border border-[#E6E6E6] bg-white  px-3 py-6 text-[#000] dark:border-[#1A1A1A] dark:bg-[#1A1A1A] dark:text-[#fff] lg:px-8">
+    <div className="rounded-[12px] border border-[#E6E6E6] bg-[#FCFAFF]  px-3 py-6 text-[#000] dark:border-[#1A1A1A] dark:bg-[#1A1A1A] dark:text-[#fff] lg:px-8">
       <div className="flex w-full items-center justify-between">
         <div className="flex items-center">
           <img
@@ -56,7 +56,7 @@ export function CreateBoostItem({ item }: any) {
             }}
           />
         </div>
-        <div className="flex h-[140px] w-full flex-col items-center justify-center rounded-md border border-[#F4F4F4] bg-white dark:border-[#1A1A1A] dark:bg-[#161616]">
+        <div className="flex h-[140px] w-full flex-col items-center justify-center rounded-md border border-[#F4F4F4] bg-[#FCFAFF] dark:border-[#1A1A1A] dark:bg-[#161616]">
           <CurrencySwitch
             tokenSymbol={item?.token}
             tokenValue={Number(item.amount || 0) * (item.rate || 0)}

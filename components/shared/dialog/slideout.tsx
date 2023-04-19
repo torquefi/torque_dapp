@@ -16,7 +16,7 @@ export function Slideout({
       wrapperClass={`fixed w-full h-screen top-0 left-0 z-300 flex flex-col overflow-hidden ${
         placement == 'left' ? 'item-start' : 'items-end'
       }`}
-      dialogClass="relative h-full bg-white shadow-md"
+      dialogClass="relative h-full bg-[#FCFAFF] shadow-md"
       isOpen={props.isOpen}
       onClose={props.onClose}
       openAnimation={
