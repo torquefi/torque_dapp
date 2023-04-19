@@ -16,13 +16,7 @@ interface InputCurrencySwitchProps {
   onChange?: (num: number) => any
   render?: (str: string) => any
   onSetShowUsd?: any
-}
-
-export const getPriceToken = async (symbol: string) => {
-  let data = await axios.get(
-    `https://api.binance.us/api/v3/ticker/price?symbol=${symbol.toUpperCase()}USDT`
-  )
-  return (await Number(data?.data?.price)) || 0
+  tokenPrice?: number
 }
 
 export default function InputCurrencySwitch({
@@ -36,39 +30,10 @@ export default function InputCurrencySwitch({
   onChange,
   render,
   onSetShowUsd,
+  tokenPrice = 0.005,
 }: InputCurrencySwitchProps) {
   const [isShowUsd, setShowUsd] = useState(usdDefault)
   const [inputAmount, setInputAmount] = useState(0)
-  const [tokenPrice, setTokenPrice] = useState(0)
-  const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
-  const [price, setPrice] = useState<any>({
-    eth: 1800,
-    btc: 28000,
-    usdc: 1,
-  })
-
-  const getPrice = async () => {
-    let price: any = {
-      eth: (await getPriceToken('ETH')) || 1800,
-      btc: (await getPriceToken('BTC')) || 28000,
-      usdc: (await getPriceToken('USDC')) || 1,
-    }
-    setPrice(price)
-    setTokenPrice(
-      price[tokenSymbol.toLocaleLowerCase()] ||
-        usdPrice[tokenSymbol.toLocaleLowerCase()] ||
-        0
-    )
-  }
-
-  // const valueToShow = isShowUsd
-  //   ? tokenValue * (usdPrice?.[tokenSymbol] || 1)
-  //   : tokenValue
-
-  // const strToShow =
-  //   (isShowUsd ? '$' : '') +
-  //   toMetricUnits(valueToShow, decimalScale) +
-  //   (isShowUsd ? '' : ' ' + tokenSymbol)
 
   useEffect(() => {
     if (onChange)
@@ -77,7 +42,7 @@ export default function InputCurrencySwitch({
       } else {
         onChange(inputAmount)
       }
-  }, [inputAmount])
+  }, [inputAmount, isShowUsd])
 
   useEffect(() => {
     if (isShowUsd) {
@@ -85,16 +50,12 @@ export default function InputCurrencySwitch({
     } else {
       setInputAmount(tokenValueChange)
     }
-  }, [tokenValueChange])
+  }, [tokenValueChange, isShowUsd])
 
   useEffect(() => {
     if (isShowUsd) setInputAmount(inputAmount * tokenPrice)
     else setInputAmount(inputAmount / tokenPrice)
   }, [isShowUsd])
-
-  useEffect(() => {
-    getPrice()
-  }, [])
 
   return (
     <div

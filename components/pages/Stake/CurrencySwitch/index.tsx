@@ -2,7 +2,6 @@ import { toMetricUnits } from '@/lib/helpers/number'
 import { AppStore } from '@/types/store'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import NumberFormat from '../NumberFormat'
 
 interface CurrencySwitchProps {
   tokenSymbol: string
@@ -20,15 +19,12 @@ export default function CurrencySwitch({
   usdDefault = false,
   className = '',
   decimalScale = 0,
-  tokenPrice,
+  tokenPrice = 1,
   render,
 }: CurrencySwitchProps) {
   const [isShowUsd, setShowUsd] = useState(usdDefault)
-  const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
 
-  const valueToShow = isShowUsd
-    ? tokenValue * (usdPrice?.[tokenSymbol] || 1)
-    : tokenValue
+  const valueToShow = isShowUsd ? tokenValue * Number(tokenPrice) : tokenValue
 
   const strToShow =
     (isShowUsd ? '$' : '') +

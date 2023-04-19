@@ -1,16 +1,15 @@
-import CurrencySwitch from '@/components/common/CurrencySwitch'
-import InputCurrencySwitch from '@/components/common/InputCurrencySwitch'
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
-import ConfirmModal from '@/components/common/Modal/ConfirmModal'
 import SkeletonDefault from '@/components/skeleton'
+import { tokenLpContract } from '@/constants/contracts'
 import { ethers } from 'ethers'
 import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
 import { toast } from 'sonner'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
+import InputCurrencySwitch from '../InputCurrencySwitch'
 import { IStakingInfo } from '../types'
-import { tokenLpContract } from '@/constants/contracts'
+import CurrencySwitch from '../CurrencySwitch'
 
 interface StakingPoolItemProps {
   stakeInfo: IStakingInfo
@@ -25,14 +24,11 @@ export default function StakingPoolItem({
   const [isLoading, setLoading] = useState(true)
   const [isSubmitLoading, setSubmitLoading] = useState(false)
   const [apr, setApr] = useState<string | number>(0)
+  const [isShowUsd, setShowUsd] = useState(true)
 
-  const [balance, setBalance] = useState<number>(0)
   const [amount, setAmount] = useState<number>(0)
-  const [allowance, setAllowance] = useState('0')
-  const [tokenUsd, setTokenUsd] = useState<string | number>(0)
 
   const isDisabled = !amount || +amount < 0
-  const isApproved = +allowance
 
   const lpContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
@@ -97,10 +93,6 @@ export default function StakingPoolItem({
   }
 
   const handleGetAllowance = async () => {
-    if (!isConnected || !tokenContract) {
-      return setBalance(0)
-    }
-
     try {
       const allowanceToken = await tokenContract.methods
         .allowance(address, stakeInfo?.stakeContract?.address)
@@ -116,29 +108,6 @@ export default function StakingPoolItem({
       return 0
     }
   }
-
-  useEffect(() => {
-    const handleGetBalance = async () => {
-      if (!isConnected || !tokenContract) {
-        return setBalance(0)
-      }
-      setSubmitLoading(true)
-      try {
-        const balanceToken = await tokenContract.methods
-          .balanceOf(address)
-          .call()
-        const decimals = await tokenContract.methods.decimals().call()
-        const balance = ethers.utils
-          .formatUnits(balanceToken, decimals)
-          .toString()
-        setBalance(+balance)
-      } catch (error) {
-        console.log('Staking.DepositModal.handleGetBalance', error)
-      }
-      setSubmitLoading(false)
-    }
-    handleGetBalance()
-  }, [tokenContract, isConnected])
 
   useEffect(() => {
     handleGetAllowance()
@@ -168,7 +137,7 @@ export default function StakingPoolItem({
         console.log('error :>> ', error)
       }
     })()
-  }, [tokenContract, lpContract])
+  }, [tokenContract, lpContract, isConnected])
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 1000)
@@ -182,8 +151,10 @@ export default function StakingPoolItem({
     )
   }
 
+  console.log('amount :>> ', amount)
+
   return (
-    <div className="rounded-[12px] dark:text-white text-[#404040] border dark:border-[#1A1A1A] dark:bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 px-8 py-6">
+    <div className="rounded-[12px] border from-[#0d0d0d] to-[#0d0d0d]/0 px-8 py-6 text-[#404040] dark:border-[#1A1A1A] dark:bg-gradient-to-br dark:text-white">
       <div className="flex w-full items-center justify-between">
         <div className="flex items-center gap-2">
           <img
@@ -191,7 +162,7 @@ export default function StakingPoolItem({
             alt=""
             className="xs:w-26 m-2 w-12 lg:w-[64px]"
           />
-          <div className="grow pb-2 font-larken text-[16px] leading-tight xs:text-[18px] lg:text-[26px]">
+          <div className="font-larken grow pb-2 text-[16px] leading-tight xs:text-[18px] lg:text-[26px]">
             Deposit {stakeInfo.label},
             <br className="" /> Earn TORQ
           </div>
@@ -203,14 +174,14 @@ export default function StakingPoolItem({
             className="w-[24px] xs:w-[28px]"
           />
           <Link href={'#'} target="_blank">
-            <div className="mx-1 font-mona uppercase text-[#AA5BFF] xs:mx-2">
+            <div className="font-mona mx-1 uppercase text-[#AA5BFF] xs:mx-2">
               get {stakeInfo.label}
             </div>
           </Link>
         </div>
       </div>
       <div className="mt-4 flex w-full items-center justify-center gap-4 ">
-        <div className="flex h-[140px] w-1/2 flex-col items-center justify-center gap-3 rounded-md border dark:border-[#1A1A1A] dark:bg-gradient-to-b from-[#161616] to-[#161616]/0">
+        <div className="flex h-[140px] w-1/2 flex-col items-center justify-center gap-3 rounded-md border from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-gradient-to-b">
           <InputCurrencySwitch
             tokenSymbol={stakeInfo?.symbol}
             tokenValue={+amount}
@@ -221,15 +192,18 @@ export default function StakingPoolItem({
             onChange={(e) => {
               setAmount(e)
             }}
+            onSetShowUsd={setShowUsd}
+            tokenPrice={0.005}
           />
         </div>
-        <div className="flex h-[140px] w-[50%] flex-col items-center justify-center rounded-md border dark:border-[#1A1A1A] dark:bg-gradient-to-b from-[#161616] to-[#161616]/0">
+        <div className="flex h-[140px] w-[50%] flex-col items-center justify-center rounded-md border from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-gradient-to-b">
           <CurrencySwitch
             tokenSymbol={stakeInfo?.symbol}
-            tokenValue={+(amount || 0) * (stakeInfo.rate || 0) || 0}
+            tokenValue={(+(amount || 0) * 3 * Number(apr)) / 10000 || 0}
             usdDefault
             className="w-full space-y-2 py-6 py-[23px] lg:py-[31px]"
             decimalScale={2}
+            tokenPrice={0.005}
             render={(value) => (
               <>
                 <p className="text-[32px] leading-none">{value}</p>
@@ -242,20 +216,20 @@ export default function StakingPoolItem({
         </div>
       </div>
 
-      <div className="mt-2 flex w-full items-center justify-between font-mona text-[#959595]">
+      <div className="font-mona mt-2 flex w-full items-center justify-between text-[#959595]">
         <div className="">Variable APR</div>
         <div className="">{apr}%</div>
       </div>
       <button
         className={
-          'mt-4 flex w-full text-white items-center justify-center rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 font-mona uppercase hover:bg-gradient-to-t' +
+          'font-mona mt-4 flex w-full items-center justify-center rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white hover:bg-gradient-to-t' +
           ` ${
-            (isApproved && isDisabled) || isSubmitLoading
+            isSubmitLoading || isDisabled
               ? 'cursor-not-allowed text-[#eee]'
               : 'cursor-pointer '
           }`
         }
-        disabled={(isApproved && isDisabled) || isSubmitLoading}
+        disabled={isDisabled || isSubmitLoading}
         onClick={() => stakeToken()}
       >
         {isSubmitLoading && <LoadingCircle />}
