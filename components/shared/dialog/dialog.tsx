@@ -37,11 +37,11 @@ export function Dialog({
   overlayClass = 'fixed w-full h-full top-0 left-auto pointer-events-none',
   dialogClass = 'relative shadow-md rounded m-auto',
   extraDialogClass = '',
-  headerClass = 'relative flex px-4 py-1 box-content bg-white z-5 border-top rounded-t border-b border-gray-200 z-10',
+  headerClass = 'relative flex px-4 py-1 box-content bg-[#FCFAFF] z-5 border-top rounded-t border-b border-gray-200 z-10',
   extraHeaderClass = '',
-  bodyClass = 'relative p-4 bg-white rounded',
+  bodyClass = 'relative p-4 bg-[#FCFAFF] rounded',
   extraBodyClass = '',
-  footerClass = 'relative flex px-4 py-2 bg-white z-5 rounded-b',
+  footerClass = 'relative flex px-4 py-2 bg-[#FCFAFF] z-5 rounded-b',
   extraFooterClass = '',
   slideFromBottom = 'mobile-only',
   width = 'auto',
@@ -91,14 +91,14 @@ export function Dialog({
     header = [
       <>
         <div
-          className="flex items-center flex-1"
+          className="flex flex-1 items-center"
           style={{ justifyContent: 'inherit' }}
         >
-          {icon ? <i className="text-lg text-primary mr-2">{icon}</i> : null}
-          <span className="text-gray-700 text font-semibold">{title}</span>
+          {icon ? <i className="mr-2 text-lg text-primary">{icon}</i> : null}
+          <span className="text font-semibold text-gray-700">{title}</span>
         </div>
         <button
-          className="btn-default transform translate-x-4"
+          className="btn-default translate-x-4 transform"
           onClick={() => props.onClose()}
         >
           <i className="text-lg">

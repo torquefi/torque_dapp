@@ -87,7 +87,7 @@ export default function HoverIndicator({
       >
         <div
           className={
-            'pointer-events-none absolute w-full rounded-[6px] bg-gradient-to-br from-[#1c1c1c] to-[#101010] transition-all duration-300' +
+            'pointer-events-none absolute w-full rounded-[6px]  bg-[#F4F4F4] dark:bg-gradient-to-br from-[#1c1c1c] to-[#101010] transition-all duration-300' +
             ` ${direction === 'horizontal' ? 'inset-y-0' : ''}` +
             ` ${direction === 'vertical' ? 'inset-x-0' : ''}` +
             ` ${indicatorClassName}`
@@ -102,7 +102,7 @@ export default function HoverIndicator({
             onMouseLeave={() => setActiveTabIndex(activeIndex ?? null)}
           >
             {divider && i !== 0 && (
-              <div className="bg-gradient-divider absolute inset-x-0 top-[-0.5px] h-[1px]" />
+              <div className="dark:bg-gradient-divider absolute inset-x-0 top-[-0.5px] h-[1px]" />
             )}
             {item}
           </div>

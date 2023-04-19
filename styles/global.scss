@@ -17,3 +17,16 @@
     rgba(40, 40, 40, 0) 100%
   );
 }
+
+.bg-gradient-divider-light {
+  @apply bg-[#282828];
+  background: linear-gradient(
+    90deg,
+    #fff 0%,
+    #eaeaea 30%,
+    #eaeaea 50%,
+    #eaeaea 70%,
+    #fff 100%
+
+  );
+}

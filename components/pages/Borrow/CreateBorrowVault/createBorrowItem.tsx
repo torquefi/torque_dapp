@@ -230,7 +230,7 @@ export default function CreateBorrowItem({ item }: any) {
         <Popover
           trigger="hover"
           placement="bottom-right"
-          className={`mt-[8px] w-[230px] bg-white text-center text-sm leading-tight dark:bg-[#161616]`}
+          className={`mt-[8px] w-[230px] bg-[#FCFAFF] text-center text-sm leading-tight dark:bg-[#161616]`}
           content="The projected TORQ rewards after 1 year of $1,000 borrowed"
         >
           <Link href="#" className="" target={'_blank'}>
@@ -313,7 +313,7 @@ export default function CreateBorrowItem({ item }: any) {
         <p>$187.2m</p>
       </div>
       <button
-        className={`bg-gradient-primary text-white flex w-full items-center justify-center rounded-full py-[4px] font-mona uppercase transition-all duration-200 ${
+        className={`bg-gradient-primary font-mona flex w-full items-center justify-center rounded-full py-[4px] uppercase text-white transition-all duration-200 ${
           (buttonLoading || !dataBorrow.amount) &&
           'cursor-not-allowed opacity-50'
         }`}

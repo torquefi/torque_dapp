@@ -15,6 +15,7 @@ import { useAuthRequestChallengeEvm } from '@moralisweb3/next'
 import { useDispatch, useSelector } from 'react-redux'
 import { switchNetwork } from '@wagmi/core'
 import Moralis from 'moralis-v1'
+import { AppStore } from '@/types/store'
 
 export const Header = () => {
   const dispatch = useDispatch()
@@ -24,7 +25,7 @@ export const Header = () => {
   const { disconnectAsync } = useDisconnect()
   const { chain, chains } = useNetwork()
   const { address, isConnecting, isDisconnected, isConnected } = useAccount()
-
+  const theme = useSelector((store: AppStore) => store.theme.theme)
   const [isShowNetworkAlert, setIsShowNetworkAlert] = useState(false)
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
   const [addressOld, setAddressOld] = useState(address)
@@ -93,7 +94,7 @@ export const Header = () => {
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-[100] bg-white dark:bg-[#030303] ">
+      <header className="fixed inset-x-0 top-0 z-[100] bg-[#FCFAFF] dark:bg-[#030303] ">
         <div
           className={
             'flex cursor-pointer items-center justify-center bg-[#FF6969] text-center text-[14px] transition-all' +
@@ -110,7 +111,7 @@ export const Header = () => {
               src="/assets/t-logo.svg"
               alt=""
             />
-            <h2 className="ml-[16px] font-larken text-[24px] text-[#404040] dark:text-white">
+            <h2 className="font-larken ml-[16px] text-[24px] text-[#404040] dark:text-white">
               Torque
             </h2>
           </Link>
@@ -125,7 +126,7 @@ export const Header = () => {
                 src="/assets/t-logo-circle.svg"
                 alt=""
               />
-              <p className="ml-[6px] font-larken text-[16px] text-[#404040] dark:text-white lg:text-[18px]">
+              <p className="font-larken ml-[6px] text-[16px] text-[#404040] dark:text-white lg:text-[18px]">
                 $0.00
               </p>
             </Link>
@@ -161,7 +162,7 @@ export const Header = () => {
               </Popover>
             ) : (
               <div
-                className="cursor-pointer rounded-full border border-primary px-[18px] py-[6px] font-mona text-[14px] uppercase leading-none text-primary transition-all duration-200 ease-in hover:scale-x-[102%] xs:px-[16px] xs:py-[4px] lg:px-[32px] lg:py-[6px] lg:text-[16px]"
+                className="font-mona cursor-pointer rounded-full border border-primary px-[18px] py-[6px] text-[14px] uppercase leading-none text-primary transition-all duration-200 ease-in hover:scale-x-[102%] xs:px-[16px] xs:py-[4px] lg:px-[32px] lg:py-[6px] lg:text-[16px]"
                 onClick={() => setOpenConnectWalletModal(true)}
               >
                 Connect
@@ -178,16 +179,18 @@ export const Header = () => {
                   href={item.path}
                   key={i}
                   className={
-                    'relative flex h-[35px] items-center justify-center pr-[4px] font-mona transition-all duration-200 ease-in' +
+                    'font-mona relative flex h-[35px] items-center justify-center pr-[4px] transition-all duration-200 ease-in' +
                     ` ${
-                      activeTabIndex === i ? ' text-white' : 'text-[#959595]'
+                      activeTabIndex === i
+                        ? 'text-[#404040] dark:text-white'
+                        : 'text-[#959595]'
                     }`
                   }
                   onMouseEnter={() => setActiveTabIndex(i)}
                   onMouseLeave={() => setActiveTabIndex(currentTabIndex)}
                 >
                   <img
-                    className="mr-[4px] w-[16px] lg:w-[20px] xl:w-[24px]"
+                    className="mr-[4px] w-[16px] text-[#000] lg:w-[20px] xl:w-[24px]"
                     src={activeTabIndex === i ? item.iconActive : item.icon}
                     alt=""
                   />
@@ -198,7 +201,18 @@ export const Header = () => {
               ))}
             </HoverIndicator>
           </div>
-          <div className="bg-gradient-divider absolute bottom-0 left-0 h-[1px] w-full" />
+          <div
+            className={
+              ` absolute bottom-0 left-0 h-[1px] w-full` +
+              `
+              ${
+                theme === 'light'
+                  ? 'bg-gradient-divider-light'
+                  : 'bg-gradient-divider'
+              }
+               `
+            }
+          />
         </div>
       </header>
       <ConnectWalletModal

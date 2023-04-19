@@ -38,7 +38,7 @@ const Modal = ({
     >
       <div className="flex min-h-screen items-center justify-center py-[10px] px-[8px]">
         <div
-          className={`relative mx-auto w-[90%] rounded-[24px] border border-[#1D1D1D] bg-[#030303] p-[16px] transition-all ${className} ${
+          className={`relative mx-auto w-[90%] rounded-[24px] border dark:border-[#1D1D1D] bg-[#030303] p-[16px] transition-all ${className} ${
             open ? `scale-100` : `scale-[0.9]`
           }`}
           onClick={(e) => e.stopPropagation()}
