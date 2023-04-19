@@ -162,7 +162,7 @@ export const Header = () => {
               </Popover>
             ) : (
               <div
-                className="font-mona cursor-pointer rounded-full border border-primary px-[18px] py-[6px] text-[14px] uppercase leading-none text-primary transition-all duration-200 ease-in hover:scale-x-[102%] xs:px-[16px] xs:py-[4px] lg:px-[32px] lg:py-[6px] lg:text-[16px]"
+                className="font-mona cursor-pointer rounded-full border border-[#AA5BFF] px-[18px] py-[6px] text-[14px] uppercase leading-none text-[#AA5BFF] transition-all duration-200 ease-in hover:scale-x-[102%] xs:px-[16px] xs:py-[4px] lg:px-[32px] lg:py-[6px] lg:text-[16px]"
                 onClick={() => setOpenConnectWalletModal(true)}
               >
                 Connect
@@ -189,11 +189,19 @@ export const Header = () => {
                   onMouseEnter={() => setActiveTabIndex(i)}
                   onMouseLeave={() => setActiveTabIndex(currentTabIndex)}
                 >
-                  <img
-                    className="mr-[4px] w-[16px] text-[#000] lg:w-[20px] xl:w-[24px]"
-                    src={activeTabIndex === i ? item.iconActive : item.icon}
-                    alt=""
-                  />
+                  {theme === 'light' ? (
+                    <img
+                      className="mr-[4px] w-[16px] text-[#000] lg:w-[20px] xl:w-[24px]"
+                      src={activeTabIndex === i ? item.iconLight : item.icon}
+                      alt=""
+                    />
+                  ) : (
+                    <img
+                      className="mr-[4px] w-[16px] text-[#000] lg:w-[20px] xl:w-[24px]"
+                      src={activeTabIndex === i ? item.iconActive : item.icon}
+                      alt=""
+                    />
+                  )}
                   <p className="text-[12px] lg:text-[14px] xl:text-[16px]">
                     {item.label}
                   </p>
@@ -231,23 +239,27 @@ const menu = [
     path: '/overview',
     icon: '/assets/main-layout/distributed.svg',
     iconActive: '/assets/main-layout/distributed-active.svg',
+    iconLight: '/assets/main-layout/distributed.png',
   },
   {
     label: 'Boost',
     path: '/boost',
     icon: '/assets/main-layout/mining.svg',
     iconActive: '/assets/main-layout/mining-active.svg',
+    iconLight: '/assets/main-layout/mining-active.png',
   },
   {
     label: 'Borrow',
     path: '/borrow',
     icon: '/assets/main-layout/link.svg',
     iconActive: '/assets/main-layout/link-active.svg',
+    iconLight: '/assets/main-layout/link-active.png',
   },
   {
     label: 'Stake',
     path: '/stake',
     icon: '/assets/main-layout/network.svg',
     iconActive: '/assets/main-layout/network-active.svg',
+    iconLight: '/assets/main-layout/network-active.png',
   },
 ]
