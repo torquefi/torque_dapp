@@ -215,7 +215,7 @@ export default function CreateBorrowItem({ item }: any) {
   console.log(dataBorrow.amountRecieve)
   return (
     <div
-      className="space-y-4 rounded-xl border border-[#1A1A1A] bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 px-[16px] py-[24px] xl:px-[32px]"
+      className="dark:tex-white space-y-4 rounded-xl border from-[#0d0d0d] to-[#0d0d0d]/0 px-[16px] py-[24px] text-[#404040] dark:border-[#1A1A1A] dark:bg-gradient-to-br xl:px-[32px]"
       key={dataBorrow.address_asset}
     >
       <div className="flex items-center">
@@ -224,13 +224,13 @@ export default function CreateBorrowItem({ item }: any) {
           src={dataBorrow.coinIcon}
           alt=""
         />
-        <div className="grow pb-2 font-larken text-[22px] leading-tight xs:text-[18px] lg:text-[26px]">
+        <div className="font-larken grow pb-2 text-[22px] leading-tight xs:text-[18px] lg:text-[26px]">
           Deposit {dataBorrow.depositCoin},<br /> Borrow {dataBorrow.borrowCoin}
         </div>
         <Popover
           trigger="hover"
           placement="bottom-right"
-          className={`mt-[8px] w-[230px] bg-[#161616] text-center text-sm leading-tight`}
+          className={`mt-[8px] w-[230px] bg-white text-center text-sm leading-tight dark:bg-[#161616]`}
           content="The projected TORQ rewards after 1 year of $1,000 borrowed"
         >
           <Link href="#" className="" target={'_blank'}>
@@ -248,7 +248,7 @@ export default function CreateBorrowItem({ item }: any) {
         </Popover>
       </div>
       <div className="grid grid-cols-2 gap-4">
-        <div className=" h-[140px] rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0 font-larken">
+        <div className=" font-larken h-[140px] rounded-md border from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-gradient-to-b">
           <InputCurrencySwitch
             tokenSymbol={item?.depositCoin}
             tokenValue={Number(dataBorrow.amount)}
@@ -262,7 +262,7 @@ export default function CreateBorrowItem({ item }: any) {
             }}
           />
         </div>
-        <div className="flex h-[140px] flex-col items-center justify-center rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0 font-larken">
+        <div className="font-larken flex h-[140px] flex-col items-center justify-center rounded-md border from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-gradient-to-b">
           <InputCurrencySwitch
             tokenSymbol={'USDC'}
             tokenValue={Number(dataBorrow.amountRecieve)}
@@ -313,7 +313,7 @@ export default function CreateBorrowItem({ item }: any) {
         <p>$187.2m</p>
       </div>
       <button
-        className={`bg-gradient-primary flex w-full items-center justify-center rounded-full py-[4px] font-mona uppercase transition-all duration-200 ${
+        className={`bg-gradient-primary text-white flex w-full items-center justify-center rounded-full py-[4px] font-mona uppercase transition-all duration-200 ${
           (buttonLoading || !dataBorrow.amount) &&
           'cursor-not-allowed opacity-50'
         }`}

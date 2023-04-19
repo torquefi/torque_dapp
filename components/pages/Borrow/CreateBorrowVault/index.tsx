@@ -13,8 +13,8 @@ export default function CreateBorrowVault() {
   const [dataBorrow, setDataBorrow] = useState(fakeBorrow)
 
   return (
-    <div className="space-y-[24px]">
-      <h3 className="font-larken text-[24px]">Create Borrow Vault</h3>
+    <div className="space-y-[24px] ">
+      <h3 className="font-larken dark:text-white text-[#404040] text-[24px]">Create Borrow Vault</h3>
 
       <div className="grid gap-4 md:grid-cols-2">
         {fakeBorrow.map((item, i) => (

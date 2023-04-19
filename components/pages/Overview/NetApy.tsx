@@ -16,8 +16,8 @@ export default function NetApy() {
           <SkeletonDefault height={'50vh'} width={'100%'} />
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center space-y-10 rounded-xl border border-[#1A1A1A] bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 py-[24px]">
-          <div className="flex h-[65px] w-[65px] items-center justify-center rounded-full border border-[#1A1A1A] bg-gradient-to-b from-[#232323] to-[#232323]/0">
+        <div className="flex flex-col items-center justify-center space-y-10 rounded-xl border from-[#0d0d0d] to-[#0d0d0d]/0 py-[24px] dark:border-[#1A1A1A] dark:bg-gradient-to-br">
+          <div className="flex h-[65px] w-[65px] items-center justify-center rounded-full border from-[#232323] to-[#232323]/0 dark:border-[#1A1A1A] dark:bg-gradient-to-b">
             <img
               className="w-[40px]"
               src="/assets/overview-page/apy.svg"
@@ -25,7 +25,7 @@ export default function NetApy() {
             />
           </div>
           <div className="space-y-2">
-            <p className="font-larken text-[28px]">
+            <p className="font-larken text-[28px] text-[#404040] dark:text-white">
               {isLoading ? (
                 <div className="">
                   <SkeletonDefault height={'4vh'} width={'10vw'} />
@@ -37,7 +37,7 @@ export default function NetApy() {
             <p className="text-[#959595]">Net APR</p>
           </div>
           <button
-            className="bg-gradient-primary w-[140px] rounded-full py-[6px] font-mona uppercase transition-all duration-200 ease-linear hover:w-[154px]"
+            className="bg-gradient-primary font-mona w-[140px] rounded-full py-[6px] uppercase transition-all duration-200 ease-linear hover:w-[154px]"
             onClick={() => toast.message('Coming soon')}
           >
             Manage
@@ -49,8 +49,8 @@ export default function NetApy() {
           <SkeletonDefault height={'50vh'} width={'100%'} />
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center space-y-10 rounded-xl border border-[#1A1A1A] bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 py-[24px]">
-          <div className="flex h-[65px] w-[65px] items-center justify-center rounded-full border border-[#1A1A1A] bg-gradient-to-b from-[#232323] to-[#232323]/0">
+        <div className="flex flex-col items-center justify-center space-y-10 rounded-xl border from-[#0d0d0d] to-[#0d0d0d]/0 py-[24px] dark:border-[#1A1A1A] dark:bg-gradient-to-br">
+          <div className="flex h-[65px] w-[65px] items-center justify-center rounded-full border from-[#232323] to-[#232323]/0 dark:border-[#1A1A1A] dark:bg-gradient-to-b">
             <img
               className="w-[40px]"
               src="/assets/overview-page/earnings.svg"
@@ -66,7 +66,7 @@ export default function NetApy() {
               tokenSymbol="TORQ"
               tokenValue={0}
               usdDefault
-              className="w-full space-y-2 text-center font-larken text-[28px]"
+              className="font-larken w-full space-y-2 text-center text-[28px] text-[#404040] dark:text-white"
               render={(value) => (
                 <>
                   <p>{value}</p>
@@ -76,7 +76,7 @@ export default function NetApy() {
             />
           )}
           <button
-            className="bg-gradient-primary w-[140px] rounded-full py-[6px] font-mona uppercase transition-all duration-200 ease-linear hover:w-[154px]"
+            className="bg-gradient-primary font-mona w-[140px] rounded-full py-[6px] uppercase transition-all duration-200 ease-linear hover:w-[154px]"
             onClick={() => toast.message('Coming soon')}
           >
             Claim

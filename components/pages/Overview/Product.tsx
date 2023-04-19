@@ -1,12 +1,14 @@
 import SkeletonDefault from '@/components/skeleton'
+import { AppStore } from '@/types/store'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-
+import { useSelector } from 'react-redux'
 export default function Product() {
   const [isLoading, setIsLoading] = useState(true)
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1000)
   }, [])
+  const theme = useSelector((store: AppStore) => store.theme.theme)
   return (
     <div className="mt-[36px] space-y-[24px]">
       {isLoading ? (
@@ -29,19 +31,19 @@ export default function Product() {
             return (
               <Link
                 href={item.path}
-                className="block overflow-hidden rounded-xl border border-[#1A1A1A] bg-gradient-to-br from-[#0d0d0d]/40 to-[#252525]/40 transition-opacity duration-300 hover:opacity-80"
+                className="block overflow-hidden rounded-xl border bg-white text-[#404040] transition-opacity duration-300  hover:opacity-80 dark:border-[#1A1A1A] dark:bg-[#1A1A1A] dark:text-white"
               >
                 <img
                   className="h-[170px] w-full object-cover"
-                  src={item.cover}
+                  src={theme === 'light' ? item.coverLight : item.cover}
                   alt=""
                 />
                 <div className="space-y-[18px] p-[24px] xs:p-[36px]">
                   <div className="flex items-center justify-start">
-                    <div className="flex h-[65px] w-[65px] items-center justify-center rounded-full border border-[#1A1A1A] bg-gradient-to-b from-[#232323] to-[#232323]/0">
+                    <div className="flex h-[65px] w-[65px] items-center justify-center rounded-full border dark:border-[#1A1A1A]  dark:bg-gradient-to-b from-[#232323] to-[#232323]/0">
                       <img className="w-[30px]" src={item.icon} alt="" />
                     </div>
-                    <p className="ml-[24px] font-larken text-[26px]">
+                    <p className="font-larken ml-[24px] text-[26px]">
                       {item.name}
                     </p>
                   </div>
@@ -62,6 +64,7 @@ const products = [
     name: 'Boost',
     path: '/boost',
     cover: '/assets/banners/boost-sm.png',
+    coverLight: '/assets/banners/boost-light-small.png',
     icon: '/assets/overview-page/boost.svg',
     description:
       'A savings product that provides compound yield to users and bolsters liquidity of leading bridges.',
@@ -70,6 +73,7 @@ const products = [
     name: 'Borrow',
     path: '/borrow',
     cover: '/assets/banners/borrow-sm.png',
+    coverLight: '/assets/banners/borrow-light-small.png',
     icon: '/assets/overview-page/borrow.svg',
     description:
       'Collateralize your portfolio and borrow up to 80% of its value so that you never have to sell your assets.',

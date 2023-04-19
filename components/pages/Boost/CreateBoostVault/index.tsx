@@ -40,13 +40,15 @@ export function CreateBoostVault() {
   }, [isInitialized])
 
   return (
-    <div className="mt-[36px] font-larken">
+    <div className="font-larken mt-[36px]">
       {isLoading ? (
         <div className="mt-[24px]">
           <SkeletonDefault height={40} width={'200px'} />
         </div>
       ) : (
-        <div className="text-[24px]">Create Boost Vault</div>
+        <div className="text-[24px] text-[#000] dark:text-[#ffff]">
+          Create Boost Vault
+        </div>
       )}
 
       <div className="mt-[24px] grid gap-4 md:grid-cols-2">

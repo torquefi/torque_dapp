@@ -172,7 +172,7 @@ export default function StakingPoolItem({
   }
 
   return (
-    <div className="rounded-[12px] border border-[#1A1A1A] bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 px-8 py-6">
+    <div className="rounded-[12px] dark:text-white text-[#404040] border dark:border-[#1A1A1A] dark:bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 px-8 py-6">
       <div className="flex w-full items-center justify-between">
         <div className="flex items-center gap-2">
           <img
@@ -199,7 +199,7 @@ export default function StakingPoolItem({
         </div>
       </div>
       <div className="mt-4 flex w-full items-center justify-center gap-4 ">
-        <div className="flex h-[140px] w-1/2 flex-col items-center justify-center gap-3 rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0">
+        <div className="flex h-[140px] w-1/2 flex-col items-center justify-center gap-3 rounded-md border dark:border-[#1A1A1A] dark:bg-gradient-to-b from-[#161616] to-[#161616]/0">
           <InputCurrencySwitch
             tokenSymbol={stakeInfo?.symbol}
             tokenValue={+amount}
@@ -212,7 +212,7 @@ export default function StakingPoolItem({
             }}
           />
         </div>
-        <div className="flex h-[140px] w-[50%] flex-col items-center justify-center rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#161616]/0">
+        <div className="flex h-[140px] w-[50%] flex-col items-center justify-center rounded-md border dark:border-[#1A1A1A] dark:bg-gradient-to-b from-[#161616] to-[#161616]/0">
           <CurrencySwitch
             tokenSymbol={stakeInfo?.symbol}
             tokenValue={+(amount || 0) * (stakeInfo.rate || 0) || 0}
@@ -237,7 +237,7 @@ export default function StakingPoolItem({
       </div>
       <button
         className={
-          'mt-4 flex w-full items-center justify-center rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 font-mona uppercase hover:bg-gradient-to-t' +
+          'mt-4 flex w-full text-white items-center justify-center rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 font-mona uppercase hover:bg-gradient-to-t' +
           ` ${
             (isApproved && isDisabled) || isSubmitLoading
               ? 'cursor-not-allowed text-[#eee]'

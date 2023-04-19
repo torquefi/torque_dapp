@@ -128,8 +128,8 @@ export const StakePage = () => {
             <SkeletonDefault height={'18vh'} width={'100%'} />
           </div>
         ) : (
-          <div className="flex h-full w-full flex-col items-center justify-center gap-2 rounded-[12px] border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#16161679] p-8">
-            <div className="flex w-full items-center justify-center font-larken text-[32px]">
+          <div className="flex h-full w-full flex-col items-center justify-center gap-2 rounded-[12px] border from-[#161616] to-[#16161679] p-8 text-[#404040] dark:border-[#1A1A1A] dark:bg-gradient-to-b dark:text-white">
+            <div className="font-larken flex w-full items-center justify-center text-[32px]">
               <NumberFormat
                 displayType="text"
                 thousandSeparator
@@ -146,7 +146,7 @@ export const StakePage = () => {
             <SkeletonDefault height={'18vh'} width={'100%'} />
           </div>
         ) : (
-          <div className="flex h-full w-full flex-col items-center justify-center gap-2 rounded-[12px] border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#16161679] p-8">
+          <div className="flex h-full w-full flex-col items-center justify-center gap-2 rounded-[12px] border from-[#161616] to-[#16161679] p-8 text-[#404040] dark:border-[#1A1A1A] dark:bg-gradient-to-b dark:text-white">
             <div className="font-larken text-[32px]">
               <NumberFormat
                 displayType="text"
@@ -169,7 +169,7 @@ export const StakePage = () => {
             <SkeletonDefault height={'18vh'} width={'100%'} />
           </div>
         ) : (
-          <div className="flex h-full w-full flex-col items-center justify-center gap-2 rounded-[12px] border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#16161679] p-8">
+          <div className="flex h-full w-full flex-col items-center justify-center gap-2 rounded-[12px] border from-[#161616] to-[#16161679] p-8 text-[#404040] dark:border-[#1A1A1A] dark:bg-gradient-to-b dark:text-white">
             <div className="font-larken text-[32px]">
               <NumberFormat
                 displayType="text"
@@ -186,7 +186,7 @@ export const StakePage = () => {
             <SkeletonDefault height={'18vh'} width={'100%'} />
           </div>
         ) : (
-          <div className="flex h-full w-full flex-col items-center justify-center gap-2 rounded-[12px] border border-[#1A1A1A] bg-gradient-to-b from-[#161616] to-[#16161679] p-8">
+          <div className="flex h-full w-full flex-col items-center justify-center gap-2 rounded-[12px] border from-[#161616] to-[#16161679] p-8 text-[#404040] dark:border-[#1A1A1A] dark:bg-gradient-to-b dark:text-white">
             <div className="font-larken text-[32px]">
               <NumberFormat
                 displayType="text"
@@ -200,14 +200,14 @@ export const StakePage = () => {
         )}
       </div>
 
-      <div className="mt-[36px] font-larken">
+      <div className="font-larken mt-[36px]">
         <div className="font-larken text-[32px]">
           {isLoading ? (
             <div className="">
               <SkeletonDefault height={'5vh'} width={'16%'} />
             </div>
           ) : (
-            <div className="text-[24px]">Staking Pools</div>
+            <div className="Staking Pools text-[24px]">Staking Pools</div>
           )}
         </div>
 

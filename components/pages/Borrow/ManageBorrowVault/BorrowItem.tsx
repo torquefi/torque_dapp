@@ -22,7 +22,7 @@ enum Action {
 const SECONDS_PER_YEAR = 60 * 60 * 24 * 365
 export default function BorrowItem({ item }: any) {
   const borrowTime = useSelector((store: AppStore) => store.dataUser)
-
+  const theme = useSelector((store: AppStore) => store.theme.theme)
   const [dataBorrow, setDataBorrow] = useState(item)
   const [isExpand, setExpand] = useState(false)
   const [action, setAction] = useState(Action.Repay)
@@ -252,7 +252,7 @@ export default function BorrowItem({ item }: any) {
       <CurrencySwitch
         tokenSymbol={item.token}
         tokenValue={dataUserBorrow?.supplied || item.collateral}
-        className="-my-4 w-1/4 space-y-1 py-4 font-larken"
+        className="font-larken -my-4 w-1/4 space-y-1 py-4"
         decimalScale={2}
         render={(value) => (
           <>
@@ -265,7 +265,7 @@ export default function BorrowItem({ item }: any) {
         tokenSymbol={'USDC'}
         tokenValue={dataUserBorrow?.borrowed || item.borrow}
         usdDefault
-        className="-my-4 w-1/4 space-y-1 py-4 font-larken"
+        className="font-larken -my-4 w-1/4 space-y-1 py-4"
         decimalScale={2}
         render={(value) => (
           <>
@@ -275,7 +275,7 @@ export default function BorrowItem({ item }: any) {
         )}
       />
       <div className="w-1/4 space-y-1">
-        <p className="whitespace-nowrap font-larken text-[22px]">
+        <p className="font-larken whitespace-nowrap text-[22px]">
           {(
             (dataUserBorrow?.borrowed /
               (dataUserBorrow?.supplied *
@@ -289,7 +289,7 @@ export default function BorrowItem({ item }: any) {
         </p>
       </div>
       <div className="w-1/4 space-y-1">
-        <p className="whitespace-nowrap font-larken text-[22px]">
+        <p className="font-larken whitespace-nowrap text-[22px]">
           {borrowAPR.toFixed(2)}%
         </p>
         <p className="whitespace-nowrap text-[14px] text-[#959595]">Net APR</p>
@@ -304,9 +304,9 @@ export default function BorrowItem({ item }: any) {
     )
   else
     return (
-      <div className="rounded-xl border border-[#1A1A1A] bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0">
+      <div className="rounded-xl border from-[#0d0d0d] to-[#0d0d0d]/0 text-[#404040] dark:border-[#1A1A1A] dark:bg-gradient-to-br dark:text-white">
         <div className="flex items-center px-[24px] py-[16px]">
-          <div className="xlg:w-[calc(100%-600px-64px)] flex w-[calc(100%-64px)] items-center space-x-2 font-larken text-[22px] md:w-[calc(100%-400px-64px)] lg:w-[calc(100%-500px-64px)]">
+          <div className="xlg:w-[calc(100%-600px-64px)] font-larken flex w-[calc(100%-64px)] items-center space-x-2 text-[22px] md:w-[calc(100%-400px-64px)] lg:w-[calc(100%-500px-64px)]">
             {!isEdit && (
               <div
                 className="flex min-w-max cursor-pointer items-center text-[22px]"
@@ -358,7 +358,11 @@ export default function BorrowItem({ item }: any) {
               className={
                 'w-[18px] transition-all' + ` ${isExpand ? 'rotate-180' : ''}`
               }
-              src="/icons/arrow-down.svg"
+              src={
+                theme == 'light'
+                  ? '/icons/dropdow-dark.png'
+                  : '/icons/arrow-down.svg'
+              }
               alt=""
             />
           </div>
@@ -396,14 +400,14 @@ export default function BorrowItem({ item }: any) {
               <p className="font-larken text-[24px]">
                 {action} {action == Action.Repay ? 'USDC' : item.token}
               </p>
-              <div className="rounded-md border border-[#1A1A1A] bg-gradient-to-b from-[#161616] via-[#161616]/40 to-[#0e0e0e]">
+              <div className="rounded-md border from-[#161616] via-[#161616]/40 to-[#0e0e0e] dark:border-[#1A1A1A] dark:bg-gradient-to-b">
                 {[Action.Repay, Action.Withdraw].map((item, i) => (
                   <button
                     className={
-                      'w-[52px] py-[8px] text-[10px] leading-none xs:w-[80px] xs:text-[12px]' +
+                      'w-[52px]  py-[8px] text-[10px] leading-none xs:w-[80px] xs:text-[12px]' +
                       ` ${
                         action === item
-                          ? 'rounded-md bg-[#171717]'
+                          ? 'rounded-md bg-[#F4F4F4] dark:bg-[#171717]'
                           : 'text-[#959595]'
                       }`
                     }
@@ -414,7 +418,7 @@ export default function BorrowItem({ item }: any) {
                 ))}
               </div>
             </div>
-            <div className="flex justify-between rounded-xl border border-[#1A1A1A] bg-gradient-to-b from-[#161616] via-[#161616]/40 to-[#0e0e0e] p-[12px]">
+            <div className="flex justify-between rounded-xl border from-[#161616] via-[#161616]/40 to-[#0e0e0e] p-[12px] dark:border-[#1A1A1A] dark:bg-gradient-to-b">
               <NumericFormat
                 className="w-[120px] bg-transparent"
                 placeholder="Select amount"
@@ -424,7 +428,7 @@ export default function BorrowItem({ item }: any) {
               <div className="flex select-none justify-between space-x-1 text-[12px] text-[#959595] sm:text-[14px]">
                 {[25, 50, 100].map((percent, i) => (
                   <div
-                    className="cursor-pointer rounded-md bg-[#171717] px-[6px] py-[2px] transition active:scale-95 xs:px-[8px] xs:py-[4px]"
+                    className="cursor-pointer rounded-md bg-[#F4F4F4]  px-[6px] py-[2px] transition active:scale-95 dark:bg-[#171717] xs:px-[8px] xs:py-[4px]"
                     onClick={() =>
                       setInputValue((dataUserBorrow.borrowed * percent) / 100)
                     }
@@ -436,7 +440,7 @@ export default function BorrowItem({ item }: any) {
               </div>
             </div>
             <button
-              className={`bg-gradient-primary flex w-full items-center justify-center rounded-full py-[4px] uppercase transition-all duration-200 ${
+              className={`bg-gradient-primary flex  w-full items-center justify-center rounded-full py-[4px] uppercase text-white transition-all duration-200 ${
                 buttonLoading && 'cursor-not-allowed opacity-50'
               }`}
               disabled={buttonLoading != ''}

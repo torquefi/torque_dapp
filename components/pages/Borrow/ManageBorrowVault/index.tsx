@@ -3,7 +3,9 @@ import BorrowItem from './BorrowItem'
 export default function ManageBorrowVault() {
   return (
     <div className="space-y-[24px]">
-      <h3 className="font-larken text-[24px]">Manage Borrow Vault</h3>
+      <h3 className="font-larken text-[24px] text-[#404040] dark:text-white">
+        Manage Borrow Vault
+      </h3>
 
       {DATA_BORROW.map((item, i) => (
         <BorrowItem key={i} item={item} />
