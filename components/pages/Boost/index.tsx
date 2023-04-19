@@ -13,11 +13,18 @@ import { ManageBoostVault } from './ManageBoostVault'
 import { CreateBoostVault } from './CreateBoostVault'
 
 export const BoostPage = () => {
+  const [theme, setTheme] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1500)
   }, [])
-
+  useEffect(() => {
+    setTheme(
+      typeof window !== 'undefined'
+        ? window.localStorage.getItem('theme')
+        : null
+    )
+  }, [typeof window !== 'undefined'])
   return (
     <>
       <div className="relative">
@@ -32,16 +39,28 @@ export const BoostPage = () => {
           </>
         ) : (
           <img
-            src="/assets/banners/boost-compressed.png"
+            src={
+              theme == 'light'
+                ? '/assets/banners/boost-light-large.png'
+                : '/assets/banners/boost-compressed.png'
+            }
             alt="Torque Boost"
             className="w-full rounded-xl"
           />
         )}
         <Link
           href="/overview"
-          className="absolute left-[24px] top-[24px] flex h-[48px] w-[48px] items-center justify-center rounded-full bg-[#030303]"
+          className="absolute left-[24px] top-[24px] flex h-[48px] w-[48px] items-center justify-center rounded-full bg-white dark:bg-[#030303]"
         >
-          <img className="w-[12px]" src="/icons/arrow-left.svg" alt="" />
+          <img
+            className="w-[12px]"
+            src={
+              theme === 'light'
+                ? '/icons/arrow-left-dark.png'
+                : '/icons/arrow-left.svg'
+            }
+            alt=""
+          />
         </Link>
       </div>
       <CreateBoostVault />

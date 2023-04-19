@@ -7,6 +7,7 @@ import { toast } from 'sonner'
 import { useAccount } from 'wagmi'
 
 export function BoostItem({ item }: any) {
+  const [theme, setTheme] = useState(null)
   const [dataBoostVault, setDataBoostVault] = useState(item)
   const [label, setLabel] = useState(item?.label)
   const [isEdit, setEdit] = useState(false)
@@ -47,6 +48,13 @@ export function BoostItem({ item }: any) {
     }
   }, [isEdit])
 
+  useEffect(() => {
+    setTheme(
+      typeof window !== 'undefined'
+        ? window.localStorage.getItem('theme')
+        : null
+    )
+  }, [typeof window !== 'undefined'])
   useEffect(() => {
     getDataNameBoost()
   }, [isWeb3Enabled, address, isConnected])
@@ -93,9 +101,9 @@ export function BoostItem({ item }: any) {
     )
   }
   return (
-    <div className="mt-[24px] grid w-full rounded-[12px] border border-[#1A1A1A] bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 px-[24px] py-[20px]">
+    <div className="dark-text-[#000] mt-[24px] grid w-full rounded-[12px] border border-[#E6E6E6] bg-white px-[24px] py-[20px] text-[#464646] dark:border-[#1A1A1A] dark:bg-[#1A1A1A] dark:text-[#fff]">
       <div className="grid w-full grid-cols-2">
-        <div className="xlg:w-[calc(100%-600px-64px)] flex w-[calc(100%-64px)] items-center space-x-2 font-larken text-[22px] md:w-[calc(100%-400px-64px)] lg:w-[calc(100%-500px-64px)]">
+        <div className="xlg:w-[calc(100%-600px-64px)] font-larken flex w-[calc(100%-64px)] items-center space-x-2 text-[22px] md:w-[calc(100%-400px-64px)] lg:w-[calc(100%-500px-64px)]">
           {!isEdit && (
             <div
               className="flex min-w-max cursor-pointer items-center text-[22px]"
@@ -152,10 +160,15 @@ export function BoostItem({ item }: any) {
             >
               <img
                 className={
-                  'w-[18px] transition-all' +
+                  'w-[18px] text-[#000] transition-all' +
                   ` ${item.isOpen ? 'rotate-180' : ''}`
                 }
-                src="/icons/arrow-down.svg"
+                // src="/icons/arrow-down.svg"
+                src={
+                  theme == 'light'
+                    ? '/icons/dropdow-dark.png'
+                    : '/icons/arrow-down.svg'
+                }
                 alt=""
               />
             </button>
@@ -178,23 +191,23 @@ export function BoostItem({ item }: any) {
         </div>
         <div className="mt-10">
           <div className="text-[28px]">Withdraw ETH</div>
-          <div className="mt-2 flex w-full items-center justify-between rounded-[12px] border border-[#1A1A1A] bg-gradient-to-b from-[#0d0d0d] to-[#0d0d0d]/0 px-2 py-4">
+          <div className="mt-2 flex w-full items-center justify-between rounded-[12px] border dark:border-[#1A1A1A] dark:bg-[#161616] bg-white px-2 py-4">
             <input
               type="number"
-              className="w-full bg-none px-2 font-mona focus:outline-none"
+              className="font-mona w-full bg-none px-2 focus:outline-none"
               style={{ backgroundColor: 'transparent' }}
               placeholder="Select amount"
             />
             <div className="flex items-center gap-2">
               {[25, 50, 100].map((item: any) => (
-                <button className="rounded bg-[#1A1A1A] px-2 py-1 font-mona text-sm text-[#959595]">
+                <button className="font-mona rounded bg-[#F4F4F4] px-2 py-1 text-sm text-[#959595] dark:bg-[#1A1A1A]">
                   {item}%
                 </button>
               ))}
             </div>
           </div>
           <button
-            className="mt-4 w-full rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 font-mona text-[16px] uppercase transition-all duration-300 ease-linear hover:bg-gradient-to-t"
+            className="font-mona mt-4 w-full rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[16px] uppercase transition-all duration-300 ease-linear hover:bg-gradient-to-t"
             onClick={() => toast.message('Coming soon')}
           >
             Withdraw

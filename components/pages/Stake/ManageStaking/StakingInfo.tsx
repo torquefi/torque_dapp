@@ -9,6 +9,9 @@ import { toast } from 'sonner'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 import { IStakingInfo } from '../types'
+import { useMoralis } from 'react-moralis'
+import { useSelector } from 'react-redux'
+import { AppStore } from '@/types/store'
 
 interface StakingInfoProps {
   stakeInfo: IStakingInfo
@@ -20,7 +23,9 @@ export default function StakingInfo({
   isRefresh,
 }: StakingInfoProps) {
   const { address, isConnected } = useAccount()
+  const { Moralis } = useMoralis()
 
+  const theme = useSelector((store: AppStore) => store.theme.theme)
   const [isSubmitLoading, setSubmitLoading] = useState(false)
   const [isOpen, setOpen] = useState(false)
 
@@ -96,6 +101,32 @@ export default function StakingInfo({
     } catch (error) {
       console.log('error get interest info:>> ', error)
     }
+  }
+
+  const getDataNameStaking = async () => {
+    const data = await Moralis.Cloud.run('getDataBorrowUser', {
+      address: address,
+    })
+    setLabel(data[`${stakeInfo.data_key}`] || stakeInfo?.label)
+  }
+
+  const updateDataNameStaking = async (name: string) => {
+    const data = await Moralis.Cloud.run('getDataBorrowUser', {
+      address: address,
+    })
+
+    data[`${stakeInfo.data_key}`] = name
+    data[`address`] = address
+    await Moralis.Cloud.run('updateDataBorrowUser', {
+      ...data,
+    })
+      .then(() => {
+        toast.success('Update name successful')
+        getDataNameStaking()
+      })
+      .catch(() => {
+        toast.error('Update name failed')
+      })
   }
 
   useEffect(() => {
@@ -270,7 +301,7 @@ export default function StakingInfo({
   }
 
   return (
-    <div className="mt-[24px] grid w-full rounded-[12px] border border-[#1A1A1A] bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 px-[24px] py-[20px]">
+    <div className="mt-[24px] dark:text-white text-[#404040] grid w-full rounded-[12px] border dark:border-[#1A1A1A] dark:bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 px-[24px] py-[20px]">
       <div className="grid w-full grid-cols-2">
         <div className="flex items-center gap-4">
           <img
@@ -301,7 +332,10 @@ export default function StakingInfo({
               <button className="ml-2">
                 <AiOutlineCheck
                   className="transition-all hover:scale-105"
-                  onClick={() => setEdit(!isEdit)}
+                  onClick={() => {
+                    updateDataNameStaking(label)
+                    setEdit(!isEdit)
+                  }}
                 />
               </button>
             </div>
@@ -317,7 +351,11 @@ export default function StakingInfo({
                 className={
                   'w-[18px] transition-all' + ` ${isOpen ? 'rotate-180' : ''}`
                 }
-                src="/icons/arrow-down.svg"
+                src={
+                  theme == 'light'
+                    ? '/icons/dropdow-dark.png'
+                    : '/icons/arrow-down.svg'
+                }
                 alt=""
               />
             </button>
@@ -340,7 +378,7 @@ export default function StakingInfo({
         </div>
         <div className="mt-10">
           <div className="text-[28px]">Withdraw {stakeInfo?.symbol}</div>
-          <div className="mt-2 flex w-full items-center justify-between rounded-[12px] border border-[#1A1A1A] bg-gradient-to-b from-[#0d0d0d] to-[#0d0d0d]/0 px-2 py-4">
+          <div className="mt-2 flex w-full items-center justify-between rounded-[12px] border dark:border-[#1A1A1A] dark:bg-gradient-to-b from-[#0d0d0d] to-[#0d0d0d]/0 px-2 py-4">
             <NumberFormat
               className="w-full bg-transparent bg-none px-2 font-mona focus:outline-none"
               placeholder="Select amount"
@@ -352,7 +390,7 @@ export default function StakingInfo({
             <div className="flex items-center gap-2">
               {[25, 50, 100].map((item: any) => (
                 <button
-                  className="rounded bg-[#1A1A1A] px-2 py-1 font-mona text-sm text-[#959595]"
+                  className="rounded bg-[#F4F4F4] dark:bg-[#1A1A1A] px-2 py-1 font-mona text-sm text-[#959595]"
                   onClick={() => setAmount((Number(totalStaked) * item) / 100)}
                 >
                   {item}%
