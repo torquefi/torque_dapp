@@ -10,6 +10,7 @@ import { toast } from 'sonner'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 import { IStakingInfo } from '../types'
+import { tokenLpContract } from '@/constants/contracts'
 
 interface StakingPoolItemProps {
   stakeInfo: IStakingInfo
@@ -32,6 +33,15 @@ export default function StakingPoolItem({
 
   const isDisabled = !amount || +amount < 0
   const isApproved = +allowance
+
+  const lpContract = useMemo(() => {
+    const web3 = new Web3(Web3.givenProvider)
+    const contract = new web3.eth.Contract(
+      JSON.parse(tokenLpContract.abi),
+      tokenLpContract.address
+    )
+    return contract
+  }, [Web3.givenProvider, tokenLpContract])
 
   const tokenContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
@@ -150,14 +160,15 @@ export default function StakingPoolItem({
       try {
         const decimals = await tokenContract.methods.decimals().call()
         const amount = ethers.utils.parseUnits('1', decimals).toString()
-        const response = await stakingContract.methods
+        const response = await lpContract.methods
           .getUSDPrice(stakeInfo.tokenContract.address, amount)
           .call()
+        console.log('response :>> ', response)
       } catch (error) {
         console.log('error :>> ', error)
       }
     })()
-  }, [tokenContract, stakingContract])
+  }, [tokenContract, lpContract])
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 1000)
