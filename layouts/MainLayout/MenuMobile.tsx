@@ -51,7 +51,7 @@ export const MenuMobile = () => {
           >
             <div
               className={
-                'mx-auto aspect-1 w-[56px] rounded-full bg-gradient-to-r from-[#181818] via-[#282828] to-[#181818] p-[2px]' +
+                'mx-auto aspect-1 w-[56px] rounded-full dark:bg-gradient-to-r from-[#181818] via-[#282828] to-[#181818] p-[2px]' +
                 ` ${
                   router.pathname === '/overview'
                     ? 'via-[#332048]'
@@ -62,7 +62,7 @@ export const MenuMobile = () => {
               <div className="h-full w-full rounded-full bg-[#030303]"></div>
             </div>
           </div>
-          <div className="flex h-full w-full items-center bg-[#030303]">
+          <div className="flex h-full w-full items-center dark:bg-[#030303]">
             {menu.map((item, i) => (
               <Link
                 href={item.path}

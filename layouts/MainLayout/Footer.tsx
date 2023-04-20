@@ -28,13 +28,13 @@ export default function Footer() {
     <div className="relative flex flex w-full justify-center ">
       <div
         className={
-          ` absolute top-0 left-0 h-[1px] w-full` +
+          ` absolute left-0 top-0 h-[1px] w-full` +
           `
       ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'}
       `
         }
       />
-      <footer className="mt-8 flex w-[1280px] max-w-[1280px] justify-between  px-4 py-4 text-[#959595] sm:px-8">
+      <footer className="flex w-[1280px] max-w-[1280px] items-center justify-between  px-4 py-7 text-[#959595] sm:px-8">
         <div className="cursor-pointer text-[10px] transition-colors duration-100 ease-linear hover:text-white hover:underline xs:text-[10px]">
           © 2023 TORQUE INC.
         </div>
@@ -68,7 +68,7 @@ export default function Footer() {
               checked={isChecked}
               className="peer sr-only"
             />
-            <div className="boder-[#1D1D1D] peer h-6 w-12 rounded-full border bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border   after:transition-all after:content-[''] peer-checked:bg-[#F4F4F4] peer-checked:after:translate-x-full    dark:border-gray-600 dark:bg-[#1D1D1D] "></div>
+            <div className="boder-[#F4F4F4] peer h-6 w-16 rounded-full border bg-[#F6F6F6] after:absolute after:dark:left-[2px] after:left-[20px] after:top-[2px] after:h-5 after:dark:bg-[#3B3B3B] after:bg-[#fff] after:w-5 after:rounded-full  after:transition-all after:content-[''] peer-checked:bg-[#F6F6F6] peer-checked:after:translate-x-full     dark:border-gray-600 dark:bg-[#1D1D1D] "></div>
           </label>
         </div>
       </footer>
