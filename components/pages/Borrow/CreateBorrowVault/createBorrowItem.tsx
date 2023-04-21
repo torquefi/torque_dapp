@@ -215,7 +215,7 @@ export default function CreateBorrowItem({ item }: any) {
   console.log(dataBorrow.amountRecieve)
   return (
     <div
-      className="dark:tex-white space-y-4 rounded-xl border from-[#0d0d0d] to-[#0d0d0d]/0 px-[16px] py-[24px] text-[#404040] dark:border-[#1A1A1A] dark:bg-gradient-to-br xl:px-[32px]"
+      className="dark:tex-white space-y-4 rounded-xl border from-[#0d0d0d] to-[#0d0d0d]/0 px-[16px] py-[24px] text-[#404040] dark:border-[#1A1A1A] dark:bg-gradient-to-br dark:text-white xl:px-[32px]"
       key={dataBorrow.address_asset}
     >
       <div className="flex items-center">
@@ -248,7 +248,7 @@ export default function CreateBorrowItem({ item }: any) {
         </Popover>
       </div>
       <div className="grid grid-cols-2 gap-4">
-        <div className=" font-larken h-[140px] rounded-md border from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-gradient-to-b">
+        <div className="font-larken flex h-[140px] flex-col items-center justify-center rounded-md border from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-gradient-to-b">
           <InputCurrencySwitch
             tokenSymbol={item?.depositCoin}
             tokenValue={Number(dataBorrow.amount)}

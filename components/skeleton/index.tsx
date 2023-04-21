@@ -14,22 +14,23 @@ const SkeletonDefault: React.FC<SkeletonProps> = ({
   className,
 }: SkeletonProps) => {
   const theme = useSelector((store: AppStore) => store.theme.theme)
-  return (
-    <SkeletonTheme
-      baseColor={
-        theme === 'light' ? '#eeeeee' : theme === 'dark' ? '#1c1c1c' : null
-      }
-      highlightColor={
-        theme === 'light' ? '#fff' : theme === 'dark' ? '#222121' : null
-      }
-    >
-      <Skeleton
-        height={height}
-        width={width}
-        borderRadius={borderRadius ? borderRadius : 12}
-        className={className}
-      />
-    </SkeletonTheme>
-  )
+  if (theme)
+    return (
+      <SkeletonTheme
+        baseColor={
+          theme === 'light' ? '#eeeeee' : theme === 'dark' ? '#1c1c1c' : null
+        }
+        highlightColor={
+          theme === 'light' ? '#fff' : theme === 'dark' ? '#222121' : null
+        }
+      >
+        <Skeleton
+          height={height}
+          width={width}
+          borderRadius={borderRadius ? borderRadius : 12}
+          className={className}
+        />
+      </SkeletonTheme>
+    )
 }
 export default SkeletonDefault

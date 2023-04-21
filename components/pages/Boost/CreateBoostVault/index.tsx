@@ -40,13 +40,13 @@ export function CreateBoostVault() {
   }, [isInitialized])
 
   return (
-    <div className="font-larken mt-[36px]">
+    <div className=" mt-[36px]">
       {isLoading ? (
         <div className="mt-[24px]">
           <SkeletonDefault height={40} width={'200px'} />
         </div>
       ) : (
-        <div className="text-[24px] text-[#000] dark:text-[#ffff]">
+        <div className="font-larken text-[24px] text-[#000] dark:text-[#ffff]">
           Create Boost Vault
         </div>
       )}

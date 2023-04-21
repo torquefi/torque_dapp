@@ -13,7 +13,7 @@ export function CreateBoostItem({ item }: any) {
   return (
     <div
       className={
-        `rounded-[12px] border border-[#E6E6E6]  px-3 py-6 text-[#000] dark:border-[#1A1A1A]  dark:text-[#fff] lg:px-8` +
+        `rounded-[12px] border border-[#E6E6E6]  px-3 py-6 text-[#404040] dark:border-[#1A1A1A]  dark:text-[#fff] lg:px-8` +
         `  ${theme === 'light' ? ' bg-[#FCFAFF]' : 'bg-overview'}`
       }
     >
@@ -24,7 +24,7 @@ export function CreateBoostItem({ item }: any) {
             alt=""
             className="w-16 xs:w-20 lg:w-24"
           />
-          <div className="font-larken  grow pb-2 text-[22px] leading-tight xs:text-[18px] sm:text-[22px] lg:text-[26px]">
+          <div className="font-larken grow pb-2 text-[22px] leading-tight xs:text-[18px] sm:text-[22px] lg:text-[26px]">
             Deposit {item.token},<br className="" /> Earn {item.token}
           </div>
         </div>
@@ -49,13 +49,13 @@ export function CreateBoostItem({ item }: any) {
           </Link>
         </Popover>
       </div>
-      <div className="mt-4 grid grid-cols-2 gap-4 ">
-        <div className="flex h-[140px] w-full flex-col items-center justify-center gap-3 rounded-md border  from-[#161616]  to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-gradient-to-b">
+      <div className="font-larken mt-4 grid grid-cols-2 gap-4">
+        <div className="flex h-[140px]  w-full flex-col items-center justify-center gap-3 rounded-md border  from-[#161616]  to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-gradient-to-b">
           <InputCurrencySwitch
             tokenSymbol={item?.token}
             tokenValue={Number(item.amount)}
             usdDefault
-            className="w-full py-4 text-[#000] dark:text-[#fff] lg:py-6 "
+            className="w-full py-4 dark:text-[#fff] lg:py-6 "
             decimalScale={2}
             subtitle="Deposit"
             onChange={(e) => {

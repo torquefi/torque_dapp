@@ -301,7 +301,7 @@ export default function StakingInfo({
   }
 
   return (
-    <div className="mt-[24px] dark:text-white text-[#404040] grid w-full rounded-[12px] border dark:border-[#1A1A1A] dark:bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 px-[24px] py-[20px]">
+    <div className="mt-[24px] grid w-full rounded-[12px] border from-[#0d0d0d] to-[#0d0d0d]/0 px-[24px] py-[20px] text-[#404040] dark:border-[#1A1A1A] dark:bg-gradient-to-br dark:text-white">
       <div className="grid w-full grid-cols-2">
         <div className="flex items-center gap-4">
           <img
@@ -378,9 +378,9 @@ export default function StakingInfo({
         </div>
         <div className="mt-10">
           <div className="text-[28px]">Withdraw {stakeInfo?.symbol}</div>
-          <div className="mt-2 flex w-full items-center justify-between rounded-[12px] border dark:border-[#1A1A1A] dark:bg-gradient-to-b from-[#0d0d0d] to-[#0d0d0d]/0 px-2 py-4">
+          <div className="mt-2 flex w-full items-center justify-between rounded-[12px] border from-[#0d0d0d] to-[#0d0d0d]/0 px-2 py-4 dark:border-[#1A1A1A] dark:bg-gradient-to-b">
             <NumberFormat
-              className="w-full bg-transparent bg-none px-2 font-mona focus:outline-none"
+              className="font-mona w-full bg-transparent bg-none px-2 focus:outline-none"
               placeholder="Select amount"
               value={amount || ''}
               onChange={(e: any, value: any) => setAmount(value)}
@@ -390,7 +390,7 @@ export default function StakingInfo({
             <div className="flex items-center gap-2">
               {[25, 50, 100].map((item: any) => (
                 <button
-                  className="rounded bg-[#F4F4F4] dark:bg-[#1A1A1A] px-2 py-1 font-mona text-sm text-[#959595]"
+                  className="font-mona rounded bg-[#F4F4F4] px-2 py-1 text-sm text-[#959595] dark:bg-[#1A1A1A]"
                   onClick={() => setAmount((Number(totalStaked) * item) / 100)}
                 >
                   {item}%
@@ -399,7 +399,7 @@ export default function StakingInfo({
             </div>
           </div>
           <button
-            className="mt-4 flex w-full justify-center rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 font-mona text-[16px] uppercase transition-all duration-300 ease-linear hover:bg-gradient-to-t"
+            className="font-mona mt-4 flex w-full justify-center rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[16px] uppercase text-white transition-all duration-300 ease-linear hover:bg-gradient-to-t"
             onClick={() => handleWithdraw()}
           >
             {isSubmitLoading && <LoadingCircle />}
