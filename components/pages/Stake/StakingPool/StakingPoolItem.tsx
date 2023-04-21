@@ -1,6 +1,6 @@
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
 import SkeletonDefault from '@/components/skeleton'
-import { tokenLpContract } from '@/constants/contracts'
+import { stakeLpContract } from '@/constants/contracts'
 import { ethers } from 'ethers'
 import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
@@ -25,6 +25,7 @@ export default function StakingPoolItem({
   const [isSubmitLoading, setSubmitLoading] = useState(false)
   const [apr, setApr] = useState<string | number>(0)
   const [isShowUsd, setShowUsd] = useState(true)
+  const [tokenPrice, setTokenPrice] = useState<any>(0)
 
   const [amount, setAmount] = useState<number>(0)
 
@@ -33,11 +34,11 @@ export default function StakingPoolItem({
   const lpContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
     const contract = new web3.eth.Contract(
-      JSON.parse(tokenLpContract.abi),
-      tokenLpContract.address
+      JSON.parse(stakeLpContract.abi),
+      stakeLpContract.address
     )
     return contract
-  }, [Web3.givenProvider, tokenLpContract])
+  }, [Web3.givenProvider, stakeLpContract])
 
   const tokenContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
@@ -132,9 +133,10 @@ export default function StakingPoolItem({
         const response = await lpContract.methods
           .getUSDPrice(stakeInfo.tokenContract.address, amount)
           .call()
-        console.log('response :>> ', response)
+        const tokenPrice = ethers.utils.formatUnits(response, 6).toString()
+        setTokenPrice(tokenPrice)
       } catch (error) {
-        console.log('error :>> ', error)
+        console.log('error 123:>> ', error)
       }
     })()
   }, [tokenContract, lpContract, isConnected])
@@ -150,8 +152,6 @@ export default function StakingPoolItem({
       </div>
     )
   }
-
-  console.log('amount :>> ', amount)
 
   return (
     <div className="rounded-[12px] border from-[#0d0d0d] to-[#0d0d0d]/0 px-8 py-6 text-[#404040] dark:border-[#1A1A1A] dark:bg-gradient-to-br dark:text-white">
@@ -193,7 +193,7 @@ export default function StakingPoolItem({
               setAmount(e)
             }}
             onSetShowUsd={setShowUsd}
-            tokenPrice={0.005}
+            tokenPrice={tokenPrice}
           />
         </div>
         <div className="flex h-[140px] w-[50%] flex-col items-center justify-center rounded-md border from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-gradient-to-b">
@@ -203,7 +203,7 @@ export default function StakingPoolItem({
             usdDefault
             className="w-full space-y-2 py-6 py-[23px] lg:py-[31px]"
             decimalScale={2}
-            tokenPrice={0.005}
+            tokenPrice={tokenPrice}
             render={(value) => (
               <>
                 <p className="text-[32px] leading-none">{value}</p>
