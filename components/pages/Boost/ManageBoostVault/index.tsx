@@ -16,7 +16,7 @@ export function ManageBoostVault() {
           <SkeletonDefault height={'5vh'} width={'20%'} />
         </div>
       ) : (
-        <div className="text-[24px]">Manage Boost Vaults</div>
+        <div className="text-[24px] dark:text-white">Manage Boost Vaults</div>
       )}
 
       {DATA_BOOST_VAULT.map((item) => {

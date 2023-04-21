@@ -43,7 +43,7 @@ export default function Footer() {
             <Link
               href={item.link}
               key={i}
-              className="block transition-colors duration-300 ease-linear hover:-translate-y-[1px] hover:text-white"
+              className="block transition-colors duration-300 ease-linear hover:-translate-y-[1px] hover:text-gray-500 dark:hover:text-white"
               target="_blank"
             >
               {item.label}
@@ -53,7 +53,7 @@ export default function Footer() {
             <Link
               href={item.link}
               key={i}
-              className="hidden transition-colors duration-300 ease-linear hover:-translate-y-[1px] hover:text-white xs:block"
+              className="hidden transition-colors duration-300 ease-linear hover:-translate-y-[1px] hover:text-gray-500 dark:hover:text-white xs:block"
               target="_blank"
             >
               {item.label}
@@ -68,7 +68,7 @@ export default function Footer() {
               checked={isChecked}
               className="peer sr-only"
             />
-            <div className="boder-[#F4F4F4] peer h-6 w-16 rounded-full border bg-[#F6F6F6] after:absolute after:dark:left-[2px] after:left-[20px] after:top-[2px] after:h-5 after:dark:bg-[#3B3B3B] after:bg-[#fff] after:w-5 after:rounded-full  after:transition-all after:content-[''] peer-checked:bg-[#F6F6F6] peer-checked:after:translate-x-full     dark:border-gray-600 dark:bg-[#1D1D1D] "></div>
+            <div className="boder-[#F4F4F4] peer h-6 w-16 rounded-full border bg-[#F6F6F6] after:absolute after:left-[20px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-[#fff] after:transition-all after:content-['']  peer-checked:bg-[#F6F6F6] peer-checked:after:translate-x-full dark:border-gray-600 dark:bg-[#1D1D1D]     after:dark:left-[2px] after:dark:bg-[#3B3B3B] "></div>
           </label>
         </div>
       </footer>
