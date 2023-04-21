@@ -1,14 +1,22 @@
 import CurrencySwitch from '@/components/common/CurrencySwitch'
 import InputCurrencySwitch from '@/components/common/InputCurrencySwitch'
 import Popover from '@/components/common/Popover'
+import { AppStore } from '@/types/store'
 import Link from 'next/link'
 import { useState } from 'react'
+import { useSelector } from 'react-redux'
 import { toast } from 'sonner'
 
 export function CreateBoostItem({ item }: any) {
   const [boostVault, setBoostVault] = useState(item)
+  const theme = useSelector((store: AppStore) => store.theme.theme)
   return (
-    <div className="rounded-[12px] border border-[#E6E6E6] bg-[#FCFAFF]  px-3 py-6 text-[#000] dark:border-[#1A1A1A] dark:bg-[#1A1A1A] dark:text-[#fff] lg:px-8">
+    <div
+      className={
+        `rounded-[12px] border border-[#E6E6E6]  px-3 py-6 text-[#000] dark:border-[#1A1A1A]  dark:text-[#fff] lg:px-8` +
+        `  ${theme === 'light' ? ' bg-[#FCFAFF]' : 'bg-overview'}`
+      }
+    >
       <div className="flex w-full items-center justify-between">
         <div className="flex items-center">
           <img
@@ -42,7 +50,7 @@ export function CreateBoostItem({ item }: any) {
         </Popover>
       </div>
       <div className="mt-4 grid grid-cols-2 gap-4 ">
-        <div className="flex h-[140px] w-full flex-col items-center justify-center gap-3 rounded-md border  dark:border-[#1A1A1A] dark:bg-[#161616]">
+        <div className="flex h-[140px] w-full flex-col items-center justify-center gap-3 rounded-md border  from-[#161616]  to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-gradient-to-b">
           <InputCurrencySwitch
             tokenSymbol={item?.token}
             tokenValue={Number(item.amount)}
@@ -56,7 +64,7 @@ export function CreateBoostItem({ item }: any) {
             }}
           />
         </div>
-        <div className="flex h-[140px] w-full flex-col items-center justify-center rounded-md border border-[#F4F4F4] bg-[#FCFAFF] dark:border-[#1A1A1A] dark:bg-[#161616]">
+        <div className="flex h-[140px] w-full flex-col items-center justify-center gap-3 rounded-md border  from-[#161616]  to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-gradient-to-b">
           <CurrencySwitch
             tokenSymbol={item?.token}
             tokenValue={Number(item.amount || 0) * (item.rate || 0)}

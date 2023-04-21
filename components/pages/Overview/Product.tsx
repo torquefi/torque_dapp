@@ -31,7 +31,12 @@ export default function Product() {
             return (
               <Link
                 href={item.path}
-                className="block overflow-hidden rounded-xl border bg-[#FCFAFF] text-[#404040] transition-opacity duration-300  hover:opacity-80 dark:border-[#1A1A1A] dark:bg-[#1A1A1A] dark:text-white"
+                className={
+                  `block overflow-hidden rounded-xl border  text-[#404040] transition-opacity duration-300  hover:opacity-80 dark:border-[#1A1A1A]  dark:text-white` +
+                  `
+                ${theme === 'light' ? ' bg-[#FCFAFF]' : 'bg-overview'}
+                `
+                }
               >
                 <img
                   className="h-[170px] w-full object-cover"

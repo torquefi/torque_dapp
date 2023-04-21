@@ -111,7 +111,10 @@ export const Header = () => {
               src="/assets/t-logo.svg"
               alt=""
             />
-            <h2 className="font-larken ml-[16px] text-[24px] text-[#404040] dark:text-white">
+            <h2
+              style={{ fontFamily: 'Larken-Bold' }}
+              className="font-larken ml-[16px] font-bold text-[24px] text-[#404040] dark:text-white"
+            >
               Torque
             </h2>
           </Link>
