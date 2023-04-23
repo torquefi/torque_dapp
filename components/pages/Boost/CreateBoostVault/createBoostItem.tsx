@@ -60,7 +60,10 @@ export function CreateBoostItem({ item }: any) {
           .call({
             from: address,
           })
-        setAllowance(allowance / 10 ** boostVault.decimals_asset || 0)
+        setAllowance(
+          Number(Moralis.Units.FromWei(allowance, boostVault.decimals_asset)) ||
+            0
+        )
       }
     } catch (e) {
       console.log(e)
@@ -69,12 +72,13 @@ export function CreateBoostItem({ item }: any) {
 
   const onDeposit = async () => {
     try {
-      if (allowance < inputAmount) {
+      console.log(allowance, boostVault.amount)
+      if (allowance < boostVault.amount) {
         setBtnLoading('APPROVING...')
         await assetContract.methods
           .approve(
             boostContract._address,
-            Moralis.Units.Token(inputAmount, boostVault.decimals_asset)
+            Moralis.Units.Token(boostVault.amount, boostVault.decimals_asset)
           )
           .send({
             from: address,
@@ -83,12 +87,15 @@ export function CreateBoostItem({ item }: any) {
       setBtnLoading('DEPOSITING...')
       await boostContract.methods
         .deposit(
-          address,
-          Moralis.Units.Token(inputAmount, boostVault.decimals_asset)
+          assetContract._address,
+          Moralis.Units.Token(boostVault.amount, boostVault.decimals_asset)
         )
         .send({
           from: address,
-          value: Moralis.Units.Token(inputAmount, boostVault.decimals_asset),
+          value: Moralis.Units.Token(
+            boostVault.amount,
+            boostVault.decimals_asset
+          ),
         })
       setBtnLoading('')
     } catch (e) {
