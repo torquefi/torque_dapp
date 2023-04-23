@@ -10,7 +10,7 @@ export function ManageBoostVault() {
   }, [])
 
   return (
-    <div className="font-larken dark-text-[#fff] mt-[36px] text-[#464646]">
+    <div className="font-larken dark-text-white mt-[36px] text-[#464646]">
       {isLoading ? (
         <div className="">
           <SkeletonDefault height={'5vh'} width={'20%'} />

@@ -16,7 +16,7 @@ export default function NetApy() {
           <SkeletonDefault height={'50vh'} width={'100%'} />
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center space-y-10 rounded-xl border from-[#0d0d0d] to-[#0d0d0d]/0 py-[24px] dark:border-[#1A1A1A] dark:bg-gradient-to-br">
+        <div className="flex flex-col items-center justify-center space-y-10 rounded-xl border bg-white py-[24px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:from-[#0d0d0d] dark:to-[#0d0d0d]/0">
           <div className="flex h-[65px] w-[65px] items-center justify-center rounded-full border from-[#232323] to-[#232323]/0 dark:border-[#1A1A1A] dark:bg-gradient-to-b">
             <img
               className="w-[40px]"
@@ -49,7 +49,7 @@ export default function NetApy() {
           <SkeletonDefault height={'50vh'} width={'100%'} />
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center space-y-10 rounded-xl border from-[#0d0d0d] to-[#0d0d0d]/0 py-[24px] dark:border-[#1A1A1A] dark:bg-gradient-to-br">
+        <div className="flex flex-col items-center justify-center space-y-10 rounded-xl border bg-white py-[24px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:from-[#0d0d0d] dark:to-[#0d0d0d]/0">
           <div className="flex h-[65px] w-[65px] items-center justify-center rounded-full border from-[#232323] to-[#232323]/0 dark:border-[#1A1A1A] dark:bg-gradient-to-b">
             <img
               className="w-[40px]"

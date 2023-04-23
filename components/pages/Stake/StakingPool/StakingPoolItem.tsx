@@ -154,7 +154,7 @@ export default function StakingPoolItem({
   }
 
   return (
-    <div className="rounded-[12px] border from-[#0d0d0d] to-[#0d0d0d]/0 px-8 py-6 text-[#404040] dark:border-[#1A1A1A] dark:bg-gradient-to-br dark:text-white">
+    <div className="rounded-[12px] border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-8 py-6 text-[#404040] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white">
       <div className="flex w-full items-center justify-between">
         <div className="flex items-center gap-2">
           <img
@@ -181,7 +181,7 @@ export default function StakingPoolItem({
         </div>
       </div>
       <div className="mt-4 flex w-full items-center justify-center gap-4 ">
-        <div className="flex h-[140px] w-1/2 flex-col items-center justify-center gap-3 rounded-md border from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-gradient-to-b">
+        <div className="flex h-[140px] w-1/2 flex-col items-center justify-center gap-3 rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
           <InputCurrencySwitch
             tokenSymbol={stakeInfo?.symbol}
             tokenValue={+amount}
@@ -196,7 +196,7 @@ export default function StakingPoolItem({
             tokenPrice={tokenPrice}
           />
         </div>
-        <div className="flex h-[140px] w-[50%] flex-col items-center justify-center rounded-md border from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-gradient-to-b">
+        <div className="flex h-[140px] w-[50%] flex-col items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
           <CurrencySwitch
             tokenSymbol={stakeInfo?.symbol}
             tokenValue={(+(amount || 0) * 3 * Number(apr)) / 10000 || 0}

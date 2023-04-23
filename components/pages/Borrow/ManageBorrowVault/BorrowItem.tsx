@@ -304,7 +304,7 @@ export default function BorrowItem({ item }: any) {
     )
   else
     return (
-      <div className="rounded-xl border from-[#0d0d0d] to-[#0d0d0d]/0 text-[#404040] dark:border-[#1A1A1A] dark:bg-gradient-to-br dark:text-white">
+      <div className="rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 text-[#404040] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white">
         <div className="flex items-center px-[24px] py-[16px]">
           <div className="xlg:w-[calc(100%-600px-64px)] font-larken flex w-[calc(100%-64px)] items-center space-x-2 text-[22px] md:w-[calc(100%-400px-64px)] lg:w-[calc(100%-500px-64px)]">
             {!isEdit && (
@@ -418,7 +418,7 @@ export default function BorrowItem({ item }: any) {
                 ))}
               </div>
             </div>
-            <div className="flex justify-between rounded-xl border from-[#161616] via-[#161616]/40 to-[#0e0e0e] p-[12px] dark:border-[#1A1A1A] dark:bg-gradient-to-b">
+            <div className="flex justify-between rounded-xl border bg-[#FCFAFF] from-[#161616] via-[#161616]/40 to-[#0e0e0e] p-[12px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
               <NumericFormat
                 className="w-[120px] bg-transparent"
                 placeholder="Select amount"

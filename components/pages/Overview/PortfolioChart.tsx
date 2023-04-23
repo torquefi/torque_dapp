@@ -22,20 +22,20 @@ export default function PortfolioChart() {
       <div className="relative rounded-xl border from-[#0d0d0d] to-[#0d0d0d]/0 dark:border-[#1A1A1A] dark:bg-gradient-to-br ">
         <div className="absolute left-[24px] top-[24px] space-y-2">
           <p className="text-[14px] text-[#959595]">Portfolio</p>
-          <p className="font-larken text-[28px]">
+          <p className="font-larken text-[28px] text-[#404040] dark:text-white">
             {isLoading ? (
               <div className="">
                 <SkeletonDefault height={'4vh'} width={'10vw'} />
               </div>
             ) : (
-              `$${(0).toFixed(2)}`
+              `$346,720.43`
             )}
           </p>
         </div>
         <img
           src={
             theme === 'light'
-              ? '/assets/overview-page/chart-light.png'
+              ? '/assets/overview-page/chart-light.svg'
               : '/assets/overview-page/chart.png'
           }
           alt=""

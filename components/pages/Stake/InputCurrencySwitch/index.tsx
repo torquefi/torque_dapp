@@ -60,7 +60,7 @@ export default function InputCurrencySwitch({
   return (
     <div
       className={
-        'cursor-pointer select-none text-center leading-none text-[#000] transition-all active:scale-90 dark:text-[#fff]' +
+        'cursor-pointer select-none text-center leading-none text-[#000] transition-all active:scale-90 dark:text-white' +
         ` ${className}`
       }
       onClick={() => {

@@ -25,8 +25,10 @@ export default function ManageStaking({ isRefresh }: { isRefresh?: boolean }) {
   }
 
   return (
-    <div className="mt-[36px] font-larken">
-      <div className="text-[24px] dark:text-white text-[#404040]">Manage Staking</div>
+    <div className="font-larken mt-[36px]">
+      <div className="text-[24px] text-[#404040] dark:text-white">
+        Manage Staking
+      </div>
 
       {dataStake.map((item) => (
         <StakingInfo stakeInfo={item} isRefresh={isRefresh} />

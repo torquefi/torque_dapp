@@ -301,7 +301,7 @@ export default function StakingInfo({
   }
 
   return (
-    <div className="mt-[24px] grid w-full rounded-[12px] border from-[#0d0d0d] to-[#0d0d0d]/0 px-[24px] py-[20px] text-[#404040] dark:border-[#1A1A1A] dark:bg-gradient-to-br dark:text-white">
+    <div className="mt-[24px] grid w-full rounded-[12px] border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-[24px] py-[20px] text-[#404040] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white">
       <div className="grid w-full grid-cols-2">
         <div className="flex items-center gap-4">
           <img
@@ -378,7 +378,7 @@ export default function StakingInfo({
         </div>
         <div className="mt-10">
           <div className="text-[28px]">Withdraw {stakeInfo?.symbol}</div>
-          <div className="mt-2 flex w-full items-center justify-between rounded-[12px] border from-[#0d0d0d] to-[#0d0d0d]/0 px-2 py-4 dark:border-[#1A1A1A] dark:bg-gradient-to-b">
+          <div className="mt-2 flex w-full items-center justify-between rounded-[12px] border bg-[#FCFAFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-2 py-4 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
             <NumberFormat
               className="font-mona w-full bg-transparent bg-none px-2 focus:outline-none"
               placeholder="Select amount"

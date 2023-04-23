@@ -34,7 +34,7 @@ export default function Product() {
                 className={
                   `block overflow-hidden rounded-xl border  text-[#404040] transition-opacity duration-300  hover:opacity-80 dark:border-[#1A1A1A]  dark:text-white` +
                   `
-                ${theme === 'light' ? ' bg-[#FCFAFF]' : 'bg-overview'}
+                ${theme === 'light' ? ' bg-[#ffffff]' : 'bg-overview'}
                 `
                 }
               >

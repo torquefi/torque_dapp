@@ -75,6 +75,9 @@ const BOOST_VAULTS = [
     APR: 5.19,
     rate: 1.16391500742,
     amount: 0,
+    boost_contract: 'boost_eth_abi',
+    name_ABI_asset: 'weth_abi',
+    decimals_asset: 18,
   },
   {
     token: 'USDC',
@@ -84,5 +87,8 @@ const BOOST_VAULTS = [
     APR: 4.49,
     rate: 1.14082698313,
     amount: 0,
+    boost_contract: 'boost_eth_abi',
+    name_ABI_asset: 'usdc_abi',
+    decimals_asset: 18,
   },
 ]

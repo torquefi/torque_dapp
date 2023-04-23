@@ -95,7 +95,7 @@ export default function ConnectWalletModal({
   return (
     <>
       <Modal
-        className="w-full max-w-[500px]  bg-[#FCFAFF] dark:bg-[#030303] p-[12px]"
+        className="w-full max-w-[500px]  bg-[#FCFAFF] p-[12px] dark:bg-[#030303]"
         open={open}
         handleClose={handleClose}
         hideCloseIcon
@@ -107,7 +107,7 @@ export default function ConnectWalletModal({
         >
           {connectors.map((item, i) => (
             <div
-              className="flex h-[200px] text-[#404040] dark:text-[#FFFFFF] cursor-pointer flex-col items-center justify-center space-y-2 text-center"
+              className="flex h-[200px] cursor-pointer flex-col items-center justify-center space-y-2 text-center text-[#404040] dark:text-white"
               key={i}
               onClick={item.action}
             >

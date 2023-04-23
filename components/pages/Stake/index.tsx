@@ -128,7 +128,7 @@ export const StakePage = () => {
             <SkeletonDefault height={'18vh'} width={'100%'} />
           </div>
         ) : (
-          <div className="flex h-full w-full flex-col items-center justify-center gap-2 rounded-[12px] border from-[#161616] to-[#16161679] p-8 text-[#404040] dark:border-[#1A1A1A] dark:bg-gradient-to-b dark:text-white">
+          <div className="flex h-full w-full flex-col items-center justify-center gap-2 rounded-[12px] border bg-[#FFFFFF] from-[#161616] to-[#16161679] p-8 text-[#404040] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b dark:text-white">
             <div className="font-larken flex w-full items-center justify-center text-[32px]">
               <NumberFormat
                 displayType="text"
@@ -146,7 +146,7 @@ export const StakePage = () => {
             <SkeletonDefault height={'18vh'} width={'100%'} />
           </div>
         ) : (
-          <div className="flex h-full w-full flex-col items-center justify-center gap-2 rounded-[12px] border from-[#161616] to-[#16161679] p-8 text-[#404040] dark:border-[#1A1A1A] dark:bg-gradient-to-b dark:text-white">
+          <div className="flex h-full w-full flex-col items-center justify-center gap-2 rounded-[12px] border bg-[#FFFFFF] from-[#161616] to-[#16161679] p-8 text-[#404040] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b dark:text-white">
             <div className="font-larken text-[32px]">
               <NumberFormat
                 displayType="text"
@@ -169,7 +169,7 @@ export const StakePage = () => {
             <SkeletonDefault height={'18vh'} width={'100%'} />
           </div>
         ) : (
-          <div className="flex h-full w-full flex-col items-center justify-center gap-2 rounded-[12px] border from-[#161616] to-[#16161679] p-8 text-[#404040] dark:border-[#1A1A1A] dark:bg-gradient-to-b dark:text-white">
+          <div className="flex h-full w-full flex-col items-center justify-center gap-2 rounded-[12px] border bg-[#FFFFFF] from-[#161616] to-[#16161679] p-8 text-[#404040] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b dark:text-white">
             <div className="font-larken text-[32px]">
               <NumberFormat
                 displayType="text"
@@ -186,7 +186,7 @@ export const StakePage = () => {
             <SkeletonDefault height={'18vh'} width={'100%'} />
           </div>
         ) : (
-          <div className="flex h-full w-full flex-col items-center justify-center gap-2 rounded-[12px] border from-[#161616] to-[#16161679] p-8 text-[#404040] dark:border-[#1A1A1A] dark:bg-gradient-to-b dark:text-white">
+          <div className="flex h-full w-full flex-col items-center justify-center gap-2 rounded-[12px] border bg-[#FFFFFF] from-[#161616] to-[#16161679] p-8 text-[#404040] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b dark:text-white">
             <div className="font-larken text-[32px]">
               <NumberFormat
                 displayType="text"

@@ -8,24 +8,27 @@ export default function Footer() {
   const [isChecked, setIsChecked] = useState<boolean>(true)
   const theme = useSelector((store: AppStore) => store.theme.theme)
   useEffect(() => {
-    const status = theme === 'light' ? true : false
+    const status = theme === 'dark' ? true : false
     setIsChecked(status)
   }, [theme])
+  console.log(theme, isChecked)
   const handleDarkMode = (e: any) => {
+    setIsChecked(e.target.checked)
     if (typeof window != 'undefined') {
       if (e.target.checked) {
-        document.documentElement.classList.remove('dark')
-        dispatch(updateTheme('light' as any))
-        window.localStorage.setItem('theme', 'light')
-      } else {
         document.documentElement.classList.add('dark')
         dispatch(updateTheme('dark' as any))
         window.localStorage.setItem('theme', 'dark')
+      } else {
+        document.documentElement.classList.remove('dark')
+        dispatch(updateTheme('light' as any))
+        window.localStorage.setItem('theme', 'light')
       }
     }
   }
+
   return (
-    <div className="relative flex flex w-full justify-center ">
+    <div className="relative flex w-full justify-center ">
       <div
         className={
           ` absolute left-0 top-0 h-[1px] w-full` +
@@ -68,7 +71,7 @@ export default function Footer() {
               checked={isChecked}
               className="peer sr-only"
             />
-            <div className="boder-[#F4F4F4] peer h-6 w-16 rounded-full border bg-[#F6F6F6] after:absolute after:left-[20px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-[#fff] after:transition-all after:content-['']  peer-checked:bg-[#F6F6F6] peer-checked:after:translate-x-full dark:border-gray-600 dark:bg-[#1D1D1D]     after:dark:left-[2px] after:dark:bg-[#3B3B3B] "></div>
+            <div className="boder-[#F4F4F4] h-6 w-16 rounded-full border bg-[#F6F6F6] bg-[#F6F6F6] after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-[#fff]  after:transition-all after:content-[''] peer-checked:after:translate-x-[200%] dark:border-gray-600 after:dark:bg-[#3B3B3B] peer-checked:dark:bg-[#1D1D1D]"></div>
           </label>
         </div>
       </footer>
