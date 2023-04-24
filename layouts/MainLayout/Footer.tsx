@@ -28,7 +28,11 @@ export default function Footer() {
   }
 
   return (
+<<<<<<< Updated upstream
     <div className="relative flex w-full justify-center ">
+=======
+    <div className="relative mt-[122px] flex w-full justify-center">
+>>>>>>> Stashed changes
       <div
         className={
           ` absolute left-0 top-0 h-[1px] w-full` +
@@ -37,7 +41,11 @@ export default function Footer() {
       `
         }
       />
+<<<<<<< Updated upstream
       <footer className="flex w-[1280px] max-w-[1280px] items-center justify-between  px-4 py-7 text-[#959595] sm:px-8">
+=======
+      <footer className="flex w-[1280px] max-w-[1280px] justify-between  px-4 py-4 text-[#959595] sm:px-8">
+>>>>>>> Stashed changes
         <div className="cursor-pointer text-[10px] transition-colors duration-100 ease-linear hover:text-white hover:underline xs:text-[10px]">
           © 2023 TORQUE INC.
         </div>
