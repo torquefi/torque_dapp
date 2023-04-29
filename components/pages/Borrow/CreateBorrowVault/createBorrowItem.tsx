@@ -230,7 +230,7 @@ export default function CreateBorrowItem({ item }: any) {
         <Popover
           trigger="hover"
           placement="bottom-right"
-          className={`mt-[8px] w-[230px] bg-[#FCFAFF] text-center text-sm leading-tight dark:bg-[#161616]`}
+          className={`mt-[8px] w-[230px] border dark:border-[#1A1A1A] border-[#e5e7eb] bg-[#FCFAFF] text-center text-sm leading-tight dark:bg-[#161616]`}
           content="The projected TORQ rewards after 1 year of $1,000 borrowed"
         >
           <Link href="#" className="" target={'_blank'}>
