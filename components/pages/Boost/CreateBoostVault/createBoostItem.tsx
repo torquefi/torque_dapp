@@ -133,7 +133,7 @@ export function CreateBoostItem({ item }: any) {
         <Popover
           trigger="hover"
           placement="bottom-right"
-          className={`font-mona mt-[8px]  w-[230px] bg-[#fff] text-center text-sm leading-tight dark:bg-[#0d0d0d]`}
+          className={`font-mona mt-[8px] border dark:border-[#1A1A1A] border-[#e5e7eb] w-[230px] bg-[#fff] text-center text-sm leading-tight dark:bg-[#0d0d0d]`}
           content="The projected TORQ rewards after 1 year of $1,000 supplied"
         >
           <Link href="#" className="" target={'_blank'}>
