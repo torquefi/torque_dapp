@@ -1,8 +1,9 @@
 html,
 body {
   font-family: 'Mona Sans', Helvetica, 'Open Sans', sans-serif;
-  background: #030303 !important;
-  @apply bg-gray-100;
+  // background: #030303 !important;
+  // @apply bg-gray-100;
+  @apply dark:bg-[#030303];
   @apply text-base;
   @apply box-border;
 }
