@@ -135,6 +135,7 @@ export const StakePage = () => {
                 thousandSeparator
                 value={totalStaked}
                 decimalScale={2}
+                fixedDecimalScale
               />
             </div>
             <div className="text-[#959595]">TORQ Staked</div>
@@ -157,6 +158,7 @@ export const StakePage = () => {
                     : 0
                 }
                 decimalScale={2}
+                fixedDecimalScale
               />
               %
             </div>
@@ -176,6 +178,7 @@ export const StakePage = () => {
                 thousandSeparator
                 value={totalLpStaked}
                 decimalScale={2}
+                fixedDecimalScale
               />
             </div>
             <div className="text-[#959595]">TORQ LP Staked</div>
@@ -192,7 +195,12 @@ export const StakePage = () => {
                 displayType="text"
                 thousandSeparator
                 value={totalDistributed}
-                decimalScale={5}
+                decimalScale={
+                  +totalDistributed >= 0.00001 && +totalDistributed < 0.01
+                    ? 5
+                    : 2
+                }
+                fixedDecimalScale
               />
             </div>
             <div className="text-[#959595]">TORQ Distributed</div>

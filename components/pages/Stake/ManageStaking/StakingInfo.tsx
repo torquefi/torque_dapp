@@ -293,7 +293,6 @@ export default function StakingInfo({
           .call()
         const tokenPrice = ethers.utils.formatUnits(response, 6).toString()
         setTokenPrice(tokenPrice)
-        console.log('tokenPrice', tokenPrice)
       } catch (error) {
         console.log('handleGetTorqPrice 123:>> ', error)
       }
@@ -308,15 +307,12 @@ export default function StakingInfo({
         // const torqTokenPrice = ethers.utils.formatUnits(response, 6).toString()
 
         const pairLpTorqPrice = await lpContract.methods.getPairPrice().call()
-        console.log('lpPrice', ethers.utils.parseUnits('1', 6).toString())
 
         const lpPriceBn = BigNumber.from(pairLpTorqPrice)
           .div(ethers.utils.parseUnits('1', 18).toString())
           .mul(torqTokenPrice6Decimals)
           .div(ethers.utils.parseUnits('1', 6).toString())
 
-        console.log('lpPrice', lpPriceBn.toString())
-        // const
         setTokenPrice(lpPriceBn)
       } catch (error) {
         console.log('handleGetTorqPrice 123:>> ', error)
@@ -358,7 +354,7 @@ export default function StakingInfo({
               <p className="font-mona text-[14px] text-[#959595]">Earnings</p>
             </>
           )}
-          decimalScale={5}
+          decimalScale={2}
           tokenPrice={tokenPrice}
         />
         <div className="flex min-w-[100px] flex-col items-center justify-center gap-2">

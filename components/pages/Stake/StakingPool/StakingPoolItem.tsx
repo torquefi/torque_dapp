@@ -81,7 +81,7 @@ export default function StakingPoolItem({
     setSubmitLoading(true)
     try {
       const allowance = await handleGetAllowance()
-      if (!+allowance) {
+      if (+allowance < +amount) {
         await tokenContract.methods
           .approve(
             stakeInfo?.stakeContract?.address,
@@ -96,11 +96,11 @@ export default function StakingPoolItem({
         .toString()
 
       await stakingContract.methods.deposit(tokenAmount).send({ from: address })
-      toast.success('Deposit successfully')
+      toast.success('Deposit successful')
       setIsRefresh((isRefresh) => !isRefresh)
       setAmount(0)
     } catch (error) {
-      console.log('Staking.DepositModal.approveToken', error)
+      console.log('Staking.StakingPoolItem.stakeToken', error)
     }
 
     setSubmitLoading(false)
@@ -163,7 +163,7 @@ export default function StakingPoolItem({
         // const torqTokenPrice = ethers.utils.formatUnits(response, 6).toString()
 
         const pairLpTorqPrice = await lpContract.methods.getPairPrice().call()
-        console.log('lpPrice', ethers.utils.parseUnits('1', 6).toString())
+        // console.log('lpPrice', ethers.utils.parseUnits('1', 6).toString())
 
         const lpPriceBn = BigNumber.from(pairLpTorqPrice)
           .div(ethers.utils.parseUnits('1', 18).toString())
@@ -171,7 +171,6 @@ export default function StakingPoolItem({
           .div(ethers.utils.parseUnits('1', 6).toString())
 
         console.log('lpPrice', lpPriceBn.toString())
-        // const
         setTokenPrice(lpPriceBn)
       } catch (error) {
         console.log('handleGetTorqPrice 123:>> ', error)
