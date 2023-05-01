@@ -11,7 +11,7 @@ import {
 } from '@/constants/contracts'
 import { ethers } from 'ethers'
 import NumberFormat from '@/components/common/NumberFormat'
-
+ 
 export const StakePage = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [totalStaked, setTotalStaked] = useState<string | number>(0)
