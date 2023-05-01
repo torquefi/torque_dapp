@@ -31,7 +31,7 @@ export default function InputCurrencySwitch({
   tokenValueChange,
   usdDefault = false,
   className = '',
-  decimalScale = 3,
+  decimalScale = 2,
   subtitle,
   onChange,
   render,

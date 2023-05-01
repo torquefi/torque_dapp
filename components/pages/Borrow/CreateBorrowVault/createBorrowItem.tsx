@@ -255,6 +255,7 @@ export default function CreateBorrowItem({ item }: any) {
             className="w-full py-4 leading-none lg:py-6"
             subtitle="Collateral"
             usdDefault
+            decimalScale={2}
             onChange={(e) => {
               dataBorrow.amount = e
               dataBorrow.amountRecieve = Math.round((e * 50) / 100)
@@ -277,7 +278,7 @@ export default function CreateBorrowItem({ item }: any) {
               )
             )}
             usdDefault
-            decimalScale={0}
+            decimalScale={2}
             className="w-full py-4 leading-none lg:py-6"
             subtitle="Borrowing"
             onChange={(e) => {

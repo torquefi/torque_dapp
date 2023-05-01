@@ -19,7 +19,7 @@ export default function CurrencySwitch({
   tokenValue,
   usdDefault = false,
   className = '',
-  decimalScale = 0,
+  decimalScale = 2,
   tokenPrice,
   render,
 }: CurrencySwitchProps) {
