@@ -1,7 +1,6 @@
-import CurrencySwitch from '@/components/common/CurrencySwitch'
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
 import NumberFormat from '@/components/common/NumberFormat'
-import { ethers } from 'ethers'
+import { BigNumber, ethers } from 'ethers'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { AutowidthInput } from 'react-autowidth-input'
 import { AiOutlineCheck, AiOutlineEdit } from 'react-icons/ai'
@@ -12,6 +11,8 @@ import { IStakingInfo } from '../types'
 import { useMoralis } from 'react-moralis'
 import { useSelector } from 'react-redux'
 import { AppStore } from '@/types/store'
+import { stakeLpContract, tokenTorqContract } from '@/constants/contracts'
+import CurrencySwitch from '../CurrencySwitch'
 
 interface StakingInfoProps {
   stakeInfo: IStakingInfo
@@ -35,12 +36,31 @@ export default function StakingInfo({
   const [totalEarnings, setTotalEarnings] = useState<string | number>(0)
   const [totalStaked, setTotalStake] = useState<string | number>(0)
   const [apr, setApr] = useState<string | number>(0)
+  const [tokenPrice, setTokenPrice] = useState<any>(0)
 
   const [label, setLabel] = useState(stakeInfo?.label)
   const [isEdit, setEdit] = useState(false)
   const refLabelInput = useRef<HTMLInputElement>(null)
 
   const isApproved = +allowance
+
+  const torqContract = useMemo(() => {
+    const web3 = new Web3(Web3.givenProvider)
+    const contract = new web3.eth.Contract(
+      JSON.parse(tokenTorqContract.abi),
+      tokenTorqContract.address
+    )
+    return contract
+  }, [Web3.givenProvider, tokenTorqContract])
+
+  const lpContract = useMemo(() => {
+    const web3 = new Web3(Web3.givenProvider)
+    const contract = new web3.eth.Contract(
+      JSON.parse(stakeLpContract.abi),
+      stakeLpContract.address
+    )
+    return contract
+  }, [Web3.givenProvider, stakeLpContract])
 
   const tokenContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
@@ -263,6 +283,49 @@ export default function StakingInfo({
     }
   }, [isEdit])
 
+  useEffect(() => {
+    const handleGetTorqPrice = async () => {
+      try {
+        const decimals = await tokenContract.methods.decimals().call()
+        const amount = ethers.utils.parseUnits('1', decimals).toString()
+        const response = await lpContract.methods
+          .getUSDPrice(stakeInfo.tokenContract.address, amount)
+          .call()
+        const tokenPrice = ethers.utils.formatUnits(response, 6).toString()
+        setTokenPrice(tokenPrice)
+      } catch (error) {
+        console.log('handleGetTorqPrice 123:>> ', error)
+      }
+    }
+    const handleGetLpPrice = async () => {
+      try {
+        const torqDecimals = await torqContract.methods.decimals().call()
+        const amount = ethers.utils.parseUnits('1', torqDecimals).toString()
+        const torqTokenPrice6Decimals = await lpContract.methods
+          .getUSDPrice(tokenTorqContract.address, amount)
+          .call()
+        // const torqTokenPrice = ethers.utils.formatUnits(response, 6).toString()
+
+        const pairLpTorqPrice = await lpContract.methods.getPairPrice().call()
+
+        const lpPriceBn = BigNumber.from(pairLpTorqPrice)
+          .div(ethers.utils.parseUnits('1', 18).toString())
+          .mul(torqTokenPrice6Decimals)
+          .div(ethers.utils.parseUnits('1', 6).toString())
+
+        setTokenPrice(lpPriceBn)
+      } catch (error) {
+        console.log('handleGetTorqPrice 123:>> ', error)
+      }
+    }
+    if (stakeInfo.symbol === 'TORQ') {
+      handleGetTorqPrice()
+    }
+    if (stakeInfo.symbol === 'LP') {
+      handleGetLpPrice()
+    }
+  }, [tokenContract, lpContract, isConnected])
+
   const summaryInfor = (item: IStakingInfo) => {
     return (
       <>
@@ -278,6 +341,7 @@ export default function StakingInfo({
             </>
           )}
           decimalScale={2}
+          tokenPrice={tokenPrice}
         />
         <CurrencySwitch
           tokenSymbol={item?.symbol}
@@ -290,7 +354,8 @@ export default function StakingInfo({
               <p className="font-mona text-[14px] text-[#959595]">Earnings</p>
             </>
           )}
-          decimalScale={5}
+          decimalScale={2}
+          tokenPrice={tokenPrice}
         />
         <div className="flex min-w-[100px] flex-col items-center justify-center gap-2">
           <div className="text-[22px]">{apr}%</div>
