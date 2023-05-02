@@ -4,7 +4,10 @@ class MyDocument extends Document {
   render() {
     return (
       <Html>
-        <Head />
+        <Head>
+          {/* <script src="https://unpkg.com/vconsole@latest/dist/vconsole.min.js"></script>
+          <script>var vConsole = new window.VConsole();</script> */}
+        </Head>
         <body>
           <Main />
           <NextScript />
