@@ -28,7 +28,7 @@ export default function PortfolioChart() {
                 <SkeletonDefault height={'4vh'} width={'10vw'} />
               </div>
             ) : (
-              `$346,720.43`
+              `$0.00`
             )}
           </p>
         </div>
