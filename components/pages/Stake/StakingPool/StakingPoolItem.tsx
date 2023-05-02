@@ -1,7 +1,11 @@
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
 import SkeletonDefault from '@/components/skeleton'
-import { stakeLpContract } from '@/constants/contracts'
-import { ethers } from 'ethers'
+import {
+  stakeLpContract,
+  stakeTorqContract,
+  tokenTorqContract,
+} from '@/constants/contracts'
+import { BigNumber, ethers } from 'ethers'
 import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
 import { toast } from 'sonner'
@@ -30,6 +34,15 @@ export default function StakingPoolItem({
   const [amount, setAmount] = useState<number>(0)
 
   const isDisabled = !amount || +amount < 0
+
+  const torqContract = useMemo(() => {
+    const web3 = new Web3(Web3.givenProvider)
+    const contract = new web3.eth.Contract(
+      JSON.parse(tokenTorqContract.abi),
+      tokenTorqContract.address
+    )
+    return contract
+  }, [Web3.givenProvider, tokenTorqContract])
 
   const lpContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
@@ -68,7 +81,7 @@ export default function StakingPoolItem({
     setSubmitLoading(true)
     try {
       const allowance = await handleGetAllowance()
-      if (!+allowance) {
+      if (+allowance < +amount) {
         await tokenContract.methods
           .approve(
             stakeInfo?.stakeContract?.address,
@@ -83,11 +96,11 @@ export default function StakingPoolItem({
         .toString()
 
       await stakingContract.methods.deposit(tokenAmount).send({ from: address })
-      toast.success('Deposit successfully')
+      toast.success('Deposit successful')
       setIsRefresh((isRefresh) => !isRefresh)
       setAmount(0)
     } catch (error) {
-      console.log('Staking.DepositModal.approveToken', error)
+      console.log('Staking.StakingPoolItem.stakeToken', error)
     }
 
     setSubmitLoading(false)
@@ -126,7 +139,7 @@ export default function StakingPoolItem({
   }, [stakingContract])
 
   useEffect(() => {
-    ;(async () => {
+    const handleGetTorqPrice = async () => {
       try {
         const decimals = await tokenContract.methods.decimals().call()
         const amount = ethers.utils.parseUnits('1', decimals).toString()
@@ -135,10 +148,40 @@ export default function StakingPoolItem({
           .call()
         const tokenPrice = ethers.utils.formatUnits(response, 6).toString()
         setTokenPrice(tokenPrice)
+        console.log('tokenPrice', tokenPrice)
       } catch (error) {
-        console.log('error 123:>> ', error)
+        console.log('handleGetTorqPrice 123:>> ', error)
       }
-    })()
+    }
+    const handleGetLpPrice = async () => {
+      try {
+        const torqDecimals = await torqContract.methods.decimals().call()
+        const amount = ethers.utils.parseUnits('1', torqDecimals).toString()
+        const torqTokenPrice6Decimals = await lpContract.methods
+          .getUSDPrice(tokenTorqContract.address, amount)
+          .call()
+        // const torqTokenPrice = ethers.utils.formatUnits(response, 6).toString()
+
+        const pairLpTorqPrice = await lpContract.methods.getPairPrice().call()
+        // console.log('lpPrice', ethers.utils.parseUnits('1', 6).toString())
+
+        const lpPriceBn = BigNumber.from(pairLpTorqPrice)
+          .div(ethers.utils.parseUnits('1', 18).toString())
+          .mul(torqTokenPrice6Decimals)
+          .div(ethers.utils.parseUnits('1', 6).toString())
+
+        console.log('lpPrice', lpPriceBn.toString())
+        setTokenPrice(lpPriceBn)
+      } catch (error) {
+        console.log('handleGetTorqPrice 123:>> ', error)
+      }
+    }
+    if (stakeInfo.symbol === 'TORQ') {
+      handleGetTorqPrice()
+    }
+    if (stakeInfo.symbol === 'LP') {
+      handleGetLpPrice()
+    }
   }, [tokenContract, lpContract, isConnected])
 
   useEffect(() => {

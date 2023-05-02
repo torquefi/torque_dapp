@@ -230,7 +230,7 @@ export default function CreateBorrowItem({ item }: any) {
         <Popover
           trigger="hover"
           placement="bottom-right"
-          className={`mt-[8px] w-[230px] bg-[#FCFAFF] text-center text-sm leading-tight dark:bg-[#161616]`}
+          className={`mt-[8px] w-[230px] border dark:border-[#1A1A1A] border-[#e5e7eb] bg-[#FCFAFF] text-center text-sm leading-tight dark:bg-[#161616]`}
           content="The projected TORQ rewards after 1 year of $1,000 borrowed"
         >
           <Link href="#" className="" target={'_blank'}>
@@ -255,6 +255,7 @@ export default function CreateBorrowItem({ item }: any) {
             className="w-full py-4 leading-none lg:py-6"
             subtitle="Collateral"
             usdDefault
+            decimalScale={2}
             onChange={(e) => {
               dataBorrow.amount = e
               dataBorrow.amountRecieve = Math.round((e * 50) / 100)
@@ -277,7 +278,7 @@ export default function CreateBorrowItem({ item }: any) {
               )
             )}
             usdDefault
-            decimalScale={0}
+            decimalScale={2}
             className="w-full py-4 leading-none lg:py-6"
             subtitle="Borrowing"
             onChange={(e) => {

@@ -16,7 +16,9 @@ export default function Product() {
           <SkeletonDefault height={'5vh'} width={'10%'} />
         </div>
       ) : (
-        <h3 className="font-larken text-[27px]">Products</h3>
+        <h3 className="font-larken text-[27px] text-[#404040] dark:text-white">
+          Products
+        </h3>
       )}
 
       <div className="grid gap-4 md:grid-cols-2">
