@@ -153,36 +153,35 @@ export default function StakingPoolItem({
         console.log('handleGetTorqPrice 123:>> ', error)
       }
     }
-    const handleGetLpPrice = async () => {
-      try {
-        const torqDecimals = await torqContract.methods.decimals().call()
-        const amount = ethers.utils.parseUnits('1', torqDecimals).toString()
-        const torqTokenPrice6Decimals = await lpContract.methods
-          .getUSDPrice(tokenTorqContract.address, amount)
-          .call()
-        // const torqTokenPrice = ethers.utils.formatUnits(response, 6).toString()
 
-        const pairLpTorqPrice = await lpContract.methods.getPairPrice().call()
-        // console.log('lpPrice', ethers.utils.parseUnits('1', 6).toString())
+    handleGetTorqPrice()
 
-        const lpPriceBn = BigNumber.from(pairLpTorqPrice)
-          .div(ethers.utils.parseUnits('1', 18).toString())
-          .mul(torqTokenPrice6Decimals)
-          .div(ethers.utils.parseUnits('1', 6).toString())
+    // const handleGetLpPrice = async () => {
+    //   try {
+    //     const torqDecimals = await torqContract.methods.decimals().call()
+    //     const amount = ethers.utils.parseUnits('1', torqDecimals).toString()
+    //     const torqTokenPrice6Decimals = await lpContract.methods
+    //       .getUSDPrice(tokenTorqContract.address, amount)
+    //       .call()
 
-        console.log('lpPrice', lpPriceBn.toString())
-        setTokenPrice(lpPriceBn)
-      } catch (error) {
-        console.log('handleGetTorqPrice 123:>> ', error)
-      }
-    }
-    if (stakeInfo.symbol === 'TORQ') {
-      handleGetTorqPrice()
-    }
-    if (stakeInfo.symbol === 'LP') {
-      handleGetLpPrice()
-    }
-  }, [tokenContract, lpContract, isConnected])
+    //     const pairLpTorqPrice = await lpContract.methods.getPairPrice().call()
+
+    //     const lpPriceBn = BigNumber.from(pairLpTorqPrice)
+    //       .div(ethers.utils.parseUnits('1', 18).toString())
+    //       .mul(torqTokenPrice6Decimals)
+    //       .div(ethers.utils.parseUnits('1', 6).toString())
+
+    //     console.log('lpPrice', lpPriceBn.toString())
+    //     setTokenPrice(lpPriceBn)
+    //   } catch (error) {
+    //     console.log('handleGetTorqPrice 123:>> ', error)
+    //   }
+    // }
+    // }
+    // if (stakeInfo.symbol === 'LP') {
+    //   handleGetLpPrice()
+    // }
+  }, [tokenContract, isConnected])
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 1000)
@@ -195,6 +194,8 @@ export default function StakingPoolItem({
       </div>
     )
   }
+
+  console.log('tokenPrice :>> ', tokenPrice)
 
   return (
     <div className="rounded-[12px] border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-8 py-6 text-[#404040] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white">
@@ -242,7 +243,9 @@ export default function StakingPoolItem({
         <div className="flex h-[140px] w-[50%] flex-col items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
           <CurrencySwitch
             tokenSymbol={stakeInfo?.symbol}
-            tokenValue={(+(amount || 0) * 3 * Number(apr)) / 10000 || 0}
+            tokenValue={
+              (+(amount || 0) * 3 * Number(apr)) / 100 || 0 + (+amount || 0)
+            }
             usdDefault
             className="w-full space-y-2 py-6 py-[23px] lg:py-[31px]"
             decimalScale={2}
