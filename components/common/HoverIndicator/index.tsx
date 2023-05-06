@@ -87,7 +87,7 @@ export default function HoverIndicator({
       >
         <div
           className={
-            'pointer-events-none absolute w-full rounded-[6px]  bg-[#F4F4F4] dark:bg-gradient-to-br from-[#1c1c1c] to-[#101010] transition-all duration-300' +
+            'pointer-events-none absolute w-full rounded-[6px]  bg-[#F4F4F4] dark:bg-[#1D1D1D] from-[#1c1c1c] to-[#101010] transition-all duration-300' +
             ` ${direction === 'horizontal' ? 'inset-y-0' : ''}` +
             ` ${direction === 'vertical' ? 'inset-x-0' : ''}` +
             ` ${indicatorClassName}`

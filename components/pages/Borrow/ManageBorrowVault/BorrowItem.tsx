@@ -250,7 +250,7 @@ export default function BorrowItem({ item }: any) {
   const summaryInfo = (
     <div className="flex w-full text-center md:w-[400px] lg:w-[500px] xl:w-[600px]">
       <CurrencySwitch
-        tokenSymbol={item.token}
+        tokenSymbol={""}
         tokenValue={dataUserBorrow?.supplied || item.collateral}
         className="font-larken -my-4 w-1/4 space-y-1 py-4"
         decimalScale={2}
