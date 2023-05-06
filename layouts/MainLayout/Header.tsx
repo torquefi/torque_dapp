@@ -182,10 +182,10 @@ export const Header = () => {
                   href={item.path}
                   key={i}
                   className={
-                    'font-mona relative flex h-[35px] items-center justify-center pr-[4px] transition-all duration-200 ease-in' +
+                    'font-mona relative flex h-[35px]  items-center justify-center pr-[4px] transition-all duration-200 ease-in' +
                     ` ${
                       activeTabIndex === i
-                        ? 'text-[#404040] dark:text-white'
+                        ? 'text-[#404040] dark:text-white '
                         : 'text-[#959595]'
                     }`
                   }

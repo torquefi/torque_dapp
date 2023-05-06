@@ -37,7 +37,7 @@ export default function Footer() {
       `
         }
       />
-      <footer className="flex w-[1280px] max-w-[1280px] justify-between  px-4 py-4 text-[#959595] sm:px-8">
+      <footer className="flex w-[1280px] max-w-[1280px] justify-between  px-4 py-2 text-[#959595] sm:px-8">
         <div className="cursor-pointer text-[10px] transition-colors duration-100 ease-linear hover:text-white hover:underline xs:text-[10px]">
           © 2023 TORQUE INC.
         </div>

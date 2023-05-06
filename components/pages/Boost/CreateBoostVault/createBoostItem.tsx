@@ -154,10 +154,11 @@ export function CreateBoostItem({ item }: any) {
       <div className="font-larken mt-4 grid grid-cols-2 gap-4">
         <div className="flex h-[140px]  w-full flex-col items-center justify-center gap-3 rounded-md border bg-[#FCFCFC] from-[#161616]  to-[#161616]/0  dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
           <InputCurrencySwitch
-            tokenSymbol={boostVault?.token}
+            tokenSymbol={""}
             tokenValue={Number(boostVault.amount)}
             className="w-full py-4 dark:text-white lg:py-6 "
             decimalScale={2}
+            usdDefault={true}
             subtitle="Deposit"
             onChange={(e) => {
               boostVault.amount = e
@@ -202,7 +203,7 @@ export function CreateBoostItem({ item }: any) {
         `}
         onClick={() => onDeposit()}
       >
-        {btnLoading != '' ? btnLoading : 'Deposit and Earn'}
+        {btnLoading != '' ? btnLoading : 'Deposit & Earn'}
       </button>
     </div>
   )
