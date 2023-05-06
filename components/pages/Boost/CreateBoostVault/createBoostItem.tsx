@@ -191,7 +191,7 @@ export function CreateBoostItem({ item }: any) {
         </Link>
       </div>
       <div className="font-mona flex w-full items-center justify-between text-[16px] text-[#959595]">
-        <div className="font-mona">Variable APR</div>
+        <div className="font-mona">Variable APY</div>
         <div className="">{item.APR}%</div>
       </div>
       <button
