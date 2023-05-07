@@ -17,10 +17,10 @@ export default function Banner() {
       />
       <Link
         href="/overview"
-        className="absolute left-[24px] top-[24px] flex h-[48px] w-[48px] items-center justify-center rounded-full bg-[#FCFAFF] dark:bg-[#030303]"
+        className="absolute left-[24px] top-[18px] flex h-[28px] w-[28px] items-center justify-center rounded-full bg-[#FCFAFF] dark:bg-[#030303] lg:top-[24px] lg:h-[48px] lg:w-[48px]"
       >
         <img
-          className="w-[12px]"
+          className="w-[8px] lg:w-[12px]"
           src={
             theme === 'light'
               ? '/icons/arrow-left-dark.png'

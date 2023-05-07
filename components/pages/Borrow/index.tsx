@@ -37,7 +37,7 @@ export const BorrowPage = () => {
   }
 
   return (
-    <div className="space-y-[36px]">
+    <div className="space-y-[36px] px-2">
       <Banner />
       <CreateBorrowVault />
       <ManageBorrowVault />

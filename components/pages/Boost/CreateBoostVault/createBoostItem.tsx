@@ -133,7 +133,7 @@ export function CreateBoostItem({ item }: any) {
         <Popover
           trigger="hover"
           placement="bottom-right"
-          className={`font-mona mt-[8px] border dark:border-[#1A1A1A] border-[#e5e7eb] w-[230px] bg-[#fff] text-center text-sm leading-tight dark:bg-[#0d0d0d]`}
+          className={`font-mona mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
           content="The projected TORQ rewards after 1 year of $1,000 supplied"
         >
           <Link href="#" className="" target={'_blank'}>
@@ -152,11 +152,11 @@ export function CreateBoostItem({ item }: any) {
         </Popover>
       </div>
       <div className="font-larken mt-4 grid grid-cols-2 gap-4">
-        <div className="flex h-[140px]  w-full flex-col items-center justify-center gap-3 rounded-md border bg-[#FCFCFC] from-[#161616]  to-[#161616]/0  dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
+        <div className="flex h-[110px] w-full flex-col items-center justify-center gap-3 rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A]  dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
           <InputCurrencySwitch
             tokenSymbol={boostVault?.token}
             tokenValue={Number(boostVault.amount)}
-            className="w-full py-4 dark:text-white lg:py-6 "
+            className="w-full py-4 dark:text-white lg:py-6"
             decimalScale={2}
             subtitle="Deposit"
             onChange={(e) => {
@@ -165,7 +165,7 @@ export function CreateBoostItem({ item }: any) {
             }}
           />
         </div>
-        <div className="flex h-[140px] w-full flex-col items-center justify-center gap-3 rounded-md border bg-[#FCFCFC] from-[#161616]  to-[#161616]/0  dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
+        <div className="flex h-[110px] w-full flex-col items-center justify-center gap-3 rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A]  dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
           <CurrencySwitch
             tokenSymbol={boostVault?.token}
             tokenValue={Number(boostVault.amount || 0) * (boostVault.rate || 0)}

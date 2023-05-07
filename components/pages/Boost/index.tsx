@@ -27,45 +27,47 @@ export const BoostPage = () => {
   }, [typeof window !== 'undefined'])
   return (
     <>
-      <div className="relative">
-        {isLoading ? (
-          <>
-            <div className="hidden lg:block">
-              <SkeletonDefault height={'50vh'} width={'100%'} />
-            </div>
-            <div className="lg:hidden">
-              <SkeletonDefault height={'15vh'} width={'100%'} />
-            </div>
-          </>
-        ) : (
-          <img
-            src={
-              theme == 'light'
-                ? '/assets/banners/boost-light-large.png'
-                : '/assets/banners/boost-compressed.png'
-            }
-            alt="Torque Boost"
-            className="w-full rounded-xl"
-          />
-        )}
-        <Link
-          href="/overview"
-          className="absolute left-[24px] top-[24px] flex h-[48px] w-[48px] items-center justify-center rounded-full bg-[#FCFAFF] dark:bg-[#030303]"
-        >
-          <img
-            className="w-[12px]"
-            src={
-              theme === 'light'
-                ? '/icons/arrow-left-dark.png'
-                : '/icons/arrow-left.svg'
-            }
-            alt=""
-          />
-        </Link>
-      </div>
-      <CreateBoostVault />
+      <div className="px-2">
+        <div className="relative">
+          {isLoading ? (
+            <>
+              <div className="hidden lg:block">
+                <SkeletonDefault height={'50vh'} width={'100%'} />
+              </div>
+              <div className="lg:hidden">
+                <SkeletonDefault height={'15vh'} width={'100%'} />
+              </div>
+            </>
+          ) : (
+            <img
+              src={
+                theme == 'light'
+                  ? '/assets/banners/boost-light-large.png'
+                  : '/assets/banners/boost-compressed.png'
+              }
+              alt="Torque Boost"
+              className="w-full rounded-xl"
+            />
+          )}
+          <Link
+            href="/overview"
+            className="absolute left-[24px] top-[18px] flex h-[28px] w-[28px] items-center justify-center rounded-full bg-[#FCFAFF] dark:bg-[#030303] lg:top-[24px] lg:h-[48px] lg:w-[48px]"
+          >
+            <img
+              className="w-[8px] lg:w-[12px]"
+              src={
+                theme === 'light'
+                  ? '/icons/arrow-left-dark.png'
+                  : '/icons/arrow-left.svg'
+              }
+              alt=""
+            />
+          </Link>
+        </div>
+        <CreateBoostVault />
 
-      <ManageBoostVault />
+        <ManageBoostVault />
+      </div>
     </>
   )
 }

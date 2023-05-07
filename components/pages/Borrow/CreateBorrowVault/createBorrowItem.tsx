@@ -248,7 +248,7 @@ export default function CreateBorrowItem({ item }: any) {
         </Popover>
       </div>
       <div className="grid grid-cols-2 gap-4">
-        <div className="font-larken flex h-[140px] flex-col items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
+        <div className="font-larken flex h-[100px] flex-col items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
           <InputCurrencySwitch
             tokenSymbol={item?.depositCoin}
             tokenValue={Number(dataBorrow.amount)}
@@ -263,7 +263,7 @@ export default function CreateBorrowItem({ item }: any) {
             }}
           />
         </div>
-        <div className="font-larken flex h-[140px] flex-col items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
+        <div className="font-larken flex h-[100px] flex-col items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
           <InputCurrencySwitch
             tokenSymbol={'USDC'}
             tokenValue={Number(dataBorrow.amountRecieve)}
