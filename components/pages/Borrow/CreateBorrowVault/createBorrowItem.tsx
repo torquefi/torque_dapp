@@ -307,7 +307,7 @@ export default function CreateBorrowItem({ item }: any) {
       </div>
       <div className="flex justify-between text-[#959595]">
         <p>Variable APR</p>
-        <p>{borrowAPR.toFixed(2)}%</p>
+        <p>-{borrowAPR.toFixed(2)}%</p>
       </div>
       <div className="flex justify-between text-[#959595]">
         <p>Liquidity</p>
@@ -332,7 +332,7 @@ export default function CreateBorrowItem({ item }: any) {
         }}
       >
         {buttonLoading != '' && <LoadingCircle />}
-        {buttonLoading != '' ? buttonLoading : 'Deposit and Borrow'}
+        {buttonLoading != '' ? buttonLoading : 'Deposit & Borrow'}
       </button>
     </div>
   )

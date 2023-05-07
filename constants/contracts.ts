@@ -32,7 +32,7 @@ export const tokenLpContract: IContractInfo = {
 }
 
 export const stakeLpContract: IContractInfo = {
-  address: '0x6b5E355DBc00007C5B0D5AE6EFC0375AB48C8F87',
+  address: '0x67e684caf3C0F899e4F0A3bd3C9C7b6F9ccd31a1',
   abi: JSON.stringify(stakeLpAbi),
 }
 
