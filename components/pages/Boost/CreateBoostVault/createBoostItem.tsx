@@ -154,7 +154,7 @@ export function CreateBoostItem({ item }: any) {
       <div className="font-larken mt-4 grid grid-cols-2 gap-4">
         <div className="flex h-[110px] w-full flex-col items-center justify-center gap-3 rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A]  dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
           <InputCurrencySwitch
-            tokenSymbol={""}
+            tokenSymbol={boostVault.token}
             tokenValue={Number(boostVault.amount)}
             className="w-full py-4 dark:text-white lg:py-6"
             decimalScale={2}
@@ -169,9 +169,9 @@ export function CreateBoostItem({ item }: any) {
         <div className="flex h-[110px] w-full flex-col items-center justify-center gap-3 rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A]  dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
           <CurrencySwitch
             tokenSymbol={boostVault?.token}
-            tokenValue={Number(boostVault.amount || 0) * (boostVault.rate || 0)}
+            tokenValue={Number(boostVault.amount || 0) * boostVault.rate}
             usdDefault
-            className="w-full space-y-2 py-6 py-[23px] lg:py-[31px]"
+            className="w-full space-y-2 py-6 lg:py-[31px]"
             decimalScale={2}
             render={(value) => (
               <>

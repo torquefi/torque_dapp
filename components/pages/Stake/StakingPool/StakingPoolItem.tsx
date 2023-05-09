@@ -244,7 +244,7 @@ export default function StakingPoolItem({
           <CurrencySwitch
             tokenSymbol={stakeInfo?.symbol}
             tokenValue={
-              (+(amount || 0) * 3 * Number(apr)) / 100 || 0 + (+amount || 0)
+              ((+(amount || 0) * 3 * Number(apr)) / 100 || 0) + (+amount || 0)
             }
             usdDefault
             className="w-full space-y-2 py-6 py-[23px] lg:py-[31px]"
