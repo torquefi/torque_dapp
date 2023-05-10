@@ -186,7 +186,7 @@ export default function CreateBorrowItem({ item }: any) {
             from: address,
           })
       }
-      dispatch(updateborrowTime(new Date().toISOString() as any))
+      dispatch(updateborrowTime(new Date().getTime() as any))
       toast.success('Borrow Successful')
     } catch (e) {
       console.log(e)

@@ -46,6 +46,9 @@ const DATA_BOOST_VAULT = [
     isOpen: false,
     amount: 0,
     data_key: 'name_boost_vault_1',
+    boost_contract: 'boost_abi',
+    name_ABI_asset: 'weth_abi',
+    decimals_asset: 18,
   },
   {
     token: 'USDC',
@@ -56,5 +59,8 @@ const DATA_BOOST_VAULT = [
     isOpen: false,
     amount: 0,
     data_key: 'name_boost_vault_2',
+    boost_contract: 'boost_abi',
+    name_ABI_asset: 'usdct_abi',
+    decimals_asset: 9,
   },
 ]

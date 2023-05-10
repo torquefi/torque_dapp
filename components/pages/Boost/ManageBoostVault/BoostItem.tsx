@@ -1,21 +1,106 @@
 import CurrencySwitch from '@/components/common/CurrencySwitch'
+import { AppStore } from '@/types/store'
 import { useEffect, useRef, useState } from 'react'
 import { AutowidthInput } from 'react-autowidth-input'
 import { AiOutlineCheck, AiOutlineEdit } from 'react-icons/ai'
 import { useMoralis } from 'react-moralis'
+import { useSelector } from 'react-redux'
 import { toast } from 'sonner'
 import { useAccount } from 'wagmi'
+import Web3 from 'web3'
 
 export function BoostItem({ item }: any) {
   const [theme, setTheme] = useState(null)
   const [dataBoostVault, setDataBoostVault] = useState(item)
+  const [assetContract, setAssetContract] = useState(null)
+  const [boostContract, setBoostContract] = useState(null)
+  const [allowance, setAllowance] = useState(0)
   const [label, setLabel] = useState(item?.label)
   const [isEdit, setEdit] = useState(false)
+  const [decimal, setDecimal] = useState(0)
+  const [btnLoading, setBtnLoading] = useState('')
+  const [deposited, setDeposited] = useState(0)
+  const [earned, setEarned] = useState(0)
   const { address, isConnected } = useAccount()
   const { Moralis, enableWeb3, isWeb3Enabled } = useMoralis()
-
+  const borrowTime = useSelector((store: AppStore) => store)
   const refLabelInput = useRef<HTMLInputElement>(null)
 
+  const initContract = async () => {
+    try {
+      var decimal
+      const dataABIAsset = await Moralis.Cloud.run('getAbi', {
+        name: item?.name_ABI_asset,
+      })
+      if (dataABIAsset?.abi) {
+        const web3 = new Web3(Web3.givenProvider)
+        const contract = new web3.eth.Contract(
+          JSON.parse(dataABIAsset?.abi),
+          dataABIAsset?.address
+        )
+        setAssetContract(contract)
+
+        decimal = await contract.methods.decimals().call({
+          from: address,
+        })
+        setDecimal(decimal)
+      }
+
+      const dataABIBoost = await Moralis.Cloud.run('getAbi', {
+        name: item?.boost_contract,
+      })
+      if (dataABIBoost?.abi) {
+        const web3 = new Web3(Web3.givenProvider)
+        const contract = new web3.eth.Contract(
+          JSON.parse(dataABIBoost?.abi),
+          dataABIBoost?.address
+        )
+        setBoostContract(contract)
+
+        let id = await contract.methods
+          .addressToPid(dataABIAsset.address)
+          .call({
+            from: address,
+          })
+
+        let infoUser = await contract.methods.userInfo(address, id).call({
+          from: address,
+        })
+        setDeposited(
+          Number(Moralis.Units.FromWei(`${infoUser['amount']}`, decimal))
+        )
+        setEarned(
+          Number(Moralis.Units.FromWei(`${infoUser['reward']}`, decimal))
+        )
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+  const onWithdraw = async () => {
+    try {
+      setBtnLoading('WITHDRAWING...')
+      await boostContract.methods
+        .withdraw(
+          assetContract._address,
+          Moralis.Units.Token(dataBoostVault.amount, decimal)
+        )
+        .send({
+          from: address,
+          value:
+            dataBoostVault.token == 'ETH'
+              ? Moralis.Units.Token(dataBoostVault.amount, decimal)
+              : 0,
+        })
+      toast.success('Withdraw Successful')
+
+      setBtnLoading('')
+    } catch (e) {
+      toast.success('Withdraw Failed')
+      setBtnLoading('')
+      console.log(e)
+    }
+  }
   const getDataNameBoost = async () => {
     const data = await Moralis.Cloud.run('getDataBorrowUser', {
       address: address,
@@ -57,13 +142,14 @@ export function BoostItem({ item }: any) {
   }, [typeof window !== 'undefined'])
   useEffect(() => {
     getDataNameBoost()
-  }, [isWeb3Enabled, address, isConnected])
+    initContract()
+  }, [isWeb3Enabled, address, isConnected, borrowTime])
   const summaryInfor = (item: any) => {
     return (
       <>
         <CurrencySwitch
           tokenSymbol={item?.token}
-          tokenValue={item.deposited}
+          tokenValue={deposited}
           usdDefault
           className="-my-4 flex h-full min-w-[100px] flex-col items-center justify-center gap-2 py-4"
           render={(value) => (
@@ -78,7 +164,7 @@ export function BoostItem({ item }: any) {
         />
         <CurrencySwitch
           tokenSymbol={item?.token}
-          tokenValue={item.earnings}
+          tokenValue={earned}
           usdDefault
           className="-my-4 flex h-full min-w-[100px] flex-col items-center justify-center gap-2 py-4"
           decimalScale={2}
@@ -196,11 +282,22 @@ export function BoostItem({ item }: any) {
               type="number"
               className="font-mona w-full bg-none px-2 focus:outline-none"
               style={{ backgroundColor: 'transparent' }}
+              value={dataBoostVault.amount}
               placeholder="Select amount"
+              onChange={(e) => {
+                dataBoostVault.amount = e.target.value
+                setDataBoostVault({ ...dataBoostVault })
+              }}
             />
             <div className="flex items-center gap-2">
               {[25, 50, 100].map((item: any) => (
-                <button className="font-mona rounded bg-[#F4F4F4] px-2 py-1 text-sm text-[#959595] dark:bg-[#1A1A1A]">
+                <button
+                  className="font-mona rounded bg-[#F4F4F4] px-2 py-1 text-sm text-[#959595] dark:bg-[#1A1A1A]"
+                  onClick={() => {
+                    dataBoostVault.amount = (item * deposited) / 100
+                    setDataBoostVault({ ...dataBoostVault })
+                  }}
+                >
                   {item}%
                 </button>
               ))}
@@ -208,7 +305,7 @@ export function BoostItem({ item }: any) {
           </div>
           <button
             className="font-mona mt-4 w-full rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[16px] uppercase text-white transition-all duration-300 ease-linear hover:bg-gradient-to-t"
-            onClick={() => toast.message('Coming soon')}
+            onClick={() => onWithdraw()}
           >
             Withdraw
           </button>

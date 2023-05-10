@@ -21,7 +21,7 @@ enum Action {
 
 const SECONDS_PER_YEAR = 60 * 60 * 24 * 365
 export default function BorrowItem({ item }: any) {
-  const borrowTime = useSelector((store: AppStore) => store.dataUser)
+  const borrowTime = useSelector((store: AppStore) => store)
   const theme = useSelector((store: AppStore) => store.theme.theme)
   const [dataBorrow, setDataBorrow] = useState(item)
   const [isExpand, setExpand] = useState(false)
@@ -250,7 +250,7 @@ export default function BorrowItem({ item }: any) {
   const summaryInfo = (
     <div className="flex w-full text-center md:w-[400px] lg:w-[500px] xl:w-[600px]">
       <CurrencySwitch
-        tokenSymbol={""}
+        tokenSymbol={''}
         tokenValue={dataUserBorrow?.supplied || item.collateral}
         className="font-larken -my-4 w-1/4 space-y-1 py-4"
         decimalScale={2}

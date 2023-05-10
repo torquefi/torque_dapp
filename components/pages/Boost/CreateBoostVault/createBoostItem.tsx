@@ -1,11 +1,12 @@
 import CurrencySwitch from '@/components/common/CurrencySwitch'
 import InputCurrencySwitch from '@/components/common/InputCurrencySwitch'
 import Popover from '@/components/common/Popover'
+import { updateborrowTime } from '@/lib/redux/auth/dataUser'
 import { AppStore } from '@/types/store'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useMoralis } from 'react-moralis'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'sonner'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
@@ -16,11 +17,14 @@ export function CreateBoostItem({ item }: any) {
   const [boostContract, setBoostContract] = useState(null)
   const [allowance, setAllowance] = useState(0)
   const [inputAmount, setInputAmount] = useState(0)
+  const [decimal, setDecimal] = useState(0)
   const [btnLoading, setBtnLoading] = useState('')
 
   const theme = useSelector((store: AppStore) => store.theme.theme)
   const { address, isConnected } = useAccount()
   const { Moralis, enableWeb3, isWeb3Enabled } = useMoralis()
+
+  const dispatch = useDispatch()
 
   const initContract = async () => {
     try {
@@ -34,6 +38,11 @@ export function CreateBoostItem({ item }: any) {
           dataABIAsset?.address
         )
         setAssetContract(contract)
+
+        let decimal = await contract.methods.decimals().call({
+          from: address,
+        })
+        setDecimal(decimal)
       }
 
       const dataABIBoost = await Moralis.Cloud.run('getAbi', {
@@ -54,16 +63,13 @@ export function CreateBoostItem({ item }: any) {
 
   const getAllowance = async () => {
     try {
-      if (assetContract & boostContract) {
+      if (assetContract) {
         const allowance = await assetContract.methods
           .allowance(address, boostContract._address)
           .call({
             from: address,
           })
-        setAllowance(
-          Number(Moralis.Units.FromWei(allowance, boostVault.decimals_asset)) ||
-            0
-        )
+        setAllowance(Number(Moralis.Units.FromWei(allowance, decimal)) || 0)
       }
     } catch (e) {
       console.log(e)
@@ -72,13 +78,12 @@ export function CreateBoostItem({ item }: any) {
 
   const onDeposit = async () => {
     try {
-      console.log(allowance, boostVault.amount)
-      if (allowance < boostVault.amount) {
+      if (allowance < boostVault.amount && boostVault.token != 'ETH') {
         setBtnLoading('APPROVING...')
         await assetContract.methods
           .approve(
             boostContract._address,
-            Moralis.Units.Token(boostVault.amount, boostVault.decimals_asset)
+            Moralis.Units.Token(boostVault.amount, decimal)
           )
           .send({
             from: address,
@@ -88,15 +93,17 @@ export function CreateBoostItem({ item }: any) {
       await boostContract.methods
         .deposit(
           assetContract._address,
-          Moralis.Units.Token(boostVault.amount, boostVault.decimals_asset)
+          Moralis.Units.Token(boostVault.amount, decimal)
         )
         .send({
           from: address,
-          value: Moralis.Units.Token(
-            boostVault.amount,
-            boostVault.decimals_asset
-          ),
+          value:
+            boostVault.token == 'ETH'
+              ? Moralis.Units.Token(boostVault.amount, decimal)
+              : 0,
         })
+      toast.success('Boost Successful')
+      dispatch(updateborrowTime(new Date().getTime().toString() as any))
       setBtnLoading('')
     } catch (e) {
       setBtnLoading('')

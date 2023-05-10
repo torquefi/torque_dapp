@@ -89,6 +89,6 @@ const BOOST_VAULTS = [
     amount: 0,
     boost_contract: 'boost_abi',
     name_ABI_asset: 'usdct_abi',
-    decimals_asset: 18,
+    decimals_asset: 9,
   },
 ]
