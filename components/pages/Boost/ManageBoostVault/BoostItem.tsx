@@ -151,7 +151,7 @@ export function BoostItem({ item }: any) {
           tokenSymbol={item?.token}
           tokenValue={deposited}
           usdDefault
-          className="-my-4 flex h-full min-w-[100px] flex-col items-center justify-center gap-2 py-4"
+          className="-my-4 flex h-full min-w-[130px] flex-col items-center justify-center gap-2 py-4"
           render={(value) => (
             <>
               <p className="text-[22px]">{value}</p>
@@ -166,7 +166,7 @@ export function BoostItem({ item }: any) {
           tokenSymbol={item?.token}
           tokenValue={earned}
           usdDefault
-          className="-my-4 flex h-full min-w-[100px] flex-col items-center justify-center gap-2 py-4"
+          className="-my-4 flex h-full min-w-[130px] flex-col items-center justify-center gap-2 py-4"
           decimalScale={2}
           render={(value) => (
             <>
@@ -177,7 +177,7 @@ export function BoostItem({ item }: any) {
             </>
           )}
         />
-        <div className="flex min-w-[100px] flex-col items-center justify-center gap-2">
+        <div className="flex min-w-[130px] flex-col items-center justify-center gap-2">
           <div className="text-[22px]">{item.APR}</div>
           <div className="font-mona text-[14px] text-[#959595]">
             Variable APR
