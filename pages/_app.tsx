@@ -1,8 +1,10 @@
 import CurrencySwitchInit from '@/components/common/CurrencySwitch/Provider'
 import store, { persistor } from '@/lib/redux/store'
 import { Web3Provider } from '@ethersproject/providers'
+import { Web3ReactProvider } from '@web3-react/core'
 import Moralis from 'moralis-v1'
 import type { NextPage } from 'next'
+import { SessionProvider } from 'next-auth/react'
 import { DefaultSeo } from 'next-seo'
 import type { AppProps } from 'next/app'
 import { ReactElement, ReactNode, useEffect } from 'react'
@@ -12,10 +14,6 @@ import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/lib/integration/react'
 import { Toaster } from 'sonner'
 import SEO from '../next-seo.config'
-import { createClient, configureChains, WagmiConfig } from 'wagmi'
-import { publicProvider } from 'wagmi/providers/public'
-import { SessionProvider } from 'next-auth/react'
-import { mainnet, goerli } from 'wagmi/chains'
 import '../styles/style.scss'
 
 type NextPageWithLayout = NextPage & {
@@ -42,26 +40,21 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       document.documentElement.classList.remove('dark')
     }
   }
-  const { provider, webSocketProvider } = configureChains(
-    [mainnet, goerli],
-    [publicProvider()]
-  )
 
-  const client = createClient({
-    provider,
-    webSocketProvider,
-    autoConnect: true,
-  })
+  function getLibrary(provider: any) {
+    return new Web3Provider(provider)
+  }
 
   useEffect(() => {
     Moralis.start({
       serverUrl: serverUrl,
       appId: appId, // server testnet
     })
+    Moralis.enableWeb3()
   }, [])
 
   return (
-    <WagmiConfig client={client}>
+    <Web3ReactProvider getLibrary={getLibrary}>
       <MoralisProvider appId={appId} serverUrl={serverUrl}>
         <SessionProvider session={pageProps.session} refetchInterval={0}>
           <DefaultSeo {...SEO} />
@@ -78,6 +71,6 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           <Toaster theme="dark" richColors />
         </SessionProvider>
       </MoralisProvider>
-    </WagmiConfig>
+    </Web3ReactProvider>
   )
 }

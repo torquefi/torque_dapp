@@ -1,23 +1,8 @@
 import HoverIndicator from '@/components/common/HoverIndicator'
 import Modal from '@/components/common/Modal'
-import { useEffect, useRef, useState } from 'react'
+import { Injected, WalletConnect } from '@/configs/connector'
+import { useWeb3React } from '@web3-react/core'
 import { useMoralis } from 'react-moralis'
-import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
-import {
-  useAccount,
-  useConnect,
-  useSignMessage,
-  useDisconnect,
-  useNetwork,
-  createClient,
-} from 'wagmi'
-import { mainnet, optimism, polygon, goerli } from '@wagmi/core/chains'
-import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
-import { useAuthRequestChallengeEvm } from '@moralisweb3/next'
-import { useDispatch } from 'react-redux'
-import { updateAddress } from '@/lib/redux/auth/auth'
-import { WalletConnectLegacyConnector } from '@wagmi/core/connectors/walletConnectLegacy'
-import Moralis from 'moralis-v1'
 
 interface ConnectWalletModalProps {
   open: boolean
@@ -28,8 +13,8 @@ export default function ConnectWalletModal({
   open,
   handleClose,
 }: ConnectWalletModalProps) {
-  const { authenticate, enableWeb3 } = useMoralis()
-  const { connectAsync } = useConnect()
+  const { authenticate } = useMoralis()
+  const { activate } = useWeb3React()
 
   const onConnectMetamaskWallet = async () => {
     try {
@@ -42,6 +27,7 @@ export default function ConnectWalletModal({
       //   networkType: 'evm',
       // })
       try {
+        await activate(Injected)
         await authenticate({
           signingMessage: 'Welcome to Torque',
           throwOnError: true,
@@ -49,9 +35,6 @@ export default function ConnectWalletModal({
       } catch (e) {
         console.log(e)
       }
-      await connectAsync({
-        connector: new MetaMaskConnector(),
-      })
       handleClose()
     } catch (e) {
       console.log(e)
@@ -60,13 +43,7 @@ export default function ConnectWalletModal({
 
   const onConnectWalletConnect = async () => {
     try {
-      await connectAsync({
-        connector: new WalletConnectLegacyConnector({
-          options: {
-            qrcode: true,
-          },
-        }),
-      })
+      await activate(WalletConnect)
     } catch (e) {
       console.log(e)
     }

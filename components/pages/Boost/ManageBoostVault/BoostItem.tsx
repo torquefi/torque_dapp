@@ -1,12 +1,12 @@
 import CurrencySwitch from '@/components/common/CurrencySwitch'
 import { AppStore } from '@/types/store'
+import { useWeb3React } from '@web3-react/core'
 import { useEffect, useRef, useState } from 'react'
 import { AutowidthInput } from 'react-autowidth-input'
 import { AiOutlineCheck, AiOutlineEdit } from 'react-icons/ai'
 import { useMoralis } from 'react-moralis'
 import { useSelector } from 'react-redux'
 import { toast } from 'sonner'
-import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 
 export function BoostItem({ item }: any) {
@@ -21,7 +21,7 @@ export function BoostItem({ item }: any) {
   const [btnLoading, setBtnLoading] = useState('')
   const [deposited, setDeposited] = useState(0)
   const [earned, setEarned] = useState(0)
-  const { address, isConnected } = useAccount()
+  const { account, active } = useWeb3React()
   const { Moralis, enableWeb3, isWeb3Enabled } = useMoralis()
   const borrowTime = useSelector((store: AppStore) => store)
   const refLabelInput = useRef<HTMLInputElement>(null)
@@ -41,7 +41,7 @@ export function BoostItem({ item }: any) {
         setAssetContract(contract)
 
         decimal = await contract.methods.decimals().call({
-          from: address,
+          from: account,
         })
         setDecimal(decimal)
       }
@@ -60,11 +60,11 @@ export function BoostItem({ item }: any) {
         let id = await contract.methods
           .addressToPid(dataABIAsset.address)
           .call({
-            from: address,
+            from: account,
           })
 
-        let infoUser = await contract.methods.userInfo(address, id).call({
-          from: address,
+        let infoUser = await contract.methods.userInfo(account, id).call({
+          from: account,
         })
         setDeposited(
           Number(Moralis.Units.FromWei(`${infoUser['amount']}`, decimal))
@@ -86,7 +86,7 @@ export function BoostItem({ item }: any) {
           Moralis.Units.Token(dataBoostVault.amount, decimal)
         )
         .send({
-          from: address,
+          from: account,
           value:
             dataBoostVault.token == 'ETH'
               ? Moralis.Units.Token(dataBoostVault.amount, decimal)
@@ -103,17 +103,17 @@ export function BoostItem({ item }: any) {
   }
   const getDataNameBoost = async () => {
     const data = await Moralis.Cloud.run('getDataBorrowUser', {
-      address: address,
+      address: account,
     })
     setLabel(data[`${item.data_key}`] || item?.label)
   }
   const updateDataNameBoost = async (name: string) => {
     const data = await Moralis.Cloud.run('getDataBorrowUser', {
-      address: address,
+      address: account,
     })
 
     data[`${item.data_key}`] = name
-    data[`address`] = address
+    data[`address`] = account
     console.log(data)
     await Moralis.Cloud.run('updateDataBorrowUser', {
       ...data,
@@ -143,7 +143,7 @@ export function BoostItem({ item }: any) {
   useEffect(() => {
     getDataNameBoost()
     initContract()
-  }, [isWeb3Enabled, address, isConnected, borrowTime])
+  }, [isWeb3Enabled, account, active, borrowTime])
   const summaryInfor = (item: any) => {
     return (
       <>
