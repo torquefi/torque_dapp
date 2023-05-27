@@ -1,18 +1,16 @@
-import NumberFormat from '@/components/common/NumberFormat'
-import CurrencySwitch from '@/components/common/CurrencySwitch'
 import InputCurrencySwitch, {
-  getPriceToken,
+  getPriceToken
 } from '@/components/common/InputCurrencySwitch'
+import LoadingCircle from '@/components/common/Loading/LoadingCircle'
 import Popover from '@/components/common/Popover'
+import { updateborrowTime } from '@/lib/redux/auth/dataUser'
+import { useWeb3React } from '@web3-react/core'
 import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
-import { toast } from 'sonner'
 import { useMoralis } from 'react-moralis'
-import Web3 from 'web3'
-import { useAccount } from 'wagmi'
 import { useDispatch } from 'react-redux'
-import { updateborrowTime } from '@/lib/redux/auth/dataUser'
-import LoadingCircle from '@/components/common/Loading/LoadingCircle'
+import { toast } from 'sonner'
+import Web3 from 'web3'
 
 const SECONDS_PER_YEAR = 60 * 60 * 24 * 365
 export default function CreateBorrowItem({ item }: any) {
@@ -28,7 +26,7 @@ export default function CreateBorrowItem({ item }: any) {
     btc: 28000,
     usdc: 1,
   })
-  const { address, isConnected } = useAccount()
+  const { account, active } = useWeb3React()
   const { Moralis, enableWeb3, isWeb3Enabled } = useMoralis()
 
   const dispatch = useDispatch()
@@ -81,12 +79,12 @@ export default function CreateBorrowItem({ item }: any) {
         )
         if (contract) {
           let utilization = await contract.methods.getUtilization().call({
-            from: address,
+            from: account,
           })
           let borrowRate = await contract.methods
             .getBorrowRate(utilization)
             .call({
-              from: address,
+              from: account,
             })
           setBorrowRate(borrowRate)
         }
@@ -100,9 +98,9 @@ export default function CreateBorrowItem({ item }: any) {
     try {
       if (contractAsset && contractBorrow) {
         const allowance = await contractAsset.methods
-          .allowance(address, contractBorrow._address)
+          .allowance(account, contractBorrow._address)
           .call({
-            from: address,
+            from: account,
           })
         setAllowance(allowance / 10 ** dataBorrow.decimals_asset || 0)
       }
@@ -149,7 +147,7 @@ export default function CreateBorrowItem({ item }: any) {
             Web3.utils.toWei(Number(dataBorrow.amount).toFixed(2), 'ether')
           )
           .send({
-            from: address,
+            from: account,
           })
         toast.success('Approve Successful')
       }
@@ -168,7 +166,7 @@ export default function CreateBorrowItem({ item }: any) {
             )
           )
           .send({
-            from: address,
+            from: account,
           })
       } else if (item.depositCoin == 'ETH') {
         await contractBorrow.methods
@@ -183,7 +181,7 @@ export default function CreateBorrowItem({ item }: any) {
               Number(dataBorrow.amount).toFixed(9),
               item.decimals_asset
             ),
-            from: address,
+            from: account,
           })
       }
       dispatch(updateborrowTime(new Date().getTime() as any))
@@ -206,7 +204,7 @@ export default function CreateBorrowItem({ item }: any) {
 
   useEffect(() => {
     initContract()
-  }, [isWeb3Enabled, address, isConnected])
+  }, [isWeb3Enabled, account, active])
 
   const isApproved = useMemo(
     () => dataBorrow.amount < allowance,

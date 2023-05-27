@@ -3,12 +3,12 @@ import InputCurrencySwitch from '@/components/common/InputCurrencySwitch'
 import Popover from '@/components/common/Popover'
 import { updateborrowTime } from '@/lib/redux/auth/dataUser'
 import { AppStore } from '@/types/store'
+import { useWeb3React } from '@web3-react/core'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useMoralis } from 'react-moralis'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'sonner'
-import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 
 export function CreateBoostItem({ item }: any) {
@@ -21,7 +21,7 @@ export function CreateBoostItem({ item }: any) {
   const [btnLoading, setBtnLoading] = useState('')
 
   const theme = useSelector((store: AppStore) => store.theme.theme)
-  const { address, isConnected } = useAccount()
+  const { account, active } = useWeb3React()
   const { Moralis, enableWeb3, isWeb3Enabled } = useMoralis()
 
   const dispatch = useDispatch()
@@ -40,7 +40,7 @@ export function CreateBoostItem({ item }: any) {
         setAssetContract(contract)
 
         let decimal = await contract.methods.decimals().call({
-          from: address,
+          from: account,
         })
         setDecimal(decimal)
       }
@@ -65,9 +65,9 @@ export function CreateBoostItem({ item }: any) {
     try {
       if (assetContract) {
         const allowance = await assetContract.methods
-          .allowance(address, boostContract._address)
+          .allowance(account, boostContract._address)
           .call({
-            from: address,
+            from: account,
           })
         setAllowance(Number(Moralis.Units.FromWei(allowance, decimal)) || 0)
       }
@@ -86,7 +86,7 @@ export function CreateBoostItem({ item }: any) {
             Moralis.Units.Token(boostVault.amount, decimal)
           )
           .send({
-            from: address,
+            from: account,
           })
       }
       setBtnLoading('DEPOSITING...')
@@ -96,7 +96,7 @@ export function CreateBoostItem({ item }: any) {
           Moralis.Units.Token(boostVault.amount, decimal)
         )
         .send({
-          from: address,
+          from: account,
           value:
             boostVault.token == 'ETH'
               ? Moralis.Units.Token(boostVault.amount, decimal)
@@ -113,11 +113,11 @@ export function CreateBoostItem({ item }: any) {
 
   useEffect(() => {
     getAllowance()
-  }, [assetContract, boostContract, address])
+  }, [assetContract, boostContract, account])
 
   useEffect(() => {
     initContract()
-  }, [isWeb3Enabled, address, isConnected])
+  }, [isWeb3Enabled, account, active])
 
   return (
     <div

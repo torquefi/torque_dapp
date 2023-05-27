@@ -1,13 +1,12 @@
 import NumberFormat from '@/components/common/NumberFormat'
 import { TORQ } from '@/constants/coins'
 import useNetwork from '@/lib/hooks/useNetwork'
-import classNames from 'classnames'
+import { useWeb3React } from '@web3-react/core'
 import { ethers } from 'ethers'
 import { useEffect, useMemo, useState } from 'react'
 import AutoWidthInput from 'react-autowidth-input'
 import { AiOutlineSwap } from 'react-icons/ai'
 import { useMoralis } from 'react-moralis'
-import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 import ChoosePercent from './ChoosePercent'
 
@@ -18,7 +17,7 @@ interface DepositModalProps {
 
 export default function DepositModal({ coin, onSuccess }: DepositModalProps) {
   const { network } = useNetwork()
-  const { address } = useAccount()
+  const { account } = useWeb3React()
   const web3 = new Web3(Web3.givenProvider)
   const { user } = useMoralis()
   const [balance, setBalance] = useState<number>(0)
@@ -53,7 +52,7 @@ export default function DepositModal({ coin, onSuccess }: DepositModalProps) {
         .toString()
       console.log(tokenAmount)
 
-      await stakingContract.methods.deposit(tokenAmount).send({ from: address })
+      await stakingContract.methods.deposit(tokenAmount).send({ from: account })
     } catch (error) {
       console.log('Staking.DepositModal.stakeToken', error)
     }
@@ -68,7 +67,7 @@ export default function DepositModal({ coin, onSuccess }: DepositModalProps) {
           coin?.stakingContractAddress,
           '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
         )
-        .send({ from: address })
+        .send({ from: account })
       handleGetAllowance()
     } catch (error) {
       console.log('Staking.DepositModal.approveToken', error)
@@ -83,7 +82,7 @@ export default function DepositModal({ coin, onSuccess }: DepositModalProps) {
     setLoading(true)
     try {
       const allowanceToken = await tokenContract.methods
-        .allowance(address, coin?.stakingContractAddress)
+        .allowance(account, coin?.stakingContractAddress)
         .call()
       const decimals = await tokenContract.methods.decimals().call()
       const allowance = ethers.utils
@@ -110,7 +109,7 @@ export default function DepositModal({ coin, onSuccess }: DepositModalProps) {
       setLoading(true)
       try {
         const balanceToken = await tokenContract.methods
-          .balanceOf(address)
+          .balanceOf(account)
           .call()
         const decimals = await tokenContract.methods.decimals().call()
         const balance = ethers.utils

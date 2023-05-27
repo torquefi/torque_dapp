@@ -1,34 +1,28 @@
 import HoverIndicator from '@/components/common/HoverIndicator'
 import Popover from '@/components/common/Popover'
+import { Injected } from '@/configs/connector'
+import { requestSwitchNetwork } from '@/lib/helpers/network'
 import { shortenAddress } from '@/lib/helpers/utils'
-import { useNetwork } from 'wagmi'
+import { AppStore } from '@/types/store'
+import { useWeb3React } from '@web3-react/core'
+import Moralis from 'moralis-v1'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { FiLogOut } from 'react-icons/fi'
 import { HiOutlineExternalLink } from 'react-icons/hi'
 import { useMoralis } from 'react-moralis'
-import ConnectWalletModal from './ConnectWalletModal'
-import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
-import { useAccount, useConnect, useSignMessage, useDisconnect } from 'wagmi'
-import { useAuthRequestChallengeEvm } from '@moralisweb3/next'
 import { useDispatch, useSelector } from 'react-redux'
-import { switchNetwork } from '@wagmi/core'
-import Moralis from 'moralis-v1'
-import { AppStore } from '@/types/store'
+import ConnectWalletModal from './ConnectWalletModal'
 
 export const Header = () => {
   const dispatch = useDispatch()
-  const { user, isAuthenticated, logout, enableWeb3, authenticate } =
-    useMoralis()
-  const { connectAsync } = useConnect()
-  const { disconnectAsync } = useDisconnect()
-  const { chain, chains } = useNetwork()
-  const { address, isConnecting, isDisconnected, isConnected } = useAccount()
+  const { user, isAuthenticated, logout, authenticate } = useMoralis()
+  const { activate, active, account, chainId, deactivate } = useWeb3React()
   const theme = useSelector((store: AppStore) => store.theme.theme)
   const [isShowNetworkAlert, setIsShowNetworkAlert] = useState(false)
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
-  const [addressOld, setAddressOld] = useState(address)
+  const [addressOld, setAddressOld] = useState(account)
   const [activeTabIndex, setActiveTabIndex] = useState(0)
 
   const router = useRouter()
@@ -50,19 +44,21 @@ export const Header = () => {
   )
 
   const getAccount = async () => {
-    if (isConnected) {
-      await connectAsync({
-        connector: new MetaMaskConnector(),
-      })
+    if (active) {
+      await activate(Injected)
     }
   }
 
+  const handleChangeNetwork = async () => {
+    await requestSwitchNetwork(goerliTestnetInfo)
+  }
+
   const changeWalletAddress = async () => {
-    if (address != addressOld) {
-      setAddressOld(address)
+    if (account != addressOld) {
+      setAddressOld(account)
       const { message } = await Moralis.Cloud.run('requestMessage', {
-        address: address,
-        chain: parseInt(chain.id as any, 16),
+        address: account,
+        chain: parseInt(chainId as any, 16),
         networkType: 'evm',
       })
       await authenticate({
@@ -79,17 +75,17 @@ export const Header = () => {
   }, [router])
 
   useEffect(() => {
-    if (isConnected && chain.id != -1) {
-      setIsShowNetworkAlert(chain.id !== goerliTestnetInfo.chainId)
+    if (account && chainId != -1) {
+      setIsShowNetworkAlert(chainId !== goerliTestnetInfo.chainId)
     }
-  }, [chain])
+  }, [chainId])
 
   // useEffect(() => {
   //   if (isConnected) changeWalletAddress()
   // }, [address])
 
   useEffect(() => {
-    setAddressOld(address)
+    setAddressOld(account)
   }, [])
 
   return (
@@ -100,7 +96,7 @@ export const Header = () => {
             'flex cursor-pointer items-center justify-center bg-[#FF6969] text-center text-[14px] transition-all' +
             ` ${!isShowNetworkAlert ? 'h-0 overflow-hidden' : 'h-[44px]'}`
           }
-          onClick={() => switchNetwork({ chainId: goerliTestnetInfo?.chainId })}
+          onClick={handleChangeNetwork}
         >
           Torque is not supported on this network. Please switch to Goerli.
         </div>
@@ -133,7 +129,7 @@ export const Header = () => {
                 $0.00
               </p>
             </Link>
-            {isConnected ? (
+            {active ? (
               <Popover
                 placement="bottom-right"
                 className={`mt-[12px] w-[200px] leading-none`}
@@ -144,7 +140,7 @@ export const Header = () => {
                     indicatorClassName="rounded-[6px]"
                   >
                     <Link
-                      href={`https://goerli.etherscan.io/address/${address}`}
+                      href={`https://goerli.etherscan.io/address/${account}`}
                       className="flex justify-between p-[12px]"
                       target="_blank"
                     >
@@ -152,7 +148,7 @@ export const Header = () => {
                     </Link>
                     <div
                       className="flex cursor-pointer justify-between p-[12px]"
-                      onClick={() => disconnectAsync()}
+                      onClick={() => deactivate()}
                     >
                       Disconnect <FiLogOut />
                     </div>
@@ -160,7 +156,7 @@ export const Header = () => {
                 }
               >
                 <div className="cursor-pointer rounded-full border border-primary px-[18px] py-[6px] text-[14px] uppercase leading-none text-primary transition-all duration-200 ease-in hover:scale-x-[102%] xs:px-[16px] xs:py-[4px] lg:px-[32px] lg:py-[6px] lg:text-[16px]">
-                  {shortenAddress(address)}
+                  {shortenAddress(account)}
                 </div>
               </Popover>
             ) : (

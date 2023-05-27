@@ -1,18 +1,18 @@
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
 import NumberFormat from '@/components/common/NumberFormat'
+import { stakeLpContract, tokenTorqContract } from '@/constants/contracts'
+import { AppStore } from '@/types/store'
+import { useWeb3React } from '@web3-react/core'
 import { BigNumber, ethers } from 'ethers'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { AutowidthInput } from 'react-autowidth-input'
 import { AiOutlineCheck, AiOutlineEdit } from 'react-icons/ai'
-import { toast } from 'sonner'
-import { useAccount } from 'wagmi'
-import Web3 from 'web3'
-import { IStakingInfo } from '../types'
 import { useMoralis } from 'react-moralis'
 import { useSelector } from 'react-redux'
-import { AppStore } from '@/types/store'
-import { stakeLpContract, tokenTorqContract } from '@/constants/contracts'
+import { toast } from 'sonner'
+import Web3 from 'web3'
 import CurrencySwitch from '../CurrencySwitch'
+import { IStakingInfo } from '../types'
 
 interface StakingInfoProps {
   stakeInfo: IStakingInfo
@@ -23,7 +23,7 @@ export default function StakingInfo({
   stakeInfo,
   isRefresh,
 }: StakingInfoProps) {
-  const { address, isConnected } = useAccount()
+  const { account, active } = useWeb3React()
   const { Moralis } = useMoralis()
 
   const theme = useSelector((store: AppStore) => store.theme.theme)
@@ -91,12 +91,12 @@ export default function StakingInfo({
 
   const handleGetInfoStaked = async () => {
     try {
-      if (!isConnected || !tokenContract || !address) {
+      if (!active || !tokenContract || !account) {
         return setTotalStake(0)
       }
       const decimals = await tokenContract.methods.decimals().call()
 
-      const response = await stakingContract.methods.stakers(address).call()
+      const response = await stakingContract.methods.stakers(account).call()
       const principal = response?.principal
       const totalStaked = ethers.utils
         .formatUnits(principal, decimals)
@@ -109,11 +109,11 @@ export default function StakingInfo({
 
   const handleGetInterestInfo = async () => {
     try {
-      if (!isConnected || !tokenStakeContract || !address) {
+      if (!active || !tokenStakeContract || !account) {
         return setTotalStake(0)
       }
       const decimals = await tokenStakeContract.methods.decimals().call()
-      const response = await stakingContract.methods.getInterest(address).call()
+      const response = await stakingContract.methods.getInterest(account).call()
       const totalEarnings = ethers.utils
         .formatUnits(response, decimals)
         .toString()
@@ -125,18 +125,18 @@ export default function StakingInfo({
 
   const getDataNameStaking = async () => {
     const data = await Moralis.Cloud.run('getDataBorrowUser', {
-      address: address,
+      address: account,
     })
     setLabel(data[`${stakeInfo.data_key}`] || stakeInfo?.label)
   }
 
   const updateDataNameStaking = async (name: string) => {
     const data = await Moralis.Cloud.run('getDataBorrowUser', {
-      address: address,
+      address: account,
     })
 
     data[`${stakeInfo.data_key}`] = name
-    data[`address`] = address
+    data[`address`] = account
     await Moralis.Cloud.run('updateDataBorrowUser', {
       ...data,
     })
@@ -162,21 +162,21 @@ export default function StakingInfo({
 
   useEffect(() => {
     handleGetInterestInfo()
-  }, [stakingContract, isConnected, tokenStakeContract, address, isRefresh])
+  }, [stakingContract, active, tokenStakeContract, account, isRefresh])
 
   useEffect(() => {
     handleGetInfoStaked()
-  }, [stakingContract, isConnected, tokenContract, address, isRefresh])
+  }, [stakingContract, active, tokenContract, account, isRefresh])
 
   const handleGetAllowance = async () => {
-    if (!isConnected || !tokenStakeContract) {
+    if (!active || !tokenStakeContract) {
       return setAllowance('0')
     }
     setSubmitLoading(true)
 
     try {
       const allowanceToken = await tokenStakeContract.methods
-        .allowance(address, stakeInfo?.stakeContract?.address)
+        .allowance(account, stakeInfo?.stakeContract?.address)
         .call()
       const decimals = await tokenStakeContract.methods.decimals().call()
       const allowance = ethers.utils
@@ -190,14 +190,14 @@ export default function StakingInfo({
   }
 
   const handleGetTokenAllowance = async () => {
-    if (!isConnected || !tokenContract) {
+    if (!active || !tokenContract) {
       return setAllowance('0')
     }
     setSubmitLoading(true)
 
     try {
       const allowanceToken = await tokenContract.methods
-        .allowance(address, stakeInfo?.stakeContract?.address)
+        .allowance(account, stakeInfo?.stakeContract?.address)
         .call()
       const decimals = await tokenStakeContract.methods.decimals().call()
       const allowance = ethers.utils
@@ -211,7 +211,7 @@ export default function StakingInfo({
   }
 
   const approveToken = async () => {
-    if (!isConnected) {
+    if (!active) {
       return toast.error('You need connect your wallet first')
     }
 
@@ -223,7 +223,7 @@ export default function StakingInfo({
           stakeInfo?.stakeContract?.address,
           '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
         )
-        .send({ from: address })
+        .send({ from: account })
       handleGetAllowance()
     } catch (error) {
       console.log('Staking.DepositModal.approveToken', error)
@@ -232,7 +232,7 @@ export default function StakingInfo({
   }
 
   const handleWithdraw = async () => {
-    if (!isConnected) {
+    if (!active) {
       return toast.error('You need connect your wallet first')
     }
     if (!+amount) {
@@ -247,7 +247,7 @@ export default function StakingInfo({
             stakeInfo?.stakeContract?.address,
             '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
           )
-          .send({ from: address })
+          .send({ from: account })
       }
 
       const allowance = await handleGetAllowance()
@@ -257,7 +257,7 @@ export default function StakingInfo({
             stakeInfo?.stakeContract?.address,
             '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
           )
-          .send({ from: address })
+          .send({ from: account })
       }
 
       const decimals = await tokenContract.methods.decimals().call()
@@ -265,7 +265,7 @@ export default function StakingInfo({
         .parseUnits(amount.toString(), decimals)
         .toString()
 
-      await stakingContract.methods.redeem(tokenAmount).send({ from: address })
+      await stakingContract.methods.redeem(tokenAmount).send({ from: account })
       toast.success('Withdraw successfully')
       handleGetInterestInfo()
       handleGetInfoStaked()
@@ -324,7 +324,7 @@ export default function StakingInfo({
     if (stakeInfo.symbol === 'LP') {
       handleGetLpPrice()
     }
-  }, [tokenContract, lpContract, isConnected])
+  }, [tokenContract, lpContract, active])
 
   const summaryInfor = (item: IStakingInfo) => {
     return (
