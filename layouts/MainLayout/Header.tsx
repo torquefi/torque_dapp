@@ -194,6 +194,7 @@ export const Header = () => {
                       src={activeTabIndex === i ? item.iconLight : item.icon}
                       alt=""
                     />
+                    
                   ) : (
                     <img
                       className="mr-[4px] w-[16px] text-[#000] lg:w-[20px] xl:w-[24px]"
