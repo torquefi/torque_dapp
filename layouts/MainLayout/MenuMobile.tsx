@@ -43,7 +43,7 @@ export const MenuMobile = () => {
 
   return (
     <>
-      <div className="fixed inset-x-0 bottom-0 z-500 h-[76px] border-t-2 border-[#181818] md:hidden">
+      <div className="fixed inset-x-0 bottom-0 z-50 h-[76px] border-t-2 dark:border-[#181818] md:hidden">
         <div ref={menuContainer} className="relative z-10 flex h-full w-full">
           <div
             className="absolute top-[-8px] z-[-1] transition-all duration-300"
@@ -51,7 +51,7 @@ export const MenuMobile = () => {
           >
             <div
               className={
-                'mx-auto aspect-1 w-[56px] rounded-full dark:bg-gradient-to-r from-[#181818] via-[#282828] to-[#181818] p-[2px]' +
+                'mx-auto aspect-1 w-[76px] rounded-full  from-[#181818] via-[#282828] to-[#181818] p-[2px] dark:bg-gradient-to-r' +
                 ` ${
                   router.pathname === '/overview'
                     ? 'via-[#332048]'
@@ -59,20 +59,20 @@ export const MenuMobile = () => {
                 }`
               }
             >
-              <div className="h-full w-full rounded-full bg-[#030303]"></div>
+              <div className="h-full w-full rounded-full bg-[#fff]  dark:bg-[#030303]"></div>
             </div>
           </div>
-          <div className="flex h-full w-full items-center dark:bg-[#030303]">
+          <div className="flex h-full w-full items-center bg-[#030303] bg-opacity-40 dark:bg-[#030303]">
             {menu.map((item, i) => (
               <Link
                 href={item.path}
                 key={i}
                 className={
-                  'flex h-[35px] w-1/5 items-center justify-center font-mona transition-all' +
+                  'font-mona flex h-[35px] w-1/5 items-center justify-center transition-all' +
                   ` ${activeTabIndex === i ? ' origin-bottom scale-[1.4]' : ''}`
                 }
               >
-                <img className="w-[35px]" src={item.icon} alt="" />
+                <img className="z-52 w-[35px]" src={item.icon} alt="" />
               </Link>
             ))}
           </div>
