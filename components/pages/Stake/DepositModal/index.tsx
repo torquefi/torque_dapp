@@ -1,8 +1,6 @@
 import Modal from '@/components/common/Modal'
-import { Dialog } from '@/components/shared/dialog/dialog'
 import useNetwork from '@/lib/hooks/useNetwork'
 import { useState } from 'react'
-import { AiOutlineClose } from 'react-icons/ai'
 import { useMoralis } from 'react-moralis'
 import DepositModal from './Deposit'
 // import Deposit from './Deposit'

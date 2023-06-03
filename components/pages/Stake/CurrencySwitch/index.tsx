@@ -1,7 +1,4 @@
-import { toMetricUnits } from '@/lib/helpers/number'
-import { AppStore } from '@/types/store'
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
 
 interface CurrencySwitchProps {
   tokenSymbol: string

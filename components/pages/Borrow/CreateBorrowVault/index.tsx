@@ -1,12 +1,4 @@
-import NumberFormat from '@/components/common/NumberFormat'
-import CurrencySwitch from '@/components/common/CurrencySwitch'
-import InputCurrencySwitch from '@/components/common/InputCurrencySwitch'
-import Popover from '@/components/common/Popover'
-import SkeletonDefault from '@/components/skeleton'
-import { floorFraction } from '@/lib/helpers/number'
-import Link from 'next/link'
-import { useEffect, useState } from 'react'
-import { toast } from 'sonner'
+import { useState } from 'react'
 import CreateBorrowItem from './createBorrowItem'
 
 export default function CreateBorrowVault() {

@@ -1,5 +1,5 @@
 import { updateAllUsdPrice } from '@/lib/redux/slices/usdPrice'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
 export default function CurrencySwitchInit({ children }: any) {

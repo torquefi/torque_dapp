@@ -1,4 +1,4 @@
-import { HTMLProps, MutableRefObject, ReactNode, useRef } from 'react'
+import { MutableRefObject, useRef } from 'react'
 
 type AccordionProps = ReactProps & {
   isOpen: boolean
@@ -7,7 +7,7 @@ export function Accordion(props: AccordionProps) {
   const ref: MutableRefObject<HTMLDivElement> = useRef()
   return (
     <div
-      className={`relative max-h-0 transition-all overflow-hidden ${
+      className={`relative max-h-0 overflow-hidden transition-all ${
         props.className || ''
       }`}
       ref={ref}

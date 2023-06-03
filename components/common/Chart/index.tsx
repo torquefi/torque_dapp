@@ -1,13 +1,12 @@
-import { useEffect, useState, useRef } from 'react'
+import { format, parseISO } from 'date-fns'
 import {
   Area,
-  XAxis,
-  YAxis,
-  Tooltip,
   AreaChart,
   ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
 } from 'recharts'
-import { format, parseISO } from 'date-fns'
 
 export function Chart(props: any) {
   const { chartData } = props

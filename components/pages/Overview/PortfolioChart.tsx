@@ -1,8 +1,6 @@
-import { Chart } from '@/components/common/Chart'
 import SkeletonDefault from '@/components/skeleton'
 import { AppStore } from '@/types/store'
 import { useEffect, useState } from 'react'
-import { NumericFormat } from 'react-number-format'
 import { useSelector } from 'react-redux'
 
 export default function PortfolioChart() {

@@ -1,17 +1,8 @@
-import {
-  useEffect,
-  useRef,
-  useState,
-  MouseEvent,
-  forwardRef,
-  ForwardRefExoticComponent,
-  RefAttributes,
-  MutableRefObject,
-} from 'react'
-import { CgSpinner } from 'react-icons/cg'
-import { UrlObject } from 'url'
 import Link from 'next/link'
+import { MouseEvent, MutableRefObject, useEffect, useState } from 'react'
+import { CgSpinner } from 'react-icons/cg'
 import { Placement } from 'tippy.js'
+import { UrlObject } from 'url'
 
 export interface ButtonProps extends ReactProps {
   small?: boolean
