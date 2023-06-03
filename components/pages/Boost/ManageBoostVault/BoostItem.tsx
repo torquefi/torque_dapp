@@ -93,7 +93,7 @@ export function BoostItem({ item }: any) {
               : 0,
         })
       toast.success('Withdraw Successful')
-
+      await initContract()
       setBtnLoading('')
     } catch (e) {
       toast.success('Withdraw Failed')
@@ -304,10 +304,13 @@ export function BoostItem({ item }: any) {
             </div>
           </div>
           <button
-            className="font-mona mt-4 w-full rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[16px] uppercase text-white transition-all duration-300 ease-linear hover:bg-gradient-to-t"
+            className={`font-mona mt-4 w-full rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[16px] uppercase text-white transition-all duration-300 ease-linear hover:bg-gradient-to-t
+            ${btnLoading != '' && 'cursor-not-allowed opacity-70'}
+            `}
+            disabled={btnLoading != ''}
             onClick={() => onWithdraw()}
           >
-            Withdraw
+            {btnLoading != '' ? btnLoading : 'Withdraw'}
           </button>
         </div>
       </div>
