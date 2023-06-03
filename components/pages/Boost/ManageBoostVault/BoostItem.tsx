@@ -96,7 +96,7 @@ export function BoostItem({ item }: any) {
       await initContract()
       setBtnLoading('')
     } catch (e) {
-      toast.success('Withdraw Failed')
+      toast.error('Withdraw Failed')
       setBtnLoading('')
       console.log(e)
     }
