@@ -1,9 +1,5 @@
 import NumberFormat from '@/components/common/NumberFormat'
-import { floorFraction, toMetricUnits } from '@/lib/helpers/number'
-import { AppStore } from '@/types/store'
-import axios from 'axios'
-import { useEffect, useMemo, useRef, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useEffect, useState } from 'react'
 
 interface InputCurrencySwitchProps {
   tokenSymbol: string

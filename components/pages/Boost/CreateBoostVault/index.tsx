@@ -1,14 +1,7 @@
-import CurrencySwitch from '@/components/common/CurrencySwitch'
-import InputCurrencySwitch from '@/components/common/InputCurrencySwitch'
 import SkeletonDefault from '@/components/skeleton'
-import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { toast } from 'sonner'
-import Popover from '@/components/common/Popover'
-import { BoostItem } from '../ManageBoostVault/BoostItem'
-import { CreateBoostItem } from './createBoostItem'
 import { useMoralis } from 'react-moralis'
-import axios from 'axios'
+import { CreateBoostItem } from './createBoostItem'
 
 export function CreateBoostVault() {
   const [boostVault, setBoostVault] = useState(BOOST_VAULTS)

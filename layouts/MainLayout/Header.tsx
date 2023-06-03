@@ -5,25 +5,26 @@ import { requestSwitchNetwork } from '@/lib/helpers/network'
 import { shortenAddress } from '@/lib/helpers/utils'
 import { AppStore } from '@/types/store'
 import { useWeb3React } from '@web3-react/core'
-import Moralis from 'moralis-v1'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
 import { FiLogOut } from 'react-icons/fi'
 import { HiOutlineExternalLink } from 'react-icons/hi'
-import { useMoralis } from 'react-moralis'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import ConnectWalletModal from './ConnectWalletModal'
+import Web3 from 'web3'
+import { stakeLpContract, tokenTorqContract } from '@/constants/contracts'
+import { ethers } from 'ethers'
+import NumberFormat from '@/components/common/NumberFormat'
 
 export const Header = () => {
-  const dispatch = useDispatch()
-  const { user, isAuthenticated, logout, authenticate } = useMoralis()
   const { activate, active, account, chainId, deactivate } = useWeb3React()
   const theme = useSelector((store: AppStore) => store.theme.theme)
+
   const [isShowNetworkAlert, setIsShowNetworkAlert] = useState(false)
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
-  const [addressOld, setAddressOld] = useState(account)
   const [activeTabIndex, setActiveTabIndex] = useState(0)
+  const [tokenPrice, setTokenPrice] = useState<any>(0)
 
   const router = useRouter()
 
@@ -53,20 +54,6 @@ export const Header = () => {
     await requestSwitchNetwork(goerliTestnetInfo)
   }
 
-  const changeWalletAddress = async () => {
-    if (account != addressOld) {
-      setAddressOld(account)
-      const { message } = await Moralis.Cloud.run('requestMessage', {
-        address: account,
-        chain: parseInt(chainId as any, 16),
-        networkType: 'evm',
-      })
-      await authenticate({
-        signingMessage: message,
-        throwOnError: true,
-      })
-    }
-  }
   useEffect(() => {
     if (router.isReady) {
       setActiveTabIndex(currentTabIndex)
@@ -74,19 +61,50 @@ export const Header = () => {
     getAccount()
   }, [router])
 
+  const tokenContract = useMemo(() => {
+    const web3 = new Web3(Web3.givenProvider)
+    const contract = new web3.eth.Contract(
+      JSON.parse(tokenTorqContract.abi),
+      tokenTorqContract.address
+    )
+    return contract
+  }, [Web3.givenProvider, tokenTorqContract])
+
+  const lpContract = useMemo(() => {
+    const web3 = new Web3(Web3.givenProvider)
+    const contract = new web3.eth.Contract(
+      JSON.parse(stakeLpContract.abi),
+      stakeLpContract.address
+    )
+    return contract
+  }, [Web3.givenProvider, stakeLpContract])
+
+  useEffect(() => {
+    const handleGetTorqPrice = async () => {
+      try {
+        const decimals = await tokenContract.methods.decimals().call()
+        const amount = ethers.utils.parseUnits('1', decimals).toString()
+        const response = await lpContract.methods
+          .getUSDPrice(tokenTorqContract.address, amount)
+          .call()
+        const tokenPrice = ethers.utils.formatUnits(response, 6).toString()
+        setTokenPrice(tokenPrice)
+        console.log('tokenPrice', tokenPrice)
+      } catch (error) {
+        console.log('handleGetTorqPrice 123:>> ', error)
+      }
+    }
+
+    handleGetTorqPrice()
+  }, [tokenContract, active])
+
+  console.log('tokenPrice :>> ', tokenPrice)
+
   useEffect(() => {
     if (account && chainId != -1) {
       setIsShowNetworkAlert(chainId !== goerliTestnetInfo.chainId)
     }
   }, [chainId])
-
-  // useEffect(() => {
-  //   if (isConnected) changeWalletAddress()
-  // }, [address])
-
-  useEffect(() => {
-    setAddressOld(account)
-  }, [])
 
   return (
     <>
@@ -126,7 +144,14 @@ export const Header = () => {
                 alt=""
               />
               <p className="font-larken ml-[6px] text-[16px] text-[#404040] dark:text-white lg:text-[18px]">
-                $0.00
+                $
+                <NumberFormat
+                  displayType="text"
+                  thousandSeparator
+                  value={tokenPrice}
+                  decimalScale={2}
+                  fixedDecimalScale
+                />
               </p>
             </Link>
             {active ? (
@@ -194,7 +219,6 @@ export const Header = () => {
                       src={activeTabIndex === i ? item.iconLight : item.icon}
                       alt=""
                     />
-                    
                   ) : (
                     <img
                       className="mr-[4px] w-[16px] text-[#000] lg:w-[20px] xl:w-[24px]"

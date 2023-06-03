@@ -1,8 +1,6 @@
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
 import SkeletonDefault from '@/components/skeleton'
-import {
-  stakeLpContract, tokenTorqContract
-} from '@/constants/contracts'
+import { stakeLpContract } from '@/constants/contracts'
 import { useWeb3React } from '@web3-react/core'
 import { ethers } from 'ethers'
 import Link from 'next/link'
@@ -32,15 +30,6 @@ export default function StakingPoolItem({
   const [amount, setAmount] = useState<number>(0)
 
   const isDisabled = !amount || +amount < 0
-
-  const torqContract = useMemo(() => {
-    const web3 = new Web3(Web3.givenProvider)
-    const contract = new web3.eth.Contract(
-      JSON.parse(tokenTorqContract.abi),
-      tokenTorqContract.address
-    )
-    return contract
-  }, [Web3.givenProvider, tokenTorqContract])
 
   const lpContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)

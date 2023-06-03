@@ -1,7 +1,6 @@
 import CurrencySwitch from '@/components/common/CurrencySwitch'
 import SkeletonDefault from '@/components/skeleton'
 import { useEffect, useState } from 'react'
-import { NumericFormat } from 'react-number-format'
 import { toast } from 'sonner'
 
 export default function NetApy() {

@@ -1,6 +1,4 @@
-import { DefaultSeo } from 'next-seo'
 import Head from 'next/head'
-import React from 'react'
 
 export function DefaultHead() {
   return (

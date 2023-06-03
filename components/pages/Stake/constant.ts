@@ -2,9 +2,8 @@ import {
   stakeLpContract,
   stakeTorqContract,
   tokenLpContract,
-  tokenStakingLpContract,
   tokenStakingTorqContract,
-  tokenTorqContract,
+  tokenTorqContract
 } from '@/constants/contracts'
 import { IStakingInfo } from './types'
 

@@ -1,4 +1,4 @@
-import { Children, useEffect } from 'react'
+import { Children } from 'react'
 import { Button, ButtonProps } from '../form/button'
 import { Popover, PopoverProps } from './popover'
 

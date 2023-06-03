@@ -1,10 +1,6 @@
 import Link from 'next/link'
-import { useState } from 'react'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
-import { useRef } from 'react'
-import useScreen from '@/lib/hooks/useScreen'
-import { useMemo } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 export const MenuMobile = () => {
   const [activeTabIndex, setActiveTabIndex] = useState(0)

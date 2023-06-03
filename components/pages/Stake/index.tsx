@@ -195,11 +195,12 @@ export const StakePage = () => {
                 displayType="text"
                 thousandSeparator
                 value={totalDistributed}
-                decimalScale={
-                  +totalDistributed >= 0.00001 && +totalDistributed < 0.01
-                    ? 5
-                    : 2
-                }
+                decimalScale={2}
+                // decimalScale={
+                //   +totalDistributed >= 0.00001 && +totalDistributed < 0.01
+                //     ? 5
+                //     : 2
+                // }
                 fixedDecimalScale
               />
             </div>
