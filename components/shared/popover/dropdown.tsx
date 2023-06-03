@@ -1,12 +1,8 @@
 import { Children, useEffect } from 'react'
 import { Button, ButtonProps } from '../form/button'
 import { Popover, PopoverProps } from './popover'
-import { ImgProps, Img } from '../img'
 
 export interface DropdownProps extends PopoverProps {}
-export interface AvatarProps extends ImgProps {
-  text?: string
-}
 
 export function Dropdown({
   reference,
@@ -38,14 +34,14 @@ export function Dropdown({
     >
       {!!menuItems.length && (
         <div
-          className="flex flex-col my-1.5"
+          className="my-1.5 flex flex-col"
           style={{ marginLeft: '-9px', marginRight: '-9px' }}
         >
           {menuItems.map((item, index) =>
             item.type.displayName === 'Item' ? (
               <Button
                 key={index}
-                className={`rounded-none flex justify-start hover:bg-gray-50  px-6 ${
+                className={`flex justify-start rounded-none px-6  hover:bg-gray-50 ${
                   item.props.disabled ? 'line-through' : ''
                 }`}
                 stopPropagation
@@ -58,21 +54,9 @@ export function Dropdown({
                 }}
               />
             ) : item.type.displayName === 'Avatar' ? (
-              <div key={index} className="flex-col flex items-center ">
+              <div key={index} className="flex flex-col items-center ">
                 {/* {/* <div className="rounded-full p-4 "> */}
-                <div className="rounded-full p-3 bg-primary  bg-opacity-5">
-                  <Img
-                    border
-                    imageClassName="  p-3 bg-primary bg-opacity-20 "
-                    {...{
-                      ...item.props,
-                      onClick: async (e: any) => {
-                        if (item.props.onClick) await item.props.onClick(e)
-                        ;(reference.current as any)?._tippy.hide()
-                      },
-                    }}
-                  />
-                </div>
+                <div className="rounded-full bg-primary bg-opacity-5  p-3"></div>
                 {/* </div>
                     </div> */}
                 <p className="my-2 font-semibold">{item.props.text}</p>
@@ -95,7 +79,3 @@ Dropdown.Item = Item
 const Divider = ({ children }: { children?: any }) => children
 Divider.displayName = 'Divider'
 Dropdown.Divider = Divider
-
-const Avatar = ({ children }: AvatarProps) => children
-Avatar.displayName = 'Avatar'
-Dropdown.Avatar = Avatar
