@@ -95,7 +95,7 @@ export const Header = () => {
       }
     }
 
-    handleGetTorqPrice()
+    // handleGetTorqPrice()
   }, [tokenContract, active])
 
   console.log('tokenPrice :>> ', tokenPrice)
