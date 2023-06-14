@@ -45,7 +45,7 @@ export default function Product() {
                   src={theme === 'light' ? item.coverLight : item.cover}
                   alt=""
                 />
-                <div className="space-y-[18px] p-[24px] xs:p-[36px]">
+                <div className="space-y-[18px] p-[24px] xs:pl-[28px] xs:pt-[32px]">
                   <div className="flex items-center justify-start">
                     <div className="flex h-[65px] w-[65px] items-center justify-center rounded-full border from-[#232323]  to-[#232323]/0 dark:border-[#1A1A1A] dark:bg-gradient-to-b">
                       <img className="w-[30px]" src={item.icon} alt="" />
@@ -54,7 +54,7 @@ export default function Product() {
                       {item.name}
                     </p>
                   </div>
-                  <p className="max-w-[390px] text-[#959595]">
+                  <p className="max-w-[360px] text-[#959595]">
                     {item.description}
                   </p>
                 </div>
@@ -83,6 +83,6 @@ const products = [
     coverLight: '/assets/banners/borrow-light-small.png',
     icon: '/assets/overview-page/borrow.svg',
     description:
-      'Collateralize your portfolio and borrow up to 80% of its value so that you never have to sell your assets.',
+      'Collateralize your portfolio & borrow up to 80% of its value so you never have to sell your assets.',
   },
 ]
