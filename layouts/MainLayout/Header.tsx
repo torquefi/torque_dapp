@@ -1,35 +1,30 @@
 import HoverIndicator from '@/components/common/HoverIndicator'
 import Popover from '@/components/common/Popover'
+import { Injected } from '@/configs/connector'
+import { requestSwitchNetwork } from '@/lib/helpers/network'
 import { shortenAddress } from '@/lib/helpers/utils'
-import { useNetwork } from 'wagmi'
+import { AppStore } from '@/types/store'
+import { useWeb3React } from '@web3-react/core'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { FiLogOut } from 'react-icons/fi'
 import { HiOutlineExternalLink } from 'react-icons/hi'
-import { useMoralis } from 'react-moralis'
+import { useSelector } from 'react-redux'
 import ConnectWalletModal from './ConnectWalletModal'
-import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
-import { useAccount, useConnect, useSignMessage, useDisconnect } from 'wagmi'
-import { useAuthRequestChallengeEvm } from '@moralisweb3/next'
-import { useDispatch, useSelector } from 'react-redux'
-import { switchNetwork } from '@wagmi/core'
-import Moralis from 'moralis-v1'
-import { AppStore } from '@/types/store'
+import Web3 from 'web3'
+import { stakeLpContract, tokenTorqContract } from '@/constants/contracts'
+import { ethers } from 'ethers'
+import NumberFormat from '@/components/common/NumberFormat'
 
 export const Header = () => {
-  const dispatch = useDispatch()
-  const { user, isAuthenticated, logout, enableWeb3, authenticate } =
-    useMoralis()
-  const { connectAsync } = useConnect()
-  const { disconnectAsync } = useDisconnect()
-  const { chain, chains } = useNetwork()
-  const { address, isConnecting, isDisconnected, isConnected } = useAccount()
+  const { activate, active, account, chainId, deactivate } = useWeb3React()
   const theme = useSelector((store: AppStore) => store.theme.theme)
+
   const [isShowNetworkAlert, setIsShowNetworkAlert] = useState(false)
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
-  const [addressOld, setAddressOld] = useState(address)
   const [activeTabIndex, setActiveTabIndex] = useState(0)
+  const [tokenPrice, setTokenPrice] = useState<any>(0)
 
   const router = useRouter()
 
@@ -50,27 +45,15 @@ export const Header = () => {
   )
 
   const getAccount = async () => {
-    if (isConnected) {
-      await connectAsync({
-        connector: new MetaMaskConnector(),
-      })
+    if (active) {
+      await activate(Injected)
     }
   }
 
-  const changeWalletAddress = async () => {
-    if (address != addressOld) {
-      setAddressOld(address)
-      const { message } = await Moralis.Cloud.run('requestMessage', {
-        address: address,
-        chain: parseInt(chain.id as any, 16),
-        networkType: 'evm',
-      })
-      await authenticate({
-        signingMessage: message,
-        throwOnError: true,
-      })
-    }
+  const handleChangeNetwork = async () => {
+    await requestSwitchNetwork(goerliTestnetInfo)
   }
+
   useEffect(() => {
     if (router.isReady) {
       setActiveTabIndex(currentTabIndex)
@@ -78,19 +61,50 @@ export const Header = () => {
     getAccount()
   }, [router])
 
+  const tokenContract = useMemo(() => {
+    const web3 = new Web3(Web3.givenProvider)
+    const contract = new web3.eth.Contract(
+      JSON.parse(tokenTorqContract.abi),
+      tokenTorqContract.address
+    )
+    return contract
+  }, [Web3.givenProvider, tokenTorqContract])
+
+  const lpContract = useMemo(() => {
+    const web3 = new Web3(Web3.givenProvider)
+    const contract = new web3.eth.Contract(
+      JSON.parse(stakeLpContract.abi),
+      stakeLpContract.address
+    )
+    return contract
+  }, [Web3.givenProvider, stakeLpContract])
+
   useEffect(() => {
-    if (isConnected && chain.id != -1) {
-      setIsShowNetworkAlert(chain.id !== goerliTestnetInfo.chainId)
+    const handleGetTorqPrice = async () => {
+      try {
+        const decimals = await tokenContract.methods.decimals().call()
+        const amount = ethers.utils.parseUnits('1', decimals).toString()
+        const response = await lpContract.methods
+          .getUSDPrice(tokenTorqContract.address, amount)
+          .call()
+        const tokenPrice = ethers.utils.formatUnits(response, 6).toString()
+        setTokenPrice(tokenPrice)
+        console.log('tokenPrice', tokenPrice)
+      } catch (error) {
+        console.log('handleGetTorqPrice 123:>> ', error)
+      }
     }
-  }, [chain])
 
-  // useEffect(() => {
-  //   if (isConnected) changeWalletAddress()
-  // }, [address])
+    // handleGetTorqPrice()
+  }, [tokenContract, active])
+
+  console.log('tokenPrice :>> ', tokenPrice)
 
   useEffect(() => {
-    setAddressOld(address)
-  }, [])
+    if (account && chainId != -1) {
+      setIsShowNetworkAlert(chainId !== goerliTestnetInfo.chainId)
+    }
+  }, [chainId])
 
   return (
     <>
@@ -100,7 +114,7 @@ export const Header = () => {
             'flex cursor-pointer items-center justify-center bg-[#FF6969] text-center text-[14px] transition-all' +
             ` ${!isShowNetworkAlert ? 'h-0 overflow-hidden' : 'h-[44px]'}`
           }
-          onClick={() => switchNetwork({ chainId: goerliTestnetInfo?.chainId })}
+          onClick={handleChangeNetwork}
         >
           Torque is not supported on this network. Please switch to Goerli.
         </div>
@@ -130,10 +144,17 @@ export const Header = () => {
                 alt=""
               />
               <p className="font-larken ml-[6px] text-[16px] text-[#404040] dark:text-white lg:text-[18px]">
-                $0.00
+                $
+                <NumberFormat
+                  displayType="text"
+                  thousandSeparator
+                  value={tokenPrice}
+                  decimalScale={2}
+                  fixedDecimalScale
+                />
               </p>
             </Link>
-            {isConnected ? (
+            {active ? (
               <Popover
                 placement="bottom-right"
                 className={`mt-[12px] w-[200px] leading-none`}
@@ -144,7 +165,7 @@ export const Header = () => {
                     indicatorClassName="rounded-[6px]"
                   >
                     <Link
-                      href={`https://goerli.etherscan.io/address/${address}`}
+                      href={`https://goerli.etherscan.io/address/${account}`}
                       className="flex justify-between p-[12px]"
                       target="_blank"
                     >
@@ -152,7 +173,7 @@ export const Header = () => {
                     </Link>
                     <div
                       className="flex cursor-pointer justify-between p-[12px]"
-                      onClick={() => disconnectAsync()}
+                      onClick={() => deactivate()}
                     >
                       Disconnect <FiLogOut />
                     </div>
@@ -160,7 +181,7 @@ export const Header = () => {
                 }
               >
                 <div className="cursor-pointer rounded-full border border-primary px-[18px] py-[6px] text-[14px] uppercase leading-none text-primary transition-all duration-200 ease-in hover:scale-x-[102%] xs:px-[16px] xs:py-[4px] lg:px-[32px] lg:py-[6px] lg:text-[16px]">
-                  {shortenAddress(address)}
+                  {shortenAddress(account)}
                 </div>
               </Popover>
             ) : (

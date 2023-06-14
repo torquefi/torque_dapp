@@ -29,7 +29,7 @@ const Modal = ({
   return (
     <div
       className={
-        ` fixed top-0 left-0 z-500 h-screen w-full overflow-y-auto bg-[#030303] bg-opacity-60 transition-all ` +
+        ` fixed top-0 left-0 z-500 h-screen w-full overflow-y-auto bg-[#030303] bg-opacity-70 transition-all ` +
         `${
           open ? `opacity-1 backdrop-blur-sm` : `pointer-events-none opacity-0 `
         }`

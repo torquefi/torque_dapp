@@ -1,16 +1,8 @@
-import CurrencySwitch from '@/components/common/CurrencySwitch'
-import Popover from '@/components/common/Popover'
 import SkeletonDefault from '@/components/skeleton'
-import NumberFormat from '@/components/common/NumberFormat'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { toast } from 'sonner'
-import classNames from 'classnames'
-import { floorFraction } from '@/lib/helpers/number'
-import InputCurrencySwitch from '@/components/common/InputCurrencySwitch'
-import { Chart } from '@/components/common/Chart'
-import { ManageBoostVault } from './ManageBoostVault'
 import { CreateBoostVault } from './CreateBoostVault'
+import { ManageBoostVault } from './ManageBoostVault'
 
 export const BoostPage = () => {
   const [theme, setTheme] = useState(null)

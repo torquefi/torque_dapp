@@ -1,19 +1,17 @@
-import { Chart } from '@/components/common/Chart'
 import CurrencySwitch from '@/components/common/CurrencySwitch'
 import { getPriceToken } from '@/components/common/InputCurrencySwitch'
+import LoadingCircle from '@/components/common/Loading/LoadingCircle'
 import SkeletonDefault from '@/components/skeleton'
+import { AppStore } from '@/types/store'
+import { useWeb3React } from '@web3-react/core'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { useMoralis } from 'react-moralis'
 import { AutowidthInput } from 'react-autowidth-input'
 import { AiOutlineCheck, AiOutlineEdit } from 'react-icons/ai'
+import { useMoralis } from 'react-moralis'
 import { NumericFormat } from 'react-number-format'
-import { toast } from 'sonner'
-import { useAccount } from 'wagmi'
-import Web3 from 'web3'
-import BigNumber from 'bignumber.js'
 import { useSelector } from 'react-redux'
-import { AppStore } from '@/types/store'
-import LoadingCircle from '@/components/common/Loading/LoadingCircle'
+import { toast } from 'sonner'
+import Web3 from 'web3'
 enum Action {
   Repay = 'Repay',
   Withdraw = 'Withdraw',
@@ -42,7 +40,7 @@ export default function BorrowItem({ item }: any) {
   const [isEdit, setEdit] = useState(false)
   const [borrowRate, setBorrowRate] = useState(1359200263)
   const refLabelInput = useRef<HTMLInputElement>(null)
-  const { address, isConnected } = useAccount()
+  const { account, active } = useWeb3React()
   const { Moralis, enableWeb3, isWeb3Enabled } = useMoralis()
 
   const borrowAPR = useMemo(
@@ -83,8 +81,8 @@ export default function BorrowItem({ item }: any) {
           dataABIBorrow?.address
         )
         if (contract) {
-          let data = await contract.methods.borrowInfoMap(address).call({
-            from: address,
+          let data = await contract.methods.borrowInfoMap(account).call({
+            from: account,
           })
           setDataUserBorrow({
             supplied: Moralis.Units.FromWei(data.supplied, item.decimals_asset),
@@ -105,12 +103,12 @@ export default function BorrowItem({ item }: any) {
         )
         if (contract) {
           let utilization = await contract.methods.getUtilization().call({
-            from: address,
+            from: account,
           })
           let borrowRate = await contract.methods
             .getBorrowRate(utilization)
             .call({
-              from: address,
+              from: account,
             })
           setBorrowRate(borrowRate)
         }
@@ -124,9 +122,9 @@ export default function BorrowItem({ item }: any) {
     try {
       if (contractAsset && contractBorrow) {
         const allowance = await contractAsset.methods
-          .allowance(address, contractBorrow._address)
+          .allowance(account, contractBorrow._address)
           .call({
-            from: address,
+            from: account,
           })
         setAllowance(allowance / 10 ** dataBorrow.decimals_asset || 0)
       }
@@ -144,7 +142,7 @@ export default function BorrowItem({ item }: any) {
           Web3.utils.toWei(Number(inputValue).toFixed(2), 'ether')
         )
         .send({
-          from: address,
+          from: account,
         })
       toast.success('Approve Successful')
       await getAllowance()
@@ -166,7 +164,7 @@ export default function BorrowItem({ item }: any) {
             Web3.utils.toWei(Number(inputValue).toFixed(2), 'ether')
           )
           .send({
-            from: address,
+            from: account,
           })
         toast.success('Approve Successful')
         await getAllowance()
@@ -175,7 +173,7 @@ export default function BorrowItem({ item }: any) {
       await contractBorrow.methods
         .repay(Web3.utils.toWei(Number(inputValue).toFixed(2), 'mwei'))
         .send({
-          from: address,
+          from: account,
         })
       toast.success('Repay Successful')
       initContract()
@@ -189,18 +187,18 @@ export default function BorrowItem({ item }: any) {
 
   const getDataNameBorrow = async () => {
     const data = await Moralis.Cloud.run('getDataBorrowUser', {
-      address: address,
+      address: account,
     })
     setLabel(data[`${item.data_key}`] || item?.label)
   }
 
   const updateDataNameBorrow = async (name: string) => {
     const data = await Moralis.Cloud.run('getDataBorrowUser', {
-      address: address,
+      address: account,
     })
 
     data[`${item.data_key}`] = name
-    data[`address`] = address
+    data[`address`] = account
     console.log(data)
     await Moralis.Cloud.run('updateDataBorrowUser', {
       ...data,
@@ -225,12 +223,12 @@ export default function BorrowItem({ item }: any) {
 
   useEffect(() => {
     getDataNameBorrow()
-  }, [address])
+  }, [account])
 
   useEffect(() => {
     initContract()
     getDataNameBorrow()
-  }, [isWeb3Enabled, address, isConnected, borrowTime])
+  }, [isWeb3Enabled, account, active, borrowTime])
 
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1000)

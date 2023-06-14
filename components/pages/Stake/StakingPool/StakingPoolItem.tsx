@@ -1,19 +1,15 @@
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
 import SkeletonDefault from '@/components/skeleton'
-import {
-  stakeLpContract,
-  stakeTorqContract,
-  tokenTorqContract,
-} from '@/constants/contracts'
-import { BigNumber, ethers } from 'ethers'
+import { stakeLpContract } from '@/constants/contracts'
+import { useWeb3React } from '@web3-react/core'
+import { ethers } from 'ethers'
 import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
 import { toast } from 'sonner'
-import { useAccount } from 'wagmi'
 import Web3 from 'web3'
+import CurrencySwitch from '../CurrencySwitch'
 import InputCurrencySwitch from '../InputCurrencySwitch'
 import { IStakingInfo } from '../types'
-import CurrencySwitch from '../CurrencySwitch'
 
 interface StakingPoolItemProps {
   stakeInfo: IStakingInfo
@@ -24,7 +20,7 @@ export default function StakingPoolItem({
   stakeInfo,
   setIsRefresh,
 }: StakingPoolItemProps) {
-  const { address, isConnected } = useAccount()
+  const { account, active } = useWeb3React()
   const [isLoading, setLoading] = useState(true)
   const [isSubmitLoading, setSubmitLoading] = useState(false)
   const [apr, setApr] = useState<string | number>(0)
@@ -34,15 +30,6 @@ export default function StakingPoolItem({
   const [amount, setAmount] = useState<number>(0)
 
   const isDisabled = !amount || +amount < 0
-
-  const torqContract = useMemo(() => {
-    const web3 = new Web3(Web3.givenProvider)
-    const contract = new web3.eth.Contract(
-      JSON.parse(tokenTorqContract.abi),
-      tokenTorqContract.address
-    )
-    return contract
-  }, [Web3.givenProvider, tokenTorqContract])
 
   const lpContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
@@ -72,7 +59,7 @@ export default function StakingPoolItem({
   }, [Web3.givenProvider, stakeInfo?.symbol])
 
   const stakeToken = async () => {
-    if (!isConnected) {
+    if (!active) {
       return toast.error('You need connect your wallet first')
     }
     if (!+amount) {
@@ -87,7 +74,7 @@ export default function StakingPoolItem({
             stakeInfo?.stakeContract?.address,
             '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
           )
-          .send({ from: address })
+          .send({ from: account })
       }
 
       const decimals = await tokenContract.methods.decimals().call()
@@ -95,7 +82,7 @@ export default function StakingPoolItem({
         .parseUnits(amount.toString(), decimals)
         .toString()
 
-      await stakingContract.methods.deposit(tokenAmount).send({ from: address })
+      await stakingContract.methods.deposit(tokenAmount).send({ from: account })
       toast.success('Deposit successful')
       setIsRefresh((isRefresh) => !isRefresh)
       setAmount(0)
@@ -109,7 +96,7 @@ export default function StakingPoolItem({
   const handleGetAllowance = async () => {
     try {
       const allowanceToken = await tokenContract.methods
-        .allowance(address, stakeInfo?.stakeContract?.address)
+        .allowance(account, stakeInfo?.stakeContract?.address)
         .call()
       const decimals = await tokenContract.methods.decimals().call()
       const allowance = ethers.utils
@@ -125,7 +112,7 @@ export default function StakingPoolItem({
 
   useEffect(() => {
     handleGetAllowance()
-  }, [tokenContract, isConnected])
+  }, [tokenContract, active])
 
   useEffect(() => {
     ;(async () => {
@@ -181,7 +168,7 @@ export default function StakingPoolItem({
     // if (stakeInfo.symbol === 'LP') {
     //   handleGetLpPrice()
     // }
-  }, [tokenContract, isConnected])
+  }, [tokenContract, active])
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 1000)

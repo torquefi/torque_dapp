@@ -1,4 +1,3 @@
-import CurrencySwitch from '@/components/common/CurrencySwitch'
 import SkeletonDefault from '@/components/skeleton'
 import { useEffect, useState } from 'react'
 import { BoostItem } from './BoostItem'

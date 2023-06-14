@@ -3,6 +3,7 @@ import { AppStore } from '@/types/store'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+
 export default function Product() {
   const [isLoading, setIsLoading] = useState(true)
   useEffect(() => {

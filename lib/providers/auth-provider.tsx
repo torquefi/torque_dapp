@@ -8,7 +8,6 @@ import {
   setTokenUser,
   clearTokenAdmin,
 } from '../api/header'
-import { useAlert } from './alert-dialog'
 
 interface User {
   id: string
@@ -27,7 +26,7 @@ export const AuthContext = createContext<{
 export function AuthProvider({ children }: { children: any }) {
   const PRE_LOGIN_PATHNAME = 'PRE_LOGIN_PATHNAME'
   const router = useRouter()
-  const alert = useAlert()
+
   const [admin, setAdmin] = useState<User>(undefined)
   const adminGetMe = async () => {
     await callAPI({
@@ -66,7 +65,6 @@ export function AuthProvider({ children }: { children: any }) {
         adminGetMe().then(() => redirectToAdminPage())
       })
       .catch((err) => {
-        alert.error('Login failed')
         setAdmin(null)
       })
   }
