@@ -75,7 +75,7 @@ const products = [
     coverLight: '/assets/banners/boost-light-small.png',
     icon: '/assets/overview-page/boost.svg',
     description:
-      'A savings product that provides compound yield to users and bolsters liquidity of leading bridges.',
+      'A savings product that provides compound yield to users & bolsters liquidity of the ecosystem.',
   },
   {
     name: 'Borrow',
