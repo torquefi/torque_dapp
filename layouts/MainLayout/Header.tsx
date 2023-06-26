@@ -89,7 +89,6 @@ export const Header = () => {
           .call()
         const tokenPrice = ethers.utils.formatUnits(response, 6).toString()
         setTokenPrice(tokenPrice)
-        console.log('tokenPrice', tokenPrice)
       } catch (error) {
         console.log('handleGetTorqPrice 123:>> ', error)
       }
@@ -97,8 +96,6 @@ export const Header = () => {
 
     // handleGetTorqPrice()
   }, [tokenContract, active])
-
-  console.log('tokenPrice :>> ', tokenPrice)
 
   useEffect(() => {
     if (account && chainId != -1) {

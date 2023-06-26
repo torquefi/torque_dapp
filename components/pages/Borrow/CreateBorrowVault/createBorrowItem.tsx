@@ -1,5 +1,5 @@
 import InputCurrencySwitch, {
-  getPriceToken
+  getPriceToken,
 } from '@/components/common/InputCurrencySwitch'
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
 import Popover from '@/components/common/Popover'
@@ -210,7 +210,7 @@ export default function CreateBorrowItem({ item }: any) {
     () => dataBorrow.amount < allowance,
     [allowance, dataBorrow]
   )
-  console.log(dataBorrow.amountRecieve)
+
   return (
     <div
       className="dark:tex-white space-y-4 rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-[16px] py-[24px] text-[#404040] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white xl:px-[32px]"
