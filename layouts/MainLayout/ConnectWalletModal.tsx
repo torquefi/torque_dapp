@@ -1,8 +1,10 @@
 import HoverIndicator from '@/components/common/HoverIndicator'
 import Modal from '@/components/common/Modal'
 import { Injected, WalletConnect } from '@/configs/connector'
+import { AppStore } from '@/types/store'
 import { useWeb3React } from '@web3-react/core'
 import { useMoralis } from 'react-moralis'
+import { useSelector } from 'react-redux'
 
 interface ConnectWalletModalProps {
   open: boolean
@@ -15,7 +17,7 @@ export default function ConnectWalletModal({
 }: ConnectWalletModalProps) {
   const { authenticate } = useMoralis()
   const { activate } = useWeb3React()
-
+  const theme = useSelector((store: AppStore) => store.theme.theme)
   const onConnectMetamaskWallet = async () => {
     try {
       // await enableWeb3({ provider: 'metamask' })
@@ -93,6 +95,20 @@ export default function ConnectWalletModal({
               <p className="text-[12px] text-[#959595] xs:text-[14px] sm:text-[16px]">
                 {item.message}
               </p>
+              {i == 0 && (
+                <div
+                  className={
+                    ` absolute bottom-0 left-0 h-[1px] w-full` +
+                    `
+              ${
+                theme === 'light'
+                  ? 'bg-gradient-divider-light'
+                  : 'bg-gradient-divider'
+              }
+               `
+                  }
+                />
+              )}
             </div>
           ))}
         </HoverIndicator>
