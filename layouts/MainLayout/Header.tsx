@@ -10,18 +10,21 @@ import { useRouter } from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
 import { FiLogOut } from 'react-icons/fi'
 import { HiOutlineExternalLink } from 'react-icons/hi'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import ConnectWalletModal from './ConnectWalletModal'
 import Web3 from 'web3'
 import { stakeLpContract, tokenTorqContract } from '@/constants/contracts'
 import { ethers } from 'ethers'
 import NumberFormat from '@/components/common/NumberFormat'
+import { updateAddress } from '@/lib/redux/auth/auth'
 
 export const Header = () => {
   const { activate, active, account, chainId, deactivate } = useWeb3React()
   const theme = useSelector((store: AppStore) => store.theme.theme)
+  const address = useSelector((store: AppStore) => store.auth.address)
 
-  console.log('account :>> ', account)
+  console.log('address :>> ', address)
+  const dispatch = useDispatch()
 
   const [isShowNetworkAlert, setIsShowNetworkAlert] = useState(false)
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
@@ -57,6 +60,8 @@ export const Header = () => {
     [router.pathname]
   )
 
+  useEffect(() => {}, [account, active])
+
   const getAccount = async () => {
     if (active) {
       await activate(Injected)
@@ -66,6 +71,18 @@ export const Header = () => {
   const handleChangeNetwork = async () => {
     await requestSwitchNetwork(goerliTestnetInfo)
   }
+
+  useEffect(() => {
+    if (account && active) {
+      dispatch(updateAddress(account as any))
+    }
+  }, [account, active])
+
+  useEffect(() => {
+    if (address && !active) {
+      activate(Injected)
+    }
+  }, [active, address])
 
   useEffect(() => {
     if (router.isReady) {

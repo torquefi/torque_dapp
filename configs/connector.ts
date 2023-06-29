@@ -8,5 +8,6 @@ export const WalletConnect = new WalletConnectConnector({
 })
 
 export const Injected = new InjectedConnector({
-  supportedChainIds: [1, 3, 4, 5, 42, 421613],
+  // supportedChainIds: [1, 3, 4, 5, 42, 421613],
+  supportedChainIds: [421613],
 })
