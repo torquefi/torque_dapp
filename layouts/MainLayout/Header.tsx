@@ -193,7 +193,7 @@ export const Header = () => {
               </div>
             )}
           </div>
-          <div className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 md:block">
+          <div className="absolute hidden -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 md:block">
             <HoverIndicator
               activeIndex={activeTabIndex}
               className="w-[320px] lg:w-[400px] xl:w-[480px]"
@@ -259,8 +259,8 @@ export const Header = () => {
 
 const menu = [
   {
-    label: 'Overview',
-    path: '/overview',
+    label: 'Home',
+    path: '/home',
     icon: '/assets/main-layout/distributed.svg',
     iconActive: '/assets/main-layout/distributed-active.svg',
     iconLight: '/assets/main-layout/distributed.png',
