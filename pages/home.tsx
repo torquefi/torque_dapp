@@ -1,8 +1,8 @@
-import { OverviewPage } from '@/components/pages/Overview'
+import { HomePage } from '@/components/pages/Home'
 import { MainLayout } from '@/layouts/MainLayout'
 
 export default function Page() {
-  return <OverviewPage />
+  return <HomePage />
 }
 
 Page.getLayout = (page: any) => <MainLayout>{page}</MainLayout>
