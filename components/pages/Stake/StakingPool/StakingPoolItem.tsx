@@ -135,7 +135,6 @@ export default function StakingPoolItem({
           .call()
         const tokenPrice = ethers.utils.formatUnits(response, 6).toString()
         setTokenPrice(tokenPrice)
-        console.log('tokenPrice', tokenPrice)
       } catch (error) {
         console.log('handleGetTorqPrice 123:>> ', error)
       }
@@ -181,8 +180,6 @@ export default function StakingPoolItem({
       </div>
     )
   }
-
-  console.log('tokenPrice :>> ', tokenPrice)
 
   return (
     <div className="rounded-[12px] border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-8 py-6 text-[#404040] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white">

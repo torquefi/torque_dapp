@@ -21,6 +21,8 @@ export const Header = () => {
   const { activate, active, account, chainId, deactivate } = useWeb3React()
   const theme = useSelector((store: AppStore) => store.theme.theme)
 
+  console.log('account :>> ', account)
+
   const [isShowNetworkAlert, setIsShowNetworkAlert] = useState(false)
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
   const [activeTabIndex, setActiveTabIndex] = useState(0)
@@ -28,15 +30,26 @@ export const Header = () => {
 
   const router = useRouter()
 
+  // const goerliTestnetInfo = {
+  //   name: 'Goerli',
+  //   symbol: 'ETH',
+  //   chainId: 5,
+  //   chainName: 'eth',
+  //   coinName: 'ETH',
+  //   coinSymbol: 'ETH',
+  //   rpcUrls: ['https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161'],
+  //   blockchainExplorer: 'https://goerli.etherscan.io',
+  // }
+
   const goerliTestnetInfo = {
-    name: 'Goerli',
+    name: 'Arbitrum',
     symbol: 'ETH',
-    chainId: 5,
+    chainId: 421613,
     chainName: 'eth',
     coinName: 'ETH',
     coinSymbol: 'ETH',
-    rpcUrls: ['https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161'],
-    blockchainExplorer: 'https://goerli.etherscan.io',
+    rpcUrls: ['https://goerli-rollup.arbitrum.io/rpc'],
+    blockchainExplorer: 'https://goerli.arbiscan.io/',
   }
 
   const currentTabIndex = useMemo(
@@ -89,7 +102,6 @@ export const Header = () => {
           .call()
         const tokenPrice = ethers.utils.formatUnits(response, 6).toString()
         setTokenPrice(tokenPrice)
-        console.log('tokenPrice', tokenPrice)
       } catch (error) {
         console.log('handleGetTorqPrice 123:>> ', error)
       }
@@ -97,8 +109,6 @@ export const Header = () => {
 
     // handleGetTorqPrice()
   }, [tokenContract, active])
-
-  console.log('tokenPrice :>> ', tokenPrice)
 
   useEffect(() => {
     if (account && chainId != -1) {

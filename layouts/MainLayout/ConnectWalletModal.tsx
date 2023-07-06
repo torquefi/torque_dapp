@@ -15,7 +15,7 @@ export default function ConnectWalletModal({
   open,
   handleClose,
 }: ConnectWalletModalProps) {
-  const { authenticate } = useMoralis()
+  // const { authenticate } = useMoralis()
   const { activate } = useWeb3React()
   const theme = useSelector((store: AppStore) => store.theme.theme)
   const onConnectMetamaskWallet = async () => {
@@ -30,10 +30,10 @@ export default function ConnectWalletModal({
       // })
       try {
         await activate(Injected)
-        await authenticate({
-          signingMessage: 'Welcome to Torque',
-          throwOnError: true,
-        })
+        // await authenticate({
+        //   signingMessage: 'Welcome to Torque',
+        //   throwOnError: true,
+        // })
       } catch (e) {
         console.log(e)
       }

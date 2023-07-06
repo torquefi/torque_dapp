@@ -11,7 +11,7 @@ export default function Footer() {
     const status = theme === 'dark' ? true : false
     setIsChecked(status)
   }, [theme])
-  console.log(theme, isChecked)
+
   const handleDarkMode = (e: any) => {
     setIsChecked(e.target.checked)
     if (typeof window != 'undefined') {
