@@ -23,7 +23,6 @@ export const Header = () => {
   const theme = useSelector((store: AppStore) => store.theme.theme)
   const address = useSelector((store: AppStore) => store.auth.address)
 
-  console.log('address :>> ', address)
   const dispatch = useDispatch()
 
   const [isShowNetworkAlert, setIsShowNetworkAlert] = useState(false)
@@ -133,6 +132,11 @@ export const Header = () => {
     }
   }, [chainId])
 
+  const handleDisconnect = () => {
+    dispatch(updateAddress('' as any))
+    deactivate()
+  }
+
   return (
     <>
       <header className="fixed inset-x-0 top-0 z-[100] bg-[#FCFAFF] dark:bg-[#030303] ">
@@ -200,7 +204,7 @@ export const Header = () => {
                     </Link>
                     <div
                       className="flex cursor-pointer justify-between p-[12px]"
-                      onClick={() => deactivate()}
+                      onClick={handleDisconnect}
                     >
                       Disconnect <FiLogOut />
                     </div>
