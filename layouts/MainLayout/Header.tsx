@@ -122,8 +122,6 @@ export const Header = () => {
         console.log('handleGetTorqPrice 123:>> ', error)
       }
     }
-
-    // handleGetTorqPrice()
   }, [tokenContract, active])
 
   useEffect(() => {
@@ -147,7 +145,7 @@ export const Header = () => {
           }
           onClick={handleChangeNetwork}
         >
-          Torque is not supported on this network. Please switch to Goerli.
+          Torque is not supported on this network. Please switch to Arbitrum.
         </div>
         <div className="relative flex h-[72px] items-center justify-between px-4 sm:px-8">
           <Link href="/" className="flex items-center">
