@@ -50,7 +50,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       serverUrl: serverUrl,
       appId: appId, // server testnet
     })
-    Moralis.enableWeb3()
+    // Moralis.enableWeb3()
   }, [])
 
   return (
