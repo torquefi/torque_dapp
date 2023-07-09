@@ -10,16 +10,20 @@ import { useRouter } from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
 import { FiLogOut } from 'react-icons/fi'
 import { HiOutlineExternalLink } from 'react-icons/hi'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import ConnectWalletModal from './ConnectWalletModal'
 import Web3 from 'web3'
 import { stakeLpContract, tokenTorqContract } from '@/constants/contracts'
 import { ethers } from 'ethers'
 import NumberFormat from '@/components/common/NumberFormat'
+import { updateAddress } from '@/lib/redux/auth/auth'
 
 export const Header = () => {
   const { activate, active, account, chainId, deactivate } = useWeb3React()
   const theme = useSelector((store: AppStore) => store.theme.theme)
+  const address = useSelector((store: AppStore) => store.auth.address)
+
+  const dispatch = useDispatch()
 
   const [isShowNetworkAlert, setIsShowNetworkAlert] = useState(false)
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
@@ -28,21 +32,34 @@ export const Header = () => {
 
   const router = useRouter()
 
+  // const goerliTestnetInfo = {
+  //   name: 'Goerli',
+  //   symbol: 'ETH',
+  //   chainId: 5,
+  //   chainName: 'eth',
+  //   coinName: 'ETH',
+  //   coinSymbol: 'ETH',
+  //   rpcUrls: ['https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161'],
+  //   blockchainExplorer: 'https://goerli.etherscan.io',
+  // }
+
   const goerliTestnetInfo = {
-    name: 'Goerli',
+    name: 'Arbitrum',
     symbol: 'ETH',
-    chainId: 5,
+    chainId: 421613,
     chainName: 'eth',
     coinName: 'ETH',
     coinSymbol: 'ETH',
-    rpcUrls: ['https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161'],
-    blockchainExplorer: 'https://goerli.etherscan.io',
+    rpcUrls: ['https://goerli-rollup.arbitrum.io/rpc'],
+    blockchainExplorer: 'https://goerli.arbiscan.io/',
   }
 
   const currentTabIndex = useMemo(
     () => menu.map((item) => item.path).indexOf(router.pathname),
     [router.pathname]
   )
+
+  useEffect(() => {}, [account, active])
 
   const getAccount = async () => {
     if (active) {
@@ -53,6 +70,18 @@ export const Header = () => {
   const handleChangeNetwork = async () => {
     await requestSwitchNetwork(goerliTestnetInfo)
   }
+
+  useEffect(() => {
+    if (account && active) {
+      dispatch(updateAddress(account as any))
+    }
+  }, [account, active])
+
+  useEffect(() => {
+    if (address && !active) {
+      activate(Injected)
+    }
+  }, [active, address])
 
   useEffect(() => {
     if (router.isReady) {
@@ -89,22 +118,22 @@ export const Header = () => {
           .call()
         const tokenPrice = ethers.utils.formatUnits(response, 6).toString()
         setTokenPrice(tokenPrice)
-        console.log('tokenPrice', tokenPrice)
       } catch (error) {
         console.log('handleGetTorqPrice 123:>> ', error)
       }
     }
-
-    // handleGetTorqPrice()
   }, [tokenContract, active])
-
-  console.log('tokenPrice :>> ', tokenPrice)
 
   useEffect(() => {
     if (account && chainId != -1) {
       setIsShowNetworkAlert(chainId !== goerliTestnetInfo.chainId)
     }
   }, [chainId])
+
+  const handleDisconnect = () => {
+    dispatch(updateAddress('' as any))
+    deactivate()
+  }
 
   return (
     <>
@@ -116,7 +145,7 @@ export const Header = () => {
           }
           onClick={handleChangeNetwork}
         >
-          Torque is not supported on this network. Please switch to Goerli.
+          Torque is not supported on this network. Please switch to Arbitrum.
         </div>
         <div className="relative flex h-[72px] items-center justify-between px-4 sm:px-8">
           <Link href="/" className="flex items-center">
@@ -173,7 +202,7 @@ export const Header = () => {
                     </Link>
                     <div
                       className="flex cursor-pointer justify-between p-[12px]"
-                      onClick={() => deactivate()}
+                      onClick={handleDisconnect}
                     >
                       Disconnect <FiLogOut />
                     </div>
@@ -193,7 +222,7 @@ export const Header = () => {
               </div>
             )}
           </div>
-          <div className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 md:block">
+          <div className="absolute hidden -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 md:block">
             <HoverIndicator
               activeIndex={activeTabIndex}
               className="w-[320px] lg:w-[400px] xl:w-[480px]"
@@ -259,8 +288,8 @@ export const Header = () => {
 
 const menu = [
   {
-    label: 'Overview',
-    path: '/overview',
+    label: 'Home',
+    path: '/home',
     icon: '/assets/main-layout/distributed.svg',
     iconActive: '/assets/main-layout/distributed-active.svg',
     iconLight: '/assets/main-layout/distributed.png',

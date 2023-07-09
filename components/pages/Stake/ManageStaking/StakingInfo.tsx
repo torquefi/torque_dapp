@@ -42,8 +42,6 @@ export default function StakingInfo({
   const [isEdit, setEdit] = useState(false)
   const refLabelInput = useRef<HTMLInputElement>(null)
 
-  const isApproved = +allowance
-
   const torqContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
     const contract = new web3.eth.Contract(
