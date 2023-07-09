@@ -43,14 +43,14 @@ export default function InputCurrencySwitch({
   const [price, setPrice] = useState<any>({
     eth: 1800,
     btc: 28000,
-    usdc: 1,
+    usg: 1,
   })
 
   const getPrice = async () => {
     let price: any = {
       eth: (await getPriceToken('ETH')) || 1800,
       btc: (await getPriceToken('BTC')) || 28000,
-      usdc: (await getPriceToken('USDC')) || 1,
+      usg: (await getPriceToken('USDC')) || 1,
     }
     setPrice(price)
     setTokenPrice(

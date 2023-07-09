@@ -50,7 +50,7 @@ const DATA_BOOST_VAULT = [
     decimals_asset: 18,
   },
   {
-    token: 'USDC',
+    token: 'USG',
     label: 'Vault #2',
     deposited: 158130,
     earnings: 142271,
@@ -59,7 +59,7 @@ const DATA_BOOST_VAULT = [
     amount: 0,
     data_key: 'name_boost_vault_2',
     boost_contract: 'boost_abi',
-    name_ABI_asset: 'usdct_abi',
+    name_ABI_asset: 'USGt_abi',
     decimals_asset: 9,
   },
 ]

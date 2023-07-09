@@ -1,5 +1,5 @@
 import InputCurrencySwitch, {
-  getPriceToken
+  getPriceToken,
 } from '@/components/common/InputCurrencySwitch'
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
 import Popover from '@/components/common/Popover'
@@ -24,7 +24,7 @@ export default function CreateBorrowItem({ item }: any) {
   const [price, setPrice] = useState<any>({
     eth: 1800,
     btc: 28000,
-    usdc: 1,
+    USG: 1,
   })
   const { account, active } = useWeb3React()
   const { Moralis, enableWeb3, isWeb3Enabled } = useMoralis()
@@ -39,7 +39,7 @@ export default function CreateBorrowItem({ item }: any) {
     setPrice({
       eth: (await getPriceToken('ETH')) || 1800,
       btc: (await getPriceToken('BTC')) || 28000,
-      usdc: (await getPriceToken('USDC')) || 1,
+      USG: (await getPriceToken('USG')) || 1,
     })
   }
 
@@ -136,7 +136,7 @@ export default function CreateBorrowItem({ item }: any) {
         return
       }
       if (dataBorrow.amountRecieve < 100) {
-        toast.error('Can not borrow less than 100 USDC')
+        toast.error('Can not borrow less than 100 USG')
         return
       }
       setButtonLoading('APPROVING...')
@@ -162,7 +162,7 @@ export default function CreateBorrowItem({ item }: any) {
             ),
             Moralis.Units.Token(
               Number(dataBorrow.amountRecieve).toFixed(2),
-              item.decimals_USDC
+              item.decimals_USG
             )
           )
           .send({
@@ -173,7 +173,7 @@ export default function CreateBorrowItem({ item }: any) {
           .borrow(
             Moralis.Units.Token(
               Number(dataBorrow.amountRecieve).toFixed(2),
-              item.decimals_USDC
+              item.decimals_USG
             )
           )
           .send({
@@ -263,7 +263,7 @@ export default function CreateBorrowItem({ item }: any) {
         </div>
         <div className="font-larken flex h-[100px] flex-col items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
           <InputCurrencySwitch
-            tokenSymbol={'USDC'}
+            tokenSymbol={'USG'}
             tokenValue={Number(dataBorrow.amountRecieve)}
             tokenValueChange={Number(
               Math.round(
@@ -286,14 +286,10 @@ export default function CreateBorrowItem({ item }: any) {
           />
         </div>
       </div>
-      <div className="flex justify-between text-[#959595]">
+      <div className="flex items-center justify-between text-[#959595]">
         <p>Loan provider</p>
-        <Link href="https://compound.finance/" className="" target={'_blank'}>
-          <img
-            className="my-[-6px] w-[32px]"
-            src="/icons/coin/comp.png"
-            alt=""
-          />
+        <Link href="https://usg.money" className="" target={'_blank'}>
+          <img className="" src="/icons/coin/aave-usg.svg" alt="" />
         </Link>
       </div>
       <div className="flex justify-between text-[#959595]">
