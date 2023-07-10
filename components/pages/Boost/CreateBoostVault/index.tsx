@@ -72,7 +72,7 @@ const BOOST_VAULTS = [
     name_ABI_asset: 'weth_abi',
     decimals_asset: 18,
     yield_provider: '/icons/coin/uni-torq.svg',
-    link_yield: '#',
+    link_yield: 'https://uniswap.org/',
   },
   {
     token: 'USG',
@@ -86,6 +86,6 @@ const BOOST_VAULTS = [
     name_ABI_asset: 'USGt_abi',
     decimals_asset: 9,
     yield_provider: '/icons/coin/uni-usg.svg',
-    link_yield: '#',
+    link_yield: 'https://uniswap.org/',
   },
 ]
