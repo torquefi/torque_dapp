@@ -33,6 +33,8 @@ const fakeBorrow = [
     decimals_asset: 8,
     name_ABI_borrow: 'borrow_wbtc_abi',
     decimals_USG: 6,
+    loan_provider: '/icons/coin/torq.svg',
+    link_loan: '',
   },
   {
     coinIcon: '/icons/coin/eth.png',
@@ -47,5 +49,7 @@ const fakeBorrow = [
     decimals_asset: 18,
     name_ABI_borrow: 'borrow_eth_abi',
     decimals_USG: 6,
+    loan_provider: '/icons/coin/torq.svg',
+    link_loan: '',
   },
 ]

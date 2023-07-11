@@ -193,9 +193,18 @@ export function CreateBoostItem({ item }: any) {
       </div>
       <div className="font-mona flex w-full items-center justify-between py-2 text-[16px] text-[#959595]">
         <div className="font-mona">Yield provider</div>
-        <Link href={item.link_yield} className="" target={'_blank'}>
-          <img src={item.yield_provider} alt="Stargate" className="" />
-        </Link>
+        <div className="flex items-center">
+          <Link
+            href={'https://uniswap.org/'}
+            className="translate-x-10"
+            target={'_blank'}
+          >
+            <img src={'/icons/coin/uni.svg'} alt="Stargate" className="" />
+          </Link>
+          <Link href={item.link_yield} className="" target={'_blank'}>
+            <img src={item.yield_provider} alt="Stargate" className="" />
+          </Link>
+        </div>
       </div>
       <div className="font-mona flex w-full items-center justify-between text-[16px] text-[#959595]">
         <div className="font-mona">Variable APY</div>

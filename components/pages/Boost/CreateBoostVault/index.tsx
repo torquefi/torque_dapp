@@ -71,8 +71,8 @@ const BOOST_VAULTS = [
     boost_contract: 'boost_abi',
     name_ABI_asset: 'weth_abi',
     decimals_asset: 18,
-    yield_provider: '/icons/coin/uni-torq.svg',
-    link_yield: 'https://uniswap.org/',
+    yield_provider: '/icons/coin/torq.svg',
+    link_yield: '#',
   },
   {
     token: 'USG',
@@ -83,9 +83,9 @@ const BOOST_VAULTS = [
     rate: 1.14082698313,
     amount: 0,
     boost_contract: 'boost_abi',
-    name_ABI_asset: 'USGt_abi',
+    name_ABI_asset: 'usg_abi',
     decimals_asset: 9,
-    yield_provider: '/icons/coin/uni-usg.svg',
-    link_yield: 'https://uniswap.org/',
+    yield_provider: '/icons/coin/usg.svg',
+    link_yield: 'https://usg.money',
   },
 ]
