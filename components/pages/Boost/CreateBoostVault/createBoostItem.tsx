@@ -196,7 +196,7 @@ export function CreateBoostItem({ item }: any) {
         <div className="flex items-center">
           <Link
             href={'https://uniswap.org/'}
-            className="translate-x-10"
+            className="translate-x-7"
             target={'_blank'}
           >
             <img src={'/icons/coin/uni.svg'} alt="Stargate" className="" />

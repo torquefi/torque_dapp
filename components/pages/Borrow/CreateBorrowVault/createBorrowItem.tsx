@@ -291,10 +291,14 @@ export default function CreateBorrowItem({ item }: any) {
         <div className="flex items-center">
           <Link
             href={'https://compound.finance/'}
-            className="translate-x-10"
+            className="-translate-y-[2px] translate-x-7"
             target={'_blank'}
           >
-            <img src={'/icons/coin/aave.svg'} alt="Stargate" className="" />
+            <img
+              src={'/icons/coin/aave.svg'}
+              alt="Stargate"
+              className=" h-[32px] w-[32px] rounded-full"
+            />
           </Link>
           <Link href={'https://www.usg.money/'} className="" target={'_blank'}>
             <img src={'/icons/coin/usg.svg'} alt="Stargate" className="" />
