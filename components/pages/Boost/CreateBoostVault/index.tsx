@@ -72,7 +72,7 @@ const BOOST_VAULTS = [
     name_ABI_asset: 'weth_abi',
     decimals_asset: 18,
     yield_provider: '/icons/coin/torq.svg',
-    link_yield: '#',
+    link_yield: 'https://www.torque.fi/',
   },
   {
     token: 'USG',
