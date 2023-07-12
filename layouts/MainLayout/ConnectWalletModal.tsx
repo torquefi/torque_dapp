@@ -86,7 +86,7 @@ export default function ConnectWalletModal({
         >
           {connectors.map((item, i) => (
             <div
-              className="flex h-[200px] cursor-pointer flex-col items-center justify-center space-y-2 text-center text-[#404040] dark:text-white"
+              className="flex h-[200px] cursor-pointer  flex-col items-center justify-center space-y-2 text-center text-[#404040] dark:text-white"
               key={i}
               onClick={item.action}
             >
