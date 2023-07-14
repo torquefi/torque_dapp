@@ -10,6 +10,8 @@ import Web3 from 'web3'
 import CurrencySwitch from '../CurrencySwitch'
 import InputCurrencySwitch from '../InputCurrencySwitch'
 import { IStakingInfo } from '../types'
+import { useSelector } from 'react-redux'
+import { AppStore } from '@/types/store'
 
 interface StakingPoolItemProps {
   stakeInfo: IStakingInfo
@@ -20,12 +22,13 @@ export default function StakingPoolItem({
   stakeInfo,
   setIsRefresh,
 }: StakingPoolItemProps) {
-  const { account, active } = useWeb3React()
+  const { active } = useWeb3React()
   const [isLoading, setLoading] = useState(true)
   const [isSubmitLoading, setSubmitLoading] = useState(false)
   const [apr, setApr] = useState<string | number>(0)
   const [isShowUsd, setShowUsd] = useState(true)
   const [tokenPrice, setTokenPrice] = useState<any>(0)
+  const address = useSelector((store: AppStore) => store.auth.address)
 
   const [amount, setAmount] = useState<number>(0)
 
@@ -65,7 +68,9 @@ export default function StakingPoolItem({
     if (!+amount) {
       return toast.error('You must input amount to deposit')
     }
+
     setSubmitLoading(true)
+
     try {
       const allowance = await handleGetAllowance()
       if (+allowance < +amount) {
@@ -74,7 +79,7 @@ export default function StakingPoolItem({
             stakeInfo?.stakeContract?.address,
             '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
           )
-          .send({ from: account })
+          .send({ from: address })
       }
 
       const decimals = await tokenContract.methods.decimals().call()
@@ -82,7 +87,10 @@ export default function StakingPoolItem({
         .parseUnits(amount.toString(), decimals)
         .toString()
 
-      await stakingContract.methods.deposit(tokenAmount).send({ from: account })
+      console.log('tokenAmount :>> ', tokenAmount)
+      console.log('address :>> ', address)
+
+      await stakingContract.methods.deposit(tokenAmount).send({ from: address })
       toast.success('Deposit successful')
       setIsRefresh((isRefresh) => !isRefresh)
       setAmount(0)
@@ -96,7 +104,7 @@ export default function StakingPoolItem({
   const handleGetAllowance = async () => {
     try {
       const allowanceToken = await tokenContract.methods
-        .allowance(account, stakeInfo?.stakeContract?.address)
+        .allowance(address, stakeInfo?.stakeContract?.address)
         .call()
       const decimals = await tokenContract.methods.decimals().call()
       const allowance = ethers.utils
@@ -133,7 +141,7 @@ export default function StakingPoolItem({
         const response = await lpContract.methods
           .getUSDPrice(stakeInfo.tokenContract.address, amount)
           .call()
-        const tokenPrice = ethers.utils.formatUnits(response, 6).toString()
+        const tokenPrice = ethers.utils.formatUnits(response, 18).toString()
         setTokenPrice(tokenPrice)
       } catch (error) {
         console.log('handleGetTorqPrice 123:>> ', error)
@@ -180,6 +188,8 @@ export default function StakingPoolItem({
       </div>
     )
   }
+
+  console.log('tokenPrice :>> ', tokenPrice)
 
   return (
     <div className="rounded-[12px] border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-8 py-6 text-[#404040] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white">

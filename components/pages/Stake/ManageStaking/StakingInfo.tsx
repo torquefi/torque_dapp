@@ -23,7 +23,9 @@ export default function StakingInfo({
   stakeInfo,
   isRefresh,
 }: StakingInfoProps) {
-  const { account, active } = useWeb3React()
+  const { active } = useWeb3React()
+  const address = useSelector((store: AppStore) => store.auth.address)
+
   const { Moralis } = useMoralis()
 
   const theme = useSelector((store: AppStore) => store.theme.theme)
@@ -89,12 +91,12 @@ export default function StakingInfo({
 
   const handleGetInfoStaked = async () => {
     try {
-      if (!active || !tokenContract || !account) {
+      if (!active || !tokenContract || !address) {
         return setTotalStake(0)
       }
       const decimals = await tokenContract.methods.decimals().call()
 
-      const response = await stakingContract.methods.stakers(account).call()
+      const response = await stakingContract.methods.stakers(address).call()
       const principal = response?.principal
       const totalStaked = ethers.utils
         .formatUnits(principal, decimals)
@@ -107,11 +109,11 @@ export default function StakingInfo({
 
   const handleGetInterestInfo = async () => {
     try {
-      if (!active || !tokenStakeContract || !account) {
+      if (!active || !tokenStakeContract || !address) {
         return setTotalStake(0)
       }
       const decimals = await tokenStakeContract.methods.decimals().call()
-      const response = await stakingContract.methods.getInterest(account).call()
+      const response = await stakingContract.methods.getInterest(address).call()
       const totalEarnings = ethers.utils
         .formatUnits(response, decimals)
         .toString()
@@ -123,18 +125,18 @@ export default function StakingInfo({
 
   const getDataNameStaking = async () => {
     const data = await Moralis.Cloud.run('getDataBorrowUser', {
-      address: account,
+      address: address,
     })
     setLabel(data[`${stakeInfo.data_key}`] || stakeInfo?.label)
   }
 
   const updateDataNameStaking = async (name: string) => {
     const data = await Moralis.Cloud.run('getDataBorrowUser', {
-      address: account,
+      address: address,
     })
 
     data[`${stakeInfo.data_key}`] = name
-    data[`address`] = account
+    data[`address`] = address
     await Moralis.Cloud.run('updateDataBorrowUser', {
       ...data,
     })
@@ -160,11 +162,11 @@ export default function StakingInfo({
 
   useEffect(() => {
     handleGetInterestInfo()
-  }, [stakingContract, active, tokenStakeContract, account, isRefresh])
+  }, [stakingContract, active, tokenStakeContract, address, isRefresh])
 
   useEffect(() => {
     handleGetInfoStaked()
-  }, [stakingContract, active, tokenContract, account, isRefresh])
+  }, [stakingContract, active, tokenContract, address, isRefresh])
 
   const handleGetAllowance = async () => {
     if (!active || !tokenStakeContract) {
@@ -174,7 +176,7 @@ export default function StakingInfo({
 
     try {
       const allowanceToken = await tokenStakeContract.methods
-        .allowance(account, stakeInfo?.stakeContract?.address)
+        .allowance(address, stakeInfo?.stakeContract?.address)
         .call()
       const decimals = await tokenStakeContract.methods.decimals().call()
       const allowance = ethers.utils
@@ -195,7 +197,7 @@ export default function StakingInfo({
 
     try {
       const allowanceToken = await tokenContract.methods
-        .allowance(account, stakeInfo?.stakeContract?.address)
+        .allowance(address, stakeInfo?.stakeContract?.address)
         .call()
       const decimals = await tokenStakeContract.methods.decimals().call()
       const allowance = ethers.utils
@@ -221,7 +223,7 @@ export default function StakingInfo({
           stakeInfo?.stakeContract?.address,
           '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
         )
-        .send({ from: account })
+        .send({ from: address })
       handleGetAllowance()
     } catch (error) {
       console.log('Staking.DepositModal.approveToken', error)
@@ -245,7 +247,7 @@ export default function StakingInfo({
             stakeInfo?.stakeContract?.address,
             '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
           )
-          .send({ from: account })
+          .send({ from: address })
       }
 
       const allowance = await handleGetAllowance()
@@ -255,7 +257,7 @@ export default function StakingInfo({
             stakeInfo?.stakeContract?.address,
             '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
           )
-          .send({ from: account })
+          .send({ from: address })
       }
 
       const decimals = await tokenContract.methods.decimals().call()
@@ -263,7 +265,7 @@ export default function StakingInfo({
         .parseUnits(amount.toString(), decimals)
         .toString()
 
-      await stakingContract.methods.redeem(tokenAmount).send({ from: account })
+      await stakingContract.methods.redeem(tokenAmount).send({ from: address })
       toast.success('Withdraw successfully')
       handleGetInterestInfo()
       handleGetInfoStaked()
