@@ -17,19 +17,17 @@ import { stakeLpContract, tokenTorqContract } from '@/constants/contracts'
 import { ethers } from 'ethers'
 import NumberFormat from '@/components/common/NumberFormat'
 import { updateAddress } from '@/lib/redux/auth/auth'
-import { useAccount,useDisconnect,useConnect } from 'wagmi'
+import { useAccount, useDisconnect, useConnect } from 'wagmi'
 
 export const Header = () => {
   const { activate, active, account, chainId, deactivate } = useWeb3React()
   const theme = useSelector((store: AppStore) => store.theme.theme)
   const addressStore = useSelector((store: AppStore) => store.auth.address)
-const {address,isConnected} = useAccount()
-const {  disconnect} = useDisconnect()
-console.log('address',address,addressStore)
-
+  const { address, isConnected } = useAccount()
+  const { disconnect } = useDisconnect()
+  console.log('address', address, addressStore)
 
   const dispatch = useDispatch()
-
 
   const [isShowNetworkAlert, setIsShowNetworkAlert] = useState(false)
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
@@ -81,20 +79,20 @@ console.log('address',address,addressStore)
     if (account && active) {
       dispatch(updateAddress(account as any))
     }
-    if(address){
+    if (address) {
       dispatch(updateAddress(address as any))
     }
-  }, [account, active,address])
+  }, [account, active, address])
 
   useEffect(() => {
     if (addressStore && !active) {
       activate(Injected)
     }
-    if(address && !isConnected){
+    if (address && !isConnected) {
       disconnect()
       dispatch(updateAddress('' as any))
     }
-    if(!address || !account){
+    if (!address || !account) {
       dispatch(updateAddress('' as any))
     }
   }, [active, addressStore, address, isConnected])
@@ -146,9 +144,9 @@ console.log('address',address,addressStore)
     }
   }, [chainId])
 
-  const handleDisconnect = async() => {
+  const handleDisconnect = async () => {
     dispatch(updateAddress('' as any))
-     disconnect()
+    disconnect()
     deactivate()
   }
 
@@ -201,7 +199,7 @@ console.log('address',address,addressStore)
                 />
               </p>
             </Link>
-            {(active || isConnected)  ? (
+            {active || isConnected ? (
               <Popover
                 placement="bottom-right"
                 className={`mt-[12px] w-[200px] leading-none`}

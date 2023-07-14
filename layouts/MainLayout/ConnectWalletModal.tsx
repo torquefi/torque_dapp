@@ -6,6 +6,8 @@ import { useWeb3React } from '@web3-react/core'
 import { useMoralis } from 'react-moralis'
 import { useSelector } from 'react-redux'
 import { useWeb3Modal } from '@web3modal/react'
+import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
+import { useConnect } from 'wagmi'
 
 interface ConnectWalletModalProps {
   openModal: boolean
@@ -16,35 +18,19 @@ export default function ConnectWalletModal({
   openModal,
   handleClose,
 }: ConnectWalletModalProps) {
-  // const { authenticate } = useMoralis()
-  const { activate } = useWeb3React()
-  const {  open,close } = useWeb3Modal()
+  const { open, close } = useWeb3Modal()
+  const { connect, error, connectors, isLoading, pendingConnector } =
+    useConnect()
+
   const theme = useSelector((store: AppStore) => store.theme.theme)
-  const onConnectMetamaskWallet = async () => {
-    try {
-    
-      await activate(Injected)
-      handleClose()
-    } catch (e) {
-      console.log(e)
-    }
-  }
 
-  const onConnectWalletConnect = async () => {
-    try {
-      // await activate(WalletConnect)
-      await open()
-    } catch (e) {
-      console.log(e)
-    }
-  }
-
-  const connectors = [
+  const CONNECTORS = [
     {
       name: 'MetaMask',
       icon: '/assets/wallet/metamask.svg',
       action: async () => {
-        await onConnectMetamaskWallet()
+        connect({ connector: connectors[1] })
+        handleClose()
       },
       message: 'Connect to your MetaMask wallet',
     },
@@ -52,7 +38,7 @@ export default function ConnectWalletModal({
       name: 'WalletConnect',
       icon: '/assets/wallet/wallet-connect.svg',
       action: async () => {
-        await onConnectWalletConnect()
+        await open()
         handleClose()
       },
       message: 'Scan with WalletConnect to connect',
@@ -72,7 +58,7 @@ export default function ConnectWalletModal({
           divider
           indicatorClassName="!rounded-[18px] "
         >
-          {connectors.map((item, i) => (
+          {CONNECTORS.map((item, i) => (
             <div
               className="flex h-[200px] cursor-pointer  flex-col items-center justify-center space-y-2 text-center text-[#404040] dark:text-white"
               key={i}
