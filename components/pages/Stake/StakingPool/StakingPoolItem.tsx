@@ -71,6 +71,8 @@ export default function StakingPoolItem({
 
     setSubmitLoading(true)
 
+    console.log('address :>> ', address)
+
     try {
       const allowance = await handleGetAllowance()
       if (+allowance < +amount) {

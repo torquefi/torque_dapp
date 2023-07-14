@@ -72,6 +72,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
       <MoralisProvider appId={appId} serverUrl={serverUrl}>
+<<<<<<< HEAD
         <SessionProvider session={pageProps.session} refetchInterval={0}>
           <DefaultSeo {...SEO} />
           <Provider store={store}>
@@ -89,6 +90,22 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           <Toaster theme="dark" richColors />
           <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
         </SessionProvider>
+=======
+        {/* <SessionProvider session={pageProps.session} refetchInterval={0}> */}
+        <DefaultSeo {...SEO} />
+        <Provider store={store}>
+          <PersistGate persistor={persistor}>
+            {() => (
+              <>
+                <CurrencySwitchInit />
+                {getLayout(<Component {...pageProps} />)}
+              </>
+            )}
+          </PersistGate>
+        </Provider>
+        <Toaster theme="dark" richColors />
+        {/* </SessionProvider> */}
+>>>>>>> 354db8d (fix session)
       </MoralisProvider>
     </Web3ReactProvider>
   )
