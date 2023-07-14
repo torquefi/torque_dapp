@@ -73,23 +73,23 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
       <MoralisProvider appId={appId} serverUrl={serverUrl}>
-        <SessionProvider session={pageProps.session} refetchInterval={0}>
-          <DefaultSeo {...SEO} />
-          <Provider store={store}>
-            <WagmiConfig config={wagmiConfig}>
-              <PersistGate persistor={persistor}>
-                {() => (
-                  <>
-                    <CurrencySwitchInit />
-                    {getLayout(<Component {...pageProps} />)}
-                  </>
-                )}
-              </PersistGate>
-            </WagmiConfig>
-          </Provider>
-          <Toaster theme="dark" richColors />
-          <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
-        </SessionProvider>
+        {/* <SessionProvider session={pageProps.session} refetchInterval={0}> */}
+        <DefaultSeo {...SEO} />
+        <Provider store={store}>
+          <WagmiConfig config={wagmiConfig}>
+            <PersistGate persistor={persistor}>
+              {() => (
+                <>
+                  <CurrencySwitchInit />
+                  {getLayout(<Component {...pageProps} />)}
+                </>
+              )}
+            </PersistGate>
+          </WagmiConfig>
+        </Provider>
+        <Toaster theme="dark" richColors />
+        <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
+        {/* </SessionProvider> */}
       </MoralisProvider>
     </Web3ReactProvider>
   )
