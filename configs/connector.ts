@@ -2,7 +2,7 @@ import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 import { InjectedConnector } from '@web3-react/injected-connector'
 
 export const WalletConnect = new WalletConnectConnector({
-  rpc: { 1: 'https://mainnet.infura.io/v3/60ab76e16df54c808e50a79975b4779f' },
+  rpc: { 1: 'https://ethereum.publicnode.com/' },
   bridge: 'https://bridge.walletconnect.org',
   qrcode: true,
 })

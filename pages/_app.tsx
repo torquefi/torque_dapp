@@ -16,6 +16,11 @@ import { Toaster } from 'sonner'
 import SEO from '../next-seo.config'
 import '../styles/style.scss'
 
+import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
+import { Web3Modal } from '@web3modal/react'
+import { configureChains, createConfig, WagmiConfig } from 'wagmi'
+import { arbitrum, mainnet, polygon } from 'wagmi/chains'
+
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode
 }
@@ -24,6 +29,17 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout
   pageProps?: any
 }
+
+const chains = [arbitrum, mainnet, polygon]
+const projectId = '02a231b2406ed316c861abefc95c5e59'
+
+const { publicClient } = configureChains(chains, [w3mProvider({ projectId })])
+const wagmiConfig = createConfig({
+  autoConnect: true,
+  connectors: w3mConnectors({ projectId, chains }),
+  publicClient,
+})
+const ethereumClient = new EthereumClient(wagmiConfig, chains)
 
 export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const serverUrl = 'https://moralis.torque.fi/server'
@@ -59,16 +75,19 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         <SessionProvider session={pageProps.session} refetchInterval={0}>
           <DefaultSeo {...SEO} />
           <Provider store={store}>
-            <PersistGate persistor={persistor}>
-              {() => (
-                <>
-                  <CurrencySwitchInit />
-                  {getLayout(<Component {...pageProps} />)}
-                </>
-              )}
-            </PersistGate>
+            <WagmiConfig config={wagmiConfig}>
+              <PersistGate persistor={persistor}>
+                {() => (
+                  <>
+                    <CurrencySwitchInit />
+                    {getLayout(<Component {...pageProps} />)}
+                  </>
+                )}
+              </PersistGate>
+            </WagmiConfig>
           </Provider>
           <Toaster theme="dark" richColors />
+          <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
         </SessionProvider>
       </MoralisProvider>
     </Web3ReactProvider>

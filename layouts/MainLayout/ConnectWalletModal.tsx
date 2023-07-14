@@ -5,38 +5,25 @@ import { AppStore } from '@/types/store'
 import { useWeb3React } from '@web3-react/core'
 import { useMoralis } from 'react-moralis'
 import { useSelector } from 'react-redux'
+import { useWeb3Modal } from '@web3modal/react'
 
 interface ConnectWalletModalProps {
-  open: boolean
+  openModal: boolean
   handleClose: () => void
 }
 
 export default function ConnectWalletModal({
-  open,
+  openModal,
   handleClose,
 }: ConnectWalletModalProps) {
   // const { authenticate } = useMoralis()
   const { activate } = useWeb3React()
+  const {  open,close } = useWeb3Modal()
   const theme = useSelector((store: AppStore) => store.theme.theme)
   const onConnectMetamaskWallet = async () => {
     try {
-      // await enableWeb3({ provider: 'metamask' })
-      // const { account, chainId } = Moralis
-
-      // const { message } = await Moralis.Cloud.run('requestMessage', {
-      //   address: account,
-      //   chain: parseInt(chainId, 16),
-      //   networkType: 'evm',
-      // })
-      try {
-        await activate(Injected)
-        // await authenticate({
-        //   signingMessage: 'Welcome to Torque',
-        //   throwOnError: true,
-        // })
-      } catch (e) {
-        console.log(e)
-      }
+    
+      await activate(Injected)
       handleClose()
     } catch (e) {
       console.log(e)
@@ -45,7 +32,8 @@ export default function ConnectWalletModal({
 
   const onConnectWalletConnect = async () => {
     try {
-      await activate(WalletConnect)
+      // await activate(WalletConnect)
+      await open()
     } catch (e) {
       console.log(e)
     }
@@ -75,7 +63,7 @@ export default function ConnectWalletModal({
     <>
       <Modal
         className="w-full max-w-[500px]  bg-[#FCFAFF] p-[12px] dark:bg-[#030303]"
-        open={open}
+        open={openModal}
         handleClose={handleClose}
         hideCloseIcon
       >
