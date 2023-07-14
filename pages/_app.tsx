@@ -19,7 +19,7 @@ import '../styles/style.scss'
 import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
 import { Web3Modal } from '@web3modal/react'
 import { configureChains, createConfig, WagmiConfig } from 'wagmi'
-import { arbitrum, mainnet, polygon } from 'wagmi/chains'
+import { arbitrum, arbitrumGoerli } from 'wagmi/chains'
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -30,7 +30,7 @@ type AppPropsWithLayout = AppProps & {
   pageProps?: any
 }
 
-const chains = [arbitrum, mainnet, polygon]
+const chains = [arbitrumGoerli, arbitrum]
 const projectId = '02a231b2406ed316c861abefc95c5e59'
 
 const { publicClient } = configureChains(chains, [w3mProvider({ projectId })])
