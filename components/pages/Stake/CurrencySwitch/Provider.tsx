@@ -28,5 +28,5 @@ export default function CurrencySwitchInit({ children }: any) {
     setInterval(handleGetUsdPrice, 3 * 60 * 1000)
   }, [])
 
-  return <>{children}</>
+  return children
 }

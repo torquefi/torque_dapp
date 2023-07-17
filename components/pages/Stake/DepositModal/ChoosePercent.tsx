@@ -12,10 +12,11 @@ const ChoosePercent: React.FC<ChoosePercentProps> = ({
   className = '',
 }: ChoosePercentProps) => {
   return (
-    <>
+    <div>
       <div className={`flex space-x-2 ${className}`}>
         {[25, 50, 75, 100].map((item, i) => (
           <div
+            key={i}
             className={
               `w-[25%] cursor-pointer  rounded-lg p-[1px]` +
               ` ${
@@ -41,7 +42,7 @@ const ChoosePercent: React.FC<ChoosePercentProps> = ({
           </div>
         ))}
       </div>
-    </>
+    </div>
   )
 }
 

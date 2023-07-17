@@ -12,7 +12,7 @@ export default function CreateBorrowVault() {
 
       <div className="grid gap-4 md:grid-cols-2">
         {fakeBorrow.map((item, i) => (
-          <CreateBorrowItem item={item} />
+          <CreateBorrowItem item={item} key={i} />
         ))}
       </div>
     </div>

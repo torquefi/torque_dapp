@@ -1,49 +1,39 @@
-
-import { useEffect } from 'react';
-import {
-  motion,
-  useAnimation,
-} from 'framer-motion'
+import { useEffect } from 'react'
+import { motion, useAnimation } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 const InFadeLine = () => {
-
-  const controls = useAnimation();
-  const { ref, inView } = useInView();
+  const controls = useAnimation()
+  const { ref, inView } = useInView()
 
   const boxVariants = {
     hidden: { scale: 0.5 },
     visible: {
       scale: 1,
       transition: {
-        duration: .75
-      }
-    }
+        duration: 0.75,
+      },
+    },
   }
 
   useEffect(() => {
     if (inView) {
-      controls.start('visible');
+      controls.start('visible')
     }
     if (!inView) {
-      controls.start('hidden');
+      controls.start('hidden')
     }
-    }, [controls, inView]);
+  }, [controls, inView])
 
-
-
-
-    return (
-      <motion.div ref={ref} initial="hidden" animate={controls} variants={boxVariants}  className={`relative pt-0.5 mx-auto leading-snug tracking-wide bg-gradient-to-r from-transparent via-gray-500  to-transparent`}>
-          <div className=" relative items-center justify-center  tracking-w w-full h-full bg-black"></div>
-      </motion.div>
-    )
-
+  return (
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={controls}
+      variants={boxVariants}
+      className={`relative mx-auto bg-gradient-to-r from-transparent via-gray-500 to-transparent pt-0.5 leading-snug  tracking-wide`}
+    >
+      <div className=" tracking-w relative h-full  w-full items-center justify-center bg-black" />
+    </motion.div>
+  )
 }
 export { InFadeLine }
-
-
-
-
-
-
-

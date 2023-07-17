@@ -38,7 +38,7 @@ export const MenuMobile = () => {
   }, [activeTabIndex])
 
   return (
-    <>
+    <div>
       <div className="fixed inset-x-0 bottom-0 z-50 h-[76px] border-t-2 dark:border-[#181818] md:hidden">
         <div ref={menuContainer} className="relative z-10 flex h-full w-full">
           <div
@@ -55,7 +55,7 @@ export const MenuMobile = () => {
                 }`
               }
             >
-              <div className="h-full w-full rounded-full bg-[#fff]  dark:bg-[#030303]"></div>
+              <div className="h-full w-full rounded-full bg-[#fff]  dark:bg-[#030303]" />
             </div>
           </div>
           <div className="flex h-full w-full items-center bg-[#030303] bg-opacity-40 dark:bg-[#030303]">
@@ -74,8 +74,8 @@ export const MenuMobile = () => {
           </div>
         </div>
       </div>
-      <div className="h-[56px] md:hidden"></div>
-    </>
+      <div className="h-[56px] md:hidden" />
+    </div>
   )
 }
 

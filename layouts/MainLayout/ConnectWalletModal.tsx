@@ -41,47 +41,45 @@ export default function ConnectWalletModal({
   ]
 
   return (
-    <>
-      <Modal
-        className="w-full max-w-[500px]  bg-[#FCFAFF] p-[12px] dark:bg-[#030303]"
-        open={openModal}
-        handleClose={handleClose}
-        hideCloseIcon
+    <Modal
+      className="w-full max-w-[500px]  bg-[#FCFAFF] p-[12px] dark:bg-[#030303]"
+      open={openModal}
+      handleClose={handleClose}
+      hideCloseIcon
+    >
+      <HoverIndicator
+        direction="vertical"
+        divider
+        indicatorClassName="!rounded-[18px] "
       >
-        <HoverIndicator
-          direction="vertical"
-          divider
-          indicatorClassName="!rounded-[18px] "
-        >
-          {CONNECTORS.map((item, i) => (
-            <div
-              className="flex h-[200px] cursor-pointer  flex-col items-center justify-center space-y-2 text-center text-[#404040] dark:text-white"
-              key={i}
-              onClick={item.action}
-            >
-              <img className="w-[64px]" src={item.icon} alt="" />
-              <p className="font-larken  text-[20px]">{item.name}</p>
-              <p className="text-[12px] text-[#959595] xs:text-[14px] sm:text-[16px]">
-                {item.message}
-              </p>
-              {i == 0 && (
-                <div
-                  className={
-                    ` absolute bottom-0 left-0 h-[1px] w-full` +
-                    `
+        {CONNECTORS.map((item, i) => (
+          <div
+            className="flex h-[200px] cursor-pointer  flex-col items-center justify-center space-y-2 text-center text-[#404040] dark:text-white"
+            key={i}
+            onClick={item.action}
+          >
+            <img className="w-[64px]" src={item.icon} alt="" />
+            <p className="font-larken  text-[20px]">{item.name}</p>
+            <p className="text-[12px] text-[#959595] xs:text-[14px] sm:text-[16px]">
+              {item.message}
+            </p>
+            {i == 0 && (
+              <div
+                className={
+                  ` absolute bottom-0 left-0 h-[1px] w-full` +
+                  `
               ${
                 theme === 'light'
                   ? 'bg-gradient-divider-light'
                   : 'bg-gradient-divider'
               }
                `
-                  }
-                />
-              )}
-            </div>
-          ))}
-        </HoverIndicator>
-      </Modal>
-    </>
+                }
+              />
+            )}
+          </div>
+        ))}
+      </HoverIndicator>
+    </Modal>
   )
 }

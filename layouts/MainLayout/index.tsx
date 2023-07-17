@@ -13,6 +13,7 @@ interface MainLayoutProps {
 export const MainLayout = ({ children }: MainLayoutProps) => {
   const theme = useSelector((store: AppStore) => store.theme.theme)
   const dispatch = useDispatch()
+
   useEffect(() => {
     if (theme == '') {
       dispatch(updateTheme('dark' as any))
@@ -30,4 +31,6 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
         <MenuMobile />
       </div>
     )
+
+  return null
 }

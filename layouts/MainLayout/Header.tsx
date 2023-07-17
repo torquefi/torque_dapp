@@ -112,7 +112,7 @@ export const Header = () => {
   }
 
   return (
-    <>
+    <div>
       <header className="fixed inset-x-0 top-0 z-[100] bg-[#FCFAFF] dark:bg-[#030303] ">
         <div
           className={
@@ -160,7 +160,7 @@ export const Header = () => {
                 />
               </p>
             </Link>
-            {isConnected ? (
+            {isConnected && address ? (
               <Popover
                 placement="bottom-right"
                 className={`mt-[12px] w-[200px] leading-none`}
@@ -175,7 +175,7 @@ export const Header = () => {
                       className="flex justify-between p-[12px]"
                       target="_blank"
                     >
-                      Etherscan <HiOutlineExternalLink />
+                      Arbitrum Goerli <HiOutlineExternalLink />
                     </Link>
                     <div
                       className="flex cursor-pointer justify-between p-[12px]"
@@ -257,9 +257,9 @@ export const Header = () => {
         openModal={isOpenConnectWalletModal}
         handleClose={() => setOpenConnectWalletModal(false)}
       />
-      <div className="h-[92px]"></div>
-      {isShowNetworkAlert && <div className="h-[44px]"></div>}
-    </>
+      <div className="h-[92px]" />
+      {isShowNetworkAlert && <div className="h-[44px]" />}
+    </div>
   )
 }
 

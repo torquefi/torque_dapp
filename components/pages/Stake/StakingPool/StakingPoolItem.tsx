@@ -1,7 +1,6 @@
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
 import SkeletonDefault from '@/components/skeleton'
 import { stakeLpContract } from '@/constants/contracts'
-import { useWeb3React } from '@web3-react/core'
 import { ethers } from 'ethers'
 import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
@@ -245,12 +244,12 @@ export default function StakingPoolItem({
             decimalScale={2}
             tokenPrice={tokenPrice}
             render={(value) => (
-              <>
+              <div>
                 <p className="text-[32px] leading-none">{value}</p>
                 <div className="font-mona text-[16px] text-[#959595]">
                   3-Year Value
                 </div>
-              </>
+              </div>
             )}
           />
         </div>

@@ -43,6 +43,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const appId = '1'
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page)
+
   if (typeof window !== 'undefined') {
     if (
       window.localStorage.getItem('theme') === 'dark' ||
@@ -63,24 +64,23 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   }, [])
 
   return (
-    <MoralisProvider appId={appId} serverUrl={serverUrl}>
-      {/* <SessionProvider session={pageProps.session} refetchInterval={0}> */}
-      <DefaultSeo {...SEO} />
-      <Provider store={store}>
+    <Provider store={store}>
+      <MoralisProvider appId={appId} serverUrl={serverUrl}>
+        <DefaultSeo {...SEO} />
         <WagmiConfig config={wagmiConfig}>
           <PersistGate persistor={persistor}>
             {() => (
-              <>
+              <div>
                 <CurrencySwitchInit />
                 {getLayout(<Component {...pageProps} />)}
-              </>
+              </div>
             )}
           </PersistGate>
         </WagmiConfig>
-      </Provider>
-      <Toaster theme="dark" richColors />
-      <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
-      {/* </SessionProvider> */}
-    </MoralisProvider>
+        <Toaster theme="dark" richColors />
+        <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
+      </MoralisProvider>
+    </Provider>
+
   )
 }

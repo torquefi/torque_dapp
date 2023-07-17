@@ -127,7 +127,7 @@ export default function DepositModal({ coin, onSuccess }: DepositModalProps) {
   }, [coin?.symbol, tokenContract])
 
   return (
-    <>
+    <div>
       <div className="relative flex items-center justify-center py-10">
         <div className="flex items-center justify-center">
           {isUsdDeposit && (
@@ -206,7 +206,7 @@ export default function DepositModal({ coin, onSuccess }: DepositModalProps) {
           </button>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 

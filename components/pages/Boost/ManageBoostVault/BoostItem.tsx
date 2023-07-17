@@ -1,12 +1,12 @@
 import CurrencySwitch from '@/components/common/CurrencySwitch'
 import { AppStore } from '@/types/store'
-import { useWeb3React } from '@web3-react/core'
 import { useEffect, useRef, useState } from 'react'
 import { AutowidthInput } from 'react-autowidth-input'
 import { AiOutlineCheck, AiOutlineEdit } from 'react-icons/ai'
 import { useMoralis } from 'react-moralis'
 import { useSelector } from 'react-redux'
 import { toast } from 'sonner'
+import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 
 export function BoostItem({ item }: any) {
@@ -21,7 +21,7 @@ export function BoostItem({ item }: any) {
   const [btnLoading, setBtnLoading] = useState('')
   const [deposited, setDeposited] = useState(0)
   const [earned, setEarned] = useState(0)
-  const { account, active } = useWeb3React()
+  const { address, isConnected } = useAccount()
   const { Moralis, enableWeb3, isWeb3Enabled } = useMoralis()
   const borrowTime = useSelector((store: AppStore) => store)
   const refLabelInput = useRef<HTMLInputElement>(null)
@@ -41,7 +41,7 @@ export function BoostItem({ item }: any) {
         setAssetContract(contract)
 
         decimal = await contract.methods.decimals().call({
-          from: account,
+          from: address,
         })
         setDecimal(decimal)
       }
@@ -60,11 +60,11 @@ export function BoostItem({ item }: any) {
         let id = await contract.methods
           .addressToPid(dataABIAsset.address)
           .call({
-            from: account,
+            from: address,
           })
 
-        let infoUser = await contract.methods.userInfo(account, id).call({
-          from: account,
+        let infoUser = await contract.methods.userInfo(address, id).call({
+          from: address,
         })
         setDeposited(
           Number(Moralis.Units.FromWei(`${infoUser['amount']}`, decimal))
@@ -86,7 +86,7 @@ export function BoostItem({ item }: any) {
           Moralis.Units.Token(dataBoostVault.amount, decimal)
         )
         .send({
-          from: account,
+          from: address,
           value:
             dataBoostVault.token == 'ETH'
               ? Moralis.Units.Token(dataBoostVault.amount, decimal)
@@ -103,17 +103,17 @@ export function BoostItem({ item }: any) {
   }
   const getDataNameBoost = async () => {
     const data = await Moralis.Cloud.run('getDataBorrowUser', {
-      address: account,
+      address: address,
     })
     setLabel(data[`${item.data_key}`] || item?.label)
   }
   const updateDataNameBoost = async (name: string) => {
     const data = await Moralis.Cloud.run('getDataBorrowUser', {
-      address: account,
+      address: address,
     })
 
     data[`${item.data_key}`] = name
-    data[`address`] = account
+    data[`address`] = address
     console.log(data)
     await Moralis.Cloud.run('updateDataBorrowUser', {
       ...data,
@@ -143,22 +143,23 @@ export function BoostItem({ item }: any) {
   useEffect(() => {
     getDataNameBoost()
     initContract()
-  }, [isWeb3Enabled, account, active, borrowTime])
+  }, [isWeb3Enabled, address, isConnected, borrowTime])
+
   const summaryInfor = (item: any) => {
     return (
-      <>
+      <div>
         <CurrencySwitch
           tokenSymbol={item?.token}
           tokenValue={deposited}
           usdDefault
           className="-my-4 flex h-full min-w-[130px] flex-col items-center justify-center gap-2 py-4"
           render={(value) => (
-            <>
+            <div>
               <p className="text-[22px]">{value}</p>
               <div className="font-mona text-[14px] text-[#959595]">
                 Deposited
               </div>
-            </>
+            </div>
           )}
           decimalScale={2}
         />
@@ -169,12 +170,12 @@ export function BoostItem({ item }: any) {
           className="-my-4 flex h-full min-w-[130px] flex-col items-center justify-center gap-2 py-4"
           decimalScale={2}
           render={(value) => (
-            <>
+            <div>
               <p className="text-[22px]">{value}</p>
               <div className="font-mona text-[14px] text-[#959595]">
                 Earnings
               </div>
-            </>
+            </div>
           )}
         />
         <div className="flex min-w-[130px] flex-col items-center justify-center gap-2">
@@ -183,7 +184,7 @@ export function BoostItem({ item }: any) {
             Variable APR
           </div>
         </div>
-      </>
+      </div>
     )
   }
   return (
@@ -290,8 +291,9 @@ export function BoostItem({ item }: any) {
               }}
             />
             <div className="flex items-center gap-2">
-              {[25, 50, 100].map((item: any) => (
+              {[25, 50, 100].map((item: any, i) => (
                 <button
+                  key={i}
                   className="font-mona rounded bg-[#F4F4F4] px-2 py-1 text-sm text-[#959595] dark:bg-[#1A1A1A]"
                   onClick={() => {
                     dataBoostVault.amount = (item * deposited) / 100

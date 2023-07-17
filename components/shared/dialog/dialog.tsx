@@ -89,7 +89,7 @@ export function Dialog({
 
   if (title && !header.length) {
     header = [
-      <>
+      <div>
         <div
           className="flex flex-1 items-center"
           style={{ justifyContent: 'inherit' }}
@@ -105,7 +105,7 @@ export function Dialog({
             <HiOutlineX />
           </i>
         </button>
-      </>,
+      </div>,
     ]
   }
 
@@ -138,7 +138,7 @@ export function Dialog({
         style={{
           backgroundColor: 'rgba(0,0,0,.32)',
         }}
-      ></div>
+      />
       <div
         className={`dialog ${dialogClass} ${extraDialogClass} ${
           props.isOpen
