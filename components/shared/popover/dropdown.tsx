@@ -56,7 +56,7 @@ export function Dropdown({
             ) : item.type.displayName === 'Avatar' ? (
               <div key={index} className="flex flex-col items-center ">
                 {/* {/* <div className="rounded-full p-4 "> */}
-                <div className="rounded-full bg-primary bg-opacity-5  p-3"></div>
+                <div className="rounded-full bg-primary bg-opacity-5  p-3" />
                 {/* </div>
                     </div> */}
                 <p className="my-2 font-semibold">{item.props.text}</p>

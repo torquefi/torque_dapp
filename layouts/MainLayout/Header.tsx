@@ -257,8 +257,8 @@ export const Header = () => {
         openModal={isOpenConnectWalletModal}
         handleClose={() => setOpenConnectWalletModal(false)}
       />
-      <div className="h-[92px]"></div>
-      {isShowNetworkAlert && <div className="h-[44px]"></div>}
+      <div className="h-[92px]" />
+      {isShowNetworkAlert && <div className="h-[44px]" />}
     </div>
   )
 }

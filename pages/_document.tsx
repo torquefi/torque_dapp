@@ -4,16 +4,13 @@ class MyDocument extends Document {
   render() {
     return (
       <Html>
-        <Head>
-          {/* <script src="https://unpkg.com/vconsole@latest/dist/vconsole.min.js"></script>
-          <script>var vConsole = new window.VConsole();</script> */}
-        </Head>
+        <Head></Head>
         <body>
           <Main />
           <NextScript />
-          <div id="dialog-root"></div>
-          <div id="popover-root"></div>
-          <div id="alert-root"></div>
+          <div id="dialog-root" />
+          <div id="popover-root" />
+          <div id="alert-root" />
         </body>
       </Html>
     )

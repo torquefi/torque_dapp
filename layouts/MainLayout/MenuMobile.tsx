@@ -55,7 +55,7 @@ export const MenuMobile = () => {
                 }`
               }
             >
-              <div className="h-full w-full rounded-full bg-[#fff]  dark:bg-[#030303]"></div>
+              <div className="h-full w-full rounded-full bg-[#fff]  dark:bg-[#030303]" />
             </div>
           </div>
           <div className="flex h-full w-full items-center bg-[#030303] bg-opacity-40 dark:bg-[#030303]">
@@ -74,7 +74,7 @@ export const MenuMobile = () => {
           </div>
         </div>
       </div>
-      <div className="h-[56px] md:hidden"></div>
+      <div className="h-[56px] md:hidden" />
     </div>
   )
 }

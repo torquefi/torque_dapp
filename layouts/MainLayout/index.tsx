@@ -31,4 +31,6 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
         <MenuMobile />
       </div>
     )
+
+  return null
 }

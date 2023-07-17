@@ -138,7 +138,7 @@ export function Dialog({
         style={{
           backgroundColor: 'rgba(0,0,0,.32)',
         }}
-      ></div>
+      />
       <div
         className={`dialog ${dialogClass} ${extraDialogClass} ${
           props.isOpen
