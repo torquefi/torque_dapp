@@ -1,11 +1,10 @@
 import NumberFormat from '@/components/common/NumberFormat'
 import { TORQ } from '@/constants/coins'
-import { AppStore } from '@/types/store'
 import { ethers } from 'ethers'
 import { useEffect, useMemo, useState } from 'react'
 import AutoWidthInput from 'react-autowidth-input'
 import { AiOutlineSwap } from 'react-icons/ai'
-import { useSelector } from 'react-redux'
+import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 import ChoosePercent from './ChoosePercent'
 
@@ -16,7 +15,7 @@ interface DepositModalProps {
 
 export default function DepositModal({ coin, onSuccess }: DepositModalProps) {
   const web3 = new Web3(Web3.givenProvider)
-  const address = useSelector((store: AppStore) => store.auth.address)
+  const { address } = useAccount()
 
   const [balance, setBalance] = useState<number>(0)
   const [amount, setAmount] = useState<number>(0)

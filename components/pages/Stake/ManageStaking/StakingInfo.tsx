@@ -10,6 +10,7 @@ import { AiOutlineCheck, AiOutlineEdit } from 'react-icons/ai'
 import { useMoralis } from 'react-moralis'
 import { useSelector } from 'react-redux'
 import { toast } from 'sonner'
+import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 import CurrencySwitch from '../CurrencySwitch'
 import { IStakingInfo } from '../types'
@@ -23,8 +24,7 @@ export default function StakingInfo({
   stakeInfo,
   isRefresh,
 }: StakingInfoProps) {
-  const { active } = useWeb3React()
-  const address = useSelector((store: AppStore) => store.auth.address)
+  const { address, isConnected } = useAccount()
 
   const { Moralis } = useMoralis()
 
@@ -91,7 +91,7 @@ export default function StakingInfo({
 
   const handleGetInfoStaked = async () => {
     try {
-      if (!active || !tokenContract || !address) {
+      if (!isConnected || !tokenContract || !address) {
         return setTotalStake(0)
       }
       const decimals = await tokenContract.methods.decimals().call()
@@ -109,7 +109,7 @@ export default function StakingInfo({
 
   const handleGetInterestInfo = async () => {
     try {
-      if (!active || !tokenStakeContract || !address) {
+      if (!isConnected || !tokenStakeContract || !address) {
         return setTotalStake(0)
       }
       const decimals = await tokenStakeContract.methods.decimals().call()
@@ -162,14 +162,14 @@ export default function StakingInfo({
 
   useEffect(() => {
     handleGetInterestInfo()
-  }, [stakingContract, active, tokenStakeContract, address, isRefresh])
+  }, [stakingContract, isConnected, tokenStakeContract, address, isRefresh])
 
   useEffect(() => {
     handleGetInfoStaked()
-  }, [stakingContract, active, tokenContract, address, isRefresh])
+  }, [stakingContract, isConnected, tokenContract, address, isRefresh])
 
   const handleGetAllowance = async () => {
-    if (!active || !tokenStakeContract) {
+    if (!isConnected || !tokenStakeContract) {
       return setAllowance('0')
     }
     setSubmitLoading(true)
@@ -190,7 +190,7 @@ export default function StakingInfo({
   }
 
   const handleGetTokenAllowance = async () => {
-    if (!active || !tokenContract) {
+    if (!isConnected || !tokenContract) {
       return setAllowance('0')
     }
     setSubmitLoading(true)
@@ -211,7 +211,7 @@ export default function StakingInfo({
   }
 
   const approveToken = async () => {
-    if (!active) {
+    if (!isConnected) {
       return toast.error('You need connect your wallet first')
     }
 
@@ -232,7 +232,7 @@ export default function StakingInfo({
   }
 
   const handleWithdraw = async () => {
-    if (!active) {
+    if (!isConnected) {
       return toast.error('You need connect your wallet first')
     }
     if (!+amount) {
@@ -265,6 +265,7 @@ export default function StakingInfo({
         .parseUnits(amount.toString(), decimals)
         .toString()
 
+      console.log('tokenAmount :>> ', tokenAmount)
       await stakingContract.methods.redeem(tokenAmount).send({ from: address })
       toast.success('Withdraw successfully')
       handleGetInterestInfo()
@@ -324,7 +325,7 @@ export default function StakingInfo({
     if (stakeInfo.symbol === 'LP') {
       handleGetLpPrice()
     }
-  }, [tokenContract, lpContract, active])
+  }, [tokenContract, lpContract, isConnected])
 
   const summaryInfor = (item: IStakingInfo) => {
     return (
