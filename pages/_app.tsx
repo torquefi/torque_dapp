@@ -64,7 +64,6 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   }, [])
 
   return (
-<<<<<<< HEAD
     <Provider store={store}>
       <MoralisProvider appId={appId} serverUrl={serverUrl}>
         <DefaultSeo {...SEO} />
@@ -82,26 +81,6 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
       </MoralisProvider>
     </Provider>
-=======
-    <MoralisProvider appId={appId} serverUrl={serverUrl}>
-      {/* <SessionProvider session={pageProps.session} refetchInterval={0}> */}
-      <DefaultSeo {...SEO} />
-      <Provider store={store}>
-        <WagmiConfig config={wagmiConfig}>
-          <PersistGate persistor={persistor}>
-            {() => (
-              <>
-                <CurrencySwitchInit />
-                {getLayout(<Component {...pageProps} />)}
-              </>
-            )}
-          </PersistGate>
-        </WagmiConfig>
-      </Provider>
-      <Toaster theme="dark" richColors />
-      <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
-      {/* </SessionProvider> */}
-    </MoralisProvider>
->>>>>>> a0c975c (Update)
+
   )
 }
