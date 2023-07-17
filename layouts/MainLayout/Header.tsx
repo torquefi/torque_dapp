@@ -31,12 +31,7 @@ export const Header = () => {
   const theme = useSelector((store: AppStore) => store.theme.theme)
   const { address, isConnected } = useAccount()
   const { disconnect } = useDisconnect()
-<<<<<<< HEAD
   const { chain, chains } = useNetwork()
-=======
-
-  const dispatch = useDispatch()
->>>>>>> dfd2cdb (Update connect wallet)
 
   const [isShowNetworkAlert, setIsShowNetworkAlert] = useState(false)
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
