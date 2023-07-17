@@ -6,12 +6,11 @@ import { ethers } from 'ethers'
 import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
 import { toast } from 'sonner'
+import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 import CurrencySwitch from '../CurrencySwitch'
 import InputCurrencySwitch from '../InputCurrencySwitch'
 import { IStakingInfo } from '../types'
-import { useSelector } from 'react-redux'
-import { AppStore } from '@/types/store'
 
 interface StakingPoolItemProps {
   stakeInfo: IStakingInfo
@@ -22,13 +21,12 @@ export default function StakingPoolItem({
   stakeInfo,
   setIsRefresh,
 }: StakingPoolItemProps) {
-  const { active } = useWeb3React()
   const [isLoading, setLoading] = useState(true)
   const [isSubmitLoading, setSubmitLoading] = useState(false)
   const [apr, setApr] = useState<string | number>(0)
   const [isShowUsd, setShowUsd] = useState(true)
   const [tokenPrice, setTokenPrice] = useState<any>(0)
-  const address = useSelector((store: AppStore) => store.auth.address)
+  const { address, isConnected } = useAccount()
 
   const [amount, setAmount] = useState<number>(0)
 
@@ -62,7 +60,7 @@ export default function StakingPoolItem({
   }, [Web3.givenProvider, stakeInfo?.symbol])
 
   const stakeToken = async () => {
-    if (!active) {
+    if (!isConnected) {
       return toast.error('You need connect your wallet first')
     }
     if (!+amount) {
@@ -122,7 +120,7 @@ export default function StakingPoolItem({
 
   useEffect(() => {
     handleGetAllowance()
-  }, [tokenContract, active])
+  }, [tokenContract, isConnected, address])
 
   useEffect(() => {
     ;(async () => {
@@ -177,7 +175,7 @@ export default function StakingPoolItem({
     // if (stakeInfo.symbol === 'LP') {
     //   handleGetLpPrice()
     // }
-  }, [tokenContract, active])
+  }, [tokenContract, isConnected])
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 1000)

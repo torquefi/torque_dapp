@@ -30,8 +30,8 @@ export default function ManageStaking({ isRefresh }: { isRefresh?: boolean }) {
         Manage Staking
       </div>
 
-      {dataStake.map((item) => (
-        <StakingInfo stakeInfo={item} isRefresh={isRefresh} />
+      {dataStake.map((item, index) => (
+        <StakingInfo stakeInfo={item} isRefresh={isRefresh} key={index} />
       ))}
     </div>
   )

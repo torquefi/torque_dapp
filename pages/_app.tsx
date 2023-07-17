@@ -1,10 +1,7 @@
 import CurrencySwitchInit from '@/components/common/CurrencySwitch/Provider'
 import store, { persistor } from '@/lib/redux/store'
-import { Web3Provider } from '@ethersproject/providers'
-import { Web3ReactProvider } from '@web3-react/core'
 import Moralis from 'moralis-v1'
 import type { NextPage } from 'next'
-import { SessionProvider } from 'next-auth/react'
 import { DefaultSeo } from 'next-seo'
 import type { AppProps } from 'next/app'
 import { ReactElement, ReactNode, useEffect } from 'react'
@@ -18,9 +15,8 @@ import '../styles/style.scss'
 
 import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
 import { Web3Modal } from '@web3modal/react'
-import { configureChains, createConfig, WagmiConfig } from 'wagmi'
+import { WagmiConfig, configureChains, createConfig } from 'wagmi'
 import { arbitrum, arbitrumGoerli } from 'wagmi/chains'
-import { MetaMaskConnector } from 'wagmi/dist/connectors/metaMask'
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -58,10 +54,6 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     }
   }
 
-  function getLibrary(provider: any) {
-    return new Web3Provider(provider)
-  }
-
   useEffect(() => {
     Moralis.start({
       serverUrl: serverUrl,
@@ -71,26 +63,24 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   }, [])
 
   return (
-    <Web3ReactProvider getLibrary={getLibrary}>
-      <MoralisProvider appId={appId} serverUrl={serverUrl}>
-        {/* <SessionProvider session={pageProps.session} refetchInterval={0}> */}
-        <DefaultSeo {...SEO} />
-        <Provider store={store}>
-          <WagmiConfig config={wagmiConfig}>
-            <PersistGate persistor={persistor}>
-              {() => (
-                <>
-                  <CurrencySwitchInit />
-                  {getLayout(<Component {...pageProps} />)}
-                </>
-              )}
-            </PersistGate>
-          </WagmiConfig>
-        </Provider>
-        <Toaster theme="dark" richColors />
-        <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
-        {/* </SessionProvider> */}
-      </MoralisProvider>
-    </Web3ReactProvider>
+    <MoralisProvider appId={appId} serverUrl={serverUrl}>
+      {/* <SessionProvider session={pageProps.session} refetchInterval={0}> */}
+      <DefaultSeo {...SEO} />
+      <Provider store={store}>
+        <WagmiConfig config={wagmiConfig}>
+          <PersistGate persistor={persistor}>
+            {() => (
+              <>
+                <CurrencySwitchInit />
+                {getLayout(<Component {...pageProps} />)}
+              </>
+            )}
+          </PersistGate>
+        </WagmiConfig>
+      </Provider>
+      <Toaster theme="dark" richColors />
+      <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
+      {/* </SessionProvider> */}
+    </MoralisProvider>
   )
 }

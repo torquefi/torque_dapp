@@ -1,12 +1,8 @@
 import HoverIndicator from '@/components/common/HoverIndicator'
 import Modal from '@/components/common/Modal'
-import { Injected, WalletConnect } from '@/configs/connector'
 import { AppStore } from '@/types/store'
-import { useWeb3React } from '@web3-react/core'
-import { useMoralis } from 'react-moralis'
-import { useSelector } from 'react-redux'
 import { useWeb3Modal } from '@web3modal/react'
-import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
+import { useSelector } from 'react-redux'
 import { useConnect } from 'wagmi'
 
 interface ConnectWalletModalProps {
@@ -18,9 +14,8 @@ export default function ConnectWalletModal({
   openModal,
   handleClose,
 }: ConnectWalletModalProps) {
-  const { open, close } = useWeb3Modal()
-  const { connect, error, connectors, isLoading, pendingConnector } =
-    useConnect()
+  const { open } = useWeb3Modal()
+  const { connect, connectors } = useConnect()
 
   const theme = useSelector((store: AppStore) => store.theme.theme)
 

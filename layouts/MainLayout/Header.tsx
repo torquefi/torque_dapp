@@ -1,33 +1,37 @@
 import HoverIndicator from '@/components/common/HoverIndicator'
+import NumberFormat from '@/components/common/NumberFormat'
 import Popover from '@/components/common/Popover'
-import { Injected } from '@/configs/connector'
+import { stakeLpContract, tokenTorqContract } from '@/constants/contracts'
 import { requestSwitchNetwork } from '@/lib/helpers/network'
 import { shortenAddress } from '@/lib/helpers/utils'
 import { AppStore } from '@/types/store'
-import { useWeb3React } from '@web3-react/core'
+import { ethers } from 'ethers'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
 import { FiLogOut } from 'react-icons/fi'
 import { HiOutlineExternalLink } from 'react-icons/hi'
-import { useDispatch, useSelector } from 'react-redux'
-import ConnectWalletModal from './ConnectWalletModal'
+import { useSelector } from 'react-redux'
+import { useAccount, useDisconnect, useNetwork } from 'wagmi'
 import Web3 from 'web3'
-import { stakeLpContract, tokenTorqContract } from '@/constants/contracts'
-import { ethers } from 'ethers'
-import NumberFormat from '@/components/common/NumberFormat'
-import { updateAddress } from '@/lib/redux/auth/auth'
-import { useAccount, useDisconnect, useConnect } from 'wagmi'
+import ConnectWalletModal from './ConnectWalletModal'
+
+const goerliTestnetInfo = {
+  name: 'Arbitrum',
+  symbol: 'ETH',
+  chainId: 421613,
+  chainName: 'eth',
+  coinName: 'ETH',
+  coinSymbol: 'ETH',
+  rpcUrls: ['https://goerli-rollup.arbitrum.io/rpc'],
+  blockchainExplorer: 'https://goerli.arbiscan.io/',
+}
 
 export const Header = () => {
-  const { activate, active, account, chainId, deactivate } = useWeb3React()
   const theme = useSelector((store: AppStore) => store.theme.theme)
-  const addressStore = useSelector((store: AppStore) => store.auth.address)
   const { address, isConnected } = useAccount()
   const { disconnect } = useDisconnect()
-  console.log('address', address, addressStore)
-
-  const dispatch = useDispatch()
+  const { chain, chains } = useNetwork()
 
   const [isShowNetworkAlert, setIsShowNetworkAlert] = useState(false)
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
@@ -47,61 +51,19 @@ export const Header = () => {
   //   blockchainExplorer: 'https://goerli.etherscan.io',
   // }
 
-  const goerliTestnetInfo = {
-    name: 'Arbitrum',
-    symbol: 'ETH',
-    chainId: 421613,
-    chainName: 'eth',
-    coinName: 'ETH',
-    coinSymbol: 'ETH',
-    rpcUrls: ['https://goerli-rollup.arbitrum.io/rpc'],
-    blockchainExplorer: 'https://goerli.arbiscan.io/',
-  }
-
   const currentTabIndex = useMemo(
     () => menu.map((item) => item.path).indexOf(router.pathname),
     [router.pathname]
   )
-
-  useEffect(() => {}, [account, active])
-
-  const getAccount = async () => {
-    if (active) {
-      await activate(Injected)
-    }
-  }
 
   const handleChangeNetwork = async () => {
     await requestSwitchNetwork(goerliTestnetInfo)
   }
 
   useEffect(() => {
-    if (account && active) {
-      dispatch(updateAddress(account as any))
-    }
-    if (address) {
-      dispatch(updateAddress(address as any))
-    }
-  }, [account, active, address])
-
-  useEffect(() => {
-    if (addressStore && !active) {
-      activate(Injected)
-    }
-    if (address && !isConnected) {
-      disconnect()
-      dispatch(updateAddress('' as any))
-    }
-    if (!address || !account) {
-      dispatch(updateAddress('' as any))
-    }
-  }, [active, addressStore, address, isConnected])
-
-  useEffect(() => {
     if (router.isReady) {
       setActiveTabIndex(currentTabIndex)
     }
-    getAccount()
   }, [router])
 
   const tokenContract = useMemo(() => {
@@ -136,18 +98,17 @@ export const Header = () => {
         console.log('handleGetTorqPrice 123:>> ', error)
       }
     }
-  }, [tokenContract, active])
+  }, [tokenContract, isConnected])
 
   useEffect(() => {
-    if (account && chainId != -1) {
-      setIsShowNetworkAlert(chainId !== goerliTestnetInfo.chainId)
+    if (chain?.id) {
+      const network = chains?.find((item) => item?.id === chain?.id)
+      setIsShowNetworkAlert(!network)
     }
-  }, [chainId])
+  }, [chain, chains])
 
   const handleDisconnect = async () => {
-    dispatch(updateAddress('' as any))
     disconnect()
-    deactivate()
   }
 
   return (
@@ -199,7 +160,7 @@ export const Header = () => {
                 />
               </p>
             </Link>
-            {active || isConnected ? (
+            {isConnected ? (
               <Popover
                 placement="bottom-right"
                 className={`mt-[12px] w-[200px] leading-none`}
@@ -210,7 +171,7 @@ export const Header = () => {
                     indicatorClassName="rounded-[6px]"
                   >
                     <Link
-                      href={`https://goerli.etherscan.io/address/${account}`}
+                      href={`https://goerli.arbiscan.io/address/${address}`}
                       className="flex justify-between p-[12px]"
                       target="_blank"
                     >
@@ -226,7 +187,7 @@ export const Header = () => {
                 }
               >
                 <div className="cursor-pointer rounded-full border border-primary px-[18px] py-[6px] text-[14px] uppercase leading-none text-primary transition-all duration-200 ease-in hover:scale-x-[102%] xs:px-[16px] xs:py-[4px] lg:px-[32px] lg:py-[6px] lg:text-[16px]">
-                  {shortenAddress(account || address)}
+                  {shortenAddress(address)}
                 </div>
               </Popover>
             ) : (
