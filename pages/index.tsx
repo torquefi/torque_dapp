@@ -8,10 +8,5 @@ export default function HomePage() {
     router.push('/home')
   }, [])
 
-  return (
-    <>
-      <div className="">
-      </div>
-    </>
-  )
+  return <div className=""></div>
 }

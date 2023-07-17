@@ -138,18 +138,15 @@ export function Button({
   }
 
   const Children = (
-    <>
-      {props.icon && (
-        <>
-          {loading ? (
-            <i className={`animate-spin ${iconClassName}`}>
-              <CgSpinner />
-            </i>
-          ) : (
-            <i className={`transition-none ${iconClassName}`}>{props.icon}</i>
-          )}
-        </>
-      )}
+    <div>
+      {props.icon &&
+        (loading ? (
+          <i className={`animate-spin ${iconClassName}`}>
+            <CgSpinner />
+          </i>
+        ) : (
+          <i className={`transition-none ${iconClassName}`}>{props.icon}</i>
+        ))}
       {props.text && (
         <span
           className={`relative transform transition-transform ${
@@ -165,7 +162,7 @@ export function Button({
         </span>
       )}
       {props.children}
-    </>
+    </div>
   )
 
   return props.href ? (

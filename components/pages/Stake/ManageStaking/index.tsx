@@ -13,14 +13,14 @@ export default function ManageStaking({ isRefresh }: { isRefresh?: boolean }) {
 
   if (isSkeletonLoading) {
     return (
-      <>
+      <div>
         <div className="mt-[36px]">
           <SkeletonDefault height={'5vh'} width={'18%'} />
         </div>
         <div className="mt-[24px]">
           <SkeletonDefault height={'20vh'} width={'100%'} />
         </div>
-      </>
+      </div>
     )
   }
 

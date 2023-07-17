@@ -38,7 +38,7 @@ export const MenuMobile = () => {
   }, [activeTabIndex])
 
   return (
-    <>
+    <div>
       <div className="fixed inset-x-0 bottom-0 z-50 h-[76px] border-t-2 dark:border-[#181818] md:hidden">
         <div ref={menuContainer} className="relative z-10 flex h-full w-full">
           <div
@@ -75,7 +75,7 @@ export const MenuMobile = () => {
         </div>
       </div>
       <div className="h-[56px] md:hidden"></div>
-    </>
+    </div>
   )
 }
 

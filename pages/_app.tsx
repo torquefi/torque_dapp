@@ -64,23 +64,21 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
   return (
     <MoralisProvider appId={appId} serverUrl={serverUrl}>
-      {/* <SessionProvider session={pageProps.session} refetchInterval={0}> */}
       <DefaultSeo {...SEO} />
       <Provider store={store}>
         <WagmiConfig config={wagmiConfig}>
           <PersistGate persistor={persistor}>
             {() => (
-              <>
+              <div>
                 <CurrencySwitchInit />
                 {getLayout(<Component {...pageProps} />)}
-              </>
+              </div>
             )}
           </PersistGate>
         </WagmiConfig>
       </Provider>
       <Toaster theme="dark" richColors />
       <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
-      {/* </SessionProvider> */}
     </MoralisProvider>
   )
 }

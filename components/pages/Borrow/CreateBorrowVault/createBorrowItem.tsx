@@ -4,12 +4,12 @@ import InputCurrencySwitch, {
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
 import Popover from '@/components/common/Popover'
 import { updateborrowTime } from '@/lib/redux/auth/dataUser'
-import { useWeb3React } from '@web3-react/core'
 import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
 import { useMoralis } from 'react-moralis'
 import { useDispatch } from 'react-redux'
 import { toast } from 'sonner'
+import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 
 const SECONDS_PER_YEAR = 60 * 60 * 24 * 365
@@ -26,7 +26,7 @@ export default function CreateBorrowItem({ item }: any) {
     btc: 28000,
     USG: 1,
   })
-  const { account, active } = useWeb3React()
+  const { address, isConnected } = useAccount()
   const { Moralis, enableWeb3, isWeb3Enabled } = useMoralis()
 
   const dispatch = useDispatch()
@@ -79,12 +79,12 @@ export default function CreateBorrowItem({ item }: any) {
         )
         if (contract) {
           let utilization = await contract.methods.getUtilization().call({
-            from: account,
+            from: address,
           })
           let borrowRate = await contract.methods
             .getBorrowRate(utilization)
             .call({
-              from: account,
+              from: address,
             })
           setBorrowRate(borrowRate)
         }
@@ -98,9 +98,9 @@ export default function CreateBorrowItem({ item }: any) {
     try {
       if (contractAsset && contractBorrow) {
         const allowance = await contractAsset.methods
-          .allowance(account, contractBorrow._address)
+          .allowance(address, contractBorrow._address)
           .call({
-            from: account,
+            from: address,
           })
         setAllowance(allowance / 10 ** dataBorrow.decimals_asset || 0)
       }
@@ -147,7 +147,7 @@ export default function CreateBorrowItem({ item }: any) {
             Web3.utils.toWei(Number(dataBorrow.amount).toFixed(2), 'ether')
           )
           .send({
-            from: account,
+            from: address,
           })
         toast.success('Approve Successful')
       }
@@ -166,7 +166,7 @@ export default function CreateBorrowItem({ item }: any) {
             )
           )
           .send({
-            from: account,
+            from: address,
           })
       } else if (item.depositCoin == 'ETH') {
         await contractBorrow.methods
@@ -181,7 +181,7 @@ export default function CreateBorrowItem({ item }: any) {
               Number(dataBorrow.amount).toFixed(9),
               item.decimals_asset
             ),
-            from: account,
+            from: address,
           })
       }
       dispatch(updateborrowTime(new Date().getTime() as any))
@@ -204,7 +204,7 @@ export default function CreateBorrowItem({ item }: any) {
 
   useEffect(() => {
     initContract()
-  }, [isWeb3Enabled, account, active])
+  }, [isWeb3Enabled, address, isConnected])
 
   const isApproved = useMemo(
     () => dataBorrow.amount < allowance,
@@ -291,14 +291,10 @@ export default function CreateBorrowItem({ item }: any) {
         <div className="flex items-center">
           <Link
             href={'https://compound.finance/'}
-            className="translate-x-7 -translate-y-[3.5px]"
+            className="-translate-y-[3.5px] translate-x-7"
             target={'_blank'}
           >
-            <img
-              src={'/icons/coin/aave.svg'}
-              alt="Stargate"
-              className=""
-            />
+            <img src={'/icons/coin/aave.svg'} alt="Stargate" className="" />
           </Link>
           <Link href={'https://www.usg.money/'} className="" target={'_blank'}>
             <img src={'/icons/coin/usg.svg'} alt="Stargate" className="" />

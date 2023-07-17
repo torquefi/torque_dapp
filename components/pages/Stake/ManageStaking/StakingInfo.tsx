@@ -2,7 +2,6 @@ import LoadingCircle from '@/components/common/Loading/LoadingCircle'
 import NumberFormat from '@/components/common/NumberFormat'
 import { stakeLpContract, tokenTorqContract } from '@/constants/contracts'
 import { AppStore } from '@/types/store'
-import { useWeb3React } from '@web3-react/core'
 import { BigNumber, ethers } from 'ethers'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { AutowidthInput } from 'react-autowidth-input'
@@ -329,17 +328,17 @@ export default function StakingInfo({
 
   const summaryInfor = (item: IStakingInfo) => {
     return (
-      <>
+      <div>
         <CurrencySwitch
           tokenSymbol={item?.symbol}
           tokenValue={+totalStaked}
           usdDefault
           className="-my-4 flex min-w-[100px] flex-col items-center justify-center gap-2 py-4"
           render={(value) => (
-            <>
+            <div>
               <p className="text-[22px]">{value}</p>
               <p className="font-mona text-[14px] text-[#959595]">Deposited</p>
-            </>
+            </div>
           )}
           decimalScale={2}
           tokenPrice={tokenPrice}
@@ -350,10 +349,10 @@ export default function StakingInfo({
           usdDefault
           className="-my-4 flex min-w-[100px] flex-col items-center justify-center gap-2 py-4"
           render={(value) => (
-            <>
+            <div>
               <p className="text-[22px]">{value}</p>
               <p className="font-mona text-[14px] text-[#959595]">Earnings</p>
-            </>
+            </div>
           )}
           decimalScale={2}
           tokenPrice={tokenPrice}
@@ -362,7 +361,7 @@ export default function StakingInfo({
           <div className="text-[22px]">{apr}%</div>
           <div className="font-mona text-[14px] text-[#959595]">Net APR</div>
         </div>
-      </>
+      </div>
     )
   }
 
@@ -454,8 +453,9 @@ export default function StakingInfo({
               decimalScale={5}
             />
             <div className="flex items-center gap-2">
-              {[25, 50, 100].map((item: any) => (
+              {[25, 50, 100].map((item: any, i) => (
                 <button
+                  key={i}
                   className="font-mona rounded bg-[#F4F4F4] px-2 py-1 text-sm text-[#959595] dark:bg-[#1A1A1A]"
                   onClick={() => setAmount((Number(totalStaked) * item) / 100)}
                 >

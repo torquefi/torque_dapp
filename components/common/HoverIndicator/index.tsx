@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 
-
 interface HoverIndicatorProps {
   activeIndex?: number
   className?: string
@@ -76,38 +75,36 @@ export default function HoverIndicator({
   }, [activeTabIndex])
 
   return (
-    <>
+    <div
+      ref={container}
+      className={
+        'relative h-full w-full' +
+        ` ${direction === 'horizontal' ? 'flex' : ''}` +
+        ` ${className}`
+      }
+    >
       <div
-        ref={container}
         className={
-          'relative h-full w-full' +
-          ` ${direction === 'horizontal' ? 'flex' : ''}` +
-          ` ${className}`
+          'pointer-events-none absolute w-full rounded-[6px]  bg-[#F4F4F4] from-[#1c1c1c] to-[#101010] transition-all duration-300 dark:bg-[#1D1D1D]' +
+          ` ${direction === 'horizontal' ? 'inset-y-0' : ''}` +
+          ` ${direction === 'vertical' ? 'inset-x-0' : ''}` +
+          ` ${indicatorClassName}`
         }
-      >
+        ref={indicator}
+      />
+      {childrenArr.map((item, i) => (
         <div
-          className={
-            'pointer-events-none absolute w-full rounded-[6px]  bg-[#F4F4F4] dark:bg-[#1D1D1D] from-[#1c1c1c] to-[#101010] transition-all duration-300' +
-            ` ${direction === 'horizontal' ? 'inset-y-0' : ''}` +
-            ` ${direction === 'vertical' ? 'inset-x-0' : ''}` +
-            ` ${indicatorClassName}`
-          }
-          ref={indicator}
-        />
-        {childrenArr.map((item, i) => (
-          <div
-            className="relative w-full"
-            key={i}
-            onMouseEnter={() => setActiveTabIndex(i)}
-            onMouseLeave={() => setActiveTabIndex(activeIndex ?? null)}
-          >
-            {divider && i !== 0 && (
-              <div className="dark:bg-gradient-divider absolute inset-x-0 top-[-0.5px] h-[1px]" />
-            )}
-            {item}
-          </div>
-        ))}
-      </div>
-    </>
+          className="relative w-full"
+          key={i}
+          onMouseEnter={() => setActiveTabIndex(i)}
+          onMouseLeave={() => setActiveTabIndex(activeIndex ?? null)}
+        >
+          {divider && i !== 0 && (
+            <div className="dark:bg-gradient-divider absolute inset-x-0 top-[-0.5px] h-[1px]" />
+          )}
+          {item}
+        </div>
+      ))}
+    </div>
   )
 }
