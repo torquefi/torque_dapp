@@ -25,7 +25,6 @@ export const Header = () => {
   const addressStore = useSelector((store: AppStore) => store.auth.address)
   const { address, isConnected } = useAccount()
   const { disconnect } = useDisconnect()
-  console.log('address', address, addressStore)
 
   const dispatch = useDispatch()
 
