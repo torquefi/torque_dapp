@@ -94,12 +94,14 @@ export default function StakingInfo({
         return setTotalStake(0)
       }
       const decimals = await tokenContract.methods.decimals().call()
-
+      console.log('decimals :>> ', decimals)
       const response = await stakingContract.methods.stakers(address).call()
+      console.log('response :>> ', response)
       const principal = response?.principal
       const totalStaked = ethers.utils
         .formatUnits(principal, decimals)
         .toString()
+      console.log('totalStaked :>> ', totalStaked)
       setTotalStake(totalStaked)
     } catch (error) {
       console.log('error handle get info staked:>> ', error)
@@ -112,6 +114,7 @@ export default function StakingInfo({
         return setTotalStake(0)
       }
       const decimals = await tokenStakeContract.methods.decimals().call()
+
       const response = await stakingContract.methods.getInterest(address).call()
       const totalEarnings = ethers.utils
         .formatUnits(response, decimals)
@@ -291,7 +294,7 @@ export default function StakingInfo({
         const response = await lpContract.methods
           .getUSDPrice(stakeInfo.tokenContract.address, amount)
           .call()
-        const tokenPrice = ethers.utils.formatUnits(response, 6).toString()
+        const tokenPrice = ethers.utils.formatUnits(response, 18).toString()
         setTokenPrice(tokenPrice)
       } catch (error) {
         console.log('handleGetTorqPrice 123:>> ', error)
@@ -311,7 +314,7 @@ export default function StakingInfo({
         const lpPriceBn = BigNumber.from(pairLpTorqPrice)
           .div(ethers.utils.parseUnits('1', 18).toString())
           .mul(torqTokenPrice6Decimals)
-          .div(ethers.utils.parseUnits('1', 6).toString())
+          .div(ethers.utils.parseUnits('1', 18).toString())
 
         setTokenPrice(lpPriceBn)
       } catch (error) {
@@ -343,6 +346,7 @@ export default function StakingInfo({
           decimalScale={2}
           tokenPrice={tokenPrice}
         />
+
         <CurrencySwitch
           tokenSymbol={item?.symbol}
           tokenValue={+totalEarnings}
