@@ -338,10 +338,10 @@ export default function StakingInfo({
           usdDefault
           className="-my-4 flex min-w-[100px] flex-col items-center justify-center gap-2 py-4"
           render={(value) => (
-            <div className="flex min-w-[100px] flex-col items-center justify-center gap-2">
+            <>
               <p className="text-[22px]">{value}</p>
               <p className="font-mona text-[14px] text-[#959595]">Deposited</p>
-            </div>
+            </>
           )}
           decimalScale={2}
           tokenPrice={tokenPrice}
@@ -353,15 +353,15 @@ export default function StakingInfo({
           usdDefault
           className="-my-4 flex min-w-[100px] flex-col items-center justify-center gap-2 py-4"
           render={(value) => (
-            <div className="flex min-w-[100px] flex-col items-center justify-center gap-2">
+            <>
               <p className="text-[22px]">{value}</p>
               <p className="font-mona text-[14px] text-[#959595]">Earnings</p>
-            </div>
+            </>
           )}
           decimalScale={2}
           tokenPrice={tokenPrice}
         />
-        <div className="flex min-w-[100px] flex-col items-center justify-center gap-2">
+        <div className="flex min-w-[100px] flex-col items-center justify-center gap-2 leading-none">
           <div className="text-[22px]">{apr}%</div>
           <div className="font-mona text-[14px] text-[#959595]">Net APR</div>
         </div>
