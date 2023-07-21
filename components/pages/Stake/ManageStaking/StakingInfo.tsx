@@ -331,14 +331,14 @@ export default function StakingInfo({
 
   const summaryInfor = (item: IStakingInfo) => {
     return (
-      <div>
+      <div className="flex w-full items-center justify-between">
         <CurrencySwitch
           tokenSymbol={item?.symbol}
           tokenValue={+totalStaked}
           usdDefault
           className="-my-4 flex min-w-[100px] flex-col items-center justify-center gap-2 py-4"
           render={(value) => (
-            <div>
+            <div className="flex min-w-[100px] flex-col items-center justify-center gap-2">
               <p className="text-[22px]">{value}</p>
               <p className="font-mona text-[14px] text-[#959595]">Deposited</p>
             </div>
@@ -353,7 +353,7 @@ export default function StakingInfo({
           usdDefault
           className="-my-4 flex min-w-[100px] flex-col items-center justify-center gap-2 py-4"
           render={(value) => (
-            <div>
+            <div className="flex min-w-[100px] flex-col items-center justify-center gap-2">
               <p className="text-[22px]">{value}</p>
               <p className="font-mona text-[14px] text-[#959595]">Earnings</p>
             </div>
