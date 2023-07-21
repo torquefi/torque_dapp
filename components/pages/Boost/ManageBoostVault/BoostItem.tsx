@@ -147,14 +147,14 @@ export function BoostItem({ item }: any) {
 
   const summaryInfor = (item: any) => {
     return (
-      <div>
+      <div className="flex w-full items-center justify-between">
         <CurrencySwitch
           tokenSymbol={item?.token}
           tokenValue={deposited}
           usdDefault
           className="-my-4 flex h-full min-w-[130px] flex-col items-center justify-center gap-2 py-4"
           render={(value) => (
-            <div>
+            <div className="flex min-w-[130px] flex-col items-center justify-center gap-2">
               <p className="text-[22px]">{value}</p>
               <div className="font-mona text-[14px] text-[#959595]">
                 Deposited
@@ -170,7 +170,7 @@ export function BoostItem({ item }: any) {
           className="-my-4 flex h-full min-w-[130px] flex-col items-center justify-center gap-2 py-4"
           decimalScale={2}
           render={(value) => (
-            <div>
+            <div className="flex min-w-[130px] flex-col items-center justify-center gap-2">
               <p className="text-[22px]">{value}</p>
               <div className="font-mona text-[14px] text-[#959595]">
                 Earnings
