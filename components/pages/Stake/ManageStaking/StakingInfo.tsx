@@ -331,7 +331,7 @@ export default function StakingInfo({
 
   const summaryInfor = (item: IStakingInfo) => {
     return (
-      <div>
+      <div className='flex items-center'>
         <CurrencySwitch
           tokenSymbol={item?.symbol}
           tokenValue={+totalStaked}
