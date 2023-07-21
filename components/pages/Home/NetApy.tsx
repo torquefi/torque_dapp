@@ -67,7 +67,7 @@ export default function NetApy() {
               usdDefault
               className="font-larken w-full space-y-2 text-center text-[28px] text-[#404040] dark:text-white"
               render={(value) => (
-                <div>
+                <div className="space-y-2">
                   <p>{value}</p>
                   <p className="font-mona text-16 text-[#959595]">Rewards</p>
                 </div>

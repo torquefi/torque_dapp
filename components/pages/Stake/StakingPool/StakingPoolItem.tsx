@@ -244,7 +244,7 @@ export default function StakingPoolItem({
             decimalScale={2}
             tokenPrice={tokenPrice}
             render={(value) => (
-              <div>
+              <div className="space-y-2">
                 <p className="text-[32px] leading-none">{value}</p>
                 <div className="font-mona text-[16px] text-[#959595]">
                   3-Year Value
