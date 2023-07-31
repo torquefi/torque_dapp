@@ -147,7 +147,7 @@ export function BoostItem({ item }: any) {
 
   const summaryInfor = (item: any) => {
     return (
-      <div className="flex w-full items-center justify-between">
+      <div className="flex items-center justify-between w-full">
         <CurrencySwitch
           tokenSymbol={item?.token}
           tokenValue={deposited}
@@ -181,7 +181,7 @@ export function BoostItem({ item }: any) {
         <div className="flex min-w-[130px] flex-col items-center justify-center gap-2">
           <div className="text-[22px]">{item.APR}</div>
           <div className="font-mona text-[14px] text-[#959595]">
-            Variable APR
+            Variable APY
           </div>
         </div>
       </div>
@@ -234,7 +234,7 @@ export function BoostItem({ item }: any) {
           )}
         </div>
         <div className="flex items-center justify-end gap-14">
-          <div className="hidden items-center justify-between gap-14 lg:flex">
+          <div className="items-center justify-between hidden gap-14 lg:flex">
             {summaryInfor(item)}
           </div>
           <div className="flex flex-col items-center justify-center gap-2">
@@ -281,7 +281,7 @@ export function BoostItem({ item }: any) {
           <div className="mt-2 flex w-full items-center justify-between rounded-[12px] border bg-[#FCFAFF] px-2 py-4 dark:border-[#1A1A1A] dark:bg-[#161616]">
             <input
               type="number"
-              className="font-mona w-full bg-none px-2 focus:outline-none"
+              className="w-full px-2 font-mona bg-none focus:outline-none"
               style={{ backgroundColor: 'transparent' }}
               value={dataBoostVault.amount}
               placeholder="Select amount"

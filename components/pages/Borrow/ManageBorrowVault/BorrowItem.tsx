@@ -250,7 +250,7 @@ export default function BorrowItem({ item }: any) {
       <CurrencySwitch
         tokenSymbol={''}
         tokenValue={dataUserBorrow?.supplied || item.collateral}
-        className="font-larken -my-4 w-1/4 space-y-1 py-4"
+        className="w-1/4 py-4 -my-4 space-y-1 font-larken"
         decimalScale={2}
         render={(value) => (
           <div>
@@ -263,7 +263,7 @@ export default function BorrowItem({ item }: any) {
         tokenSymbol={'USG'}
         tokenValue={dataUserBorrow?.borrowed || item.borrow}
         usdDefault
-        className="font-larken -my-4 w-1/4 space-y-1 py-4"
+        className="w-1/4 py-4 -my-4 space-y-1 font-larken"
         decimalScale={2}
         render={(value) => (
           <div>
@@ -290,7 +290,7 @@ export default function BorrowItem({ item }: any) {
         <p className="font-larken whitespace-nowrap text-[22px]">
           {borrowAPR.toFixed(2)}%
         </p>
-        <p className="whitespace-nowrap text-[14px] text-[#959595]">Net APR</p>
+        <p className="whitespace-nowrap text-[14px] text-[#959595]">Variable APR</p>
       </div>
     </div>
   )
