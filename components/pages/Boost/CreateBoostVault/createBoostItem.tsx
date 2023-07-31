@@ -126,7 +126,7 @@ export function CreateBoostItem({ item }: any) {
         `  ${theme === 'light' ? ' bg-[#FCFAFF]' : 'bg-overview'}`
       }
     >
-      <div className="flex w-full items-center justify-between">
+      <div className="flex items-center justify-between w-full">
         <div className="flex items-center">
           <img
             src={`/icons/coin/${item.token.toLocaleLowerCase()}.png`}
@@ -158,7 +158,7 @@ export function CreateBoostItem({ item }: any) {
           </Link>
         </Popover>
       </div>
-      <div className="font-larken mt-4 grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-4 mt-4 font-larken">
         <div className="flex h-[110px] w-full flex-col items-center justify-center gap-3 rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A]  dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
           <InputCurrencySwitch
             tokenSymbol={boostVault.token}
@@ -192,17 +192,17 @@ export function CreateBoostItem({ item }: any) {
         </div>
       </div>
       <div className="font-mona flex w-full items-center justify-between py-3 text-[16px] text-[#959595]">
-        <div className="font-mona">Yield provider</div>
+        <div className="font-mona">Yield providers</div>
         <div className="flex items-center">
           <Link
             href={'https://uniswap.org/'}
-            className="translate-x-4"
+            className="translate-x-3"
             target={'_blank'}
           >
-            <img src={'/icons/coin/uni.svg'} alt="Stargate" className="" />
+            <img src={'/icons/coin/uni.svg'} alt="" className="w-[26px]"/>
           </Link>
           <Link href={item.link_yield} className="" target={'_blank'}>
-            <img src={item.yield_provider} alt="Stargate" className="" />
+            <img src={item.yield_provider} alt="" className="w-[26px]" />
           </Link>
         </div>
       </div>

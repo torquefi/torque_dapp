@@ -287,17 +287,17 @@ export default function CreateBorrowItem({ item }: any) {
         </div>
       </div>
       <div className="flex items-center justify-between text-[#959595]">
-        <p>Loan provider</p>
+        <p>Loan providers</p>
         <div className="flex items-center">
           <Link
             href={'https://compound.finance/'}
-            className="translate-x-4"
+            className="translate-x-3"
             target={'_blank'}
           >
-            <img src={'/icons/coin/aave.svg'} alt="Stargate" className="" />
+            <img src={'/icons/coin/compound.svg'} alt="Compound" className="w-[26px]" />
           </Link>
           <Link href={'https://www.usg.money/'} className="" target={'_blank'}>
-            <img src={'/icons/coin/usg.svg'} alt="Stargate" className="" />
+            <img src={'/icons/coin/usg.svg'} alt="USG.money" className="w-[26px]" />
           </Link>
         </div>
       </div>
