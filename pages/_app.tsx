@@ -81,6 +81,5 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
       </MoralisProvider>
     </Provider>
-
   )
 }
