@@ -1,6 +1,22 @@
 import NumberFormat from '@/components/common/NumberFormat'
+import SkeletonDefault from '@/components/skeleton'
+import { useEffect, useState } from 'react'
 
 const HomePageFilter = () => {
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    setTimeout(() => setIsLoading(false), 1000)
+  }, [])
+
+  if (isLoading) {
+    return (
+      <div className="">
+        <SkeletonDefault height={'50vh'} width={'100%'} />
+      </div>
+    )
+  }
+
   return (
     <div className="dark:border-[#1A1A1A] relative flex h-[400px] w-full flex-wrap items-center justify-center rounded-[10px] border-[1px] from-[#25252566] dark:bg-gradient-to-br">
       <div className="gradient-border flex h-[50%] w-full items-center">
