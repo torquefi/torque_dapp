@@ -1,7 +1,8 @@
 import HoverIndicator from '@/components/common/HoverIndicator'
 import Modal from '@/components/common/Modal'
 import { AppStore } from '@/types/store'
-import { useWeb3Modal } from '@web3modal/react'
+import { useWeb3Modal, useWeb3ModalTheme } from '@web3modal/react'
+import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useConnect } from 'wagmi'
 
@@ -14,10 +15,20 @@ export default function ConnectWalletModal({
   openModal,
   handleClose,
 }: ConnectWalletModalProps) {
+  const { setTheme } = useWeb3ModalTheme()
   const { open } = useWeb3Modal()
   const { connect, connectors } = useConnect()
 
   const theme = useSelector((store: AppStore) => store.theme.theme)
+
+  useEffect(() => {
+    setTheme({
+      themeMode: 'dark',
+      themeVariables: {
+        '--w3m-accent-color': '#AA5BFF',
+      },
+    })
+  }, [])
 
   const CONNECTORS = [
     {

@@ -2,8 +2,8 @@ import NumberFormat from '@/components/common/NumberFormat'
 
 const HomePageFilter = () => {
   return (
-    <div className="relative flex h-[400px] w-full flex-wrap items-center justify-center rounded-[10px] border-[1px] border-[#1A1A1A] bg-gradient-to-br from-[#25252566]">
-      <div className="gradient-border  flex h-[50%] w-full items-center">
+    <div className="dark:border-[#1A1A1A] relative flex h-[400px] w-full flex-wrap items-center justify-center rounded-[10px] border-[1px] from-[#25252566] dark:bg-gradient-to-br">
+      <div className="gradient-border flex h-[50%] w-full items-center">
         <div className="w-[50%]">
           <div className="flex h-full w-full flex-col items-center justify-center gap-2   text-[#404040]   dark:text-white">
             <div className="text-[15px] text-[#959595]">Total Supply</div>
@@ -14,7 +14,7 @@ const HomePageFilter = () => {
                 value={0}
                 decimalScale={2}
                 fixedDecimalScale
-                prefix={"$"}
+                prefix={'$'}
               />
             </div>
           </div>
@@ -29,7 +29,7 @@ const HomePageFilter = () => {
                 value={0}
                 decimalScale={2}
                 fixedDecimalScale
-                prefix={"$"}
+                prefix={'$'}
               />
             </div>
           </div>
@@ -47,7 +47,7 @@ const HomePageFilter = () => {
                   value={0}
                   decimalScale={2}
                   fixedDecimalScale
-                  prefix={"$"}
+                  prefix={'$'}
                 />
               </div>
             </div>
@@ -62,7 +62,7 @@ const HomePageFilter = () => {
                   value={0}
                   decimalScale={2}
                   fixedDecimalScale
-                  prefix={"$"}
+                  prefix={'$'}
                 />
               </div>
             </div>
@@ -80,7 +80,7 @@ const HomePageFilter = () => {
                     value={0}
                     decimalScale={2}
                     fixedDecimalScale
-                    suffix={"%"}
+                    suffix={'%'}
                   />
                 </div>
               </div>
@@ -96,22 +96,22 @@ const HomePageFilter = () => {
                       value={82}
                       decimalScale={2}
                       fixedDecimalScale
-                      suffix={"%"}
+                      suffix={'%'}
                     />
                   </div>
                 </div>
               </span>
             </div>
           </div>
-          <div className="mb-4 flex h-2 overflow-hidden rounded bg-[#1A1A1A] text-xs">
+          <div className="dark:bg-[#1A1A1A] bg-[#d7d7d7] mb-4 flex h-2 overflow-hidden rounded text-xs">
             <div
               style={{ width: '70%' }}
-              className="flex flex-col justify-center whitespace-nowrap bg-[#1F1F1F] text-center text-white shadow-none"
+              className="dark:bg-[#1F1F1F] bg-[#929292] flex flex-col justify-center whitespace-nowrap rounded-full text-center text-white shadow-none"
             ></div>
           </div>
         </div>
       </div>
-      <div className="absolute z-100000  h-[160px] w-[160px] rounded-full border-2 border-[#25252566] bg-[#1A1A1A] p-2">
+      <div className="z-100000 absolute  h-[160px] w-[160px] rounded-full border-2 border-[#25252566] bg-[#1A1A1A] p-2">
         <div className="h-full w-full rounded-full border-2 border-[#C38BFF] bg-[#0D0D0D66]">
           <div className="flex h-full w-full flex-col items-center justify-center gap-2   text-[#404040]   dark:text-white">
             <div className="text-[14px] text-[#959595]">NET APY</div>
@@ -122,7 +122,7 @@ const HomePageFilter = () => {
                 value={0}
                 decimalScale={2}
                 fixedDecimalScale
-                suffix={"%"}
+                suffix={'%'}
               />
             </div>
           </div>
