@@ -27,6 +27,7 @@ export default function ConnectWalletModal({
       themeVariables: {
         '--w3m-accent-color': '#AA5BFF',
         '--w3m-background-color': '#AA5BFF',
+        "--w3m-z-index": '999'
       },
     })
   }, [])
