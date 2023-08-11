@@ -111,10 +111,10 @@ const HomePageFilter = () => {
           </div>
         </div>
       </div>
-      <div className="z-100000 absolute  h-[160px] w-[160px] rounded-full border-2 border-[#25252566] bg-[#1A1A1A] p-2">
-        <div className="h-full w-full rounded-full border-2 border-[#C38BFF] bg-[#0D0D0D66]">
-          <div className="flex h-full w-full flex-col items-center justify-center gap-2   text-[#404040]   dark:text-white">
-            <div className="text-[14px] text-[#959595]">NET APY</div>
+      <div className="z-100000 dark:bg-[#1A1A1A]  absolute h-[160px] w-[160px] rounded-full border-2 border-[#25252566] p-2">
+        <div className="dark:bg-[#0D0D0D66] bg-[#0D0D0D11] h-full w-full rounded-full border-2 border-[#C38BFF]">
+          <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-[#404040]   dark:text-white">
+            <div className="dark:text-[#959595] text-[14px]">NET APY</div>
             <div className="font-larken flex w-full items-center justify-center text-[32px]">
               <NumberFormat
                 displayType="text"
