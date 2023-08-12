@@ -104,7 +104,7 @@ const HomePageFilter = () => {
       </div>
       <div className="dark:bg-[#1F1F1F] bg-[#d7d7d7] h-2 w-full overflow-hidden rounded">
         <div
-          style={{ width: '70%' }}
+          style={{ width: '0%' }}
           className="from-[#C38BFF] to-[#AA5BFF] rounded-full bg-gradient-to-r h-full text-center text-white shadow-none"
         ></div>
       </div>
