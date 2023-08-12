@@ -40,7 +40,7 @@ const fakeBorrow = [
     coinIcon: '/icons/coin/eth.png',
     depositCoin: 'ETH',
     borrowCoin: 'USG',
-    loanToValue: 83,
+    loanToValue: 78,
     getTORQ: 32,
     amount: 0,
     amountRecieve: 0,

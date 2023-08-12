@@ -314,7 +314,7 @@ export default function CreateBorrowItem({ item }: any) {
       </div>
       <div className="flex justify-between text-[#959595]">
         <p>Liquidity</p>
-        <p>$187.2m</p>
+        <p>$8m</p>
       </div>
       <button
         className={`bg-gradient-primary font-mona flex w-full items-center justify-center rounded-full py-[4px] uppercase text-white transition-all duration-200 ${
