@@ -274,13 +274,13 @@ export default function BorrowItem({ item }: any) {
       />
       <div className="w-1/4 space-y-1">
         <p className="font-larken whitespace-nowrap text-[22px]">
-          {(
+          {/* {(
             (dataUserBorrow?.borrowed /
               (dataUserBorrow?.supplied *
                 price[`${item.token.toLowerCase()}`])) *
-              100 || 0
-          ).toFixed(2)}
-          %
+            100 || 0
+          ).toFixed(2)} */}
+          0%
         </p>
         <p className="whitespace-nowrap text-[14px] text-[#959595]">
           Loan-to-value
@@ -288,7 +288,8 @@ export default function BorrowItem({ item }: any) {
       </div>
       <div className="w-1/4 space-y-1">
         <p className="font-larken whitespace-nowrap text-[22px]">
-          {borrowAPR.toFixed(2)}%
+          {/* {borrowAPR.toFixed(2)}% */}
+          0%
         </p>
         <p className="whitespace-nowrap text-[14px] text-[#959595]">Variable APR</p>
       </div>
@@ -368,10 +369,9 @@ export default function BorrowItem({ item }: any) {
         <div
           className={
             'flex flex-wrap overflow-hidden px-[16px] transition-all duration-300 sm:px-[24px]' +
-            ` ${
-              isExpand
-                ? 'max-h-[1000px] py-[16px] ease-in'
-                : 'max-h-0 py-0 ease-out'
+            ` ${isExpand
+              ? 'max-h-[1000px] py-[16px] ease-in'
+              : 'max-h-0 py-0 ease-out'
             }`
           }
         >
@@ -404,10 +404,9 @@ export default function BorrowItem({ item }: any) {
                     key={i}
                     className={
                       'w-[52px]  py-[8px] text-[10px] leading-none xs:w-[80px] xs:text-[12px]' +
-                      ` ${
-                        action === item
-                          ? 'rounded-md bg-[#F4F4F4] dark:bg-[#171717]'
-                          : 'text-[#959595]'
+                      ` ${action === item
+                        ? 'rounded-md bg-[#F4F4F4] dark:bg-[#171717]'
+                        : 'text-[#959595]'
                       }`
                     }
                     onClick={() => setAction(item)}
@@ -439,9 +438,8 @@ export default function BorrowItem({ item }: any) {
               </div>
             </div>
             <button
-              className={`bg-gradient-primary flex  w-full items-center justify-center rounded-full py-[4px] uppercase text-white transition-all duration-200 ${
-                buttonLoading && 'cursor-not-allowed opacity-50'
-              }`}
+              className={`bg-gradient-primary flex  w-full items-center justify-center rounded-full py-[4px] uppercase text-white transition-all duration-200 ${buttonLoading && 'cursor-not-allowed opacity-50'
+                }`}
               disabled={buttonLoading != ''}
               onClick={() => onRepay()}
             >
