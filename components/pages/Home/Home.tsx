@@ -20,10 +20,10 @@ const HomePageFilter = () => {
   return (
     <div className="dark:border-[#1A1A1A] relative flex w-full flex-wrap items-center justify-center rounded-[10px] border-[1px] from-[#25252566] dark:bg-gradient-to-br pt-[80px] md:pt-0 mt-[80px] md:mt-0">
       <div className="h-[100px] md:h-[160px] w-full md:w-[50%]">
-        <div className="flex h-full w-full flex-col items-center justify-center space-y-2">
+        <div className="flex flex-col items-center justify-center w-full h-full space-y-2">
           <div className="text-[15px] text-[#959595]">Total Supply</div>
           <NumberFormat
-            className='font-larken text-[32px] text-[#404040] dark:text-white'
+            className='font-larken text-[28px] text-[#404040] dark:text-white'
             displayType="text"
             thousandSeparator
             value={0}
@@ -34,10 +34,10 @@ const HomePageFilter = () => {
         </div>
       </div>
       <div className="h-[100px] md:h-[160px] w-full md:w-[50%]">
-        <div className="flex h-full w-full flex-col items-center justify-center space-y-2">
+        <div className="flex flex-col items-center justify-center w-full h-full space-y-2">
           <div className="text-[15px] text-[#959595]">Total Borrow</div>
           <NumberFormat
-            className='font-larken text-[32px] text-[#404040] dark:text-white'
+            className='font-larken text-[28px] text-[#404040] dark:text-white'
             displayType="text"
             thousandSeparator
             value={0}
@@ -49,10 +49,10 @@ const HomePageFilter = () => {
       </div>
       <div className="hidden md:block gradient-border h-[1px] w-full"></div>
       <div className="h-[100px] md:h-[160px] w-full md:w-[50%]">
-        <div className="flex h-full w-full flex-col items-center justify-center space-y-2">
+        <div className="flex flex-col items-center justify-center w-full h-full space-y-2">
           <div className="text-[15px] text-[#959595]">Your Supply</div>
           <NumberFormat
-            className='font-larken text-[32px] text-[#404040] dark:text-white'
+            className='font-larken text-[28px] text-[#404040] dark:text-white'
             displayType="text"
             thousandSeparator
             value={0}
@@ -63,10 +63,10 @@ const HomePageFilter = () => {
         </div>
       </div>
       <div className="h-[100px] md:h-[160px] w-full md:w-[50%]">
-        <div className="flex h-full w-full flex-col items-center justify-center space-y-2">
+        <div className="flex flex-col items-center justify-center w-full h-full space-y-2">
           <div className="text-[15px] text-[#959595]">Your Borrow</div>
           <NumberFormat
-            className='font-larken text-[32px] text-[#404040] dark:text-white'
+            className='font-larken text-[28px] text-[#404040] dark:text-white'
             displayType="text"
             thousandSeparator
             value={0}
@@ -95,7 +95,7 @@ const HomePageFilter = () => {
             className='font-larken text-[16px]'
             displayType="text"
             thousandSeparator
-            value={82}
+            value={78}
             decimalScale={2}
             fixedDecimalScale
             suffix={'%'}
@@ -110,10 +110,10 @@ const HomePageFilter = () => {
       </div>
       <div className="z-100000 dark:bg-[#1A1A1A] top-[-80px] md:top-auto absolute h-[160px] w-[160px] rounded-full border-2 border-[#25252566] bg-white p-2">
         <div className="dark:bg-[#0D0D0D66] h-full w-full rounded-full border-4 border-[#C38BFF]">
-          <div className="flex h-full w-full flex-col items-center justify-center space-y-2">
+          <div className="flex flex-col items-center justify-center w-full h-full space-y-2">
             <div className="text-[#959595] text-[14px]">NET APY</div>
             <NumberFormat
-              className='font-larken text-[32px] text-[#404040] dark:text-white'
+              className='font-larken text-[28px] text-[#404040] dark:text-white'
               displayType="text"
               thousandSeparator
               value={0}
