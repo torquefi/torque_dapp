@@ -2,7 +2,7 @@
   
 ## The future of money without borders
 
-### Arbitrum support 
+### Arbitrum support
 
 
 
