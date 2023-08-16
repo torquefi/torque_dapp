@@ -12,7 +12,7 @@ const HomePageFilter = () => {
   if (isLoading) {
     return (
       <div className="">
-        <SkeletonDefault height={'50vh'} width={'100%'} />
+        <SkeletonDefault height={'40vh'} width={'100%'} />
       </div>
     )
   }
