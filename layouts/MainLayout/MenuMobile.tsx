@@ -1,13 +1,14 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo, useRef, useState } from 'react'
+import ClaimModal from './ClaimModal'
 
 export const MenuMobile = () => {
   const [activeTabIndex, setActiveTabIndex] = useState(0)
   const router = useRouter()
   const menuContainer = useRef<HTMLDivElement>(null)
   const menuIndicator = useRef<HTMLDivElement>(null)
-
+  const [isOpenClaim, setIsOpenClaim] = useState(false)
   const currentTabIndex = useMemo(
     () => menu.map((item) => item.path).indexOf(router.pathname),
     [router.pathname]
@@ -61,6 +62,7 @@ export const MenuMobile = () => {
           <div className="flex h-full w-full items-center bg-[#030303] bg-opacity-40 dark:bg-[#030303]">
             {menu.map((item, i) => (
               <Link
+                onClick={!item.path ? () => setIsOpenClaim(true) : null}
                 href={item.path}
                 key={i}
                 className={
@@ -75,6 +77,10 @@ export const MenuMobile = () => {
         </div>
       </div>
       <div className="h-[56px] md:hidden" />
+      <ClaimModal
+        openModal={isOpenClaim}
+        handleClose={() => setIsOpenClaim(false)}
+      />
     </div>
   )
 }
@@ -92,7 +98,7 @@ const menu = [
   },
   {
     label: 'Overview',
-    path: '/overview',
+    path: '',
     icon: '/assets/main-layout/t-menu.png',
   },
   {
