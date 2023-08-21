@@ -26,7 +26,7 @@ export const BoostPage = () => {
         {isLoading ? (
           <div>
             <div className="hidden lg:block">
-              <SkeletonDefault height={'50vh'} width={'100%'} />
+              <SkeletonDefault height={'48vh'} width={'100%'} />
             </div>
             <div className="lg:hidden">
               <SkeletonDefault height={'15vh'} width={'100%'} />
