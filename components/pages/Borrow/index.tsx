@@ -14,8 +14,8 @@ export const BorrowPage = () => {
   if (isLoading) {
     return (
       <div className="">
-        <div className=" hidden lg:block">
-          <SkeletonDefault height={'50vh'} />
+        <div className="hidden  lg:block">
+          <SkeletonDefault height={'48vh'} />
         </div>
         <div className=" lg:hidden">
           <SkeletonDefault height={'15vh'} />
