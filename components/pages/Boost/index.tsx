@@ -44,7 +44,7 @@ export const BoostPage = () => {
           />
         )}
         <Link
-          href="/overview"
+          href="/home"
           className="absolute left-[24px] top-[18px] flex h-[28px] w-[28px] items-center justify-center rounded-full bg-[#FCFAFF] dark:bg-[#030303] lg:top-[24px] lg:h-[48px] lg:w-[48px]"
         >
           <img
