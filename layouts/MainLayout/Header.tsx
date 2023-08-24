@@ -15,6 +15,7 @@ import { useSelector } from 'react-redux'
 import { useAccount, useDisconnect, useNetwork } from 'wagmi'
 import Web3 from 'web3'
 import ConnectWalletModal from './ConnectWalletModal'
+import ClaimModal from './ClaimModal'
 
 const goerliTestnetInfo = {
   name: 'Arbitrum',
@@ -37,7 +38,7 @@ export const Header = () => {
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
   const [activeTabIndex, setActiveTabIndex] = useState(0)
   const [tokenPrice, setTokenPrice] = useState<any>(0)
-
+  const [isOpenClaim, setIsOpenClaim] = useState(false)
   const router = useRouter()
 
   // const goerliTestnetInfo = {
@@ -139,10 +140,9 @@ export const Header = () => {
             </h2>
           </Link>
           <div className="flex items-center">
-            <Link
-              href="#"
-              className="mr-[12px] hidden items-center xs:flex lg:mr-[24px]"
-              target={'_blank'}
+            <div
+              onClick={() => setIsOpenClaim(true)}
+              className="mr-[12px] hidden items-center xs:flex lg:mr-[24px] cursor-pointer"
             >
               <img
                 className="mr-1 h-[24px] lg:h-[26px]"
@@ -159,7 +159,7 @@ export const Header = () => {
                   fixedDecimalScale
                 />
               </p>
-            </Link>
+            </div>
             {isConnected && address ? (
               <Popover
                 placement="bottom-right"
@@ -256,6 +256,10 @@ export const Header = () => {
       <ConnectWalletModal
         openModal={isOpenConnectWalletModal}
         handleClose={() => setOpenConnectWalletModal(false)}
+      />
+      <ClaimModal
+        openModal={isOpenClaim}
+        handleClose={() => setIsOpenClaim(false)}
       />
       <div className="h-[92px]" />
       {isShowNetworkAlert && <div className="h-[44px]" />}
