@@ -208,14 +208,16 @@ export function CreateBoostItem({ item }: any) {
       </div>
       <div className="font-mona flex w-full items-center justify-between text-[16px] text-[#959595]">
         <div className="font-mona">Variable APY</div>
-        <div className="">{item.APR}%</div>
+        <div className="">
+          0%
+          {/* {item.APR}% */}
+        </div>
       </div>
       <button
         className={`font-mona mt-4 w-full rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all duration-300 ease-linear hover:bg-gradient-to-t 
-        ${
-          (btnLoading != '' || boostVault.amount <= 0) &&
+        ${(btnLoading != '' || boostVault.amount <= 0) &&
           'cursor-not-allowed opacity-50'
-        }
+          }
         `}
         onClick={() => onDeposit()}
       >
