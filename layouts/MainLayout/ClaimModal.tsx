@@ -40,7 +40,7 @@ export default function ClaimModal({
               {item.title}
             </div>
             <div className="mt-2 text-[15px] text-[#959595]">
-              {rewards?.content}
+              {item?.content}
             </div>
           </div>
         ))}
