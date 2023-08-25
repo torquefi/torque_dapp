@@ -23,7 +23,7 @@ export default function ClaimModal({
       handleClose={handleClose}
       hideCloseIcon
     >
-      <div className="flex items-center justify-between  p-4">
+      <div className="flex items-center justify-between p-4">
         <div className="font-larken text-[18px] text-[22px] dark:text-white">
           Rewards
         </div>
@@ -57,19 +57,19 @@ export default function ClaimModal({
 
 const rewards = [
   {
-    title: '84 TORQ',
-    content: '84 TORQ',
+    title: '0.00 TORQ',
+    content: 'Claimable',
   },
   {
-    title: '$1,564.04',
+    title: '$0.00',
     content: 'Dollar value',
   },
   {
-    title: '$0.018',
+    title: '$0.00',
     content: 'Current price',
   },
   {
-    title: '$10.4m',
+    title: '$0.00',
     content: 'Market cap',
   },
 ]
