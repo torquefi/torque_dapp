@@ -35,7 +35,7 @@ export default function ClaimModal({
       <div className="gradient-border hidden h-[1px] w-full md:block"></div>
       <div className="grid h-[280px] w-full  grid-cols-2 gap-2 overflow-y-auto py-[22px]">
         {rewards.map((item) => (
-          <div className="flex h-[102px] flex-col items-center justify-center rounded-md border border-[#0D0D0D]">
+          <div className="flex bg-claim-reward h-[102px] flex-col items-center justify-center rounded-[8px] border-[1px] border-[#1A1A1A]">
             <div className="font-larken text-[24px] text-[#404040] dark:text-white">
               {item.title}
             </div>
