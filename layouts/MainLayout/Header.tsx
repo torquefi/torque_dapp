@@ -125,7 +125,7 @@ export const Header = () => {
           Torque is not supported on this network. Please switch to Arbitrum
           Goerli.
         </div>
-        <div className="relative flex h-[72px] items-center justify-between px-4 sm:px-8">
+        <div className="container relative mx-auto flex h-[72px] max-w-screen-xl items-center justify-between px-4 lg:px-8">
           <Link href="/" className="flex items-center">
             <img
               className="h-[32px] sm:h-[32px]"
