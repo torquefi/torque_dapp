@@ -331,7 +331,7 @@ export default function StakingInfo({
 
   const summaryInfor = (item: IStakingInfo) => {
     return (
-      <div className="flex w-full items-center justify-between">
+      <div className="flex items-center justify-between w-full">
         <CurrencySwitch
           tokenSymbol={item?.symbol}
           tokenValue={+totalStaked}
@@ -411,7 +411,7 @@ export default function StakingInfo({
           )}
         </div>
         <div className="flex items-center justify-end gap-14">
-          <div className="hidden items-center justify-between gap-14 lg:flex">
+          <div className="items-center justify-between hidden gap-14 lg:flex">
             {summaryInfor(stakeInfo)}
           </div>
           <div className="flex flex-col items-center justify-center gap-2">
@@ -449,7 +449,7 @@ export default function StakingInfo({
           <div className="text-[28px]">Withdraw {stakeInfo?.symbol}</div>
           <div className="mt-2 flex w-full items-center justify-between rounded-[12px] border bg-[#FCFAFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-2 py-4 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
             <NumberFormat
-              className="font-mona w-full bg-transparent bg-none px-2 focus:outline-none"
+              className="w-full px-2 bg-transparent font-mona bg-none focus:outline-none"
               placeholder="Select amount"
               value={amount || ''}
               onChange={(e: any, value: any) => setAmount(value)}
@@ -469,7 +469,7 @@ export default function StakingInfo({
             </div>
           </div>
           <button
-            className="font-mona mt-4 flex w-full justify-center rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[16px] uppercase text-white transition-all duration-300 ease-linear hover:bg-gradient-to-t"
+            className="font-mona mt-4 w-full rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] border border-[#AA5BFF] py-1 uppercase text-white transition-all hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] hover:border-[#AA5BFF] hover:border"
             onClick={() => handleWithdraw()}
           >
             {isSubmitLoading && <LoadingCircle />}

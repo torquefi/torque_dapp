@@ -192,7 +192,7 @@ export default function StakingPoolItem({
 
   return (
     <div className="rounded-[12px] border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-8 py-6 text-[#404040] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white">
-      <div className="flex w-full items-center justify-between">
+      <div className="flex items-center justify-between w-full">
         <div className="flex items-center gap-2">
           <img
             src={`/assets/t-logo-circle.svg`}
@@ -217,7 +217,7 @@ export default function StakingPoolItem({
           </Link>
         </div>
       </div>
-      <div className="mt-4 flex w-full items-center justify-center gap-4 ">
+      <div className="flex items-center justify-center w-full gap-4 mt-4 ">
         <div className="flex h-[140px] w-1/2 flex-col items-center justify-center gap-3 rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
           <InputCurrencySwitch
             tokenSymbol={stakeInfo?.symbol}
@@ -261,7 +261,7 @@ export default function StakingPoolItem({
       </div>
       <button
         className={
-          'font-mona mt-4 flex w-full items-center justify-center rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white hover:bg-gradient-to-t' +
+          'font-mona mt-4 w-full rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] border border-[#AA5BFF] py-1 uppercase text-white transition-all hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] hover:border-[#AA5BFF] hover:border' +
           ` ${
             isSubmitLoading || isDisabled
               ? 'cursor-not-allowed text-[#eee]'

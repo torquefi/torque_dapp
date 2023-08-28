@@ -438,7 +438,7 @@ export default function BorrowItem({ item }: any) {
               </div>
             </div>
             <button
-              className={`bg-gradient-primary flex  w-full items-center justify-center rounded-full py-[4px] uppercase text-white transition-all duration-200 ${buttonLoading && 'cursor-not-allowed opacity-50'
+              className={`font-mona mt-4 w-full rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] border border-[#AA5BFF] py-1 uppercase text-white transition-all hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] hover:border-[#AA5BFF] hover:border ${buttonLoading && 'cursor-not-allowed opacity-50'
                 }`}
               disabled={buttonLoading != ''}
               onClick={() => onRepay()}

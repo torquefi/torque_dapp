@@ -126,7 +126,7 @@ export function CreateBoostItem({ item }: any) {
         `  ${theme === 'light' ? ' bg-[#FCFAFF]' : 'bg-overview'}`
       }
     >
-      <div className="flex w-full items-center justify-between">
+      <div className="flex items-center justify-between w-full">
         <div className="flex items-center">
           <img
             src={`/icons/coin/${item.token.toLocaleLowerCase()}.png`}
@@ -158,7 +158,7 @@ export function CreateBoostItem({ item }: any) {
           </Link>
         </Popover>
       </div>
-      <div className="font-larken mt-4 grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-4 mt-4 font-larken">
         <div className="flex h-[110px] w-full flex-col items-center justify-center gap-3 rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A]  dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
           <InputCurrencySwitch
             tokenSymbol={boostVault.token}
@@ -214,7 +214,7 @@ export function CreateBoostItem({ item }: any) {
         </div>
       </div>
       <button
-        className={`font-mona mt-4 w-full rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all duration-300 ease-linear hover:bg-gradient-to-t 
+        className={`font-mona mt-4 w-full rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] border border-[#AA5BFF] py-1 uppercase text-white transition-all hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] hover:border-[#AA5BFF] hover:border
         ${(btnLoading != '' || boostVault.amount <= 0) &&
           'cursor-not-allowed opacity-50'
           }

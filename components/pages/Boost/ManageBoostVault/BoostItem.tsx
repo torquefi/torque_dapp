@@ -306,7 +306,7 @@ export function BoostItem({ item }: any) {
             </div>
           </div>
           <button
-            className={`font-mona mt-4 w-full rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[16px] uppercase text-white transition-all duration-300 ease-linear hover:bg-gradient-to-t
+            className={`font-mona mt-4 w-full rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] border border-[#AA5BFF] py-1 uppercase text-white transition-all hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] hover:border-[#AA5BFF] hover:border
             ${btnLoading != '' && 'cursor-not-allowed opacity-70'}
             `}
             disabled={btnLoading != ''}
