@@ -49,3 +49,17 @@
   background-repeat: no-repeat;
   background-position: center bottom;
 }
+.gradient-border-white {
+  background: linear-gradient(
+    90deg,
+    #fff 0%,
+    #E1E1E1 30%,
+    #E0E0E0 50%,
+    #E1E1E1 70%,
+    #fff 100%
+  );
+  background-position: bottom;
+  background-size: 100% 1px; 
+  background-repeat: no-repeat;
+  background-position: center bottom;
+}
