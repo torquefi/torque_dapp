@@ -1,5 +1,6 @@
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
 import NumberFormat from '@/components/common/NumberFormat'
+import { VaultChart } from '@/components/common/VaultChart'
 import { stakeLpContract, tokenTorqContract } from '@/constants/contracts'
 import { AppStore } from '@/types/store'
 import { BigNumber, ethers } from 'ethers'
@@ -331,7 +332,7 @@ export default function StakingInfo({
 
   const summaryInfor = (item: IStakingInfo) => {
     return (
-      <div className="flex items-center justify-between w-full">
+      <div className="flex w-full items-center justify-between">
         <CurrencySwitch
           tokenSymbol={item?.symbol}
           tokenValue={+totalStaked}
@@ -411,7 +412,7 @@ export default function StakingInfo({
           )}
         </div>
         <div className="flex items-center justify-end gap-14">
-          <div className="items-center justify-between hidden gap-14 lg:flex">
+          <div className="hidden items-center justify-between gap-14 lg:flex">
             {summaryInfor(stakeInfo)}
           </div>
           <div className="flex flex-col items-center justify-center gap-2">
@@ -443,13 +444,14 @@ export default function StakingInfo({
         </div>
         <div className="">
           {/* <Chart /> */}
-          <img src="/assets/pages/boost/chart.svg" alt="" />
+          {/* <img src="/assets/pages/boost/chart.svg" alt="" /> */}
+          <VaultChart label="Stake Apy" percent={2.81} value={49510000} />
         </div>
         <div className="mt-10">
           <div className="text-[28px]">Withdraw {stakeInfo?.symbol}</div>
           <div className="mt-2 flex w-full items-center justify-between rounded-[12px] border bg-[#FCFAFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-2 py-4 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
             <NumberFormat
-              className="w-full px-2 bg-transparent font-mona bg-none focus:outline-none"
+              className="font-mona w-full bg-transparent bg-none px-2 focus:outline-none"
               placeholder="Select amount"
               value={amount || ''}
               onChange={(e: any, value: any) => setAmount(value)}
@@ -469,7 +471,7 @@ export default function StakingInfo({
             </div>
           </div>
           <button
-            className="font-mona mt-4 w-full rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] border border-[#AA5BFF] py-1 uppercase text-white transition-all hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] hover:border-[#AA5BFF] hover:border"
+            className="font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]"
             onClick={() => handleWithdraw()}
           >
             {isSubmitLoading && <LoadingCircle />}

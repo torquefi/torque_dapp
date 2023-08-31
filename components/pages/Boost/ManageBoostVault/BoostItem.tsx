@@ -1,4 +1,5 @@
 import CurrencySwitch from '@/components/common/CurrencySwitch'
+import { VaultChart } from '@/components/common/VaultChart'
 import { AppStore } from '@/types/store'
 import { useEffect, useRef, useState } from 'react'
 import { AutowidthInput } from 'react-autowidth-input'
@@ -147,7 +148,7 @@ export function BoostItem({ item }: any) {
 
   const summaryInfor = (item: any) => {
     return (
-      <div className="flex items-center justify-between w-full">
+      <div className="flex w-full items-center justify-between">
         <CurrencySwitch
           tokenSymbol={item?.token}
           tokenValue={deposited}
@@ -234,7 +235,7 @@ export function BoostItem({ item }: any) {
           )}
         </div>
         <div className="flex items-center justify-end gap-14">
-          <div className="items-center justify-between hidden gap-14 lg:flex">
+          <div className="hidden items-center justify-between gap-14 lg:flex">
             {summaryInfor(item)}
           </div>
           <div className="flex flex-col items-center justify-center gap-2">
@@ -274,14 +275,15 @@ export function BoostItem({ item }: any) {
         </div>
         <div className="">
           {/* <Chart /> */}
-          <img src="/assets/pages/boost/chart.svg" alt="" />
+          {/* <img src="/assets/pages/boost/chart.svg" alt="" /> */}
+          <VaultChart label="Boost Apr" percent={2.81} value={49510000} />
         </div>
         <div className="mt-10">
           <div className="text-[28px]">Withdraw ETH</div>
           <div className="mt-2 flex w-full items-center justify-between rounded-[12px] border bg-[#FCFAFF] px-2 py-4 dark:border-[#1A1A1A] dark:bg-[#161616]">
             <input
               type="number"
-              className="w-full px-2 font-mona bg-none focus:outline-none"
+              className="font-mona w-full bg-none px-2 focus:outline-none"
               style={{ backgroundColor: 'transparent' }}
               value={dataBoostVault.amount}
               placeholder="Select amount"
@@ -306,7 +308,7 @@ export function BoostItem({ item }: any) {
             </div>
           </div>
           <button
-            className={`font-mona mt-4 w-full rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] border border-[#AA5BFF] py-1 uppercase text-white transition-all hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] hover:border-[#AA5BFF] hover:border
+            className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
             ${btnLoading != '' && 'cursor-not-allowed opacity-70'}
             `}
             disabled={btnLoading != ''}

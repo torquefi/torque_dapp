@@ -1,6 +1,7 @@
 import CurrencySwitch from '@/components/common/CurrencySwitch'
 import { getPriceToken } from '@/components/common/InputCurrencySwitch'
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
+import { VaultChart } from '@/components/common/VaultChart'
 import SkeletonDefault from '@/components/skeleton'
 import { AppStore } from '@/types/store'
 import { useEffect, useMemo, useRef, useState } from 'react'
@@ -12,6 +13,7 @@ import { useSelector } from 'react-redux'
 import { toast } from 'sonner'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
+
 enum Action {
   Repay = 'Repay',
   Withdraw = 'Withdraw',
@@ -250,7 +252,7 @@ export default function BorrowItem({ item }: any) {
       <CurrencySwitch
         tokenSymbol={''}
         tokenValue={dataUserBorrow?.supplied || item.collateral}
-        className="w-1/4 py-4 -my-4 space-y-1 font-larken"
+        className="font-larken -my-4 w-1/4 space-y-1 py-4"
         decimalScale={2}
         render={(value) => (
           <div>
@@ -263,7 +265,7 @@ export default function BorrowItem({ item }: any) {
         tokenSymbol={'USG'}
         tokenValue={dataUserBorrow?.borrowed || item.borrow}
         usdDefault
-        className="w-1/4 py-4 -my-4 space-y-1 font-larken"
+        className="font-larken -my-4 w-1/4 space-y-1 py-4"
         decimalScale={2}
         render={(value) => (
           <div>
@@ -291,7 +293,9 @@ export default function BorrowItem({ item }: any) {
           {/* {borrowAPR.toFixed(2)}% */}
           0%
         </p>
-        <p className="whitespace-nowrap text-[14px] text-[#959595]">Variable APR</p>
+        <p className="whitespace-nowrap text-[14px] text-[#959595]">
+          Variable APR
+        </p>
       </div>
     </div>
   )
@@ -369,9 +373,10 @@ export default function BorrowItem({ item }: any) {
         <div
           className={
             'flex flex-wrap overflow-hidden px-[16px] transition-all duration-300 sm:px-[24px]' +
-            ` ${isExpand
-              ? 'max-h-[1000px] py-[16px] ease-in'
-              : 'max-h-0 py-0 ease-out'
+            ` ${
+              isExpand
+                ? 'max-h-[1000px] py-[16px] ease-in'
+                : 'max-h-0 py-0 ease-out'
             }`
           }
         >
@@ -391,7 +396,8 @@ export default function BorrowItem({ item }: any) {
                 },
               ]}
             /> */}
-            <img src="/assets/pages/boost/chart.svg" alt="" />
+            {/* <img src="/assets/pages/boost/chart.svg" alt="" /> */}
+            <VaultChart label="Borrow Apr" percent={2.81} value={49510000} />
           </div>
           <div className="w-full space-y-6 md:w-[60%] md:pl-[36px] lg:w-[50%] xl:w-[45%]">
             <div className="flex items-center justify-between">
@@ -404,9 +410,10 @@ export default function BorrowItem({ item }: any) {
                     key={i}
                     className={
                       'w-[52px]  py-[8px] text-[10px] leading-none xs:w-[80px] xs:text-[12px]' +
-                      ` ${action === item
-                        ? 'rounded-md bg-[#F4F4F4] dark:bg-[#171717]'
-                        : 'text-[#959595]'
+                      ` ${
+                        action === item
+                          ? 'rounded-md bg-[#F4F4F4] dark:bg-[#171717]'
+                          : 'text-[#959595]'
                       }`
                     }
                     onClick={() => setAction(item)}
@@ -438,8 +445,9 @@ export default function BorrowItem({ item }: any) {
               </div>
             </div>
             <button
-              className={`font-mona mt-4 w-full rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] border border-[#AA5BFF] py-1 uppercase text-white transition-all hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] hover:border-[#AA5BFF] hover:border ${buttonLoading && 'cursor-not-allowed opacity-50'
-                }`}
+              className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${
+                buttonLoading && 'cursor-not-allowed opacity-50'
+              }`}
               disabled={buttonLoading != ''}
               onClick={() => onRepay()}
             >
