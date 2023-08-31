@@ -42,7 +42,7 @@ export const VaultChart: FC<VaultChartProps> = (props) => {
               displayType="text"
               value={+value}
               thousandSeparator
-              prefix='$'
+              prefix="$"
             />
           </div>
           <div className="text-14 text-[#BCBBCA]">
@@ -198,7 +198,9 @@ export const VaultChart: FC<VaultChartProps> = (props) => {
           </ComposedChart>
         </ResponsiveContainer>
         <div className="text-center text-[14px]">
-          <p className="font-body font-extrabold text-[#788D9F]">AUG 10</p>
+          <p className="font-body font-extrabold text-[#788D9F]">
+            {format(new Date(), 'MMM dd')}
+          </p>
         </div>
       </div>
     </>

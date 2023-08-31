@@ -276,7 +276,11 @@ export function BoostItem({ item }: any) {
         <div className="">
           {/* <Chart /> */}
           {/* <img src="/assets/pages/boost/chart.svg" alt="" /> */}
-          <VaultChart label="Boost Apr" percent={2.81} value={49510000} />
+          <VaultChart
+            label="Boost Apr"
+            percent={+item.APR?.replace('%', '')}
+            value={49510000}
+          />
         </div>
         <div className="mt-10">
           <div className="text-[28px]">Withdraw ETH</div>

@@ -397,7 +397,7 @@ export default function BorrowItem({ item }: any) {
               ]}
             /> */}
             {/* <img src="/assets/pages/boost/chart.svg" alt="" /> */}
-            <VaultChart label="Borrow Apr" percent={2.81} value={49510000} />
+            <VaultChart label="Borrow Apr" percent={borrowAPR} value={49510000} />
           </div>
           <div className="w-full space-y-6 md:w-[60%] md:pl-[36px] lg:w-[50%] xl:w-[45%]">
             <div className="flex items-center justify-between">
