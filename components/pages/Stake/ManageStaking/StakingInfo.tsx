@@ -445,7 +445,7 @@ export default function StakingInfo({
         <div className="">
           {/* <Chart /> */}
           {/* <img src="/assets/pages/boost/chart.svg" alt="" /> */}
-          <VaultChart label="Stake Apy" percent={apr} value={49510000} />
+          <VaultChart label="Stake Apy" percent={apr as any} value={49510000} />
         </div>
         <div className="mt-10">
           <div className="text-[28px]">Withdraw {stakeInfo?.symbol}</div>
