@@ -72,7 +72,7 @@ export default function CreateBorrowItem({ item }: any) {
         name: 'compound_abi',
       })
       if (dataABICompound?.abi) {
-        const web3 = new Web3('https://rpc.ankr.com/eth')
+        const web3 = new Web3('https://arbitrum-goerli.publicnode.com')
         const contract = new web3.eth.Contract(
           JSON.parse(dataABICompound?.abi),
           dataABICompound?.address
@@ -140,7 +140,7 @@ export default function CreateBorrowItem({ item }: any) {
         return
       }
       setButtonLoading('APPROVING...')
-      if (!isApproved) {
+      if (!isApproved && item.depositCoin == 'BTC') {
         await contractAsset.methods
           .approve(
             contractBorrow._address,
@@ -155,7 +155,7 @@ export default function CreateBorrowItem({ item }: any) {
 
       if (item.depositCoin == 'BTC') {
         await contractBorrow.methods
-          .borrow(
+          .borrow2(
             Moralis.Units.Token(
               Number(dataBorrow.amount).toFixed(9),
               item.decimals_asset
@@ -173,6 +173,10 @@ export default function CreateBorrowItem({ item }: any) {
           .borrow(
             Moralis.Units.Token(
               Number(dataBorrow.amountRecieve).toFixed(2),
+              item.decimals_USG
+            ),
+            Moralis.Units.Token(
+              Number(dataBorrow.amountRecieve - 1).toFixed(2),
               item.decimals_USG
             )
           )
@@ -294,10 +298,18 @@ export default function CreateBorrowItem({ item }: any) {
             className="translate-x-3"
             target={'_blank'}
           >
-            <img src={'/icons/coin/compound.svg'} alt="Compound" className="w-[26px]" />
+            <img
+              src={'/icons/coin/compound.svg'}
+              alt="Compound"
+              className="w-[26px]"
+            />
           </Link>
           <Link href={'https://www.usg.money/'} className="" target={'_blank'}>
-            <img src={'/icons/coin/usg.svg'} alt="USG.money" className="w-[26px]" />
+            <img
+              src={'/icons/coin/usg.svg'}
+              alt="USG.money"
+              className="w-[26px]"
+            />
           </Link>
         </div>
       </div>
@@ -317,7 +329,7 @@ export default function CreateBorrowItem({ item }: any) {
         <p>$8m</p>
       </div>
       <button
-        className={`font-mona mt-4 w-full rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] border border-[#AA5BFF] py-1 uppercase text-white transition-all hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] hover:border-[#AA5BFF] hover:border ${
+        className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${
           buttonLoading && 'cursor-not-allowed opacity-50'
         }`}
         disabled={buttonLoading != ''}
