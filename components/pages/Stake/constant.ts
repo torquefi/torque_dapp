@@ -20,7 +20,7 @@ export const STAKING_POOLS: IStakingInfo[] = [
   },
   {
     label: 'LP',
-    symbol: 'LP',
+    symbol: 'TORQ',
     threeYearValue: 0,
     rate: 2.68,
     APR: 56,
@@ -44,7 +44,7 @@ export const STAKING_DATA: IStakingInfo[] = [
   },
   {
     label: 'LP',
-    symbol: 'LP',
+    symbol: 'TORQ',
     deposited: 0,
     earnings: 0,
     APR: 56,

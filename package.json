@@ -26,6 +26,7 @@
     "axios": "^0.24.0",
     "bignumber.js": "^9.1.1",
     "date-fns": "^2.25.0",
+    "dayjs": "^1.11.9",
     "eslint-plugin-jest": "^25.2.4",
     "ethers": "^5",
     "framer-motion": "^5.3.1",

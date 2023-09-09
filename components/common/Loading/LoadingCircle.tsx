@@ -1,6 +1,6 @@
 export default function LoadingCircle() {
   return (
-    <div className="pr-3">
+    <div className="inline-block pr-3">
       <svg
         role="status"
         className="mr-3 inline h-4 w-4 animate-spin text-white"

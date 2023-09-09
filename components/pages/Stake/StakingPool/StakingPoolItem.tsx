@@ -71,6 +71,11 @@ export default function StakingPoolItem({
     console.log('address :>> ', address)
 
     try {
+      const isEnableStake = await stakingContract.methods.enabled().call()
+      if (!isEnableStake) {
+        setSubmitLoading(false)
+        return toast.error('Staking is not enabled')
+      }
       const allowance = await handleGetAllowance()
       if (+allowance < +amount) {
         await tokenContract.methods
@@ -268,7 +273,7 @@ export default function StakingPoolItem({
               : 'cursor-pointer '
           }`
         }
-        disabled={isDisabled || isSubmitLoading}
+        // disabled={isDisabled || isSubmitLoading}
         onClick={() => stakeToken()}
       >
         {isSubmitLoading && <LoadingCircle />}
