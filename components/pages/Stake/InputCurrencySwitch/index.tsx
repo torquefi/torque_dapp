@@ -33,7 +33,9 @@ export default function InputCurrencySwitch({
 
   useEffect(() => {
     if (onChange)
-      if (isShowUsd) {
+      if (!tokenPrice) {
+        onChange(0)
+      } else if (isShowUsd) {
         onChange(inputAmount / tokenPrice)
       } else {
         onChange(inputAmount)
@@ -41,7 +43,9 @@ export default function InputCurrencySwitch({
   }, [inputAmount, isShowUsd])
 
   useEffect(() => {
-    if (isShowUsd) {
+    if (!tokenPrice) {
+      onChange(0)
+    } else if (isShowUsd) {
       setInputAmount(tokenValueChange * tokenPrice)
     } else {
       setInputAmount(tokenValueChange)
@@ -49,8 +53,13 @@ export default function InputCurrencySwitch({
   }, [tokenValueChange, isShowUsd])
 
   useEffect(() => {
-    if (isShowUsd) setInputAmount(inputAmount * tokenPrice)
-    else setInputAmount(inputAmount / tokenPrice)
+    if (!tokenPrice) {
+      onChange(0)
+    } else if (isShowUsd) {
+      setInputAmount(inputAmount * tokenPrice)
+    } else {
+      setInputAmount(inputAmount / tokenPrice)
+    }
   }, [isShowUsd])
 
   return (

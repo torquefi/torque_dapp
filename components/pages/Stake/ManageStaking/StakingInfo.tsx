@@ -244,10 +244,10 @@ export default function StakingInfo({
     setSubmitLoading(true)
     try {
       const isEnableStake = await stakingContract.methods.enabled().call()
-      if (!isEnableStake) {
-        setSubmitLoading(false)
-        return toast.error('Staking is not enabled')
-      }
+      // if (!isEnableStake) {
+      //   setSubmitLoading(false)
+      //   return toast.error('Staking is not enabled')
+      // }
       const stakerDetail = await stakingContract.methods.stakers(address).call()
       const cooldownTime = await stakingContract.methods.cooldownTime().call()
       console.log(
@@ -257,12 +257,12 @@ export default function StakingInfo({
         Date.now() / 1000
       )
       console.log('stakerDetail', stakerDetail)
-      if (stakerDetail?.firstStakeAt > 0) {
+      if (+stakerDetail?.firstStakeAt > 0) {
         setSubmitLoading(false)
         return toast.error('No stake')
       }
 
-      if (stakerDetail?.lastProcessAt + cooldownTime < Date.now() / 1000) {
+      if (stakerDetail?.lastProcessAt + cooldownTime > Date.now() / 1000) {
         setSubmitLoading(false)
         return toast.error('Not reach cool down time')
       }
