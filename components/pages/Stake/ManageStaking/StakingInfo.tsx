@@ -250,7 +250,7 @@ export default function StakingInfo({
         return toast.error('Staking is not enabled')
       }
       const stakerDetail = await stakingContract.methods.stakers(address).call()
-      // console.log('stakerDetail', stakerDetail)
+      console.log('stakerDetail', stakerDetail)
       if (stakerDetail?.firstStakeAt > 0) {
         setSubmitLoading(false)
         return toast.error('No stake')
