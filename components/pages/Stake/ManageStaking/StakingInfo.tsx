@@ -12,7 +12,6 @@ import { useSelector } from 'react-redux'
 import { toast } from 'sonner'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
-import dayjs from 'dayjs'
 import CurrencySwitch from '../CurrencySwitch'
 import { IStakingInfo } from '../types'
 
@@ -250,17 +249,20 @@ export default function StakingInfo({
         return toast.error('Staking is not enabled')
       }
       const stakerDetail = await stakingContract.methods.stakers(address).call()
+      const cooldownTime = await stakingContract.methods.cooldownTime().call()
+      console.log(
+        'cooldownTime',
+        cooldownTime,
+        stakerDetail?.lastProcessAt + cooldownTime,
+        Date.now() / 1000
+      )
       console.log('stakerDetail', stakerDetail)
       if (stakerDetail?.firstStakeAt > 0) {
         setSubmitLoading(false)
         return toast.error('No stake')
       }
 
-      // const isReachCoolDown =
-      //   dayjs().diff(dayjs(stakerDetail?.lastProcessAt * 1000), 'days') > 7
-      const isReachCoolDown =
-        dayjs().diff(dayjs(stakerDetail?.lastProcessAt * 1000), 'minutes') > 5
-      if (!isReachCoolDown) {
+      if (stakerDetail?.lastProcessAt + cooldownTime < Date.now() / 1000) {
         setSubmitLoading(false)
         return toast.error('Not reach cool down time')
       }
