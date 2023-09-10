@@ -22,7 +22,7 @@ export function Chart(props: any) {
           <div className="text-24 font-semibold text-[#AA5BFF] ">
             {formatCurrency.format(0)}
           </div>
-          <div className="text-14 text-[#BCBBCA]">
+          <div className="text-14 text-[#959595]">
             {new Date(label).toISOString().substring(0, 10)}
           </div>
         </div>
@@ -46,8 +46,8 @@ export function Chart(props: any) {
           y={0}
           dy={13}
           textAnchor="end"
-          fill="#77838F"
-          fontSize={16}
+          fill="#959595"
+          fontSize={14}
           fontFamily="MonaSansRegular"
         >
           {timeDisplay}

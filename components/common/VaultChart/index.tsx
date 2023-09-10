@@ -148,14 +148,14 @@ export const VaultChart: FC<VaultChartProps> = (props) => {
   return (
     <>
       <div id="home-chart-wrapper" ref={chartContainerRef} className="relative">
-        <div className="text-center font-body text-[14px] font-extrabold">
+        <div className="text-center font-body text-[10px] font-extrabold">
           <NumericFormat
             displayType="text"
             value={+percent}
             decimalScale={2}
             suffix="%"
           />
-          <p className="uppercase text-[#788D9F]">{label}</p>
+          <p className="uppercase text-[#959595]">{label}</p>
         </div>
         <ResponsiveContainer width="100%" height={180}>
           <ComposedChart data={chartData}>
@@ -191,14 +191,14 @@ export const VaultChart: FC<VaultChartProps> = (props) => {
               {chartData.map((entry, index) => (
                 <Cell
                   key={`cell-${index}`}
-                  fill={index === 10 ? '#AA5BFF' : '#273A48'}
+                  fill={index === 10 ? '#AA5BFF' : '#1c1c1c'}
                 />
               ))}
             </Bar>
           </ComposedChart>
         </ResponsiveContainer>
-        <div className="text-center text-[14px]">
-          <p className="font-body font-extrabold text-[#788D9F]">
+        <div className="text-center text-[10px]">
+          <p className="font-body uppercase text-[#959595]">
             {format(new Date(), 'MMM dd')}
           </p>
         </div>
