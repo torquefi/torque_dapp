@@ -31,8 +31,6 @@ export default function InputCurrencySwitch({
   const [isShowUsd, setShowUsd] = useState(usdDefault)
   const [inputAmount, setInputAmount] = useState(0)
 
-  console.log(inputAmount)
-
   useEffect(() => {
     if (onChange) {
       const amount = +inputAmount || 0
