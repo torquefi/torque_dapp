@@ -29,6 +29,8 @@ export default function StakingPoolItem({
 
   const [amount, setAmount] = useState<number>(0)
 
+  console.log(amount)
+
   const isDisabled = !amount || +amount < 0
 
   const lpContract = useMemo(() => {
