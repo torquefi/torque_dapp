@@ -3,6 +3,7 @@ import { getPriceToken } from '@/components/common/InputCurrencySwitch'
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
 import { VaultChart } from '@/components/common/VaultChart'
 import SkeletonDefault from '@/components/skeleton'
+import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
 import { AppStore } from '@/types/store'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { AutowidthInput } from 'react-autowidth-input'
@@ -44,7 +45,7 @@ export default function BorrowItem({ item }: any) {
   const refLabelInput = useRef<HTMLInputElement>(null)
   const { address, isConnected } = useAccount()
   const { Moralis, enableWeb3, isWeb3Enabled } = useMoralis()
-
+  const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
   const borrowAPR = useMemo(
     () =>
       Number(Moralis.Units.FromWei(borrowRate, 18)) * SECONDS_PER_YEAR * 100,
@@ -157,6 +158,10 @@ export default function BorrowItem({ item }: any) {
   }
 
   const onRepay = async () => {
+    if (!isConnected) {
+      setOpenConnectWalletModal(true)
+      return
+    }
     try {
       setButtonLoading('APPROVING...')
       if (!isApproved) {
@@ -247,6 +252,12 @@ export default function BorrowItem({ item }: any) {
     }
   }, [isEdit])
 
+  const renderSubmitText = () => {
+    if (!address) {
+      return 'Connect Wallet'
+    }
+    return action
+  }
   const summaryInfo = (
     <div className="flex w-full text-center md:w-[400px] lg:w-[500px] xl:w-[600px]">
       <CurrencySwitch
@@ -307,82 +318,83 @@ export default function BorrowItem({ item }: any) {
     )
   else
     return (
-      <div className="rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 text-[#404040] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white">
-        <div className="flex items-center px-[24px] py-[16px]">
-          <div className="xlg:w-[calc(100%-600px-64px)] font-larken flex w-[calc(100%-64px)] items-center space-x-2 text-[22px] md:w-[calc(100%-400px-64px)] lg:w-[calc(100%-500px-64px)]">
-            {!isEdit && (
-              <div
-                className="flex min-w-max cursor-pointer items-center text-[22px]"
-                onClick={() => setEdit(!isEdit)}
-              >
-                <img
-                  className="mr-2 w-[54px]"
-                  src={`/icons/coin/${item.token.toLowerCase()}.png`}
-                  alt=""
-                />
-                {label}
-                <button className="ml-2">
-                  <AiOutlineEdit />
-                </button>
-              </div>
-            )}
-            {isEdit && (
-              <div className="flex cursor-pointer items-center text-[22px]">
-                <img
-                  className="mr-2 w-[54px]"
-                  src={`/icons/coin/${item.token.toLowerCase()}.png`}
-                  alt=""
-                />
-                <AutowidthInput
-                  ref={refLabelInput}
-                  className="min-w-[60px] bg-transparent"
-                  value={label}
-                  onChange={(e) => setLabel(e.target.value)}
-                  onKeyUp={(e) => e.key === 'Enter' && setEdit(false)}
-                />
-                <button className="">
-                  <AiOutlineCheck
-                    className=""
-                    onClick={() => {
-                      updateDataNameBorrow(label)
-                      setEdit(!isEdit)
-                    }}
+      <>
+        <div className="rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 text-[#404040] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white">
+          <div className="flex items-center px-[24px] py-[16px]">
+            <div className="xlg:w-[calc(100%-600px-64px)] font-larken flex w-[calc(100%-64px)] items-center space-x-2 text-[22px] md:w-[calc(100%-400px-64px)] lg:w-[calc(100%-500px-64px)]">
+              {!isEdit && (
+                <div
+                  className="flex min-w-max cursor-pointer items-center text-[22px]"
+                  onClick={() => setEdit(!isEdit)}
+                >
+                  <img
+                    className="mr-2 w-[54px]"
+                    src={`/icons/coin/${item.token.toLowerCase()}.png`}
+                    alt=""
                   />
-                </button>
-              </div>
-            )}
+                  {label}
+                  <button className="ml-2">
+                    <AiOutlineEdit />
+                  </button>
+                </div>
+              )}
+              {isEdit && (
+                <div className="flex cursor-pointer items-center text-[22px]">
+                  <img
+                    className="mr-2 w-[54px]"
+                    src={`/icons/coin/${item.token.toLowerCase()}.png`}
+                    alt=""
+                  />
+                  <AutowidthInput
+                    ref={refLabelInput}
+                    className="min-w-[60px] bg-transparent"
+                    value={label}
+                    onChange={(e) => setLabel(e.target.value)}
+                    onKeyUp={(e) => e.key === 'Enter' && setEdit(false)}
+                  />
+                  <button className="">
+                    <AiOutlineCheck
+                      className=""
+                      onClick={() => {
+                        updateDataNameBorrow(label)
+                        setEdit(!isEdit)
+                      }}
+                    />
+                  </button>
+                </div>
+              )}
+            </div>
+            <div className="hidden md:block">{summaryInfo}</div>
+            <div
+              className="flex h-[64px] w-[64px] cursor-pointer select-none items-center justify-center rounded-full"
+              onClick={() => setExpand(!isExpand)}
+            >
+              <img
+                className={
+                  'w-[18px] transition-all' + ` ${isExpand ? 'rotate-180' : ''}`
+                }
+                src={
+                  theme == 'light'
+                    ? '/icons/dropdow-dark.png'
+                    : '/icons/arrow-down.svg'
+                }
+                alt=""
+              />
+            </div>
           </div>
-          <div className="hidden md:block">{summaryInfo}</div>
           <div
-            className="flex h-[64px] w-[64px] cursor-pointer select-none items-center justify-center rounded-full"
-            onClick={() => setExpand(!isExpand)}
+            className={
+              'flex flex-wrap overflow-hidden px-[16px] transition-all duration-300 sm:px-[24px]' +
+              ` ${
+                isExpand
+                  ? 'max-h-[1000px] py-[16px] ease-in'
+                  : 'max-h-0 py-0 ease-out'
+              }`
+            }
           >
-            <img
-              className={
-                'w-[18px] transition-all' + ` ${isExpand ? 'rotate-180' : ''}`
-              }
-              src={
-                theme == 'light'
-                  ? '/icons/dropdow-dark.png'
-                  : '/icons/arrow-down.svg'
-              }
-              alt=""
-            />
-          </div>
-        </div>
-        <div
-          className={
-            'flex flex-wrap overflow-hidden px-[16px] transition-all duration-300 sm:px-[24px]' +
-            ` ${
-              isExpand
-                ? 'max-h-[1000px] py-[16px] ease-in'
-                : 'max-h-0 py-0 ease-out'
-            }`
-          }
-        >
-          <div className="w-full md:hidden">{summaryInfo}</div>
-          <div className=" w-full md:w-[40%] lg:w-[50%] xl:w-[55%]">
-            {/* <Chart
+            <div className="w-full md:hidden">{summaryInfo}</div>
+            <div className=" w-full md:w-[40%] lg:w-[50%] xl:w-[55%]">
+              {/* <Chart
               chartData={[
                 {
                   time: new Date().toISOString(),
@@ -396,66 +408,75 @@ export default function BorrowItem({ item }: any) {
                 },
               ]}
             /> */}
-            {/* <img src="/assets/pages/boost/chart.svg" alt="" /> */}
-            <VaultChart label="Borrow Apr" percent={borrowAPR} value={49510000} />
-          </div>
-          <div className="w-full space-y-6 md:w-[60%] md:pl-[36px] lg:w-[50%] xl:w-[45%]">
-            <div className="flex items-center justify-between">
-              <p className="font-larken text-[24px]">
-                {action} {action == Action.Repay ? 'USG' : item.token}
-              </p>
-              <div className="rounded-md border from-[#161616] via-[#161616]/40 to-[#0e0e0e] dark:border-[#1A1A1A] dark:bg-gradient-to-b">
-                {[Action.Repay, Action.Withdraw].map((item, i) => (
-                  <button
-                    key={i}
-                    className={
-                      'w-[52px]  py-[8px] text-[10px] leading-none xs:w-[80px] xs:text-[12px]' +
-                      ` ${
-                        action === item
-                          ? 'rounded-md bg-[#F4F4F4] dark:bg-[#171717]'
-                          : 'text-[#959595]'
-                      }`
-                    }
-                    onClick={() => setAction(item)}
-                  >
-                    {item}
-                  </button>
-                ))}
-              </div>
-            </div>
-            <div className="flex justify-between rounded-xl border bg-[#FCFAFF] from-[#161616] via-[#161616]/40 to-[#0e0e0e] p-[12px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
-              <NumericFormat
-                className="w-[120px] bg-transparent"
-                placeholder="Select amount"
-                value={inputValue || null}
-                onChange={(e) => setInputValue(Number(e.target.value))}
+              {/* <img src="/assets/pages/boost/chart.svg" alt="" /> */}
+              <VaultChart
+                label="Borrow Apr"
+                percent={borrowAPR}
+                value={49510000}
               />
-              <div className="flex select-none justify-between space-x-1 text-[12px] text-[#959595] sm:text-[14px]">
-                {[25, 50, 100].map((percent, i) => (
-                  <div
-                    className="cursor-pointer rounded-md bg-[#F4F4F4]  px-[6px] py-[2px] transition active:scale-95 dark:bg-[#171717] xs:px-[8px] xs:py-[4px]"
-                    onClick={() =>
-                      setInputValue((dataUserBorrow.borrowed * percent) / 100)
-                    }
-                    key={i}
-                  >
-                    {percent}%
-                  </div>
-                ))}
-              </div>
             </div>
-            <button
-              className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${
-                buttonLoading && 'cursor-not-allowed opacity-50'
-              }`}
-              disabled={buttonLoading != ''}
-              onClick={() => onRepay()}
-            >
-              {buttonLoading != '' && <LoadingCircle />}
-              {buttonLoading != '' ? buttonLoading : action}
-            </button>
+            <div className="w-full space-y-6 md:w-[60%] md:pl-[36px] lg:w-[50%] xl:w-[45%]">
+              <div className="flex items-center justify-between">
+                <p className="font-larken text-[24px]">
+                  {action} {action == Action.Repay ? 'USG' : item.token}
+                </p>
+                <div className="rounded-md border from-[#161616] via-[#161616]/40 to-[#0e0e0e] dark:border-[#1A1A1A] dark:bg-gradient-to-b">
+                  {[Action.Repay, Action.Withdraw].map((item, i) => (
+                    <button
+                      key={i}
+                      className={
+                        'w-[52px]  py-[8px] text-[10px] leading-none xs:w-[80px] xs:text-[12px]' +
+                        ` ${
+                          action === item
+                            ? 'rounded-md bg-[#F4F4F4] dark:bg-[#171717]'
+                            : 'text-[#959595]'
+                        }`
+                      }
+                      onClick={() => setAction(item)}
+                    >
+                      {item}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="flex justify-between rounded-xl border bg-[#FCFAFF] from-[#161616] via-[#161616]/40 to-[#0e0e0e] p-[12px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
+                <NumericFormat
+                  className="w-[120px] bg-transparent"
+                  placeholder="Select amount"
+                  value={inputValue || null}
+                  onChange={(e) => setInputValue(Number(e.target.value))}
+                />
+                <div className="flex select-none justify-between space-x-1 text-[12px] text-[#959595] sm:text-[14px]">
+                  {[25, 50, 100].map((percent, i) => (
+                    <div
+                      className="cursor-pointer rounded-md bg-[#F4F4F4]  px-[6px] py-[2px] transition active:scale-95 dark:bg-[#171717] xs:px-[8px] xs:py-[4px]"
+                      onClick={() =>
+                        setInputValue((dataUserBorrow.borrowed * percent) / 100)
+                      }
+                      key={i}
+                    >
+                      {percent}%
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <button
+                className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${
+                  buttonLoading && 'cursor-not-allowed opacity-50'
+                }`}
+                disabled={buttonLoading != ''}
+                onClick={() => onRepay()}
+              >
+                {buttonLoading != '' && <LoadingCircle />}
+                {buttonLoading != '' ? buttonLoading : renderSubmitText()}
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+        <ConnectWalletModal
+          openModal={isOpenConnectWalletModal}
+          handleClose={() => setOpenConnectWalletModal(false)}
+        />
+      </>
     )
 }

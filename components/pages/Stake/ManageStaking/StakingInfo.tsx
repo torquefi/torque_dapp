@@ -14,6 +14,7 @@ import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 import CurrencySwitch from '../CurrencySwitch'
 import { IStakingInfo } from '../types'
+import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
 
 interface StakingInfoProps {
   stakeInfo: IStakingInfo
@@ -43,7 +44,7 @@ export default function StakingInfo({
   const [label, setLabel] = useState(stakeInfo?.label)
   const [isEdit, setEdit] = useState(false)
   const refLabelInput = useRef<HTMLInputElement>(null)
-
+  const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
   const torqContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
     const contract = new web3.eth.Contract(
@@ -236,6 +237,10 @@ export default function StakingInfo({
 
   const handleWithdraw = async () => {
     if (!isConnected) {
+      setOpenConnectWalletModal(true)
+      return
+    }
+    if (!isConnected) {
       return toast.error('You need connect your wallet first')
     }
     if (!+amount) {
@@ -392,116 +397,133 @@ export default function StakingInfo({
       </div>
     )
   }
-
+  const renderSubmitText = () => {
+    if (!address) {
+      return 'Connect Wallet'
+    }
+    return 'Withdraw'
+  }
   return (
-    <div className="mt-[24px] grid w-full rounded-[12px] border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-[24px] py-[20px] text-[#404040] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white">
-      <div className="grid w-full grid-cols-2">
-        <div className="flex items-center gap-4">
-          <img
-            src={`assets/t-logo-circle.svg`}
-            alt=""
-            className="w-[42px] object-cover"
-          />
-          {!isEdit && (
-            <div
-              className="flex cursor-pointer items-center text-[22px] transition-all hover:scale-105"
-              onClick={() => setEdit(!isEdit)}
-            >
-              {label}
-              <button className="ml-2">
-                <AiOutlineEdit />
-              </button>
+    <>
+      <div className="mt-[24px] grid w-full rounded-[12px] border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-[24px] py-[20px] text-[#404040] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white">
+        <div className="grid w-full grid-cols-2">
+          <div className="flex items-center gap-4">
+            <img
+              src={`assets/t-logo-circle.svg`}
+              alt=""
+              className="w-[42px] object-cover"
+            />
+            {!isEdit && (
+              <div
+                className="flex cursor-pointer items-center text-[22px] transition-all hover:scale-105"
+                onClick={() => setEdit(!isEdit)}
+              >
+                {label}
+                <button className="ml-2">
+                  <AiOutlineEdit />
+                </button>
+              </div>
+            )}
+            {isEdit && (
+              <div className="flex cursor-pointer items-center text-[22px]">
+                <AutowidthInput
+                  ref={refLabelInput}
+                  className="min-w-[60px] bg-transparent"
+                  value={label}
+                  onChange={(e) => setLabel(e.target.value)}
+                  onKeyUp={(e) => e.key === 'Enter' && setEdit(false)}
+                />
+                <button className="ml-2">
+                  <AiOutlineCheck
+                    className="transition-all hover:scale-105"
+                    onClick={() => {
+                      updateDataNameStaking(label)
+                      setEdit(!isEdit)
+                    }}
+                  />
+                </button>
+              </div>
+            )}
+          </div>
+          <div className="flex items-center justify-end gap-14">
+            <div className="hidden items-center justify-between gap-14 lg:flex">
+              {summaryInfor(stakeInfo)}
             </div>
-          )}
-          {isEdit && (
-            <div className="flex cursor-pointer items-center text-[22px]">
-              <AutowidthInput
-                ref={refLabelInput}
-                className="min-w-[60px] bg-transparent"
-                value={label}
-                onChange={(e) => setLabel(e.target.value)}
-                onKeyUp={(e) => e.key === 'Enter' && setEdit(false)}
-              />
-              <button className="ml-2">
-                <AiOutlineCheck
-                  className="transition-all hover:scale-105"
-                  onClick={() => {
-                    updateDataNameStaking(label)
-                    setEdit(!isEdit)
-                  }}
+            <div className="flex flex-col items-center justify-center gap-2">
+              <button className="" onClick={() => setOpen(!isOpen)}>
+                <img
+                  className={
+                    'w-[18px] transition-all' + ` ${isOpen ? 'rotate-180' : ''}`
+                  }
+                  src={
+                    theme == 'light'
+                      ? '/icons/dropdow-dark.png'
+                      : '/icons/arrow-down.svg'
+                  }
+                  alt=""
                 />
               </button>
             </div>
-          )}
+          </div>
         </div>
-        <div className="flex items-center justify-end gap-14">
-          <div className="hidden items-center justify-between gap-14 lg:flex">
+        <div
+          className={`grid grid-cols-1 gap-8 overflow-hidden transition-all duration-300 lg:grid-cols-2 ${
+            isOpen
+              ? 'max-h-[1000px] py-[16px] ease-in'
+              : 'max-h-0 py-0 opacity-0 ease-out'
+          }`}
+        >
+          <div className="flex items-center justify-between gap-4 lg:hidden">
             {summaryInfor(stakeInfo)}
           </div>
-          <div className="flex flex-col items-center justify-center gap-2">
-            <button className="" onClick={() => setOpen(!isOpen)}>
-              <img
-                className={
-                  'w-[18px] transition-all' + ` ${isOpen ? 'rotate-180' : ''}`
-                }
-                src={
-                  theme == 'light'
-                    ? '/icons/dropdow-dark.png'
-                    : '/icons/arrow-down.svg'
-                }
-                alt=""
+          <div className="">
+            {/* <Chart /> */}
+            {/* <img src="/assets/pages/boost/chart.svg" alt="" /> */}
+            <VaultChart
+              label="Stake Apy"
+              percent={apr as any}
+              value={49510000}
+            />
+          </div>
+          <div className="mt-10">
+            <div className="text-[28px]">Withdraw {stakeInfo?.symbol}</div>
+            <div className="mt-2 flex w-full items-center justify-between rounded-[12px] border bg-[#FCFAFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-2 py-4 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
+              <NumberFormat
+                className="font-mona w-full bg-transparent bg-none px-2 focus:outline-none"
+                placeholder="Select amount"
+                value={amount || ''}
+                onChange={(e: any, value: any) => setAmount(value)}
+                thousandSeparator
+                decimalScale={5}
               />
+              <div className="flex items-center gap-2">
+                {[25, 50, 100].map((item: any, i) => (
+                  <button
+                    key={i}
+                    className="font-mona rounded bg-[#F4F4F4] px-2 py-1 text-sm text-[#959595] dark:bg-[#1A1A1A]"
+                    onClick={() =>
+                      setAmount((Number(totalStaked) * item) / 100)
+                    }
+                  >
+                    {item}%
+                  </button>
+                ))}
+              </div>
+            </div>
+            <button
+              className="font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]"
+              onClick={() => handleWithdraw()}
+            >
+              {isSubmitLoading && <LoadingCircle />}
+              {renderSubmitText()}
             </button>
           </div>
         </div>
       </div>
-      <div
-        className={`grid grid-cols-1 gap-8 overflow-hidden transition-all duration-300 lg:grid-cols-2 ${
-          isOpen
-            ? 'max-h-[1000px] py-[16px] ease-in'
-            : 'max-h-0 py-0 opacity-0 ease-out'
-        }`}
-      >
-        <div className="flex items-center justify-between gap-4 lg:hidden">
-          {summaryInfor(stakeInfo)}
-        </div>
-        <div className="">
-          {/* <Chart /> */}
-          {/* <img src="/assets/pages/boost/chart.svg" alt="" /> */}
-          <VaultChart label="Stake Apy" percent={apr as any} value={49510000} />
-        </div>
-        <div className="mt-10">
-          <div className="text-[28px]">Withdraw {stakeInfo?.symbol}</div>
-          <div className="mt-2 flex w-full items-center justify-between rounded-[12px] border bg-[#FCFAFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-2 py-4 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
-            <NumberFormat
-              className="font-mona w-full bg-transparent bg-none px-2 focus:outline-none"
-              placeholder="Select amount"
-              value={amount || ''}
-              onChange={(e: any, value: any) => setAmount(value)}
-              thousandSeparator
-              decimalScale={5}
-            />
-            <div className="flex items-center gap-2">
-              {[25, 50, 100].map((item: any, i) => (
-                <button
-                  key={i}
-                  className="font-mona rounded bg-[#F4F4F4] px-2 py-1 text-sm text-[#959595] dark:bg-[#1A1A1A]"
-                  onClick={() => setAmount((Number(totalStaked) * item) / 100)}
-                >
-                  {item}%
-                </button>
-              ))}
-            </div>
-          </div>
-          <button
-            className="font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]"
-            onClick={() => handleWithdraw()}
-          >
-            {isSubmitLoading && <LoadingCircle />}
-            Withdraw
-          </button>
-        </div>
-      </div>
-    </div>
+      <ConnectWalletModal
+        openModal={isOpenConnectWalletModal}
+        handleClose={() => setOpenConnectWalletModal(false)}
+      />
+    </>
   )
 }

@@ -1,6 +1,7 @@
 import CurrencySwitch from '@/components/common/CurrencySwitch'
 import InputCurrencySwitch from '@/components/common/InputCurrencySwitch'
 import Popover from '@/components/common/Popover'
+import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
 import { updateborrowTime } from '@/lib/redux/auth/dataUser'
 import { AppStore } from '@/types/store'
 import Link from 'next/link'
@@ -20,7 +21,7 @@ export function CreateBoostItem({ item }: any) {
   const [decimal, setDecimal] = useState(0)
   const [btnLoading, setBtnLoading] = useState('')
   const { address, isConnected } = useAccount()
-
+  const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
   const theme = useSelector((store: AppStore) => store.theme.theme)
   const { Moralis, enableWeb3, isWeb3Enabled } = useMoralis()
 
@@ -77,6 +78,10 @@ export function CreateBoostItem({ item }: any) {
   }
 
   const onDeposit = async () => {
+    if (!isConnected) {
+      setOpenConnectWalletModal(true)
+      return
+    }
     try {
       if (allowance < boostVault.amount && boostVault.token != 'ETH') {
         setBtnLoading('APPROVING...')
@@ -119,110 +124,123 @@ export function CreateBoostItem({ item }: any) {
     initContract()
   }, [isWeb3Enabled, address, isConnected])
 
+  const renderSubmitText = () => {
+    if (!address) {
+      return 'Connect Wallet'
+    }
+    return 'Deposit & Earn'
+  }
   return (
-    <div
-      className={
-        `rounded-[12px] border border-[#E6E6E6] bg-[#ffffff]  px-3 py-6 text-[#404040] dark:border-[#1A1A1A]  dark:text-white lg:px-8` +
-        `  ${theme === 'light' ? ' bg-[#FCFAFF]' : 'bg-overview'}`
-      }
-    >
-      <div className="flex items-center justify-between w-full">
-        <div className="flex items-center">
-          <img
-            src={`/icons/coin/${item.token.toLocaleLowerCase()}.png`}
-            alt=""
-            className="w-16 xs:w-20 lg:w-24"
-          />
-          <div className="font-larken grow pb-2 text-[22px] leading-tight xs:text-[18px] sm:text-[22px] lg:text-[26px]">
-            Deposit {item.token},<br className="" /> Earn {item.token}
+    <>
+      <div
+        className={
+          `rounded-[12px] border border-[#E6E6E6] bg-[#ffffff]  px-3 py-6 text-[#404040] dark:border-[#1A1A1A]  dark:text-white lg:px-8` +
+          `  ${theme === 'light' ? ' bg-[#FCFAFF]' : 'bg-overview'}`
+        }
+      >
+        <div className="flex w-full items-center justify-between">
+          <div className="flex items-center">
+            <img
+              src={`/icons/coin/${item.token.toLocaleLowerCase()}.png`}
+              alt=""
+              className="w-16 xs:w-20 lg:w-24"
+            />
+            <div className="font-larken grow pb-2 text-[22px] leading-tight xs:text-[18px] sm:text-[22px] lg:text-[26px]">
+              Deposit {item.token},<br className="" /> Earn {item.token}
+            </div>
+          </div>
+          <Popover
+            trigger="hover"
+            placement="bottom-right"
+            className={`font-mona mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
+            content="The projected TORQ rewards after 1 year of $1,000 supplied"
+          >
+            <Link href="#" className="" target={'_blank'}>
+              <div className="flex items-center rounded-full bg-[#AA5BFF] bg-opacity-20 p-1  text-[12px] xs:text-[14px]">
+                <img
+                  src="/assets/t-logo-circle.svg"
+                  alt=""
+                  className="w-[24px] xs:w-[28px]"
+                />
+
+                <div className="font-mona mx-1 uppercase text-[#AA5BFF] xs:mx-2">
+                  +{item.bonus_TORQ} TORQ
+                </div>
+              </div>
+            </Link>
+          </Popover>
+        </div>
+        <div className="font-larken mt-4 grid grid-cols-2 gap-4">
+          <div className="flex h-[110px] w-full flex-col items-center justify-center gap-3 rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A]  dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
+            <InputCurrencySwitch
+              tokenSymbol={boostVault.token}
+              tokenValue={Number(boostVault.amount)}
+              className="w-full py-4 dark:text-white lg:py-6"
+              decimalScale={2}
+              usdDefault={true}
+              subtitle="Deposit"
+              onChange={(e) => {
+                boostVault.amount = e
+                setBoostVault({ ...boostVault })
+              }}
+            />
+          </div>
+          <div className="flex h-[110px] w-full flex-col items-center justify-center gap-3 rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A]  dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
+            <CurrencySwitch
+              tokenSymbol={boostVault?.token}
+              tokenValue={Number(boostVault.amount || 0) * boostVault.rate}
+              usdDefault
+              className="w-full space-y-2 py-6 lg:py-[31px]"
+              decimalScale={2}
+              render={(value) => (
+                <>
+                  <p className="text-[32px] leading-none">{value}</p>
+                  <div className="font-mona text-[16px] text-[#959595]">
+                    3-Year Value
+                  </div>
+                </>
+              )}
+            />
           </div>
         </div>
-        <Popover
-          trigger="hover"
-          placement="bottom-right"
-          className={`font-mona mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
-          content="The projected TORQ rewards after 1 year of $1,000 supplied"
-        >
-          <Link href="#" className="" target={'_blank'}>
-            <div className="flex items-center rounded-full bg-[#AA5BFF] bg-opacity-20 p-1  text-[12px] xs:text-[14px]">
-              <img
-                src="/assets/t-logo-circle.svg"
-                alt=""
-                className="w-[24px] xs:w-[28px]"
-              />
-
-              <div className="font-mona mx-1 uppercase text-[#AA5BFF] xs:mx-2">
-                +{item.bonus_TORQ} TORQ
-              </div>
-            </div>
-          </Link>
-        </Popover>
-      </div>
-      <div className="grid grid-cols-2 gap-4 mt-4 font-larken">
-        <div className="flex h-[110px] w-full flex-col items-center justify-center gap-3 rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A]  dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
-          <InputCurrencySwitch
-            tokenSymbol={boostVault.token}
-            tokenValue={Number(boostVault.amount)}
-            className="w-full py-4 dark:text-white lg:py-6"
-            decimalScale={2}
-            usdDefault={true}
-            subtitle="Deposit"
-            onChange={(e) => {
-              boostVault.amount = e
-              setBoostVault({ ...boostVault })
-            }}
-          />
+        <div className="font-mona flex w-full items-center justify-between py-3 text-[16px] text-[#959595]">
+          <div className="font-mona">Yield providers</div>
+          <div className="flex items-center">
+            <Link
+              href={item.link_yield1}
+              className="translate-x-3"
+              target={'_blank'}
+            >
+              <img src={item.yield_provider1} alt="" className="w-[26px]" />
+            </Link>
+            <Link href={item.link_yield2} className="" target={'_blank'}>
+              <img src={item.yield_provider2} alt="" className="w-[26px]" />
+            </Link>
+          </div>
         </div>
-        <div className="flex h-[110px] w-full flex-col items-center justify-center gap-3 rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A]  dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
-          <CurrencySwitch
-            tokenSymbol={boostVault?.token}
-            tokenValue={Number(boostVault.amount || 0) * boostVault.rate}
-            usdDefault
-            className="w-full space-y-2 py-6 lg:py-[31px]"
-            decimalScale={2}
-            render={(value) => (
-              <>
-                <p className="text-[32px] leading-none">{value}</p>
-                <div className="font-mona text-[16px] text-[#959595]">
-                  3-Year Value
-                </div>
-              </>
-            )}
-          />
+        <div className="font-mona flex w-full items-center justify-between text-[16px] text-[#959595]">
+          <div className="font-mona">Variable APY</div>
+          <div className="">
+            0%
+            {/* {item.APR}% */}
+          </div>
         </div>
-      </div>
-      <div className="font-mona flex w-full items-center justify-between py-3 text-[16px] text-[#959595]">
-        <div className="font-mona">Yield providers</div>
-        <div className="flex items-center">
-          <Link
-            href={item.link_yield1}
-            className="translate-x-3"
-            target={'_blank'}
-          >
-            <img src={item.yield_provider1} alt="" className="w-[26px]" />
-          </Link>
-          <Link href={item.link_yield2} className="" target={'_blank'}>
-            <img src={item.yield_provider2} alt="" className="w-[26px]" />
-          </Link>
-        </div>
-      </div>
-      <div className="font-mona flex w-full items-center justify-between text-[16px] text-[#959595]">
-        <div className="font-mona">Variable APY</div>
-        <div className="">
-          0%
-          {/* {item.APR}% */}
-        </div>
-      </div>
-      <button
-        className={`font-mona mt-4 w-full rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] border border-[#AA5BFF] py-1 uppercase text-white transition-all hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] hover:border-[#AA5BFF] hover:border
-        ${(btnLoading != '' || boostVault.amount <= 0) &&
+        <button
+          className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
+        ${
+          (btnLoading != '' || boostVault.amount <= 0) &&
           'cursor-not-allowed opacity-50'
-          }
+        }
         `}
-        onClick={() => onDeposit()}
-      >
-        {btnLoading != '' ? btnLoading : 'Deposit & Earn'}
-      </button>
-    </div>
+          onClick={() => onDeposit()}
+        >
+          {btnLoading != '' ? btnLoading : renderSubmitText()}
+        </button>
+      </div>
+      <ConnectWalletModal
+        openModal={isOpenConnectWalletModal}
+        handleClose={() => setOpenConnectWalletModal(false)}
+      />
+    </>
   )
 }
