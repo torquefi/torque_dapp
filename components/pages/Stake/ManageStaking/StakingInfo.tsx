@@ -154,7 +154,7 @@ export default function StakingInfo({
   }
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       try {
         const response = await stakingContract.methods.apr().call()
         setApr(response / 100)
@@ -262,7 +262,7 @@ export default function StakingInfo({
         Date.now() / 1000
       )
       console.log('stakerDetail', stakerDetail)
-      if (+stakerDetail?.firstStakeAt > 0) {
+      if (!stakerDetail?.firstStakeAt) {
         setSubmitLoading(false)
         return toast.error('No stake')
       }
@@ -467,11 +467,10 @@ export default function StakingInfo({
           </div>
         </div>
         <div
-          className={`grid grid-cols-1 gap-8 overflow-hidden transition-all duration-300 lg:grid-cols-2 ${
-            isOpen
-              ? 'max-h-[1000px] py-[16px] ease-in'
-              : 'max-h-0 py-0 opacity-0 ease-out'
-          }`}
+          className={`grid grid-cols-1 gap-8 overflow-hidden transition-all duration-300 lg:grid-cols-2 ${isOpen
+            ? 'max-h-[1000px] py-[16px] ease-in'
+            : 'max-h-0 py-0 opacity-0 ease-out'
+            }`}
         >
           <div className="flex items-center justify-between gap-4 lg:hidden">
             {summaryInfor(stakeInfo)}
