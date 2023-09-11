@@ -44,7 +44,7 @@ export const STAKING_DATA: IStakingInfo[] = [
   },
   {
     label: 'LP',
-    symbol: 'TORQ',
+    symbol: 'LP',
     deposited: 0,
     earnings: 0,
     APR: 56,
