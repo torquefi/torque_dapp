@@ -82,6 +82,7 @@ export default function StakingPoolItem({
         return toast.error('Staking is not enabled')
       }
       const allowance = await handleGetAllowance()
+      console.log('allowance', allowance)
       if (+allowance < +amount) {
         await tokenContract.methods
           .approve(
