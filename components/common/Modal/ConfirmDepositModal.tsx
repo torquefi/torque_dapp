@@ -13,6 +13,7 @@ interface ConfirmDepositModalProps {
   contentButton: string
   handleAction: () => void
   contentCoin: any
+  symbol: string
 }
 
 export default function ConfirmDepositModal({
@@ -20,7 +21,8 @@ export default function ConfirmDepositModal({
   handleClose,
   contentButton,
   handleAction,
-  contentCoin
+  contentCoin,
+  symbol,
 }: ConfirmDepositModalProps) {
   return (
     <Modal
@@ -43,7 +45,7 @@ export default function ConfirmDepositModal({
         <div className="flex items-center justify-between">
           <div>
             <span className="text-[16px] text-[#959595]">You deposit</span>
-            <div className="font-larken pt-2 text-[23px]">0.00 USG</div>
+            <div className="font-larken pt-2 text-[23px]">0.00 {symbol}</div>
           </div>
           <div>
             <img className="w-16" src={contentCoin?.coin} alt="" />
@@ -52,11 +54,27 @@ export default function ConfirmDepositModal({
         <div className="mt-8 flex items-center justify-between">
           <div>
             <span className="text-[16px] text-[#959595]">You receive</span>
-            <div className="font-larken pt-2 text-[23px]">0.00 USG</div>
+            <div className="font-larken pt-2 text-[23px]">0.00 {symbol}</div>
           </div>
-          <div className='relative w-16'>
+          <div className="relative w-16">
             <img className="w-16 " src={contentCoin?.coin} alt="" />
-            <img className='absolute w-5 bottom-3 right-3' src={contentCoin?.coinItem} alt="" />
+            {symbol === 'ETH' ? (
+              <>
+                <img
+                  className="absolute bottom-0 right-1 w-8"
+                  src={contentCoin?.coinItem}
+                  alt=""
+                />
+              </>
+            ) : (
+              <>
+                <img
+                  className="absolute bottom-3 right-3 w-5"
+                  src={contentCoin?.coinItem}
+                  alt=""
+                />
+              </>
+            )}
           </div>
         </div>
       </div>

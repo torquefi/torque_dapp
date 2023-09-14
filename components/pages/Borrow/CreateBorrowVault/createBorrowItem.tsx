@@ -377,6 +377,7 @@ export default function CreateBorrowItem({ item }: any) {
         handleClose={() => setOpenConnectWalletModal(false)}
       />
       <ConfirmDepositModal
+      symbol={item.token}
         contentCoin={{
           coin: dataBorrow.coinIcon,
           coinItem: '/assets/t-logo-circle.svg',

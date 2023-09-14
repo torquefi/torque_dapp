@@ -244,7 +244,7 @@ export function CreateBoostItem({ item }: any) {
         openModal={isOpenConnectWalletModal}
         handleClose={() => setOpenConnectWalletModal(false)}
       />
-      <ConfirmDepositModal contentCoin={{coin: `/icons/coin/${item.token.toLocaleLowerCase()}.png`, coinItem: "/assets/t-logo-circle.svg"}} contentButton={"Deposit & Earn"} openModal={isOpenConfirmDeposit} handleClose={() => setIsOpenConfirmDeposit(false)} handleAction={() => onDeposit()} />
+      <ConfirmDepositModal symbol={item.token} contentCoin={{coin: `/icons/coin/${item.token.toLocaleLowerCase()}.png`, coinItem: "/assets/t-logo-circle.svg"}} contentButton={"Deposit & Earn"} openModal={isOpenConfirmDeposit} handleClose={() => setIsOpenConfirmDeposit(false)} handleAction={() => onDeposit()} />
     </>
   )
 }
