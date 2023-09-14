@@ -140,11 +140,19 @@ export function CreateBoostItem({ item }: any) {
       >
         <div className="flex w-full items-center justify-between">
           <div className="flex items-center">
-            <img
-              src={`/icons/coin/${item.token.toLocaleLowerCase()}.png`}
-              alt=""
-              className="w-16 xs:w-20 lg:w-24"
-            />
+            {item.token === 'ETH' ? (
+              <img
+                className="xs:w-18 lg:w-22 w-14 mx-5"
+                src={`/icons/coin/${item.token.toLowerCase()}.png`}
+                alt=""
+              />
+            ) : (
+              <img
+                src={`/icons/coin/${item.token.toLocaleLowerCase()}.png`}
+                alt=""
+                className="w-16 xs:w-20 lg:w-24"
+              />
+            )}
             <div className="font-larken grow pb-2 text-[22px] leading-tight xs:text-[18px] sm:text-[22px] lg:text-[26px]">
               Deposit {item.token},<br className="" /> Earn {item.token}
             </div>

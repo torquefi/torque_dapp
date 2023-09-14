@@ -310,6 +310,7 @@ export default function BorrowItem({ item }: any) {
       </div>
     </div>
   )
+  
   if (isLoading)
     return (
       <div className="">
@@ -327,11 +328,20 @@ export default function BorrowItem({ item }: any) {
                   className="flex min-w-max cursor-pointer items-center text-[22px]"
                   onClick={() => setEdit(!isEdit)}
                 >
-                  <img
-                    className="mr-2 w-[54px]"
-                    src={`/icons/coin/${item.token.toLowerCase()}.png`}
-                    alt=""
-                  />
+                  {item.token === 'ETH' ? (
+                    <img
+                      className="mr-5 w-[35px]"
+                      src={`/icons/coin/${item.token.toLowerCase()}.png`}
+                      alt=""
+                    />
+                  ) : (
+                    <img
+                      className="mr-2 w-[54px]"
+                      src={`/icons/coin/${item.token.toLowerCase()}.png`}
+                      alt=""
+                    />
+                  )}
+
                   {label}
                   <button className="ml-2">
                     <AiOutlineEdit />
