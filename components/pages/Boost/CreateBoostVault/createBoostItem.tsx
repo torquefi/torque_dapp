@@ -1,6 +1,5 @@
 import CurrencySwitch from '@/components/common/CurrencySwitch'
 import InputCurrencySwitch from '@/components/common/InputCurrencySwitch'
-import ConfirmDepositModal from '@/components/common/Modal/ConfirmDepositModal'
 import Popover from '@/components/common/Popover'
 import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
 import { updateborrowTime } from '@/lib/redux/auth/dataUser'
@@ -25,7 +24,7 @@ export function CreateBoostItem({ item }: any) {
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
   const theme = useSelector((store: AppStore) => store.theme.theme)
   const { Moralis, enableWeb3, isWeb3Enabled } = useMoralis()
-  const [isOpenConfirmDeposit, setIsOpenConfirmDeposit] = useState(false)
+
   const dispatch = useDispatch()
 
   const initContract = async () => {
@@ -129,10 +128,7 @@ export function CreateBoostItem({ item }: any) {
     if (!address) {
       return 'Connect Wallet'
     }
-    return 'CONFIRM DEPOSIT'
-  }
-  const confirmDeposit = () => {
-    setIsOpenConfirmDeposit(true)
+    return 'Deposit & Earn'
   }
   return (
     <>
@@ -235,7 +231,7 @@ export function CreateBoostItem({ item }: any) {
             'cursor-not-allowed opacity-50'
             }
         `}
-          onClick={() => confirmDeposit()}
+          onClick={() => onDeposit()}
         >
           {btnLoading != '' ? btnLoading : renderSubmitText()}
         </button>
@@ -244,7 +240,6 @@ export function CreateBoostItem({ item }: any) {
         openModal={isOpenConnectWalletModal}
         handleClose={() => setOpenConnectWalletModal(false)}
       />
-      <ConfirmDepositModal symbol={item.token} contentCoin={{coin: `/icons/coin/${item.token.toLocaleLowerCase()}.png`, coinItem: "/assets/t-logo-circle.svg"}} contentButton={"Deposit & Earn"} openModal={isOpenConfirmDeposit} handleClose={() => setIsOpenConfirmDeposit(false)} handleAction={() => onDeposit()} />
     </>
   )
 }
