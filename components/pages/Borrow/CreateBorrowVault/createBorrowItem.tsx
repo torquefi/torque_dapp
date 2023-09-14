@@ -2,7 +2,6 @@ import InputCurrencySwitch, {
   getPriceToken,
 } from '@/components/common/InputCurrencySwitch'
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
-import ConfirmDepositModal from '@/components/common/Modal/ConfirmDepositModal'
 import Popover from '@/components/common/Popover'
 import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
 import { updateborrowTime } from '@/lib/redux/auth/dataUser'
@@ -16,7 +15,6 @@ import Web3 from 'web3'
 
 const SECONDS_PER_YEAR = 60 * 60 * 24 * 365
 export default function CreateBorrowItem({ item }: any) {
-  const [isOpenConfirmDeposit, setIsOpenConfirmDeposit] = useState(false)
   const [dataBorrow, setDataBorrow] = useState(item)
   const [isLoading, setIsLoading] = useState(true)
   const [contractAsset, setContractAsset] = useState(null)
@@ -226,10 +224,7 @@ export default function CreateBorrowItem({ item }: any) {
     if (!address) {
       return 'Connect Wallet'
     }
-    return 'CONFIRM DEPOSIT'
-  }
-  const confirmDeposit = () => {
-    setIsOpenConfirmDeposit(true)
+    return 'Deposit & Borrow'
   }
   return (
     <>
@@ -364,7 +359,7 @@ export default function CreateBorrowItem({ item }: any) {
             ) {
               toast.error(`Loan-to-value exceeds ${dataBorrow.loanToValue}%`)
             } else {
-              confirmDeposit()
+              onBorrow()
             }
           }}
         >
@@ -375,17 +370,6 @@ export default function CreateBorrowItem({ item }: any) {
       <ConnectWalletModal
         openModal={isOpenConnectWalletModal}
         handleClose={() => setOpenConnectWalletModal(false)}
-      />
-      <ConfirmDepositModal
-      symbol={item.token}
-        contentCoin={{
-          coin: dataBorrow.coinIcon,
-          coinItem: '/assets/t-logo-circle.svg',
-        }}
-        contentButton={'Deposit & Earn'}
-        openModal={isOpenConfirmDeposit}
-        handleClose={() => setIsOpenConfirmDeposit(false)}
-        handleAction={() => onBorrow()}
       />
     </>
   )
