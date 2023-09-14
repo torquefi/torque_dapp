@@ -233,21 +233,11 @@ export default function CreateBorrowItem({ item }: any) {
         key={dataBorrow.address_asset}
       >
         <div className="flex items-center">
-          {
-            dataBorrow.depositCoin === 'ETH' ? (
-              <img
-              className="w-14 xs:w-18 lg:w-22 mx-5"
-              src={dataBorrow.coinIcon}
-              alt=""
-            />
-            ) : (
-              <img
-                className="w-16 xs:w-20 lg:w-24"
-                src={dataBorrow.coinIcon}
-                alt=""
-              />
-            )
-          }
+          <img
+            className="w-16 xs:w-20 lg:w-24"
+            src={dataBorrow.coinIcon}
+            alt=""
+          />
           <div className="font-larken grow pb-2 text-[22px] leading-tight xs:text-[18px] lg:text-[26px]">
             Deposit {dataBorrow.depositCoin},<br /> Borrow{' '}
             {dataBorrow.borrowCoin}
