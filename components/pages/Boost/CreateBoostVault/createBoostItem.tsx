@@ -143,7 +143,7 @@ export function CreateBoostItem({ item }: any) {
             <img
               src={`/icons/coin/${item.token.toLocaleLowerCase()}.png`}
               alt=""
-              className="w-16 xs:w-20 lg:w-24"
+              className="w-16 xs:w-20 lg:w-[84px] lg:h-[84px]"
             />
             <div className="font-larken grow pb-2 text-[22px] leading-tight xs:text-[18px] sm:text-[22px] lg:text-[26px]">
               Deposit {item.token},<br className="" /> Earn {item.token}
@@ -227,10 +227,9 @@ export function CreateBoostItem({ item }: any) {
         </div>
         <button
           className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
-        ${
-          (btnLoading != '' || boostVault.amount <= 0) &&
-          'cursor-not-allowed opacity-50'
-        }
+        ${(btnLoading != '' || boostVault.amount <= 0) &&
+            'cursor-not-allowed opacity-50'
+            }
         `}
           onClick={() => onDeposit()}
         >
