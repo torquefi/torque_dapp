@@ -1,4 +1,5 @@
 import { IContractInfo } from '@/constants/contracts'
+import { Contract } from 'web3-eth-contract'
 
 export interface IStakingInfo {
   label: string
@@ -9,7 +10,10 @@ export interface IStakingInfo {
   rate?: number
   data_key?: string
   APR?: number
-  stakeContract: IContractInfo
-  tokenContract: IContractInfo
-  tokenStakeContract: IContractInfo
+  stakeContractInfo: IContractInfo
+  tokenContractInfo: IContractInfo
+  tokenStakeContractInfo: IContractInfo
+  stakeContract?: Contract
+  tokenContract?: Contract
+  tokenStakeContract?: Contract
 }

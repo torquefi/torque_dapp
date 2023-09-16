@@ -1,5 +1,6 @@
 import CurrencySwitch from '@/components/common/CurrencySwitch'
 import InputCurrencySwitch from '@/components/common/InputCurrencySwitch'
+import { ConfirmDepositModal } from '@/components/common/Modal/ConfirmDepositModal'
 import Popover from '@/components/common/Popover'
 import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
 import { updateborrowTime } from '@/lib/redux/auth/dataUser'
@@ -19,9 +20,12 @@ export function CreateBoostItem({ item }: any) {
   const [allowance, setAllowance] = useState(0)
   const [inputAmount, setInputAmount] = useState(0)
   const [decimal, setDecimal] = useState(0)
+  const [balance, setBalance] = useState(0)
   const [btnLoading, setBtnLoading] = useState('')
   const { address, isConnected } = useAccount()
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
+  const [isOpenConfirmDepositModal, setOpenConfirmDepositModal] =
+    useState(false)
   const theme = useSelector((store: AppStore) => store.theme.theme)
   const { Moralis, enableWeb3, isWeb3Enabled } = useMoralis()
 
@@ -77,11 +81,27 @@ export function CreateBoostItem({ item }: any) {
     }
   }
 
-  const onDeposit = async () => {
+  const handleUpdateBalance = async () => {
+    try {
+      if (assetContract) {
+        const allowance = await assetContract.methods.balanceOf(address)
+        setBalance(Number(Moralis.Units.FromWei(allowance, decimal)) || 0)
+      }
+    } catch (e) {
+      console.log('handleUpdateBalance', e)
+    }
+  }
+
+  const handleConfirmDeposit = () => {
     if (!isConnected) {
       setOpenConnectWalletModal(true)
       return
     }
+    setOpenConfirmDepositModal(true)
+  }
+
+  const onDeposit = async () => {
+    console.log(assetContract, boostContract)
     try {
       if (allowance < boostVault.amount && boostVault.token != 'ETH') {
         setBtnLoading('APPROVING...')
@@ -110,6 +130,7 @@ export function CreateBoostItem({ item }: any) {
       toast.success('Boost Successful')
       dispatch(updateborrowTime(new Date().getTime().toString() as any))
       setBtnLoading('')
+      setOpenConfirmDepositModal(false)
     } catch (e) {
       setBtnLoading('')
       console.log(e)
@@ -118,6 +139,7 @@ export function CreateBoostItem({ item }: any) {
 
   useEffect(() => {
     getAllowance()
+    handleUpdateBalance()
   }, [assetContract, boostContract, address])
 
   useEffect(() => {
@@ -143,7 +165,7 @@ export function CreateBoostItem({ item }: any) {
             <img
               src={`/icons/coin/${item.token.toLocaleLowerCase()}.png`}
               alt=""
-              className="w-16 xs:w-20 lg:w-[84px] lg:h-[84px]"
+              className="w-16 xs:w-20 lg:h-[84px] lg:w-[84px]"
             />
             <div className="font-larken grow pb-2 text-[22px] leading-tight xs:text-[18px] sm:text-[22px] lg:text-[26px]">
               Deposit {item.token},<br className="" /> Earn {item.token}
@@ -227,11 +249,12 @@ export function CreateBoostItem({ item }: any) {
         </div>
         <button
           className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
-        ${(btnLoading != '' || boostVault.amount <= 0) &&
-            'cursor-not-allowed opacity-50'
-            }
+        ${
+          (btnLoading != '' || boostVault.amount <= 0) &&
+          'cursor-not-allowed opacity-50'
+        }
         `}
-          onClick={() => onDeposit()}
+          onClick={handleConfirmDeposit}
         >
           {btnLoading != '' ? btnLoading : renderSubmitText()}
         </button>
@@ -239,6 +262,36 @@ export function CreateBoostItem({ item }: any) {
       <ConnectWalletModal
         openModal={isOpenConnectWalletModal}
         handleClose={() => setOpenConnectWalletModal(false)}
+      />
+      <ConfirmDepositModal
+        open={isOpenConfirmDepositModal}
+        handleClose={() => setOpenConfirmDepositModal(false)}
+        confirmButtonText="Deposit & Earn"
+        onConfirm={() => onDeposit()}
+        coinFrom={{
+          amount: boostVault.amount,
+          icon: `/icons/coin/${item.token.toLocaleLowerCase()}.png`,
+          symbol: item.token,
+        }}
+        coinTo={{
+          amount: boostVault.amount,
+          icon: `/icons/coin/${item.token.toLocaleLowerCase()}.png`,
+          symbol: 't' + item.token,
+        }}
+        details={[
+          {
+            label: 'Wallet balance',
+            value: balance + ' ' + item?.token,
+          },
+          {
+            label: 'Exchange rate',
+            value: `1 ${item?.token} = 1 t${item?.token}`,
+          },
+          {
+            label: 'Variable APY',
+            value: item?.APR + '%',
+          },
+        ]}
       />
     </>
   )

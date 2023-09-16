@@ -1,18 +1,65 @@
 import SkeletonDefault from '@/components/skeleton'
+import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
+import { useAccount } from 'wagmi'
+import Web3 from 'web3'
 import { STAKING_DATA } from '../constant'
+import { IStakingInfo } from '../types'
 import { EmptyStake } from './EmptyStake'
 import StakingInfo from './StakingInfo'
 
 export default function ManageStaking({ isRefresh }: { isRefresh?: boolean }) {
+  const { address, isConnected } = useAccount()
   const [dataStake, setDataStake] = useState(STAKING_DATA)
   const [isSkeletonLoading, setSkeletonLoading] = useState(true)
 
-  useEffect(() => {
-    setTimeout(() => setSkeletonLoading(false), 1000)
-  }, [])
+  const getStakeData = async (item: IStakingInfo) => {
+    if (!isConnected || !address) {
+      return item
+    }
+    const web3 = new Web3(Web3.givenProvider)
+    try {
+      const tokenContract = new web3.eth.Contract(
+        JSON.parse(item?.tokenContractInfo.abi),
+        item?.tokenContractInfo.address
+      )
+      const tokenStakeContract = new web3.eth.Contract(
+        JSON.parse(item?.tokenStakeContractInfo.abi),
+        item?.tokenStakeContractInfo?.address
+      )
+      const stakingContract = new web3.eth.Contract(
+        JSON.parse(item?.stakeContractInfo.abi),
+        item?.stakeContractInfo.address
+      )
 
-  const isEmpty = false
+      const decimals = await tokenContract.methods.decimals().call()
+      const response = await stakingContract.methods.stakers(address).call()
+      const principal = response?.principal
+      const totalStaked = ethers.utils
+        .formatUnits(principal, decimals)
+        .toString()
+      item.deposited = +totalStaked
+      return item
+    } catch (error) {
+      console.log('ManageStaking.handleGetStakeData', error)
+      return item
+    }
+  }
+
+  const handleUpdateStakeData = async () => {
+    setSkeletonLoading(true)
+    try {
+      const dataStake = await Promise.all(STAKING_DATA?.map(getStakeData))
+      setDataStake(dataStake)
+    } catch (error) {}
+    setSkeletonLoading(false)
+  }
+
+  useEffect(() => {
+    handleUpdateStakeData()
+  }, [isConnected, address])
+
+  const stakeDisplayed = dataStake.filter((item) => item?.deposited > 0)
 
   if (isSkeletonLoading) {
     return (
@@ -27,7 +74,7 @@ export default function ManageStaking({ isRefresh }: { isRefresh?: boolean }) {
     )
   }
 
-  if (isEmpty) {
+  if (!stakeDisplayed?.length) {
     return (
       <div className="font-larken mt-[36px]">
         <div className="text-[24px] text-[#404040] dark:text-white">
@@ -45,7 +92,7 @@ export default function ManageStaking({ isRefresh }: { isRefresh?: boolean }) {
         Manage Staking
       </div>
 
-      {dataStake.map((item, index) => (
+      {stakeDisplayed.map((item, index) => (
         <StakingInfo stakeInfo={item} isRefresh={isRefresh} key={index} />
       ))}
     </div>

@@ -2,9 +2,11 @@ import InputCurrencySwitch, {
   getPriceToken,
 } from '@/components/common/InputCurrencySwitch'
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
+import { ConfirmDepositModal } from '@/components/common/Modal/ConfirmDepositModal'
 import Popover from '@/components/common/Popover'
 import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
 import { updateborrowTime } from '@/lib/redux/auth/dataUser'
+import { ethers } from 'ethers'
 import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
 import { useMoralis } from 'react-moralis'
@@ -20,6 +22,7 @@ export default function CreateBorrowItem({ item }: any) {
   const [contractAsset, setContractAsset] = useState(null)
   const [contractBorrow, setContractBorrow] = useState(null)
   const [allowance, setAllowance] = useState(0)
+  const [balance, setBalance] = useState(0)
   const [borrowRate, setBorrowRate] = useState(1359200263)
   const [buttonLoading, setButtonLoading] = useState('')
   const [price, setPrice] = useState<any>({
@@ -30,6 +33,8 @@ export default function CreateBorrowItem({ item }: any) {
   const { address, isConnected } = useAccount()
   const { Moralis, enableWeb3, isWeb3Enabled } = useMoralis()
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
+  const [isOpenConfirmDepositModal, setOpenConfirmDepositModal] =
+    useState(false)
 
   const dispatch = useDispatch()
   const borrowAPR = useMemo(
@@ -111,6 +116,23 @@ export default function CreateBorrowItem({ item }: any) {
     }
   }
 
+  const updateBalance = async () => {
+    try {
+      if (contractAsset && contractBorrow) {
+        const balance = await contractAsset.methods
+          .balanceOf(address)
+          .call({ from: address })
+        setBalance(
+          ethers?.utils
+            .parseUnits(balance, dataBorrow.decimals_asset)
+            .toNumber()
+        )
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   // const onApprove = async () => {
   //   try {
   //     setButtonLoading('true')
@@ -130,6 +152,10 @@ export default function CreateBorrowItem({ item }: any) {
   //     setButtonLoading('false')
   //   }
   // }
+
+  const handleConfirmDeposit = () => {
+    setOpenConfirmDepositModal(true)
+  }
 
   const onBorrow = async () => {
     if (!isConnected) {
@@ -205,6 +231,7 @@ export default function CreateBorrowItem({ item }: any) {
   }
   useEffect(() => {
     getAllowance()
+    updateBalance()
   }, [dataBorrow, contractAsset, contractBorrow])
 
   useEffect(() => {
@@ -359,7 +386,7 @@ export default function CreateBorrowItem({ item }: any) {
             ) {
               toast.error(`Loan-to-value exceeds ${dataBorrow.loanToValue}%`)
             } else {
-              onBorrow()
+              handleConfirmDeposit()
             }
           }}
         >
@@ -370,6 +397,36 @@ export default function CreateBorrowItem({ item }: any) {
       <ConnectWalletModal
         openModal={isOpenConnectWalletModal}
         handleClose={() => setOpenConnectWalletModal(false)}
+      />
+      <ConfirmDepositModal
+        open={isOpenConfirmDepositModal}
+        handleClose={() => setOpenConfirmDepositModal(false)}
+        confirmButtonText="Deposit & Earn"
+        onConfirm={() => onBorrow()}
+        coinFrom={{
+          amount: dataBorrow.amount,
+          icon: `/icons/coin/${item.depositCoin.toLocaleLowerCase()}.png`,
+          symbol: item.depositCoin,
+        }}
+        coinTo={{
+          amount: dataBorrow.amountRecieve,
+          icon: `/icons/coin/${item.borrowCoin.toLocaleLowerCase()}.png`,
+          symbol: 't' + item.borrowCoin,
+        }}
+        details={[
+          {
+            label: 'Wallet balance',
+            value: balance + ' ' + item?.depositCoin,
+          },
+          {
+            label: 'Loan-to-value',
+            value: `<${dataBorrow.loanToValue}%`,
+          },
+          {
+            label: 'Variable APR',
+            value: `-${borrowAPR.toFixed(2)}%`,
+          },
+        ]}
       />
     </>
   )

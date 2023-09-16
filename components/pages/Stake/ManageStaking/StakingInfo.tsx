@@ -66,8 +66,8 @@ export default function StakingInfo({
   const tokenContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
     const contract = new web3.eth.Contract(
-      JSON.parse(stakeInfo?.tokenContract.abi),
-      stakeInfo?.tokenContract.address
+      JSON.parse(stakeInfo?.tokenContractInfo.abi),
+      stakeInfo?.tokenContractInfo.address
     )
     return contract
   }, [Web3.givenProvider, stakeInfo?.symbol])
@@ -75,8 +75,8 @@ export default function StakingInfo({
   const tokenStakeContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
     const contract = new web3.eth.Contract(
-      JSON.parse(stakeInfo?.tokenStakeContract.abi),
-      stakeInfo?.tokenStakeContract?.address
+      JSON.parse(stakeInfo?.tokenStakeContractInfo.abi),
+      stakeInfo?.tokenStakeContractInfo?.address
     )
     return contract
   }, [Web3.givenProvider, stakeInfo?.symbol])
@@ -84,8 +84,8 @@ export default function StakingInfo({
   const stakingContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
     const contract = new web3.eth.Contract(
-      JSON.parse(stakeInfo?.stakeContract.abi),
-      stakeInfo?.stakeContract.address
+      JSON.parse(stakeInfo?.stakeContractInfo.abi),
+      stakeInfo?.stakeContractInfo.address
     )
     return contract
   }, [Web3.givenProvider, stakeInfo?.symbol])
@@ -180,7 +180,7 @@ export default function StakingInfo({
 
     try {
       const allowanceToken = await tokenStakeContract.methods
-        .allowance(address, stakeInfo?.stakeContract?.address)
+        .allowance(address, stakeInfo?.stakeContractInfo?.address)
         .call()
       const decimals = await tokenStakeContract.methods.decimals().call()
       const allowance = ethers.utils
@@ -201,7 +201,7 @@ export default function StakingInfo({
 
     try {
       const allowanceToken = await tokenContract.methods
-        .allowance(address, stakeInfo?.stakeContract?.address)
+        .allowance(address, stakeInfo?.stakeContractInfo?.address)
         .call()
       const decimals = await tokenStakeContract.methods.decimals().call()
       const allowance = ethers.utils
@@ -224,7 +224,7 @@ export default function StakingInfo({
     try {
       await tokenStakeContract.methods
         .approve(
-          stakeInfo?.stakeContract?.address,
+          stakeInfo?.stakeContractInfo?.address,
           '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
         )
         .send({ from: address })
@@ -275,7 +275,7 @@ export default function StakingInfo({
       if (!+allowanceToken) {
         await tokenContract.methods
           .approve(
-            stakeInfo?.stakeContract?.address,
+            stakeInfo?.stakeContractInfo?.address,
             '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
           )
           .send({ from: address })
@@ -285,7 +285,7 @@ export default function StakingInfo({
       if (!+allowance) {
         await tokenStakeContract.methods
           .approve(
-            stakeInfo?.stakeContract?.address,
+            stakeInfo?.stakeContractInfo?.address,
             '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
           )
           .send({ from: address })
@@ -321,7 +321,7 @@ export default function StakingInfo({
         const decimals = await tokenContract.methods.decimals().call()
         const amount = ethers.utils.parseUnits('1', decimals).toString()
         const response = await lpContract.methods
-          .getUSDPrice(stakeInfo.tokenContract.address, amount)
+          .getUSDPrice(stakeInfo.tokenContractInfo.address, amount)
           .call()
         const tokenPrice = ethers.utils.formatUnits(response, 18).toString()
         setTokenPrice(tokenPrice)

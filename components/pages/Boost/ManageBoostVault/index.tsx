@@ -1,18 +1,86 @@
 import SkeletonDefault from '@/components/skeleton'
 import { useEffect, useState } from 'react'
+import { useMoralis } from 'react-moralis'
+import { useAccount } from 'wagmi'
+import Web3 from 'web3'
 import { BoostItem } from './BoostItem'
 import { EmptyBoost } from './EmptyBoost'
 
 export function ManageBoostVault() {
-  const [isLoading, setIsLoading] = useState(true)
+  const { address, isConnected } = useAccount()
+  const [dataBoost, setDataBoost] = useState(DATA_BOOST_VAULT)
+  const [isSkeletonLoading, setSkeletonLoading] = useState(true)
+  const { Moralis, enableWeb3, isWeb3Enabled } = useMoralis()
+
+  const getBorrowData = async (item: (typeof DATA_BOOST_VAULT)[0]) => {
+    if (!isConnected || !address) {
+      return item
+    }
+    try {
+      const dataABIAsset = await Moralis.Cloud.run('getAbi', {
+        name: item?.name_ABI_asset,
+      })
+      let decimal = 18
+      if (dataABIAsset?.abi) {
+        const web3 = new Web3(Web3.givenProvider)
+        const contract = new web3.eth.Contract(
+          JSON.parse(dataABIAsset?.abi),
+          dataABIAsset?.address
+        )
+
+        decimal = await contract.methods.decimals().call({
+          from: address,
+        })
+      }
+      const dataABIBoost = await Moralis.Cloud.run('getAbi', {
+        name: item?.boost_contract,
+      })
+      if (dataABIBoost?.abi) {
+        const web3 = new Web3(Web3.givenProvider)
+        const contract = new web3.eth.Contract(
+          JSON.parse(dataABIBoost?.abi),
+          dataABIBoost?.address
+        )
+
+        let id = await contract.methods
+          .addressToPid(dataABIAsset.address)
+          .call({
+            from: address,
+          })
+
+        let infoUser = await contract.methods.userInfo(address, id).call({
+          from: address,
+        })
+        item.deposited = +Moralis.Units.FromWei(
+          `${infoUser['amount']}`,
+          decimal
+        )
+        item.earnings = +Moralis.Units.FromWei(`${infoUser['reward']}`, decimal)
+      }
+
+      return item
+    } catch (error) {
+      console.log('ManageStaking.handleGetStakeData', error)
+      return item
+    }
+  }
+
+  const handleUpdateStakeData = async () => {
+    setSkeletonLoading(true)
+    try {
+      const dataBoost = await Promise.all(DATA_BOOST_VAULT?.map(getBorrowData))
+      setDataBoost(dataBoost)
+    } catch (error) {}
+    setSkeletonLoading(false)
+  }
 
   useEffect(() => {
-    setTimeout(() => setIsLoading(false), 1500)
-  }, [])
+    handleUpdateStakeData()
+  }, [isConnected, address])
 
-  const isEmpty = false
+  const boostDisplayed = dataBoost.filter((item) => item?.deposited > 0)
 
-  if (isLoading) {
+  if (isSkeletonLoading) {
     return (
       <div className="font-larken dark-text-white mt-[36px] text-[#464646]">
         <div className="">
@@ -27,7 +95,7 @@ export function ManageBoostVault() {
     )
   }
 
-  if (isEmpty) {
+  if (!boostDisplayed?.length) {
     return (
       <div className="font-larken dark-text-white mt-[36px] text-[#464646]">
         <div className="text-[24px] dark:text-white">Manage Boost Vaults</div>
@@ -39,7 +107,7 @@ export function ManageBoostVault() {
   return (
     <div className="font-larken dark-text-white mt-[36px] text-[#464646]">
       <div className="text-[24px] dark:text-white">Manage Boost Vaults</div>
-      {DATA_BOOST_VAULT.map((item) => (
+      {boostDisplayed.map((item) => (
         <div className="">
           <BoostItem item={item} />
         </div>
