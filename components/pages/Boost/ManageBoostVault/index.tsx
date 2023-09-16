@@ -1,37 +1,49 @@
 import SkeletonDefault from '@/components/skeleton'
 import { useEffect, useState } from 'react'
 import { BoostItem } from './BoostItem'
+import { EmptyBoost } from './EmptyBoost'
 
 export function ManageBoostVault() {
   const [isLoading, setIsLoading] = useState(true)
+
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1500)
   }, [])
 
-  return (
-    <div className="font-larken dark-text-white mt-[36px] text-[#464646]">
-      {isLoading ? (
+  const isEmpty = false
+
+  if (isLoading) {
+    return (
+      <div className="font-larken dark-text-white mt-[36px] text-[#464646]">
         <div className="">
           <SkeletonDefault height={'5vh'} width={'20%'} />
         </div>
-      ) : (
-        <div className="text-[24px] dark:text-white">Manage Boost Vaults</div>
-      )}
+        {DATA_BOOST_VAULT.map((item) => (
+          <div className="mt-[24px]">
+            <SkeletonDefault height={'20vh'} width={'100%'} />
+          </div>
+        ))}
+      </div>
+    )
+  }
 
-      {DATA_BOOST_VAULT.map((item) => {
-        if (isLoading)
-          return (
-            <div className="mt-[24px]">
-              <SkeletonDefault height={'20vh'} width={'100%'} />
-            </div>
-          )
-        else
-          return (
-            <div className="">
-              <BoostItem item={item} />
-            </div>
-          )
-      })}
+  if (isEmpty) {
+    return (
+      <div className="font-larken dark-text-white mt-[36px] text-[#464646]">
+        <div className="text-[24px] dark:text-white">Manage Boost Vaults</div>
+        <EmptyBoost />
+      </div>
+    )
+  }
+
+  return (
+    <div className="font-larken dark-text-white mt-[36px] text-[#464646]">
+      <div className="text-[24px] dark:text-white">Manage Boost Vaults</div>
+      {DATA_BOOST_VAULT.map((item) => (
+        <div className="">
+          <BoostItem item={item} />
+        </div>
+      ))}
     </div>
   )
 }
@@ -39,8 +51,8 @@ const DATA_BOOST_VAULT = [
   {
     token: 'ETH',
     label: 'Vault #1',
-    deposited: 0.00,
-    earnings: 0.00,
+    deposited: 0.0,
+    earnings: 0.0,
     APR: '0.00%',
     isOpen: false,
     amount: 0,

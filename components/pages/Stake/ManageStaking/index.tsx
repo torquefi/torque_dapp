@@ -1,6 +1,7 @@
 import SkeletonDefault from '@/components/skeleton'
 import { useEffect, useState } from 'react'
 import { STAKING_DATA } from '../constant'
+import { EmptyStake } from './EmptyStake'
 import StakingInfo from './StakingInfo'
 
 export default function ManageStaking({ isRefresh }: { isRefresh?: boolean }) {
@@ -11,6 +12,8 @@ export default function ManageStaking({ isRefresh }: { isRefresh?: boolean }) {
     setTimeout(() => setSkeletonLoading(false), 1000)
   }, [])
 
+  const isEmpty = false
+
   if (isSkeletonLoading) {
     return (
       <div>
@@ -20,6 +23,18 @@ export default function ManageStaking({ isRefresh }: { isRefresh?: boolean }) {
         <div className="mt-[24px]">
           <SkeletonDefault height={'20vh'} width={'100%'} />
         </div>
+      </div>
+    )
+  }
+
+  if (isEmpty) {
+    return (
+      <div className="font-larken mt-[36px]">
+        <div className="text-[24px] text-[#404040] dark:text-white">
+          Manage Staking
+        </div>
+
+        <EmptyStake />
       </div>
     )
   }

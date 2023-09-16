@@ -1,6 +1,21 @@
 import BorrowItem from './BorrowItem'
+import { EmptyBorrow } from './EmptyBorrow'
 
 export default function ManageBorrowVault() {
+  const isEmpty = false
+
+  if (isEmpty) {
+    return (
+      <div className="space-y-[24px]">
+        <h3 className="font-larken text-[24px] text-[#404040] dark:text-white">
+          Manage Borrow Vaults
+        </h3>
+
+        <EmptyBorrow />
+      </div>
+    )
+  }
+
   return (
     <div className="space-y-[24px]">
       <h3 className="font-larken text-[24px] text-[#404040] dark:text-white">
