@@ -250,10 +250,7 @@ export function CreateBoostItem({ item }: any) {
         </div>
         <button
           className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
-        ${
-          (btnLoading != '' || boostVault.amount <= 0) &&
-          'cursor-not-allowed opacity-50'
-        }
+        
         `}
           onClick={handleConfirmDeposit}
         >
