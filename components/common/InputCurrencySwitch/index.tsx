@@ -72,7 +72,7 @@ export default function InputCurrencySwitch({
   useEffect(() => {
     if (onChange)
       if (isShowUsd) {
-        onChange(inputAmount / tokenPrice)
+        onChange(!!tokenPrice ? inputAmount / tokenPrice : 0)
       } else {
         onChange(inputAmount)
       }

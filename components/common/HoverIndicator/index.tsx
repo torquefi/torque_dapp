@@ -68,6 +68,9 @@ export default function HoverIndicator({
       }
     }
     handleUpdateIndicatorPosition()
+    setTimeout(() => {
+      handleUpdateIndicatorPosition()
+    }, 100)
     window.addEventListener('resize', handleUpdateIndicatorPosition)
     return () => {
       window.removeEventListener('resize', handleUpdateIndicatorPosition)
