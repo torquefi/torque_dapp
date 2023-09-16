@@ -264,6 +264,7 @@ export default function CreateBorrowItem({ item }: any) {
       toast.error('Borrow Failed')
     } finally {
       setButtonLoading('')
+      setOpenConfirmDepositModal(false)
     }
   }
   useEffect(() => {
