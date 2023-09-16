@@ -274,7 +274,7 @@ export default function BorrowItem({ item }: any) {
       />
       <CurrencySwitch
         tokenSymbol={'USG'}
-        tokenValue={dataUserBorrow?.borrowed || item.borrow}
+        tokenValue={dataUserBorrow?.borrowed || item.borrowed}
         usdDefault
         className="font-larken -my-4 w-1/4 space-y-1 py-4"
         decimalScale={2}
