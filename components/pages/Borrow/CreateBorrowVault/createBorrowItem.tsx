@@ -4,6 +4,7 @@ import InputCurrencySwitch, {
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
 import Popover from '@/components/common/Popover'
 import { updateborrowTime } from '@/lib/redux/auth/dataUser'
+import BigNumber from 'bignumber.js'
 import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
 import { useMoralis } from 'react-moralis'
@@ -18,9 +19,11 @@ export default function CreateBorrowItem({ item }: any) {
   const [isLoading, setIsLoading] = useState(true)
   const [contractAsset, setContractAsset] = useState(null)
   const [contractBorrow, setContractBorrow] = useState(null)
+  const [addressBaseAsset, setAddressBaseAsset] = useState(null)
   const [allowance, setAllowance] = useState(0)
   const [borrowRate, setBorrowRate] = useState(1359200263)
   const [buttonLoading, setButtonLoading] = useState('')
+
   const [price, setPrice] = useState<any>({
     eth: 1800,
     btc: 28000,
@@ -67,6 +70,8 @@ export default function CreateBorrowItem({ item }: any) {
           dataABIBorrow?.address
         )
         setContractBorrow(contract)
+        let addressBaseAsset = await contract.methods.baseAsset().call()
+        setAddressBaseAsset(addressBaseAsset)
       }
       const dataABICompound = await Moralis.Cloud.run('getAbi', {
         name: 'compound_abi',
@@ -129,6 +134,35 @@ export default function CreateBorrowItem({ item }: any) {
   //   }
   // }
 
+  async function getMintable(balance: any) {
+    try {
+      const dataABIEngine = await Moralis.Cloud.run('getAbi', {
+        name: 'engine_usg_abi',
+      })
+      if (dataABIEngine?.abi) {
+        const web3 = new Web3(Web3.givenProvider)
+        const contract = new web3.eth.Contract(
+          JSON.parse(dataABIEngine?.abi),
+          dataABIEngine?.address
+        ) as any
+
+        let mintable = await contract.methods
+          .getMintableUSG(
+            '0x8fb1e3fc51f3b789ded7557e680551d93ea9d892',
+            address,
+            balance
+          )
+          .call()
+        console.log('mintable', mintable)
+        return mintable[0]
+      }
+      return 0
+    } catch (e) {
+      console.log(e)
+      return 0
+    }
+  }
+
   const onBorrow = async () => {
     try {
       if (dataBorrow.amount <= 0) {
@@ -155,7 +189,7 @@ export default function CreateBorrowItem({ item }: any) {
 
       if (item.depositCoin == 'BTC') {
         await contractBorrow.methods
-          .borrow2(
+          .borrow(
             Moralis.Units.Token(
               Number(dataBorrow.amount).toFixed(9),
               item.decimals_asset
@@ -169,16 +203,20 @@ export default function CreateBorrowItem({ item }: any) {
             from: address,
           })
       } else if (item.depositCoin == 'ETH') {
+        let mintableUSG = await getMintable(
+          Moralis.Units.Token(Number(dataBorrow.amountRecieve).toFixed(2), 6)
+        )
+        console.log('mintableUSG', mintableUSG)
+
+        if (mintableUSG == 0) {
+          toast.error('Borrow failed. Please try again')
+          return
+        }
+
         await contractBorrow.methods
           .borrow(
-            Moralis.Units.Token(
-              Number(dataBorrow.amountRecieve).toFixed(2),
-              item.decimals_USG
-            ),
-            Moralis.Units.Token(
-              Number(dataBorrow.amountRecieve - 1).toFixed(2),
-              item.decimals_USG
-            )
+            Moralis.Units.Token(Number(dataBorrow.amountRecieve).toFixed(2), 6),
+            mintableUSG
           )
           .send({
             value: Moralis.Units.Token(
