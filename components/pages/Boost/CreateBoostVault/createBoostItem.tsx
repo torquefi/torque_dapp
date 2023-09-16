@@ -150,7 +150,8 @@ export function CreateBoostItem({ item }: any) {
     if (!address) {
       return 'Connect Wallet'
     }
-    return 'Deposit & Earn'
+    // return 'Deposit & Earn'
+    return 'Confirm Deposit'
   }
   return (
     <>

@@ -251,7 +251,8 @@ export default function CreateBorrowItem({ item }: any) {
     if (!address) {
       return 'Connect Wallet'
     }
-    return 'Deposit & Borrow'
+    // return 'Deposit & Borrow'
+    return 'Confirm Deposit'
   }
   return (
     <>
@@ -401,7 +402,7 @@ export default function CreateBorrowItem({ item }: any) {
       <ConfirmDepositModal
         open={isOpenConfirmDepositModal}
         handleClose={() => setOpenConfirmDepositModal(false)}
-        confirmButtonText="Deposit & Earn"
+        confirmButtonText="Deposit & Borrow"
         onConfirm={() => onBorrow()}
         coinFrom={{
           amount: dataBorrow.amount,
