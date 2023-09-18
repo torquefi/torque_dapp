@@ -1,6 +1,16 @@
 import Modal from '@/components/common/Modal'
 import { AiOutlineClose } from 'react-icons/ai'
 import NumberFormat from '../NumberFormat'
+import { useEffect, useState } from 'react'
+import { getBalanceByContractToken } from '@/constants/utils'
+import {
+  btcCoinContract,
+  ethCoinContract,
+  tokenUSGContract,
+} from '@/constants/contracts'
+import { useAccount } from 'wagmi'
+import Web3 from 'web3'
+import { formatUnits } from 'ethers/lib/utils'
 
 interface Detail {
   label: string
@@ -33,7 +43,33 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
     coinTo,
     details = [],
   } = props
-
+  const web3 = new Web3(Web3.givenProvider)
+  const { address } = useAccount()
+  const [balanceWallet, setBalanceWallet] = useState<any>(0)
+  useEffect(() => {
+    if (address) {
+      ;(async () => {
+        if (coinFrom.symbol === 'BTC') {
+          const amount = await getBalanceByContractToken(
+            btcCoinContract.abi,
+            btcCoinContract.address,
+            address
+          )
+          setBalanceWallet(amount)
+        } else if (coinFrom.symbol === 'ETH') {
+          const balance = await web3.eth.getBalance(address)
+          setBalanceWallet(Number(formatUnits(balance, 18)))
+        } else if (coinFrom.symbol === 'USG') {
+          const amount = await getBalanceByContractToken(
+            tokenUSGContract.abi,
+            tokenUSGContract.address,
+            address
+          )
+          setBalanceWallet(amount)
+        }
+      })()
+    }
+  }, [coinFrom.symbol, address])
   return (
     <Modal
       className="w-full max-w-[420px]  bg-[#FCFAFF] p-[10px] dark:bg-[#030303]"
@@ -94,6 +130,12 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
       </div>
       <div className="gradient-border mt-2 hidden h-[1px] w-full md:block"></div>
       <div className="my-5 flex flex-wrap gap-3 text-[16px] text-[#959595]">
+        <div className="flex w-full items-center justify-between text-[15px]">
+          <p>Wallet balance</p>
+          <span>
+            {Number(balanceWallet).toFixed(3)} {coinFrom.symbol}
+          </span>
+        </div>
         {details?.map((item, i) => (
           <div
             className="flex w-full items-center justify-between text-[15px]"

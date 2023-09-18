@@ -454,10 +454,6 @@ export default function CreateBorrowItem({ item }: any) {
         }}
         details={[
           {
-            label: 'Wallet balance',
-            value: balance + ' ' + item?.depositCoin,
-          },
-          {
             label: 'Loan-to-value',
             value: `<${dataBorrow.loanToValue}%`,
           },

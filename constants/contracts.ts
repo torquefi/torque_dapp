@@ -1,9 +1,12 @@
 import {
+  btcABI,
+  ethABI,
   stakeLpAbi,
   stakeTorqAbi,
   tokenLpAbi,
   tokenStakeTORQAbi,
   tokenTorqAbi,
+  usgABI,
 } from './abi'
 
 export interface IContractInfo {
@@ -41,4 +44,19 @@ export const stakeLpContract: IContractInfo = {
 export const tokenStakingLpContract: IContractInfo = {
   address: '0x1804953BEb5b66A6e3FBe60a66777a40bffca229',
   abi: JSON.stringify(tokenStakeTORQAbi),
+}
+
+export const tokenUSGContract: IContractInfo = {
+  address: '0x2B9960680D91d7791e9a24aCFb03CE0d234cC708',
+  abi: JSON.stringify(usgABI),
+}
+
+export const ethCoinContract: IContractInfo = {
+  address: '0xEe01c0CD76354C383B8c7B4e65EA88D00B06f36f',
+  abi: JSON.stringify(ethABI),
+}
+
+export const btcCoinContract: IContractInfo = {
+  address: '0x25A4f6d1A02b31e5E1EB7ca37da31c911a9A8c69',
+  abi: JSON.stringify(btcABI),
 }

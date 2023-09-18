@@ -278,10 +278,6 @@ export function CreateBoostItem({ item }: any) {
         }}
         details={[
           {
-            label: 'Wallet balance',
-            value: balance + ' ' + item?.token,
-          },
-          {
             label: 'Exchange rate',
             value: `1 ${item?.token} = 1 t${item?.token}`,
           },
