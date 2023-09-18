@@ -70,7 +70,7 @@ export function ManageBoostVault() {
     try {
       const dataBoost = await Promise.all(DATA_BOOST_VAULT?.map(getBorrowData))
       setDataBoost(dataBoost)
-    } catch (error) {}
+    } catch (error) { }
     setSkeletonLoading(false)
   }
 
@@ -78,7 +78,9 @@ export function ManageBoostVault() {
     handleUpdateStakeData()
   }, [isConnected, address])
 
-  const boostDisplayed = dataBoost.filter((item) => item?.deposited > 0)
+  console.log('dataBoost :>> ', dataBoost);
+
+  const boostDisplayed = dataBoost.filter((item) => Number(item?.deposited) > 0)
 
   if (isSkeletonLoading) {
     return (
@@ -132,8 +134,8 @@ const DATA_BOOST_VAULT = [
   {
     token: 'USG',
     label: 'Vault #2',
-    deposited: 158130,
-    earnings: 142271,
+    deposited: 0.0,
+    earnings: 0.0,
     APR: '0.00%',
     isOpen: false,
     amount: 0,

@@ -28,6 +28,9 @@ export function BoostItem({ item }: any) {
   const borrowTime = useSelector((store: AppStore) => store)
   const refLabelInput = useRef<HTMLInputElement>(null)
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
+
+
+
   const initContract = async () => {
     try {
       var decimal
@@ -68,6 +71,8 @@ export function BoostItem({ item }: any) {
         let infoUser = await contract.methods.userInfo(address, id).call({
           from: address,
         })
+        console.log('infoUser :>> ', infoUser);
+        console.log('decimal :>> ', decimal);
         setDeposited(
           Number(Moralis.Units.FromWei(`${infoUser['amount']}`, decimal))
         )
@@ -79,6 +84,7 @@ export function BoostItem({ item }: any) {
       console.log(e)
     }
   }
+
   const onWithdraw = async () => {
     if (!isConnected) {
       setOpenConnectWalletModal(true)
@@ -277,11 +283,10 @@ export function BoostItem({ item }: any) {
           </div>
         </div>
         <div
-          className={`grid grid-cols-1 gap-8 overflow-hidden transition-all duration-300 lg:grid-cols-2 ${
-            item.isOpen
-              ? 'max-h-[1000px] py-[16px] ease-in'
-              : 'max-h-0 py-0 opacity-0 ease-out'
-          }`}
+          className={`grid grid-cols-1 gap-8 overflow-hidden transition-all duration-300 lg:grid-cols-2 ${item.isOpen
+            ? 'max-h-[1000px] py-[16px] ease-in'
+            : 'max-h-0 py-0 opacity-0 ease-out'
+            }`}
         >
           <div className="flex items-center justify-between gap-4 lg:hidden">
             {summaryInfor(item)}
