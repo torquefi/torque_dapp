@@ -134,8 +134,10 @@ const DATA_BOOST_VAULT = [
   {
     token: 'USG',
     label: 'Vault #2',
-    deposited: 158130,
-    earnings: 142271,
+    // deposited: 158130,
+    deposited: 0,
+    earnings: 0,
+    // earnings: 142271,
     APR: '0.00%',
     isOpen: false,
     amount: 0,
