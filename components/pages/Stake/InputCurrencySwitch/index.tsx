@@ -85,6 +85,7 @@ export default function InputCurrencySwitch({
           '0.00 ' +
           (isShowUsd ? '' : ' ' + tokenSymbol)
         }
+        fixedDecimalScale
         inputProps={{
           onClick: (e: any) => e?.stopPropagation(),
         }}
