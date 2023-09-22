@@ -192,6 +192,38 @@ export default function BorrowItem({ item }: any) {
     }
   }
 
+  const onWithdraw = async () => {
+    if (!isConnected) {
+      setOpenConnectWalletModal(true)
+      return
+    }
+    try {
+      setButtonLoading('APPROVING...')
+      if (!isApproved) {
+        await contractAsset.methods
+          .approve(contractBorrow._address, MAX_UINT256)
+          .send({
+            from: address,
+          })
+        toast.success('Approve Successful')
+        await getAllowance()
+      }
+      setButtonLoading('WITHDRAWING...')
+      await contractBorrow.methods
+        .withdraw(Web3.utils.toWei(Number(inputValue).toFixed(2), 'ether'))
+        .send({
+          from: address,
+        })
+      toast.success('Withdraw Successful')
+      initContract()
+    } catch (e) {
+      console.log(e)
+      toast.error('Withdraw Failed')
+    } finally {
+      setButtonLoading('')
+    }
+  }
+
   const getDataNameBorrow = async () => {
     const data = await Moralis.Cloud.run('getDataBorrowUser', {
       address: address,
@@ -450,9 +482,17 @@ export default function BorrowItem({ item }: any) {
                   {[25, 50, 100].map((percent, i) => (
                     <div
                       className="cursor-pointer rounded-md bg-[#F4F4F4]  px-[6px] py-[2px] transition active:scale-95 dark:bg-[#171717] xs:px-[8px] xs:py-[4px]"
-                      onClick={() =>
-                        setInputValue((dataUserBorrow.borrowed * percent) / 100)
-                      }
+                      onClick={() => {
+                        if (action == Action.Withdraw) {
+                          setInputValue(
+                            (dataUserBorrow.supplied * percent) / 100
+                          )
+                        } else {
+                          setInputValue(
+                            Number((dataUserBorrow.borrowed * percent) / 100)
+                          )
+                        }
+                      }}
                       key={i}
                     >
                       {percent}%
@@ -465,7 +505,9 @@ export default function BorrowItem({ item }: any) {
                   buttonLoading && 'cursor-not-allowed opacity-50'
                 }`}
                 disabled={buttonLoading != ''}
-                onClick={() => onRepay()}
+                onClick={() =>
+                  action == Action.Repay ? onRepay() : onWithdraw()
+                }
               >
                 {buttonLoading != '' && <LoadingCircle />}
                 {buttonLoading != '' ? buttonLoading : renderSubmitText()}
