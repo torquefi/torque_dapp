@@ -13,3 +13,6 @@ export const getBalanceByContractToken = async (
   const balance = await contract.methods.balanceOf(userWalletAddress).call()
   return web3.utils.fromWei(balance, 'ether')
 }
+
+export const MAX_UINT256 =
+  '115792089237316195423570985008687907853269984665640564039457584007913129639935'

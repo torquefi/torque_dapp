@@ -3,6 +3,7 @@ import { getPriceToken } from '@/components/common/InputCurrencySwitch'
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
 import { VaultChart } from '@/components/common/VaultChart'
 import SkeletonDefault from '@/components/skeleton'
+import { MAX_UINT256 } from '@/constants/utils'
 import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
 import { AppStore } from '@/types/store'
 import { useEffect, useMemo, useRef, useState } from 'react'
@@ -52,6 +53,8 @@ export default function BorrowItem({ item }: any) {
     [borrowRate]
   )
 
+  const web3 = new Web3('https://arbitrum-goerli.publicnode.com')
+
   const getPrice = async () => {
     setPrice({
       eth: (await getPriceToken('ETH')) || 1800,
@@ -65,6 +68,7 @@ export default function BorrowItem({ item }: any) {
       const dataABIAsset = await Moralis.Cloud.run('getAbi', {
         name: item?.name_ABI_asset,
       })
+      console.log(dataABIAsset)
       if (dataABIAsset?.abi) {
         const web3 = new Web3(Web3.givenProvider)
         const contract = new web3.eth.Contract(
@@ -89,7 +93,7 @@ export default function BorrowItem({ item }: any) {
           })
           setDataUserBorrow({
             supplied: Moralis.Units.FromWei(data.supplied, item.decimals_asset),
-            borrowed: Moralis.Units.FromWei(data.borrowed, item.decimals_USG),
+            borrowed: Moralis.Units.FromWei(data.borrowed, item.decimals_usdc),
           })
         }
         setContractBorrow(contract)
@@ -99,7 +103,6 @@ export default function BorrowItem({ item }: any) {
         name: 'compound_abi',
       })
       if (dataABICompound?.abi) {
-        const web3 = new Web3('https://rpc.ankr.com/eth')
         const contract = new web3.eth.Contract(
           JSON.parse(dataABICompound?.abi),
           dataABICompound?.address
@@ -166,10 +169,7 @@ export default function BorrowItem({ item }: any) {
       setButtonLoading('APPROVING...')
       if (!isApproved) {
         await contractAsset.methods
-          .approve(
-            contractBorrow._address,
-            Web3.utils.toWei(Number(inputValue).toFixed(2), 'ether')
-          )
+          .approve(contractBorrow._address, MAX_UINT256)
           .send({
             from: address,
           })
@@ -178,7 +178,7 @@ export default function BorrowItem({ item }: any) {
       }
       setButtonLoading('REPAYING...')
       await contractBorrow.methods
-        .repay(Web3.utils.toWei(Number(inputValue).toFixed(2), 'mwei'))
+        .repay(Web3.utils.toWei(Number(inputValue).toFixed(2), 'ether'))
         .send({
           from: address,
         })

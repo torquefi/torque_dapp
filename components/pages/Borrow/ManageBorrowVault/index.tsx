@@ -32,7 +32,7 @@ export default function ManageBorrowVault() {
           // item.supplied = +Moralis.Units.FromWei(data.supplied, item.decimals_asset)
           item.borrowed = +Moralis.Units.FromWei(
             data.borrowed,
-            item.decimals_USG
+            item.decimals_usdc
           )
         }
       }
@@ -94,8 +94,8 @@ const DATA_BORROW = [
     apy: 0.0,
     data_key: 'name_borrow_vault_1',
     address_asset: '0x07865c6E87B9F70255377e024ace6630C1Eaa37F',
-    name_ABI_asset: 'USG_abi',
-    decimals_USG: 6,
+    name_ABI_asset: 'usdc_abi',
+    decimals_usdc: 6,
     decimals_asset: 8,
     name_ABI_borrow: 'borrow_wbtc_abi',
   },
@@ -107,9 +107,9 @@ const DATA_BORROW = [
     ltv: 0.0,
     apy: 0.0,
     data_key: 'name_borrow_vault_2',
-    address_asset: '0x42a71137C09AE83D8d05974960fd607d40033499',
-    name_ABI_asset: 'USG_abi',
-    decimals_USG: 6,
+    address_asset: '0x2B9960680D91d7791e9a24aCFb03CE0d234cC708',
+    name_ABI_asset: 'usg_abi',
+    decimals_usdc: 6,
     decimals_asset: 18,
     name_ABI_borrow: 'borrow_eth_abi',
   },
