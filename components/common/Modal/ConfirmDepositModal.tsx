@@ -11,6 +11,7 @@ import {
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 import { formatUnits } from 'ethers/lib/utils'
+import LoadingCircle from '../Loading/LoadingCircle'
 
 interface Detail {
   label: string
@@ -31,9 +32,11 @@ interface ConfirmDepositModalProps {
   coinFrom: DepositCoinDetail
   coinTo: DepositCoinDetail
   details?: Detail[]
+  loading?: boolean
 }
 
-export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
+export function
+  ConfirmDepositModal(props: ConfirmDepositModalProps) {
   const {
     open,
     handleClose,
@@ -42,13 +45,14 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
     coinFrom,
     coinTo,
     details = [],
+    loading
   } = props
   const web3 = new Web3(Web3.givenProvider)
   const { address } = useAccount()
   const [balanceWallet, setBalanceWallet] = useState<any>(0)
   useEffect(() => {
     if (address) {
-      ;(async () => {
+      ; (async () => {
         if (coinFrom.symbol === 'BTC') {
           const amount = await getBalanceByContractToken(
             btcCoinContract.abi,
@@ -70,6 +74,7 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
       })()
     }
   }, [coinFrom.symbol, address])
+
   return (
     <Modal
       className="w-full max-w-[420px]  bg-[#FCFAFF] p-[10px] dark:bg-[#030303]"
@@ -151,6 +156,7 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
         className={`font-mona w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
         `}
       >
+        {loading && <LoadingCircle />}
         {confirmButtonText}
       </button>
     </Modal>

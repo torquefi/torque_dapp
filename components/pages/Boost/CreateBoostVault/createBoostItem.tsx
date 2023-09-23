@@ -273,6 +273,7 @@ export function CreateBoostItem({ item }: any) {
         handleClose={() => setOpenConfirmDepositModal(false)}
         confirmButtonText="Deposit & Earn"
         onConfirm={() => onDeposit()}
+        loading={btnLoading}
         coinFrom={{
           amount: amount,
           icon: `/icons/coin/${item.token.toLocaleLowerCase()}.png`,
