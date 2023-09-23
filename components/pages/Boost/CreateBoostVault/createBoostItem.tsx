@@ -8,7 +8,7 @@ import { updateborrowTime } from '@/lib/redux/auth/dataUser'
 import { AppStore } from '@/types/store'
 import { ethers } from 'ethers'
 import Link from 'next/link'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'sonner'
 import { useAccount } from 'wagmi'
@@ -21,6 +21,7 @@ export function CreateBoostItem({ item }: any) {
   const [isOpenConfirmDepositModal, setOpenConfirmDepositModal] =
     useState(false)
   const [amount, setAmount] = useState<number>(0)
+  const [balance, setBalance] = useState('0')
 
   const theme = useSelector((store: AppStore) => store.theme.theme)
 
@@ -61,16 +62,31 @@ export function CreateBoostItem({ item }: any) {
     }
   }
 
-  // const handleUpdateBalance = async () => {
-  //   try {
-  //     if (assetContract) {
-  //       const allowance = await assetContract.methods.balanceOf(address)
-  //       setBalance(Number(Moralis.Units.FromWei(allowance, decimal)) || 0)
-  //     }
-  //   } catch (e) {
-  //     console.log('handleUpdateBalance', e)
-  //   }
-  // }
+
+
+  const getBalance = async () => {
+    if (tokenContract && address) {
+      try {
+        const balance = await tokenContract.methods.balanceOf(address).call()
+
+        console.log('balance :>> ', balance);
+        const decimals = await tokenContract.methods.decimals().call()
+
+        const tokenAmount = ethers.utils
+          .formatUnits(balance?.toString(), decimals)
+          .toString()
+        setBalance(tokenAmount)
+      } catch (error) {
+        console.log('error :>> ', error);
+        setBalance('0')
+      }
+
+    }
+  }
+
+  useEffect(() => {
+    getBalance()
+  }, [tokenContract, address])
 
   const handleConfirmDeposit = () => {
     if (!isConnected) {
