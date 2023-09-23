@@ -50,7 +50,6 @@ export function ManageBoostVault() {
       item.deposited = +ethers.utils
         .formatUnits(`${infoUser['amount']}`, item.tokenDecimals)
         .toString()
-      console.log(item.deposited)
       item.earnings = +ethers.utils
         .formatUnits(`${infoUser['reward']}`, item.tokenDecimals)
         .toString()
@@ -78,8 +77,6 @@ export function ManageBoostVault() {
   useEffect(() => {
     handleUpdateBoostData(true)
   }, [isConnected, address])
-
-  console.log(dataBoost)
 
   const boostDisplayed = dataBoost.filter((item) => Number(item?.deposited) > 0)
 

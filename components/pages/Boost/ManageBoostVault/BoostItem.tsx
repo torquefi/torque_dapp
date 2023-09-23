@@ -25,7 +25,6 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
   const [isOpen, setOpen] = useState(false)
   const [amount, setAmount] = useState('')
   const [isEdit, setEdit] = useState(false)
-  const [btnLoading, setBtnLoading] = useState('')
   const [isSubmitLoading, setSubmitLoading] = useState(false)
   const { address, isConnected } = useAccount()
   const { Moralis, isWeb3Enabled } = useMoralis()
@@ -58,12 +57,29 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
     }
     try {
       setSubmitLoading(true)
+
+      const allowanceToken = await tokenContract.methods
+        .allowance(address, item?.boostContractInfo?.address)
+        .call()
+      const allowance = ethers.utils
+        .formatUnits(allowanceToken, item?.tokenDecimals)
+        .toString()
+
+      if (+allowance < +amount) {
+        await tokenContract.methods
+          .approve(
+            item?.boostContractInfo?.address,
+            '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+          )
+          .send({ from: address })
+      }
+
       console.log(
         'token',
         item.tokenContractInfo?.address,
         ethers.utils.parseUnits(amount, item.tokenDecimals).toString()
       )
-      const tx = await boostContract.methods
+      await boostContract.methods
         .withdraw(
           item.tokenContractInfo?.address,
           ethers.utils.parseUnits(amount, item.tokenDecimals).toString()
