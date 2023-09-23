@@ -17,7 +17,7 @@ export function ManageBoostVault() {
   const [dataBoost, setDataBoost] = useState<IBoostInfo[]>(DATA_BOOST_VAULT)
   const [isSkeletonLoading, setSkeletonLoading] = useState(true)
 
-  const getBorrowData = async (item: (typeof DATA_BOOST_VAULT)[0]) => {
+  const getBoostData = async (item: (typeof DATA_BOOST_VAULT)[0]) => {
     if (!isConnected || !address) {
       return item
     }
@@ -56,19 +56,18 @@ export function ManageBoostVault() {
         .toString()
 
       return item
-
     } catch (error) {
-      console.log('ManageStaking.handleGetStakeData', error)
+      console.log('ManageStaking.handleGetStakeData', item?.tokenSymbol, error)
       return item
     }
   }
 
-  const handleUpdateStakeData = async (loading = false) => {
+  const handleUpdateBoostData = async (loading = false) => {
     if (loading) {
       setSkeletonLoading(true)
     }
     try {
-      const dataBoost = await Promise.all(DATA_BOOST_VAULT?.map(getBorrowData))
+      const dataBoost = await Promise.all(DATA_BOOST_VAULT?.map(getBoostData))
       setDataBoost(dataBoost)
     } catch (error) {}
     if (loading) {
@@ -77,7 +76,7 @@ export function ManageBoostVault() {
   }
 
   useEffect(() => {
-    handleUpdateStakeData(true)
+    handleUpdateBoostData(true)
   }, [isConnected, address])
 
   console.log(dataBoost)
@@ -113,7 +112,7 @@ export function ManageBoostVault() {
       <div className="text-[24px] dark:text-white">Manage Boost Vaults</div>
       {boostDisplayed.map((item) => (
         <div className="">
-          <BoostItem item={item} onWithdrawSuccess={handleUpdateStakeData} />
+          <BoostItem item={item} onWithdrawSuccess={handleUpdateBoostData} />
         </div>
       ))}
     </div>

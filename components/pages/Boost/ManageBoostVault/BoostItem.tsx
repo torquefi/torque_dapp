@@ -58,7 +58,11 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
     }
     try {
       setSubmitLoading(true)
-      console.log('token address', item.tokenContractInfo?.address)
+      console.log(
+        'token',
+        item.tokenContractInfo?.address,
+        ethers.utils.parseUnits(amount, item.tokenDecimals).toString()
+      )
       const tx = await boostContract.methods
         .withdraw(
           item.tokenContractInfo?.address,
