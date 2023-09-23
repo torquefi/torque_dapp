@@ -58,7 +58,7 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
     }
     try {
       setSubmitLoading(true)
-      console.log(item.tokenContractInfo?.address)
+      console.log('token address', item.tokenContractInfo?.address)
       const tx = await boostContract.methods
         .withdraw(
           item.tokenContractInfo?.address,
