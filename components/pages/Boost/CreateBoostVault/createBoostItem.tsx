@@ -68,10 +68,7 @@ export function CreateBoostItem({ item }: any) {
     if (tokenContract && address) {
       try {
         const balance = await tokenContract.methods.balanceOf(address).call()
-
-        console.log('balance :>> ', balance);
         const decimals = await tokenContract.methods.decimals().call()
-
         const tokenAmount = ethers.utils
           .formatUnits(balance?.toString(), decimals)
           .toString()
@@ -102,7 +99,6 @@ export function CreateBoostItem({ item }: any) {
     setOpenConfirmDepositModal(true)
   }
 
-  console.log('item :>> ', item);
 
   const onDeposit = async () => {
     const allowance = await getAllowance()
