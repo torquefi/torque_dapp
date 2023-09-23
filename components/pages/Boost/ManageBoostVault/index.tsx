@@ -56,6 +56,7 @@ export function ManageBoostVault() {
         .toString()
 
       return item
+
     } catch (error) {
       console.log('ManageStaking.handleGetStakeData', error)
       return item
@@ -67,7 +68,7 @@ export function ManageBoostVault() {
     try {
       const dataBoost = await Promise.all(DATA_BOOST_VAULT?.map(getBorrowData))
       setDataBoost(dataBoost)
-    } catch (error) {}
+    } catch (error) { }
     setSkeletonLoading(false)
   }
 
