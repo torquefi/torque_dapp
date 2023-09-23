@@ -56,6 +56,7 @@ export function ManageBoostVault() {
         .toString()
 
       return item
+
     } catch (error) {
       console.log('ManageStaking.handleGetStakeData', error)
       return item
