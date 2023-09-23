@@ -12,6 +12,8 @@ export function ManageBoostVault() {
   const [isSkeletonLoading, setSkeletonLoading] = useState(true)
   const { Moralis } = useMoralis()
 
+
+
   const getBorrowData = async (item: (typeof DATA_BOOST_VAULT)[0]) => {
     if (!isConnected || !address) {
       return item
@@ -78,7 +80,6 @@ export function ManageBoostVault() {
     handleUpdateStakeData()
   }, [isConnected, address])
 
-  console.log('dataBoost :>> ', dataBoost);
 
   const boostDisplayed = dataBoost.filter((item) => Number(item?.deposited) > 0)
 
