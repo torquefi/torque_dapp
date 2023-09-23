@@ -57,7 +57,7 @@ export function ManageBoostVault() {
 
       return item
     } catch (error) {
-      console.log('ManageStaking.handleGetStakeData', item?.tokenSymbol, error)
+      console.log('ManageBoostVault.getBoostData', item?.tokenSymbol, error)
       return item
     }
   }
