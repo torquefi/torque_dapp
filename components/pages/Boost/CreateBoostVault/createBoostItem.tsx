@@ -244,8 +244,7 @@ export function CreateBoostItem({ item }: any) {
         <div className="font-mona flex w-full items-center justify-between text-[16px] text-[#959595]">
           <div className="font-mona">Variable APY</div>
           <div className="">
-            0%
-            {/* {item.APR}% */}
+            {item.APR}%
           </div>
         </div>
         <button
@@ -277,6 +276,10 @@ export function CreateBoostItem({ item }: any) {
           symbol: 't' + item.token,
         }}
         details={[
+          {
+            label: 'Wallet balance',
+            value: balance + ' ' + item?.token,
+          },
           {
             label: 'Exchange rate',
             value: `1 ${item?.token} = 1 t${item?.token}`,
