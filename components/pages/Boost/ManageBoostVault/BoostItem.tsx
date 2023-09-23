@@ -1,4 +1,5 @@
 import CurrencySwitch from '@/components/common/CurrencySwitch'
+import LoadingCircle from '@/components/common/Loading/LoadingCircle'
 import { VaultChart } from '@/components/common/VaultChart'
 import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
 import { AppStore } from '@/types/store'
@@ -15,15 +16,17 @@ import { IBoostInfo } from '../types'
 
 interface BoostItemProps {
   item: IBoostInfo
+  onWithdrawSuccess?: VoidFunction
 }
 
-export function BoostItem({ item }: BoostItemProps) {
+export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
   const [theme, setTheme] = useState(null)
   const [label, setLabel] = useState(item?.defaultLabel)
   const [isOpen, setOpen] = useState(false)
   const [amount, setAmount] = useState('')
   const [isEdit, setEdit] = useState(false)
   const [btnLoading, setBtnLoading] = useState('')
+  const [isSubmitLoading, setSubmitLoading] = useState(false)
   const { address, isConnected } = useAccount()
   const { Moralis, isWeb3Enabled } = useMoralis()
   const borrowTime = useSelector((store: AppStore) => store)
@@ -54,8 +57,9 @@ export function BoostItem({ item }: BoostItemProps) {
       return
     }
     try {
-      setBtnLoading('WITHDRAWING...')
-      await boostContract.methods
+      setSubmitLoading(true)
+      console.log(item.tokenContractInfo?.address)
+      const tx = await boostContract.methods
         .withdraw(
           item.tokenContractInfo?.address,
           ethers.utils.parseUnits(amount, item.tokenDecimals).toString()
@@ -63,17 +67,18 @@ export function BoostItem({ item }: BoostItemProps) {
         .send({
           from: address,
           value:
-            item?.tokenSymbol == 'ETH'
+            item?.tokenSymbol === 'ETH'
               ? ethers.utils.parseUnits(amount, item.tokenDecimals).toString()
               : 0,
         })
+      onWithdrawSuccess && onWithdrawSuccess()
+      setAmount('')
       toast.success('Withdraw Successful')
-      setBtnLoading('')
     } catch (e) {
       toast.error('Withdraw Failed')
-      setBtnLoading('')
       console.log(e)
     }
+    setSubmitLoading(false)
   }
 
   const getDataNameBoost = async () => {
@@ -168,8 +173,12 @@ export function BoostItem({ item }: BoostItemProps) {
     if (!address) {
       return 'Connect Wallet'
     }
+    if (isSubmitLoading) {
+      return 'WITHDRAWING...'
+    }
     return 'Withdraw'
   }
+
   return (
     <>
       <div className="dark-text-[#000] mt-[24px] grid w-full rounded-[12px] border border-[#E6E6E6] bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-[24px] py-[20px] text-[#464646] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white">
@@ -285,13 +294,15 @@ export function BoostItem({ item }: BoostItemProps) {
               </div>
             </div>
             <button
-              className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
-            ${btnLoading != '' && 'cursor-not-allowed opacity-70'}
-            `}
-              disabled={btnLoading != ''}
+              className={
+                `font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]` +
+                ` ${isSubmitLoading && 'cursor-not-allowed opacity-70'}`
+              }
+              disabled={isSubmitLoading}
               onClick={() => onWithdraw()}
             >
-              {btnLoading != '' ? btnLoading : renderSubmitText()}
+              {isSubmitLoading && <LoadingCircle />}
+              {renderSubmitText()}
             </button>
           </div>
         </div>
