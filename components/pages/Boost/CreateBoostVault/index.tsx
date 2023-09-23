@@ -2,6 +2,7 @@ import SkeletonDefault from '@/components/skeleton'
 import { useEffect, useState } from 'react'
 import { useMoralis } from 'react-moralis'
 import { CreateBoostItem } from './createBoostItem'
+import { boostContract, ethContract, usgContract } from '@/constants/boostContract'
 
 export function CreateBoostVault() {
   const [boostVault, setBoostVault] = useState(BOOST_VAULTS)
@@ -28,6 +29,7 @@ export function CreateBoostVault() {
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1500)
   }, [])
+
   useEffect(() => {
     getAPR()
   }, [isInitialized])
@@ -75,6 +77,8 @@ const BOOST_VAULTS = [
     link_yield1: 'https://gmx.io/',
     yield_provider2: '/icons/coin/stg.png',
     link_yield2: 'https://stargate.finance/',
+    tokenContractInfo: ethContract,
+    boostContractInfo: boostContract,
   },
   {
     token: 'USG',
@@ -91,5 +95,7 @@ const BOOST_VAULTS = [
     link_yield2: 'https://compound.finance/',
     yield_provider1: '/icons/coin/uni.svg',
     link_yield1: 'https://uniswap.org/',
+    tokenContractInfo: usgContract,
+    boostContractInfo: boostContract,
   },
 ]

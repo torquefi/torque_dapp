@@ -100,7 +100,7 @@ export const StakePage = () => {
   }
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       try {
         const decimals = await tokenContract.methods.decimals().call()
         const response = await tokenContract.methods.totalSupply().call()
@@ -196,11 +196,6 @@ export const StakePage = () => {
                 thousandSeparator
                 value={totalDistributed}
                 decimalScale={2}
-                // decimalScale={
-                //   +totalDistributed >= 0.00001 && +totalDistributed < 0.01
-                //     ? 5
-                //     : 2
-                // }
                 fixedDecimalScale
               />
             </div>

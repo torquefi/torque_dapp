@@ -24,7 +24,6 @@ export default function StakingPoolItem({
   const [isLoading, setLoading] = useState(true)
   const [isSubmitLoading, setSubmitLoading] = useState(false)
   const [apr, setApr] = useState<string | number>(0)
-  const [isShowUsd, setShowUsd] = useState(true)
   const [tokenPrice, setTokenPrice] = useState<any>(0)
   const { address, isConnected } = useAccount()
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
@@ -97,9 +96,6 @@ export default function StakingPoolItem({
         .parseUnits(amount.toString(), decimals)
         .toString()
 
-      console.log('tokenAmount :>> ', tokenAmount)
-      console.log('address :>> ', address)
-
       await stakingContract.methods.deposit(tokenAmount).send({ from: address })
       toast.success('Deposit successful')
       setIsRefresh((isRefresh) => !isRefresh)
@@ -133,7 +129,7 @@ export default function StakingPoolItem({
   }, [tokenContract, isConnected, address])
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       try {
         const response = await stakingContract.methods.apr().call()
         setApr(response / 100)
@@ -157,34 +153,7 @@ export default function StakingPoolItem({
         console.log('handleGetTorqPrice 123:>> ', error)
       }
     }
-
     handleGetTorqPrice()
-
-    // const handleGetLpPrice = async () => {
-    //   try {
-    //     const torqDecimals = await torqContract.methods.decimals().call()
-    //     const amount = ethers.utils.parseUnits('1', torqDecimals).toString()
-    //     const torqTokenPrice6Decimals = await lpContract.methods
-    //       .getUSDPrice(tokenTorqContract.address, amount)
-    //       .call()
-
-    //     const pairLpTorqPrice = await lpContract.methods.getPairPrice().call()
-
-    //     const lpPriceBn = BigNumber.from(pairLpTorqPrice)
-    //       .div(ethers.utils.parseUnits('1', 18).toString())
-    //       .mul(torqTokenPrice6Decimals)
-    //       .div(ethers.utils.parseUnits('1', 6).toString())
-
-    //     console.log('lpPrice', lpPriceBn.toString())
-    //     setTokenPrice(lpPriceBn)
-    //   } catch (error) {
-    //     console.log('handleGetTorqPrice 123:>> ', error)
-    //   }
-    // }
-    // }
-    // if (stakeInfo.symbol === 'LP') {
-    //   handleGetLpPrice()
-    // }
   }, [tokenContract, isConnected])
 
   useEffect(() => {
@@ -199,13 +168,13 @@ export default function StakingPoolItem({
     )
   }
 
-  console.log('tokenPrice :>> ', tokenPrice)
   const renderSubmitText = () => {
     if (!address) {
       return 'Connect Wallet'
     }
     return `Deposit ${stakeInfo?.label}`
   }
+
   return (
     <>
       <div className="rounded-[12px] border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-8 py-6 text-[#404040] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white">
@@ -246,7 +215,6 @@ export default function StakingPoolItem({
               onChange={(e) => {
                 setAmount(e)
               }}
-              onSetShowUsd={setShowUsd}
               tokenPrice={tokenPrice}
             />
           </div>
@@ -279,13 +247,11 @@ export default function StakingPoolItem({
         <button
           className={
             'font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]' +
-            ` ${
-              isSubmitLoading || isDisabled
-                ? 'cursor-not-allowed text-[#eee]'
-                : 'cursor-pointer '
+            ` ${isSubmitLoading || isDisabled
+              ? 'cursor-not-allowed text-[#eee]'
+              : 'cursor-pointer'
             }`
           }
-          // disabled={isDisabled || isSubmitLoading}
           onClick={() => stakeToken()}
         >
           {isSubmitLoading && <LoadingCircle />}

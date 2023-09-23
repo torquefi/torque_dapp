@@ -10,7 +10,7 @@ export function ManageBoostVault() {
   const { address, isConnected } = useAccount()
   const [dataBoost, setDataBoost] = useState(DATA_BOOST_VAULT)
   const [isSkeletonLoading, setSkeletonLoading] = useState(true)
-  const { Moralis, enableWeb3, isWeb3Enabled } = useMoralis()
+  const { Moralis } = useMoralis()
 
   const getBorrowData = async (item: (typeof DATA_BOOST_VAULT)[0]) => {
     if (!isConnected || !address) {
@@ -134,10 +134,8 @@ const DATA_BOOST_VAULT = [
   {
     token: 'USG',
     label: 'Vault #2',
-    // deposited: 158130,
     deposited: 0,
     earnings: 0,
-    // earnings: 142271,
     APR: '0.00%',
     isOpen: false,
     amount: 0,

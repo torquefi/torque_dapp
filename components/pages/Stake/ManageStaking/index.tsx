@@ -41,7 +41,7 @@ export default function ManageStaking({ isRefresh }: { isRefresh?: boolean }) {
       item.deposited = +totalStaked
       return item
     } catch (error) {
-      console.log('ManageStaking.handleGetStakeData', error)
+      console.log('ManageStaking.handleGetDepositData', error)
       return item
     }
   }
@@ -51,7 +51,7 @@ export default function ManageStaking({ isRefresh }: { isRefresh?: boolean }) {
     try {
       const dataStake = await Promise.all(STAKING_DATA?.map(getStakeData))
       setDataStake(dataStake)
-    } catch (error) {}
+    } catch (error) { }
     setSkeletonLoading(false)
   }
 

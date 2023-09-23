@@ -8,3 +8,5 @@ export { default as stakeLpAbi } from './stakeLP.json'
 export { default as usgABI } from './usg.json'
 export { default as ethABI } from './eth.json'
 export { default as btcABI } from './btc.json'
+
+export { default as boostEthAbi } from './boostETH.json'

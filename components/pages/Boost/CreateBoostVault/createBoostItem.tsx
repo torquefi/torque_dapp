@@ -1,156 +1,147 @@
 import CurrencySwitch from '@/components/common/CurrencySwitch'
 import InputCurrencySwitch from '@/components/common/InputCurrencySwitch'
+import LoadingCircle from '@/components/common/Loading/LoadingCircle'
 import { ConfirmDepositModal } from '@/components/common/Modal/ConfirmDepositModal'
 import Popover from '@/components/common/Popover'
 import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
 import { updateborrowTime } from '@/lib/redux/auth/dataUser'
 import { AppStore } from '@/types/store'
+import { ethers } from 'ethers'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
-import { useMoralis } from 'react-moralis'
+import { useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'sonner'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 
 export function CreateBoostItem({ item }: any) {
-  const [boostVault, setBoostVault] = useState(item)
-  const [assetContract, setAssetContract] = useState(null)
-  const [boostContract, setBoostContract] = useState(null)
-  const [allowance, setAllowance] = useState(0)
-  const [inputAmount, setInputAmount] = useState(0)
-  const [decimal, setDecimal] = useState(0)
-  const [balance, setBalance] = useState(0)
-  const [btnLoading, setBtnLoading] = useState('')
   const { address, isConnected } = useAccount()
+  const [btnLoading, setBtnLoading] = useState(false)
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
   const [isOpenConfirmDepositModal, setOpenConfirmDepositModal] =
     useState(false)
+  const [amount, setAmount] = useState<number>(0)
+
   const theme = useSelector((store: AppStore) => store.theme.theme)
-  const { Moralis, enableWeb3, isWeb3Enabled } = useMoralis()
 
   const dispatch = useDispatch()
 
-  const initContract = async () => {
-    try {
-      const dataABIAsset = await Moralis.Cloud.run('getAbi', {
-        name: item?.name_ABI_asset,
-      })
-      if (dataABIAsset?.abi) {
-        const web3 = new Web3(Web3.givenProvider)
-        const contract = new web3.eth.Contract(
-          JSON.parse(dataABIAsset?.abi),
-          dataABIAsset?.address
-        )
-        setAssetContract(contract)
+  const tokenContract = useMemo(() => {
+    const web3 = new Web3(Web3.givenProvider)
+    const contract = new web3.eth.Contract(
+      JSON.parse(item?.tokenContractInfo?.abi),
+      item?.tokenContractInfo?.address
+    )
+    return contract
+  }, [Web3.givenProvider, item?.symbol])
 
-        let decimal = await contract.methods.decimals().call({
-          from: address,
-        })
-        setDecimal(decimal)
-      }
-
-      const dataABIBoost = await Moralis.Cloud.run('getAbi', {
-        name: item?.boost_contract,
-      })
-      if (dataABIBoost?.abi) {
-        const web3 = new Web3(Web3.givenProvider)
-        const contract = new web3.eth.Contract(
-          JSON.parse(dataABIBoost?.abi),
-          dataABIBoost?.address
-        )
-        setBoostContract(contract)
-      }
-    } catch (e) {
-      console.log(e)
-    }
-  }
+  const boostContract = useMemo(() => {
+    const web3 = new Web3(Web3.givenProvider)
+    const contract = new web3.eth.Contract(
+      JSON.parse(item?.boostContractInfo?.abi),
+      item?.boostContractInfo?.address
+    )
+    return contract
+  }, [Web3.givenProvider, item?.symbol])
 
   const getAllowance = async () => {
     try {
-      if (assetContract) {
-        const allowance = await assetContract.methods
-          .allowance(address, boostContract._address)
-          .call({
-            from: address,
-          })
-        setAllowance(Number(Moralis.Units.FromWei(allowance, decimal)) || 0)
-      }
-    } catch (e) {
-      console.log(e)
+      const allowanceToken = await tokenContract.methods
+        .allowance(address, item?.boostContractInfo?.address)
+        .call()
+      const decimals = await tokenContract.methods.decimals().call()
+      const allowance = ethers.utils
+        .formatUnits(allowanceToken, decimals)
+        .toString()
+
+      return allowance
+    } catch (error) {
+      console.log('Staking.DepositModal.handleGetAllowance', error)
+      return 0
     }
   }
 
-  const handleUpdateBalance = async () => {
-    try {
-      if (assetContract) {
-        const allowance = await assetContract.methods.balanceOf(address)
-        setBalance(Number(Moralis.Units.FromWei(allowance, decimal)) || 0)
-      }
-    } catch (e) {
-      console.log('handleUpdateBalance', e)
-    }
-  }
+  // const handleUpdateBalance = async () => {
+  //   try {
+  //     if (assetContract) {
+  //       const allowance = await assetContract.methods.balanceOf(address)
+  //       setBalance(Number(Moralis.Units.FromWei(allowance, decimal)) || 0)
+  //     }
+  //   } catch (e) {
+  //     console.log('handleUpdateBalance', e)
+  //   }
+  // }
 
   const handleConfirmDeposit = () => {
     if (!isConnected) {
       setOpenConnectWalletModal(true)
       return
     }
+    if (!isConnected) {
+      return toast.error('You need connect your wallet first')
+    }
+    if (!+amount) {
+      return toast.error('You must input amount to deposit')
+    }
     setOpenConfirmDepositModal(true)
   }
 
+  console.log('item :>> ', item);
+
   const onDeposit = async () => {
-    console.log(assetContract, boostContract)
+    const allowance = await getAllowance()
     try {
-      if (allowance < boostVault.amount && boostVault.token != 'ETH') {
-        setBtnLoading('APPROVING...')
-        await assetContract.methods
+      if (+allowance < +amount) {
+        setBtnLoading(true)
+
+        await tokenContract.methods
           .approve(
-            boostContract._address,
-            Moralis.Units.Token(boostVault.amount, decimal)
+            item?.boostContractInfo?.address,
+            '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+
           )
           .send({
             from: address,
           })
       }
-      setBtnLoading('DEPOSITING...')
+
+      setBtnLoading(true)
+
+      const decimals = await tokenContract.methods.decimals().call()
+      const tokenAmount = ethers.utils
+        .parseUnits(amount?.toString(), decimals)
+        .toString()
+
+      console.log('amount :>> ', amount);
+      console.log('item?.tokenContractInfo?.address :>> ', item?.tokenContractInfo?.address);
+      console.log('tokenAmount :>> ', tokenAmount);
+
       await boostContract.methods
         .deposit(
-          assetContract._address,
-          Moralis.Units.Token(boostVault.amount, decimal)
+          item?.tokenContractInfo?.address,
+          tokenAmount
         )
         .send({
           from: address,
           value:
-            boostVault.token == 'ETH'
-              ? Moralis.Units.Token(boostVault.amount, decimal)
+            item?.token === 'ETH'
+              ? tokenAmount
               : 0,
         })
       toast.success('Boost Successful')
       dispatch(updateborrowTime(new Date().getTime().toString() as any))
-      setBtnLoading('')
+      setBtnLoading(false)
       setOpenConfirmDepositModal(false)
     } catch (e) {
-      setBtnLoading('')
+      setBtnLoading(false)
       console.log(e)
     }
   }
-
-  useEffect(() => {
-    getAllowance()
-    handleUpdateBalance()
-  }, [assetContract, boostContract, address])
-
-  useEffect(() => {
-    initContract()
-  }, [isWeb3Enabled, address, isConnected])
 
   const renderSubmitText = () => {
     if (!address) {
       return 'Connect Wallet'
     }
-    // return 'Deposit & Earn'
     return 'Confirm Deposit'
   }
   return (
@@ -196,22 +187,21 @@ export function CreateBoostItem({ item }: any) {
         <div className="font-larken mt-4 grid grid-cols-2 gap-4">
           <div className="flex h-[110px] w-full flex-col items-center justify-center gap-3 rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A]  dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
             <InputCurrencySwitch
-              tokenSymbol={boostVault.token}
-              tokenValue={Number(boostVault.amount)}
+              tokenSymbol={item?.token}
+              tokenValue={+amount}
               className="w-full py-4 dark:text-white lg:py-6"
               decimalScale={2}
-              usdDefault={true}
+              usdDefault
               subtitle="Deposit"
               onChange={(e) => {
-                boostVault.amount = e
-                setBoostVault({ ...boostVault })
+                setAmount(e)
               }}
             />
           </div>
           <div className="flex h-[110px] w-full flex-col items-center justify-center gap-3 rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A]  dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
             <CurrencySwitch
-              tokenSymbol={boostVault?.token}
-              tokenValue={Number(boostVault.amount || 0) * boostVault.rate}
+              tokenSymbol={item?.token}
+              tokenValue={Number(amount || 0) * item?.rate}
               usdDefault
               className="w-full space-y-2 py-6 lg:py-[31px]"
               decimalScale={2}
@@ -249,29 +239,35 @@ export function CreateBoostItem({ item }: any) {
         </div>
         <button
           className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
-        
+          ${btnLoading
+              ? 'cursor-not-allowed text-[#eee]'
+              : 'cursor-pointer '
+            }
         `}
           onClick={handleConfirmDeposit}
         >
-          {btnLoading != '' ? btnLoading : renderSubmitText()}
+          {btnLoading && <LoadingCircle />}
+          {renderSubmitText()}
         </button>
       </div>
+
       <ConnectWalletModal
         openModal={isOpenConnectWalletModal}
         handleClose={() => setOpenConnectWalletModal(false)}
       />
+
       <ConfirmDepositModal
         open={isOpenConfirmDepositModal}
         handleClose={() => setOpenConfirmDepositModal(false)}
         confirmButtonText="Deposit & Earn"
         onConfirm={() => onDeposit()}
         coinFrom={{
-          amount: boostVault.amount,
+          amount: amount,
           icon: `/icons/coin/${item.token.toLocaleLowerCase()}.png`,
           symbol: item.token,
         }}
         coinTo={{
-          amount: boostVault.amount,
+          amount: amount,
           icon: `/icons/coin/${item.token.toLocaleLowerCase()}.png`,
           symbol: 't' + item.token,
         }}
