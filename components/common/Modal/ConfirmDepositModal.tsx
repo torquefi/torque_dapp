@@ -138,7 +138,7 @@ export function
         <div className="flex w-full items-center justify-between text-[15px]">
           <p>Wallet balance</p>
           <span>
-            {Number(balanceWallet).toFixed(3)} {coinFrom.symbol}
+            {Number(balanceWallet).toFixed(2)} {coinFrom.symbol}
           </span>
         </div>
         {details?.map((item, i) => (
