@@ -246,7 +246,8 @@ export function CreateBoostItem({ item }: any) {
         <div className="font-mona flex w-full items-center justify-between text-[16px] text-[#959595]">
           <div className="font-mona">Variable APY</div>
           <div className="">
-            {item.APR}%
+            0%
+            {/* {item.APR}% */}
           </div>
         </div>
         <button

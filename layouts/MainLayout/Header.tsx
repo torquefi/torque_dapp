@@ -210,10 +210,9 @@ export const Header = () => {
                   key={i}
                   className={
                     'font-mona relative flex h-[35px]  items-center justify-center pr-[4px] transition-all duration-200 ease-in' +
-                    ` ${
-                      activeTabIndex === i
-                        ? 'text-[#404040] dark:text-white '
-                        : 'text-[#959595]'
+                    ` ${activeTabIndex === i
+                      ? 'text-[#404040] dark:text-white '
+                      : 'text-[#959595]'
                     }`
                   }
                   onMouseEnter={() => setActiveTabIndex(i)}
@@ -243,10 +242,9 @@ export const Header = () => {
             className={
               ` absolute bottom-0 left-0 h-[1px] w-full` +
               `
-              ${
-                theme === 'light'
-                  ? 'bg-gradient-divider-light'
-                  : 'bg-gradient-divider'
+              ${theme === 'light'
+                ? 'bg-gradient-divider-light'
+                : 'bg-gradient-divider'
               }
                `
             }
