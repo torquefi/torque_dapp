@@ -107,8 +107,8 @@ const menu = [
     icon: '/assets/main-layout/graph-1.png',
   },
   {
-    label: 'Stake',
-    path: '/stake',
+    label: 'Vote',
+    path: 'https://snapshot.org/#/',
     icon: '/assets/main-layout/lock-1.png',
   },
 ]

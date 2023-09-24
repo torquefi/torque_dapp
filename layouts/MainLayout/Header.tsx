@@ -142,7 +142,7 @@ export const Header = () => {
           <div className="flex items-center">
             <div
               onClick={() => setIsOpenClaim(true)}
-              className="mr-[12px] hidden items-center xs:flex lg:mr-[24px] cursor-pointer"
+              className="mr-[12px] hidden cursor-pointer items-center xs:flex lg:mr-[24px]"
             >
               <img
                 className="mr-1 h-[24px] lg:h-[26px]"
@@ -210,9 +210,10 @@ export const Header = () => {
                   key={i}
                   className={
                     'font-mona relative flex h-[35px]  items-center justify-center pr-[4px] transition-all duration-200 ease-in' +
-                    ` ${activeTabIndex === i
-                      ? 'text-[#404040] dark:text-white '
-                      : 'text-[#959595]'
+                    ` ${
+                      activeTabIndex === i
+                        ? 'text-[#404040] dark:text-white '
+                        : 'text-[#959595]'
                     }`
                   }
                   onMouseEnter={() => setActiveTabIndex(i)}
@@ -242,9 +243,10 @@ export const Header = () => {
             className={
               ` absolute bottom-0 left-0 h-[1px] w-full` +
               `
-              ${theme === 'light'
-                ? 'bg-gradient-divider-light'
-                : 'bg-gradient-divider'
+              ${
+                theme === 'light'
+                  ? 'bg-gradient-divider-light'
+                  : 'bg-gradient-divider'
               }
                `
             }
@@ -288,8 +290,9 @@ const menu = [
     iconLight: '/assets/main-layout/link-active.png',
   },
   {
-    label: 'Stake',
-    path: '/stake',
+    label: 'Vote',
+    path: 'https://snapshot.org/#/',
+    link: 'https://snapshot.org/#/',
     icon: '/assets/main-layout/network.svg',
     iconActive: '/assets/main-layout/network-active.svg',
     iconLight: '/assets/main-layout/network-active.png',

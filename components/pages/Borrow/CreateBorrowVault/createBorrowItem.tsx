@@ -200,10 +200,11 @@ export default function CreateBorrowItem({ item }: any) {
         toast.error('You must deposit BTC to borrow')
         return
       }
-      if (dataBorrow.amountRecieve < 100) {
-        toast.error('Can not borrow less than 100 USG')
+      if (dataBorrow.amountRecieve < 1) {
+        toast.error('Can not borrow less than 1 USG')
         return
       }
+
       setButtonLoading('APPROVING...')
       if (!isApproved && item.depositCoin == 'BTC') {
         await contractAsset.methods
@@ -243,6 +244,11 @@ export default function CreateBorrowItem({ item }: any) {
           toast.error('Borrow failed. Please try again')
           return
         }
+
+        console.log(
+          Moralis.Units.Token(Number(dataBorrow.amountRecieve).toFixed(2), 6),
+          mintableUSG
+        )
 
         await contractBorrow.methods
           .borrow(
