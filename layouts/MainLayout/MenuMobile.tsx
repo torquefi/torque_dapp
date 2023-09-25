@@ -40,7 +40,7 @@ export const MenuMobile = () => {
   return (
     <div>
       <div className="fixed inset-x-0 bottom-0 z-50 h-[76px] border-t-2 dark:border-[#181818] md:hidden">
-        <div ref={menuContainer} className="relative z-10 flex h-full w-full">
+        <div ref={menuContainer} className="relative z-10 flex w-full h-full">
           <div
             className="absolute top-[-8px] z-[-1] transition-all duration-300"
             ref={menuIndicator}
@@ -65,12 +65,12 @@ export const MenuMobile = () => {
                   href={item.path}
                   key={i}
                   className={
-                    'font-mona flex h-[35px] w-1/5 items-center justify-center transition-all' +
-                    ` ${activeTabIndex === i ? ' origin-bottom scale-[1.4]' : ''
+                    'font-mona flex h-[32px] w-1/5 items-center justify-center transition-all' +
+                    ` ${activeTabIndex === i ? ' origin-bottom scale-[1.2]' : ''
                     }`
                   }
                 >
-                  <img className="z-52 w-[35px]" src={item.icon} alt="" />
+                  <img className="z-52 w-[32px]" src={item.icon} alt="" />
                 </Link>
               ) : (
                 <Link
@@ -78,7 +78,7 @@ export const MenuMobile = () => {
                   key={i}
                   legacyBehavior
                   className={
-                    'font-mona flex h-[35px] w-1/5 items-center justify-center transition-all' +
+                    'font-mona flex h-[32px] w-1/5 items-center justify-center transition-all' +
                     ` ${activeTabIndex === i ? ' origin-bottom scale-[1.4]' : ''
                     }`
                   }
@@ -125,7 +125,7 @@ const menu = [
   {
     label: 'Vote',
     path: 'https://snapshot.org/#/',
-    icon: '/assets/main-layout/network-active.svg',
+    icon: '/assets/main-layout/lock-1.png',
     isExternalLink: true,
   },
 ]
