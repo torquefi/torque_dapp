@@ -202,18 +202,17 @@ export const Header = () => {
           <div className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 md:block">
             <HoverIndicator
               activeIndex={activeTabIndex}
-              className="w-[320px] lg:w-[400px] xl:w-[480px]"
+              className="w-[320px] lg:w-[400px] xl:w-[480px] items-center"
             >
-              {menu.map((item, i) => (
+              {menu.map((item, i) => !item.isExternalLink ? (
                 <Link
                   href={item.path}
                   key={i}
                   className={
                     'font-mona relative flex h-[35px]  items-center justify-center pr-[4px] transition-all duration-200 ease-in' +
-                    ` ${
-                      activeTabIndex === i
-                        ? 'text-[#404040] dark:text-white '
-                        : 'text-[#959595]'
+                    ` ${activeTabIndex === i
+                      ? 'text-[#404040] dark:text-white '
+                      : 'text-[#959595]'
                     }`
                   }
                   onMouseEnter={() => setActiveTabIndex(i)}
@@ -236,19 +235,49 @@ export const Header = () => {
                     {item.label}
                   </p>
                 </Link>
-              ))}
+              ) :
+                <Link
+                  href={item.path}
+                  key={i}
+                  legacyBehavior
+                  className={
+                    'font-mona relative flex h-[35px]  items-center justify-center pr-[4px] transition-all duration-200 ease-in' +
+                    'text-[#959595]'
+                  }
+                  onMouseEnter={() => setActiveTabIndex(i)}
+                  onMouseLeave={() => setActiveTabIndex(currentTabIndex)}
+                >
+                  <a target='_blank' className='flex items-center justify-center'>
+                    {theme === 'light' ? (
+                      <img
+                        className="mr-[4px] w-[16px] text-[#000] lg:w-[20px] xl:w-[24px]"
+                        src={activeTabIndex === i ? item.iconLight : item.icon}
+                        alt=""
+                      />
+                    ) : (
+                      <img
+                        className="mr-[4px] w-[16px] text-[#000] lg:w-[20px] xl:w-[24px]"
+                        src={activeTabIndex === i ? item.iconActive : item.icon}
+                        alt=""
+                      />
+                    )}
+                    <p className="text-[12px] lg:text-[14px] xl:text-[16px] text-[#959595]">
+                      {item.label}
+                    </p>
+                  </a>
+                </Link>
+              )}
             </HoverIndicator>
           </div>
           <div
             className={
-              ` absolute bottom-0 left-0 h-[1px] w-full` +
+              ` absolute bottom-0 left-0 h-[1px] w - full` +
               `
-              ${
-                theme === 'light'
-                  ? 'bg-gradient-divider-light'
-                  : 'bg-gradient-divider'
+              ${theme === 'light'
+                ? 'bg-gradient-divider-light'
+                : 'bg-gradient-divider'
               }
-               `
+              `
             }
           />
         </div>
@@ -296,5 +325,6 @@ const menu = [
     icon: '/assets/main-layout/network.svg',
     iconActive: '/assets/main-layout/network-active.svg',
     iconLight: '/assets/main-layout/network-active.png',
+    isExternalLink: true
   },
 ]

@@ -26,9 +26,8 @@ export const MenuMobile = () => {
         const menuRect = menuContainer.current.getBoundingClientRect()
         const indicatorRect = menuIndicator.current.getBoundingClientRect()
         const left = (menuRect.width / menu.length) * activeTabIndex
-        menuIndicator.current.style.left = `${
-          left + menuRect.width / menu.length / 2 - indicatorRect.width / 2
-        }px`
+        menuIndicator.current.style.left = `${left + menuRect.width / menu.length / 2 - indicatorRect.width / 2
+          }px`
       }
     }
     handleUpdateIndicatorPosition()
@@ -49,10 +48,9 @@ export const MenuMobile = () => {
             <div
               className={
                 'mx-auto aspect-1 w-[76px] rounded-full  from-[#181818] via-[#282828] to-[#181818] p-[2px] dark:bg-gradient-to-r' +
-                ` ${
-                  router.pathname === '/overview'
-                    ? 'via-[#332048]'
-                    : 'via-[#181818]'
+                ` ${router.pathname === '/overview'
+                  ? 'via-[#332048]'
+                  : 'via-[#181818]'
                 }`
               }
             >
@@ -60,19 +58,37 @@ export const MenuMobile = () => {
             </div>
           </div>
           <div className="flex h-full w-full items-center bg-[#030303] bg-opacity-40 dark:bg-[#030303]">
-            {menu.map((item, i) => (
-              <Link
-                onClick={!item.path ? () => setIsOpenClaim(true) : null}
-                href={item.path}
-                key={i}
-                className={
-                  'font-mona flex h-[35px] w-1/5 items-center justify-center transition-all' +
-                  ` ${activeTabIndex === i ? ' origin-bottom scale-[1.4]' : ''}`
-                }
-              >
-                <img className="z-52 w-[35px]" src={item.icon} alt="" />
-              </Link>
-            ))}
+            {menu.map((item, i) =>
+              !item.isExternalLink ? (
+                <Link
+                  onClick={!item.path ? () => setIsOpenClaim(true) : null}
+                  href={item.path}
+                  key={i}
+                  className={
+                    'font-mona flex h-[35px] w-1/5 items-center justify-center transition-all' +
+                    ` ${activeTabIndex === i ? ' origin-bottom scale-[1.4]' : ''
+                    }`
+                  }
+                >
+                  <img className="z-52 w-[35px]" src={item.icon} alt="" />
+                </Link>
+              ) : (
+                <Link
+                  href={item.path}
+                  key={i}
+                  legacyBehavior
+                  className={
+                    'font-mona flex h-[35px] w-1/5 items-center justify-center transition-all' +
+                    ` ${activeTabIndex === i ? ' origin-bottom scale-[1.4]' : ''
+                    }`
+                  }
+                >
+                  <a target="_blank">
+                    <img className="z-52 w-[35px]" src={item.icon} alt="" />
+                  </a>
+                </Link>
+              )
+            )}
           </div>
         </div>
       </div>
@@ -110,5 +126,6 @@ const menu = [
     label: 'Vote',
     path: 'https://snapshot.org/#/',
     icon: '/assets/main-layout/lock-1.png',
+    isExternalLink: true,
   },
 ]
