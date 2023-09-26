@@ -62,8 +62,6 @@ export function CreateBoostItem({ item }: any) {
     }
   }
 
-
-
   const getBalance = async () => {
     if (tokenContract && address) {
       try {
@@ -74,10 +72,9 @@ export function CreateBoostItem({ item }: any) {
           .toString()
         setBalance(tokenAmount)
       } catch (error) {
-        console.log('error :>> ', error);
+        console.log('error :>> ', error)
         setBalance('0')
       }
-
     }
   }
 
@@ -99,7 +96,6 @@ export function CreateBoostItem({ item }: any) {
     setOpenConfirmDepositModal(true)
   }
 
-
   const onDeposit = async () => {
     const allowance = await getAllowance()
     try {
@@ -110,7 +106,6 @@ export function CreateBoostItem({ item }: any) {
           .approve(
             item?.boostContractInfo?.address,
             '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
-
           )
           .send({
             from: address,
@@ -124,21 +119,18 @@ export function CreateBoostItem({ item }: any) {
         .parseUnits(amount?.toString(), decimals)
         .toString()
 
-      console.log('amount :>> ', amount);
-      console.log('item?.tokenContractInfo?.address :>> ', item?.tokenContractInfo?.address);
-      console.log('tokenAmount :>> ', tokenAmount);
+      console.log('amount :>> ', amount)
+      console.log(
+        'item?.tokenContractInfo?.address :>> ',
+        item?.tokenContractInfo?.address
+      )
+      console.log('tokenAmount :>> ', tokenAmount)
 
       await boostContract.methods
-        .deposit(
-          item?.tokenContractInfo?.address,
-          tokenAmount
-        )
+        .deposit(item?.tokenContractInfo?.address, tokenAmount)
         .send({
           from: address,
-          value:
-            item?.token === 'ETH'
-              ? tokenAmount
-              : 0,
+          value: item?.token === 'ETH' ? tokenAmount : 0,
         })
       toast.success('Boost Successful')
       dispatch(updateborrowTime(new Date().getTime().toString() as any))
@@ -252,10 +244,7 @@ export function CreateBoostItem({ item }: any) {
         </div>
         <button
           className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
-          ${btnLoading
-              ? 'cursor-not-allowed text-[#eee]'
-              : 'cursor-pointer '
-            }
+          ${btnLoading ? 'cursor-not-allowed text-[#eee]' : 'cursor-pointer '}
         `}
           onClick={handleConfirmDeposit}
         >

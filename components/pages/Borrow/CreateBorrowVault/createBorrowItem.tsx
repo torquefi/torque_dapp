@@ -187,14 +187,14 @@ export default function CreateBorrowItem({ item }: any) {
   }
 
   const handleConfirmDeposit = () => {
-    setOpenConfirmDepositModal(true)
-  }
-
-  const onBorrow = async () => {
     if (!isConnected) {
       setOpenConnectWalletModal(true)
       return
     }
+    setOpenConfirmDepositModal(true)
+  }
+
+  const onBorrow = async () => {
     try {
       if (dataBorrow.amount <= 0) {
         toast.error('You must deposit BTC to borrow')
