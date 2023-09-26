@@ -5,6 +5,7 @@ import { MenuMobile } from './MenuMobile'
 import { AppStore } from '@/types/store'
 import { useEffect } from 'react'
 import { updateTheme } from '@/lib/redux/slices/theme'
+import Headroom from 'react-headroom'
 
 interface MainLayoutProps {
   children: any
@@ -23,7 +24,9 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
   if (theme)
     return (
       <div className="font-mona min-h-screen bg-[#FCFAFF] text-white dark:bg-[#030303]">
-        <Header />
+        <Headroom>
+          <Header />
+        </Headroom>
         <div className="container  mx-auto min-h-[calc(100vh-140px)] max-w-screen-xl p-4 lg:p-8">
           {children}
         </div>
