@@ -218,6 +218,7 @@ export const Header = () => {
                   }
                   onMouseEnter={() => setActiveTabIndex(i)}
                   onMouseLeave={() => setActiveTabIndex(currentTabIndex)}
+                  target={item.isExternal ? '_blank' : '_self'}
                 >
                   {theme === 'light' ? (
                     <img
@@ -296,5 +297,6 @@ const menu = [
     icon: '/assets/main-layout/network.svg',
     iconActive: '/assets/main-layout/network-active.svg',
     iconLight: '/assets/main-layout/network-active.png',
+    isExternal: true,
   },
 ]

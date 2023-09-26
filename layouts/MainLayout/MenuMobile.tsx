@@ -60,19 +60,39 @@ export const MenuMobile = () => {
             </div>
           </div>
           <div className="flex h-full w-full items-center bg-[#030303] bg-opacity-40 dark:bg-[#030303]">
-            {menu.map((item, i) => (
-              <Link
-                onClick={!item.path ? () => setIsOpenClaim(true) : null}
-                href={item.path}
-                key={i}
-                className={
-                  'font-mona flex h-[35px] w-1/5 items-center justify-center transition-all' +
-                  ` ${activeTabIndex === i ? ' origin-bottom scale-[1.4]' : ''}`
-                }
-              >
-                <img className="z-52 w-[35px]" src={item.icon} alt="" />
-              </Link>
-            ))}
+            {menu.map((item, i) =>
+              !item.isExternalLink ? (
+                <Link
+                  onClick={!item.path ? () => setIsOpenClaim(true) : null}
+                  href={item.path}
+                  key={i}
+                  className={
+                    'font-mona flex h-[32px] w-1/5 items-center justify-center transition-all' +
+                    ` ${
+                      activeTabIndex === i ? ' origin-bottom scale-[1.2]' : ''
+                    }`
+                  }
+                >
+                  <img className="z-52 w-[32px]" src={item.icon} alt="" />
+                </Link>
+              ) : (
+                <Link
+                  href={item.path}
+                  key={i}
+                  legacyBehavior
+                  className={
+                    'font-mona flex h-[32px] w-1/5 items-center justify-center transition-all' +
+                    ` ${
+                      activeTabIndex === i ? ' origin-bottom scale-[1.4]' : ''
+                    }`
+                  }
+                >
+                  <a target="_blank">
+                    <img className="z-52 w-[35px]" src={item.icon} alt="" />
+                  </a>
+                </Link>
+              )
+            )}
           </div>
         </div>
       </div>
@@ -110,5 +130,6 @@ const menu = [
     label: 'Vote',
     path: 'https://snapshot.org/#/',
     icon: '/assets/main-layout/lock-1.png',
+    isExternalLink: true,
   },
 ]
