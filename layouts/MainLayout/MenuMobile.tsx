@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import ClaimModal from './ClaimModal'
 
 export const MenuMobile = () => {
-  const [activeTabIndex, setActiveTabIndex] = useState(0)
+  const [activeTabIndex, setActiveTabIndex] = useState(2)
   const router = useRouter()
   const menuContainer = useRef<HTMLDivElement>(null)
   const menuIndicator = useRef<HTMLDivElement>(null)
@@ -14,14 +14,18 @@ export const MenuMobile = () => {
     [router.pathname]
   )
 
-  useEffect(() => {
-    if (router.isReady) {
-      setActiveTabIndex(currentTabIndex)
-    }
-  }, [router])
+  // useEffect(() => {
+  //   if (router.isReady) {
+  //     console.log("currentTabIndex",currentTabIndex);
+      
+  //     setActiveTabIndex(currentTabIndex)
+  //   }
+  // }, [router])
 
   useEffect(() => {
     const handleUpdateIndicatorPosition = () => {
+      console.log("12121",menuIndicator.current.getBoundingClientRect());
+      
       if (menuIndicator.current && menuContainer.current) {
         const menuRect = menuContainer.current.getBoundingClientRect()
         const indicatorRect = menuIndicator.current.getBoundingClientRect()
@@ -63,13 +67,15 @@ export const MenuMobile = () => {
             {menu.map((item, i) =>
               !item.isExternalLink ? (
                 <Link
-                  onClick={!item.path ? () => setIsOpenClaim(true) : null}
+                  onClick={
+                    item.path === '/home' ? () => setIsOpenClaim(true) : null
+                  }
                   href={item.path}
                   key={i}
                   className={
                     'font-mona flex h-[32px] w-1/5 items-center justify-center transition-all' +
                     ` ${
-                      activeTabIndex === i ? ' origin-bottom scale-[1.6]' : ''
+                      item.path === '/home' ? 'origin-bottom scale-[1.6]' : ''
                     }`
                   }
                 >
