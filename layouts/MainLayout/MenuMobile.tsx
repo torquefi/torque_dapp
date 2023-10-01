@@ -69,7 +69,7 @@ export const MenuMobile = () => {
                   className={
                     'font-mona flex h-[32px] w-1/5 items-center justify-center transition-all' +
                     ` ${
-                      activeTabIndex === i ? ' origin-bottom scale-[1.2]' : ''
+                      activeTabIndex === i ? ' origin-bottom scale-[1.6]' : ''
                     }`
                   }
                 >
@@ -83,7 +83,7 @@ export const MenuMobile = () => {
                   className={
                     'font-mona flex h-[32px] w-1/5 items-center justify-center transition-all' +
                     ` ${
-                      activeTabIndex === i ? ' origin-bottom scale-[1.4]' : ''
+                      activeTabIndex === i ? ' origin-bottom scale-[1.6]' : ''
                     }`
                   }
                 >
@@ -118,7 +118,7 @@ const menu = [
   },
   {
     label: 'Overview',
-    path: '',
+    path: '/home',
     icon: '/assets/main-layout/t-menu.png',
   },
   {
