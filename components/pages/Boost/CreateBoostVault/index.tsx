@@ -2,7 +2,11 @@ import SkeletonDefault from '@/components/skeleton'
 import { useEffect, useState } from 'react'
 import { useMoralis } from 'react-moralis'
 import { CreateBoostItem } from './createBoostItem'
-import { boostContract, ethContract, usgContract } from '@/constants/boostContract'
+import {
+  boostContract,
+  ethContract,
+  usgContract,
+} from '@/constants/boostContract'
 
 export function CreateBoostVault() {
   const [boostVault, setBoostVault] = useState(BOOST_VAULTS)
@@ -13,15 +17,17 @@ export function CreateBoostVault() {
   const getAPR = async () => {
     try {
       let data = await Moralis.Cloud.run('getAPR_Stargate')
-      boostVault.forEach((item) => {
+      console.log('getAPR_Stargate', data)
+      const newBoost = boostVault.map((item) => {
         for (var i = 0; i < data.length; i++) {
-          if (item.token == data[i].token) {
+          if (item.token?.toLowerCase() == data[i].token?.toLowerCase()) {
             item.APR = Number(Number(data[i].apr * 100).toFixed(2))
             break
           }
         }
-        setBoostVault([...boostVault])
+        return item
       })
+      setBoostVault(newBoost)
     } catch (e) {
       console.log(e)
     }
