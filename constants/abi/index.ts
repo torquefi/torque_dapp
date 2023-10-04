@@ -10,3 +10,7 @@ export { default as ethABI } from './eth.json'
 export { default as btcABI } from './btc.json'
 
 export { default as boostEthAbi } from './boostETH.json'
+
+export { default as compoundUsdc } from './compoundUsdc.json'
+
+export { default as usdcArb } from './usdcArb.json'

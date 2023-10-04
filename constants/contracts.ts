@@ -10,6 +10,7 @@ import {
 } from './abi'
 
 export interface IContractInfo {
+  name?: string
   address: string
   abi: string
 }

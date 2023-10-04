@@ -1,9 +1,5 @@
 import { boostEthAbi, ethABI, usgABI } from './abi'
-
-export interface IContractInfo {
-  address: string
-  abi: string
-}
+import { IContractInfo } from './contracts'
 
 export const boostContract: IContractInfo = {
   address: '0xB3F4c9026f0786b4949fFb456CF9530696359B1e',
