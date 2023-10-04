@@ -49,38 +49,38 @@ export default function CreateBorrowVault() {
           .call()
       }
 
-      try {
-        const compoundContractInfo = await Moralis.Cloud.run('getAbi', {
-          name: 'compound_abi',
-        })
-        if (compoundContractInfo?.abi) {
-          const web3 = new Web3('https://arbitrum-goerli.publicnode.com')
-          const contract = new web3.eth.Contract(
-            JSON.parse(compoundContractInfo?.abi),
-            compoundContractInfo?.address
-          )
-          if (contract) {
-            console.log(contract)
-            let utilization = await contract.methods.getUtilization().call({
-              from: address,
-            })
-            console.log(utilization)
-            let borrowRate = await contract.methods
-              .getBorrowRate(utilization)
-              .call({
-                from: address,
-              })
-            console.log(borrowRate)
-            item.borrowRate = borrowRate
-          }
-        }
-      } catch (error) {
-        console.log(
-          'CreateBorrowVault.getBorrowData.compoundContractInfo',
-          item?.depositTokenSymbol,
-          error
-        )
-      }
+      // try {
+      //   const compoundContractInfo = await Moralis.Cloud.run('getAbi', {
+      //     name: 'compound_abi',
+      //   })
+      //   if (compoundContractInfo?.abi) {
+      //     const web3 = new Web3('https://arbitrum-goerli.publicnode.com')
+      //     const contract = new web3.eth.Contract(
+      //       JSON.parse(compoundContractInfo?.abi),
+      //       compoundContractInfo?.address
+      //     )
+      //     if (contract) {
+      //       console.log(contract)
+      //       let utilization = await contract.methods.getUtilization().call({
+      //         from: address,
+      //       })
+      //       console.log(utilization)
+      //       let borrowRate = await contract.methods
+      //         .getBorrowRate(utilization)
+      //         .call({
+      //           from: address,
+      //         })
+      //       console.log(borrowRate)
+      //       item.borrowRate = borrowRate
+      //     }
+      //   }
+      // } catch (error) {
+      //   console.log(
+      //     'CreateBorrowVault.getBorrowData.compoundContractInfo',
+      //     item?.depositTokenSymbol,
+      //     error
+      //   )
+      // }
 
       const usdcContract = new web3Mainnet.eth.Contract(
         JSON.parse(tokenUsdcContractInfo?.abi),
@@ -112,6 +112,18 @@ export default function CreateBorrowVault() {
           +ethers.utils
             .formatUnits(assets?.borrowCollateralFactor, 18)
             .toString()
+
+        let utilization = await compoundUsdcContract.methods
+          .getUtilization()
+          .call({
+            from: address,
+          })
+        let borrowRate = await compoundUsdcContract.methods
+          .getBorrowRate(utilization)
+          .call({
+            from: address,
+          })
+        item.borrowRate = borrowRate
       }
 
       return item
