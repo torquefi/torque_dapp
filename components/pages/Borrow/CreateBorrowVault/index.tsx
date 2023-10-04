@@ -1,7 +1,7 @@
 import { chain } from '@/configs/chain'
 import {
   compoundUsdcContractInfo,
-  tokenUsdcContractInfo
+  tokenUsdcContractInfo,
 } from '@/constants/borrowContract'
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
@@ -15,7 +15,7 @@ export default function CreateBorrowVault() {
   const { address, isConnected } = useAccount()
   const [dataBorrow, setDataBorrow] = useState(BORROW_INFOS)
   const [isSkeletonLoading, setSkeletonLoading] = useState(true)
-  const { Moralis, enableWeb3, isWeb3Enabled } = useMoralis()
+  const { Moralis } = useMoralis()
 
   const getBorrowData = async (item: IBorrowInfo) => {
     try {
