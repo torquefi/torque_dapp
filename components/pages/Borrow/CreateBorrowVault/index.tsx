@@ -1,6 +1,7 @@
+import { chain } from '@/configs/chain'
 import {
   compoundUsdcContractInfo,
-  tokenUsdcContractInfo,
+  tokenUsdcContractInfo
 } from '@/constants/borrowContract'
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
@@ -18,7 +19,7 @@ export default function CreateBorrowVault() {
 
   const getBorrowData = async (item: IBorrowInfo) => {
     try {
-      const web3 = new Web3(Web3.givenProvider)
+      const web3 = new Web3(chain.rpcUrls?.default?.http?.[0])
       const web3Mainnet = new Web3(
         'https://endpoints.omniatech.io/v1/arbitrum/one/public'
       )
