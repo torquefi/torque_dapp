@@ -18,12 +18,12 @@ export default function CreateBorrowVault() {
   const { Moralis } = useMoralis()
 
   const getBorrowData = async (item: IBorrowInfo) => {
-    try {
-      const web3 = new Web3(chain.rpcUrls?.default?.http?.[0])
-      const web3Mainnet = new Web3(
-        'https://endpoints.omniatech.io/v1/arbitrum/one/public'
-      )
+    const web3 = new Web3(chain.rpcUrls?.default?.http?.[0])
+    const web3Mainnet = new Web3(
+      'https://endpoints.omniatech.io/v1/arbitrum/one/public'
+    )
 
+    try {
       if (!item.tokenContract) {
         const tokenContractInfo = await Moralis.Cloud.run('getAbi', {
           name: item?.tokenContractName,
@@ -81,7 +81,15 @@ export default function CreateBorrowVault() {
       //     error
       //   )
       // }
+    } catch (error) {
+      console.log(
+        'CreateBorrowVault.getBorrowData',
+        item?.depositTokenSymbol,
+        error
+      )
+    }
 
+    try {
       const usdcContract = new web3Mainnet.eth.Contract(
         JSON.parse(tokenUsdcContractInfo?.abi),
         tokenUsdcContractInfo?.address
@@ -95,7 +103,14 @@ export default function CreateBorrowVault() {
           .call({ from: address })
         item.liquidity = +ethers.utils.formatUnits(balance, decimals).toString()
       }
-
+    } catch (error) {
+      console.log(
+        'CreateBorrowVault.getBorrowData.usdc',
+        item?.depositTokenSymbol,
+        error
+      )
+    }
+    try {
       const compoundUsdcContract = new web3Mainnet.eth.Contract(
         JSON.parse(compoundUsdcContractInfo?.abi),
         compoundUsdcContractInfo?.address
@@ -125,16 +140,14 @@ export default function CreateBorrowVault() {
           })
         item.borrowRate = borrowRate
       }
-
-      return item
     } catch (error) {
       console.log(
-        'CreateBorrowVault.getBorrowData',
+        'CreateBorrowVault.getBorrowData.compoundUsdc',
         item?.depositTokenSymbol,
         error
       )
-      return item
     }
+    return item
   }
 
   const handleUpdateBorrowData = async () => {
