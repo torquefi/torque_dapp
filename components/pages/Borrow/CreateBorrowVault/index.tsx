@@ -1,8 +1,8 @@
-import { chain } from '@/configs/chain'
 import {
   compoundUsdcContractInfo,
-  tokenUsdcContractInfo,
+  tokenUsdcContractInfo
 } from '@/constants/borrowContract'
+import { chainRpcUrl } from '@/constants/chain'
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import { useMoralis } from 'react-moralis'
@@ -18,7 +18,7 @@ export default function CreateBorrowVault() {
   const { Moralis } = useMoralis()
 
   const getBorrowData = async (item: IBorrowInfo) => {
-    const web3 = new Web3(chain.rpcUrls?.default?.http?.[0])
+    const web3 = new Web3(chainRpcUrl)
     const web3Mainnet = new Web3(
       'https://endpoints.omniatech.io/v1/arbitrum/one/public'
     )
