@@ -48,11 +48,15 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
     useState(false)
 
   const dispatch = useDispatch()
+
   const borrowAPR = useMemo(
     () =>
-      Number(Moralis.Units.FromWei(borrowRate, 18)) * SECONDS_PER_YEAR * 100,
-    [borrowRate]
+      Number(Moralis.Units.FromWei(item?.borrowRate, 18)) *
+      SECONDS_PER_YEAR *
+      100,
+    [item?.borrowRate]
   )
+
   const getPrice = async () => {
     setPrice({
       eth: (await getPriceToken('ETH')) || 1800,
