@@ -1,11 +1,14 @@
 import {
   compoundUsdcContractInfo,
-  tokenUsdcContractInfo
+  tokenUsdcContractInfo,
 } from '@/constants/borrowContract'
 import { chainRpcUrl } from '@/constants/chain'
+import { updateBorrowInfo } from '@/lib/redux/slices/borrow'
+import { AppState } from '@/lib/redux/store'
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import { useMoralis } from 'react-moralis'
+import { useDispatch, useSelector } from 'react-redux'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 import { IBorrowInfo } from '../types'
@@ -13,7 +16,21 @@ import CreateBorrowItem from './createBorrowItem'
 
 export default function CreateBorrowVault() {
   const { address, isConnected } = useAccount()
-  const [dataBorrow, setDataBorrow] = useState(BORROW_INFOS)
+  const { borrowInfoByDepositSymbol } = useSelector(
+    (store: AppState) => store?.borrow
+  )
+  const dispatch = useDispatch()
+  const [dataBorrow, setDataBorrow] = useState(
+    BORROW_INFOS?.map((item) => {
+      const borrowInfo = borrowInfoByDepositSymbol?.[item?.depositTokenSymbol]
+      return {
+        ...item,
+        liquidity: borrowInfo?.liquidity || item?.liquidity,
+        loanToValue: borrowInfo?.loanToValue || item?.loanToValue,
+        borrowRate: borrowInfo?.borrowRate || item?.borrowRate,
+      }
+    })
+  )
   const [isSkeletonLoading, setSkeletonLoading] = useState(true)
   const { Moralis } = useMoralis()
 
@@ -102,6 +119,12 @@ export default function CreateBorrowVault() {
           .balanceOf('0x9c4ec768c28520b50860ea7a15bd7213a9ff58bf')
           .call({ from: address })
         item.liquidity = +ethers.utils.formatUnits(balance, decimals).toString()
+        dispatch(
+          updateBorrowInfo({
+            depositTokenSymbol: item?.depositTokenSymbol,
+            liquidity: item.liquidity,
+          })
+        )
       }
     } catch (error) {
       console.log(
@@ -139,6 +162,14 @@ export default function CreateBorrowVault() {
             from: address,
           })
         item.borrowRate = borrowRate
+
+        dispatch(
+          updateBorrowInfo({
+            depositTokenSymbol: item?.depositTokenSymbol,
+            loanToValue: item.loanToValue,
+            borrowRate: item.borrowRate,
+          })
+        )
       }
     } catch (error) {
       console.log(

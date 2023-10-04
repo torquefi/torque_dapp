@@ -1,6 +1,6 @@
 import usdPriceReducer from './slices/usdPrice'
 import authReducer from './auth/auth'
-import borrowReducer from './auth/dataUser'
+import borrowReducer from './slices/borrow'
 import themeReducer from './slices/theme'
 
 const rootReducer = {

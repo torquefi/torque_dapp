@@ -6,7 +6,7 @@ import { ConfirmDepositModal } from '@/components/common/Modal/ConfirmDepositMod
 import Popover from '@/components/common/Popover'
 import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
 import { toMetricUnits } from '@/lib/helpers/number'
-import { updateborrowTime } from '@/lib/redux/auth/dataUser'
+import { updateborrowTime } from '@/lib/redux/slices/borrow'
 import { ethers } from 'ethers'
 import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
