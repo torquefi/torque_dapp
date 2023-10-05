@@ -61,3 +61,8 @@ export const btcCoinContract: IContractInfo = {
   address: '0x25A4f6d1A02b31e5E1EB7ca37da31c911a9A8c69',
   abi: JSON.stringify(btcABI),
 }
+
+export const btc_ether_CoinContract: IContractInfo = {
+  address: '0xbda18Ffa03Aab42F7004735F486c65e38A726481',
+  abi: JSON.stringify(btcABI),
+}

@@ -11,3 +11,9 @@ export const LP = {
   symbol: 'LP',
   contract: tokenLpContract,
 }
+
+export const BTC = {
+  name: 'LP',
+  symbol: 'LP',
+  contract: tokenLpContract,
+}
