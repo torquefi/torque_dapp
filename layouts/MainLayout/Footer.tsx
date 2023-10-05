@@ -38,9 +38,9 @@ export default function Footer() {
         }
       />
       <footer className="flex w-[1280px] max-w-[1280px] justify-between  px-4 py-3 text-[#959595] sm:px-8">
-        <div className="cursor-pointer text-[10px] transition-colors duration-100 ease-linear hover:text-white hover:underline xs:text-[10px]">
-          © 2023 TORQUE INC.
-        </div>
+        <Link href="https://www.meticulous.fi/" className="cursor-pointer text-[10px] hover:-translate-y-[1px] transition-colors duration-100 ease-linear dark:hover:text-white hover:text-gray-500 xs:text-[10px]" target="_blank">
+          © 2023 Meticulous
+        </Link>
         <div className="flex space-x-2 text-[10px] xs:text-[10px]">
           {socials.map((item, i) => (
             <Link
