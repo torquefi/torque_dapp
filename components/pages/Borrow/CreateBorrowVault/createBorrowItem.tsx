@@ -422,7 +422,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
         </div>
         <div className="flex justify-between text-[#959595]">
           <p>Variable APR</p>
-          <p>-{borrowAPR.toFixed(2)}%</p>
+          <p>{!borrowAPR ? '--' : '-' + borrowAPR.toFixed(2) + '%'}</p>
         </div>
         <div className="flex justify-between text-[#959595]">
           <p>Liquidity</p>

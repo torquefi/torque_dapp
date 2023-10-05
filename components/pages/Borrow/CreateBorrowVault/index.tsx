@@ -219,7 +219,7 @@ const BORROW_INFOS: IBorrowInfo[] = [
     liquidity: 0,
     loanToValue: 70,
     getTORQ: 28,
-    borrowRate: 1359200263,
+    borrowRate: 0,
 
     borrowContractName: 'borrow_wbtc_abi',
     tokenContractName: 'wbtc_abi',
@@ -233,7 +233,7 @@ const BORROW_INFOS: IBorrowInfo[] = [
     liquidity: 0,
     loanToValue: 78,
     getTORQ: 32,
-    borrowRate: 1359200263,
+    borrowRate: 0,
 
     borrowContractName: 'borrow_eth_abi',
     tokenContractName: 'eth_abi',
