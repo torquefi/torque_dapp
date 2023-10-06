@@ -25,10 +25,10 @@ export const EmptyStake = () => {
           }
           alt=""
         />
-        <p className="font-larken text-[28px] text-black dark:text-white">
+        <p className="font-larken text-[24px] text-black dark:text-white">
           No stakes created yet
         </p>
-        <p className="mt-[16px] max-w-[428px] text-center font-body text-[18px] text-[#959595]">
+        <p className="mt-[12px] max-w-[380px] text-center font-body text-[16px] text-[#959595]">
           Deposit assets to create a stake, which powers community governance, &
           earn passive TORQ.
         </p>

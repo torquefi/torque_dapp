@@ -37,11 +37,11 @@ export default function Footer() {
       `
         }
       />
-      <footer className="flex w-[1280px] sm:text-[14px] xs:text-[12px] max-w-[1280px] justify-between px-4 py-3 text-[#959595] sm:px-8">
+      <footer className="flex w-[1280px] sm:text-[13px] xs:text-[12px] max-w-[1280px] justify-between px-4 py-3 text-[#959595] sm:px-8">
         <Link href="https://meticulous.fi/" className="transition-colors duration-100 ease-linear cursor-pointer dark:hover:text-white hover:text-gray-500" target="_blank">
           © 2023 Meticulous
         </Link>
-        <div className="flex space-x-8 sm:text-[14px] xs:text-[12px]">
+        <div className="flex space-x-8 sm:text-[13px] xs:text-[12px]">
           {socials.map((item, i) => (
             <Link
               href={item.link}
@@ -63,7 +63,7 @@ export default function Footer() {
             </Link>
           ))}
         </div>
-        <div className="flex space-x-2 text-[10px] xs:text-[10px]">
+        <div className="flex sm:ml-12 space-x-2 text-[10px] xs:text-[10px]">
           <label className="relative inline-flex items-center cursor-pointer">
             <input
               onChange={(e) => handleDarkMode(e)}
@@ -89,16 +89,12 @@ const socials = [
     link: 'https://t.me/torquefi',
   },
   {
-    label: 'Twitter',
-    link: 'https://twitter.com/torquefi',
+    label: 'Github',
+    link: 'https://github.com/torquefi',
   },
 ]
 
 const privacies = [
-  {
-    label: 'Github',
-    link: 'https://github.com/torquefi',
-  },
   {
     label: 'Terms',
     link: 'https://torque.fi/terms',
