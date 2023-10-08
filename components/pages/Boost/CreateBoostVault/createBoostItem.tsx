@@ -156,12 +156,12 @@ export function CreateBoostItem({ item }: any) {
           `  ${theme === 'light' ? ' bg-[#FCFAFF]' : 'bg-overview'}`
         }
       >
-        <div className="flex w-full items-center justify-between">
+        <div className="flex items-center justify-between w-full">
           <div className="flex items-center">
             <img
               src={`/icons/coin/${item.token.toLocaleLowerCase()}.png`}
               alt=""
-              className="w-16 xs:w-20 lg:h-[84px] lg:w-[84px]"
+              className="w-24"
             />
             <div className="font-larken grow pb-2 text-[22px] leading-tight xs:text-[18px] sm:text-[22px] lg:text-[26px]">
               Deposit {item.token},<br className="" /> Earn {item.token}
@@ -188,7 +188,7 @@ export function CreateBoostItem({ item }: any) {
             </Link>
           </Popover>
         </div>
-        <div className="font-larken mt-4 grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4 mt-4 font-larken">
           <div className="flex h-[110px] w-full flex-col items-center justify-center gap-3 rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A]  dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
             <InputCurrencySwitch
               tokenSymbol={item?.token}
