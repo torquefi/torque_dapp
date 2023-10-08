@@ -398,13 +398,13 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
               />
             </Link>
             <Link
-              href={'https://www.usg.money/'}
+              href={'https://www.usd.farm/'}
               className=""
               target={'_blank'}
             >
               <img
-                src={'/icons/coin/usg.svg'}
-                alt="USG.money"
+                src={'/icons/coin/usd-1.png'}
+                alt="USD.farm"
                 className="w-[26px]"
               />
             </Link>
