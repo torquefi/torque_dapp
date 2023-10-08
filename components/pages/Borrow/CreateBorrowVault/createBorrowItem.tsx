@@ -7,7 +7,7 @@ import Popover from '@/components/common/Popover'
 import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
 import { toMetricUnits } from '@/lib/helpers/number'
 import { updateborrowTime } from '@/lib/redux/slices/borrow'
-import { ethers } from 'ethers'
+import { Contract, ContractInterface, ethers } from 'ethers'
 import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
 import { useMoralis } from 'react-moralis'
@@ -16,6 +16,9 @@ import { toast } from 'sonner'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 import { IBorrowInfo } from '../types'
+import { borrowETH_Arb_ABI } from '@/constants/abi'
+import { borrowETH_Arb } from '@/constants/borrowContract'
+import { btc_ether_CoinContract } from '@/constants/contracts'
 
 const SECONDS_PER_YEAR = 60 * 60 * 24 * 365
 
@@ -28,9 +31,12 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
   const [isLoading, setIsLoading] = useState(true)
   const [amount, setAmount] = useState(0)
   const [amountReceive, setAmountReceive] = useState(0)
-  // const [contractAsset, setContractAsset] = useState(null)
-  // const [contractBorrow, setContractBorrow] = useState(null)
-  // const [addressBaseAsset, setAddressBaseAsset] = useState(null)
+  const [contractAsset, setContractAsset] = useState(null)
+  const [contractBorrowETH, setContractBorrowETH] = useState<any>(null)
+  const [contractBorrowBTC, setContractBorrowBTC] = useState<any>(null)
+  const [contractBTC, setContractBTC] = useState<any>(null)
+  const [addressBaseAsset, setAddressBaseAsset] = useState(null)
+
   const [allowance, setAllowance] = useState(0)
   const [balance, setBalance] = useState(0)
   const [borrowRate, setBorrowRate] = useState(1359200263)
@@ -65,64 +71,56 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
     })
   }
 
-  // const initContract = async () => {
-  //   try {
-  //     const dataABIAsset = await Moralis.Cloud.run('getAbi', {
-  //       name: item?.name_ABI_asset,
-  //     })
-  //     if (dataABIAsset?.abi) {
-  //       const web3 = new Web3(Web3.givenProvider)
-  //       const contract = new web3.eth.Contract(
-  //         JSON.parse(dataABIAsset?.abi),
-  //         dataABIAsset?.address
-  //       )
-  //       setContractAsset(contract)
-  //     }
+  const initContract = async () => {
+    try {
+      let web3 = new Web3('https://arbitrum-goerli.publicnode.com')
+      let contractBorrowETH = new web3.eth.Contract(
+        JSON.parse(borrowETH_Arb?.abi),
+        borrowETH_Arb?.address
+      )
 
-  //     const dataABIBorrow = await Moralis.Cloud.run('getAbi', {
-  //       name: item?.name_ABI_borrow,
-  //     })
-  //     if (dataABIBorrow?.abi) {
-  //       const web3 = new Web3(Web3.givenProvider)
-  //       const contract = new web3.eth.Contract(
-  //         JSON.parse(dataABIBorrow?.abi),
-  //         dataABIBorrow?.address
-  //       )
-  //       setContractBorrow(contract)
-  //       let addressBaseAsset = await contract.methods.baseAsset().call()
-  //       setAddressBaseAsset(addressBaseAsset)
-  //     }
-  //     const dataABICompound = await Moralis.Cloud.run('getAbi', {
-  //       name: 'compound_abi',
-  //     })
-  //     if (dataABICompound?.abi) {
-  //       const web3 = new Web3('https://arbitrum-goerli.publicnode.com')
-  //       const contract = new web3.eth.Contract(
-  //         JSON.parse(dataABICompound?.abi),
-  //         dataABICompound?.address
-  //       )
-  //       if (contract) {
-  //         let utilization = await contract.methods.getUtilization().call({
-  //           from: address,
-  //         })
-  //         let borrowRate = await contract.methods
-  //           .getBorrowRate(utilization)
-  //           .call({
-  //             from: address,
-  //           })
-  //         setBorrowRate(borrowRate)
-  //       }
-  //     }
-  //   } catch (e) {
-  //     console.log(e)
-  //   }
-  // }
+      if (contractBorrowETH) {
+        // let utilization = await contractBorrowETH.methods
+        //   .getUtilization()
+        //   .call({
+        //     from: address,
+        //   })
+        // let borrowRate = await contractBorrowETH.methods
+        //   .getBorrowRate(utilization)
+        //   .call({
+        //     from: address,
+        //   })
+        // setBorrowRate(borrowRate)
+        setContractBorrowETH(contractBorrowETH)
+      }
+
+      web3 = new Web3('https://ethereum-goerli.publicnode.com')
+      let contractBorrowBTC = new web3.eth.Contract(
+        JSON.parse(borrowETH_Arb?.abi),
+        borrowETH_Arb?.address
+      )
+      if (contractBorrowBTC) {
+        setContractBorrowBTC(contractBorrowBTC)
+      }
+      console.log('initContract============>')
+      let contractBTC = new web3.eth.Contract(
+        JSON.parse(btc_ether_CoinContract?.abi),
+        btc_ether_CoinContract?.address
+      )
+      if (contractBTC) {
+        setContractBTC(contractBTC)
+      }
+      console.log('contractBTC=>>>', contractBTC)
+    } catch (e) {
+      console.log(e)
+    }
+  }
 
   const getAllowance = async () => {
     try {
-      if (item.tokenContract && item.borrowContractInfo) {
-        const allowance = await item.tokenContract.methods
-          .allowance(address, item.borrowContractInfo?.address)
+      if (contractBTC && contractBorrowBTC) {
+        const allowance = await contractBTC.methods
+          .allowance(address, contractBorrowBTC?.address)
           .call({
             from: address,
           })
@@ -217,10 +215,9 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
         toast.error('Can not borrow less than 1 USG')
         return
       }
-
       setButtonLoading('APPROVING...')
       if (!isApproved && item.depositTokenSymbol == 'BTC') {
-        await item?.tokenContract.methods
+        await contractBTC.methods
           .approve(
             item?.borrowContractInfo?.address,
             Web3.utils.toWei(Number(amount).toFixed(2), 'ether')
@@ -233,7 +230,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
       setButtonLoading('BORROWING...')
 
       if (item.depositTokenSymbol == 'BTC') {
-        await item?.borrowContract.methods
+        await contractBorrowBTC.methods
           .borrow(
             Moralis.Units.Token(
               Number(amount).toFixed(9),
@@ -263,7 +260,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
           mintableUSG
         )
 
-        await item?.borrowContract.methods
+        await contractBorrowETH.methods
           .borrow(
             Moralis.Units.Token(Number(amountReceive).toFixed(2), 6),
             mintableUSG
@@ -296,9 +293,9 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
     getPrice()
   }, [])
 
-  // useEffect(() => {
-  //   initContract()
-  // }, [isWeb3Enabled, address, isConnected])
+  useEffect(() => {
+    initContract()
+  }, [])
 
   const isApproved = useMemo(
     () => amount < allowance,

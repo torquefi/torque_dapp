@@ -37,16 +37,16 @@ export default function Footer() {
       `
         }
       />
-      <footer className="flex w-[1280px] max-w-[1280px] justify-between  px-4 py-3 text-[#959595] sm:px-8">
-        <div className="cursor-pointer text-[10px] transition-colors duration-100 ease-linear hover:text-white hover:underline xs:text-[10px]">
-          © 2023 TORQUE INC.
-        </div>
-        <div className="flex space-x-2 text-[10px] xs:text-[10px]">
+      <footer className="flex w-[1280px] sm:text-[13px] xs:text-[12px] max-w-[1280px] justify-between px-4 py-3 text-[#959595] sm:px-8">
+        <Link href="https://meticulous.fi/" className="transition-colors duration-100 ease-linear cursor-pointer dark:hover:text-white hover:text-gray-500" target="_blank">
+          © 2023 Meticulous
+        </Link>
+        <div className="flex space-x-8 sm:text-[13px] xs:text-[12px]">
           {socials.map((item, i) => (
             <Link
               href={item.link}
               key={i}
-              className="block transition-colors duration-300 ease-linear hover:-translate-y-[1px] hover:text-gray-500 dark:hover:text-white"
+              className="block transition-colors duration-300 ease-linear hover:text-gray-500 dark:hover:text-white"
               target="_blank"
             >
               {item.label}
@@ -56,20 +56,20 @@ export default function Footer() {
             <Link
               href={item.link}
               key={i}
-              className="hidden transition-colors duration-300 ease-linear hover:-translate-y-[1px] hover:text-gray-500 dark:hover:text-white xs:block"
+              className="hidden transition-colors duration-300 ease-linear hover:text-gray-500 dark:hover:text-white xs:block"
               target="_blank"
             >
               {item.label}
             </Link>
           ))}
         </div>
-        <div className="flex space-x-2 text-[10px] xs:text-[10px]">
-          <label className="relative inline-flex cursor-pointer items-center">
+        <div className="flex sm:ml-12 space-x-2 text-[10px] xs:text-[10px]">
+          <label className="relative inline-flex items-center cursor-pointer">
             <input
               onChange={(e) => handleDarkMode(e)}
               type="checkbox"
               checked={isChecked}
-              className="peer sr-only"
+              className="sr-only peer"
             />
             <div className="h-6 w-16 rounded-full border border-[#F4F4F4] bg-[#F6F6F6] after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-[#fff]  after:transition-all after:content-[''] peer-checked:after:translate-x-[200%] dark:border-[#1D1D1D] after:dark:bg-[#3B3B3B] peer-checked:dark:bg-[#0D0D0D]" />
           </label>
@@ -81,26 +81,22 @@ export default function Footer() {
 
 const socials = [
   {
-    label: 'BLOG',
+    label: 'Blog',
     link: 'https://medium.com/@torquefi',
   },
   {
-    label: 'TELEGRAM',
+    label: 'Telegram',
     link: 'https://t.me/torquefi',
   },
   {
-    label: 'TWITTER',
-    link: 'https://twitter.com/torquefi',
+    label: 'Github',
+    link: 'https://github.com/torquefi',
   },
 ]
 
 const privacies = [
   {
-    label: 'BOUNTY',
-    link: '#',
-  },
-  {
-    label: 'AUDITS',
-    link: '#',
+    label: 'Terms',
+    link: 'https://torque.fi/terms',
   },
 ]
