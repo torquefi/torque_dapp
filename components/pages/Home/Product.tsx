@@ -75,7 +75,7 @@ const products = [
     coverLight: '/assets/banners/boost-light-small.png',
     icon: '/assets/overview-page/boost.svg',
     description:
-      'A savings product that provides compound yield to users & bolsters liquidity of the ecosystem.',
+      'Savings product that provides compound yield to users & bolsters DeFi ecosystem liquidity.',
   },
   {
     name: 'Borrow',
@@ -84,6 +84,6 @@ const products = [
     coverLight: '/assets/banners/borrow-light-small.png',
     icon: '/assets/overview-page/borrow.svg',
     description:
-      'Collateralize your portfolio & borrow up to 80% of its value so you never have to sell your assets.',
+      'Collateralize your portfolio & borrow up to 78% of its value so you never have to sell assets.',
   },
 ]
