@@ -38,7 +38,7 @@ export default function BorrowItem({ item }: any) {
   const [price, setPrice] = useState<any>({
     eth: 1800,
     btc: 28000,
-    USG: 1,
+    USD: 1,
   })
   const [label, setLabel] = useState(item?.label)
   const [isEdit, setEdit] = useState(false)
@@ -59,7 +59,7 @@ export default function BorrowItem({ item }: any) {
     setPrice({
       eth: (await getPriceToken('ETH')) || 1800,
       btc: (await getPriceToken('BTC')) || 28000,
-      USG: (await getPriceToken('USG')) || 1,
+      USD: (await getPriceToken('USD')) || 1,
     })
   }
 
@@ -295,7 +295,7 @@ export default function BorrowItem({ item }: any) {
       <CurrencySwitch
         tokenSymbol={''}
         tokenValue={dataUserBorrow?.supplied || item.collateral}
-        className="font-larken -my-4 w-1/4 space-y-1 py-4"
+        className="w-1/4 py-4 -my-4 space-y-1 font-larken"
         decimalScale={2}
         render={(value) => (
           <div>
@@ -305,10 +305,10 @@ export default function BorrowItem({ item }: any) {
         )}
       />
       <CurrencySwitch
-        tokenSymbol={'USG'}
+        tokenSymbol={'USD'}
         tokenValue={dataUserBorrow?.borrowed || item.borrowed}
         usdDefault
-        className="font-larken -my-4 w-1/4 space-y-1 py-4"
+        className="w-1/4 py-4 -my-4 space-y-1 font-larken"
         decimalScale={2}
         render={(value) => (
           <div>
@@ -450,7 +450,7 @@ export default function BorrowItem({ item }: any) {
             <div className="w-full space-y-6 md:w-[60%] md:pl-[36px] lg:w-[50%] xl:w-[45%]">
               <div className="flex items-center justify-between">
                 <p className="font-larken text-[24px]">
-                  {action} {action == Action.Repay ? 'USG' : item.token}
+                  {action} {action == Action.Repay ? 'USD' : item.token}
                 </p>
                 <div className="rounded-md border from-[#161616] via-[#161616]/40 to-[#0e0e0e] dark:border-[#1A1A1A] dark:bg-gradient-to-b">
                   {[Action.Repay, Action.Withdraw].map((item, i) => (

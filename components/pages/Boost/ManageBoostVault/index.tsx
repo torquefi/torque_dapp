@@ -2,7 +2,7 @@ import SkeletonDefault from '@/components/skeleton'
 import {
   boostContract,
   ethContract,
-  usgContract,
+  USDContract,
 } from '@/constants/boostContract'
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
@@ -135,14 +135,14 @@ const DATA_BOOST_VAULT: IBoostInfo[] = [
     boostContractInfo: boostContract,
   },
   {
-    tokenSymbol: 'USG',
+    tokenSymbol: 'USD',
     tokenDecimals: 9,
     defaultLabel: 'Vault #2',
     labelKey: 'name_boost_vault_2',
     deposited: 0.0,
     earnings: 0.0,
     APR: 0.0,
-    tokenContractInfo: usgContract,
+    tokenContractInfo: USDContract,
     boostContractInfo: boostContract,
   },
 ]
@@ -162,7 +162,7 @@ const DATA_BOOST_VAULT: IBoostInfo[] = [
 //     decimals_asset: 18,
 //   },
 //   {
-//     token: 'USG',
+//     token: 'USD',
 //     label: 'Vault #2',
 //     deposited: 0,
 //     earnings: 0,
@@ -171,7 +171,7 @@ const DATA_BOOST_VAULT: IBoostInfo[] = [
 //     amount: 0,
 //     data_key: 'name_boost_vault_2',
 //     boost_contract: 'boost_abi',
-//     name_ABI_asset: 'USGt_abi',
+//     name_ABI_asset: 'USDt_abi',
 //     decimals_asset: 9,
 //   },
 // ]

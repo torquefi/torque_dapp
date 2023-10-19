@@ -45,7 +45,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
   const [price, setPrice] = useState<any>({
     eth: 1800,
     btc: 28000,
-    USG: 1,
+    USD: 1,
   })
   const { address, isConnected } = useAccount()
   const { Moralis, enableWeb3, isWeb3Enabled } = useMoralis()
@@ -67,7 +67,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
     setPrice({
       eth: (await getPriceToken('ETH')) || 1800,
       btc: (await getPriceToken('BTC')) || 28000,
-      USG: (await getPriceToken('USG')) || 1,
+      USD: (await getPriceToken('USD')) || 1,
     })
   }
 
@@ -171,7 +171,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
   async function getMintable(balance: any) {
     try {
       const dataABIEngine = await Moralis.Cloud.run('getAbi', {
-        name: 'engine_usg_abi',
+        name: 'engine_USD_abi',
       })
       if (dataABIEngine?.abi) {
         const web3 = new Web3(Web3.givenProvider)
@@ -181,7 +181,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
         ) as any
 
         let mintable = await contract.methods
-          .getMintableUSG(
+          .getMintableUSD(
             '0x8fb1e3fc51f3b789ded7557e680551d93ea9d892',
             address,
             balance
@@ -212,7 +212,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
         return
       }
       if (amountReceive < 1) {
-        toast.error('Can not borrow less than 1 USG')
+        toast.error('Can not borrow less than 1 USD')
         return
       }
       setButtonLoading('APPROVING...')
@@ -245,25 +245,25 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
             from: address,
           })
       } else if (item.depositTokenSymbol == 'ETH') {
-        let mintableUSG = await getMintable(
+        let mintableUSD = await getMintable(
           Moralis.Units.Token(Number(amountReceive).toFixed(2), 6)
         )
-        console.log('mintableUSG', mintableUSG)
+        console.log('mintableUSD', mintableUSD)
 
-        if (mintableUSG == 0) {
+        if (mintableUSD == 0) {
           toast.error('Borrow failed. Please try again')
           return
         }
 
         console.log(
           Moralis.Units.Token(Number(amountReceive).toFixed(2), 6),
-          mintableUSG
+          mintableUSD
         )
 
         await contractBorrowETH.methods
           .borrow(
             Moralis.Units.Token(Number(amountReceive).toFixed(2), 6),
-            mintableUSG
+            mintableUSD
           )
           .send({
             value: Moralis.Units.Token(
@@ -338,7 +338,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
                   className="w-[24px] xs:w-[28px]"
                 />
                 <p className="mx-1 text-[#AA5BFF] xs:mx-2">
-                  +{dataBorrow.getTORQ} TORQ
+                  +0.00 TORQ
                 </p>
               </div>
             </Link>
@@ -361,7 +361,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
           </div>
           <div className="font-larken flex h-[100px] flex-col items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
             <InputCurrencySwitch
-              tokenSymbol={'USG'}
+              tokenSymbol={'USD'}
               tokenValue={Number(amountReceive)}
               tokenValueChange={Number(
                 Math.round(
