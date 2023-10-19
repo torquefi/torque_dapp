@@ -70,7 +70,7 @@ export function CreateBoostVault() {
 const BOOST_VAULTS = [
   {
     token: 'ETH',
-    bonus_TORQ: 24,
+    bonus_TORQ: 0,
     deposit: 0,
     threeYearValue: 0,
     APR: 0.0,
@@ -89,7 +89,7 @@ const BOOST_VAULTS = [
   {
     // token: 'USG',
     token: 'USD',
-    bonus_TORQ: 36,
+    bonus_TORQ: 0,
     deposit: 0,
     threeYearValue: 0,
     APR: 0.0,

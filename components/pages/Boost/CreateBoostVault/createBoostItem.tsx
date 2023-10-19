@@ -182,7 +182,7 @@ export function CreateBoostItem({ item }: any) {
                 />
 
                 <div className="font-mona mx-1 uppercase text-[#AA5BFF] xs:mx-2">
-                  +{item.bonus_TORQ} TORQ
+                  +0.00 TORQ
                 </div>
               </div>
             </Link>

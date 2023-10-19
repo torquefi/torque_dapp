@@ -338,7 +338,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
                   className="w-[24px] xs:w-[28px]"
                 />
                 <p className="mx-1 text-[#AA5BFF] xs:mx-2">
-                  +{dataBorrow.getTORQ} TORQ
+                  +0.00 TORQ
                 </p>
               </div>
             </Link>
