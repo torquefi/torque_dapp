@@ -2,7 +2,7 @@ import SkeletonDefault from '@/components/skeleton'
 import {
   boostContract,
   ethContract,
-  USDContract,
+  usgContract,
 } from '@/constants/boostContract'
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
@@ -142,7 +142,7 @@ const DATA_BOOST_VAULT: IBoostInfo[] = [
     deposited: 0.0,
     earnings: 0.0,
     APR: 0.0,
-    tokenContractInfo: USDContract,
+    tokenContractInfo: usgContract,
     boostContractInfo: boostContract,
   },
 ]

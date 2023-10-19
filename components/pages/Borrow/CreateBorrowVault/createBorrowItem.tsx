@@ -45,7 +45,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
   const [price, setPrice] = useState<any>({
     eth: 1800,
     btc: 28000,
-    USD: 1,
+    usg: 1,
   })
   const { address, isConnected } = useAccount()
   const { Moralis, enableWeb3, isWeb3Enabled } = useMoralis()
@@ -67,7 +67,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
     setPrice({
       eth: (await getPriceToken('ETH')) || 1800,
       btc: (await getPriceToken('BTC')) || 28000,
-      USD: (await getPriceToken('USD')) || 1,
+      usg: (await getPriceToken('USD')) || 1,
     })
   }
 
@@ -171,7 +171,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
   async function getMintable(balance: any) {
     try {
       const dataABIEngine = await Moralis.Cloud.run('getAbi', {
-        name: 'engine_USD_abi',
+        name: 'engine_usg_abi',
       })
       if (dataABIEngine?.abi) {
         const web3 = new Web3(Web3.givenProvider)
@@ -181,7 +181,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
         ) as any
 
         let mintable = await contract.methods
-          .getMintableUSD(
+          .getMintableUSG(
             '0x8fb1e3fc51f3b789ded7557e680551d93ea9d892',
             address,
             balance
@@ -248,22 +248,22 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
         let mintableUSD = await getMintable(
           Moralis.Units.Token(Number(amountReceive).toFixed(2), 6)
         )
-        console.log('mintableUSD', mintableUSD)
+        console.log('mintableUSG', mintableUSG)
 
-        if (mintableUSD == 0) {
+        if (mintableUSG == 0) {
           toast.error('Borrow failed. Please try again')
           return
         }
 
         console.log(
           Moralis.Units.Token(Number(amountReceive).toFixed(2), 6),
-          mintableUSD
+          mintableUSG
         )
 
         await contractBorrowETH.methods
           .borrow(
             Moralis.Units.Token(Number(amountReceive).toFixed(2), 6),
-            mintableUSD
+            mintableUSG
           )
           .send({
             value: Moralis.Units.Token(

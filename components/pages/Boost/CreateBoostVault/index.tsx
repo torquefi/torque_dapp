@@ -89,7 +89,7 @@ const BOOST_VAULTS = [
   {
     // token: 'USD',
     token: 'USD',
-    bonus_TORQ: 0.00,
+    bonus_TORQ: 0,
     deposit: 0,
     threeYearValue: 0,
     APR: 0.0,

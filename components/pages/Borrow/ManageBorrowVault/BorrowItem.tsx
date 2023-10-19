@@ -38,7 +38,7 @@ export default function BorrowItem({ item }: any) {
   const [price, setPrice] = useState<any>({
     eth: 1800,
     btc: 28000,
-    USD: 1,
+    usg: 1,
   })
   const [label, setLabel] = useState(item?.label)
   const [isEdit, setEdit] = useState(false)
@@ -59,7 +59,7 @@ export default function BorrowItem({ item }: any) {
     setPrice({
       eth: (await getPriceToken('ETH')) || 1800,
       btc: (await getPriceToken('BTC')) || 28000,
-      USD: (await getPriceToken('USD')) || 1,
+      usd: (await getPriceToken('USG')) || 1,
     })
   }
 

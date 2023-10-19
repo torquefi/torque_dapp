@@ -108,7 +108,7 @@ const DATA_BORROW = [
     apy: 0.0,
     data_key: 'name_borrow_vault_2',
     address_asset: '0x2B9960680D91d7791e9a24aCFb03CE0d234cC708',
-    name_ABI_asset: 'USD_abi',
+    name_ABI_asset: 'usg_abi',
     decimals_usdc: 6,
     decimals_asset: 18,
     name_ABI_borrow: 'borrow_eth_abi',
