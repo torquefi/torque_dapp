@@ -220,7 +220,7 @@ export function CreateBoostItem({ item }: any) {
             />
           </div>
         </div>
-        <div className="font-mona flex w-full items-center justify-between py-3 text-[16px] text-[#959595]">
+        <div className="font-mona flex w-full items-center justify-between py-4 text-[16px] text-[#959595]">
           <div className="font-mona">Yield providers</div>
           <div className="flex items-center">
             <Link
@@ -239,7 +239,7 @@ export function CreateBoostItem({ item }: any) {
           <div className="font-mona">Variable APY</div>
           <div className="">0.00%</div>
         </div>
-        <div className="font-mona flex w-full items-center justify-between py-[14px] text-[16px] text-[#959595]">
+        <div className="font-mona flex w-full items-center justify-between py-[16px] text-[16px] text-[#959595]">
           <div className="font-mona">Min. duration</div>
           <div className="">7 days</div>
         </div>
