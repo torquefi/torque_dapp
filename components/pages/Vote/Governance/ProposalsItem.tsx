@@ -5,26 +5,26 @@ export const ProposalsItem = (props: any) => {
   const { menu } = props
 
   let classnamesState =
-    'rounded-[6px] bg-[#ff9c4155] px-[12px] py-[7px] text-[12px] font-[500] uppercase text-[#1EB26B]'
+    'rounded-[6px] bg-[#ff9c4155] px-[12px] py-[1px] text-[12px] font-[500] uppercase text-[#1EB26B]'
   if (menu.state === 'active') {
     classnamesState =
-      'rounded-[6px] bg-[#1eb26b55] px-[12px] py-[7px] text-[12px] font-[500] uppercase text-[#1EB26B]'
+      'rounded-[6px] bg-[#1eb26b55] px-[12px] py-[1px] text-[12px] font-[500] uppercase text-[#1EB26B]'
   } else if (menu.state === 'pending') {
     classnamesState =
-      'rounded-[6px] bg-[#ff9c4155] px-[12px] py-[7px] text-[12px] font-[500] uppercase text-[#FF9C41]'
+      'rounded-[6px] bg-[#ff9c4155] px-[12px] py-[1px] text-[12px] font-[500] uppercase text-[#FF9C41]'
   } else if (menu.state === 'failed') {
     classnamesState =
-      'rounded-[6px] bg-[#ff3e3e55] px-[12px] py-[7px] text-[12px] font-[500] uppercase text-[#F05858]'
+      'rounded-[6px] bg-[#ff3e3e55] px-[12px] py-[1px] text-[12px] font-[500] uppercase text-[#F05858]'
   } else if (menu.state === 'passed') {
     classnamesState =
-      'rounded-[6px] bg-[#aa5bff55] px-[12px] py-[7px] text-[12px] font-[500] uppercase text-[#C38BFF]'
+      'rounded-[6px] bg-[#aa5bff55] px-[12px] py-[1px] text-[12px] font-[500] uppercase text-[#C38BFF]'
   }
   return (
     <div className="mt-[14px]">
       <div className="flex items-center justify-between">
         <div className="w-[60%]">
-          <h4>{menu.title}</h4>
-          <div className="flex items-center gap-[13px]">
+          <h4 className="font-larken text-[20px]">{menu.title}</h4>
+          <div className="mt-2 flex items-center gap-[13px]">
             <div className={classnamesState}>{menu.state}</div>
             <p className="font-[500] text-[#959595]">{menu.tip}</p>
             <div className="h-[5px] w-[5px] rounded-full bg-[#959595]"></div>
