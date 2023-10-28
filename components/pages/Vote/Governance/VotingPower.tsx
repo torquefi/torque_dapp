@@ -4,7 +4,7 @@ export const VotingPower = () => {
   return (
     <div className="w-[39%] rounded-[12px] border-[1px] border-solid border-[#1a1a1a] bg-[#0d0d0d] px-[38px] py-[15px]">
       <div className="flex items-center justify-between">
-        <h2>Voting Power</h2>
+        <h2 className="font-larken text-[24px]">Voting Power</h2>
         <button>
           <img src="/assets/pages/vote/ic-info.svg" alt="" />
         </button>
@@ -31,7 +31,7 @@ export const VotingPower = () => {
         Delegate votes
       </button>
       <button
-        className={`font-mona mt-2 w-full rounded-full border border-[#AA5BFF] bg-transparent py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
+        className={`font-mona text-[#AA5BFF] mt-[10px] w-full rounded-full border border-[#AA5BFF] bg-transparent py-1 uppercase transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
         `}
       >
         acquire torq
