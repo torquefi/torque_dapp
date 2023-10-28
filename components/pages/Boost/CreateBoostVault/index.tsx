@@ -48,7 +48,7 @@ export function CreateBoostVault() {
         </div>
       ) : (
         <div className="font-larken text-[24px] text-[#000] dark:text-[#ffff]">
-          Create Boost Vault
+          Create Boost Vehicle
         </div>
       )}
 
