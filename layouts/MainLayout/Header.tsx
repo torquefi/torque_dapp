@@ -218,7 +218,7 @@ export const Header = () => {
                   }
                   onMouseEnter={() => setActiveTabIndex(i)}
                   onMouseLeave={() => setActiveTabIndex(currentTabIndex)}
-                  target={item.isExternal ? '_blank' : '_self'}
+                  // target={item.isExternal ? '_blank' : '_self'}
                 >
                   {theme === 'light' ? (
                     <img
@@ -292,11 +292,10 @@ const menu = [
   },
   {
     label: 'Vote',
-    path: 'https://snapshot.org/#/',
-    link: 'https://snapshot.org/#/',
+    path: '/vote',
     icon: '/assets/main-layout/network.svg',
     iconActive: '/assets/main-layout/network-active.svg',
     iconLight: '/assets/main-layout/network-active.png',
-    isExternal: true,
+    // isExternal: true,
   },
 ]
