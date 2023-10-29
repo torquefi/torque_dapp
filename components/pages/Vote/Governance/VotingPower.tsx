@@ -2,9 +2,9 @@ import React from 'react'
 
 export const VotingPower = () => {
   return (
-    <div className="w-[39%] rounded-[12px] border-[1px] border-solid border-[#1a1a1a] bg-[#0d0d0d] px-[38px] py-[15px]">
+    <div className="w-[39%] rounded-[12px] border-[1px] border-solid border-[#1a1a1a] from-[#0d0d0d] to-[#0d0d0d]/0 px-[38px] py-[15px]">
       <div className="flex items-center justify-between">
-        <h2 className="font-larken text-[24px]">Voting Power</h2>
+        <h2 className="font-larken text-[24px]">Vote Power</h2>
         <button>
           <img src="/assets/pages/vote/ic-info.svg" alt="" />
         </button>
