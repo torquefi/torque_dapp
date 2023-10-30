@@ -40,8 +40,8 @@ export const ProposalsItem = (props: any) => {
             <div className="relative h-[4px] w-full max-w-[160px] rounded-[12px]">
               {menu.voteGreen === 0 && menu.voteRed === 0 ? (
                 <>
-                  <div className="absolute left-0 h-[4px] w-[50%] rounded-[12px] bg-[#F05858]"></div>
-                  <div className="absolute right-0 h-[4px] w-[50%] rounded-[12px] bg-[#1EB26B]"></div>
+                  <div className="absolute left-0 h-[4px] w-[50%] rounded-[12px] bg-[#F05858] rounded-tr-none rounded-br-none"></div>
+                  <div className="absolute right-0 h-[4px] w-[50%] rounded-[12px] bg-[#1EB26B] rounded-tl-none rounded-bl-none"></div>
                 </>
               ) : (
                 <>
