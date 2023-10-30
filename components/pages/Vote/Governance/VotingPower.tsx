@@ -2,14 +2,14 @@ import React from 'react'
 
 export const VotingPower = () => {
   return (
-    <div className="w-[39%] rounded-[12px] border-[1px] border-solid border-[#1a1a1a] from-[#0d0d0d] to-[#0d0d0d]/0 px-[38px] py-[15px]">
+    <div className="w-[39%] rounded-[12px] border-[1px] border-solid border-[#1a1a1a] dark:bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 px-[37px] pt-[24px] pb-[24px]">
       <div className="flex items-center justify-between">
         <h2 className="font-larken text-[24px]">Vote Power</h2>
         <button>
           <img src="/assets/pages/vote/ic-info.svg" alt="" />
         </button>
       </div>
-      <div className="gradient-border mt-2 hidden h-[1px] w-full md:block"></div>
+      <div className="gradient-border mt-4 hidden h-[1px] w-full md:block"></div>
       <div className="grid h-auto w-full  grid-cols-2 gap-2 overflow-y-auto py-[18px]">
         <div className="bg-claim-reward flex h-[102px] flex-col items-center justify-center rounded-[8px] border-[1px] border-[#1A1A1A]">
           <div className="font-larken text-[24px] text-[#404040] dark:text-white">

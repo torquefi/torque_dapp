@@ -3,7 +3,7 @@ import React from 'react'
 export const OptionToken = () => {
   return (
     <div className="mt-[42px] flex items-center justify-between">
-      <div className="flex w-[32%] items-center justify-between rounded-[12px] border-[1px] border-solid border-[#1a1a1a] from-[#0d0d0d] to-[#0d0d0d]/0 px-[36px] py-[20px]">
+      <div className="flex w-[32%] items-center justify-between rounded-[12px] border-[1px] border-solid border-[#1a1a1a] dark:bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 px-[36px] py-[20px]">
         <div className="w-[50%]">
           <h4 className="font-larken text-[24px] font-[400] leading-[40px]">240,000,000</h4>
           <p className="font-[500] leading-[24px] text-[#959595]">
@@ -22,7 +22,7 @@ export const OptionToken = () => {
           </div>
         </div>
       </div>
-      <div className="flex w-[32%] items-center justify-between rounded-[12px] border-[1px] border-solid border-[#1a1a1a] from-[#0d0d0d] to-[#0d0d0d]/0 px-[36px] py-[20px]">
+      <div className="flex w-[32%] items-center justify-between rounded-[12px] border-[1px] border-solid border-[#1a1a1a] dark:bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 px-[36px] py-[20px]">
         <div className="w-[50%]">
           <h4 className="font-larken text-[24px] font-[400] leading-[40px]">0.00</h4>
           <p className="font-[500] leading-[24px] text-[#959595]">
@@ -42,7 +42,7 @@ export const OptionToken = () => {
           </div>
         </div>
       </div>
-      <div className="flex w-[32%] items-center justify-between rounded-[12px] border-[1px] border-solid border-[#1a1a1a] from-[#0d0d0d] to-[#0d0d0d]/0 px-[36px] py-[20px]">
+      <div className="flex w-[32%] items-center justify-between rounded-[12px] border-[1px] border-solid border-[#1a1a1a] dark:bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 px-[36px] py-[20px]">
         <div className="w-[50%]">
           <h4 className="font-larken text-[24px] font-[400] leading-[40px]">0.00</h4>
           <p className="font-[500] leading-[24px] text-[#959595]">
