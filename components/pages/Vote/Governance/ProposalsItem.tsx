@@ -21,17 +21,10 @@ export const ProposalsItem = (props: any) => {
   }
   return (
     <div className="mt-[14px]">
-<<<<<<< HEAD
       <div className="items-center justify-between md:flex">
         <div className="mt-[30px] md:mt-0 md:w-[60%]">
           <h4 className="">{menu.title}</h4>
           <div className="flex items-center gap-[13px]">
-=======
-      <div className="flex items-center justify-between">
-        <div className="w-[60%]">
-          <h4 className="font-larken text-[20px]">{menu.title}</h4>
-          <div className="mt-2 flex items-center gap-[13px]">
->>>>>>> 965e1c5159ee462e48816b0c80b7b03476a43a74
             <div className={classnamesState}>{menu.state}</div>
             <p className="text-[14px] font-[500] text-[#959595] md:text-[16px]">
               {menu.tip}
@@ -51,8 +44,8 @@ export const ProposalsItem = (props: any) => {
             <div className="relative h-[4px] w-full max-w-[160px] rounded-[12px]">
               {menu.voteGreen === 0 && menu.voteRed === 0 ? (
                 <>
-                  <div className="absolute left-0 h-[4px] w-[50%] rounded-[12px] bg-[#F05858] rounded-tr-none rounded-br-none"></div>
-                  <div className="absolute right-0 h-[4px] w-[50%] rounded-[12px] bg-[#1EB26B] rounded-tl-none rounded-bl-none"></div>
+                  <div className="absolute left-0 h-[4px] w-[50%] rounded-[12px] rounded-br-none rounded-tr-none bg-[#F05858]"></div>
+                  <div className="absolute right-0 h-[4px] w-[50%] rounded-[12px] rounded-bl-none rounded-tl-none bg-[#1EB26B]"></div>
                 </>
               ) : (
                 <>

@@ -27,17 +27,11 @@ export const Governance = () => {
     )
   }
   return (
-<<<<<<< HEAD
     <>
       <div className="mx-auto w-full text-center">
         <h1 className="font-larken text-[38px] font-[400] leading-[60px] md:text-[52px]">
           Governance
         </h1>
-=======
-    <div>
-      <div className="w-full mx-auto text-center">
-        <h1 className="font-larken text-[52px] font-[400] leading-[60px]">Governance</h1>
->>>>>>> 965e1c5159ee462e48816b0c80b7b03476a43a74
         <p className="mx-auto w-full max-w-[332px] font-[500] leading-[24px] text-[#959595]">
           Shape the future of Torque by delegating vote power to yourself or a
           trusted entity.
