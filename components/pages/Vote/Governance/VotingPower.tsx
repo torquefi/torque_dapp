@@ -35,7 +35,7 @@ export const VotingPower = () => {
           Delegate votes
         </button>
         <button
-          className={`font-mona mt-2 w-full rounded-full border border-[#AA5BFF] bg-transparent py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
+          className={`font-mona mt-2 w-full rounded-full border border-[#AA5BFF] bg-transparent py-1 uppercase text-[#AA5BFF] transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
         `}
         >
           acquire torq

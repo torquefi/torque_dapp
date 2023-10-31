@@ -13,22 +13,23 @@ export const Governance = () => {
   if (isLoading) {
     return (
       <>
-        <Skeleton className="mx-auto h-[150px] w-[500px] rounded-full" />
-        <div className="mt-[24px] items-center justify-between rounded-full md:flex">
-          <Skeleton className="h-[110px] w-[32%]" />
-          <Skeleton className="h-[110px] w-[32%]" />
-          <Skeleton className="h-[110px] w-[32%]" />
+        <Skeleton className="mx-auto h-[60px] w-[400px] rounded-full mb-4" />
+        <Skeleton className="mx-auto h-[40px] w-[320px] rounded-full" />
+        <div className="mt-[32px] items-center justify-between rounded-full md:flex">
+          <Skeleton className="h-[110px] w-[32%] rounded-[24px]" />
+          <Skeleton className="h-[110px] w-[32%] rounded-[24px]" />
+          <Skeleton className="h-[110px] w-[32%] rounded-[24px]" />
         </div>
-        <div className="mt-[24px] items-start justify-between md:flex">
-          <Skeleton className="h-[669px] w-[59%] rounded-full" />
-          <Skeleton className="h-[339px] w-[39%] rounded-full" />
+        <div className="mt-[32px] items-start justify-between md:flex">
+          <Skeleton className="h-[669px] w-[59%] rounded-[24px]" />
+          <Skeleton className="h-[339px] w-[39%] rounded-[24px]" />
         </div>
       </>
     )
   }
   return (
     <>
-      <div className="mx-auto w-full text-center">
+      <div className="w-full mx-auto text-center">
         <h1 className="font-larken text-[38px] font-[400] leading-[60px] md:text-[52px]">
           Governance
         </h1>
