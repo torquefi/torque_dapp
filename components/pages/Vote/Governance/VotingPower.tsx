@@ -7,7 +7,7 @@ export const VotingPower = () => {
     <>
       <div className="mt-[24px] w-full rounded-[12px] border-[1px] border-solid border-[#1a1a1a] bg-[#0d0d0d] px-[38px] py-[15px] md:mt-0 md:w-[39%]">
         <div className="flex items-center justify-between">
-          <h2>Voting Power</h2>
+          <h2 className="font-larken text-[24px] font-[400] leading-[40px]">Voting Power</h2>
           <button>
             <img src="/assets/pages/vote/ic-info.svg" alt="" />
           </button>
