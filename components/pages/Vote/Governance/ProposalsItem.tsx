@@ -23,7 +23,7 @@ export const ProposalsItem = (props: any) => {
     <div className="mt-[14px]">
       <div className="items-center justify-between md:flex">
         <div className="mt-[30px] md:mt-0 md:w-[60%]">
-          <h4 className="">{menu.title}</h4>
+          <h4 className="font-larken text-[20px] font-[400] leading-[40px]">{menu.title}</h4>
           <div className="flex items-center gap-[13px]">
             <div className={classnamesState}>{menu.state}</div>
             <p className="text-[14px] font-[500] text-[#959595] md:text-[16px]">

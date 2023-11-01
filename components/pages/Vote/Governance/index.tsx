@@ -16,13 +16,13 @@ export const Governance = () => {
         <Skeleton className="mx-auto h-[48px] w-[340px] rounded-full mb-4" />
         <Skeleton className="mx-auto h-[40px] w-[300px] rounded-full" />
         <div className="mt-[32px] items-center justify-between rounded-full md:flex">
-          <Skeleton className="h-[110px] w-[32%] rounded-[24px]" />
-          <Skeleton className="h-[110px] w-[32%] rounded-[24px]" />
-          <Skeleton className="h-[110px] w-[32%] rounded-[24px]" />
+          <Skeleton className="h-[110px] w-[32%] rounded-[32px]" />
+          <Skeleton className="h-[110px] w-[32%] rounded-[32px]" />
+          <Skeleton className="h-[110px] w-[32%] rounded-[32px]" />
         </div>
         <div className="mt-[32px] items-start justify-between md:flex">
           <Skeleton className="h-[669px] w-[59%] rounded-[32px]" />
-          <Skeleton className="h-[339px] w-[39%] rounded-[24px]" />
+          <Skeleton className="h-[339px] w-[39%] rounded-[32px]" />
         </div>
       </>
     )
