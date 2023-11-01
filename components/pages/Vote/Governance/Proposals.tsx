@@ -6,7 +6,7 @@ export const Proposals = () => {
   const [openCreateModal, setOpenCreateModal] = useState(false)
   return (
     <>
-      <div className="w-full rounded-[12px] border-[1px] border-solid border-[#1a1a1a] bg-[#0d0d0d] px-[20px] py-[15px] md:w-[59%] md:px-[37px]">
+      <div className="w-full rounded-[12px] border-[1px] border-solid border-[#1a1a1a] bg-[#0d0d0d] px-[20px] py-[15px] md:w-[59%] sm:mr-0 lg:mr-2 md:px-[37px]">
         <div className="flex items-center justify-between">
           <h4 className="font-larken text-[24px] font-[400] leading-[40px]">
             Proposals
