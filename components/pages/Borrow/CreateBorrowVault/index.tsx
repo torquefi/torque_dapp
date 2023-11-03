@@ -242,7 +242,7 @@ const BORROW_INFOS: IBorrowInfo[] = [
   },
 ]
 
-const fakeBorrow = [
+const BorrowUSD = [
   {
     coinIcon: '/icons/coin/btc.png',
     depositCoin: 'BTC',
