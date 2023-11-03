@@ -129,7 +129,7 @@ export const Header = () => {
           <Link href="/" className="flex items-center">
             <img
               className="h-[32px] sm:h-[32px]"
-              src="/assets/logo.png"
+              src="/assets/t-logo.svg"
               alt=""
             />
             <h2
@@ -199,7 +199,7 @@ export const Header = () => {
               </div>
             )}
           </div>
-          <div className="absolute hidden -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 md:block">
+          <div className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 md:block">
             <HoverIndicator
               activeIndex={activeTabIndex}
               className="w-[320px] lg:w-[400px] xl:w-[480px]"

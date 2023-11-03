@@ -36,7 +36,7 @@ export const OptionToken = () => {
             <img src="/assets/pages/vote/genover/next.svg" alt="" />
           </Link>
           <div className="relative h-[4px] w-full bg-[#aa5bff33]">
-            <div className="absolute h-[4px] w-[95%] bg-[#AA5BFF]"></div>
+            <div className="absolute h-[4px] w-[70%] bg-[#AA5BFF]"></div>
           </div>
         </div>
       </div>
