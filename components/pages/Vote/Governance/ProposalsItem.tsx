@@ -37,7 +37,7 @@ export const ProposalsItem = (props: any) => {
         </div>
 
         <div className="mt-[10px] md:w-[40%]">
-          <div className="flex w-full items-center justify-start gap-[8px]">
+          <div className="flex w-full items-center justify-end gap-[8px]">
             <p className="text-[14px] font-[500] text-[#F05858]">
               {toMetricUnits(menu.voteRed, 1).toLocaleLowerCase()}
             </p>
@@ -75,7 +75,7 @@ export const ProposalsItem = (props: any) => {
               {toMetricUnits(menu?.voteGreen).toLocaleLowerCase()}
             </p>
           </div>
-          <p className="text-left font-[500] leading-[24px] text-[#959595]">
+          <p className="text-right font-[500] leading-[24px] text-[#959595]">
             <NumericFormat
               displayType="text"
               value={menu.voteGreen + menu.voteRed}
