@@ -27,7 +27,21 @@ export const LeaderBoard = () => {
           </button>
         </div>
         <div className="gradient-border mt-[26px] h-[1px] w-full"></div>
-        <table className="w-full">
+        <div className="mx-auto w-full py-[58px]">
+          <img
+            src="/assets/pages/vote/genover/noproposal.png"
+            alt=""
+            className="mx-auto w-full max-w-[132px]"
+          />
+          <h3 className="font-larken mt-[35px] text-center text-[28px] font-[400] leading-[34px]">
+            No leaderboard yet
+          </h3>
+          <p className="mx-auto mt-[6px] w-full max-w-[320px] text-[18px] font-[500] text-[#959595]">
+            Stay tuned for the launch of TORQ, our deflationary governance
+            token.
+          </p>
+        </div>
+        {/* <table className="w-full">
           <thead>
             <tr>
               <th className="whitespace-nowrap py-[16px] text-left text-[12px] font-[500] text-[#959595] md:w-[25%] md:text-[16px]">
@@ -70,10 +84,10 @@ export const LeaderBoard = () => {
               </tr>
             </tbody>
           ))}
-        </table>
-        <div className="mt-[18px] cursor-pointer text-center text-[14px] font-[500] uppercase text-[#959595]">
+        </table> */}
+        {/* <div className="mt-[18px] cursor-pointer text-center text-[14px] font-[500] uppercase text-[#959595]">
           view all
-        </div>
+        </div> */}
       </div>
     </div>
   )
