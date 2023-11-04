@@ -7,7 +7,7 @@ import Popover from '@/components/common/Popover'
 import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
 import { toMetricUnits } from '@/lib/helpers/number'
 import { updateborrowTime } from '@/lib/redux/slices/borrow'
-import { Contract, ContractInterface, ethers } from 'ethers'
+import { ethers } from 'ethers'
 import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
 import { useMoralis } from 'react-moralis'
@@ -16,8 +16,7 @@ import { toast } from 'sonner'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 import { IBorrowInfo } from '../types'
-import { borrowETH_Arb_ABI } from '@/constants/abi'
-import { borrowETH_Arb } from '@/constants/borrowContract'
+import { borrowEth } from '@/constants/borrowContract'
 import { btc_ether_CoinContract } from '@/constants/contracts'
 
 const SECONDS_PER_YEAR = 60 * 60 * 24 * 365
@@ -31,15 +30,12 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
   const [isLoading, setIsLoading] = useState(true)
   const [amount, setAmount] = useState(0)
   const [amountReceive, setAmountReceive] = useState(0)
-  const [contractAsset, setContractAsset] = useState(null)
   const [contractBorrowETH, setContractBorrowETH] = useState<any>(null)
   const [contractBorrowBTC, setContractBorrowBTC] = useState<any>(null)
   const [contractBTC, setContractBTC] = useState<any>(null)
-  const [addressBaseAsset, setAddressBaseAsset] = useState(null)
 
   const [allowance, setAllowance] = useState(0)
   const [balance, setBalance] = useState(0)
-  const [borrowRate, setBorrowRate] = useState(1359200263)
   const [buttonLoading, setButtonLoading] = useState('')
 
   const [price, setPrice] = useState<any>({
@@ -48,7 +44,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
     USG: 1,
   })
   const { address, isConnected } = useAccount()
-  const { Moralis, enableWeb3, isWeb3Enabled } = useMoralis()
+  const { Moralis } = useMoralis()
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
   const [isOpenConfirmDepositModal, setOpenConfirmDepositModal] =
     useState(false)
@@ -73,40 +69,30 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
 
   const initContract = async () => {
     try {
-      let web3 = new Web3('https://arbitrum-goerli.publicnode.com')
-      let contractBorrowETH = new web3.eth.Contract(
-        JSON.parse(borrowETH_Arb?.abi),
-        borrowETH_Arb?.address
+      let web3 = new Web3('https://goerli.infura.io/v3/')
+      const contractBorrowETH = new web3.eth.Contract(
+        JSON.parse(borrowEth?.abi),
+        borrowEth?.address
       )
 
       if (contractBorrowETH) {
-        // let utilization = await contractBorrowETH.methods
-        //   .getUtilization()
-        //   .call({
-        //     from: address,
-        //   })
-        // let borrowRate = await contractBorrowETH.methods
-        //   .getBorrowRate(utilization)
-        //   .call({
-        //     from: address,
-        //   })
-        // setBorrowRate(borrowRate)
         setContractBorrowETH(contractBorrowETH)
       }
 
-      web3 = new Web3('https://ethereum-goerli.publicnode.com')
+      web3 = new Web3('https://goerli.infura.io/v3/')
       let contractBorrowBTC = new web3.eth.Contract(
-        JSON.parse(borrowETH_Arb?.abi),
-        borrowETH_Arb?.address
+        JSON.parse(borrowEth?.abi),
+        borrowEth?.address
       )
       if (contractBorrowBTC) {
         setContractBorrowBTC(contractBorrowBTC)
       }
-      console.log('initContract============>')
+
       let contractBTC = new web3.eth.Contract(
         JSON.parse(btc_ether_CoinContract?.abi),
         btc_ether_CoinContract?.address
       )
+
       if (contractBTC) {
         setContractBTC(contractBTC)
       }
@@ -147,26 +133,6 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
       console.log('CreateBorrowItem.updateBalance', e)
     }
   }
-
-  // const onApprove = async () => {
-  //   try {
-  //     setButtonLoading('true')
-  //     await contractAsset.methods
-  //       .approve(
-  //         contractBorrow._address,
-  //         Web3.utils.toWei(Number(dataBorrow.amount).toFixed(2), 'ether')
-  //       )
-  //       .send({
-  //         from: address,
-  //       })
-  //     toast.success('Approve Successful')
-  //     await getAllowance()
-  //   } catch (e) {
-  //     toast.error('Approve Failed')
-  //   } finally {
-  //     setButtonLoading('false')
-  //   }
-  // }
 
   async function getMintable(balance: any) {
     try {
@@ -254,11 +220,6 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
           toast.error('Borrow failed. Please try again')
           return
         }
-
-        console.log(
-          Moralis.Units.Token(Number(amountReceive).toFixed(2), 6),
-          mintableUSG
-        )
 
         await contractBorrowETH.methods
           .borrow(
@@ -367,10 +328,10 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
                 Math.round(
                   (Number(
                     amount *
-                      price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]
+                    price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]
                   ) *
                     50) /
-                    100
+                  100
                 )
               )}
               usdDefault
@@ -428,15 +389,14 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
           </p>
         </div>
         <button
-          className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${
-            buttonLoading && 'cursor-not-allowed opacity-50'
-          }`}
+          className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
+            }`}
           disabled={buttonLoading != ''}
           onClick={() => {
             if (
               amountReceive /
-                (amount *
-                  price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]) >
+              (amount *
+                price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]) >
               dataBorrow.loanToValue / 100
             ) {
               toast.error(`Loan-to-value exceeds ${dataBorrow.loanToValue}%`)

@@ -1,8 +1,10 @@
 import {
-  borrowBTC_Eth_ABI,
-  borrowETH_Arb_ABI,
+  borrowBtcABI,
+  borrowEthABI,
   compoundUsdc,
   usdcArb,
+  ethABI,
+  btcABI,
 } from './abi'
 import { IContractInfo } from './contracts'
 
@@ -16,12 +18,22 @@ export const compoundUsdcContractInfo: IContractInfo = {
   abi: JSON.stringify(compoundUsdc),
 }
 
-export const borrowETH_Arb: IContractInfo = {
-  address: '0xc39271ef9A62108195FBA1027e9f6374ea5b55A5',
-  abi: JSON.stringify(borrowETH_Arb_ABI),
+export const borrowEth: IContractInfo = {
+  address: '0x4C164283a3a357BBEF0BA95eeF9CC0ED7fECA035',
+  abi: JSON.stringify(borrowEthABI),
 }
 
-export const borrowBTC_Eth: IContractInfo = {
+export const tokenEth: IContractInfo = {
+  address: '0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6',
+  abi: JSON.stringify(ethABI),
+}
+
+export const borrowBtc: IContractInfo = {
   address: '0x8D7fc7160073DEe5D1CcBE8Da2aE12A22Ec3a021',
-  abi: JSON.stringify(borrowBTC_Eth_ABI),
+  abi: JSON.stringify(borrowBtcABI),
+}
+
+export const tokenBtc: IContractInfo = {
+  address: '0x22d5e2dE578677791f6c90e0110Ec629be9d5Fb5',
+  abi: JSON.stringify(btcABI),
 }
