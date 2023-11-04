@@ -1,14 +1,16 @@
 import {
+  borrowBtc,
+  borrowEth,
   compoundUsdcContractInfo,
+  tokenBtc,
+  tokenEth,
   tokenUsdcContractInfo,
-  borrowBtc, borrowEth, tokenBtc, tokenEth
 } from '@/constants/borrowContract'
 import { chainRpcUrl } from '@/constants/chain'
 import { updateBorrowInfo } from '@/lib/redux/slices/borrow'
 import { AppState } from '@/lib/redux/store'
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
-import { useMoralis } from 'react-moralis'
 import { useDispatch, useSelector } from 'react-redux'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
@@ -32,7 +34,6 @@ export default function CreateBorrowVault() {
       }
     })
   )
-  const { Moralis } = useMoralis()
 
   const getBorrowData = async (item: IBorrowInfo) => {
     const web3 = new Web3(chainRpcUrl)
@@ -42,30 +43,21 @@ export default function CreateBorrowVault() {
 
     try {
       if (!item.tokenContract) {
-        const tokenContractInfo = await Moralis.Cloud.run('getAbi', {
-          name: item?.tokenContractName,
-        })
-        item.tokenContractInfo = tokenContractInfo
         item.tokenContract = new web3.eth.Contract(
-          JSON.parse(tokenContractInfo?.abi),
-          tokenContractInfo?.address
+          JSON.parse(item.tokenContractInfo?.abi),
+          item.tokenContractInfo?.address
         )
       }
 
       if (!item.borrowContract) {
-        const borrowContractInfo = await Moralis.Cloud.run('getAbi', {
-          name: item?.borrowContractName,
-        })
-        item.borrowContractInfo = borrowContractInfo
         item.borrowContract = new web3.eth.Contract(
-          JSON.parse(borrowContractInfo?.abi),
-          borrowContractInfo?.address
+          JSON.parse(item.borrowContractInfo?.abi),
+          item.borrowContractInfo?.address
         )
         let addressBaseAsset = await item.borrowContract.methods
           .baseAsset()
           .call()
       }
-
     } catch (error) {
       console.log(
         'CreateBorrowVault.getBorrowData',
@@ -153,7 +145,7 @@ export default function CreateBorrowVault() {
     try {
       const newDataBorrow = await Promise.all(dataBorrow?.map(getBorrowData))
       setDataBorrow(newDataBorrow)
-    } catch (error) { }
+    } catch (error) {}
   }
 
   useEffect(() => {
@@ -186,10 +178,8 @@ const BORROW_INFOS: IBorrowInfo[] = [
     loanToValue: 70,
     getTORQ: 28,
     borrowRate: 0,
-    borrowContractName: 'borrow_wbtc_abi',
-    tokenContractName: 'wbtc_abi',
     borrowContractInfo: borrowBtc,
-    tokenContractInfo: tokenBtc
+    tokenContractInfo: tokenBtc,
   },
   {
     depositTokenIcon: '/icons/coin/eth.png',
@@ -203,9 +193,5 @@ const BORROW_INFOS: IBorrowInfo[] = [
     borrowRate: 0,
     borrowContractInfo: borrowEth,
     tokenContractInfo: tokenEth,
-    borrowContractName: 'borrow_eth_abi',
-    tokenContractName: 'eth_abi',
   },
 ]
-
-

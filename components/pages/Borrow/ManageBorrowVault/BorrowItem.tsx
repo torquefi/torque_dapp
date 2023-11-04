@@ -6,6 +6,7 @@ import SkeletonDefault from '@/components/skeleton'
 import { MAX_UINT256 } from '@/constants/utils'
 import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
 import { AppStore } from '@/types/store'
+import { ethers } from 'ethers'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { AutowidthInput } from 'react-autowidth-input'
 import { AiOutlineCheck, AiOutlineEdit } from 'react-icons/ai'
@@ -15,6 +16,7 @@ import { useSelector } from 'react-redux'
 import { toast } from 'sonner'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
+import { IBorrowInfoManage } from '../types'
 
 enum Action {
   Repay = 'Repay',
@@ -22,19 +24,19 @@ enum Action {
 }
 
 const SECONDS_PER_YEAR = 60 * 60 * 24 * 365
-export default function BorrowItem({ item }: any) {
+export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
+  const [dataBorrow, setDataBorrow] = useState(item)
   const borrowTime = useSelector((store: AppStore) => store)
   const theme = useSelector((store: AppStore) => store.theme.theme)
-  const [dataBorrow, setDataBorrow] = useState(item)
   const [isExpand, setExpand] = useState(false)
   const [action, setAction] = useState(Action.Repay)
   const [isLoading, setIsLoading] = useState(true)
   const [inputValue, setInputValue] = useState(0)
-  const [contractAsset, setContractAsset] = useState(null)
-  const [contractBorrow, setContractBorrow] = useState(null)
+  // const [contractAsset, setContractAsset] = useState(null)
+  // const [contractBorrow, setContractBorrow] = useState(null)
   const [allowance, setAllowance] = useState(0)
   const [buttonLoading, setButtonLoading] = useState('')
-  const [dataUserBorrow, setDataUserBorrow] = useState<any>()
+  // const [dataUserBorrow, setDataUserBorrow] = useState<any>()
   const [price, setPrice] = useState<any>({
     eth: 1800,
     btc: 28000,
@@ -42,15 +44,18 @@ export default function BorrowItem({ item }: any) {
   })
   const [label, setLabel] = useState(item?.label)
   const [isEdit, setEdit] = useState(false)
-  const [borrowRate, setBorrowRate] = useState(1359200263)
+  // const [borrowRate, setBorrowRate] = useState(1359200263)
   const refLabelInput = useRef<HTMLInputElement>(null)
   const { address, isConnected } = useAccount()
-  const { Moralis, enableWeb3, isWeb3Enabled } = useMoralis()
+  const { Moralis, isWeb3Enabled } = useMoralis()
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
+
   const borrowAPR = useMemo(
     () =>
-      Number(Moralis.Units.FromWei(borrowRate, 18)) * SECONDS_PER_YEAR * 100,
-    [borrowRate]
+      Number(ethers.utils.formatUnits(item?.borrowRate, 18).toString()) *
+      SECONDS_PER_YEAR *
+      100,
+    [item?.borrowRate]
   )
 
   const web3 = new Web3('https://arbitrum-goerli.publicnode.com')
@@ -65,60 +70,59 @@ export default function BorrowItem({ item }: any) {
 
   const initContract = async () => {
     try {
-      const dataABIAsset = await Moralis.Cloud.run('getAbi', {
-        name: item?.name_ABI_asset,
-      })
-      console.log(dataABIAsset)
-      if (dataABIAsset?.abi) {
-        const web3 = new Web3(Web3.givenProvider)
-        const contract = new web3.eth.Contract(
-          JSON.parse(dataABIAsset?.abi),
-          dataABIAsset?.address
-        )
-        setContractAsset(contract)
-      }
-
-      const dataABIBorrow = await Moralis.Cloud.run('getAbi', {
-        name: item?.name_ABI_borrow,
-      })
-      if (dataABIBorrow?.abi) {
-        const web3 = new Web3(Web3.givenProvider)
-        const contract = new web3.eth.Contract(
-          JSON.parse(dataABIBorrow?.abi),
-          dataABIBorrow?.address
-        )
-        if (contract) {
-          let data = await contract.methods.borrowInfoMap(address).call({
-            from: address,
-          })
-          setDataUserBorrow({
-            supplied: Moralis.Units.FromWei(data.supplied, item.decimals_asset),
-            borrowed: Moralis.Units.FromWei(data.borrowed, item.decimals_usdc),
-          })
-        }
-        setContractBorrow(contract)
-      }
-
-      const dataABICompound = await Moralis.Cloud.run('getAbi', {
-        name: 'compound_abi',
-      })
-      if (dataABICompound?.abi) {
-        const contract = new web3.eth.Contract(
-          JSON.parse(dataABICompound?.abi),
-          dataABICompound?.address
-        )
-        if (contract) {
-          let utilization = await contract.methods.getUtilization().call({
-            from: address,
-          })
-          let borrowRate = await contract.methods
-            .getBorrowRate(utilization)
-            .call({
-              from: address,
-            })
-          setBorrowRate(borrowRate)
-        }
-      }
+      // const dataABIAsset = await Moralis.Cloud.run('getAbi', {
+      //   name: item?.name_ABI_asset,
+      // })
+      // console.log(dataABIAsset)
+      // if (dataABIAsset?.abi) {
+      //   const web3 = new Web3(Web3.givenProvider)
+      //   const contract = new web3.eth.Contract(
+      //     JSON.parse(dataABIAsset?.abi),
+      //     dataABIAsset?.address
+      //   )
+      //   setContractAsset(contract)
+      // }
+      // const dataABIBorrow = await Moralis.Cloud.run('getAbi', {
+      //   name: item?.name_ABI_borrow,
+      // })
+      // console.log(item?.token, dataABIAsset, dataABIBorrow)
+      // if (dataABIBorrow?.abi) {
+      //   const web3 = new Web3(Web3.givenProvider)
+      //   const contract = new web3.eth.Contract(
+      //     JSON.parse(dataABIBorrow?.abi),
+      //     dataABIBorrow?.address
+      //   )
+      //   if (contract) {
+      //     let data = await contract.methods.borrowInfoMap(address).call({
+      //       from: address,
+      //     })
+      //     setDataUserBorrow({
+      //       supplied: Moralis.Units.FromWei(data.supplied, item.decimals_asset),
+      //       borrowed: Moralis.Units.FromWei(data.borrowed, item.decimals_usdc),
+      //     })
+      //   }
+      //   setContractBorrow(contract)
+      // }
+      // const dataABICompound = await Moralis.Cloud.run('getAbi', {
+      //   name: 'compound_abi',
+      // })
+      // if (dataABICompound?.abi) {
+      //   const contract = new web3.eth.Contract(
+      //     JSON.parse(dataABICompound?.abi),
+      //     dataABICompound?.address
+      //   )
+      //   if (contract) {
+      //     let utilization = await contract.methods.getUtilization().call({
+      //       from: address,
+      //     })
+      //     let borrowRate = await contract.methods
+      //       .getBorrowRate(utilization)
+      //       .call({
+      //         from: address,
+      //       })
+      //     setBorrowRate(borrowRate)
+      //   }
+      // }
     } catch (e) {
       console.log(e)
     }
@@ -126,13 +130,13 @@ export default function BorrowItem({ item }: any) {
 
   const getAllowance = async () => {
     try {
-      if (contractAsset && contractBorrow) {
-        const allowance = await contractAsset.methods
-          .allowance(address, contractBorrow._address)
+      if (item?.tokenContract && item?.borrowContract) {
+        const allowance = await item?.tokenContract.methods
+          .allowance(address, item?.borrowContractInfo.address)
           .call({
             from: address,
           })
-        setAllowance(allowance / 10 ** dataBorrow.decimals_asset || 0)
+        setAllowance(allowance / 10 ** dataBorrow.borrowTokenDecimal || 0)
       }
     } catch (e) {
       console.log(e)
@@ -142,9 +146,9 @@ export default function BorrowItem({ item }: any) {
   const onApprove = async () => {
     try {
       setButtonLoading('')
-      await contractAsset.methods
+      await item?.tokenContract.methods
         .approve(
-          contractBorrow._address,
+          item?.borrowContractInfo.address,
           Web3.utils.toWei(Number(inputValue).toFixed(2), 'ether')
         )
         .send({
@@ -168,8 +172,8 @@ export default function BorrowItem({ item }: any) {
     try {
       setButtonLoading('APPROVING...')
       if (!isApproved) {
-        await contractAsset.methods
-          .approve(contractBorrow._address, MAX_UINT256)
+        await item?.tokenContract.methods
+          .approve(item?.borrowContractInfo.address, MAX_UINT256)
           .send({
             from: address,
           })
@@ -177,7 +181,7 @@ export default function BorrowItem({ item }: any) {
         await getAllowance()
       }
       setButtonLoading('REPAYING...')
-      await contractBorrow.methods
+      await item?.borrowContract?.methods
         .repay(Web3.utils.toWei(Number(inputValue).toFixed(2), 'ether'))
         .send({
           from: address,
@@ -200,8 +204,8 @@ export default function BorrowItem({ item }: any) {
     try {
       setButtonLoading('APPROVING...')
       if (!isApproved) {
-        await contractAsset.methods
-          .approve(contractBorrow._address, MAX_UINT256)
+        await item?.tokenContract?.methods
+          .approve(item?.borrowContractInfo.address, MAX_UINT256)
           .send({
             from: address,
           })
@@ -209,7 +213,7 @@ export default function BorrowItem({ item }: any) {
         await getAllowance()
       }
       setButtonLoading('WITHDRAWING...')
-      await contractBorrow.methods
+      await item?.borrowContract?.methods
         .withdraw(Web3.utils.toWei(Number(inputValue).toFixed(2), 'ether'))
         .send({
           from: address,
@@ -228,7 +232,7 @@ export default function BorrowItem({ item }: any) {
     const data = await Moralis.Cloud.run('getDataBorrowUser', {
       address: address,
     })
-    setLabel(data[`${item.data_key}`] || item?.label)
+    setLabel(data[`${item.labelKey}`] || item?.label)
   }
 
   const updateDataNameBorrow = async (name: string) => {
@@ -236,7 +240,7 @@ export default function BorrowItem({ item }: any) {
       address: address,
     })
 
-    data[`${item.data_key}`] = name
+    data[`${item.labelKey}`] = name
     data[`address`] = address
     console.log(data)
     await Moralis.Cloud.run('updateDataBorrowUser', {
@@ -253,7 +257,7 @@ export default function BorrowItem({ item }: any) {
 
   useEffect(() => {
     getAllowance()
-  }, [contractAsset, contractBorrow, inputValue])
+  }, [item?.tokenContract, item?.borrowContract, inputValue])
 
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1000)
@@ -294,7 +298,7 @@ export default function BorrowItem({ item }: any) {
     <div className="flex w-full text-center md:w-[400px] lg:w-[500px] xl:w-[600px]">
       <CurrencySwitch
         tokenSymbol={''}
-        tokenValue={dataUserBorrow?.supplied || item.collateral}
+        tokenValue={item?.supplied || item.collateral}
         className="font-larken -my-4 w-1/4 space-y-1 py-4"
         decimalScale={2}
         render={(value) => (
@@ -306,7 +310,7 @@ export default function BorrowItem({ item }: any) {
       />
       <CurrencySwitch
         tokenSymbol={'USG'}
-        tokenValue={dataUserBorrow?.borrowed || item.borrowed}
+        tokenValue={item?.borrowed || item.borrowed}
         usdDefault
         className="font-larken -my-4 w-1/4 space-y-1 py-4"
         decimalScale={2}
@@ -361,7 +365,7 @@ export default function BorrowItem({ item }: any) {
                 >
                   <img
                     className="mr-2 w-[54px]"
-                    src={`/icons/coin/${item.token.toLowerCase()}.png`}
+                    src={`/icons/coin/${item.depositTokenSymbol.toLowerCase()}.png`}
                     alt=""
                   />
                   {label}
@@ -374,7 +378,7 @@ export default function BorrowItem({ item }: any) {
                 <div className="flex cursor-pointer items-center text-[22px]">
                   <img
                     className="mr-2 w-[54px]"
-                    src={`/icons/coin/${item.token.toLowerCase()}.png`}
+                    src={`/icons/coin/${item.depositTokenSymbol.toLowerCase()}.png`}
                     alt=""
                   />
                   <AutowidthInput
@@ -450,7 +454,8 @@ export default function BorrowItem({ item }: any) {
             <div className="w-full space-y-6 md:w-[60%] md:pl-[36px] lg:w-[50%] xl:w-[45%]">
               <div className="flex items-center justify-between">
                 <p className="font-larken text-[24px]">
-                  {action} {action == Action.Repay ? 'USG' : item.token}
+                  {action}{' '}
+                  {action == Action.Repay ? 'USG' : item.depositTokenSymbol}
                 </p>
                 <div className="rounded-md border from-[#161616] via-[#161616]/40 to-[#0e0e0e] dark:border-[#1A1A1A] dark:bg-gradient-to-b">
                   {[Action.Repay, Action.Withdraw].map((item, i) => (
@@ -484,13 +489,9 @@ export default function BorrowItem({ item }: any) {
                       className="cursor-pointer rounded-md bg-[#F4F4F4]  px-[6px] py-[2px] transition active:scale-95 dark:bg-[#171717] xs:px-[8px] xs:py-[4px]"
                       onClick={() => {
                         if (action == Action.Withdraw) {
-                          setInputValue(
-                            (dataUserBorrow.supplied * percent) / 100
-                          )
+                          setInputValue((item.supplied * percent) / 100)
                         } else {
-                          setInputValue(
-                            Number((dataUserBorrow.borrowed * percent) / 100)
-                          )
+                          setInputValue(Number((item.borrowed * percent) / 100))
                         }
                       }}
                       key={i}
