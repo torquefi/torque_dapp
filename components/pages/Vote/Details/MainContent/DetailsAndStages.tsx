@@ -4,9 +4,9 @@ import { FaCheck } from 'react-icons/fa'
 export const DetailsAndStages = () => {
   return (
     <div className="mt-[24px] w-full md:mt-0 md:w-[43%]">
-      <div className="rounded-[12px] border-[1px] border-solid border-[#1a1a1a] bg-[#0d0d0d] px-[10px] py-[9px] md:px-[30px]">
+      <div className="rounded-[12px] border-[1px] border-solid border-[#1a1a1a] bg-[#0d0d0d] px-[10px] pt-[9px] pb-[14px] md:px-[30px]">
         <div className="flex items-center justify-between">
-          <h2 className="text-[24px] font-[400] leading-[60px]">Details</h2>
+          <h2 className="text-[24px] font-larken font-[400] mt-4">Details</h2>
           <button>
             <img src="/assets/pages/vote/ic-info.svg" alt="" />
           </button>
@@ -39,19 +39,21 @@ export const DetailsAndStages = () => {
             (“tUSD”, 50000000..)
           </p>
         </div>
-        <div className="gradient-border mt-[22px] hidden h-[1px] w-full md:block"></div>
+        <div className="gradient-border mt-[18px] hidden h-[1px] w-full md:block"></div>
 
-        <div className="mt-[14px] flex justify-between">
-          <p className="font-[500] leading-[60px] text-[#959595]">Proposer</p>
+        <div className="mt-[12px] flex justify-between">
+          <p className="font-[500] text-[#959595]">Proposer</p>
           <div className="flex items-center gap-[9px]">
-            <img src="/assets/pages/vote/distribution/btc.png" alt="" />
+            <img src="/assets/pages/vote/distribution/phantom.png"
+            alt="Proposer"
+            className="max-w-[24px]" />
             <p className="font-larken">Phantom</p>
           </div>
         </div>
       </div>
-      <div className="mt-[19px] rounded-[12px] border-[1px] border-solid border-[#1a1a1a] bg-[#0d0d0d] px-[10px] py-[9px] md:px-[30px]">
+      <div className="mt-[19px] rounded-[12px] border-[1px] border-solid border-[#1a1a1a] bg-[#0d0d0d] pt-[9px] pb-[16px] px-[30px]">
         <div className="flex items-center justify-between">
-          <h2 className="text-[24px] font-[400] leading-[60px]">Stages</h2>
+          <h2 className="text-[24px] font-larken font-[400] mt-4">Stages</h2>
           <button>
             <img src="/assets/pages/vote/ic-info.svg" alt="" />
           </button>
@@ -73,7 +75,7 @@ export const DetailsAndStages = () => {
           </div>
         </div>
 
-        <div className="mt-[29px]">
+        <div className="mt-[24px]">
           <div className="flex items-center gap-[18px]">
             <div className="rounded-full bg-[#1EB26B4D] px-[5px] py-[5px] text-[#1EB26B]">
               <FaCheck />
@@ -88,7 +90,7 @@ export const DetailsAndStages = () => {
           </div>
         </div>
 
-        <div className="mt-[29px]">
+        <div className="mt-[24px]">
           <div className="flex items-center gap-[18px]">
             <div className="rounded-full bg-[#AA5BFF4D] px-[5px] py-[5px] text-[#AA5BFF]">
               <FaCheck />

@@ -7,12 +7,12 @@ export const Against = () => {
         <img
           src="/assets/pages/vote/genover/noproposal.png"
           alt=""
-          className="mx-auto w-full max-w-[132px]"
+          className="mx-auto w-full max-w-[84px]"
         />
-        <h3 className="font-larken mt-[35px] text-center text-[28px] font-[400] leading-[34px]">
-          No proposals yet
+        <h3 className="font-larken mt-[12px] text-center text-[24px] font-[400] leading-[34px]">
+          No voting yet
         </h3>
-        <p className="mx-auto mt-[6px] w-full text-center text-[18px] font-[500] text-[#959595] md:max-w-[320px] md:text-left">
+        <p className="mx-auto mt-[6px] w-full text-center text-[16px] font-[500] text-[#959595] max-w-[280px]">
           Stay tuned for the launch of TORQ, our deflationary governance token.
         </p>
       </div>

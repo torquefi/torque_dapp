@@ -29,13 +29,13 @@ export const DetailsVotes = () => {
     )
   }
   return (
-    <div className="mx-auto w-full text-center">
-      <h1 className="mx-auto w-full max-w-[588px] text-[20px] font-[400] leading-[23px] md:text-[36px] md:leading-[44px]">
+    <div className="w-full mx-auto text-center">
+      <h1 className="mx-auto w-full font-larken max-w-[588px] text-[20px] font-[400] leading-[23px] md:text-[36px] md:leading-[44px]">
         Increase rate of distribution across tBoost pools to 1m TORQ per day
       </h1>
       <div className="mt-[14px]">
         <div className="mx-auto flex items-center justify-center gap-[13px]">
-          <div className="rounded-[6px] bg-[#1eb26b55] px-[12px] py-[7px] text-[12px] font-[500] uppercase text-[#1EB26B]">
+          <div className="rounded-[6px] bg-[#1eb26b55] px-[12px] py-[2px] text-[12px] font-[500] uppercase text-[#1EB26B]">
             Active
           </div>
           <p className="font-[500] text-[#959595]">TIP-15</p>
