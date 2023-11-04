@@ -12,6 +12,7 @@ import {
 } from '../constants/contract'
 import { IBorrowInfoManage } from '../types'
 import BorrowItem from './BorrowItem'
+import { EmptyBorrow } from './EmptyBorrow'
 
 export default function ManageBorrowVault() {
   const { address, isConnected } = useAccount()
@@ -129,17 +130,17 @@ export default function ManageBorrowVault() {
 
   const borrowDisplayed = dataBorrow.filter((item) => item?.borrowed > 0)
 
-  // if (!borrowDisplayed?.length) {
-  //   return (
-  //     <div className="space-y-[24px]">
-  //       <h3 className="font-larken text-[24px] text-[#404040] dark:text-white">
-  //         Manage Borrow Vaults
-  //       </h3>
+  if (!borrowDisplayed?.length) {
+    return (
+      <div className="space-y-[24px]">
+        <h3 className="font-larken text-[24px] text-[#404040] dark:text-white">
+          Manage Borrow Vaults
+        </h3>
 
-  //       <EmptyBorrow />
-  //     </div>
-  //   )
-  // }
+        <EmptyBorrow />
+      </div>
+    )
+  }
 
   return (
     <div className="space-y-[24px]">
@@ -147,7 +148,7 @@ export default function ManageBorrowVault() {
         Manage Borrow Vaults
       </h3>
 
-      {dataBorrow.map((item, i) => (
+      {borrowDisplayed.map((item, i) => (
         <BorrowItem key={i} item={item} />
       ))}
     </div>
