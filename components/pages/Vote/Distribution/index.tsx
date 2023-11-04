@@ -19,7 +19,7 @@ export const Distribution = () => {
           <Skeleton className="h-[120px] w-[32%] rounded-[32px]" />
         </div>
         <div className="mt-[24px]">
-          <Skeleton className="h-[400px] w-full rounded-full" />
+          <Skeleton className="h-[400px] w-full rounded-[48px]" />
         </div>
       </div>
     )
