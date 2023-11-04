@@ -21,15 +21,15 @@ export const Governance = () => {
           <Skeleton className="h-[110px] w-[32%] rounded-[32px]" />
         </div>
         <div className="mt-[32px] items-start justify-between md:flex">
-          <Skeleton className="h-[470px] w-[59%] rounded-[32px]" />
-          <Skeleton className="h-[339px] w-[39%] rounded-[32px]" />
+          <Skeleton className="h-[470px] w-[59%] rounded-[48px]" />
+          <Skeleton className="h-[339px] w-[39%] rounded-[48px]" />
         </div>
       </>
     )
   }
   return (
     <>
-      <div className="mx-auto w-full text-center">
+      <div className="w-full mx-auto text-center">
         <h1 className="font-larken text-[38px] font-[400] leading-[60px] md:text-[52px]">
           Governance
         </h1>
