@@ -34,9 +34,9 @@ export const LeaderBoard = () => {
             className="mx-auto w-full max-w-[132px]"
           />
           <h3 className="font-larken mt-[35px] text-center text-[28px] font-[400] leading-[34px]">
-            No leaderboard yet
+            No proposals yet
           </h3>
-          <p className="mx-auto mt-[6px] w-full max-w-[320px] text-[18px] font-[500] text-[#959595]">
+          <p className="mx-auto mt-[6px] w-full text-center text-[18px] font-[500] text-[#959595] md:max-w-[320px] md:text-left">
             Stay tuned for the launch of TORQ, our deflationary governance
             token.
           </p>

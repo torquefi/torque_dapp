@@ -17,15 +17,15 @@ export const MenuMobile = () => {
   // useEffect(() => {
   //   if (router.isReady) {
   //     console.log("currentTabIndex",currentTabIndex);
-      
+
   //     setActiveTabIndex(currentTabIndex)
   //   }
   // }, [router])
 
   useEffect(() => {
     const handleUpdateIndicatorPosition = () => {
-      console.log("12121",menuIndicator.current.getBoundingClientRect());
-      
+      console.log('12121', menuIndicator.current.getBoundingClientRect())
+
       if (menuIndicator.current && menuContainer.current) {
         const menuRect = menuContainer.current.getBoundingClientRect()
         const indicatorRect = menuIndicator.current.getBoundingClientRect()
@@ -134,8 +134,8 @@ const menu = [
   },
   {
     label: 'Vote',
-    path: 'https://snapshot.org/#/',
+    path: '/vote',
     icon: '/assets/main-layout/lock-1.png',
-    isExternalLink: true,
+    isExternalLink: false,
   },
 ]

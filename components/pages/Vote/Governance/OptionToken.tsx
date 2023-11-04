@@ -16,7 +16,7 @@ export const OptionToken = () => {
   // }
   return (
     <div className="mt-[42px] items-center justify-between md:flex">
-      <div className="flex w-[32%] items-center justify-between rounded-[12px] border-[1px] border-solid border-[#1a1a1a] from-[#0d0d0d] to-[#0d0d0d]/0 px-[36px] py-[20px] dark:bg-gradient-to-br">
+      <div className="mt-[20px] flex w-full items-center justify-between rounded-[12px] border-[1px] border-solid border-[#1a1a1a] from-[#0d0d0d] to-[#0d0d0d]/0 px-[36px] py-[20px] dark:bg-gradient-to-br md:mt-0 md:w-[32%]">
         <div className="w-[50%]">
           <h4 className="font-larken text-[24px] font-[400] leading-[40px]">
             240,000,000
@@ -40,7 +40,7 @@ export const OptionToken = () => {
           </div>
         </div>
       </div>
-      <div className="flex w-[32%] items-center justify-between rounded-[12px] border-[1px] border-solid border-[#1a1a1a] from-[#0d0d0d] to-[#0d0d0d]/0 px-[36px] py-[20px] dark:bg-gradient-to-br">
+      <div className="mt-[20px] flex w-full items-center justify-between rounded-[12px] border-[1px] border-solid border-[#1a1a1a] from-[#0d0d0d] to-[#0d0d0d]/0 px-[36px] py-[20px] dark:bg-gradient-to-br md:mt-0 md:w-[32%]">
         <div className="w-[50%]">
           <h4 className="font-larken text-[24px] font-[400] leading-[40px]">
             0.00
@@ -65,7 +65,7 @@ export const OptionToken = () => {
           </div>
         </div>
       </div>
-      <div className="flex w-[32%] items-center justify-between rounded-[12px] border-[1px] border-solid border-[#1a1a1a] from-[#0d0d0d] to-[#0d0d0d]/0 px-[36px] py-[20px] dark:bg-gradient-to-br">
+      <div className="mt-[20px] flex w-full items-center justify-between rounded-[12px] border-[1px] border-solid border-[#1a1a1a] from-[#0d0d0d] to-[#0d0d0d]/0 px-[36px] py-[20px] dark:bg-gradient-to-br md:mt-0 md:w-[32%]">
         <div className="w-[50%]">
           <h4 className="font-larken text-[24px] font-[400] leading-[40px]">
             0.00
