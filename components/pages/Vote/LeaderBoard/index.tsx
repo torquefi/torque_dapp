@@ -11,7 +11,7 @@ export const LeaderBoard = () => {
   if (isLoading) {
     return (
       <div className="md:px-[15%]">
-        <Skeleton className="h-[430px] w-full rounded-full" />
+        <Skeleton className="h-[430px] w-full rounded-[46px]" />
       </div>
     )
   }
@@ -19,7 +19,7 @@ export const LeaderBoard = () => {
     <div className="md:px-[15%]">
       <div className="rounded-[12px] border-[1px] border-solid border-[#1a1a1a] bg-[#0d0d0d] px-[10px] py-[15px] md:px-[38px]">
         <div className="flex items-center justify-between">
-          <h2 className="font-larken text-[24px] font-[400] md:text-[28px]">
+          <h2 className="font-larken text-[24px] font-[400]">
             Leaderboard
           </h2>
           <button>
@@ -31,12 +31,12 @@ export const LeaderBoard = () => {
           <img
             src="/assets/pages/vote/genover/noproposal.png"
             alt=""
-            className="mx-auto w-full max-w-[132px]"
+            className="mx-auto w-full max-w-[84px]"
           />
-          <h3 className="font-larken mt-[35px] text-center text-[24px] font-[400] leading-[34px]">
-            No proposals yet
+          <h3 className="font-larken mt-[12px] text-center text-[24px] font-[400] leading-[34px]">
+            No leaders yet
           </h3>
-          <p className="mx-auto mt-[6px] w-full text-center text-[16px] font-[500] text-[#959595] md:max-w-[320px] md:text-left">
+          <p className="mx-auto mt-[6px] w-full text-center text-[16px] font-[500] max-w-[280px] text-[#959595]">
             Stay tuned for the launch of TORQ, our deflationary governance
             token.
           </p>

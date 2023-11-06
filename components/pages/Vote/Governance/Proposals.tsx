@@ -34,7 +34,7 @@ export const Proposals = () => {
           <h3 className="font-larken mt-[12px] text-center text-[24px] font-[400] leading-[34px]">
             No proposals yet
           </h3>
-          <p className="mx-auto mt-[6px] w-full text-center  text-[16px] font-[500] text-[#959595] max-w-[280px]">
+          <p className="mx-auto mt-[6px] w-full text-center text-[16px] font-[500] text-[#959595] max-w-[280px]">
             Stay tuned for the launch of TORQ, our deflationary governance
             token.
           </p>
