@@ -16,7 +16,7 @@ import { toast } from 'sonner'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 import { IBorrowInfo } from '../types'
-import { borrowEth } from '@/constants/borrowContract'
+import { borrowBtc, borrowEth } from '@/constants/borrowContract'
 import { btc_ether_CoinContract } from '@/constants/contracts'
 
 const SECONDS_PER_YEAR = 60 * 60 * 24 * 365
@@ -69,7 +69,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
 
   const initContract = async () => {
     try {
-      let web3 = new Web3('https://goerli.infura.io/v3/')
+      let web3 = new Web3(Web3.givenProvider)
       const contractBorrowETH = new web3.eth.Contract(
         JSON.parse(borrowEth?.abi),
         borrowEth?.address
@@ -79,7 +79,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
         setContractBorrowETH(contractBorrowETH)
       }
 
-      web3 = new Web3('https://goerli.infura.io/v3/')
+      web3 = new Web3(Web3.givenProvider)
       let contractBorrowBTC = new web3.eth.Contract(
         JSON.parse(borrowEth?.abi),
         borrowEth?.address
@@ -104,9 +104,10 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
 
   const getAllowance = async () => {
     try {
-      if (contractBTC && contractBorrowBTC) {
+      if (contractBTC && contractBorrowBTC && address) {
+        console.log('contractBorrowBTC :>> ', contractBorrowBTC);
         const allowance = await contractBTC.methods
-          .allowance(address, contractBorrowBTC?.address)
+          .allowance(address, borrowBtc?.address)
           .call({
             from: address,
           })
@@ -117,12 +118,18 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
     }
   }
 
+  useEffect(() => {
+    if (address && contractBorrowBTC && contractBTC) {
+      getAllowance()
+    }
+  }, [address, contractBorrowBTC, contractBTC, dataBorrow.depositTokenDecimal])
+
   const updateBalance = async () => {
     try {
-      if (item.tokenContract && item.borrowContractInfo) {
+      if (item.tokenContract) {
         const balance = await item.tokenContract.methods
           .balanceOf(address)
-          .call({ from: address })
+          .call()
         setBalance(
           ethers?.utils
             .parseUnits(balance, dataBorrow.depositTokenDecimal)
@@ -130,6 +137,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
         )
       }
     } catch (e) {
+      console.log('item :>> ', item);
       console.log('CreateBorrowItem.updateBalance', e)
     }
   }
@@ -245,9 +253,10 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
     }
   }
   useEffect(() => {
-    getAllowance()
-    updateBalance()
-  }, [dataBorrow, item?.tokenContract, item?.borrowContract])
+    if (address) {
+      updateBalance()
+    }
+  }, [dataBorrow, item?.tokenContract, item?.borrowContract, address])
 
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1000)

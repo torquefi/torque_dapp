@@ -29,11 +29,11 @@ export const tokenEth: IContractInfo = {
 }
 
 export const borrowBtc: IContractInfo = {
-  address: '0x8D7fc7160073DEe5D1CcBE8Da2aE12A22Ec3a021',
+  address: '0xDa4A842F0c3258075C98A95c9d7ae6Eb66fd4D01',
   abi: JSON.stringify(borrowBtcABI),
 }
 
 export const tokenBtc: IContractInfo = {
-  address: '0x22d5e2dE578677791f6c90e0110Ec629be9d5Fb5',
+  address: '0xbda18Ffa03Aab42F7004735F486c65e38A726481',
   abi: JSON.stringify(btcABI),
 }
