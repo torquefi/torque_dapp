@@ -26,10 +26,10 @@ export const EmptyBoost = () => {
           alt=""
         />
         <p className="font-larken text-[24px] text-black dark:text-white">
-          No vaults created yet
+          No vehicles created yet
         </p>
         <p className="mt-[12px] max-w-[400px] text-center font-body text-[16px] text-[#959595]">
-          Deposit assets to create a Boost vault & capture passive compound
+          Deposit assets to create a Boost vehicle & capture passive compound
           yield via dynamic strategies.
         </p>
       </div>
