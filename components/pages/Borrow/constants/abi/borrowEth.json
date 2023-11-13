@@ -135,42 +135,42 @@
   {
     "inputs": [],
     "name": "ACTION_CLAIM_REWARD",
-    "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "ACTION_SUPPLY_ASSET",
-    "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "ACTION_SUPPLY_ETH",
-    "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "ACTION_TRANSFER_ASSET",
-    "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "ACTION_WITHDRAW_ASSET",
-    "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "ACTION_WITHDRAW_ETH",
-    "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
   },
@@ -204,7 +204,7 @@
       { "internalType": "uint256", "name": "borrowAmount", "type": "uint256" },
       {
         "internalType": "uint256",
-        "name": "usgBorrowAmount",
+        "name": "usdBorrowAmount",
         "type": "uint256"
       }
     ],
@@ -227,9 +227,11 @@
     "name": "borrowInfoMap",
     "outputs": [
       { "internalType": "address", "name": "user", "type": "address" },
+      { "internalType": "uint256", "name": "baseBorrowed", "type": "uint256" },
       { "internalType": "uint256", "name": "borrowed", "type": "uint256" },
       { "internalType": "uint256", "name": "supplied", "type": "uint256" },
-      { "internalType": "uint256", "name": "borrowTime", "type": "uint256" }
+      { "internalType": "uint256", "name": "borrowTime", "type": "uint256" },
+      { "internalType": "uint256", "name": "reward", "type": "uint256" }
     ],
     "stateMutability": "view",
     "type": "function"
@@ -253,7 +255,28 @@
   },
   {
     "inputs": [],
+    "name": "claimCReward",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "claimPeriod",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "comet",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "cometReward",
     "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
     "type": "function"
@@ -277,15 +300,26 @@
   {
     "inputs": [
       { "internalType": "address", "name": "_comet", "type": "address" },
+      { "internalType": "address", "name": "_cometReward", "type": "address" },
       { "internalType": "address", "name": "_asset", "type": "address" },
       { "internalType": "address", "name": "_baseAsset", "type": "address" },
       { "internalType": "address", "name": "_bulker", "type": "address" },
       { "internalType": "address", "name": "_engine", "type": "address" },
-      { "internalType": "address", "name": "_usg", "type": "address" }
+      { "internalType": "address", "name": "_usd", "type": "address" },
+      { "internalType": "address", "name": "_treasury", "type": "address" },
+      { "internalType": "address", "name": "_rewardUtil", "type": "address" },
+      { "internalType": "address", "name": "_rewardToken", "type": "address" }
     ],
     "name": "initialize",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "lastClaimCometTime",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -311,11 +345,25 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "usgRepayAmount", "type": "uint256" }
+      { "internalType": "uint256", "name": "usdRepayAmount", "type": "uint256" }
     ],
     "name": "repay",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "rewardToken",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "rewardUtil",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -348,9 +396,9 @@
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "_usg", "type": "address" }
+      { "internalType": "address", "name": "_usd", "type": "address" }
     ],
-    "name": "setUsg",
+    "name": "setUsd",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -359,7 +407,7 @@
     "inputs": [
       { "internalType": "address", "name": "_newEngine", "type": "address" }
     ],
-    "name": "setUsgEngine",
+    "name": "setUsdEngine",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -380,6 +428,13 @@
     "name": "transferOwnership",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "treasury",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -411,7 +466,7 @@
   },
   {
     "inputs": [],
-    "name": "usg",
+    "name": "usd",
     "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
     "type": "function"

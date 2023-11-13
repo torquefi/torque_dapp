@@ -1,12 +1,3 @@
-import {
-  borrowBtc,
-  borrowEth,
-  compoundUsdcContractInfo,
-  tokenBtc,
-  tokenEth,
-  tokenUsdcContractInfo,
-} from '@/constants/borrowContract'
-import { chainRpcUrl } from '@/constants/chain'
 import { updateBorrowInfo } from '@/lib/redux/slices/borrow'
 import { AppState } from '@/lib/redux/store'
 import { ethers } from 'ethers'
@@ -14,6 +5,14 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
+import {
+  borrowBtcContractInfo,
+  borrowEthContractInfo,
+  compoundUsdcContractInfo,
+  tokenBtcContractInfo,
+  tokenEthContractInfo,
+  tokenUsdcContractInfo,
+} from '../constants/contract'
 import { IBorrowInfo } from '../types'
 import CreateBorrowItem from './createBorrowItem'
 
@@ -37,9 +36,7 @@ export default function CreateBorrowVault() {
 
   const getBorrowData = async (item: IBorrowInfo) => {
     const web3 = new Web3(Web3.givenProvider)
-    const web3Mainnet = new Web3(
-      Web3.givenProvider
-    )
+    const web3Mainnet = new Web3(Web3.givenProvider)
 
     try {
       if (!item.tokenContract) {
@@ -145,7 +142,7 @@ export default function CreateBorrowVault() {
     try {
       const newDataBorrow = await Promise.all(dataBorrow?.map(getBorrowData))
       setDataBorrow(newDataBorrow)
-    } catch (error) { }
+    } catch (error) {}
   }
 
   useEffect(() => {
@@ -178,8 +175,8 @@ const BORROW_INFOS: IBorrowInfo[] = [
     loanToValue: 70,
     getTORQ: 28,
     borrowRate: 0,
-    borrowContractInfo: borrowBtc,
-    tokenContractInfo: tokenBtc,
+    borrowContractInfo: borrowBtcContractInfo,
+    tokenContractInfo: tokenBtcContractInfo,
   },
   {
     depositTokenIcon: '/icons/coin/eth.png',
@@ -191,7 +188,7 @@ const BORROW_INFOS: IBorrowInfo[] = [
     loanToValue: 78,
     getTORQ: 32,
     borrowRate: 0,
-    borrowContractInfo: borrowEth,
-    tokenContractInfo: tokenEth,
+    borrowContractInfo: borrowEthContractInfo,
+    tokenContractInfo: tokenEthContractInfo,
   },
 ]

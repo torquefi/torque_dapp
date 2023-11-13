@@ -1,8 +1,12 @@
 [
-  { "inputs": [], "stateMutability": "nonpayable", "type": "constructor" },
-  { "inputs": [], "name": "USG__AmountMustBeMoreThanZero", "type": "error" },
-  { "inputs": [], "name": "USG__BurnAmountExceedsBalance", "type": "error" },
-  { "inputs": [], "name": "USG__NotZeroAddress", "type": "error" },
+  {
+    "inputs": [
+      { "internalType": "string", "name": "_name", "type": "string" },
+      { "internalType": "string", "name": "_symbol", "type": "string" }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
   {
     "anonymous": false,
     "inputs": [
@@ -103,19 +107,10 @@
   },
   {
     "inputs": [
+      { "internalType": "address", "name": "_burner", "type": "address" },
       { "internalType": "uint256", "name": "_amount", "type": "uint256" }
     ],
     "name": "burn",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "address", "name": "account", "type": "address" },
-      { "internalType": "uint256", "name": "amount", "type": "uint256" }
-    ],
-    "name": "burnFrom",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -153,11 +148,10 @@
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "_to", "type": "address" },
-      { "internalType": "uint256", "name": "_amount", "type": "uint256" }
+      { "internalType": "address", "name": "_minter", "type": "address" }
     ],
     "name": "mint",
-    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
