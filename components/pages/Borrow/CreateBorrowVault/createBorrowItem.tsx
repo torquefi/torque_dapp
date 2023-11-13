@@ -126,7 +126,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
 
   const updateBalance = async () => {
     try {
-      if (item.tokenContract) {
+      if (item.tokenContract && address) {
         const balance = await item.tokenContract.methods
           .balanceOf(address)
           .call()
@@ -137,7 +137,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
         )
       }
     } catch (e) {
-      console.log('item :>> ', item);
+      console.log('item :>> ', item?.depositTokenSymbol);
       console.log('CreateBorrowItem.updateBalance', e)
     }
   }
@@ -254,6 +254,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
   }
   useEffect(() => {
     if (address) {
+      console.log('item :>> ', item);
       updateBalance()
     }
   }, [dataBorrow, item?.tokenContract, item?.borrowContract, address])

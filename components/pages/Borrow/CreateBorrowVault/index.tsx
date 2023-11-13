@@ -36,9 +36,9 @@ export default function CreateBorrowVault() {
   )
 
   const getBorrowData = async (item: IBorrowInfo) => {
-    const web3 = new Web3(chainRpcUrl)
+    const web3 = new Web3(Web3.givenProvider)
     const web3Mainnet = new Web3(
-      'https://endpoints.omniatech.io/v1/arbitrum/one/public'
+      Web3.givenProvider
     )
 
     try {
@@ -145,7 +145,7 @@ export default function CreateBorrowVault() {
     try {
       const newDataBorrow = await Promise.all(dataBorrow?.map(getBorrowData))
       setDataBorrow(newDataBorrow)
-    } catch (error) {}
+    } catch (error) { }
   }
 
   useEffect(() => {
