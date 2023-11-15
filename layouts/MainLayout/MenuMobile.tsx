@@ -17,22 +17,19 @@ export const MenuMobile = () => {
   // useEffect(() => {
   //   if (router.isReady) {
   //     console.log("currentTabIndex",currentTabIndex);
-      
+
   //     setActiveTabIndex(currentTabIndex)
   //   }
   // }, [router])
 
   useEffect(() => {
     const handleUpdateIndicatorPosition = () => {
-      console.log("12121",menuIndicator.current.getBoundingClientRect());
-      
       if (menuIndicator.current && menuContainer.current) {
         const menuRect = menuContainer.current.getBoundingClientRect()
         const indicatorRect = menuIndicator.current.getBoundingClientRect()
         const left = (menuRect.width / menu.length) * activeTabIndex
-        menuIndicator.current.style.left = `${
-          left + menuRect.width / menu.length / 2 - indicatorRect.width / 2
-        }px`
+        menuIndicator.current.style.left = `${left + menuRect.width / menu.length / 2 - indicatorRect.width / 2
+          }px`
       }
     }
     handleUpdateIndicatorPosition()
@@ -53,10 +50,9 @@ export const MenuMobile = () => {
             <div
               className={
                 'mx-auto aspect-1 w-[76px] rounded-full  from-[#181818] via-[#282828] to-[#181818] p-[2px] dark:bg-gradient-to-r' +
-                ` ${
-                  router.pathname === '/overview'
-                    ? 'via-[#332048]'
-                    : 'via-[#181818]'
+                ` ${router.pathname === '/overview'
+                  ? 'via-[#332048]'
+                  : 'via-[#181818]'
                 }`
               }
             >
@@ -74,8 +70,7 @@ export const MenuMobile = () => {
                   key={i}
                   className={
                     'font-mona flex h-[32px] w-1/5 items-center justify-center transition-all' +
-                    ` ${
-                      item.path === '/home' ? 'origin-bottom scale-[1.6]' : ''
+                    ` ${item.path === '/home' ? 'origin-bottom scale-[1.6]' : ''
                     }`
                   }
                 >
@@ -88,8 +83,7 @@ export const MenuMobile = () => {
                   legacyBehavior
                   className={
                     'font-mona flex h-[32px] w-1/5 items-center justify-center transition-all' +
-                    ` ${
-                      activeTabIndex === i ? ' origin-bottom scale-[1.6]' : ''
+                    ` ${activeTabIndex === i ? ' origin-bottom scale-[1.6]' : ''
                     }`
                   }
                 >

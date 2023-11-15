@@ -17,15 +17,26 @@ import Web3 from 'web3'
 import ConnectWalletModal from './ConnectWalletModal'
 import ClaimModal from './ClaimModal'
 
-const goerliTestnetInfo = {
-  name: 'Goerli',
+// const goerliTestnetInfo = {
+//   name: 'Goerli',
+//   symbol: 'ETH',
+//   chainId: 5,
+//   chainName: 'eth',
+//   coinName: 'ETH',
+//   coinSymbol: 'ETH',
+//   rpcUrls: ['https://api.zan.top/node/v1/eth/goerli/public'],
+//   blockchainExplorer: 'https://goerli.etherscan.io/',
+// }
+
+const arbitrumMainnetInfo = {
+  name: 'Arbitrum',
   symbol: 'ETH',
-  chainId: 5,
+  chainId: 42161,
   chainName: 'eth',
   coinName: 'ETH',
   coinSymbol: 'ETH',
-  rpcUrls: ['https://api.zan.top/node/v1/eth/goerli/public'],
-  blockchainExplorer: 'https://goerli.etherscan.io/',
+  rpcUrls: ['https://arbitrum-mainnet.infura.io'],
+  blockchainExplorer: 'https://explorer.arbitrum.io',
 }
 
 export const Header = () => {
@@ -58,7 +69,7 @@ export const Header = () => {
   )
 
   const handleChangeNetwork = async () => {
-    await requestSwitchNetwork(goerliTestnetInfo)
+    await requestSwitchNetwork(arbitrumMainnetInfo)
   }
 
   useEffect(() => {
@@ -122,7 +133,7 @@ export const Header = () => {
           }
           onClick={handleChangeNetwork}
         >
-          Torque is not supported on this network. Please switch to Goerli.
+          Torque is not supported on this network. Please switch to {arbitrumMainnetInfo.name}.
         </div>
         <div className="container relative mx-auto flex h-[72px] max-w-screen-xl items-center justify-between px-4 lg:px-8">
           <Link href="/" className="flex items-center">

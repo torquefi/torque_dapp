@@ -27,7 +27,7 @@ type AppPropsWithLayout = AppProps & {
   pageProps?: any
 }
 
-const chains = [goerli]
+const chains = [arbitrum]
 const projectId = '02a231b2406ed316c861abefc95c5e59'
 
 const { publicClient } = configureChains(chains, [w3mProvider({ projectId })])

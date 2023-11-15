@@ -18,19 +18,19 @@ export const compoundUsdcContractInfo: IContractInfo = {
 }
 
 export const engineUsdContractInfo: IContractInfo = {
-  address: '0x5c51Fb12f845569369A838e2c6868Cb06d8b35De',
+  address: '0x3c716812B02aC5Ea432b153B134770e7f78E6542',
   abi: JSON.stringify(engineUsd),
 }
 
 // ======================================================================
 
 export const borrowBtcContractInfo: IContractInfo = {
-  address: '0xC23E3B91859F3fe72CFE5d63Ad54d83fEAF7a706',
+  address: '0xD6047Dc4258aDFf8F35dA52DAE16f04cA5E0F16B',
   abi: JSON.stringify(borrowBtc),
 }
 
 export const borrowEthContractInfo: IContractInfo = {
-  address: '0x4C164283a3a357BBEF0BA95eeF9CC0ED7fECA035',
+  address: '0xbA32f8febc4aFB1Ee9A92548c9deb8989F37Daf4',
   abi: JSON.stringify(borrowEth),
 }
 

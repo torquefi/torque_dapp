@@ -67,7 +67,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
     setPrice({
       eth: (await getPriceToken('ETH')) || 1800,
       btc: (await getPriceToken('BTC')) || 28000,
-      USG: (await getPriceToken('USG')) || 1,
+      USG: (await getPriceToken('USD')) || 1,
     })
   }
 
@@ -186,7 +186,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
         return
       }
       if (amountReceive < 1) {
-        toast.error('Can not borrow less than 1 USG')
+        toast.error('Can not borrow less than 1 USD')
         return
       }
       setButtonLoading('APPROVING...')
@@ -252,6 +252,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
       setOpenConfirmDepositModal(false)
     }
   }
+
   useEffect(() => {
     if (address) {
       console.log('item :>> ', item)
@@ -336,10 +337,10 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
                 Math.round(
                   (Number(
                     amount *
-                      price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]
+                    price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]
                   ) *
                     50) /
-                    100
+                  100
                 )
               )}
               usdDefault
@@ -393,15 +394,14 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
           </p>
         </div>
         <button
-          className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${
-            buttonLoading && 'cursor-not-allowed opacity-50'
-          }`}
+          className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
+            }`}
           disabled={buttonLoading != ''}
           onClick={() => {
             if (
               amountReceive /
-                (amount *
-                  price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]) >
+              (amount *
+                price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]) >
               dataBorrow.loanToValue / 100
             ) {
               toast.error(`Loan-to-value exceeds ${dataBorrow.loanToValue}%`)
