@@ -1,14 +1,14 @@
-import { compoundUsdcContractInfo } from '@/constants/borrowContract'
 import { chainRpcUrl } from '@/constants/chain'
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 import {
-  borrowBtcManageContractInfo,
-  borrowEthManageContractInfo,
-  tokenBtcManageContractInfo,
-  tokenEthManageContractInfo,
+  borrowBtcContractInfo,
+  borrowEthContractInfo,
+  compoundUsdcContractInfo,
+  tokenBtcContractInfo,
+  tokenEthContractInfo
 } from '../constants/contract'
 import { IBorrowInfoManage } from '../types'
 import BorrowItem from './BorrowItem'
@@ -170,8 +170,8 @@ const DATA_BORROW: IBorrowInfoManage[] = [
     apy: 0.0,
     borrowRate: 1359200263,
 
-    borrowContractInfo: borrowBtcManageContractInfo,
-    tokenContractInfo: tokenBtcManageContractInfo,
+    borrowContractInfo: borrowBtcContractInfo,
+    tokenContractInfo: tokenBtcContractInfo,
   },
   {
     depositTokenSymbol: 'ETH',
@@ -187,8 +187,8 @@ const DATA_BORROW: IBorrowInfoManage[] = [
     apy: 0.0,
     borrowRate: 1359200263,
 
-    borrowContractInfo: borrowEthManageContractInfo,
-    tokenContractInfo: tokenEthManageContractInfo,
+    borrowContractInfo: borrowEthContractInfo,
+    tokenContractInfo: tokenEthContractInfo,
   },
 ]
 
