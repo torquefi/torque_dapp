@@ -128,8 +128,8 @@ const menu = [
   },
   {
     label: 'Vote',
-    path: 'https://snapshot.org/#/',
+    path: '/vote',
     icon: '/assets/main-layout/lock-1.png',
-    isExternalLink: true,
+    isExternalLink: false,
   },
 ]

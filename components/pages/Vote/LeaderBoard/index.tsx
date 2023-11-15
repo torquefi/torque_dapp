@@ -11,7 +11,7 @@ export const LeaderBoard = () => {
   if (isLoading) {
     return (
       <div className="md:px-[15%]">
-        <Skeleton className="h-[430px] w-full rounded-full" />
+        <Skeleton className="h-[430px] w-full rounded-[46px]" />
       </div>
     )
   }
@@ -19,7 +19,7 @@ export const LeaderBoard = () => {
     <div className="md:px-[15%]">
       <div className="rounded-[12px] border-[1px] border-solid border-[#1a1a1a] bg-[#0d0d0d] px-[10px] py-[15px] md:px-[38px]">
         <div className="flex items-center justify-between">
-          <h2 className="font-larken text-[24px] font-[400] md:text-[28px]">
+          <h2 className="font-larken text-[24px] font-[400]">
             Leaderboard
           </h2>
           <button>
@@ -27,7 +27,21 @@ export const LeaderBoard = () => {
           </button>
         </div>
         <div className="gradient-border mt-[26px] h-[1px] w-full"></div>
-        <table className="w-full">
+        <div className="mx-auto w-full py-[58px]">
+          <img
+            src="/assets/pages/vote/genover/noproposal.png"
+            alt=""
+            className="mx-auto w-full max-w-[84px]"
+          />
+          <h3 className="font-larken mt-[12px] text-center text-[24px] font-[400] leading-[34px]">
+            No leaders yet
+          </h3>
+          <p className="mx-auto mt-[6px] w-full text-center text-[16px] font-[500] max-w-[280px] text-[#959595]">
+            Stay tuned for the launch of TORQ, our deflationary governance
+            token.
+          </p>
+        </div>
+        {/* <table className="w-full">
           <thead>
             <tr>
               <th className="whitespace-nowrap py-[16px] text-left text-[12px] font-[500] text-[#959595] md:w-[25%] md:text-[16px]">
@@ -70,10 +84,10 @@ export const LeaderBoard = () => {
               </tr>
             </tbody>
           ))}
-        </table>
-        <div className="mt-[18px] cursor-pointer text-center text-[14px] font-[500] uppercase text-[#959595]">
+        </table> */}
+        {/* <div className="mt-[18px] cursor-pointer text-center text-[14px] font-[500] uppercase text-[#959595]">
           view all
-        </div>
+        </div> */}
       </div>
     </div>
   )

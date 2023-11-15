@@ -64,7 +64,10 @@ export const Header = () => {
   // }
 
   const currentTabIndex = useMemo(
-    () => menu.map((item) => item.path).indexOf(router.pathname),
+    () =>
+      menu
+        .map((item) => item.path)
+        .findIndex((item) => router.pathname.includes(item)),
     [router.pathname]
   )
 
@@ -209,7 +212,7 @@ export const Header = () => {
               </div>
             )}
           </div>
-          <div className="absolute hidden -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 md:block">
+          <div className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 md:block">
             <HoverIndicator
               activeIndex={activeTabIndex}
               className="w-[320px] lg:w-[400px] xl:w-[480px]"
@@ -225,7 +228,9 @@ export const Header = () => {
                       : 'text-[#959595]'
                     }`
                   }
-                  onMouseEnter={() => setActiveTabIndex(i)}
+                  onMouseEnter={() => {
+                    setActiveTabIndex(i)
+                  }}
                   onMouseLeave={() => setActiveTabIndex(currentTabIndex)}
                 // target={item.isExternal ? '_blank' : '_self'}
                 >
