@@ -14,9 +14,27 @@ export interface IBorrowInfo {
   // amount: 0
   // amountRecieve: 0
   
-  borrowContractName: string
-  tokenContractName: string
+  borrowContractInfo?: IContractInfo
+  tokenContractInfo?: IContractInfo
+  borrowContract?: Contract
+  tokenContract?: Contract
+}
 
+export interface IBorrowInfoManage {
+  // depositTokenIcon: string
+  depositTokenSymbol: string
+  depositTokenDecimal: number
+  borrowTokenSymbol: string
+  borrowTokenDecimal: number
+  label: string
+  labelKey: string
+  borrowRate: number
+  collateral: number
+  supplied: number
+  borrowed: number
+  ltv: number
+  apy: number
+  
   borrowContractInfo?: IContractInfo
   tokenContractInfo?: IContractInfo
   borrowContract?: Contract

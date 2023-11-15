@@ -15,5 +15,5 @@ export { default as compoundUsdc } from './compoundUsdc.json'
 
 export { default as usdcArb } from './usdcArb.json'
 
-export { default as borrowBTC_Eth_ABI } from './borrowBTC_Eth.json'
-export { default as borrowETH_Arb_ABI } from './borrowETH_Arb.json'
+export { default as borrowBtcABI } from './borrowBTC.json'
+export { default as borrowEthABI } from './borrowETH.json'

@@ -1,27 +1,39 @@
 import {
-  borrowBTC_Eth_ABI,
-  borrowETH_Arb_ABI,
+  borrowBtcABI,
+  borrowEthABI,
   compoundUsdc,
   usdcArb,
+  ethABI,
+  btcABI,
 } from './abi'
 import { IContractInfo } from './contracts'
 
-export const tokenUsdcContractInfo: IContractInfo = {
-  address: '0xaf88d065e77c8cc2239327c5edb3a432268e5831',
-  abi: JSON.stringify(usdcArb),
-}
+// export const tokenUsdcContractInfo: IContractInfo = {
+//   address: '0xaf88d065e77c8cc2239327c5edb3a432268e5831',
+//   abi: JSON.stringify(usdcArb),
+// }
 
-export const compoundUsdcContractInfo: IContractInfo = {
-  address: '0x9c4ec768c28520b50860ea7a15bd7213a9ff58bf',
-  abi: JSON.stringify(compoundUsdc),
-}
+// export const compoundUsdcContractInfo: IContractInfo = {
+//   address: '0x9c4ec768c28520b50860ea7a15bd7213a9ff58bf',
+//   abi: JSON.stringify(compoundUsdc),
+// }
 
-export const borrowETH_Arb: IContractInfo = {
-  address: '0xc39271ef9A62108195FBA1027e9f6374ea5b55A5',
-  abi: JSON.stringify(borrowETH_Arb_ABI),
-}
+// export const borrowEth: IContractInfo = {
+//   address: '0x4C164283a3a357BBEF0BA95eeF9CC0ED7fECA035',
+//   abi: JSON.stringify(borrowEthABI),
+// }
 
-export const borrowBTC_Eth: IContractInfo = {
-  address: '0x8D7fc7160073DEe5D1CcBE8Da2aE12A22Ec3a021',
-  abi: JSON.stringify(borrowBTC_Eth_ABI),
-}
+// export const tokenEth: IContractInfo = {
+//   address: '0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6',
+//   abi: JSON.stringify(ethABI),
+// }
+
+// export const borrowBtc: IContractInfo = {
+//   address: '0xDa4A842F0c3258075C98A95c9d7ae6Eb66fd4D01',
+//   abi: JSON.stringify(borrowBtcABI),
+// }
+
+// export const tokenBtc: IContractInfo = {
+//   address: '0xbda18Ffa03Aab42F7004735F486c65e38A726481',
+//   abi: JSON.stringify(btcABI),
+// }

@@ -17,15 +17,26 @@ import Web3 from 'web3'
 import ConnectWalletModal from './ConnectWalletModal'
 import ClaimModal from './ClaimModal'
 
-const goerliTestnetInfo = {
+// const goerliTestnetInfo = {
+//   name: 'Goerli',
+//   symbol: 'ETH',
+//   chainId: 5,
+//   chainName: 'eth',
+//   coinName: 'ETH',
+//   coinSymbol: 'ETH',
+//   rpcUrls: ['https://api.zan.top/node/v1/eth/goerli/public'],
+//   blockchainExplorer: 'https://goerli.etherscan.io/',
+// }
+
+const arbitrumMainnetInfo = {
   name: 'Arbitrum',
   symbol: 'ETH',
-  chainId: 421613,
+  chainId: 42161,
   chainName: 'eth',
   coinName: 'ETH',
   coinSymbol: 'ETH',
-  rpcUrls: ['https://goerli-rollup.arbitrum.io/rpc'],
-  blockchainExplorer: 'https://goerli.arbiscan.io/',
+  rpcUrls: ['https://arbitrum-mainnet.infura.io'],
+  blockchainExplorer: 'https://explorer.arbitrum.io',
 }
 
 export const Header = () => {
@@ -61,7 +72,7 @@ export const Header = () => {
   )
 
   const handleChangeNetwork = async () => {
-    await requestSwitchNetwork(goerliTestnetInfo)
+    await requestSwitchNetwork(arbitrumMainnetInfo)
   }
 
   useEffect(() => {
@@ -125,8 +136,7 @@ export const Header = () => {
           }
           onClick={handleChangeNetwork}
         >
-          Torque is not supported on this network. Please switch to Arbitrum
-          Goerli.
+          Torque is not supported on this network. Please switch to {arbitrumMainnetInfo.name}.
         </div>
         <div className="container relative mx-auto flex h-[72px] max-w-screen-xl items-center justify-between px-4 lg:px-8">
           <Link href="/" className="flex items-center">
@@ -213,17 +223,16 @@ export const Header = () => {
                   key={i}
                   className={
                     'font-mona relative flex h-[35px]  items-center justify-center pr-[4px] transition-all duration-200 ease-in' +
-                    ` ${
-                      activeTabIndex === i
-                        ? 'text-[#404040] dark:text-white '
-                        : 'text-[#959595]'
+                    ` ${activeTabIndex === i
+                      ? 'text-[#404040] dark:text-white '
+                      : 'text-[#959595]'
                     }`
                   }
                   onMouseEnter={() => {
                     setActiveTabIndex(i)
                   }}
                   onMouseLeave={() => setActiveTabIndex(currentTabIndex)}
-                  // target={item.isExternal ? '_blank' : '_self'}
+                // target={item.isExternal ? '_blank' : '_self'}
                 >
                   {theme === 'light' ? (
                     <img
@@ -249,10 +258,9 @@ export const Header = () => {
             className={
               ` absolute bottom-0 left-0 h-[1px] w-full` +
               `
-              ${
-                theme === 'light'
-                  ? 'bg-gradient-divider-light'
-                  : 'bg-gradient-divider'
+              ${theme === 'light'
+                ? 'bg-gradient-divider-light'
+                : 'bg-gradient-divider'
               }
                `
             }

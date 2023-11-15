@@ -4,10 +4,11 @@ import InputCurrencySwitch, {
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
 import { ConfirmDepositModal } from '@/components/common/Modal/ConfirmDepositModal'
 import Popover from '@/components/common/Popover'
+import { btc_ether_CoinContract } from '@/constants/contracts'
 import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
 import { toMetricUnits } from '@/lib/helpers/number'
 import { updateborrowTime } from '@/lib/redux/slices/borrow'
-import { Contract, ContractInterface, ethers } from 'ethers'
+import { ethers } from 'ethers'
 import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
 import { useMoralis } from 'react-moralis'
@@ -15,10 +16,12 @@ import { useDispatch } from 'react-redux'
 import { toast } from 'sonner'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
+import {
+  borrowBtcContractInfo,
+  borrowEthContractInfo,
+  engineUsdContractInfo,
+} from '../constants/contract'
 import { IBorrowInfo } from '../types'
-import { borrowETH_Arb_ABI } from '@/constants/abi'
-import { borrowETH_Arb } from '@/constants/borrowContract'
-import { btc_ether_CoinContract } from '@/constants/contracts'
 
 const SECONDS_PER_YEAR = 60 * 60 * 24 * 365
 
@@ -31,15 +34,12 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
   const [isLoading, setIsLoading] = useState(true)
   const [amount, setAmount] = useState(0)
   const [amountReceive, setAmountReceive] = useState(0)
-  const [contractAsset, setContractAsset] = useState(null)
   const [contractBorrowETH, setContractBorrowETH] = useState<any>(null)
   const [contractBorrowBTC, setContractBorrowBTC] = useState<any>(null)
   const [contractBTC, setContractBTC] = useState<any>(null)
-  const [addressBaseAsset, setAddressBaseAsset] = useState(null)
 
   const [allowance, setAllowance] = useState(0)
   const [balance, setBalance] = useState(0)
-  const [borrowRate, setBorrowRate] = useState(1359200263)
   const [buttonLoading, setButtonLoading] = useState('')
 
   const [price, setPrice] = useState<any>({
@@ -48,7 +48,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
     USG: 1,
   })
   const { address, isConnected } = useAccount()
-  const { Moralis, enableWeb3, isWeb3Enabled } = useMoralis()
+  const { Moralis } = useMoralis()
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
   const [isOpenConfirmDepositModal, setOpenConfirmDepositModal] =
     useState(false)
@@ -67,46 +67,36 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
     setPrice({
       eth: (await getPriceToken('ETH')) || 1800,
       btc: (await getPriceToken('BTC')) || 28000,
-      USG: (await getPriceToken('USG')) || 1,
+      USG: (await getPriceToken('USD')) || 1,
     })
   }
 
   const initContract = async () => {
     try {
-      let web3 = new Web3('https://arbitrum-goerli.publicnode.com')
-      let contractBorrowETH = new web3.eth.Contract(
-        JSON.parse(borrowETH_Arb?.abi),
-        borrowETH_Arb?.address
+      let web3 = new Web3(Web3.givenProvider)
+      const contractBorrowETH = new web3.eth.Contract(
+        JSON.parse(borrowEthContractInfo?.abi),
+        borrowEthContractInfo?.address
       )
 
       if (contractBorrowETH) {
-        // let utilization = await contractBorrowETH.methods
-        //   .getUtilization()
-        //   .call({
-        //     from: address,
-        //   })
-        // let borrowRate = await contractBorrowETH.methods
-        //   .getBorrowRate(utilization)
-        //   .call({
-        //     from: address,
-        //   })
-        // setBorrowRate(borrowRate)
         setContractBorrowETH(contractBorrowETH)
       }
 
-      web3 = new Web3('https://ethereum-goerli.publicnode.com')
+      web3 = new Web3(Web3.givenProvider)
       let contractBorrowBTC = new web3.eth.Contract(
-        JSON.parse(borrowETH_Arb?.abi),
-        borrowETH_Arb?.address
+        JSON.parse(borrowEthContractInfo?.abi),
+        borrowEthContractInfo?.address
       )
       if (contractBorrowBTC) {
         setContractBorrowBTC(contractBorrowBTC)
       }
-      console.log('initContract============>')
+
       let contractBTC = new web3.eth.Contract(
         JSON.parse(btc_ether_CoinContract?.abi),
         btc_ether_CoinContract?.address
       )
+
       if (contractBTC) {
         setContractBTC(contractBTC)
       }
@@ -118,9 +108,10 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
 
   const getAllowance = async () => {
     try {
-      if (contractBTC && contractBorrowBTC) {
+      if (contractBTC && contractBorrowBTC && address) {
+        console.log('contractBorrowBTC :>> ', contractBorrowBTC)
         const allowance = await contractBTC.methods
-          .allowance(address, contractBorrowBTC?.address)
+          .allowance(address, borrowBtcContractInfo?.address)
           .call({
             from: address,
           })
@@ -131,12 +122,18 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
     }
   }
 
+  useEffect(() => {
+    if (address && contractBorrowBTC && contractBTC) {
+      getAllowance()
+    }
+  }, [address, contractBorrowBTC, contractBTC, dataBorrow.depositTokenDecimal])
+
   const updateBalance = async () => {
     try {
-      if (item.tokenContract && item.borrowContractInfo) {
+      if (item.tokenContract && address) {
         const balance = await item.tokenContract.methods
           .balanceOf(address)
-          .call({ from: address })
+          .call()
         setBalance(
           ethers?.utils
             .parseUnits(balance, dataBorrow.depositTokenDecimal)
@@ -144,53 +141,30 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
         )
       }
     } catch (e) {
+      console.log('item :>> ', item?.depositTokenSymbol)
       console.log('CreateBorrowItem.updateBalance', e)
     }
   }
 
-  // const onApprove = async () => {
-  //   try {
-  //     setButtonLoading('true')
-  //     await contractAsset.methods
-  //       .approve(
-  //         contractBorrow._address,
-  //         Web3.utils.toWei(Number(dataBorrow.amount).toFixed(2), 'ether')
-  //       )
-  //       .send({
-  //         from: address,
-  //       })
-  //     toast.success('Approve Successful')
-  //     await getAllowance()
-  //   } catch (e) {
-  //     toast.error('Approve Failed')
-  //   } finally {
-  //     setButtonLoading('false')
-  //   }
-  // }
-
   async function getMintable(balance: any) {
     try {
-      const dataABIEngine = await Moralis.Cloud.run('getAbi', {
-        name: 'engine_usg_abi',
-      })
-      if (dataABIEngine?.abi) {
-        const web3 = new Web3(Web3.givenProvider)
-        const contract = new web3.eth.Contract(
-          JSON.parse(dataABIEngine?.abi),
-          dataABIEngine?.address
-        ) as any
+      const web3 = new Web3(Web3.givenProvider)
+      const usdEngineContract = new web3.eth.Contract(
+        JSON.parse(engineUsdContractInfo?.abi),
+        engineUsdContractInfo?.address
+      ) as any
 
-        let mintable = await contract.methods
-          .getMintableUSG(
-            '0x8fb1e3fc51f3b789ded7557e680551d93ea9d892',
-            address,
-            balance
-          )
-          .call()
-        console.log('mintable', mintable)
-        return mintable[0]
-      }
-      return 0
+      console.log(usdEngineContract)
+
+      let mintable = await usdEngineContract.methods
+        .getMintableUSD(
+          '0x8fb1e3fc51f3b789ded7557e680551d93ea9d892',
+          address,
+          balance
+        )
+        .call()
+      console.log('mintable', mintable)
+      return mintable[0] || 0
     } catch (e) {
       console.log('CreateBorrowItem.getMintable', e)
       return 0
@@ -212,7 +186,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
         return
       }
       if (amountReceive < 1) {
-        toast.error('Can not borrow less than 1 USG')
+        toast.error('Can not borrow less than 1 USD')
         return
       }
       setButtonLoading('APPROVING...')
@@ -255,11 +229,6 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
           return
         }
 
-        console.log(
-          Moralis.Units.Token(Number(amountReceive).toFixed(2), 6),
-          mintableUSG
-        )
-
         await contractBorrowETH.methods
           .borrow(
             Moralis.Units.Token(Number(amountReceive).toFixed(2), 6),
@@ -283,10 +252,13 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
       setOpenConfirmDepositModal(false)
     }
   }
+
   useEffect(() => {
-    getAllowance()
-    updateBalance()
-  }, [dataBorrow, item?.tokenContract, item?.borrowContract])
+    if (address) {
+      console.log('item :>> ', item)
+      updateBalance()
+    }
+  }, [dataBorrow, item?.tokenContract, item?.borrowContract, address])
 
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1000)
@@ -337,9 +309,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
                   alt=""
                   className="w-[24px] xs:w-[28px]"
                 />
-                <p className="mx-1 text-[#AA5BFF] xs:mx-2">
-                  +0.00 TORQ
-                </p>
+                <p className="mx-1 text-[#AA5BFF] xs:mx-2">+0.00 TORQ</p>
               </div>
             </Link>
           </Popover>
@@ -367,10 +337,10 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
                 Math.round(
                   (Number(
                     amount *
-                      price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]
+                    price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]
                   ) *
                     50) /
-                    100
+                  100
                 )
               )}
               usdDefault
@@ -397,11 +367,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
                 className="w-[26px]"
               />
             </Link>
-            <Link
-              href={'https://www.usd.farm/'}
-              className=""
-              target={'_blank'}
-            >
+            <Link href={'https://www.usd.farm/'} className="" target={'_blank'}>
               <img
                 src={'/icons/coin/usd-1.png'}
                 alt="USD.farm"
@@ -428,15 +394,14 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
           </p>
         </div>
         <button
-          className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${
-            buttonLoading && 'cursor-not-allowed opacity-50'
-          }`}
+          className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
+            }`}
           disabled={buttonLoading != ''}
           onClick={() => {
             if (
               amountReceive /
-                (amount *
-                  price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]) >
+              (amount *
+                price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]) >
               dataBorrow.loanToValue / 100
             ) {
               toast.error(`Loan-to-value exceeds ${dataBorrow.loanToValue}%`)
