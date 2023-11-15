@@ -44,8 +44,6 @@ export function ManageBoostVault() {
           from: address,
         })
 
-
-
       let infoUser = await boostContract.methods.userInfo(address, id).call({
         from: address,
       })
@@ -55,6 +53,7 @@ export function ManageBoostVault() {
       item.earnings = +ethers.utils
         .formatUnits(`${infoUser['reward']}`, item.tokenDecimals)
         .toString()
+      console.log('=>>>', item)
 
       return item
     } catch (error) {
@@ -68,9 +67,11 @@ export function ManageBoostVault() {
       setSkeletonLoading(true)
     }
     try {
+      console.log('getBoostData', getBoostData)
+
       const dataBoost = await Promise.all(DATA_BOOST_VAULT?.map(getBoostData))
       setDataBoost(dataBoost)
-    } catch (error) { }
+    } catch (error) {}
     if (loading) {
       setSkeletonLoading(false)
     }
@@ -80,11 +81,11 @@ export function ManageBoostVault() {
     handleUpdateBoostData(true)
   }, [isConnected, address])
 
-  console.log('dataBoost :>> ', dataBoost);
+  console.log('dataBoost :>> ', dataBoost)
 
   const boostDisplayed = dataBoost.filter((item) => Number(item?.deposited) > 0)
 
-  console.log('boostDisplayed :>> ', boostDisplayed);
+  console.log('boostDisplayed :>> ', boostDisplayed)
 
   if (isSkeletonLoading) {
     return (
