@@ -82,31 +82,38 @@ const HomePageFilter = () => {
       JSON.parse(borrowBtcContractInfo?.abi),
       borrowBtcContractInfo?.address
     )
-    let dataBorrowBTC = await contractBorrowBTC.methods
-      .borrowInfoMap(address)
-      .call({
-        from: address,
-      })
+    if (address && isConnected) {
+      let dataBorrowBTC = await contractBorrowBTC.methods
+        .borrowInfoMap(address)
+        .call({
+          from: address,
+        })
+      const borrowedBTC = dataBorrowBTC.borrowed
+      const yourBorrowUsd = await contractBorrowBTC.methods
+        .getBorrowable(borrowedBTC)
+        .call({
+          from: address,
+        })
+      setYourBorrow(web3.utils.fromWei(yourBorrowUsd.toString(), 'ether'))
+    }
     const aprBorrowBTC = await contractBorrowBTC.methods.getApr().call({
       from: address,
     })
     setNetAPY(web3.utils.fromWei(aprBorrowBTC.toString(), 'ether'))
-    const borrowedBTC = dataBorrowBTC.borrowed
-    const yourBorrowUsd = await contractBorrowBTC.methods
-      .getBorrowable(borrowedBTC)
+    const totalBorrow = await contractBorrowBTC.methods.totalSupplied().call({
+      from: address,
+    })
+    const totalBorrowUsd = await contractBorrowBTC.methods
+      .getBorrowable(totalBorrow)
       .call({
         from: address,
       })
-    const totalBorrowUsd = await contractBorrowBTC.methods.totalBorrow().call({
-      from: address,
-    })
     setTotalBorrow(web3.utils.fromWei(totalBorrowUsd.toString(), 'ether'))
-    setYourBorrow(web3.utils.fromWei(yourBorrowUsd.toString(), 'ether'))
   }
 
   useEffect(() => {
     getInfor()
-  }, [])
+  }, [address, isConnected])
   if (isLoading) {
     return (
       <div className="">
