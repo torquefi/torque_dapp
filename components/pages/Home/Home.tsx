@@ -95,18 +95,22 @@ const HomePageFilter = () => {
         .call({
           from: address,
         })
-      const yourSuppleUsd = await contractBorrowBTC.methods
-        .getBorrowable(yourBorrowedyBTC)
-        .call({
-          from: address,
-        })
-      setYourSupply(web3.utils.fromWei(yourSuppleUsd.toString(), 'ether'))
-      setYourBorrow(web3.utils.fromWei(yourBorrowUsd.toString(), 'ether'))
+      if (yourBorrowedyBTC > 0) {
+        const yourSuppleUsd = await contractBorrowBTC.methods
+          .getBorrowable(yourBorrowedyBTC)
+          .call({
+            from: address,
+          })
+        setYourSupply(web3.utils.fromWei(yourSuppleUsd.toString(), 'ether'))
+        setYourBorrow(web3.utils.fromWei(yourBorrowUsd.toString(), 'ether'))
+      }
+      const aprBorrowBTC = await contractBorrowBTC.methods.getApr().call({
+        from: address,
+      })
+      if (yourBorrowedyBTC > 0) {
+        setNetAPY(web3.utils.fromWei(aprBorrowBTC.toString(), 'ether'))
+      }
     }
-    const aprBorrowBTC = await contractBorrowBTC.methods.getApr().call({
-      from: address,
-    })
-    setNetAPY(web3.utils.fromWei(aprBorrowBTC.toString(), 'ether'))
     const totalBorrow = await contractBorrowBTC.methods.totalSupplied().call({
       from: address,
     })
