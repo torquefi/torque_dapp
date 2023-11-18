@@ -286,7 +286,9 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         decimalScale={2}
         render={(value) => (
           <div>
-            <p className="mb-[12px] whitespace-nowrap text-[22px]">{value}</p>
+            <p className="mb-[12px] whitespace-nowrap text-[22px]">
+              {Number(dataUserBorrow.supplied)?.toFixed(2)}
+            </p>
             <p className="font-mona text-[14px] text-[#959595]">Collateral</p>
           </div>
         )}
@@ -299,7 +301,9 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         decimalScale={2}
         render={(value) => (
           <div>
-            <p className="mb-[12px] text-[22px] leading-none">{value}</p>
+            <p className="mb-[12px] text-[22px] leading-none">
+              {Number(dataUserBorrow.borrowed)?.toFixed(2)}
+            </p>
             <p className="font-mona text-[14px] text-[#959595]">Borrowed</p>
           </div>
         )}
