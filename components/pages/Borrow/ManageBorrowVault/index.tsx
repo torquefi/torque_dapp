@@ -8,23 +8,19 @@ import {
   borrowEthContractInfo,
   compoundUsdcContractInfo,
   tokenBtcContractInfo,
-  tokenEthContractInfo
+  tokenEthContractInfo,
 } from '../constants/contract'
 import { IBorrowInfoManage } from '../types'
 import BorrowItem from './BorrowItem'
 import { EmptyBorrow } from './EmptyBorrow'
+import BigNumber from 'bignumber.js'
 
 export default function ManageBorrowVault() {
+  const web3 = new Web3(Web3.givenProvider)
   const { address, isConnected } = useAccount()
   const [dataBorrow, setDataBorrow] = useState(DATA_BORROW)
   const [isSkeletonLoading, setSkeletonLoading] = useState(true)
-
   const getBorrowData = async (item: IBorrowInfoManage) => {
-    const web3 = new Web3(chainRpcUrl)
-    const web3Mainnet = new Web3(
-      'https://endpoints.omniatech.io/v1/arbitrum/one/public'
-    )
-
     try {
       if (!item.tokenContract) {
         item.tokenContract = new web3.eth.Contract(
@@ -61,33 +57,32 @@ export default function ManageBorrowVault() {
           .formatUnits(data.borrowed, item.borrowTokenDecimal)
           .toString()
       }
-
-      // const dataABIBorrow = await Moralis.Cloud.run('getAbi', {
-      //   name: item?.name_ABI_borrow,
-      // })
-      // if (dataABIBorrow?.abi) {
-      //   const web3 = new Web3(Web3.givenProvider)
-      //   const contract = new web3.eth.Contract(
-      //     JSON.parse(dataABIBorrow?.abi),
-      //     dataABIBorrow?.address
-      //   )
-      //   if (contract) {
-      //     let data = await contract.methods.borrowInfoMap(address).call({
-      //       from: address,
-      //     })
-      //     // item.supplied = +Moralis.Units.FromWei(data.supplied, item.decimals_asset)
-      //     item.borrowed = +Moralis.Units.FromWei(
-      //       data.borrowed,
-      //       item.decimals_usdc
-      //     )
-      //   }
-      // }
+      const web3 = new Web3(Web3.givenProvider)
+      const contract = new web3.eth.Contract(
+        JSON.parse(item?.borrowContractInfo.abi),
+        item?.borrowContractInfo?.address
+      )
+      if (contract) {
+        let data = await contract.methods.borrowInfoMap(address).call({
+          from: address,
+        })
+        item.supplied = Number(
+          new BigNumber(data.supplied)
+            .div(10 ** item.depositTokenDecimal)
+            .toString()
+        )
+        item.borrowed = Number(
+          new BigNumber(data.borrowed)
+            .div(10 ** item.depositTokenDecimal)
+            .toString()
+        )
+      }
     } catch (error) {
       console.log('ManageStaking.handleGetStakeData', error)
     }
 
     try {
-      const compoundUsdcContract = new web3Mainnet.eth.Contract(
+      const compoundUsdcContract = new web3.eth.Contract(
         JSON.parse(compoundUsdcContractInfo?.abi),
         compoundUsdcContractInfo?.address
       )
@@ -159,7 +154,7 @@ const DATA_BORROW: IBorrowInfoManage[] = [
   {
     depositTokenSymbol: 'BTC',
     depositTokenDecimal: 8,
-    borrowTokenSymbol: 'USD',
+    borrowTokenSymbol: 'USDC',
     borrowTokenDecimal: 6,
     label: 'House',
     labelKey: 'name_borrow_vault_2',
@@ -169,14 +164,13 @@ const DATA_BORROW: IBorrowInfoManage[] = [
     ltv: 0.0,
     apy: 0.0,
     borrowRate: 1359200263,
-
     borrowContractInfo: borrowBtcContractInfo,
     tokenContractInfo: tokenBtcContractInfo,
   },
   {
     depositTokenSymbol: 'ETH',
     depositTokenDecimal: 18,
-    borrowTokenSymbol: 'USD',
+    borrowTokenSymbol: 'USDC',
     borrowTokenDecimal: 6,
     label: 'Lambo',
     labelKey: 'name_borrow_vault_1',
@@ -186,7 +180,6 @@ const DATA_BORROW: IBorrowInfoManage[] = [
     ltv: 0.0,
     apy: 0.0,
     borrowRate: 1359200263,
-
     borrowContractInfo: borrowEthContractInfo,
     tokenContractInfo: tokenEthContractInfo,
   },

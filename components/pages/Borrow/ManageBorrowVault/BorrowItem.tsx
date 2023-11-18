@@ -16,6 +16,10 @@ import { useSelector } from 'react-redux'
 import { toast } from 'sonner'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
+import {
+  borrowBtcContractInfo,
+  borrowEthContractInfo,
+} from '../constants/contract'
 import { IBorrowInfoManage } from '../types'
 
 enum Action {
@@ -32,19 +36,16 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
   const [action, setAction] = useState(Action.Repay)
   const [isLoading, setIsLoading] = useState(true)
   const [inputValue, setInputValue] = useState(0)
-  // const [contractAsset, setContractAsset] = useState(null)
-  // const [contractBorrow, setContractBorrow] = useState(null)
+  const [contractBorrow, setContractBorrow] = useState(null)
   const [allowance, setAllowance] = useState(0)
   const [buttonLoading, setButtonLoading] = useState('')
-  // const [dataUserBorrow, setDataUserBorrow] = useState<any>()
+  const [dataUserBorrow, setDataUserBorrow] = useState<any>()
   const [price, setPrice] = useState<any>({
     eth: 1800,
     btc: 28000,
-    USG: 1,
   })
   const [label, setLabel] = useState(item?.label)
   const [isEdit, setEdit] = useState(false)
-  // const [borrowRate, setBorrowRate] = useState(1359200263)
   const refLabelInput = useRef<HTMLInputElement>(null)
   const { address, isConnected } = useAccount()
   const { Moralis, isWeb3Enabled } = useMoralis()
@@ -58,71 +59,52 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
     [item?.borrowRate]
   )
 
-  const web3 = new Web3('https://arbitrum-goerli.publicnode.com')
+  const web3 = new Web3(Web3.givenProvider)
 
   const getPrice = async () => {
     setPrice({
       eth: (await getPriceToken('ETH')) || 1800,
       btc: (await getPriceToken('BTC')) || 28000,
-      USG: (await getPriceToken('USG')) || 1,
     })
   }
 
   const initContract = async () => {
     try {
-      // const dataABIAsset = await Moralis.Cloud.run('getAbi', {
-      //   name: item?.name_ABI_asset,
-      // })
-      // console.log(dataABIAsset)
-      // if (dataABIAsset?.abi) {
-      //   const web3 = new Web3(Web3.givenProvider)
-      //   const contract = new web3.eth.Contract(
-      //     JSON.parse(dataABIAsset?.abi),
-      //     dataABIAsset?.address
-      //   )
-      //   setContractAsset(contract)
-      // }
-      // const dataABIBorrow = await Moralis.Cloud.run('getAbi', {
-      //   name: item?.name_ABI_borrow,
-      // })
-      // console.log(item?.token, dataABIAsset, dataABIBorrow)
-      // if (dataABIBorrow?.abi) {
-      //   const web3 = new Web3(Web3.givenProvider)
-      //   const contract = new web3.eth.Contract(
-      //     JSON.parse(dataABIBorrow?.abi),
-      //     dataABIBorrow?.address
-      //   )
-      //   if (contract) {
-      //     let data = await contract.methods.borrowInfoMap(address).call({
-      //       from: address,
-      //     })
-      //     setDataUserBorrow({
-      //       supplied: Moralis.Units.FromWei(data.supplied, item.decimals_asset),
-      //       borrowed: Moralis.Units.FromWei(data.borrowed, item.decimals_usdc),
-      //     })
-      //   }
-      //   setContractBorrow(contract)
-      // }
-      // const dataABICompound = await Moralis.Cloud.run('getAbi', {
-      //   name: 'compound_abi',
-      // })
-      // if (dataABICompound?.abi) {
-      //   const contract = new web3.eth.Contract(
-      //     JSON.parse(dataABICompound?.abi),
-      //     dataABICompound?.address
-      //   )
-      //   if (contract) {
-      //     let utilization = await contract.methods.getUtilization().call({
-      //       from: address,
-      //     })
-      //     let borrowRate = await contract.methods
-      //       .getBorrowRate(utilization)
-      //       .call({
-      //         from: address,
-      //       })
-      //     setBorrowRate(borrowRate)
-      //   }
-      // }
+      let contractBorrowABI
+      let contractBorrowAddress
+
+      if (item.depositTokenSymbol === 'BTC') {
+        contractBorrowABI = borrowBtcContractInfo.abi
+        contractBorrowAddress = borrowBtcContractInfo.address
+      } else if (item.depositTokenSymbol === 'ETH') {
+        contractBorrowABI = borrowEthContractInfo.abi
+        contractBorrowAddress = borrowEthContractInfo.address
+      }
+      const contract = new web3.eth.Contract(
+        JSON.parse(contractBorrowABI),
+        contractBorrowAddress
+      )
+      if (contract) {
+        let data = await contract.methods.borrowInfoMap(address).call({
+          from: address,
+        })
+        const suppliedUSD = await contract.methods
+          .getBorrowable(data.supplied)
+          .call({
+            from: address,
+          })
+        const borrowedUSD = await contract.methods
+          .getBorrowable(data.borrowed)
+          .call({
+            from: address,
+          })
+
+        setDataUserBorrow({
+          supplied: web3.utils.fromWei(suppliedUSD.toString(), 'ether'),
+          borrowed: web3.utils.fromWei(borrowedUSD.toString(), 'ether'),
+        })
+        setContractBorrow(contract)
+      }
     } catch (e) {
       console.log(e)
     }
@@ -298,38 +280,43 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
     <div className="flex w-full text-center md:w-[400px] lg:w-[500px] xl:w-[600px]">
       <CurrencySwitch
         tokenSymbol={''}
+        usdDefault
         tokenValue={item?.supplied || item.collateral}
         className="font-larken -my-4 w-1/4 space-y-1 py-4"
         decimalScale={2}
         render={(value) => (
           <div>
-            <p className="mb-[12px] whitespace-nowrap text-[22px]">{value}</p>
+            <p className="mb-[12px] whitespace-nowrap text-[22px]">
+              {Number(dataUserBorrow.supplied)?.toFixed(2)}
+            </p>
             <p className="font-mona text-[14px] text-[#959595]">Collateral</p>
           </div>
         )}
       />
       <CurrencySwitch
-        tokenSymbol={'USG'}
+        tokenSymbol={'USDC'}
         tokenValue={item?.borrowed || item.borrowed}
         usdDefault
         className="font-larken -my-4 w-1/4 space-y-1 py-4"
         decimalScale={2}
         render={(value) => (
           <div>
-            <p className="mb-[12px] text-[22px] leading-none">{value}</p>
+            <p className="mb-[12px] text-[22px] leading-none">
+              {Number(dataUserBorrow.borrowed)?.toFixed(2)}
+            </p>
             <p className="font-mona text-[14px] text-[#959595]">Borrowed</p>
           </div>
         )}
       />
       <div className="w-1/4 space-y-1">
         <p className="font-larken whitespace-nowrap text-[22px]">
-          {/* {(
+          {(
             (dataUserBorrow?.borrowed /
               (dataUserBorrow?.supplied *
-                price[`${item.token.toLowerCase()}`])) *
-            100 || 0
-          ).toFixed(2)} */}
-          0%
+                price[`${item.borrowTokenSymbol.toLowerCase()}`])) *
+              100 || 0
+          ).toFixed(2)}
+          %
         </p>
         <p className="whitespace-nowrap text-[14px] text-[#959595]">
           Loan-to-value
@@ -337,8 +324,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       </div>
       <div className="w-1/4 space-y-1">
         <p className="font-larken whitespace-nowrap text-[22px]">
-          {/* {borrowAPR.toFixed(2)}% */}
-          0%
+          {borrowAPR.toFixed(2)}%
         </p>
         <p className="whitespace-nowrap text-[14px] text-[#959595]">
           Variable APR
