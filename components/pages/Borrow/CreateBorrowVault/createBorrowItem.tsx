@@ -264,7 +264,6 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
           toast.error('Borrow failed. Please try again')
           return
         }
-
         await contractBorrowBTC.methods
           .borrow(
             borrow,
@@ -294,11 +293,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
           return
         }
         await contractBorrowETH.methods
-          .borrow(
-            borrow,
-            borrowAmount.toString(),
-            usdBorrowAmount.toString() || 0
-          )
+          .borrow(borrowAmount.toString(), usdBorrowAmount.toString() || 0)
           .send({
             value: borrow,
             from: address,
