@@ -39,7 +39,6 @@ export default function CurrencySwitchInit({ children }: any) {
         usdPrice.usg = usgPrice || usdPrice.usg || 1
         usdPrice.ETH = ethPrice || usdPrice.ETH || 1800
         usdPrice.BTC = btcPrice || usdPrice.BTC || 28000
-        usdPrice.USG = usgPrice || usdPrice.USG || 1
         dispatch(updateAllUsdPrice(usdPrice))
       } catch (error) {
         console.log('CurrencySwitchInit.handleGetUsdPrice', error)

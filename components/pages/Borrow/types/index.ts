@@ -34,7 +34,6 @@ export interface IBorrowInfoManage {
   borrowed: number
   ltv: number
   apy: number
-  
   borrowContractInfo?: IContractInfo
   tokenContractInfo?: IContractInfo
   borrowContract?: Contract

@@ -36,7 +36,6 @@ export default function CreateBorrowVault() {
 
   const getBorrowData = async (item: IBorrowInfo) => {
     const web3 = new Web3(Web3.givenProvider)
-    const web3Mainnet = new Web3(Web3.givenProvider)
 
     try {
       if (!item.tokenContract) {
@@ -64,7 +63,7 @@ export default function CreateBorrowVault() {
     }
 
     try {
-      const usdcContract = new web3Mainnet.eth.Contract(
+      const usdcContract = new web3.eth.Contract(
         JSON.parse(tokenUsdcContractInfo?.abi),
         tokenUsdcContractInfo?.address
       )
@@ -91,14 +90,15 @@ export default function CreateBorrowVault() {
       )
     }
     try {
-      const compoundUsdcContract = new web3Mainnet.eth.Contract(
+      const compoundUsdcContract = new web3.eth.Contract(
         JSON.parse(compoundUsdcContractInfo?.abi),
         compoundUsdcContractInfo?.address
       )
       if (compoundUsdcContract) {
-        const Wbtc = '0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f'
-        const Weth = '0x82af49447d8a07e3bd95bd0d56f35241523fbab1'
-        const tokenAddress = item?.depositTokenSymbol === 'BTC' ? Wbtc : Weth
+        const tokenAddress =
+          item?.depositTokenSymbol === 'BTC'
+            ? tokenBtcContractInfo.address
+            : tokenEthContractInfo.address
         let assets = await compoundUsdcContract.methods
           .getAssetInfoByAddress(tokenAddress)
           .call({ from: address })
@@ -169,8 +169,8 @@ const BORROW_INFOS: IBorrowInfo[] = [
     depositTokenIcon: '/icons/coin/btc.png',
     depositTokenSymbol: 'BTC',
     depositTokenDecimal: 8,
-    borrowTokenSymbol: 'USD',
-    borrowTokenDecimal: 18,
+    borrowTokenSymbol: 'USDC',
+    borrowTokenDecimal: 6,
     liquidity: 0,
     loanToValue: 70,
     getTORQ: 28,
@@ -182,8 +182,8 @@ const BORROW_INFOS: IBorrowInfo[] = [
     depositTokenIcon: '/icons/coin/eth.png',
     depositTokenSymbol: 'ETH',
     depositTokenDecimal: 18,
-    borrowTokenSymbol: 'USD',
-    borrowTokenDecimal: 18,
+    borrowTokenSymbol: 'USDC',
+    borrowTokenDecimal: 6,
     liquidity: 0,
     loanToValue: 78,
     getTORQ: 32,
