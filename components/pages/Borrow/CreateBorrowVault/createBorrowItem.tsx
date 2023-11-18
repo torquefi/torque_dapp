@@ -155,7 +155,13 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
     if (address && contractBorrowBTC && contractBTC) {
       getAllowance()
     }
-  }, [address, contractBorrowBTC, contractBTC, dataBorrow.depositTokenDecimal])
+  }, [
+    address,
+    contractBorrowBTC,
+    contractBTC,
+    dataBorrow.depositTokenDecimal,
+    amount,
+  ])
 
   const updateBalance = async () => {
     try {
@@ -200,7 +206,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
   }
 
   const onBorrow = async () => {
-    console.log(amount, amountReceive)
+    console.log(amount)
 
     try {
       if (amount <= 0) {
@@ -329,7 +335,6 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
       JSON.parse(item?.borrowContractInfo.abi),
       item?.borrowContractInfo.address
     ) as any
-    console.log(amout)
     const amountDeposit = Number(
       new BigNumber(amount)
         .multipliedBy(10 ** item.depositTokenDecimal)
