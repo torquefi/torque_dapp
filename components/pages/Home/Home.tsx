@@ -119,7 +119,9 @@ const HomePageFilter = () => {
       .call({
         from: address,
       })
-    setTotalBorrow(web3.utils.fromWei(totalBorrowUsd.toString(), 'ether'))
+    setTotalBorrow(
+      web3.utils.fromWei(Number(totalBorrowUsd * 0.7).toString(), 'ether')
+    )
     setTotalSupply(web3.utils.fromWei(totalBorrowUsd.toString(), 'ether'))
   }
 
