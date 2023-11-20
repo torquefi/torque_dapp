@@ -256,10 +256,13 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
             .multipliedBy(10 ** item.borrowTokenDecimal)
             .toString()
         )
-        const usdBorrowAmount = await getMintable(
-          borrow,
-          tokenBtcContractInfo.address
-        )
+        // const usdBorrowAmount = await getMintable(
+        //   borrow,
+        //   tokenBtcContractInfo.address
+        // )
+        const usdBorrowAmount = await contractBorrowBTC.methods
+          .getBorrowableUsdc(borrow)
+          .call()
         if (usdBorrowAmount == 0) {
           toast.error('Borrow failed. Please try again')
           return
@@ -284,10 +287,9 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
             .multipliedBy(10 ** item.borrowTokenDecimal)
             .toString()
         )
-        const usdBorrowAmount = await getMintable(
-          borrow,
-          tokenEthContractInfo.address
-        )
+        const usdBorrowAmount = await contractBorrowBTC.methods
+          .getBorrowableUsdc(borrow)
+          .call()
         if (usdBorrowAmount == 0) {
           toast.error('Borrow failed. Please try again')
           return

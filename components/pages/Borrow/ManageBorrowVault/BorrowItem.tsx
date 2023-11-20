@@ -19,8 +19,12 @@ import Web3 from 'web3'
 import {
   borrowBtcContractInfo,
   borrowEthContractInfo,
+  engineUsdContractInfo,
+  tokenUsdContractInfo,
+  tokenUsdcContractInfo,
 } from '../constants/contract'
 import { IBorrowInfoManage } from '../types'
+import BigNumber from 'bignumber.js'
 
 enum Action {
   Repay = 'Repay',
@@ -38,6 +42,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
   const [inputValue, setInputValue] = useState(0)
   const [contractBorrow, setContractBorrow] = useState(null)
   const [allowance, setAllowance] = useState(0)
+  const [allowanceUSD, setAllowanceUSD] = useState(0)
   const [buttonLoading, setButtonLoading] = useState('')
   const [dataUserBorrow, setDataUserBorrow] = useState<any>()
   const [price, setPrice] = useState<any>({
@@ -112,6 +117,8 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
 
   const getAllowance = async () => {
     try {
+      console.log(item?.tokenContract)
+
       if (item?.tokenContract && item?.borrowContract) {
         const allowance = await item?.tokenContract.methods
           .allowance(address, item?.borrowContractInfo.address)
@@ -119,6 +126,27 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
             from: address,
           })
         setAllowance(allowance / 10 ** dataBorrow.borrowTokenDecimal || 0)
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  const getAllowanceUSD = async () => {
+    try {
+      if (item?.borrowContract) {
+        const contract = new web3.eth.Contract(
+          JSON.parse(tokenUsdContractInfo.abi),
+          tokenUsdContractInfo.address
+        )
+        const allowance = await contract.methods
+          .allowance(address, item?.borrowContractInfo.address)
+          .call({
+            from: address,
+          })
+        console.log('allowance', allowance)
+
+        setAllowanceUSD(allowance / 10 ** dataBorrow.borrowTokenDecimal || 0)
       }
     } catch (e) {
       console.log(e)
@@ -147,6 +175,10 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
   }
 
   const onRepay = async () => {
+    const contractEngine = new web3.eth.Contract(
+      JSON.parse(engineUsdContractInfo.abi),
+      engineUsdContractInfo.address
+    )
     if (!isConnected) {
       setOpenConnectWalletModal(true)
       return
@@ -162,12 +194,36 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         toast.success('Approve Successful')
         await getAllowance()
       }
+      if (!isApprovedUSD) {
+        const contractUSD = new web3.eth.Contract(
+          JSON.parse(tokenUsdContractInfo.abi),
+          tokenUsdContractInfo.address
+        )
+        await contractUSD.methods
+          .approve(item?.borrowContractInfo.address, MAX_UINT256)
+          .send({
+            from: address,
+          })
+        toast.success('Approve Successful')
+        await getAllowance()
+      }
       setButtonLoading('REPAYING...')
-      await item?.borrowContract?.methods
-        .repay(Web3.utils.toWei(Number(inputValue).toFixed(2), 'ether'))
-        .send({
-          from: address,
-        })
+      const amountRepay = Number(
+        new BigNumber(inputValue).multipliedBy(10 ** 18).toString()
+      ).toFixed(0)
+      console.log(contractEngine)
+      console.log(
+        tokenUsdcContractInfo.address,
+        address,
+        amountRepay.toString()
+      )
+
+      // const usdBorrowAmount = await item?.borrowContract.methods
+      //   .getBorrowableUsdc(amountRepay.toString())
+      //   .call()
+      await item?.borrowContract?.methods.repay(amountRepay.toString()).send({
+        from: address,
+      })
       toast.success('Repay Successful')
       initContract()
     } catch (e) {
@@ -239,6 +295,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
 
   useEffect(() => {
     getAllowance()
+    getAllowanceUSD()
   }, [item?.tokenContract, item?.borrowContract, inputValue])
 
   useEffect(() => {
@@ -264,6 +321,10 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
     [allowance, inputValue]
   )
 
+  const isApprovedUSD = useMemo(
+    () => inputValue < allowanceUSD,
+    [allowance, inputValue]
+  )
   useEffect(() => {
     if (isEdit && refLabelInput.current) {
       refLabelInput.current.focus()

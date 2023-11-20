@@ -7,6 +7,12 @@ import tokenBtc from './abi/tokenBtc.json'
 import tokenEth from './abi/tokenEth.json'
 import tokenUsdcArb from './abi/tokenUsdcArb.json'
 
+
+export const tokenUsdContractInfo: IContractInfo = {
+  address: '0xB50B92Fa490AA2366751F04b52C5f3350AD4AC16',
+  abi: JSON.stringify(tokenUsdcArb),
+}
+
 export const tokenUsdcContractInfo: IContractInfo = {
   address: '0xaf88d065e77c8cc2239327c5edb3a432268e5831',
   abi: JSON.stringify(tokenUsdcArb),
