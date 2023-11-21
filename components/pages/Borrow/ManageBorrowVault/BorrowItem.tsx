@@ -385,7 +385,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       </div>
       <div className="w-1/4 space-y-1">
         <p className="font-larken whitespace-nowrap text-[22px]">
-          {borrowAPR.toFixed(2)}%
+          {(Number(borrowAPR) * 100).toFixed(2)}%
         </p>
         <p className="whitespace-nowrap text-[14px] text-[#959595]">
           Variable APR
