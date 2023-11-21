@@ -88,10 +88,10 @@ const HomePageFilter = () => {
         .call({
           from: address,
         })
-      const borrowedBTC = dataBorrowBTC.supplied
+      const yourSuppliBTC = dataBorrowBTC.supplied
       const yourBorrowedyBTC = dataBorrowBTC.borrowed
       const yourBorrowUsd = await contractBorrowBTC.methods
-        .getBorrowable(borrowedBTC)
+        .getBorrowable(yourSuppliBTC)
         .call({
           from: address,
         })
@@ -101,7 +101,9 @@ const HomePageFilter = () => {
           .call({
             from: address,
           })
-        setYourSupply(web3.utils.fromWei(yourSuppleUsd.toString(), 'ether'))
+        setYourSupply(
+          web3.utils.fromWei(Number(yourBorrowUsd * 1.2).toString(), 'ether')
+        )
         setYourBorrow(web3.utils.fromWei(yourBorrowUsd.toString(), 'ether'))
       }
       const aprBorrowBTC = await contractBorrowBTC.methods.getApr().call({
@@ -111,18 +113,21 @@ const HomePageFilter = () => {
         setNetAPY(web3.utils.fromWei(aprBorrowBTC.toString(), 'ether'))
       }
     }
-    const totalBorrow = await contractBorrowBTC.methods.totalSupplied().call({
+    const totalBorrow = await contractBorrowBTC.methods.totalBorrow().call({
+      from: address,
+    })
+    const totalSupply = await contractBorrowBTC.methods.totalSupplied().call({
       from: address,
     })
     const totalBorrowUsd = await contractBorrowBTC.methods
-      .getBorrowable(totalBorrow)
+      .getBorrowableUsdc(totalBorrow)
       .call({
         from: address,
       })
-    setTotalBorrow(
-      web3.utils.fromWei(Number(totalBorrowUsd * 0.7).toString(), 'ether')
+    setTotalBorrow(web3.utils.fromWei(totalBorrowUsd.toString(), 'ether'))
+    setTotalSupply(
+      web3.utils.fromWei(Number(totalBorrowUsd * 1.2).toString(), 'ether')
     )
-    setTotalSupply(web3.utils.fromWei(totalBorrowUsd.toString(), 'ether'))
   }
 
   useEffect(() => {
