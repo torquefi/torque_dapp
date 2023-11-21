@@ -245,7 +245,7 @@ const HomePageFilter = () => {
               className="font-larken text-[28px] text-[#404040] dark:text-white"
               displayType="text"
               thousandSeparator
-              value={Number(netAPY) * 100 || 0}
+              value={-Number(netAPY) * 100 || 0}
               decimalScale={2}
               fixedDecimalScale
               suffix={'%'}
