@@ -211,19 +211,15 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       const amountRepay = Number(
         new BigNumber(inputValue).multipliedBy(10 ** 18).toString()
       ).toFixed(0)
-      console.log(contractEngine)
-      console.log(
-        tokenUsdcContractInfo.address,
-        address,
-        amountRepay.toString()
-      )
+      const usdBorrowAmount = await item?.borrowContract.methods
+        .getBorrowableUsdc(amountRepay.toString())
+        .call()
 
-      // const usdBorrowAmount = await item?.borrowContract.methods
-      //   .getBorrowableUsdc(amountRepay.toString())
-      //   .call()
-      await item?.borrowContract?.methods.repay(amountRepay.toString()).send({
-        from: address,
-      })
+      await item?.borrowContract?.methods
+        .repay(usdBorrowAmount.toString())
+        .send({
+          from: address,
+        })
       toast.success('Repay Successful')
       initContract()
     } catch (e) {
