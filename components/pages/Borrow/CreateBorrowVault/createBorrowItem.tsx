@@ -64,7 +64,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
     setPrice({
       eth: (await getPriceToken('ETH')) || 1800,
       btc: (await getPriceToken('BTC')) || 28000,
-      USG: (await getPriceToken('USDC')) || 1,
+      USD: (await getPriceToken('USD')) || 1,
     })
   }
 
@@ -412,7 +412,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
           </div>
           <div className="font-larken flex h-[100px] flex-col items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
             <InputCurrencySwitch
-              tokenSymbol={'USG'}
+              tokenSymbol={'USD'}
               tokenValue={Number(amountReceive)}
               tokenValueChange={Number(
                 Math.round(

@@ -351,7 +351,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         )}
       />
       <CurrencySwitch
-        tokenSymbol={'USDC'}
+        tokenSymbol={'USD'}
         tokenValue={item?.borrowed || item.borrowed}
         usdDefault
         className="font-larken -my-4 w-1/4 space-y-1 py-4"
@@ -498,7 +498,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
               <div className="flex items-center justify-between">
                 <p className="font-larken text-[24px]">
                   {action}{' '}
-                  {action == Action.Repay ? 'USG' : item.depositTokenSymbol}
+                  {action == Action.Repay ? 'USD' : item.depositTokenSymbol}
                 </p>
                 <div className="rounded-md border from-[#161616] via-[#161616]/40 to-[#0e0e0e] dark:border-[#1A1A1A] dark:bg-gradient-to-b">
                   {[Action.Repay, Action.Withdraw].map((item, i) => (
