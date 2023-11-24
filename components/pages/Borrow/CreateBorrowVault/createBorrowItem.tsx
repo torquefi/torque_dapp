@@ -420,7 +420,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
                     amount *
                       price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]
                   ) *
-                    50) /
+                    65) /
                     100
                 )
               )}
