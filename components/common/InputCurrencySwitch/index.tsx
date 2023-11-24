@@ -50,7 +50,7 @@ export default function InputCurrencySwitch({
     let price: any = {
       eth: (await getPriceToken('ETH')) || 1800,
       btc: (await getPriceToken('BTC')) || 28000,
-      usd: (await getPriceToken('USD')) || 1,
+      usd: (await getPriceToken('USDC')) || 1,
     }
     setPrice(price)
     setTokenPrice(
