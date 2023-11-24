@@ -189,7 +189,7 @@ export const Header = () => {
                       className="flex justify-between p-[12px]"
                       target="_blank"
                     >
-                      Arbitrum Arbiscan <HiOutlineExternalLink />
+                      Arbiscan <HiOutlineExternalLink />
                     </Link>
                     <div
                       className="flex cursor-pointer justify-between p-[12px]"
