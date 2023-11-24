@@ -136,7 +136,8 @@ export const Header = () => {
           }
           onClick={handleChangeNetwork}
         >
-          Torque is not supported on this network. Please switch to {arbitrumMainnetInfo.name}.
+          Torque is not supported on this network. Please switch to{' '}
+          {arbitrumMainnetInfo.name}.
         </div>
         <div className="container relative mx-auto flex h-[72px] max-w-screen-xl items-center justify-between px-4 lg:px-8">
           <Link href="/" className="flex items-center">
@@ -184,11 +185,11 @@ export const Header = () => {
                     indicatorClassName="rounded-[6px]"
                   >
                     <Link
-                      href={`https://goerli.arbiscan.io/address/${address}`}
+                      href={`https://arbiscan.io/address/${address}`}
                       className="flex justify-between p-[12px]"
                       target="_blank"
                     >
-                      Arbitrum Goerli <HiOutlineExternalLink />
+                      Arbitrum Arbiscan <HiOutlineExternalLink />
                     </Link>
                     <div
                       className="flex cursor-pointer justify-between p-[12px]"
@@ -223,16 +224,17 @@ export const Header = () => {
                   key={i}
                   className={
                     'font-mona relative flex h-[35px]  items-center justify-center pr-[4px] transition-all duration-200 ease-in' +
-                    ` ${activeTabIndex === i
-                      ? 'text-[#404040] dark:text-white '
-                      : 'text-[#959595]'
+                    ` ${
+                      activeTabIndex === i
+                        ? 'text-[#404040] dark:text-white '
+                        : 'text-[#959595]'
                     }`
                   }
                   onMouseEnter={() => {
                     setActiveTabIndex(i)
                   }}
                   onMouseLeave={() => setActiveTabIndex(currentTabIndex)}
-                // target={item.isExternal ? '_blank' : '_self'}
+                  // target={item.isExternal ? '_blank' : '_self'}
                 >
                   {theme === 'light' ? (
                     <img
@@ -258,9 +260,10 @@ export const Header = () => {
             className={
               ` absolute bottom-0 left-0 h-[1px] w-full` +
               `
-              ${theme === 'light'
-                ? 'bg-gradient-divider-light'
-                : 'bg-gradient-divider'
+              ${
+                theme === 'light'
+                  ? 'bg-gradient-divider-light'
+                  : 'bg-gradient-divider'
               }
                `
             }
