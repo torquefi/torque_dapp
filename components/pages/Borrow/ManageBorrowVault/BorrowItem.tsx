@@ -174,31 +174,51 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
     }
   }
 
+  const getUSDBorrow = async (percent: number) => {
+    const amountRepay = Number(
+      new BigNumber(Number((item.borrowed * percent) / 100))
+        .multipliedBy(10 ** 18)
+        .toString()
+    ).toFixed(0)
+    const usdBorrowAmount = await item?.borrowContract.methods
+      .getBorrowableUsdc(amountRepay.toString())
+      .call()
+    const amount = Number(
+      new BigNumber(usdBorrowAmount).div(10 ** 18).toString()
+    ).toFixed(3)
+    setInputValue(Number(amount))
+  }
   const onRepay = async () => {
-    const contractEngine = new web3.eth.Contract(
-      JSON.parse(engineUsdContractInfo.abi),
-      engineUsdContractInfo.address
-    )
     if (!isConnected) {
       setOpenConnectWalletModal(true)
       return
     }
     try {
       setButtonLoading('APPROVING...')
-      if (!isApproved) {
-        await item?.tokenContract.methods
-          .approve(item?.borrowContractInfo.address, MAX_UINT256)
-          .send({
-            from: address,
-          })
-        toast.success('Approve Successful')
-        await getAllowance()
+      // if (!isApproved) {
+      //   await item?.tokenContract.methods
+      //     .approve(item?.borrowContractInfo.address, MAX_UINT256)
+      //     .send({
+      //       from: address,
+      //     })
+      //   toast.success('Approve Successful')
+      //   await getAllowance()
+      // }
+      const contractUSD = new web3.eth.Contract(
+        JSON.parse(tokenUsdContractInfo.abi),
+        tokenUsdContractInfo.address
+      )
+      const balanceOfUSD = await contractUSD.methods.balanceOf(address).call({
+        from: address,
+      })
+      const balanceOf = Number(
+        new BigNumber(balanceOfUSD).div(10 ** 18).toString()
+      ).toFixed(3)
+      if (inputValue > Number(balanceOf)) {
+        toast.error('Your account does not have enough USD to Repay')
+        return
       }
       if (!isApprovedUSD) {
-        const contractUSD = new web3.eth.Contract(
-          JSON.parse(tokenUsdContractInfo.abi),
-          tokenUsdContractInfo.address
-        )
         await contractUSD.methods
           .approve(item?.borrowContractInfo.address, MAX_UINT256)
           .send({
@@ -211,15 +231,10 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       const amountRepay = Number(
         new BigNumber(inputValue).multipliedBy(10 ** 18).toString()
       ).toFixed(0)
-      const usdBorrowAmount = await item?.borrowContract.methods
-        .getBorrowableUsdc(amountRepay.toString())
-        .call()
-
-      await item?.borrowContract?.methods
-        .repay(usdBorrowAmount.toString())
-        .send({
-          from: address,
-        })
+      console.log(amountRepay, balanceOfUSD)
+      await item?.borrowContract?.methods.repay(amountRepay.toString()).send({
+        from: address,
+      })
       toast.success('Repay Successful')
       initContract()
     } catch (e) {
@@ -524,7 +539,9 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                   className="w-[120px] bg-transparent"
                   placeholder="Select amount"
                   value={inputValue || null}
-                  onChange={(e) => setInputValue(Number(e.target.value))}
+                  onChange={(e) => {
+                    setInputValue(Number(e.target.value))
+                  }}
                 />
                 <div className="flex select-none justify-between space-x-1 text-[12px] text-[#959595] sm:text-[14px]">
                   {[25, 50, 100].map((percent, i) => (
@@ -534,7 +551,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                         if (action == Action.Withdraw) {
                           setInputValue((item.supplied * percent) / 100)
                         } else {
-                          setInputValue(Number((item.borrowed * percent) / 100))
+                          getUSDBorrow(percent)
                         }
                       }}
                       key={i}
