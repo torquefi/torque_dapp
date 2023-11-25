@@ -60,6 +60,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
 
   const [aprBorrow, setAprBorrow] = useState('')
 
+  const [lvt, setLvt] = useState('')
   const getPrice = async () => {
     setPrice({
       eth: (await getPriceToken('ETH')) || 1800,
@@ -75,24 +76,34 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
         borrowEthContractInfo?.address
       )
 
-      if (contractBorrowETH) {
-        console.log(contractBorrowETH)
-
-        const aprBorrowETH = await contractBorrowETH.methods.getApr().call({
-          from: address,
-        })
-        setAprBorrow(web3.utils.fromWei(aprBorrowETH.toString(), 'ether'))
-        setContractBorrowETH(contractBorrowETH)
-      }
-
       let contractBorrowBTC = new web3.eth.Contract(
         JSON.parse(borrowBtcContractInfo?.abi),
         borrowBtcContractInfo?.address
       )
-      if (contractBorrowBTC) {
+      if (contractBorrowETH && item.depositTokenSymbol === 'ETH') {
+        const aprBorrowETH = await contractBorrowETH.methods.getApr().call({
+          from: address,
+        })
+        const lvtETH = await contractBorrowETH.methods
+          .getCollateralFactor()
+          .call({
+            from: address,
+          })
+        setLvt(web3.utils.fromWei(lvtETH.toString(), 'ether'))
+        setAprBorrow(web3.utils.fromWei(aprBorrowETH.toString(), 'ether'))
+        setContractBorrowETH(contractBorrowETH)
+      }
+
+      if (contractBorrowBTC && item.depositTokenSymbol === 'BTC') {
         const aprBorrowBTC = await contractBorrowBTC.methods.getApr().call({
           from: address,
         })
+        const lvtBTC = await contractBorrowBTC.methods
+          .getCollateralFactor()
+          .call({
+            from: address,
+          })
+        setLvt(web3.utils.fromWei(lvtBTC.toString(), 'ether'))
         setAprBorrow(web3.utils.fromWei(aprBorrowBTC.toString(), 'ether'))
         setContractBorrowBTC(contractBorrowBTC)
       }
@@ -461,7 +472,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
           <p>Loan-to-value</p>
           <p>
             {'<'}
-            {dataBorrow.loanToValue}%
+            {Number(lvt) * 100}%
           </p>
         </div>
         <div className="flex justify-between text-[#959595]">
@@ -486,9 +497,9 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
               amountReceive /
                 (amount *
                   price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]) >
-              dataBorrow.loanToValue / 100
+              Number(lvt)
             ) {
-              toast.error(`Loan-to-value exceeds ${dataBorrow.loanToValue}%`)
+              toast.error(`Loan-to-value exceeds ${Number(lvt) * 100}%`)
             } else {
               handleConfirmDeposit()
             }
@@ -520,7 +531,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
         details={[
           {
             label: 'Loan-to-value',
-            value: `<${dataBorrow.loanToValue}%`,
+            value: `<${Number(lvt) * 100}%`,
           },
           {
             label: 'Variable APR',

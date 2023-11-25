@@ -55,7 +55,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
   const { address, isConnected } = useAccount()
   const { Moralis, isWeb3Enabled } = useMoralis()
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
-
+  const [lvt, setLvt] = useState('')
   const borrowAPR = useMemo(
     () =>
       Number(ethers.utils.formatUnits(item?.borrowRate, 18).toString()) *
@@ -104,6 +104,10 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
             from: address,
           })
 
+        const lvt = await contract.methods.getCollateralFactor().call({
+          from: address,
+        })
+        setLvt(web3.utils.fromWei(lvt.toString(), 'ether'))
         setDataUserBorrow({
           supplied: web3.utils.fromWei(suppliedUSD.toString(), 'ether'),
           borrowed: web3.utils.fromWei(borrowedUSD.toString(), 'ether'),
@@ -382,13 +386,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       />
       <div className="w-1/4 space-y-1">
         <p className="font-larken whitespace-nowrap text-[22px]">
-          {(
-            (dataUserBorrow?.borrowed /
-              (dataUserBorrow?.supplied *
-                price[`${item.borrowTokenSymbol.toLowerCase()}`])) *
-              100 || 0
-          ).toFixed(2)}
-          %
+          {Number(lvt) * 100}%
         </p>
         <p className="whitespace-nowrap text-[14px] text-[#959595]">
           Loan-to-value
