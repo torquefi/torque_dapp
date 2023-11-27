@@ -241,19 +241,20 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
             from: address,
           })
         toast.success('Approve Successful')
-      } else if (!isApproved && item.depositTokenSymbol == 'ETH') {
-        const borrowAmount = Number(
-          new BigNumber(amount)
-            .multipliedBy(10 ** item.depositTokenDecimal)
-            .toString()
-        ).toFixed(0)
-        await contractETH.methods
-          .approve(item?.borrowContractInfo?.address, borrowAmount)
-          .send({
-            from: address,
-          })
-        toast.success('Approve Successful')
       }
+      // else if (!isApproved && item.depositTokenSymbol == 'ETH') {
+      //   const borrowAmount = Number(
+      //     new BigNumber(amount)
+      //       .multipliedBy(10 ** item.depositTokenDecimal)
+      //       .toString()
+      //   ).toFixed(0)
+      //   await contractETH.methods
+      //     .approve(item?.borrowContractInfo?.address, borrowAmount)
+      //     .send({
+      //       from: address,
+      //     })
+      //   toast.success('Approve Successful')
+      // }
       setButtonLoading('BORROWING...')
 
       if (item.depositTokenSymbol == 'BTC') {
@@ -298,7 +299,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
             .multipliedBy(10 ** item.borrowTokenDecimal)
             .toString()
         )
-        const usdBorrowAmount = await contractBorrowBTC.methods
+        const usdBorrowAmount = await contractBorrowETH.methods
           .getBorrowableUsdc(borrow)
           .call()
         if (usdBorrowAmount == 0) {

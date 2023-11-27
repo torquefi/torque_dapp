@@ -15,6 +15,7 @@ import {
   borrowBtcContractInfo,
   borrowEthContractInfo,
 } from '../Borrow/constants/contract'
+import BigNumber from 'bignumber.js'
 
 const HomePageFilter = () => {
   const web3 = new Web3(Web3.givenProvider)
@@ -26,61 +27,21 @@ const HomePageFilter = () => {
   const [yourSupply, setYourSupply] = useState('')
   const [totalBorrow, setTotalBorrow] = useState('')
   const [yourBorrow, setYourBorrow] = useState('')
-
+  const [caculateBorrow, setCaculateBorrow] = useState(0)
+  const [lvt, setLvt] = useState('')
   const [netAPY, setNetAPY] = useState('')
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1000)
   }, [])
 
   const getInfor = async () => {
-    //Boost
-    // const tokenBoostContract = new web3.eth.Contract(
-    //   JSON.parse(boostContract.abi),
-    //   boostContract.address
-    // )
-    // let boostEth = await tokenBoostContract.methods
-    //   .totalStack(ethContract.address)
-    //   .call({
-    //     from: address,
-    //   })
-    // let boostUsd = await tokenBoostContract.methods
-    //   .totalStack(usgContract.address)
-    //   .call({
-    //     from: address,
-    //   })
-
-    // const idEth = await tokenBoostContract.methods
-    //   .addressToPid(ethContract.address)
-    //   .call({
-    //     from: address,
-    //   })
-    // const idUsd = await tokenBoostContract.methods
-    //   .addressToPid(usgContract.address)
-    //   .call({
-    //     from: address,
-    //   })
-    // let infoUserEth = await tokenBoostContract.methods
-    //   .userInfo(address, idEth)
-    //   .call({
-    //     from: address,
-    //   })
-    // let infoUserUsd = await tokenBoostContract.methods
-    //   .userInfo(address, idUsd)
-    //   .call({
-    //     from: address,
-    //   })
-
-    // const yourSupplyUser =
-    //   Number(infoUserEth['amount']) + Number(infoUserUsd['amount'])
-    // setYourSupply(web3.utils.fromWei(yourSupplyUser.toString(), 'ether'))
-    // const supply = Number(boostEth) + Number(boostUsd)
-    // setTotalSupply(web3.utils.fromWei(supply.toString(), 'ether'))
-
-    //Borrow
-
     const contractBorrowBTC = new web3.eth.Contract(
       JSON.parse(borrowBtcContractInfo?.abi),
       borrowBtcContractInfo?.address
+    )
+    const contractBorrowETH = new web3.eth.Contract(
+      JSON.parse(borrowEthContractInfo?.abi),
+      borrowEthContractInfo?.address
     )
     if (address && isConnected) {
       let dataBorrowBTC = await contractBorrowBTC.methods
@@ -88,46 +49,97 @@ const HomePageFilter = () => {
         .call({
           from: address,
         })
+      let dataBorrowETH = await contractBorrowETH.methods
+        .borrowInfoMap(address)
+        .call({
+          from: address,
+        })
+      const aprBorrowBTC = await contractBorrowBTC.methods.getApr().call({
+        from: address,
+      })
       const yourSuppliBTC = dataBorrowBTC.supplied
-      const yourBorrowedyBTC = dataBorrowBTC.borrowed
-      const yourBorrowUsd = await contractBorrowBTC.methods
+      const yourBorrowedyBTC = new BigNumber(dataBorrowBTC.borrowed)
+        .div(10 ** 6)
+        .toNumber()
+      const yourSuppliETH = dataBorrowETH.supplied
+      const yourBorrowedyETH = new BigNumber(dataBorrowETH.borrowed)
+        .div(10 ** 6)
+        .toNumber()
+
+      const yourSuppliBTC_USD = await contractBorrowBTC.methods
         .getBorrowable(yourSuppliBTC)
         .call({
           from: address,
         })
-      if (yourBorrowedyBTC > 0) {
-        const yourSuppleUsd = await contractBorrowBTC.methods
-          .getBorrowable(yourBorrowedyBTC)
-          .call({
-            from: address,
-          })
-        setYourSupply(
-          web3.utils.fromWei(Number(yourBorrowUsd * 1.2).toString(), 'ether')
+      const yourSuppliETH_USD = await contractBorrowETH.methods
+        .getBorrowable(yourSuppliETH)
+        .call({
+          from: address,
+        })
+      if (yourBorrowedyBTC > 0 || yourBorrowedyETH > 0) {
+        const yourTotalSupply = web3.utils.fromWei(
+          new BigNumber(yourSuppliBTC_USD).plus(yourSuppliETH_USD).toString(),
+          'ether'
         )
-        setYourBorrow(web3.utils.fromWei(yourBorrowUsd.toString(), 'ether'))
+        const yourTotalBorrow = new BigNumber(yourBorrowedyBTC)
+          .plus(yourBorrowedyETH)
+          .toString()
+        const caculate = new BigNumber(yourTotalBorrow)
+          .div(yourTotalSupply)
+          .multipliedBy(100)
+          .toFixed(2)
+        setCaculateBorrow(Number(caculate))
+        setYourSupply(yourTotalSupply)
+        setYourBorrow(yourTotalBorrow)
       }
-      const aprBorrowBTC = await contractBorrowBTC.methods.getApr().call({
-        from: address,
-      })
+
       if (yourBorrowedyBTC > 0) {
         setNetAPY(web3.utils.fromWei(aprBorrowBTC.toString(), 'ether'))
       }
     }
-    const totalBorrow = await contractBorrowBTC.methods.totalBorrow().call({
+    const totalBorrowBTC = await contractBorrowBTC.methods.totalBorrow().call({
       from: address,
     })
-    const totalSupply = await contractBorrowBTC.methods.totalSupplied().call({
+    const totalBorrowETH = await contractBorrowETH.methods.totalBorrow().call({
       from: address,
     })
-    const totalBorrowUsd = await contractBorrowBTC.methods
-      .getBorrowableUsdc(totalBorrow)
+
+    const totalSupplyBTC = await contractBorrowBTC.methods
+      .totalSupplied()
       .call({
         from: address,
       })
-    setTotalBorrow(web3.utils.fromWei(totalBorrowUsd.toString(), 'ether'))
-    setTotalSupply(
-      web3.utils.fromWei(Number(totalBorrowUsd * 1.2).toString(), 'ether')
+    const totalSuppliBTC_USD = await contractBorrowBTC.methods
+      .getBorrowable(totalSupplyBTC)
+      .call({
+        from: address,
+      })
+    const totalSupplyETH = await contractBorrowETH.methods
+      .totalSupplied()
+      .call({
+        from: address,
+      })
+    const totalSuppliETH_USD = await contractBorrowETH.methods
+      .getBorrowable(totalSupplyETH)
+      .call({
+        from: address,
+      })
+    setTotalBorrow(
+      web3.utils.fromWei(
+        new BigNumber(totalBorrowBTC).plus(totalBorrowETH).toString(),
+        'ether'
+      )
     )
+    setTotalSupply(
+      web3.utils.fromWei(
+        new BigNumber(totalSuppliBTC_USD).plus(totalSuppliETH_USD).toString(),
+        'ether'
+      )
+    )
+    const lvtETH = await contractBorrowETH.methods.getCollateralFactor().call({
+      from: address,
+    })
+    setLvt(web3.utils.fromWei(lvtETH.toString(), 'ether'))
   }
 
   useEffect(() => {
@@ -212,7 +224,7 @@ const HomePageFilter = () => {
             className="font-larken text-[16px]"
             displayType="text"
             thousandSeparator
-            value={0}
+            value={caculateBorrow}
             decimalScale={2}
             fixedDecimalScale
             suffix={'%'}
@@ -224,7 +236,7 @@ const HomePageFilter = () => {
             className="font-larken text-[16px]"
             displayType="text"
             thousandSeparator
-            value={78}
+            value={Number(lvt) * 100}
             decimalScale={2}
             fixedDecimalScale
             suffix={'%'}
@@ -233,7 +245,7 @@ const HomePageFilter = () => {
       </div>
       <div className="h-2 w-full overflow-hidden bg-[#d7d7d7] dark:bg-[#1F1F1F]">
         <div
-          style={{ width: '0%' }}
+          style={{ width: `${caculateBorrow}%` }}
           className="h-full rounded-full bg-gradient-to-r from-[#C38BFF] to-[#AA5BFF] text-center text-white shadow-none"
         ></div>
       </div>
