@@ -1,11 +1,11 @@
 import CurrencySwitch from '@/components/common/CurrencySwitch'
 import { getPriceToken } from '@/components/common/InputCurrencySwitch'
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
-import { VaultChart } from '@/components/common/VaultChart'
 import SkeletonDefault from '@/components/skeleton'
 import { MAX_UINT256 } from '@/constants/utils'
 import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
 import { AppStore } from '@/types/store'
+import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { AutowidthInput } from 'react-autowidth-input'
@@ -19,12 +19,10 @@ import Web3 from 'web3'
 import {
   borrowBtcContractInfo,
   borrowEthContractInfo,
-  engineUsdContractInfo,
   tokenUsdContractInfo,
-  tokenUsdcContractInfo,
 } from '../constants/contract'
 import { IBorrowInfoManage } from '../types'
-import BigNumber from 'bignumber.js'
+import { BorrowItemChart } from './BorrowItemChart'
 
 enum Action {
   Repay = 'Repay',
@@ -94,12 +92,12 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
           from: address,
         })
         const suppliedUSD = await contract.methods
-          .getBorrowable(data.supplied)
+          .getBorrowable(data?.supplied)
           .call({
             from: address,
           })
         const borrowedUSD = await contract.methods
-          .getBorrowable(data.borrowed)
+          .getBorrowable(data?.borrowed)
           .call({
             from: address,
           })
@@ -358,12 +356,12 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         tokenSymbol={''}
         usdDefault
         tokenValue={item?.supplied || item.collateral}
-        className="w-1/4 py-4 -my-4 space-y-1 font-larken"
+        className="font-larken -my-4 w-1/4 space-y-1 py-4"
         decimalScale={2}
         render={(value) => (
           <div>
             <p className="mb-[12px] whitespace-nowrap text-[22px]">
-              {Number(dataUserBorrow.supplied)?.toFixed(2)}
+              {Number(dataUserBorrow?.supplied || 0)?.toFixed(2)}
             </p>
             <p className="font-mona text-[14px] text-[#959595]">Collateral</p>
           </div>
@@ -373,12 +371,12 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         tokenSymbol={'USD'}
         tokenValue={item?.borrowed || item.borrowed}
         usdDefault
-        className="w-1/4 py-4 -my-4 space-y-1 font-larken"
+        className="font-larken -my-4 w-1/4 space-y-1 py-4"
         decimalScale={2}
         render={(value) => (
           <div>
             <p className="mb-[12px] text-[22px] leading-none">
-              {Number(dataUserBorrow.borrowed)?.toFixed(2)}
+              {Number(dataUserBorrow?.borrowed || 0)?.toFixed(2)}
             </p>
             <p className="font-mona text-[14px] text-[#959595]">Borrowed</p>
           </div>
@@ -501,11 +499,22 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
               ]}
             /> */}
               {/* <img src="/assets/pages/boost/chart.svg" alt="" /> */}
-              <VaultChart
+              <BorrowItemChart
+                label="Borrow Apr"
+                tokenAddress={item?.borrowContractInfo.address}
+                tokenDecimals={item?.depositTokenDecimal}
+                tokenPrice={
+                  item?.depositTokenSymbol === 'WBTC'
+                    ? price['btc']
+                    : price['eth']
+                }
+                aprPercent={borrowAPR}
+              />
+              {/* <VaultChart
                 label="Borrow Apr"
                 percent={borrowAPR}
                 value={49510000}
-              />
+              /> */}
             </div>
             <div className="w-full space-y-6 md:w-[60%] md:pl-[36px] lg:w-[50%] xl:w-[45%]">
               <div className="flex items-center justify-between">
