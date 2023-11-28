@@ -125,7 +125,7 @@ export function ManageBoostVault() {
 
 const DATA_BOOST_VAULT: IBoostInfo[] = [
   {
-    tokenSymbol: 'ETH',
+    tokenSymbol: 'WETH',
     tokenDecimals: 18,
     defaultLabel: 'Vault #1',
     labelKey: 'name_boost_vault_1',
@@ -136,7 +136,7 @@ const DATA_BOOST_VAULT: IBoostInfo[] = [
     boostContractInfo: boostContract,
   },
   {
-    tokenSymbol: 'USG',
+    tokenSymbol: 'TUSD',
     tokenDecimals: 9,
     defaultLabel: 'Vault #2',
     labelKey: 'name_boost_vault_2',

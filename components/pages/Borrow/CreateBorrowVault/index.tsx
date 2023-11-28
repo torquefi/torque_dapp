@@ -166,8 +166,8 @@ export default function CreateBorrowVault() {
 
 const BORROW_INFOS: IBorrowInfo[] = [
   {
-    depositTokenIcon: '/icons/coin/btc.png',
-    depositTokenSymbol: 'BTC',
+    depositTokenIcon: '/icons/coin/wbtc.png',
+    depositTokenSymbol: 'WBTC',
     depositTokenDecimal: 8,
     borrowTokenSymbol: 'TUSD',
     borrowTokenDecimal: 6,
@@ -179,8 +179,8 @@ const BORROW_INFOS: IBorrowInfo[] = [
     tokenContractInfo: tokenBtcContractInfo,
   },
   {
-    depositTokenIcon: '/icons/coin/eth.png',
-    depositTokenSymbol: 'ETH',
+    depositTokenIcon: '/icons/coin/weth.png',
+    depositTokenSymbol: 'WETH',
     depositTokenDecimal: 18,
     borrowTokenSymbol: 'TUSD',
     borrowTokenDecimal: 6,
