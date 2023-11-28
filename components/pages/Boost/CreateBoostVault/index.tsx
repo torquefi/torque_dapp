@@ -87,8 +87,7 @@ const BOOST_VAULTS = [
     boostContractInfo: boostContract,
   },
   {
-    // token: 'USG',
-    token: 'USD',
+    token: 'TUSD',
     bonus_TORQ: 0,
     deposit: 0,
     threeYearValue: 0,
