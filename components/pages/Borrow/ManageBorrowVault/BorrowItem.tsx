@@ -358,7 +358,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         tokenSymbol={''}
         usdDefault
         tokenValue={item?.supplied || item.collateral}
-        className="font-larken -my-4 w-1/4 space-y-1 py-4"
+        className="w-1/4 py-4 -my-4 space-y-1 font-larken"
         decimalScale={2}
         render={(value) => (
           <div>
@@ -373,7 +373,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         tokenSymbol={'USD'}
         tokenValue={item?.borrowed || item.borrowed}
         usdDefault
-        className="font-larken -my-4 w-1/4 space-y-1 py-4"
+        className="w-1/4 py-4 -my-4 space-y-1 font-larken"
         decimalScale={2}
         render={(value) => (
           <div>
