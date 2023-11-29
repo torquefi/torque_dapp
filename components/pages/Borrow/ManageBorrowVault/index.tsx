@@ -123,8 +123,8 @@ export default function ManageBorrowVault() {
     handleUpdateStakeData()
   }, [isConnected, address])
 
-  const borrowDisplayed = dataBorrow
-  // const borrowDisplayed = dataBorrow.filter((item) => item?.borrowed > 0)
+  // const borrowDisplayed = dataBorrow
+  const borrowDisplayed = dataBorrow.filter((item) => item?.borrowed > 0)
 
   if (!borrowDisplayed?.length) {
     return (

@@ -46,7 +46,9 @@ export const BorrowItemChart: FC<BorrowItemChartProps> = (props) => {
             />
           </div>
           <div className="text-14 text-[#BCBBCA]">
-            {new Date(label).toISOString().substring(0, 10)}
+            {new Date(payload?.[1]?.payload?.time)
+              .toISOString()
+              .substring(0, 10)}
           </div>
         </div>
       )
