@@ -108,7 +108,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         setLvt(web3.utils.fromWei(lvt.toString(), 'ether'))
         setDataUserBorrow({
           supplied: web3.utils.fromWei(suppliedUSD.toString(), 'ether'),
-          borrowed: web3.utils.fromWei(borrowedUSD.toString(), 'ether'),
+          borrowed: new BigNumber(data?.borrowed).div(10 ** 6).toNumber(),
         })
         setContractBorrow(contract)
       }
@@ -354,14 +354,13 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
     <div className="flex w-full text-center md:w-[400px] lg:w-[500px] xl:w-[600px]">
       <CurrencySwitch
         tokenSymbol={''}
-        usdDefault
         tokenValue={item?.supplied || item.collateral}
         className="font-larken -my-4 w-1/4 space-y-1 py-4"
         decimalScale={2}
         render={(value) => (
           <div>
             <p className="mb-[12px] whitespace-nowrap text-[22px]">
-              {Number(dataUserBorrow?.supplied || 0)?.toFixed(2)}
+              ${Number(dataUserBorrow?.supplied || 0)?.toFixed(2)}
             </p>
             <p className="font-mona text-[14px] text-[#959595]">Collateral</p>
           </div>
@@ -376,7 +375,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         render={(value) => (
           <div>
             <p className="mb-[12px] text-[22px] leading-none">
-              {Number(dataUserBorrow?.borrowed || 0)?.toFixed(2)}
+              ${Number(dataUserBorrow?.borrowed || 0)?.toFixed(2)}
             </p>
             <p className="font-mona text-[14px] text-[#959595]">Borrowed</p>
           </div>
