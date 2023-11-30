@@ -163,7 +163,7 @@ export const BorrowItemChart: FC<BorrowItemChartProps> = (props) => {
               {chartData.map((entry, index) => (
                 <Cell
                   key={`cell-${index}`}
-                  fill={index === chartData?.length - 1 ? '#AA5BFF' : '#1c1c1c'}
+                  fill={index === chartData?.length - 1 ? '#AA5BFF' : '#959595'}
                 />
               ))}
             </Bar>
