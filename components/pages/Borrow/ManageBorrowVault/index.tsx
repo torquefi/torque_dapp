@@ -153,7 +153,7 @@ export default function ManageBorrowVault() {
 
 const DATA_BORROW: IBorrowInfoManage[] = [
   {
-    depositTokenSymbol: 'WBTC',
+    depositTokenSymbol: 'BTC',
     depositTokenDecimal: 8,
     borrowTokenSymbol: 'TUSD',
     borrowTokenDecimal: 6,
@@ -169,7 +169,7 @@ const DATA_BORROW: IBorrowInfoManage[] = [
     tokenContractInfo: tokenBtcContractInfo,
   },
   {
-    depositTokenSymbol: 'WETH',
+    depositTokenSymbol: 'ETH',
     depositTokenDecimal: 18,
     borrowTokenSymbol: 'TUSD',
     borrowTokenDecimal: 6,
