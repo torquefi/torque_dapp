@@ -38,7 +38,7 @@ export default function Footer() {
         }
       />
       <footer className="flex w-[1280px] sm:text-[13px] xs:text-[12px] max-w-[1280px] justify-between px-4 py-3 text-[#959595] sm:px-8">
-        <Link href="https://meticulous.fi/" className="transition-colors duration-100 ease-linear cursor-pointer dark:hover:text-white hover:text-gray-500" target="_blank">
+        <Link href="https://bit.ly/mLitepaper" className="transition-colors duration-100 ease-linear cursor-pointer dark:hover:text-white hover:text-gray-500" target="_blank">
           © 2023 Meticulous
         </Link>
         <div className="flex space-x-8 sm:text-[13px] xs:text-[12px]">
