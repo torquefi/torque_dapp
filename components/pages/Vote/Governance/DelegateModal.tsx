@@ -9,7 +9,7 @@ export const DelegateModal = (props: any) => {
       <Modal
         open={openModal}
         handleClose={handleClose}
-        className="mx-auto w-full max-w-[600px] px-[32px]"
+        className="mx-auto w-full max-w-[320px] px-[32px]"
         hideCloseIcon
       >
         <div className="flex items-center justify-between py-3">
@@ -36,7 +36,7 @@ export const DelegateModal = (props: any) => {
             <p>0.00 TORQ</p>
           </div>
           <div className="mt-[29px] flex justify-between font-[500] leading-[20px] text-[#959595]">
-            <p>WDelegate power</p>
+            <p>Delegate power</p>
             <p>0.00 TORQ</p>
           </div>
           <div className="mt-[29px] flex justify-between font-[500] leading-[20px] text-[#959595]">
