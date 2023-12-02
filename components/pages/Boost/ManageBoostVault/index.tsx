@@ -125,7 +125,7 @@ export function ManageBoostVault() {
 
 const DATA_BOOST_VAULT: IBoostInfo[] = [
   {
-    tokenSymbol: 'WETH',
+    tokenSymbol: 'AETH',
     tokenDecimals: 18,
     defaultLabel: 'Vault #1',
     labelKey: 'name_boost_vault_1',

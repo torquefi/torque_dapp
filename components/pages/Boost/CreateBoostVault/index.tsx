@@ -69,7 +69,7 @@ export function CreateBoostVault() {
 
 const BOOST_VAULTS = [
   {
-    token: 'WETH',
+    token: 'AETH',
     bonus_TORQ: 0,
     deposit: 0,
     threeYearValue: 0,
