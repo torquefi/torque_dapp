@@ -142,7 +142,7 @@ export default function CreateBorrowVault() {
     try {
       const newDataBorrow = await Promise.all(dataBorrow?.map(getBorrowData))
       setDataBorrow(newDataBorrow)
-    } catch (error) {}
+    } catch (error) { }
   }
 
   useEffect(() => {
@@ -167,9 +167,9 @@ export default function CreateBorrowVault() {
 const BORROW_INFOS: IBorrowInfo[] = [
   {
     depositTokenIcon: '/icons/coin/wbtc.png',
-    depositTokenSymbol: 'BTC',
+    depositTokenSymbol: 'WBTC',
     depositTokenDecimal: 8,
-    borrowTokenSymbol: 'USD',
+    borrowTokenSymbol: 'TUSD',
     borrowTokenDecimal: 6,
     liquidity: 0,
     loanToValue: 0,
@@ -182,7 +182,7 @@ const BORROW_INFOS: IBorrowInfo[] = [
     depositTokenIcon: '/icons/coin/weth.png',
     depositTokenSymbol: 'ETH',
     depositTokenDecimal: 18,
-    borrowTokenSymbol: 'USD',
+    borrowTokenSymbol: 'TUSD',
     borrowTokenDecimal: 6,
     liquidity: 0,
     loanToValue: 0,

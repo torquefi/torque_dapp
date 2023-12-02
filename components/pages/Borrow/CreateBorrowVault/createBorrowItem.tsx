@@ -221,11 +221,11 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
 
     try {
       if (amount <= 0) {
-        toast.error('You must deposit BTC to borrow')
+        toast.error('You must deposit WBTC to borrow')
         return
       }
       if (amountReceive < 0) {
-        toast.error('Can not borrow less than 0 USD')
+        toast.error('Can not borrow less than 0 TUSD')
         return
       }
       setButtonLoading('APPROVING...')
@@ -430,10 +430,10 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
                 Math.round(
                   (Number(
                     amount *
-                      price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]
+                    price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]
                   ) *
                     65) /
-                    100
+                  100
                 )
               )}
               usdDefault
@@ -489,15 +489,14 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
           </p>
         </div>
         <button
-          className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${
-            buttonLoading && 'cursor-not-allowed opacity-50'
-          }`}
+          className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
+            }`}
           disabled={buttonLoading != ''}
           onClick={() => {
             if (
               amountReceive /
-                (amount *
-                  price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]) >
+              (amount *
+                price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]) >
               Number(lvt)
             ) {
               toast.error(`Loan-to-value exceeds ${Number(lvt) * 100}%`)
@@ -527,7 +526,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
         coinTo={{
           amount: amountReceive,
           icon: `/icons/coin/${item.borrowTokenSymbol.toLocaleLowerCase()}.png`,
-          symbol: 't' + item.borrowTokenSymbol,
+          symbol: item.borrowTokenSymbol,
         }}
         details={[
           {
