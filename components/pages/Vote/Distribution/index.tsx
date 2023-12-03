@@ -32,7 +32,7 @@ export const Distribution = () => {
           Distribution
         </h1>
         <p className="mx-auto w-full max-w-[300px] font-[500] leading-[24px] text-[#959595]">
-          Earn TORQ, the governance token of Torque & USD, by providing
+          Earn TORQ, the governance token of Torque & TUSD, by providing
           liquidity.
         </p>
       </div>
