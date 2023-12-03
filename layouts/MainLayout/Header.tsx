@@ -142,13 +142,13 @@ export const Header = () => {
         <div className="container relative mx-auto flex h-[72px] max-w-screen-xl items-center justify-between px-4 lg:px-8">
           <Link href="/" className="flex items-center">
             <img
-              className="h-[32px] sm:h-[32px]"
-              src="/assets/logo.png"
+              className="h-[42px] sm:h-[42px] mb-1"
+              src="/assets/logo-christmas.png"
               alt=""
             />
             <h2
               style={{ fontFamily: 'Larken-Bold' }}
-              className="font-larken ml-[16px] text-[24px] font-bold text-[#404040] dark:text-white"
+              className="font-larken ml-[14px] text-[24px] font-bold text-[#404040] dark:text-white"
             >
               Torque
             </h2>
@@ -213,7 +213,7 @@ export const Header = () => {
               </div>
             )}
           </div>
-          <div className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 md:block">
+          <div className="absolute hidden -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 md:block">
             <HoverIndicator
               activeIndex={activeTabIndex}
               className="w-[320px] lg:w-[400px] xl:w-[480px]"
