@@ -5,7 +5,7 @@ export const VotingPower = () => {
   const [openDelegateModal, setOpenDelegateModal] = useState(false)
   return (
     <>
-      <div className="mt-[24px] w-full rounded-[12px] border-[1px] border-solid border-[#1a1a1a] bg-[#0d0d0d] px-[38px] pt-[15px] pb-[24px] sm:ml-0 md:ml-[16px] md:mt-0 md:max-w-[40%]">
+      <div className="ml-4 h-full dark:text-white space-y-4 rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-[16px] py-[24px] w-full max-w-[40%] text-[#404040] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white xl:px-[32px]">
         <div className="flex items-center justify-between">
           <h2 className="font-larken text-[24px] font-[400] leading-[40px]">Vote Power</h2>
           <button>
@@ -13,18 +13,18 @@ export const VotingPower = () => {
           </button>
         </div>
         <div className="gradient-border mt-2 hidden h-[1px] w-full md:block"></div>
-        <div className="grid h-auto w-full  grid-cols-2 gap-2 overflow-y-auto py-[18px]">
+        <div className="grid w-full h-auto grid-cols-2 gap-4 py-2 overflow-y-auto">
           <div className="bg-claim-reward flex h-[102px] flex-col items-center justify-center rounded-[8px] border-[1px] border-[#1A1A1A]">
-            <div className="font-larken text-[24px] text-[#404040] dark:text-white">
+            <div className="mt-1 font-larken text-[24px] text-[#404040] dark:text-white">
               0.00
             </div>
-            <div className="mt-2 text-[15px] text-[#959595]">Your Power</div>
+            <div className="mt-1 text-[15px] text-[#959595]">Your Power</div>
           </div>
           <div className="bg-claim-reward flex h-[102px] flex-col items-center justify-center rounded-[8px] border-[1px] border-[#1A1A1A]">
-            <div className="font-larken text-[24px] text-[#404040] dark:text-white">
+            <div className="mt-1 font-larken text-[24px] text-[#404040] dark:text-white">
               $0.00
             </div>
-            <div className="mt-2 text-[15px] text-[#959595]">Your Value</div>
+            <div className="mt-1 text-[15px] text-[#959595]">Your Value</div>
           </div>
         </div>
         <button
