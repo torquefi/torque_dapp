@@ -66,8 +66,8 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
 
   const getPrice = async () => {
     setPrice({
-      eth: (await getPriceToken('ETH')) || 1800,
-      btc: (await getPriceToken('BTC')) || 28000,
+      aeth: (await getPriceToken('ETH')) || 1800,
+      wbtc: (await getPriceToken('BTC')) || 28000,
     })
   }
 
@@ -76,10 +76,10 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       let contractBorrowABI
       let contractBorrowAddress
 
-      if (item.depositTokenSymbol === 'BTC') {
+      if (item.depositTokenSymbol === 'WBTC') {
         contractBorrowABI = borrowBtcContractInfo.abi
         contractBorrowAddress = borrowBtcContractInfo.address
-      } else if (item.depositTokenSymbol === 'ETH') {
+      } else if (item.depositTokenSymbol === 'AETH') {
         contractBorrowABI = borrowEthContractInfo.abi
         contractBorrowAddress = borrowEthContractInfo.address
       }
