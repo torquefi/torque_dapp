@@ -47,8 +47,8 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
   const [buttonLoading, setButtonLoading] = useState('')
 
   const [price, setPrice] = useState<any>({
-    eth: 1800,
-    btc: 28000,
+    aeth: 1800,
+    wbtc: 28000,
   })
   const { address, isConnected } = useAccount()
   const { Moralis } = useMoralis()
@@ -63,8 +63,8 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
   const [lvt, setLvt] = useState('')
   const getPrice = async () => {
     setPrice({
-      eth: (await getPriceToken('ETH')) || 1800,
-      btc: (await getPriceToken('BTC')) || 28000,
+      aeth: (await getPriceToken('ETH')) || 1800,
+      wbtc: (await getPriceToken('BTC')) || 28000,
       USD: (await getPriceToken('USD')) || 1,
     })
   }
@@ -80,7 +80,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
         JSON.parse(borrowBtcContractInfo?.abi),
         borrowBtcContractInfo?.address
       )
-      if (contractBorrowETH && item.depositTokenSymbol === 'ETH') {
+      if (contractBorrowETH && item.depositTokenSymbol === 'AETH') {
         const aprBorrowETH = await contractBorrowETH.methods.getApr().call({
           from: address,
         })
@@ -94,7 +94,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
         setContractBorrowETH(contractBorrowETH)
       }
 
-      if (contractBorrowBTC && item.depositTokenSymbol === 'BTC') {
+      if (contractBorrowBTC && item.depositTokenSymbol === 'WBTC') {
         const aprBorrowBTC = await contractBorrowBTC.methods.getApr().call({
           from: address,
         })
@@ -131,7 +131,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
   const getAllowance = async () => {
     try {
       if (
-        item.depositTokenSymbol === 'BTC' &&
+        item.depositTokenSymbol === 'WBTC' &&
         contractBTC &&
         contractBorrowBTC &&
         address
@@ -143,7 +143,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
           })
         setAllowance(allowance / 10 ** dataBorrow.depositTokenDecimal || 0)
       } else if (
-        item.depositTokenSymbol === 'ETH' &&
+        item.depositTokenSymbol === 'AETH' &&
         contractETH &&
         contractBorrowETH &&
         address
@@ -229,7 +229,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
         return
       }
       setButtonLoading('APPROVING...')
-      if (!isApproved && item.depositTokenSymbol == 'BTC') {
+      if (!isApproved && item.depositTokenSymbol == 'WBTC') {
         const borrowAmount = Number(
           new BigNumber(amount)
             .multipliedBy(10 ** item.depositTokenDecimal)
@@ -257,7 +257,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
       // }
       setButtonLoading('BORROWING...')
 
-      if (item.depositTokenSymbol == 'BTC') {
+      if (item.depositTokenSymbol == 'WBTC') {
         const borrow = Number(
           new BigNumber(amount)
             .multipliedBy(10 ** item.borrowTokenDecimal)
@@ -284,7 +284,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
           .send({
             from: address,
           })
-      } else if (item.depositTokenSymbol === 'ETH') {
+      } else if (item.depositTokenSymbol === 'AETH') {
         const borrow = Number(
           new BigNumber(amount)
             .multipliedBy(10 ** item.borrowTokenDecimal)
