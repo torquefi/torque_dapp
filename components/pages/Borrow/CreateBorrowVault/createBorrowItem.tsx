@@ -260,7 +260,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
       if (item.depositTokenSymbol == 'BTC') {
         const borrow = Number(
           new BigNumber(amount)
-            .multipliedBy(10 ** item.depositTokenDecimal)
+            .multipliedBy(10 ** item.borrowTokenDecimal)
             .toString()
         ).toFixed(0)
         const borrowAmount = Number(
@@ -268,12 +268,8 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
             .multipliedBy(10 ** item.borrowTokenDecimal)
             .toString()
         )
-        // const usdBorrowAmount = await getMintable(
-        //   borrow,
-        //   tokenBtcContractInfo.address
-        // )
         const usdBorrowAmount = await contractBorrowBTC.methods
-          .getBorrowableUsdc(borrow)
+          .getBorrowable(borrow)
           .call()
         if (usdBorrowAmount == 0) {
           toast.error('Borrow failed. Please try again')
@@ -288,10 +284,10 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
           .send({
             from: address,
           })
-      } else if (item.depositTokenSymbol == 'ETH') {
+      } else if (item.depositTokenSymbol === 'ETH') {
         const borrow = Number(
           new BigNumber(amount)
-            .multipliedBy(10 ** item.depositTokenDecimal)
+            .multipliedBy(10 ** item.borrowTokenDecimal)
             .toString()
         ).toFixed(0)
         const borrowAmount = Number(
@@ -300,7 +296,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
             .toString()
         )
         const usdBorrowAmount = await contractBorrowETH.methods
-          .getBorrowableUsdc(borrow)
+          .getBorrowable(borrow)
           .call()
         if (usdBorrowAmount == 0) {
           toast.error('Borrow failed. Please try again')
@@ -430,10 +426,10 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
                 Math.round(
                   (Number(
                     amount *
-                    price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]
+                      price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]
                   ) *
                     65) /
-                  100
+                    100
                 )
               )}
               usdDefault
@@ -489,14 +485,15 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
           </p>
         </div>
         <button
-          className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
-            }`}
+          className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${
+            buttonLoading && 'cursor-not-allowed opacity-50'
+          }`}
           disabled={buttonLoading != ''}
           onClick={() => {
             if (
               amountReceive /
-              (amount *
-                price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]) >
+                (amount *
+                  price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]) >
               Number(lvt)
             ) {
               toast.error(`Loan-to-value exceeds ${Number(lvt) * 100}%`)
