@@ -428,12 +428,14 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
               tokenSymbol={'USD'}
               tokenValue={Number(amountReceive)}
               tokenValueChange={Number(
-                (Number(
-                  amount *
-                    price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]
-                ) *
-                  50) /
-                  100
+                Math.round(
+                  (Number(
+                    amount *
+                      price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]
+                  ) *
+                    50) /
+                    100
+                )
               )}
               usdDefault
               decimalScale={2}
