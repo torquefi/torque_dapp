@@ -44,8 +44,8 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
   const [buttonLoading, setButtonLoading] = useState('')
   const [dataUserBorrow, setDataUserBorrow] = useState<any>()
   const [price, setPrice] = useState<any>({
-    eth: 1800,
-    btc: 28000,
+    aeth: 1800,
+    wbtc: 28000,
   })
   const [label, setLabel] = useState(item?.label)
   const [isEdit, setEdit] = useState(false)
@@ -66,8 +66,8 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
 
   const getPrice = async () => {
     setPrice({
-      aeth: (await getPriceToken('ETH')) || 1800,
-      wbtc: (await getPriceToken('BTC')) || 28000,
+      aeth: await getPriceToken('ETH'),
+      wbtc: await getPriceToken('BTC'),
     })
   }
 
@@ -312,8 +312,8 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
   }, [item?.tokenContract, item?.borrowContract, inputValue])
 
   useEffect(() => {
-    setTimeout(() => setIsLoading(false), 1000)
     getPrice()
+    setTimeout(() => setIsLoading(false), 1000)
   }, [])
 
   useEffect(() => {

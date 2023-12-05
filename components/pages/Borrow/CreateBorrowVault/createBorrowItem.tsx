@@ -47,11 +47,11 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
   const [buttonLoading, setButtonLoading] = useState('')
 
   const [price, setPrice] = useState<any>({
-    aeth: 1800,
-    wbtc: 28000,
+    aeth: 0,
+    wbtc: 0,
+    usd: 1,
   })
   const { address, isConnected } = useAccount()
-  const { Moralis } = useMoralis()
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
   const [isOpenConfirmDepositModal, setOpenConfirmDepositModal] =
     useState(false)
@@ -63,11 +63,23 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
   const [lvt, setLvt] = useState('')
   const getPrice = async () => {
     setPrice({
-      aeth: (await getPriceToken('ETH')) || 1800,
-      wbtc: (await getPriceToken('BTC')) || 28000,
+      aeth: await getPriceToken('ETH'),
+      wbtc: await getPriceToken('BTC'),
       USD: (await getPriceToken('USD')) || 1,
     })
   }
+  useEffect(() => {
+    ;(async () => {
+      const ethPrice = await getPriceToken('ETH')
+      const btcPrice = await getPriceToken('BTC')
+      setPrice({
+        aeth: ethPrice,
+        wbtc: btcPrice,
+        usd: 1,
+      })
+    })()
+    setTimeout(() => setIsLoading(false), 1000)
+  }, [])
 
   const initContract = async () => {
     try {
@@ -217,8 +229,6 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
   }
 
   const onBorrow = async () => {
-    console.log(amount)
-
     try {
       if (amount <= 0) {
         toast.error('You must deposit WBTC to borrow')
@@ -327,11 +337,6 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
   }, [dataBorrow, item?.tokenContract, item?.borrowContract, address])
 
   useEffect(() => {
-    setTimeout(() => setIsLoading(false), 1000)
-    getPrice()
-  }, [])
-
-  useEffect(() => {
     initContract()
   }, [])
 
@@ -423,14 +428,12 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
               tokenSymbol={'USD'}
               tokenValue={Number(amountReceive)}
               tokenValueChange={Number(
-                Math.round(
-                  (Number(
-                    amount *
-                      price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]
-                  ) *
-                    65) /
-                    100
-                )
+                (Number(
+                  amount *
+                    price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]
+                ) *
+                  50) /
+                  100
               )}
               usdDefault
               decimalScale={2}
