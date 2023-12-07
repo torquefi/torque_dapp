@@ -507,7 +507,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                     ? price['btc']
                     : price['eth']
                 }
-                aprPercent={borrowAPR}
+                aprPercent={-borrowAPR}
               />
               {/* <VaultChart
                 label="Borrow Apr"

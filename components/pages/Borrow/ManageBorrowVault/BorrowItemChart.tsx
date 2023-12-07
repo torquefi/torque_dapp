@@ -8,7 +8,6 @@ import { FC, useEffect, useRef, useState } from 'react'
 import { NumericFormat } from 'react-number-format'
 import {
   Bar,
-  Cell,
   ComposedChart,
   LabelList,
   Line,
@@ -25,7 +24,13 @@ interface BorrowItemChartProps {
 }
 
 export const BorrowItemChart: FC<BorrowItemChartProps> = (props) => {
-  const { label, tokenAddress, tokenPrice, tokenDecimals, aprPercent } = props
+  const {
+    label,
+    tokenAddress,
+    tokenPrice = 1,
+    tokenDecimals,
+    aprPercent,
+  } = props
   const [loading, setLoading] = useState(true)
   const [chartData, setChartData] = useState<any[]>([])
   const chartContainerRef = useRef<HTMLDivElement>(null)
@@ -36,15 +41,15 @@ export const BorrowItemChart: FC<BorrowItemChartProps> = (props) => {
     if (active && payload && payload.length) {
       return (
         <div className="z-10 rounded border-2 border-[#1C1C1C] bg-[#0E0E0E] px-4 py-2 text-left">
-          <div className="text-24 font-semibold text-[#AA5BFF] ">
-            <NumericFormat
-              displayType="text"
-              value={+payload?.[1]?.payload?.value || 0}
-              thousandSeparator
-              decimalScale={5}
-              prefix="$"
-            />
-          </div>
+          <NumericFormat
+            className="text-[20px] font-semibold text-[#AA5BFF]"
+            displayType="text"
+            value={+payload?.[1]?.payload?.value || 0}
+            thousandSeparator
+            decimalScale={5}
+            prefix="$"
+            fixedDecimalScale
+          />
           <div className="text-14 text-[#BCBBCA]">
             {new Date(payload?.[1]?.payload?.time)
               .toISOString()
@@ -133,14 +138,15 @@ export const BorrowItemChart: FC<BorrowItemChartProps> = (props) => {
   return (
     <>
       <div id="home-chart-wrapper" ref={chartContainerRef} className="relative">
-        <div className="text-center font-body text-[10px] font-extrabold">
+        <div className="text-center font-body font-extrabold">
           <NumericFormat
             displayType="text"
+            className="text-[14px]"
             value={+aprPercent}
             decimalScale={2}
             suffix="%"
           />
-          <p className="uppercase text-[#959595]">{label}</p>
+          <p className="text-[10px] uppercase text-[#959595]">{label}</p>
         </div>
         <ResponsiveContainer width="100%" height={180}>
           <ComposedChart data={chartData}>
@@ -160,12 +166,12 @@ export const BorrowItemChart: FC<BorrowItemChartProps> = (props) => {
                 position="top"
                 content={renderCustomizedLabel}
               />
-              {chartData.map((entry, index) => (
+              {/* {chartData.map((entry, index) => (
                 <Cell
                   key={`cell-${index}`}
                   fill={index === chartData?.length - 1 ? '#AA5BFF' : '#959595'}
                 />
-              ))}
+              ))} */}
             </Bar>
           </ComposedChart>
         </ResponsiveContainer>
