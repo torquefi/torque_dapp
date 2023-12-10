@@ -205,7 +205,7 @@
       { "internalType": "uint256", "name": "borrowAmount", "type": "uint256" },
       {
         "internalType": "uint256",
-        "name": "usdBorrowAmount",
+        "name": "tusdBorrowAmount",
         "type": "uint256"
       }
     ],
@@ -325,7 +325,8 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "supplyAmount", "type": "uint256" }
+      { "internalType": "uint256", "name": "supplyAmount", "type": "uint256" },
+      { "internalType": "address", "name": "_user", "type": "address" }
     ],
     "name": "getBorrowable",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
@@ -368,13 +369,22 @@
   },
   {
     "inputs": [
+      { "internalType": "address", "name": "_user", "type": "address" }
+    ],
+    "name": "getUserBorrowable",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
       { "internalType": "address", "name": "_comet", "type": "address" },
       { "internalType": "address", "name": "_cometReward", "type": "address" },
       { "internalType": "address", "name": "_asset", "type": "address" },
       { "internalType": "address", "name": "_baseAsset", "type": "address" },
       { "internalType": "address", "name": "_bulker", "type": "address" },
       { "internalType": "address", "name": "_engine", "type": "address" },
-      { "internalType": "address", "name": "_usd", "type": "address" },
+      { "internalType": "address", "name": "_tusd", "type": "address" },
       { "internalType": "address", "name": "_treasury", "type": "address" },
       { "internalType": "address", "name": "_rewardUtil", "type": "address" },
       { "internalType": "address", "name": "_rewardToken", "type": "address" }
@@ -414,7 +424,11 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "usdRepayAmount", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "tusdRepayAmount",
+        "type": "uint256"
+      }
     ],
     "name": "repay",
     "outputs": [],
@@ -481,9 +495,27 @@
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "_usd", "type": "address" }
+      { "internalType": "uint256", "name": "_totalBorrow", "type": "uint256" }
     ],
-    "name": "setUsd",
+    "name": "setTotalBorrow",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_totalSupplied", "type": "uint256" }
+    ],
+    "name": "setTotalSupplied",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_tusd", "type": "address" }
+    ],
+    "name": "setTusd",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -492,7 +524,7 @@
     "inputs": [
       { "internalType": "address", "name": "_newEngine", "type": "address" }
     ],
-    "name": "setUsdEngine",
+    "name": "setTusdEngine",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
