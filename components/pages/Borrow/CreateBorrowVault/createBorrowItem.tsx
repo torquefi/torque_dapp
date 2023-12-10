@@ -270,16 +270,19 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
       if (item.depositTokenSymbol == 'WBTC') {
         const borrow = Number(
           new BigNumber(amount)
-            .multipliedBy(10 ** item.depositTokenDecimal)
+            .multipliedBy(10 ** item.borrowTokenDecimal)
             .toString()
         ).toFixed(0)
         const borrowAmount = Number(
           new BigNumber(amountReceive)
-            .multipliedBy(10 ** item.depositTokenDecimal)
+            .multipliedBy(10 ** item.borrowTokenDecimal)
             .toString()
         )
+        const udcBorrowAmount = await contractBorrowBTC.methods
+          .getBorrowableUsdc(borrow)
+          .call()
         const usdBorrowAmount = await contractBorrowBTC.methods
-          .getBorrowable(borrow)
+          .getBorrowable(borrow, address)
           .call()
         if (usdBorrowAmount == 0) {
           toast.error('Borrow failed. Please try again')
@@ -288,8 +291,8 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
         await contractBorrowBTC.methods
           .borrow(
             borrow,
-            borrowAmount.toString(),
-            usdBorrowAmount.toString() || 0
+            udcBorrowAmount.toString(),
+            (Number(usdBorrowAmount) * 0.98).toString() || 0
           )
           .send({
             from: address,
