@@ -67,12 +67,12 @@ const HomePageFilter = () => {
         .toNumber()
 
       const yourSuppliBTC_USD = await contractBorrowBTC.methods
-        .getBorrowable(yourSuppliBTC)
+        .getBorrowable(yourSuppliBTC, address)
         .call({
           from: address,
         })
       const yourSuppliETH_USD = await contractBorrowETH.methods
-        .getBorrowable(yourSuppliETH)
+        .getBorrowable(yourSuppliETH, address)
         .call({
           from: address,
         })
@@ -110,7 +110,7 @@ const HomePageFilter = () => {
         from: address,
       })
     const totalSuppliBTC_USD = await contractBorrowBTC.methods
-      .getBorrowable(totalSupplyBTC)
+      .getBorrowable(totalSupplyBTC, address)
       .call({
         from: address,
       })
@@ -120,7 +120,7 @@ const HomePageFilter = () => {
         from: address,
       })
     const totalSuppliETH_USD = await contractBorrowETH.methods
-      .getBorrowable(totalSupplyETH)
+      .getBorrowable(totalSupplyETH, address)
       .call({
         from: address,
       })
