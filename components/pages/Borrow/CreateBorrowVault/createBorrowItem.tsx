@@ -270,12 +270,12 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
       if (item.depositTokenSymbol == 'WBTC') {
         const borrow = Number(
           new BigNumber(amount)
-            .multipliedBy(10 ** item.borrowTokenDecimal)
+            .multipliedBy(10 ** item.depositTokenDecimal)
             .toString()
         ).toFixed(0)
         const borrowAmount = Number(
           new BigNumber(amountReceive)
-            .multipliedBy(10 ** item.borrowTokenDecimal)
+            .multipliedBy(10 ** item.depositTokenDecimal)
             .toString()
         )
         const usdBorrowAmount = await contractBorrowBTC.methods
@@ -297,23 +297,33 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
       } else if (item.depositTokenSymbol === 'AETH') {
         const borrow = Number(
           new BigNumber(amount)
-            .multipliedBy(10 ** item.borrowTokenDecimal)
+            .multipliedBy(10 ** item.depositTokenDecimal)
             .toString()
         ).toFixed(0)
         const borrowAmount = Number(
           new BigNumber(amountReceive)
-            .multipliedBy(10 ** item.borrowTokenDecimal)
+            .multipliedBy(10 ** item.depositTokenDecimal)
             .toString()
         )
-        const usdBorrowAmount = await contractBorrowETH.methods
-          .getBorrowable(borrow)
+        console.log('borrowAmount', borrowAmount)
+
+        const udcBorrowAmount = await contractBorrowETH.methods
+          .getBorrowableUsdc(borrow)
           .call()
+        const usdBorrowAmount = await contractBorrowETH.methods
+          .getBorrowable(borrow, address)
+          .call()
+        console.log('usdBorrowAmount', usdBorrowAmount)
+
         if (usdBorrowAmount == 0) {
           toast.error('Borrow failed. Please try again')
           return
         }
         await contractBorrowETH.methods
-          .borrow(borrowAmount.toString(), usdBorrowAmount.toString() || 0)
+          .borrow(
+            udcBorrowAmount.toString(),
+            (Number(usdBorrowAmount) * 0.98).toString() || 0
+          )
           .send({
             value: borrow,
             from: address,

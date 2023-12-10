@@ -92,12 +92,12 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
           from: address,
         })
         const suppliedUSD = await contract.methods
-          .getBorrowable(data?.supplied)
+          .getBorrowable(data?.supplied, address)
           .call({
             from: address,
           })
         const borrowedUSD = await contract.methods
-          .getBorrowable(data?.borrowed)
+          .getBorrowable(data?.borrowed, address)
           .call({
             from: address,
           })
