@@ -236,7 +236,8 @@ const HomePageFilter = () => {
             className="font-larken text-[16px]"
             displayType="text"
             thousandSeparator
-            value={Number(lvt) * 100}
+            // value={Number(lvt) * 100}
+            value={78}
             decimalScale={2}
             fixedDecimalScale
             suffix={'%'}
