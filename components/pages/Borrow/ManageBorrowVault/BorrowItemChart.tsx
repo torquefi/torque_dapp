@@ -17,6 +17,8 @@ import {
 
 interface BorrowItemChartProps {
   label?: string
+  tokenSymbol?: string
+  tokenContractAbi?: any
   tokenAddress?: string
   tokenDecimals?: number
   tokenPrice?: number
@@ -26,6 +28,8 @@ interface BorrowItemChartProps {
 export const BorrowItemChart: FC<BorrowItemChartProps> = (props) => {
   const {
     label,
+    tokenSymbol,
+    tokenContractAbi,
     tokenAddress,
     tokenPrice = 1,
     tokenDecimals,
@@ -110,7 +114,21 @@ export const BorrowItemChart: FC<BorrowItemChartProps> = (props) => {
         transactions?.forEach((item) => {
           const key = dayjs(+item?.timeStamp * 1000).format('YYYY-MM-DD')
           if (chartDataObj[key]) {
-            const value = +ethers.utils.formatUnits(item?.value, tokenDecimals)
+            let inputs = ethers.utils.defaultAbiCoder.decode(
+              JSON.parse(tokenContractAbi)
+                ?.find((abiItem) => abiItem?.name === 'borrow')
+                ?.inputs?.map((abiItem) => abiItem?.type),
+              ethers.utils.hexDataSlice(item?.input, 4)
+            )
+
+            inputs = inputs?.map((item) => item?.toString())
+            const usdWithDecimal = inputs[1]?.toString()
+            console.log(inputs)
+
+            const value = +ethers.utils.formatUnits(
+              usdWithDecimal,
+              tokenDecimals
+            )
             chartDataObj[key].valueBar += value
             lineValue = Math.max(lineValue, value)
           }
@@ -118,8 +136,8 @@ export const BorrowItemChart: FC<BorrowItemChartProps> = (props) => {
 
         let chartData = Object.values(chartDataObj)?.map((item, i) => ({
           ...item,
-          value: item?.valueBar * tokenPrice,
-          valueBar: 1 + item?.valueBar * tokenPrice,
+          value: item?.valueBar,
+          valueBar: 1 + item?.valueBar,
           valueLine: lineValue * 1.5,
         }))
 

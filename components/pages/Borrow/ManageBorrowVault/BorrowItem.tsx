@@ -502,6 +502,8 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                 label="Borrow Apr"
                 tokenAddress={item?.borrowContractInfo.address}
                 tokenDecimals={item?.depositTokenDecimal}
+                tokenSymbol={item?.depositTokenSymbol}
+                tokenContractAbi={item?.borrowContractInfo.abi}
                 tokenPrice={
                   item?.depositTokenSymbol === 'WBTC'
                     ? price['wbtc']
