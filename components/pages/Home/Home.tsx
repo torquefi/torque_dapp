@@ -16,7 +16,9 @@ import {
   borrowEthContractInfo,
 } from '../Borrow/constants/contract'
 import BigNumber from 'bignumber.js'
+import { useContract } from '@/constants/utils'
 
+const DEFAULT_WALLET = '0xf74929eC9Ad8972AAFADe614978deE9A2A6eD189'
 const HomePageFilter = () => {
   const web3 = new Web3(Web3.givenProvider)
   const { Moralis, enableWeb3, isWeb3Enabled } = useMoralis()
@@ -35,14 +37,18 @@ const HomePageFilter = () => {
   }, [])
 
   const getInfor = async () => {
-    const contractBorrowBTC = new web3.eth.Contract(
+    const contractBorrowBTC = useContract(
       JSON.parse(borrowBtcContractInfo?.abi),
       borrowBtcContractInfo?.address
     )
-    const contractBorrowETH = new web3.eth.Contract(
+    const contractBorrowETH = useContract(
       JSON.parse(borrowEthContractInfo?.abi),
       borrowEthContractInfo?.address
     )
+    const lvtETH = await contractBorrowETH.methods.getCollateralFactor().call({
+      from: address,
+    })
+    setLvt(web3.utils.fromWei(lvtETH.toString(), 'ether'))
     if (address && isConnected) {
       let dataBorrowBTC = await contractBorrowBTC.methods
         .borrowInfoMap(address)
@@ -86,7 +92,9 @@ const HomePageFilter = () => {
           .toString()
         const caculate = new BigNumber(yourTotalBorrow)
           .div(yourTotalSupply)
-          .multipliedBy(100)
+          .multipliedBy(
+            Number(web3.utils.fromWei(lvtETH.toString(), 'ether')) * 100
+          )
           .toFixed(2)
         setCaculateBorrow(Number(caculate))
         setYourSupply(yourTotalSupply)
@@ -110,7 +118,7 @@ const HomePageFilter = () => {
         from: address,
       })
     const totalSuppliBTC_USD = await contractBorrowBTC.methods
-      .getBorrowable(totalSupplyBTC, address)
+      .getBorrowable(totalSupplyBTC, address || DEFAULT_WALLET)
       .call({
         from: address,
       })
@@ -120,7 +128,7 @@ const HomePageFilter = () => {
         from: address,
       })
     const totalSuppliETH_USD = await contractBorrowETH.methods
-      .getBorrowable(totalSupplyETH, address)
+      .getBorrowable(totalSupplyETH, address || DEFAULT_WALLET)
       .call({
         from: address,
       })
@@ -136,10 +144,6 @@ const HomePageFilter = () => {
         'ether'
       )
     )
-    const lvtETH = await contractBorrowETH.methods.getCollateralFactor().call({
-      from: address,
-    })
-    setLvt(web3.utils.fromWei(lvtETH.toString(), 'ether'))
   }
 
   useEffect(() => {

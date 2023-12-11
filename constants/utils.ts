@@ -16,3 +16,10 @@ export const getBalanceByContractToken = async (
 
 export const MAX_UINT256 =
   '115792089237316195423570985008687907853269984665640564039457584007913129639935'
+
+export const useContract = (abi: any, contractAddress: any) => {
+  let provider = `https://arbitrum.llamarpc.com`
+  const web3 = new Web3(provider)
+  let contract = new web3.eth.Contract(abi, contractAddress)
+  return contract
+}
