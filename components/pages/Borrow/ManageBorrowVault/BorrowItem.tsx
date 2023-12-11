@@ -504,8 +504,8 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                 tokenDecimals={item?.depositTokenDecimal}
                 tokenPrice={
                   item?.depositTokenSymbol === 'WBTC'
-                    ? price['btc']
-                    : price['eth']
+                    ? price['wbtc']
+                    : price['aeth']
                 }
                 aprPercent={-borrowAPR}
               />
