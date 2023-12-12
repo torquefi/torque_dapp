@@ -61,13 +61,6 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
   const [aprBorrow, setAprBorrow] = useState('')
 
   const [lvt, setLvt] = useState('')
-  const getPrice = async () => {
-    setPrice({
-      aeth: await getPriceToken('ETH'),
-      wbtc: await getPriceToken('BTC'),
-      USD: (await getPriceToken('USD')) || 1,
-    })
-  }
   useEffect(() => {
     ;(async () => {
       const ethPrice = await getPriceToken('ETH')
@@ -441,14 +434,12 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
               tokenSymbol={'USD'}
               tokenValue={Number(amountReceive)}
               tokenValueChange={Number(
-                Math.round(
-                  (Number(
-                    amount *
-                      price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]
-                  ) *
-                    50) /
-                    100
-                )
+                (Number(
+                  amount *
+                    price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]
+                ) *
+                  (Number(lvt) * 100)) /
+                  100
               )}
               usdDefault
               decimalScale={2}
