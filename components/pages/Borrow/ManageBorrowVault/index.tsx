@@ -9,6 +9,7 @@ import {
   compoundUsdcContractInfo,
   tokenBtcContractInfo,
   tokenEthContractInfo,
+  tokenUsdContractInfo,
 } from '../constants/contract'
 import { IBorrowInfoManage } from '../types'
 import BorrowItem from './BorrowItem'
@@ -166,7 +167,7 @@ const DATA_BORROW: IBorrowInfoManage[] = [
     apy: 0.0,
     borrowRate: 1359200263,
     borrowContractInfo: borrowBtcContractInfo,
-    tokenContractInfo: tokenBtcContractInfo,
+    tokenContractInfo: tokenUsdContractInfo,
   },
   {
     depositTokenSymbol: 'AETH',
@@ -182,7 +183,7 @@ const DATA_BORROW: IBorrowInfoManage[] = [
     apy: 0.0,
     borrowRate: 1359200263,
     borrowContractInfo: borrowEthContractInfo,
-    tokenContractInfo: tokenEthContractInfo,
+    tokenContractInfo: tokenUsdContractInfo,
   },
 ]
 
