@@ -9,7 +9,7 @@ import tokenUsdcArb from './abi/tokenUsdcArb.json'
 
 
 export const tokenUsdContractInfo: IContractInfo = {
-  address: '0xB50B92Fa490AA2366751F04b52C5f3350AD4AC16',
+  address: '0x37F7D986057C3a45a2cAF781Eb238EEBea5D7FAE',
   abi: JSON.stringify(tokenUsdcArb),
 }
 

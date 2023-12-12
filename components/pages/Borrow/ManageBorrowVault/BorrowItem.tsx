@@ -119,15 +119,13 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
 
   const getAllowance = async () => {
     try {
-      console.log(item?.tokenContract)
-
       if (item?.tokenContract && item?.borrowContract) {
         const allowance = await item?.tokenContract.methods
           .allowance(address, item?.borrowContractInfo.address)
           .call({
             from: address,
           })
-        setAllowance(allowance / 10 ** dataBorrow.borrowTokenDecimal || 0)
+        setAllowance(allowance / 10 ** 18 || 0)
       }
     } catch (e) {
       console.log(e)
@@ -197,15 +195,15 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
     }
     try {
       setButtonLoading('APPROVING...')
-      // if (!isApproved) {
-      //   await item?.tokenContract.methods
-      //     .approve(item?.borrowContractInfo.address, MAX_UINT256)
-      //     .send({
-      //       from: address,
-      //     })
-      //   toast.success('Approve Successful')
-      //   await getAllowance()
-      // }
+      if (!isApproved) {
+        await item?.tokenContract.methods
+          .approve(item?.borrowContractInfo.address, MAX_UINT256)
+          .send({
+            from: address,
+          })
+        toast.success('Approve Successful')
+        await getAllowance()
+      }
       const contractUSD = new web3.eth.Contract(
         JSON.parse(tokenUsdContractInfo.abi),
         tokenUsdContractInfo.address
@@ -263,9 +261,23 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         toast.success('Approve Successful')
         await getAllowance()
       }
+      console.log(
+        Number(
+          new BigNumber(inputValue)
+            .multipliedBy(10 ** item.depositTokenDecimal)
+            .toFixed(0)
+            .toString()
+        )
+      )
+
       setButtonLoading('WITHDRAWING...')
       await item?.borrowContract?.methods
-        .withdraw(Web3.utils.toWei(Number(inputValue).toFixed(2), 'ether'))
+        .withdraw(
+          new BigNumber(inputValue)
+            .multipliedBy(10 ** item.depositTokenDecimal)
+            .toFixed(0)
+            .toString()
+        )
         .send({
           from: address,
         })
@@ -474,9 +486,10 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
           <div
             className={
               'flex flex-wrap overflow-hidden px-[16px] transition-all duration-300 sm:px-[24px]' +
-              ` ${isExpand
-                ? 'max-h-[1000px] py-[16px] ease-in'
-                : 'max-h-0 py-0 ease-out'
+              ` ${
+                isExpand
+                  ? 'max-h-[1000px] py-[16px] ease-in'
+                  : 'max-h-0 py-0 ease-out'
               }`
             }
           >
@@ -526,9 +539,10 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                       key={i}
                       className={
                         'w-[52px]  py-[8px] text-[10px] leading-none xs:w-[80px] xs:text-[12px]' +
-                        ` ${action === item
-                          ? 'rounded-md bg-[#F4F4F4] dark:bg-[#171717]'
-                          : 'text-[#959595]'
+                        ` ${
+                          action === item
+                            ? 'rounded-md bg-[#F4F4F4] dark:bg-[#171717]'
+                            : 'text-[#959595]'
                         }`
                       }
                       onClick={() => setAction(item)}
@@ -540,7 +554,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
               </div>
               <div className="flex justify-between rounded-xl border bg-[#FCFAFF] from-[#161616] via-[#161616]/40 to-[#0e0e0e] p-[12px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
                 <NumericFormat
-                  className="w-[120px] bg-transparent"
+                  className="w-[200px] bg-transparent"
                   placeholder="Select amount"
                   value={inputValue || null}
                   onChange={(e) => {
@@ -567,8 +581,9 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                 </div>
               </div>
               <button
-                className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
-                  }`}
+                className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${
+                  buttonLoading && 'cursor-not-allowed opacity-50'
+                }`}
                 disabled={buttonLoading != ''}
                 onClick={() =>
                   action == Action.Repay ? onRepay() : onWithdraw()
