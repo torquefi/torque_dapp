@@ -474,10 +474,9 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
           <div
             className={
               'flex flex-wrap overflow-hidden px-[16px] transition-all duration-300 sm:px-[24px]' +
-              ` ${
-                isExpand
-                  ? 'max-h-[1000px] py-[16px] ease-in'
-                  : 'max-h-0 py-0 ease-out'
+              ` ${isExpand
+                ? 'max-h-[1000px] py-[16px] ease-in'
+                : 'max-h-0 py-0 ease-out'
               }`
             }
           >
@@ -527,10 +526,9 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                       key={i}
                       className={
                         'w-[52px]  py-[8px] text-[10px] leading-none xs:w-[80px] xs:text-[12px]' +
-                        ` ${
-                          action === item
-                            ? 'rounded-md bg-[#F4F4F4] dark:bg-[#171717]'
-                            : 'text-[#959595]'
+                        ` ${action === item
+                          ? 'rounded-md bg-[#F4F4F4] dark:bg-[#171717]'
+                          : 'text-[#959595]'
                         }`
                       }
                       onClick={() => setAction(item)}
@@ -558,6 +556,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                           setInputValue((item.supplied * percent) / 100)
                         } else {
                           getUSDBorrow(percent)
+                          setInputValue((item.borrowed * percent) / 100)
                         }
                       }}
                       key={i}
@@ -568,9 +567,8 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                 </div>
               </div>
               <button
-                className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${
-                  buttonLoading && 'cursor-not-allowed opacity-50'
-                }`}
+                className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
+                  }`}
                 disabled={buttonLoading != ''}
                 onClick={() =>
                   action == Action.Repay ? onRepay() : onWithdraw()
