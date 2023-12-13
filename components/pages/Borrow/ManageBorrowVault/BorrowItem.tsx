@@ -261,6 +261,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         await getAllowance()
       }
       console.log(
+        'amount withdraw',
         Number(
           new BigNumber(inputValue)
             .multipliedBy(10 ** item.depositTokenDecimal)

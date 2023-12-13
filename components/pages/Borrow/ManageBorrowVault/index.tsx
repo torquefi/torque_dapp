@@ -72,12 +72,8 @@ export default function ManageBorrowVault() {
             .div(10 ** item.depositTokenDecimal)
             .toString()
         )
-        console.log('=>>>>', data.baseBorrowed)
-
         item.borrowed = Number(
-          new BigNumber(data.baseBorrowed)
-            .div(10 ** item.depositTokenDecimal)
-            .toString()
+          new BigNumber(data.baseBorrowed).div(10 ** 18).toString()
         )
       }
     } catch (error) {
