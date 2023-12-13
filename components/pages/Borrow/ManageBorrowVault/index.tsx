@@ -87,6 +87,9 @@ export default function ManageBorrowVault() {
         item.borrowed = Number(
           new BigNumber(data.baseBorrowed).div(10 ** 18).toString()
         )
+        console.log("111",
+          Number(new BigNumber(data.baseBorrowed).div(10 ** 18).toString())
+        )
       }
     } catch (error) {
       console.log('ManageStaking.handleGetStakeData', error)
