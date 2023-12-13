@@ -275,7 +275,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
           .getBorrowableUsdc(borrow)
           .call()
         const usdBorrowAmount = await contractBorrowBTC.methods
-          .getBorrowable(borrow, address)
+          .getBorrowable(borrowAmount, address)
           .call()
         if (usdBorrowAmount == 0) {
           toast.error('Borrow failed. Please try again')

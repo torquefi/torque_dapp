@@ -231,7 +231,6 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       const amountRepay = Number(
         new BigNumber(inputValue).multipliedBy(10 ** 18).toString()
       ).toFixed(0)
-      console.log(amountRepay, balanceOfUSD)
       await item?.borrowContract?.methods.repay(amountRepay.toString()).send({
         from: address,
       })
@@ -569,7 +568,6 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                         if (action == Action.Withdraw) {
                           setInputValue((item.supplied * percent) / 100)
                         } else {
-                          getUSDBorrow(percent)
                           setInputValue((item.borrowed * percent) / 100)
                         }
                       }}
