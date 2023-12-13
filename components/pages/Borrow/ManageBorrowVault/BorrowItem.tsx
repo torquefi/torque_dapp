@@ -101,14 +101,24 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
           .call({
             from: address,
           })
-
+        const withdrawableAmount = await contract.methods
+          .getWithdrawableAmount(address)
+          .call({
+            from: address,
+          })
         const lvt = await contract.methods.getCollateralFactor().call({
           from: address,
         })
         setLvt(web3.utils.fromWei(lvt.toString(), 'ether'))
         setDataUserBorrow({
           supplied: web3.utils.fromWei(suppliedUSD.toString(), 'ether'),
-          borrowed: new BigNumber(data?.borrowed).div(10 ** 6).toNumber(),
+          borrowed: new BigNumber(data?.baseBorrowed).div(10 ** 18).toNumber(),
+          borrowMax: Number(
+            new BigNumber(withdrawableAmount[0])
+              .div(10 ** item.depositTokenDecimal)
+              .multipliedBy(0.99)
+              .toString()
+          ),
         })
         setContractBorrow(contract)
       }
@@ -567,9 +577,13 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                       className="cursor-pointer rounded-md bg-[#F4F4F4]  px-[6px] py-[2px] transition active:scale-95 dark:bg-[#171717] xs:px-[8px] xs:py-[4px]"
                       onClick={() => {
                         if (action == Action.Withdraw) {
-                          setInputValue((item.borrowMax * percent) / 100)
+                          setInputValue(
+                            (dataUserBorrow.borrowMax * percent) / 100
+                          )
                         } else {
-                          setInputValue((item.borrowed * percent) / 100)
+                          setInputValue(
+                            (dataUserBorrow.borrowed * percent) / 100
+                          )
                         }
                       }}
                       key={i}

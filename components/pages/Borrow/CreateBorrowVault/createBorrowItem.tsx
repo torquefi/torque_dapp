@@ -296,30 +296,34 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
             .multipliedBy(10 ** item.depositTokenDecimal)
             .toString()
         ).toFixed(0)
+        const borrowing = Number(
+          new BigNumber(amountReceive).multipliedBy(10 ** 18).toString()
+        ).toFixed(0)
         const borrowAmount = Number(
           new BigNumber(amountReceive)
-            .multipliedBy(10 ** item.depositTokenDecimal)
+            .multipliedBy(10 ** item.borrowTokenDecimal)
+            .toFixed(0)
             .toString()
         )
-        console.log('borrowAmount', borrowAmount)
+        // console.log('borrowAmount', borrowAmount)
 
-        const udcBorrowAmount = await contractBorrowETH.methods
-          .getBorrowableUsdc(borrow)
-          .call()
-        const usdBorrowAmount = await contractBorrowETH.methods
-          .getBorrowable(borrow, address)
-          .call()
-        console.log('usdBorrowAmount', usdBorrowAmount)
+        // const udcBorrowAmount = await contractBorrowETH.methods
+        //   .getBorrowableUsdc(borrow)
+        //   .call()
+        // const usdBorrowAmount = await contractBorrowETH.methods
+        //   .getBorrowable(borrow, address)
+        //   .call()
+        // console.log(1111, udcBorrowAmount, amountReceive)
+        // console.log('usdBorrowAmount', usdBorrowAmount)
 
-        if (usdBorrowAmount == 0) {
-          toast.error('Borrow failed. Please try again')
-          return
-        }
+        // if (usdBorrowAmount == 0) {
+        //   toast.error('Borrow failed. Please try again')
+        //   return
+        // }
+        console.log(borrowing, borrowAmount, borrow)
+
         await contractBorrowETH.methods
-          .borrow(
-            udcBorrowAmount.toString(),
-            (Number(usdBorrowAmount) * 0.98).toString() || 0
-          )
+          .borrow(borrowAmount.toString(), borrowing.toString())
           .send({
             value: borrow,
             from: address,
