@@ -567,7 +567,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                       className="cursor-pointer rounded-md bg-[#F4F4F4]  px-[6px] py-[2px] transition active:scale-95 dark:bg-[#171717] xs:px-[8px] xs:py-[4px]"
                       onClick={() => {
                         if (action == Action.Withdraw) {
-                          setInputValue((item.supplied * percent) / 100)
+                          setInputValue((item.borrowMax * percent) / 100)
                         } else {
                           setInputValue((item.borrowed * percent) / 100)
                         }
