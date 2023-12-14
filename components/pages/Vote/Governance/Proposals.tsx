@@ -35,8 +35,7 @@ export const Proposals = () => {
             No proposals yet
           </h3>
           <p className="mx-auto mt-[6px] w-full text-center text-[16px] font-[500] text-[#959595] max-w-[280px]">
-            Stay tuned for the launch of TORQ, our deflationary governance
-            token.
+            TORQ token is now live! Stay tuned for our first community proposals.
           </p>
         </div>
         {/* <div className="mt-[18px] cursor-pointer text-center text-[14px] font-[500] uppercase text-[#959595]">

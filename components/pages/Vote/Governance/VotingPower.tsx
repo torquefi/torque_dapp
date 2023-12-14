@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { DelegateModal } from './DelegateModal'
+import Link from 'next/link'
 
 export const VotingPower = () => {
   const [openDelegateModal, setOpenDelegateModal] = useState(false)
@@ -27,19 +28,22 @@ export const VotingPower = () => {
             <div className="mt-1 text-[15px] text-[#959595]">Your Value</div>
           </div>
         </div>
-        <button
-          onClick={() => setOpenDelegateModal(true)}
-          className={`font-mona w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
-        `}
-        >
-          Delegate votes
-        </button>
-        <button
-          className={`font-mona mt-2 w-full rounded-full border border-[#AA5BFF] bg-transparent py-1 uppercase text-[#AA5BFF] transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
-        `}
-        >
-          acquire torq
-        </button>
+        <div className="flex flex-col">
+          <button
+            onClick={() => setOpenDelegateModal(true)}
+            className={`font-mona w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
+          `}
+          >
+            Delegate votes
+          </button>
+          <Link
+            href="https://bit.ly/torq-uniswap"
+            target="_blank"
+            className="font-mona text-center mt-3 w-full rounded-full border border-[#AA5BFF] bg-transparent py-1 uppercase text-[#AA5BFF] transition-all"
+          >
+            acquire torq
+          </Link>
+        </div>
       </div>
       <DelegateModal
         openModal={openDelegateModal}
