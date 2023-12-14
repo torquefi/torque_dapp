@@ -223,7 +223,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       })
       const balanceOf = Number(
         new BigNumber(balanceOfUSD).div(10 ** 18).toString()
-      ).toFixed(3)
+      )
       if (inputValue > Number(balanceOf)) {
         toast.error('Your account does not have enough USD to Repay')
         return
@@ -582,7 +582,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                           )
                         } else {
                           setInputValue(
-                            (dataUserBorrow.borrowed * percent) / 100
+                            (dataUserBorrow.borrowed * percent) / 100.01
                           )
                         }
                       }}

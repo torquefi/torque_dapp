@@ -291,39 +291,32 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
             from: address,
           })
       } else if (item.depositTokenSymbol === 'AETH') {
+        const borrowAmount =
+          amountReceive /
+          price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]
+        console.log('borrowAmount', borrowAmount)
+
         const borrow = Number(
-          new BigNumber(amount)
+          new BigNumber(borrowAmount)
             .multipliedBy(10 ** item.depositTokenDecimal)
             .toString()
         ).toFixed(0)
-        const borrowing = Number(
-          new BigNumber(amountReceive).multipliedBy(10 ** 18).toString()
-        ).toFixed(0)
-        const borrowAmount = Number(
-          new BigNumber(amountReceive)
-            .multipliedBy(10 ** item.borrowTokenDecimal)
-            .toFixed(0)
-            .toString()
-        )
-        // console.log('borrowAmount', borrowAmount)
+        const udcBorrowAmount = await contractBorrowETH.methods
+          .getBorrowableUsdc(borrow)
+          .call()
+        const usdBorrowAmount = await contractBorrowETH.methods
+          .getBorrowable(borrow, address)
+          .call()
 
-        // const udcBorrowAmount = await contractBorrowETH.methods
-        //   .getBorrowableUsdc(borrow)
-        //   .call()
-        // const usdBorrowAmount = await contractBorrowETH.methods
-        //   .getBorrowable(borrow, address)
-        //   .call()
-        // console.log(1111, udcBorrowAmount, amountReceive)
-        // console.log('usdBorrowAmount', usdBorrowAmount)
-
-        // if (usdBorrowAmount == 0) {
-        //   toast.error('Borrow failed. Please try again')
-        //   return
-        // }
-        console.log(borrowing, borrowAmount, borrow)
-
+        if (usdBorrowAmount == 0) {
+          toast.error('Borrow failed. Please try again')
+          return
+        }
         await contractBorrowETH.methods
-          .borrow(borrowAmount.toString(), borrowing.toString())
+          .borrow(
+            udcBorrowAmount.toString(),
+            (Number(usdBorrowAmount) * 0.99).toString() || 0
+          )
           .send({
             value: borrow,
             from: address,
@@ -350,29 +343,6 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
     initContract()
   }, [])
 
-  const getUSDCBorrow = async (amout: any) => {
-    const borrowContract = new web3.eth.Contract(
-      JSON.parse(item?.borrowContractInfo.abi),
-      item?.borrowContractInfo.address
-    ) as any
-    const amountDeposit = Number(
-      new BigNumber(amount)
-        .multipliedBy(10 ** item.depositTokenDecimal)
-        .toString()
-    ).toFixed(0)
-    const amountUSDCReceive = await borrowContract.methods
-      .getBorrowableUsdc(amountDeposit.toString())
-      .call()
-    console.log('amountUSDCReceive', amountUSDCReceive)
-
-    // setAmountReceive(
-    //   Number(
-    //     new BigNumber(amountUSDCReceive)
-    //       .div(10 ** item.borrowTokenDecimal)
-    //       .toString()
-    //   )
-    // )
-  }
   const isApproved = useMemo(
     () => amount < allowance,
     [allowance, dataBorrow, amount]
@@ -429,7 +399,6 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
               decimalScale={2}
               onChange={(e) => {
                 setAmount(e)
-                getUSDCBorrow(e)
               }}
             />
           </div>
