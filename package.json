@@ -23,7 +23,7 @@
     "@web3modal/ethereum": "^2.7.1",
     "@web3modal/react": "^2.7.0",
     "autoprefixer": "^10.4.13",
-    "axios": "^0.24.0",
+    "axios": "^1.6.2",
     "bignumber.js": "^9.1.1",
     "date-fns": "^2.25.0",
     "dayjs": "^1.11.10",
