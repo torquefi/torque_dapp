@@ -27,17 +27,13 @@ export default function ClaimModal({
     const fetchTorqData = async () => {
       try {
         const response = await axios.get('https://api.coingecko.com/api/v3/simple/price?ids=torque&vs_currencies=usd');
-        const price = response.data.torque.usd as number;
+        const price = parseFloat(response.data.torque.usd);
         
         setTorqPrice(price.toFixed(2));
         
-        // Calculate the market cap: price * circulating supply
         const marketCap = (price * circulatingSupply).toFixed(2);
-        // Convert to millions and keep only the first three numbers
-        const marketCapInMillions = (marketCap / 1e6).toFixed(3);
-        // Remove any trailing zeros
+        const marketCapInMillions = (marketCap as number / 1e6).toFixed(3);
         const trimmedMarketCap = parseFloat(marketCapInMillions).toString();
-        // Set the market cap state
         setTorqMarketCap(`${trimmedMarketCap}m`);
 
       } catch (error) {
