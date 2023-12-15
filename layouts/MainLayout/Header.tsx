@@ -1,7 +1,7 @@
 import HoverIndicator from '@/components/common/HoverIndicator'
 import NumberFormat from '@/components/common/NumberFormat'
 import Popover from '@/components/common/Popover'
-import { stakeLpContract, tokenTorqContract } from '@/constants/contracts'
+import { tokenTorqContract } from '@/constants/contracts'
 import { requestSwitchNetwork } from '@/lib/helpers/network'
 import { shortenAddress } from '@/lib/helpers/utils'
 import { AppStore } from '@/types/store'
@@ -89,15 +89,6 @@ export const Header = () => {
     )
     return contract
   }, [Web3.givenProvider, tokenTorqContract])
-
-  const lpContract = useMemo(() => {
-    const web3 = new Web3(Web3.givenProvider)
-    const contract = new web3.eth.Contract(
-      JSON.parse(stakeLpContract.abi),
-      stakeLpContract.address
-    )
-    return contract
-  }, [Web3.givenProvider, stakeLpContract])
 
   useEffect(() => {
     const handleGetTorqPrice = async () => {

@@ -1,4 +1,3 @@
-import { StakePage } from '@/components/pages/Stake'
 import { VotePage } from '@/components/pages/Vote'
 import { DetailsVotes } from '@/components/pages/Vote/Details'
 import { Distribution } from '@/components/pages/Vote/Distribution'
