@@ -2,9 +2,9 @@ import HoverIndicator from '@/components/common/HoverIndicator'
 import Modal from '@/components/common/Modal'
 import { AppStore } from '@/types/store'
 import { useWeb3Modal, useWeb3ModalTheme } from '@web3modal/react'
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 import { AiOutlineClose } from 'react-icons/ai'
-import axios from 'axios';
+import axios from 'axios'
 import { useSelector } from 'react-redux'
 import { useConnect } from 'wagmi'
 
@@ -27,7 +27,7 @@ export default function ClaimModal({
     const fetchTorqData = async () => {
       try {
         const response = await axios.get('https://api.coingecko.com/api/v3/simple/price?ids=torque&vs_currencies=usd');
-        const price = response.data.torque.usd;
+        const price = response.data.torque.usd as number;
         
         setTorqPrice(price.toFixed(2));
         
