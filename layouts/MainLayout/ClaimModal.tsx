@@ -32,7 +32,7 @@ export default function ClaimModal({
         setTorqPrice(price.toFixed(2));
         
         const marketCap = (price * circulatingSupply).toFixed(2);
-        const marketCapInMillions = (marketCap as number / 1e6).toFixed(3);
+        const marketCapInMillions = (marketCap / 1e6).toFixed(3);
         const trimmedMarketCap = parseFloat(marketCapInMillions).toString();
         setTorqMarketCap(`${trimmedMarketCap}m`);
 
