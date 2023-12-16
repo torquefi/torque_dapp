@@ -1,7 +1,7 @@
 import HoverIndicator from '@/components/common/HoverIndicator'
 import NumberFormat from '@/components/common/NumberFormat'
 import Popover from '@/components/common/Popover'
-import { stakeLpContract, tokenTorqContract } from '@/constants/contracts'
+import { tokenTorqContract } from '@/constants/contracts'
 import { requestSwitchNetwork } from '@/lib/helpers/network'
 import { shortenAddress } from '@/lib/helpers/utils'
 import { AppStore } from '@/types/store'
@@ -90,30 +90,21 @@ export const Header = () => {
     return contract
   }, [Web3.givenProvider, tokenTorqContract])
 
-  const lpContract = useMemo(() => {
-    const web3 = new Web3(Web3.givenProvider)
-    const contract = new web3.eth.Contract(
-      JSON.parse(stakeLpContract.abi),
-      stakeLpContract.address
-    )
-    return contract
-  }, [Web3.givenProvider, stakeLpContract])
-
-  useEffect(() => {
-    const handleGetTorqPrice = async () => {
-      try {
-        const decimals = await tokenContract.methods.decimals().call()
-        const amount = ethers.utils.parseUnits('1', decimals).toString()
-        const response = await lpContract.methods
-          .getUSDPrice(tokenTorqContract.address, amount)
-          .call()
-        const tokenPrice = ethers.utils.formatUnits(response, 6).toString()
-        setTokenPrice(tokenPrice)
-      } catch (error) {
-        console.log('handleGetTorqPrice 123:>> ', error)
-      }
-    }
-  }, [tokenContract, isConnected])
+  // useEffect(() => {
+  //   const handleGetTorqPrice = async () => {
+  //     try {
+  //       const decimals = await tokenContract.methods.decimals().call()
+  //       const amount = ethers.utils.parseUnits('1', decimals).toString()
+  //       const response = await lpContract.methods
+  //         .getUSDPrice(tokenTorqContract.address, amount)
+  //         .call()
+  //       const tokenPrice = ethers.utils.formatUnits(response, 6).toString()
+  //       setTokenPrice(tokenPrice)
+  //     } catch (error) {
+  //       console.log('handleGetTorqPrice 123:>> ', error)
+  //     }
+  //   }
+  // }, [tokenContract, isConnected])
 
   useEffect(() => {
     if (chain?.id) {
