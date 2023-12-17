@@ -90,22 +90,6 @@ export const Header = () => {
     return contract
   }, [Web3.givenProvider, tokenTorqContract])
 
-  // useEffect(() => {
-  //   const handleGetTorqPrice = async () => {
-  //     try {
-  //       const decimals = await tokenContract.methods.decimals().call()
-  //       const amount = ethers.utils.parseUnits('1', decimals).toString()
-  //       const response = await lpContract.methods
-  //         .getUSDPrice(tokenTorqContract.address, amount)
-  //         .call()
-  //       const tokenPrice = ethers.utils.formatUnits(response, 6).toString()
-  //       setTokenPrice(tokenPrice)
-  //     } catch (error) {
-  //       console.log('handleGetTorqPrice 123:>> ', error)
-  //     }
-  //   }
-  // }, [tokenContract, isConnected])
-
   useEffect(() => {
     if (chain?.id) {
       const network = chains?.find((item) => item?.id === chain?.id)
@@ -180,7 +164,7 @@ export const Header = () => {
                       className="flex justify-between p-[12px]"
                       target="_blank"
                     >
-                      Arbiscan <HiOutlineExternalLink />
+                      Explorer <HiOutlineExternalLink />
                     </Link>
                     <div
                       className="flex cursor-pointer justify-between p-[12px]"
