@@ -29,7 +29,7 @@ const HomePageFilter = () => {
   const [yourSupply, setYourSupply] = useState('')
   const [totalBorrow, setTotalBorrow] = useState('')
   const [yourBorrow, setYourBorrow] = useState('')
-  const [caculateBorrow, setCaculateBorrow] = useState(0)
+  const [calculateBorrow, setcalculateBorrow] = useState(0)
   const [lvt, setLvt] = useState('')
   const [netAPY, setNetAPY] = useState('')
   useEffect(() => {
@@ -90,13 +90,13 @@ const HomePageFilter = () => {
         const yourTotalBorrow = new BigNumber(yourBorrowedyBTC)
           .plus(yourBorrowedyETH)
           .toString()
-        const caculate = new BigNumber(yourTotalBorrow)
+        const calculate = new BigNumber(yourTotalBorrow)
           .div(yourTotalSupply)
           .multipliedBy(
             Number(web3.utils.fromWei(lvtETH.toString(), 'ether')) * 100
           )
           .toFixed(2)
-        setCaculateBorrow(Number(caculate))
+        setcalculateBorrow(Number(calculate))
         setYourSupply(yourTotalSupply)
         setYourBorrow(yourTotalBorrow)
       }
@@ -160,7 +160,7 @@ const HomePageFilter = () => {
   return (
     <div className="relative mt-[80px] flex w-full flex-wrap items-center justify-center rounded-t-[10px] border-[1px] from-[#25252566] pt-[80px] dark:border-[#1A1A1A] dark:bg-gradient-to-br md:mt-0 md:pt-0">
       <div className="h-[100px] w-full md:h-[160px] md:w-[50%]">
-        <div className="flex h-full w-full flex-col items-center justify-center space-y-2">
+        <div className="flex flex-col items-center justify-center w-full h-full space-y-2">
           <div className="text-[15px] text-[#959595]">Total Supply</div>
           <NumberFormat
             className="font-larken text-[28px] text-[#404040] dark:text-white"
@@ -174,7 +174,7 @@ const HomePageFilter = () => {
         </div>
       </div>
       <div className="h-[100px] w-full md:h-[160px] md:w-[50%]">
-        <div className="flex h-full w-full flex-col items-center justify-center space-y-2">
+        <div className="flex flex-col items-center justify-center w-full h-full space-y-2">
           <div className="text-[15px] text-[#959595]">Total Borrow</div>
           <NumberFormat
             className="font-larken text-[28px] text-[#404040] dark:text-white"
@@ -194,7 +194,7 @@ const HomePageFilter = () => {
         }
       ></div>
       <div className="h-[100px] w-full md:h-[160px] md:w-[50%]">
-        <div className="flex h-full w-full flex-col items-center justify-center space-y-2">
+        <div className="flex flex-col items-center justify-center w-full h-full space-y-2">
           <div className="text-[15px] text-[#959595]">Your Supply</div>
           <NumberFormat
             className="font-larken text-[28px] text-[#404040] dark:text-white"
@@ -208,7 +208,7 @@ const HomePageFilter = () => {
         </div>
       </div>
       <div className="h-[100px] w-full md:h-[160px] md:w-[50%]">
-        <div className="flex h-full w-full flex-col items-center justify-center space-y-2">
+        <div className="flex flex-col items-center justify-center w-full h-full space-y-2">
           <div className="text-[15px] text-[#959595]">Your Borrow</div>
           <NumberFormat
             className="font-larken text-[28px] text-[#404040] dark:text-white"
@@ -228,7 +228,7 @@ const HomePageFilter = () => {
             className="font-larken text-[16px]"
             displayType="text"
             thousandSeparator
-            value={caculateBorrow}
+            value={calculateBorrow}
             decimalScale={2}
             fixedDecimalScale
             suffix={'%'}
@@ -250,13 +250,13 @@ const HomePageFilter = () => {
       </div>
       <div className="h-2 w-full overflow-hidden bg-[#d7d7d7] dark:bg-[#1F1F1F]">
         <div
-          style={{ width: `${caculateBorrow}%` }}
+          style={{ width: `${calculateBorrow}%` }}
           className="h-full rounded-full bg-gradient-to-r from-[#C38BFF] to-[#AA5BFF] text-center text-white shadow-none"
         ></div>
       </div>
       <div className="z-100000 absolute top-[-80px] h-[160px] w-[160px] rounded-full border-2 border-[#E6E6E6] bg-white p-2 dark:border-[#25252566] dark:bg-[#1A1A1A] md:top-auto">
         <div className="h-full w-full rounded-full border-4 border-[#C38BFF] dark:bg-[#0D0D0D66]">
-          <div className="flex h-full w-full flex-col items-center justify-center space-y-2">
+          <div className="flex flex-col items-center justify-center w-full h-full space-y-2">
             <div className="text-[14px] text-[#959595]">NET APY</div>
             <NumberFormat
               className="font-larken text-[28px] text-[#404040] dark:text-white"
