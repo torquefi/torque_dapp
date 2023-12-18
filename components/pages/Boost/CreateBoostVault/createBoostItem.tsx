@@ -152,7 +152,7 @@ export function CreateBoostItem({ item }: any) {
     <>
       <div
         className={
-          `rounded-[12px] border border-[#E6E6E6] bg-[#ffffff]  px-3 py-6 text-[#404040] dark:border-[#1A1A1A]  dark:text-white lg:px-8` +
+          `rounded-[12px] border border-[#E6E6E6] bg-[#ffffff]  px-3 py-6 text-[#404040] dark:border-[#1A1A1A]  dark:text-white lg:px-8 dark:bg-transparent dark:bg-gradient-to-br  from-[#0d0d0d] to-[#0d0d0d]/0` +
           `  ${theme === 'light' ? ' bg-[#FCFAFF]' : 'bg-overview'}`
         }
       >

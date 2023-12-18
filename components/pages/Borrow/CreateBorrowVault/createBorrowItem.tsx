@@ -357,7 +357,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
   return (
     <>
       <div
-        className="dark:tex-white space-y-4 rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-[16px] py-[24px] text-[#404040] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white xl:px-[32px]"
+        className="dark:text-white space-y-4 rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-[16px] py-[24px] text-[#404040] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white xl:px-[32px]"
         key={dataBorrow.depositTokenSymbol}
       >
         <div className="flex items-center">

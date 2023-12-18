@@ -52,7 +52,7 @@ export function CreateBoostVault() {
         </div>
       )}
 
-      <div className="mt-[24px] grid gap-4 md:grid-cols-2">
+      <div className="mt-[24px] grid gap-[20px] md:grid-cols-2">
         {boostVault.map((item: any) => {
           if (isLoading) {
             return (
@@ -68,6 +68,24 @@ export function CreateBoostVault() {
 }
 
 const BOOST_VAULTS = [
+  {
+    token: 'WBTC',
+    bonus_TORQ: 0,
+    deposit: 0,
+    threeYearValue: 0,
+    APR: 0.0,
+    rate: 1.16391500742,
+    amount: 0,
+    boost_contract: 'boost_abi',
+    name_ABI_asset: 'weth_abi',
+    decimals_asset: 18,
+    yield_provider1: '/icons/coin/gmx.png',
+    link_yield1: 'https://gmx.io/',
+    yield_provider2: '/icons/coin/stg.png',
+    link_yield2: 'https://stargate.finance/',
+    tokenContractInfo: ethContract,
+    boostContractInfo: boostContract,
+  },
   {
     token: 'AETH',
     bonus_TORQ: 0,
@@ -87,7 +105,7 @@ const BOOST_VAULTS = [
     boostContractInfo: boostContract,
   },
   {
-    token: 'TUSD',
+    token: 'TORQ',
     bonus_TORQ: 0,
     deposit: 0,
     threeYearValue: 0,
@@ -97,10 +115,28 @@ const BOOST_VAULTS = [
     boost_contract: 'boost_abi',
     name_ABI_asset: 'usg_abi',
     decimals_asset: 9,
-    yield_provider2: '/icons/coin/compound.svg',
-    link_yield2: 'https://compound.finance/',
-    yield_provider1: '/icons/coin/uni.svg',
-    link_yield1: 'https://uniswap.org/',
+    yield_provider2: '/icons/coin/uni.svg',
+    link_yield2: 'https://uniswap.org/',
+    yield_provider1: '/icons/coin/torq-yi.svg',
+    link_yield1: '#',
+    tokenContractInfo: usgContract,
+    boostContractInfo: boostContract,
+  },
+  {
+    token: 'COMP',
+    bonus_TORQ: 0,
+    deposit: 0,
+    threeYearValue: 0,
+    APR: 0.0,
+    rate: 1.14082698313,
+    amount: 0,
+    boost_contract: 'boost_abi',
+    name_ABI_asset: 'usg_abi',
+    decimals_asset: 9,
+    yield_provider2: '/icons/coin/uni.svg',
+    link_yield2: 'https://uniswap.org/',
+    yield_provider1: '/icons/coin/sushi.svg',
+    link_yield1: 'https://sushi.com/',
     tokenContractInfo: usgContract,
     boostContractInfo: boostContract,
   },
