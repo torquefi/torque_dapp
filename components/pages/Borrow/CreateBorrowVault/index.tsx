@@ -155,7 +155,7 @@ export default function CreateBorrowVault() {
         Create Borrow Vault
       </h3>
 
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-[20px] md:grid-cols-2">
         {dataBorrow.map((item, i) => (
           <CreateBorrowItem item={item} key={i} />
         ))}
