@@ -10,18 +10,19 @@ export const VotingPower = () => {
         <div className="flex items-center justify-between">
           <h2 className="font-larken text-[24px] font-[400] leading-[40px]">Vote Power</h2>
           <button>
-            <img src="/assets/pages/vote/ic-info.svg" alt="" />
+            <img src="/assets/pages/vote/ic-info.svg" alt="information" />
+            {/* need popover here */}
           </button>
         </div>
         <div className="gradient-border mt-2 hidden h-[1px] w-full md:block"></div>
         <div className="grid w-full h-auto grid-cols-2 gap-4 py-2 overflow-y-auto">
-          <div className="bg-claim-reward flex h-[102px] flex-col items-center justify-center rounded-[8px] border-[1px] border-[#1A1A1A]">
+          <div className="rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A]  dark:bg-transparent dark:bg-gradient-to-b flex h-[102px] flex-col items-center justify-center rounded-[8px] border-[1px] border-[#1A1A1A]">
             <div className="mt-1 font-larken text-[24px] text-[#404040] dark:text-white">
               0.00
             </div>
             <div className="mt-1 text-[15px] text-[#959595]">Your Power</div>
           </div>
-          <div className="bg-claim-reward flex h-[102px] flex-col items-center justify-center rounded-[8px] border-[1px] border-[#1A1A1A]">
+          <div className="rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A]  dark:bg-transparent dark:bg-gradient-to-b flex h-[102px] flex-col items-center justify-center rounded-[8px] border-[1px] border-[#1A1A1A]">
             <div className="mt-1 font-larken text-[24px] text-[#404040] dark:text-white">
               $0.00
             </div>

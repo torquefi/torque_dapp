@@ -33,7 +33,7 @@ export const OptionToken = () => {
             <p className="text-[14px] font-[500] uppercase  text-[#AA5BFF]">
               learn
             </p>
-            <img src="/assets/pages/vote/genover/next.svg" alt="" />
+            <img src="/assets/pages/vote/genover/next.svg" alt="" className="mb-1"/>
           </Link>
           <div className="relative h-[4px] w-full bg-[#aa5bff33]">
             <div className="absolute h-[4px] w-[95%] bg-[#AA5BFF]"></div>
@@ -51,13 +51,13 @@ export const OptionToken = () => {
         </div>
         <div className="w-[50%]">
           <Link
-            href="/vote/ID"
+            href="#"
             className="flex cursor-pointer items-center justify-end gap-[5px]"
           >
             <p className="text-[14px] font-[500] uppercase  leading-[40px] text-[#AA5BFF]">
               Verify
             </p>
-            <img src="/assets/pages/vote/genover/next.svg" alt="" />
+            <img src="/assets/pages/vote/genover/next.svg" alt="" className="mb-1" />
           </Link>
           <div className="flex items-center justify-end gap-[4px]">
             <img src="/assets/pages/vote/genover/up-green.svg" alt="" />
@@ -68,7 +68,7 @@ export const OptionToken = () => {
       <div className="mt-[20px] flex w-full items-center justify-between rounded-[12px] border-[1px] border-solid border-[#1a1a1a] from-[#0d0d0d] to-[#0d0d0d]/0 px-[36px] py-[20px] dark:bg-gradient-to-br md:mt-0 md:w-[32%]">
         <div className="w-[50%]">
           <h4 className="font-larken text-[24px] font-[400] leading-[40px]">
-            929
+            Coming Soon
           </h4>
           <p className="font-[500] leading-[24px] text-[#959595]">
             Global Delegates
@@ -82,11 +82,11 @@ export const OptionToken = () => {
             <p className="text-[14px] font-[500] uppercase  leading-[40px] text-[#AA5BFF]">
               leaders
             </p>
-            <img src="/assets/pages/vote/genover/next.svg" alt="" />
+            <img src="/assets/pages/vote/genover/next.svg" alt="" className="mb-1"/>
           </Link>
           <div className="flex items-center justify-end gap-[4px]">
             <img src="/assets/pages/vote/genover/up-green.svg" alt="" />
-            <p className="font-[500] leading-[24px] text-[#1EB26B]">18.4%</p>
+            <p className="font-[500] leading-[24px] text-[#1EB26B]">0.00%</p>
           </div>
         </div>
       </div>
