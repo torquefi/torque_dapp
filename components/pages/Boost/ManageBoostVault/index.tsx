@@ -127,7 +127,7 @@ const DATA_BOOST_VAULT: IBoostInfo[] = [
   {
     tokenSymbol: 'AETH',
     tokenDecimals: 18,
-    defaultLabel: 'Vault #1',
+    defaultLabel: 'Vehicle #1',
     labelKey: 'name_boost_vault_1',
     deposited: 0.0,
     earnings: 0.0,
@@ -138,7 +138,7 @@ const DATA_BOOST_VAULT: IBoostInfo[] = [
   {
     tokenSymbol: 'TUSD',
     tokenDecimals: 9,
-    defaultLabel: 'Vault #2',
+    defaultLabel: 'Vehicle #2',
     labelKey: 'name_boost_vault_2',
     deposited: 0.0,
     earnings: 0.0,
