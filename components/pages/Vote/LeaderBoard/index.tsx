@@ -1,7 +1,7 @@
 import Skeleton from '@/components/skeleton/Skeleton'
 import React, { useEffect, useState } from 'react'
 
-export const LeaderBoard = () => {
+export const Leaderboard = () => {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
@@ -17,7 +17,7 @@ export const LeaderBoard = () => {
   }
   return (
     <div className="md:px-[15%]">
-      <div className="rounded-[12px] border-[1px] border-solid border-[#1a1a1a] bg-[#0d0d0d] px-[10px] py-[15px] md:px-[38px]">
+      <div className="w-full rounded-[12px] border border-[1px] border-solid border-[#E6E6E6] dark:border-[#1a1a1a] bg-[#ffffff] dark:bg-transparent dark:bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 text-[#404040] dark:text-white text-center px-[24px] py-[18px]">
         <div className="flex items-center justify-between">
           <h2 className="font-larken text-[24px] font-[400]">
             Leaderboard
@@ -36,9 +36,8 @@ export const LeaderBoard = () => {
           <h3 className="font-larken mt-[12px] text-center text-[24px] font-[400] leading-[34px]">
             No leaders yet
           </h3>
-          <p className="mx-auto mt-[6px] w-full text-center text-[16px] font-[500] max-w-[280px] text-[#959595]">
-            Stay tuned for the launch of TORQ, our deflationary governance
-            token.
+          <p className="mx-auto mt-[6px] w-full text-center text-[16px] font-[500] max-w-[320px] text-[#959595]">
+          The official release of Boost, Borrow, and Farm liquidity pools is coming soon.
           </p>
         </div>
         {/* <table className="w-full">

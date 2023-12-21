@@ -1,6 +1,6 @@
 import { VotePage } from '@/components/pages/Vote'
 import { Distribution } from '@/components/pages/Vote/Distribution'
-import { LeaderBoard } from '@/components/pages/Vote/LeaderBoard'
+import { Leaderboard } from '@/components/pages/Vote/Leaderboard'
 import { MainLayout } from '@/layouts/MainLayout'
 import Head from 'next/head'
 
@@ -8,9 +8,9 @@ export default function Page() {
   return (
     <>
       <Head>
-        <title>leaderboard | Torque</title>
+        <title>Leaderboard | Torque</title>
       </Head>
-      <LeaderBoard />
+      <Leaderboard />
     </>
   )
 }

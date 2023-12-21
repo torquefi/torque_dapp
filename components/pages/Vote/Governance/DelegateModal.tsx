@@ -9,11 +9,11 @@ export const DelegateModal = (props: any) => {
       <Modal
         open={openModal}
         handleClose={handleClose}
-        className="mx-auto w-full max-w-[320px] px-[32px]"
+        className="mx-auto w-[90%] max-w-[360px] px-[24px]"
         hideCloseIcon
       >
-        <div className="flex items-center justify-between py-3">
-          <div className="font-larken text-[18px] font-[400] dark:text-white md:text-[28px]">
+        <div className="flex items-center justify-between py-2">
+          <div className="font-larken text-[16px] font-[400] dark:text-white md:text-[28px]">
             Delegate
           </div>
           <AiOutlineClose
@@ -45,7 +45,7 @@ export const DelegateModal = (props: any) => {
           </div>
         </div>
         <button
-          className={`font-mona mt-[30px] w-full mb-2 rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
+          className={`font-mona mt-[16px] w-full mb-1 rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
         `}
         >
           delegate votes
