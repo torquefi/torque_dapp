@@ -21,7 +21,7 @@ export const ListPools = () => {
             No pools yet
           </h3>
           <p className="mx-auto mt-[6px] w-full text-center text-[16px] font-[500] text-[#959595] max-w-[300px]">
-            The official release of Boost, Borrow, and Farm liquidity pools is coming soon.
+            Official releases of Boost, Borrow, and Farm liquidity pools are coming soon.
           </p>
         </div>
         {/* <table className="w-full">

@@ -11,7 +11,7 @@ export const Leaderboard = () => {
   if (isLoading) {
     return (
       <div className="md:px-[15%]">
-        <Skeleton className="h-[430px] w-full rounded-[46px]" />
+        <Skeleton className="h-[430px] w-full rounded-md" />
       </div>
     )
   }
@@ -37,7 +37,7 @@ export const Leaderboard = () => {
             No leaders yet
           </h3>
           <p className="mx-auto mt-[6px] w-full text-center text-[16px] font-[500] max-w-[320px] text-[#959595]">
-          The official release of Boost, Borrow, and Farm liquidity pools is coming soon.
+          Official releases of Boost, Borrow, and Farm liquidity pools are coming soon.
           </p>
         </div>
         {/* <table className="w-full">

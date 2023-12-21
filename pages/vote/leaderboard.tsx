@@ -1,5 +1,3 @@
-import { VotePage } from '@/components/pages/Vote'
-import { Distribution } from '@/components/pages/Vote/Distribution'
 import { Leaderboard } from '@/components/pages/Vote/Leaderboard'
 import { MainLayout } from '@/layouts/MainLayout'
 import Head from 'next/head'
