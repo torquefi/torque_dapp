@@ -1,4 +1,3 @@
-import { VotePage } from '@/components/pages/Vote'
 import { Distribution } from '@/components/pages/Vote/Distribution'
 import { MainLayout } from '@/layouts/MainLayout'
 import Head from 'next/head'
