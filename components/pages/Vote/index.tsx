@@ -1,7 +1,7 @@
 import React from 'react'
 import { Governance } from './Governance'
 import { Distribution } from './Distribution'
-import { Leaderboard } from './Leaderboard'
+import { LeaderBoard } from './LeaderBoard'
 import { DetailsVotes } from './Details'
 
 export const VotePage = () => {
@@ -9,7 +9,7 @@ export const VotePage = () => {
     <div>
       <Governance />
       {/* <Distribution /> */}
-      {/* <Leaderboard /> */}
+      {/* <LeaderBoard /> */}
       {/* <DetailsVotes /> */}
     </div>
   )

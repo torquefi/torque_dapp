@@ -1,7 +1,7 @@
 import Skeleton from '@/components/skeleton/Skeleton'
 import React, { useEffect, useState } from 'react'
 
-export const Leaderboard = () => {
+export const LeaderBoard = () => {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {

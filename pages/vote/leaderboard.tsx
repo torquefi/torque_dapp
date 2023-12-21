@@ -1,4 +1,4 @@
-import { Leaderboard } from '@/components/pages/Vote/Leaderboard'
+import { LeaderBoard } from '@/components/pages/Vote/LeaderBoard'
 import { MainLayout } from '@/layouts/MainLayout'
 import Head from 'next/head'
 
@@ -8,7 +8,7 @@ export default function Page() {
       <Head>
         <title>Leaderboard | Torque</title>
       </Head>
-      <Leaderboard />
+      <LeaderBoard />
     </>
   )
 }
