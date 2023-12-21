@@ -3,7 +3,7 @@ import React from 'react'
 export const ListPools = () => {
   return (
     <div className="mt-[24px]">
-      <div className="rounded-[12px] border-[1px] border-solid border-[#1a1a1a] bg-[#0d0d0d] px-[38px] py-[16px]">
+      <div className="w-full rounded-[12px] border border-[1px] border-solid border-[#E6E6E6] dark:border-[#1a1a1a] bg-[#ffffff] dark:bg-transparent dark:bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 text-[#404040] dark:text-white text-center px-[24px] py-[18px]">
         <div className="flex items-center justify-between">
           <h2 className="font-larken text-[24px]">Pools</h2>
           <button>
@@ -21,7 +21,7 @@ export const ListPools = () => {
             No pools yet
           </h3>
           <p className="mx-auto mt-[6px] w-full text-center text-[16px] font-[500] text-[#959595] max-w-[300px]">
-            Stay tuned for the launch of Torque Boost and Borrow liquidity pools.
+            The official release of Boost, Borrow, and Farm liquidity pools is coming soon.
           </p>
         </div>
         {/* <table className="w-full">

@@ -440,7 +440,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
             </Link>
             <Link href={'https://www.usd.farm/'} className="" target={'_blank'}>
               <img
-                src={'/icons/coin/usd-1.png'}
+                src={'/icons/coin/torq-yi.svg'}
                 alt="USD.farm"
                 className="w-[26px]"
               />
