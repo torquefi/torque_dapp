@@ -53,7 +53,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
   const { address, isConnected } = useAccount()
   const { Moralis, isWeb3Enabled } = useMoralis()
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
-  const [lvt, setLvt] = useState('')
+  const [ltv, setltv] = useState('')
   const borrowAPR = useMemo(
     () =>
       Number(ethers.utils.formatUnits(item?.borrowRate, 18).toString()) *
@@ -106,10 +106,10 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
           .call({
             from: address,
           })
-        const lvt = await contract.methods.getCollateralFactor().call({
+        const ltv = await contract.methods.getCollateralFactor().call({
           from: address,
         })
-        setLvt(web3.utils.fromWei(lvt.toString(), 'ether'))
+        setltv(web3.utils.fromWei(ltv.toString(), 'ether'))
         setDataUserBorrow({
           supplied: web3.utils.fromWei(suppliedUSD.toString(), 'ether'),
           borrowed: new BigNumber(data?.baseBorrowed).div(10 ** 18).toNumber(),
@@ -377,7 +377,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       <CurrencySwitch
         tokenSymbol={''}
         tokenValue={item?.supplied || item.collateral}
-        className="font-larken -my-4 w-1/4 space-y-1 py-4"
+        className="w-1/4 py-4 -my-4 space-y-1 font-larken"
         decimalScale={2}
         render={(value) => (
           <div>
@@ -392,7 +392,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         tokenSymbol={'USD'}
         tokenValue={item?.borrowed || item.borrowed}
         usdDefault
-        className="font-larken -my-4 w-1/4 space-y-1 py-4"
+        className="w-1/4 py-4 -my-4 space-y-1 font-larken"
         decimalScale={2}
         render={(value) => (
           <div>
@@ -405,7 +405,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       />
       <div className="w-1/4 space-y-1">
         <p className="font-larken whitespace-nowrap text-[22px]">
-          {Number(lvt) * 100}%
+          {Number(ltv) * 100}%
         </p>
         <p className="whitespace-nowrap text-[14px] text-[#959595]">
           Loan-to-value
