@@ -9,27 +9,27 @@ export const DelegateModal = (props: any) => {
       <Modal
         open={openModal}
         handleClose={handleClose}
-        className="mx-auto w-[90%] max-w-[360px] px-[24px]"
+        className="bg-[#FCFAFF] dark:bg-[#030303] mx-auto w-[90%] max-w-[360px] px-[24px]"
         hideCloseIcon
       >
         <div className="flex items-center justify-between py-2">
-          <div className="font-larken text-[16px] font-[400] dark:text-white md:text-[28px]">
+          <div className="font-larken text-[16px] font-[400] text-[#030303] dark:text-white md:text-[28px]">
             Delegate
           </div>
           <AiOutlineClose
-            className="cursor-pointer text-[#ffff]"
+            className="cursor-pointer text-[#030303] dark:text-[#ffff]"
             onClick={handleClose}
           />
         </div>
-        <div className="gradient-border mt-2 hidden h-[1px] w-full md:block"></div>
+        <div className="gradient-border-white gradient-border mt-2 hidden h-[1px] w-full md:block"></div>
         <div className="mt-[22px]">
           <input
-            className="w-full rounded-[12px] border-[1px] border-solid border-[#1a1a1a] bg-transparent px-[21px] py-[12px] text-[14px] font-[500] text-[#959595]"
+            className="w-full rounded-[12px] border-[1px] border-solid border-[#E6E6E6] dark:border-[#1a1a1a] bg-transparent px-[21px] py-[12px] text-[14px] font-[500] text-[#959595]"
             type="text"
             placeholder="Address*"
           />
         </div>
-        <div className="gradient-border mt-[22px] hidden h-[1px] w-full md:block"></div>
+        <div className="gradient-border-white gradient-border mt-[22px] hidden h-[1px] w-full md:block"></div>
         <div className="mt-[22px]">
           <div className="flex justify-between font-[500] leading-[20px] text-[#959595]">
             <p>Wallet balance</p>

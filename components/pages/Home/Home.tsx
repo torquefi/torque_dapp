@@ -248,7 +248,7 @@ const HomePageFilter = () => {
           />
         </div>
       </div>
-      <div className="h-2 w-full overflow-hidden bg-[#d7d7d7] dark:bg-[#1F1F1F]">
+      <div className="h-2 w-full overflow-hidden bg-[#eaeaea] dark:bg-[#1F1F1F]">
         <div
           style={{ width: `${calculateBorrow}%` }}
           className="h-full rounded-full bg-gradient-to-r from-[#C38BFF] to-[#AA5BFF] text-center text-white shadow-none"
