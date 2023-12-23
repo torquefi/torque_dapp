@@ -30,7 +30,7 @@ export const Governance = () => {
   return (
     <>
       <div className="w-full mx-auto text-center">
-        <h1 className="font-larken text-[38px] font-[400] leading-[60px] md:text-[52px]">
+        <h1 className="font-larken text-[#030303] dark:text-white text-[38px] font-[400] leading-[60px] md:text-[52px]">
           Governance
         </h1>
         <p className="mx-auto w-full max-w-[332px] font-[500] leading-[24px] text-[#959595]">

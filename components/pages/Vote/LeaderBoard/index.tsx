@@ -1,8 +1,11 @@
 import Skeleton from '@/components/skeleton/Skeleton'
 import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { AppStore } from '@/types/store'
 
 export const LeaderBoard = () => {
   const [isLoading, setIsLoading] = useState(true)
+  const theme = useSelector((store: AppStore) => store.theme.theme)
 
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1000)
@@ -17,7 +20,7 @@ export const LeaderBoard = () => {
   }
   return (
     <div className="md:px-[15%]">
-      <div className="w-full rounded-[12px] border border-[1px] border-solid border-[#E6E6E6] dark:border-[#1a1a1a] bg-[#ffffff] dark:bg-transparent dark:bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 text-[#404040] dark:text-white text-center px-[24px] py-[18px]">
+      <div className="w-full rounded-[12px] border border-[1px] border-solid border-[#E6E6E6] dark:border-[#1a1a1a] bg-[#ffffff] dark:bg-transparent dark:bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 text-[#030303] dark:text-white text-center px-[24px] py-[24px]">
         <div className="flex items-center justify-between">
           <h2 className="font-larken text-[24px] font-[400]">
             Leaderboard
@@ -26,10 +29,14 @@ export const LeaderBoard = () => {
             <img src="/assets/pages/vote/ic-info.svg" alt="" />
           </button>
         </div>
-        <div className="gradient-border mt-[26px] h-[1px] w-full"></div>
+        <div className="gradient-border-white dark:gradient-border mt-[18px] h-[1px] w-full"></div>
         <div className="mx-auto w-full py-[58px]">
           <img
-            src="/assets/pages/vote/genover/noproposal.png"
+            src={
+              theme === 'light'
+                ? '/assets/pages/vote/genover/noproposal-white.png'
+                : '/assets/pages/vote/genover/noproposal.png'
+            }
             alt=""
             className="mx-auto w-full max-w-[84px]"
           />

@@ -1,9 +1,13 @@
 import React, { useState } from 'react'
 import { ProposalsItem } from './ProposalsItem'
 import { CreateModal } from './CreateModal'
+import { useSelector } from 'react-redux'
+import { AppStore } from '@/types/store'
 
 export const Proposals = () => {
   const [openCreateModal, setOpenCreateModal] = useState(false)
+  const theme = useSelector((store: AppStore) => store.theme.theme)
+
   return (
     <>
       <div className="dark:text-white space-y-4 rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-[16px] py-[24px] w-full text-[#404040] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b xl:px-[32px] sm:mr-0 md:w-[59%] md:px-[37px] lg:mr-2">
@@ -18,16 +22,20 @@ export const Proposals = () => {
             <p className="text-[14px] font-[500] uppercase text-[#AA5BFF]">
               create
             </p>
-            <img src="/assets/pages/vote/genover/next.svg" alt="" />
+            <img src="/assets/pages/vote/genover/next.svg" alt="" className="mb-1"/>
           </button>
         </div>
-        <div className="gradient-border mt-2 hidden h-[1px] w-full md:block"></div>
+        <div className="gradient-border-white dark:gradient-border mt-2 hidden h-[1px] w-full md:block"></div>
         {/* {menu.map((item, i) => (
           <ProposalsItem menu={item} />
         ))} */}
         <div className="mx-auto w-full py-[58px]">
           <img
-            src="/assets/pages/vote/genover/noproposal.png"
+            src={
+              theme === 'light'
+                ? '/assets/pages/vote/genover/noproposal-white.png'
+                : '/assets/pages/vote/genover/noproposal.png'
+            }
             alt=""
             className="mx-auto w-full max-w-[84px]"
           />

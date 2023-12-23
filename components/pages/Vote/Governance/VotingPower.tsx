@@ -14,15 +14,15 @@ export const VotingPower = () => {
             {/* need popover here */}
           </button>
         </div>
-        <div className="gradient-border mt-2 hidden h-[1px] w-full md:block"></div>
+        <div className="gradient-border-white dark:gradient-border mt-2 hidden h-[1px] w-full md:block"></div>
         <div className="grid w-full h-auto grid-cols-2 gap-4 py-2 overflow-y-auto">
-          <div className="rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A]  dark:bg-transparent dark:bg-gradient-to-b flex h-[102px] flex-col items-center justify-center rounded-[8px] border-[1px] border-[#1A1A1A]">
+          <div className="rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  border-[#E6E6E6] dark:border-[#1A1A1A]  dark:bg-transparent dark:bg-gradient-to-b flex h-[102px] flex-col items-center justify-center rounded-[8px] border-[1px] border-[#1A1A1A]">
             <div className="mt-1 font-larken text-[24px] text-[#404040] dark:text-white">
               0.00
             </div>
             <div className="mt-1 text-[15px] text-[#959595]">Your Power</div>
           </div>
-          <div className="rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A]  dark:bg-transparent dark:bg-gradient-to-b flex h-[102px] flex-col items-center justify-center rounded-[8px] border-[1px] border-[#1A1A1A]">
+          <div className="rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0 border-[#E6E6E6] dark:border-[#1A1A1A]  dark:bg-transparent dark:bg-gradient-to-b flex h-[102px] flex-col items-center justify-center rounded-[8px] border-[1px] border-[#1A1A1A]">
             <div className="mt-1 font-larken text-[24px] text-[#404040] dark:text-white">
               $0.00
             </div>

@@ -1,6 +1,10 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
+import { AppStore } from '@/types/store'
 
 export const ListPools = () => {
+  const theme = useSelector((store: AppStore) => store.theme.theme)
+
   return (
     <div className="mt-[24px]">
       <div className="w-full rounded-[12px] border border-[1px] border-solid border-[#E6E6E6] dark:border-[#1a1a1a] bg-[#ffffff] dark:bg-transparent dark:bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 text-[#404040] dark:text-white text-center px-[24px] py-[18px]">
@@ -10,10 +14,14 @@ export const ListPools = () => {
             <img src="/assets/pages/vote/ic-info.svg" alt="" />
           </button>
         </div>
-        <div className="gradient-border mt-[10px] hidden h-[1px] w-full md:block"></div>
+        <div className="gradient-border-white dark:gradient-border mt-[10px] hidden h-[1px] w-full md:block"></div>
         <div className="mx-auto w-full py-[58px]">
           <img
-            src="/assets/pages/vote/genover/noproposal.png"
+            src={
+              theme === 'light'
+                ? '/assets/pages/vote/genover/noproposal-white.png'
+                : '/assets/pages/vote/genover/noproposal.png'
+            }
             alt=""
             className="mx-auto w-full max-w-[84px]"
           />
