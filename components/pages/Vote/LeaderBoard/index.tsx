@@ -29,7 +29,7 @@ export const LeaderBoard = () => {
             <img src="/assets/pages/vote/ic-info.svg" alt="" />
           </button>
         </div>
-        <div className="gradient-border-white dark:gradient-border mt-[18px] h-[1px] w-full"></div>
+        <div className="gradient-border mt-[18px] h-[1px] w-full"></div>
         <div className="mx-auto w-full py-[58px]">
           <img
             src={
