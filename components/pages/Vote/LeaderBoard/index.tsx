@@ -1,6 +1,7 @@
 import Skeleton from '@/components/skeleton/Skeleton'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { AppStore } from '@/types/store'
 
 export const LeaderBoard = () => {
   const [isLoading, setIsLoading] = useState(true)

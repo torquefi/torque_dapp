@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { ProposalsItem } from './ProposalsItem'
 import { CreateModal } from './CreateModal'
 import { useSelector } from 'react-redux'
+import { AppStore } from '@/types/store'
 
 export const Proposals = () => {
   const [openCreateModal, setOpenCreateModal] = useState(false)
