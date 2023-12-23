@@ -60,7 +60,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
 
   const [aprBorrow, setAprBorrow] = useState('')
 
-  const [lvt, setLvt] = useState('')
+  const [lvt, setlvt] = useState('')
   useEffect(() => {
     ;(async () => {
       const ethPrice = await getPriceToken('ETH')
@@ -94,7 +94,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
           .call({
             from: address,
           })
-        setLvt(web3.utils.fromWei(lvtETH.toString(), 'ether'))
+        setlvt(web3.utils.fromWei(lvtETH.toString(), 'ether'))
         setAprBorrow(web3.utils.fromWei(aprBorrowETH.toString(), 'ether'))
         setContractBorrowETH(contractBorrowETH)
       }
@@ -108,7 +108,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
           .call({
             from: address,
           })
-        setLvt(web3.utils.fromWei(lvtBTC.toString(), 'ether'))
+        setlvt(web3.utils.fromWei(lvtBTC.toString(), 'ether'))
         setAprBorrow(web3.utils.fromWei(aprBorrowBTC.toString(), 'ether'))
         setContractBorrowBTC(contractBorrowBTC)
       }
@@ -404,7 +404,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
           </div>
           <div className="font-larken flex h-[100px] flex-col items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
             <InputCurrencySwitch
-              tokenSymbol={'USD'}
+              tokenSymbol={'TUSD'}
               tokenValue={Number(amountReceive)}
               tokenValueChange={Number(
                 (Number(

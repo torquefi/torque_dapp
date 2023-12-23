@@ -30,7 +30,7 @@ const HomePageFilter = () => {
   const [totalBorrow, setTotalBorrow] = useState('')
   const [yourBorrow, setYourBorrow] = useState('')
   const [calculateBorrow, setcalculateBorrow] = useState(0)
-  const [lvt, setLvt] = useState('')
+  const [lvt, setlvt] = useState('')
   const [netAPY, setNetAPY] = useState('')
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1000)
@@ -48,7 +48,7 @@ const HomePageFilter = () => {
     const lvtETH = await contractBorrowETH.methods.getCollateralFactor().call({
       from: address,
     })
-    setLvt(web3.utils.fromWei(lvtETH.toString(), 'ether'))
+    setlvt(web3.utils.fromWei(lvtETH.toString(), 'ether'))
     if (address && isConnected) {
       let dataBorrowBTC = await contractBorrowBTC.methods
         .borrowInfoMap(address)
