@@ -14,7 +14,7 @@ export const ListPools = () => {
             <img src="/assets/pages/vote/ic-info.svg" alt="" />
           </button>
         </div>
-        <div className="gradient-border-white dark:gradient-border mt-[10px] hidden h-[1px] w-full md:block"></div>
+        <div className="gradient-border mt-[10px] hidden h-[1px] w-full md:block"></div>
         <div className="mx-auto w-full py-[58px]">
           <img
             src={
