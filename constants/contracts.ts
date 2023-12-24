@@ -1,7 +1,7 @@
 import {
   boostBtc as boostBtcAbi,
   btc as btcAbi,
-  boostEth as boostEthAbi,
+  boostEther as boostEthAbi,
   eth as ethAbi,
   // boostTorq as boostTorqAbi,
   // torq as torqAbi,
@@ -25,7 +25,7 @@ export const btcContract: IContractInfo = {
   abi: JSON.stringify(btcAbi),
 }
 
-export const boostEthContract: IContractInfo = {
+export const boostEtherContract: IContractInfo = {
   address: '0xB3F4c9026f0786b4949fFb456CF9530696359B1e',
   abi: JSON.stringify(boostEthAbi),
 }

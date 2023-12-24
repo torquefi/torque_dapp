@@ -1,6 +1,6 @@
 import SkeletonDefault from '@/components/skeleton'
 import {
-  boostEthContract,
+  boostEtherContract,
   ethContract,
   boostBtcContract,
   btcContract,
@@ -145,6 +145,6 @@ const DATA_BOOST_VAULT: IBoostInfo[] = [
     earnings: 0.0,
     APR: 0.0,
     tokenContractInfo: ethContract,
-    boostContractInfo: boostEthContract,
+    boostContractInfo: boostEtherContract,
   },
 ]
