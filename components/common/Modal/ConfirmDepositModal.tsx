@@ -4,9 +4,9 @@ import NumberFormat from '../NumberFormat'
 import { useEffect, useState } from 'react'
 import { getBalanceByContractToken } from '@/constants/utils'
 import {
-  btcCoinContract,
-  ethCoinContract,
-  tokenUSGContract,
+  btcContract,
+  ethContract,
+  tusdContract,
 } from '@/constants/contracts'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
@@ -55,18 +55,18 @@ export function
       ; (async () => {
         if (coinFrom.symbol === 'BTC') {
           const amount = await getBalanceByContractToken(
-            btcCoinContract.abi,
-            btcCoinContract.address,
+            btcContract.abi,
+            btcContract.address,
             address
           )
           setBalanceWallet(amount)
         } else if (coinFrom.symbol === 'ETH') {
           const balance = await web3.eth.getBalance(address)
           setBalanceWallet(Number(formatUnits(balance, 18)))
-        } else if (coinFrom.symbol === 'USG') {
+        } else if (coinFrom.symbol === 'TUSD') {
           const amount = await getBalanceByContractToken(
-            tokenUSGContract.abi,
-            tokenUSGContract.address,
+            tusdContract.abi,
+            tusdContract.address,
             address
           )
           setBalanceWallet(amount)
@@ -110,7 +110,7 @@ export function
             <img className="w-16" src={coinFrom?.icon} alt="" />
           </div>
         </div>
-        <div className="mt-8 flex items-center justify-between">
+        <div className="flex items-center justify-between mt-8">
           <div>
             <span className="text-[16px] text-[#959595]">You receive</span>
             <div className="font-larken pt-2 text-[23px]">
@@ -126,7 +126,7 @@ export function
           <div className="relative w-16">
             <img className="w-16 " src={coinTo?.icon} alt="" />
             <img
-              className="absolute bottom-3 right-3 w-5"
+              className="absolute w-5 bottom-3 right-3"
               src="/assets/t-logo-circle.svg"
               alt=""
             />

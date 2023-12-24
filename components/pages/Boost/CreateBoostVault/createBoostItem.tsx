@@ -27,24 +27,48 @@ export function CreateBoostItem({ item }: any) {
 
   const dispatch = useDispatch()
 
+  // const tokenContract = useMemo(() => {
+  //   const web3 = new Web3(Web3.givenProvider)
+  //   const contract = new web3.eth.Contract(
+  //     JSON.parse(item?.tokenContractInfo?.abi),
+  //     item?.tokenContractInfo?.address
+  //   )
+  //   return contract
+  // }, [Web3.givenProvider, item?.symbol])
+
+  // const boostContract = useMemo(() => {
+  //   const web3 = new Web3(Web3.givenProvider)
+  //   const contract = new web3.eth.Contract(
+  //     JSON.parse(item?.boostContractInfo?.abi),
+  //     item?.boostContractInfo?.address
+  //   )
+  //   return contract
+  // }, [Web3.givenProvider, item?.symbol])
+
   const tokenContract = useMemo(() => {
-    const web3 = new Web3(Web3.givenProvider)
-    const contract = new web3.eth.Contract(
-      JSON.parse(item?.tokenContractInfo?.abi),
-      item?.tokenContractInfo?.address
-    )
-    return contract
-  }, [Web3.givenProvider, item?.symbol])
-
+    const web3 = new Web3(Web3.givenProvider);
+    if (!item?.tokenContractInfo?.abi) {
+      console.error('Token contract ABI is undefined');
+      return null;
+    }
+    return new web3.eth.Contract(
+      JSON.parse(item.tokenContractInfo.abi),
+      item.tokenContractInfo.address
+    );
+  }, [item]);
+  
   const boostContract = useMemo(() => {
-    const web3 = new Web3(Web3.givenProvider)
-    const contract = new web3.eth.Contract(
-      JSON.parse(item?.boostContractInfo?.abi),
-      item?.boostContractInfo?.address
-    )
-    return contract
-  }, [Web3.givenProvider, item?.symbol])
-
+    const web3 = new Web3(Web3.givenProvider);
+    if (!item?.boostContractInfo?.abi) {
+      console.error('Boost contract ABI is undefined');
+      return null;
+    }
+    return new web3.eth.Contract(
+      JSON.parse(item.boostContractInfo.abi),
+      item.boostContractInfo.address
+    );
+  }, [item]);
+  
   const getAllowance = async () => {
     try {
       const allowanceToken = await tokenContract.methods
