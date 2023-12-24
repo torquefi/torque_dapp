@@ -1,10 +1,11 @@
 import NumberFormat from '@/components/common/NumberFormat'
 import SkeletonDefault from '@/components/skeleton'
 import {
-  boostContract,
-  ethContract,
-  usgContract,
-} from '@/constants/boostContract'
+  boostWbtcContract,
+  boostEthContract,
+  boostTorqContract,
+  boostCompContract,
+} from '@/constants/contracts'
 import { AppStore } from '@/types/store'
 import { useEffect, useState } from 'react'
 import { useMoralis } from 'react-moralis'
@@ -30,7 +31,7 @@ const HomePageFilter = () => {
   const [totalBorrow, setTotalBorrow] = useState('')
   const [yourBorrow, setYourBorrow] = useState('')
   const [calculateBorrow, setcalculateBorrow] = useState(0)
-  const [lvt, setlvt] = useState('')
+  const [ltv, setltv] = useState('')
   const [netAPY, setNetAPY] = useState('')
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1000)
@@ -45,10 +46,10 @@ const HomePageFilter = () => {
       JSON.parse(borrowEthContractInfo?.abi),
       borrowEthContractInfo?.address
     )
-    const lvtETH = await contractBorrowETH.methods.getCollateralFactor().call({
+    const ltvETH = await contractBorrowETH.methods.getCollateralFactor().call({
       from: address,
     })
-    setlvt(web3.utils.fromWei(lvtETH.toString(), 'ether'))
+    setltv(web3.utils.fromWei(ltvETH.toString(), 'ether'))
     if (address && isConnected) {
       let dataBorrowBTC = await contractBorrowBTC.methods
         .borrowInfoMap(address)
@@ -93,7 +94,7 @@ const HomePageFilter = () => {
         const calculate = new BigNumber(yourTotalBorrow)
           .div(yourTotalSupply)
           .multipliedBy(
-            Number(web3.utils.fromWei(lvtETH.toString(), 'ether')) * 100
+            Number(web3.utils.fromWei(ltvETH.toString(), 'ether')) * 100
           )
           .toFixed(2)
         setcalculateBorrow(Number(calculate))
@@ -240,7 +241,7 @@ const HomePageFilter = () => {
             className="font-larken text-[16px]"
             displayType="text"
             thousandSeparator
-            // value={Number(lvt) * 100}
+            // value={Number(ltv) * 100}
             value={78}
             decimalScale={2}
             fixedDecimalScale

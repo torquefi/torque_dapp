@@ -18,7 +18,7 @@ import Web3 from 'web3'
 import {
   borrowBtcContractInfo,
   borrowEthContractInfo,
-  engineUsdContractInfo,
+  engineTusdContractInfo,
   tokenBtcContractInfo,
   tokenEthContractInfo,
 } from '../constants/contract'
@@ -49,7 +49,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
   const [price, setPrice] = useState<any>({
     aeth: 0,
     wbtc: 0,
-    usd: 1,
+    tusd: 1,
   })
   const { address, isConnected } = useAccount()
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
@@ -60,7 +60,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
 
   const [aprBorrow, setAprBorrow] = useState('')
 
-  const [lvt, setlvt] = useState('')
+  const [ltv, setltv] = useState('')
   useEffect(() => {
     ;(async () => {
       const ethPrice = await getPriceToken('ETH')
@@ -68,7 +68,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
       setPrice({
         aeth: ethPrice,
         wbtc: btcPrice,
-        usd: 1,
+        tusd: 1,
       })
     })()
     setTimeout(() => setIsLoading(false), 1000)
@@ -89,12 +89,12 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
         const aprBorrowETH = await contractBorrowETH.methods.getApr().call({
           from: address,
         })
-        const lvtETH = await contractBorrowETH.methods
+        const ltvETH = await contractBorrowETH.methods
           .getCollateralFactor()
           .call({
             from: address,
           })
-        setlvt(web3.utils.fromWei(lvtETH.toString(), 'ether'))
+        setltv(web3.utils.fromWei(ltvETH.toString(), 'ether'))
         setAprBorrow(web3.utils.fromWei(aprBorrowETH.toString(), 'ether'))
         setContractBorrowETH(contractBorrowETH)
       }
@@ -103,12 +103,12 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
         const aprBorrowBTC = await contractBorrowBTC.methods.getApr().call({
           from: address,
         })
-        const lvtBTC = await contractBorrowBTC.methods
+        const ltvBTC = await contractBorrowBTC.methods
           .getCollateralFactor()
           .call({
             from: address,
           })
-        setlvt(web3.utils.fromWei(lvtBTC.toString(), 'ether'))
+        setltv(web3.utils.fromWei(ltvBTC.toString(), 'ether'))
         setAprBorrow(web3.utils.fromWei(aprBorrowBTC.toString(), 'ether'))
         setContractBorrowBTC(contractBorrowBTC)
       }
@@ -199,11 +199,11 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
 
   async function getMintable(balance: any, tokenCollateralAddress: string) {
     try {
-      const usdEngineContract = new web3.eth.Contract(
-        JSON.parse(engineUsdContractInfo?.abi),
-        engineUsdContractInfo?.address
+      const tusdEngineContract = new web3.eth.Contract(
+        JSON.parse(engineTusdContractInfo?.abi),
+        engineTusdContractInfo?.address
       ) as any
-      let mintable = await usdEngineContract.methods
+      let mintable = await tusdEngineContract.methods
         .getMintableUSD(tokenCollateralAddress, address, balance)
         .call()
       return Number(mintable[0]) - 100000 || 0
@@ -271,21 +271,21 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
             .multipliedBy(10 ** item.borrowTokenDecimal)
             .toString()
         )
-        const udcBorrowAmount = await contractBorrowBTC.methods
+        const usdcBorrowAmount = await contractBorrowBTC.methods
           .getBorrowableUsdc(borrow)
           .call()
-        const usdBorrowAmount = await contractBorrowBTC.methods
+        const tusdBorrowAmount = await contractBorrowBTC.methods
           .getBorrowable(borrowAmount, address)
           .call()
-        if (usdBorrowAmount == 0) {
+        if (tusdBorrowAmount == 0) {
           toast.error('Borrow failed. Please try again')
           return
         }
         await contractBorrowBTC.methods
           .borrow(
             borrow,
-            udcBorrowAmount.toString(),
-            (Number(usdBorrowAmount) * 0.98).toString() || 0
+            usdcBorrowAmount.toString(),
+            (Number(tusdBorrowAmount) * 0.98).toString() || 0
           )
           .send({
             from: address,
@@ -301,21 +301,21 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
             .multipliedBy(10 ** item.depositTokenDecimal)
             .toString()
         ).toFixed(0)
-        const udcBorrowAmount = await contractBorrowETH.methods
+        const usdcBorrowAmount = await contractBorrowETH.methods
           .getBorrowableUsdc(borrow)
           .call()
-        const usdBorrowAmount = await contractBorrowETH.methods
+        const tusdBorrowAmount = await contractBorrowETH.methods
           .getBorrowable(borrow, address)
           .call()
 
-        if (usdBorrowAmount == 0) {
+        if (tusdBorrowAmount == 0) {
           toast.error('Borrow failed. Please try again')
           return
         }
         await contractBorrowETH.methods
           .borrow(
-            udcBorrowAmount.toString(),
-            (Number(usdBorrowAmount) * 0.99).toString() || 0
+            usdcBorrowAmount.toString(),
+            (Number(tusdBorrowAmount) * 0.99).toString() || 0
           )
           .send({
             value: borrow,
@@ -411,7 +411,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
                   amount *
                     price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]
                 ) *
-                  (Number(lvt) * 100)) /
+                  (Number(ltv) * 65)) /
                   100
               )}
               usdDefault
@@ -451,7 +451,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
           <p>Loan-to-value</p>
           <p>
             {'<'}
-            {Number(lvt) * 100}%
+            {Number(ltv) * 100}%
           </p>
         </div>
         <div className="flex justify-between text-[#959595]">
@@ -476,9 +476,9 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
               amountReceive /
                 (amount *
                   price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]) >
-              Number(lvt)
+              Number(ltv)
             ) {
-              toast.error(`Loan-to-value exceeds ${Number(lvt) * 100}%`)
+              toast.error(`Loan-to-value exceeds ${Number(ltv) * 100}%`)
             } else {
               handleConfirmDeposit()
             }
@@ -510,7 +510,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
         details={[
           {
             label: 'Loan-to-value',
-            value: `<${Number(lvt) * 100}%`,
+            value: `<${Number(ltv) * 100}%`,
           },
           {
             label: 'Variable APR',

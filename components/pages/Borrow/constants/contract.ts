@@ -5,17 +5,17 @@ import compoundUsdc from './abi/compoundUsdc.json'
 import engineUsd from './abi/engineUsd.json'
 import tokenBtc from './abi/tokenBtc.json'
 import tokenEth from './abi/tokenEth.json'
-import tokenUsdcArb from './abi/tokenUsdcArb.json'
+import tokenUsdc from './abi/tokenUsdc.json'
+import tokenTusd from './abi/tokenTusd.json'
 
-
-export const tokenUsdContractInfo: IContractInfo = {
+export const tokenTusdContractInfo: IContractInfo = {
   address: '0x37F7D986057C3a45a2cAF781Eb238EEBea5D7FAE',
-  abi: JSON.stringify(tokenUsdcArb),
+  abi: JSON.stringify(tokenTusd),
 }
 
 export const tokenUsdcContractInfo: IContractInfo = {
   address: '0xaf88d065e77c8cc2239327c5edb3a432268e5831',
-  abi: JSON.stringify(tokenUsdcArb),
+  abi: JSON.stringify(tokenUsdc),
 }
 
 export const compoundUsdcContractInfo: IContractInfo = {

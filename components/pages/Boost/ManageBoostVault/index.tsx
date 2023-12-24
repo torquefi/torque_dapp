@@ -1,9 +1,10 @@
 import SkeletonDefault from '@/components/skeleton'
 import {
-  boostContract,
+  boostEthContract,
   ethContract,
-  usgContract,
-} from '@/constants/boostContract'
+  boostBtcContract,
+  btcContract,
+} from '@/constants/contracts'
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import { useAccount } from 'wagmi'
@@ -125,54 +126,25 @@ export function ManageBoostVault() {
 
 const DATA_BOOST_VAULT: IBoostInfo[] = [
   {
-    tokenSymbol: 'AETH',
+    tokenSymbol: 'WBTC',
     tokenDecimals: 18,
     defaultLabel: 'Vehicle #1',
+    labelKey: 'name_boost_vault_2',
+    deposited: 0.0,
+    earnings: 0.0,
+    APR: 0.0,
+    tokenContractInfo: btcContract,
+    boostContractInfo: boostBtcContract,
+  },
+  {
+    tokenSymbol: 'AETH',
+    tokenDecimals: 18,
+    defaultLabel: 'Vehicle #2',
     labelKey: 'name_boost_vault_1',
     deposited: 0.0,
     earnings: 0.0,
     APR: 0.0,
     tokenContractInfo: ethContract,
-    boostContractInfo: boostContract,
-  },
-  {
-    tokenSymbol: 'TUSD',
-    tokenDecimals: 9,
-    defaultLabel: 'Vehicle #2',
-    labelKey: 'name_boost_vault_2',
-    deposited: 0.0,
-    earnings: 0.0,
-    APR: 0.0,
-    tokenContractInfo: usgContract,
-    boostContractInfo: boostContract,
+    boostContractInfo: boostEthContract,
   },
 ]
-
-// const DATA_BOOST_VAULT = [
-//   {
-//     token: 'ETH',
-//     label: 'Vault #1',
-//     deposited: 0.0,
-//     earnings: 0.0,
-//     APR: '0.00%',
-//     isOpen: false,
-//     amount: 0,
-//     data_key: 'name_boost_vault_1',
-//     boost_contract: 'boost_abi',
-//     name_ABI_asset: 'weth_abi',
-//     decimals_asset: 18,
-//   },
-//   {
-//     token: 'USG',
-//     label: 'Vault #2',
-//     deposited: 0,
-//     earnings: 0,
-//     APR: '0.00%',
-//     isOpen: false,
-//     amount: 0,
-//     data_key: 'name_boost_vault_2',
-//     boost_contract: 'boost_abi',
-//     name_ABI_asset: 'USGt_abi',
-//     decimals_asset: 9,
-//   },
-// ]

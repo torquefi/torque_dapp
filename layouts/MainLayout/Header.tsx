@@ -1,7 +1,7 @@
 import HoverIndicator from '@/components/common/HoverIndicator'
 import NumberFormat from '@/components/common/NumberFormat'
 import Popover from '@/components/common/Popover'
-import { tokenTorqContract } from '@/constants/contracts'
+// import { torqContract } from '@/constants/contracts'
 import { requestSwitchNetwork } from '@/lib/helpers/network'
 import { shortenAddress } from '@/lib/helpers/utils'
 import { AppStore } from '@/types/store'
@@ -81,14 +81,14 @@ export const Header = () => {
     }
   }, [router])
 
-  const tokenContract = useMemo(() => {
-    const web3 = new Web3(Web3.givenProvider)
-    const contract = new web3.eth.Contract(
-      JSON.parse(tokenTorqContract.abi),
-      tokenTorqContract.address
-    )
-    return contract
-  }, [Web3.givenProvider, tokenTorqContract])
+  // const tokenContract = useMemo(() => {
+  //   const web3 = new Web3(Web3.givenProvider)
+  //   const contract = new web3.eth.Contract(
+  //     JSON.parse(torqContract.abi),
+  //     torqContract.address
+  //   )
+  //   return contract
+  // }, [Web3.givenProvider, torqContract])
 
   useEffect(() => {
     if (chain?.id) {

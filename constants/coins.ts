@@ -1,7 +1,7 @@
-import { tokenTorqContract } from './contracts'
+import { torqContract } from './contracts'
 
 export const TORQ = {
-  name: 'TORQ',
+  name: 'Torque',
   symbol: 'TORQ',
   contract: tokenTorqContract,
 }
