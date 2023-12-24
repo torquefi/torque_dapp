@@ -1,12 +1,12 @@
 import {
-  boostBtc as boostBtcAbi,
-  btc as btcAbi,
-  boostEther as boostEthAbi,
-  eth as ethAbi,
-  // boostTorq as boostTorqAbi,
-  // torq as torqAbi,
-  // boostComp as boostCompAbi,
-  // comp as compAbi,
+  boostBtcAbi,
+  btcAbi,
+  boostEthAbi,
+  ethAbi,
+  // boostTorqAbi,
+  // torqAbi,
+  // boostCompAbi,
+  // compAbi,
   tusd as tusdAbi,
 } from './abi';
 export interface IContractInfo {
