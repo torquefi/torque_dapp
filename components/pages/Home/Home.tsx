@@ -1,7 +1,7 @@
 import NumberFormat from '@/components/common/NumberFormat'
 import SkeletonDefault from '@/components/skeleton'
 import {
-  boostWbtcContract,
+  boostBtcContract,
   boostEthContract,
   boostTorqContract,
   boostCompContract,
@@ -13,8 +13,8 @@ import { useSelector } from 'react-redux'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 import {
-  borrowBtcContractInfo,
-  borrowEthContractInfo,
+  borrowBtcContract,
+  borrowEthContract,
 } from '../Borrow/constants/contract'
 import BigNumber from 'bignumber.js'
 import { useContract } from '@/constants/utils'
@@ -39,12 +39,12 @@ const HomePageFilter = () => {
 
   const getInfor = async () => {
     const contractBorrowBTC = useContract(
-      JSON.parse(borrowBtcContractInfo?.abi),
-      borrowBtcContractInfo?.address
+      JSON.parse(borrowBtcContract?.abi),
+      borrowBtcContract?.address
     )
     const contractBorrowETH = useContract(
-      JSON.parse(borrowEthContractInfo?.abi),
-      borrowEthContractInfo?.address
+      JSON.parse(borrowEthContract?.abi),
+      borrowEthContract?.address
     )
     const ltvETH = await contractBorrowETH.methods.getCollateralFactor().call({
       from: address,

@@ -8,44 +8,44 @@ import tokenEth from './abi/tokenEth.json'
 import tokenUsdc from './abi/tokenUsdc.json'
 import tokenTusd from './abi/tokenTusd.json'
 
-export const tokenTusdContractInfo: IContractInfo = {
+export const tokenTusdContract: IContractInfo = {
   address: '0x37F7D986057C3a45a2cAF781Eb238EEBea5D7FAE',
   abi: JSON.stringify(tokenTusd),
 }
 
-export const tokenUsdcContractInfo: IContractInfo = {
+export const tokenUsdcContract: IContractInfo = {
   address: '0xaf88d065e77c8cc2239327c5edb3a432268e5831',
   abi: JSON.stringify(tokenUsdc),
 }
 
-export const compoundUsdcContractInfo: IContractInfo = {
+export const compoundUsdcContract: IContractInfo = {
   address: '0x9c4ec768c28520b50860ea7a15bd7213a9ff58bf',
   abi: JSON.stringify(compoundUsdc),
 }
 
-export const engineUsdContractInfo: IContractInfo = {
+export const engineUsdContract: IContractInfo = {
   address: '0x3c716812B02aC5Ea432b153B134770e7f78E6542',
   abi: JSON.stringify(engineUsd),
 }
 
 // ======================================================================
 
-export const borrowBtcContractInfo: IContractInfo = {
+export const borrowBtcContract: IContractInfo = {
   address: '0xD6047Dc4258aDFf8F35dA52DAE16f04cA5E0F16B',
   abi: JSON.stringify(borrowBtc),
 }
 
-export const borrowEthContractInfo: IContractInfo = {
+export const borrowEthContract: IContractInfo = {
   address: '0xbA32f8febc4aFB1Ee9A92548c9deb8989F37Daf4',
   abi: JSON.stringify(borrowEth),
 }
 
-export const tokenBtcContractInfo: IContractInfo = {
+export const tokenBtcContract: IContractInfo = {
   address: '0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f',
   abi: JSON.stringify(tokenBtc),
 }
 
-export const tokenEthContractInfo: IContractInfo = {
+export const tokenEthContract: IContractInfo = {
   address: '0x82aF49447D8a07e3bd95BD0d56f35241523fBab1',
   abi: JSON.stringify(tokenEth),
 }

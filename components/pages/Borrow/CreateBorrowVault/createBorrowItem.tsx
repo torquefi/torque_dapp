@@ -16,11 +16,11 @@ import { toast } from 'sonner'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 import {
-  borrowBtcContractInfo,
-  borrowEthContractInfo,
-  engineTusdContractInfo,
-  tokenBtcContractInfo,
-  tokenEthContractInfo,
+  borrowBtcContract,
+  borrowEthContract,
+  engineTusdContract,
+  tokenBtcContract,
+  tokenEthContract,
 } from '../constants/contract'
 import { IBorrowInfo } from '../types'
 import { log } from 'console'
@@ -77,13 +77,13 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
   const initContract = async () => {
     try {
       const contractBorrowETH = new web3.eth.Contract(
-        JSON.parse(borrowEthContractInfo?.abi),
-        borrowEthContractInfo?.address
+        JSON.parse(borrowEthContract?.abi),
+        borrowEthContract?.address
       )
 
       let contractBorrowBTC = new web3.eth.Contract(
-        JSON.parse(borrowBtcContractInfo?.abi),
-        borrowBtcContractInfo?.address
+        JSON.parse(borrowBtcContract?.abi),
+        borrowBtcContract?.address
       )
       if (contractBorrowETH && item.depositTokenSymbol === 'AETH') {
         const aprBorrowETH = await contractBorrowETH.methods.getApr().call({
@@ -114,13 +114,13 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
       }
 
       let contractBTC = new web3.eth.Contract(
-        JSON.parse(tokenBtcContractInfo?.abi),
-        tokenBtcContractInfo?.address
+        JSON.parse(tokenBtcContract?.abi),
+        tokenBtcContract?.address
       )
 
       let contractETH = new web3.eth.Contract(
-        JSON.parse(tokenEthContractInfo?.abi),
-        tokenEthContractInfo?.address
+        JSON.parse(tokenEthContract?.abi),
+        tokenEthContract?.address
       )
       if (contractETH) {
         setContractETH(contractETH)
@@ -142,7 +142,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
         address
       ) {
         const allowance = await contractBTC.methods
-          .allowance(address, borrowBtcContractInfo?.address)
+          .allowance(address, borrowBtcContract?.address)
           .call({
             from: address,
           })
@@ -200,8 +200,8 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
   async function getMintable(balance: any, tokenCollateralAddress: string) {
     try {
       const tusdEngineContract = new web3.eth.Contract(
-        JSON.parse(engineTusdContractInfo?.abi),
-        engineTusdContractInfo?.address
+        JSON.parse(engineTusdContract?.abi),
+        engineTusdContract?.address
       ) as any
       let mintable = await tusdEngineContract.methods
         .getMintableUSD(tokenCollateralAddress, address, balance)
