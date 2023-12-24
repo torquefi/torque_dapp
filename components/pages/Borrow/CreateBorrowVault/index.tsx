@@ -8,11 +8,11 @@ import Web3 from 'web3'
 import {
   borrowBtcContract,
   borrowEthContract,
-  compoundUsdcContract,
   tokenBtcContract,
   tokenEthContract,
   tokenUsdcContract,
 } from '../constants/contract'
+import { compoundUsdcContract as compoundUsdcContractData } from '../constants/contract';
 import { IBorrowInfo } from '../types'
 import CreateBorrowItem from './createBorrowItem'
 
@@ -91,9 +91,9 @@ export default function CreateBorrowVault() {
     }
     try {
       const compoundUsdcContract = new web3.eth.Contract(
-        JSON.parse(compoundUsdcContract?.abi),
-        compoundUsdcContract?.address
-      )
+        JSON.parse(compoundUsdcContractData?.abi),
+        compoundUsdcContractData?.address
+      );
       if (compoundUsdcContract) {
         const tokenAddress =
           item?.depositTokenSymbol === 'BTC'
