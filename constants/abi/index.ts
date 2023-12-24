@@ -3,7 +3,7 @@ export { default as ethAbi } from './eth.json'
 // export { default as torqAbi } from './torq.json'
 // export { default as compAbi } from './comp.json'
 
-// export { default as boostBtcAbi } from './boostBtc.json'
+export { default as boostBtcAbi } from './boostBtc.json'
 export { default as boostEthAbi } from './boostEther.json'
 // export { default as boostTorqAbi } from './boostTorq.json'
 // export { default as boostCompAbi } from './boostComp.json'
