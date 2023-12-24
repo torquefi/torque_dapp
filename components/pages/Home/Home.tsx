@@ -3,8 +3,8 @@ import SkeletonDefault from '@/components/skeleton'
 import {
   boostBtcContract,
   boostEthContract,
-  boostTorqContract,
-  boostCompContract,
+  // boostTorqContract,
+  // boostCompContract,
 } from '@/constants/contracts'
 import { AppStore } from '@/types/store'
 import { useEffect, useState } from 'react'
@@ -20,6 +20,7 @@ import BigNumber from 'bignumber.js'
 import { useContract } from '@/constants/utils'
 
 const DEFAULT_WALLET = '0xf74929eC9Ad8972AAFADe614978deE9A2A6eD189'
+
 const HomePageFilter = () => {
   const web3 = new Web3(Web3.givenProvider)
   const { Moralis, enableWeb3, isWeb3Enabled } = useMoralis()
