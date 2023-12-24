@@ -1,4 +1,4 @@
-import { torqContract } from './contracts'
+import { torqContract } from './contracts';
 
 export const TORQ = {
   name: 'Torque',

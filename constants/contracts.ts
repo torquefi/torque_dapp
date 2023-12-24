@@ -40,10 +40,10 @@ export const ethContract: IContractInfo = {
 //   abi: JSON.stringify(boostTorqAbi),
 // }
 
-// export const torqContract: IContractInfo = {
-//   address: '0xEe01c0CD76354C383B8c7B4e65EA88D00B06f36f',
-//   abi: JSON.stringify(torqAbi),
-// }
+export const torqContract: IContractInfo = {
+  address: '0xb56C29413AF8778977093B9B4947efEeA7136C36',
+  abi: JSON.stringify(torqAbi),
+}
 
 // export const boostCompContract: IContractInfo = {
 //   address: '0xB3F4c9026f0786b4949fFb456CF9530696359B1e',
