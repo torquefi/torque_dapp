@@ -7,7 +7,7 @@ import {
   // torqAbi,
   // boostCompAbi,
   // compAbi,
-  tusd as tusdAbi,
+  tusdAbi,
 } from './abi';
 export interface IContractInfo {
   name?: string
