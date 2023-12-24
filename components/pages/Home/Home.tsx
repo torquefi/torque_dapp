@@ -1,11 +1,11 @@
 import NumberFormat from '@/components/common/NumberFormat'
 import SkeletonDefault from '@/components/skeleton'
-import {
-  boostBtcContract,
-  boostEthContract,
-  // boostTorqContract,
-  // boostCompContract,
-} from '@/constants/contracts'
+// import {
+//   boostBtcContract,
+//   boostEtherContract,
+//   boostTorqContract,
+//   boostCompContract,
+// } from '@/constants/contracts'
 import { AppStore } from '@/types/store'
 import { useEffect, useState } from 'react'
 import { useMoralis } from 'react-moralis'
