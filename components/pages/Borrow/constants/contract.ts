@@ -2,7 +2,7 @@ import { IContractInfo } from '@/constants/contracts'
 import borrowBtc from './abi/borrowBtc.json'
 import borrowEth from './abi/borrowEth.json'
 import compoundUsdc from './abi/compoundUsdc.json'
-import engineUsd from './abi/engineUsd.json'
+import engineTusd from './abi/engineTusd.json'
 import tokenBtc from './abi/tokenBtc.json'
 import tokenEth from './abi/tokenEth.json'
 import tokenUsdc from './abi/tokenUsdc.json'
@@ -23,9 +23,9 @@ export const compoundUsdcContract: IContractInfo = {
   abi: JSON.stringify(compoundUsdc),
 }
 
-export const engineUsdContract: IContractInfo = {
+export const engineTusdContract: IContractInfo = {
   address: '0x3c716812B02aC5Ea432b153B134770e7f78E6542',
-  abi: JSON.stringify(engineUsd),
+  abi: JSON.stringify(engineTusd),
 }
 
 // ======================================================================
