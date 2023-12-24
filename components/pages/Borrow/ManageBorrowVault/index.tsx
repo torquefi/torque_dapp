@@ -8,7 +8,7 @@ import {
   borrowEthContract,
   tokenBtcContract,
   tokenEthContract,
-  tokenUsdContract,
+  tokenTusdContract,
 } from '../constants/contract'
 import { compoundUsdcContract as compoundUsdcContractData } from '../constants/contract';
 import { IBorrowInfoManage } from '../types'
