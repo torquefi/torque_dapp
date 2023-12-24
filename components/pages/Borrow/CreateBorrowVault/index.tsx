@@ -40,15 +40,15 @@ export default function CreateBorrowVault() {
     try {
       if (!item.tokenContract) {
         item.tokenContract = new web3.eth.Contract(
-          JSON.parse(item.tokenContract?.abi),
-          item.tokenContract?.address
+          JSON.parse(item.tokenContractInfo?.abi),
+          item.tokenContractInfo?.address
         )
       }
 
       if (!item.borrowContract) {
         item.borrowContract = new web3.eth.Contract(
-          JSON.parse(item.borrowContract?.abi),
-          item.borrowContract?.address
+          JSON.parse(item.borrowContractInfo?.abi),
+          item.borrowContractInfo?.address
         )
         let addressBaseAsset = await item.borrowContract.methods
           .baseAsset()
