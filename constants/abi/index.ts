@@ -4,13 +4,13 @@ export { default as ethAbi } from './eth.json'
 // export { default as compAbi } from './comp.json'
 
 // export { default as boostBtcAbi } from './boostBtc.json'
-export { default as boostEthAbi } from './boostEth.json'
+export { default as boostEthAbi } from './boostEther.json'
 // export { default as boostTorqAbi } from './boostTorq.json'
 // export { default as boostCompAbi } from './boostComp.json'
 
 export { default as compoundUsdc } from './compoundUsdc.json'
 
-export { default as BtcBorrowAbi } from './btcBorrow.json'
-export { default as EthBorrowAbi } from './ethBorrow.json'
+export { default as btcBorrowAbi } from './btcBorrow.json'
+export { default as ethBorrowAbi } from './ethBorrow.json'
 
 export { default as usdc } from './usdc.json'
