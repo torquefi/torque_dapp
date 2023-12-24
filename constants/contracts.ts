@@ -7,6 +7,7 @@ import {
   // torq as torqAbi,
   // boostComp as boostCompAbi,
   // comp as compAbi,
+  tusd as tusdAbi,
 } from './abi';
 export interface IContractInfo {
   name?: string
@@ -54,7 +55,7 @@ export const ethContract: IContractInfo = {
 //   abi: JSON.stringify(compAbi),
 // }
 
-// export const tusdContract: IContractInfo = {
-//   address: '0x2B9960680D91d7791e9a24aCFb03CE0d234cC708',
-//   abi: JSON.stringify(tokenTusdABI),
-// }
+export const tusdContract: IContractInfo = {
+  address: '0x2B9960680D91d7791e9a24aCFb03CE0d234cC708',
+  abi: JSON.stringify(tusdAbi),
+}
