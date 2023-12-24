@@ -6,12 +6,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 import {
-  borrowBtcContractInfo,
-  borrowEthContractInfo,
-  compoundUsdcContractInfo,
-  tokenBtcContractInfo,
-  tokenEthContractInfo,
-  tokenUsdcContractInfo,
+  borrowBtcContract,
+  borrowEthContract,
+  compoundUsdcContract,
+  tokenBtcContract,
+  tokenEthContract,
+  tokenUsdcContract,
 } from '../constants/contract'
 import { IBorrowInfo } from '../types'
 import CreateBorrowItem from './createBorrowItem'
@@ -40,15 +40,15 @@ export default function CreateBorrowVault() {
     try {
       if (!item.tokenContract) {
         item.tokenContract = new web3.eth.Contract(
-          JSON.parse(item.tokenContractInfo?.abi),
-          item.tokenContractInfo?.address
+          JSON.parse(item.tokenContract?.abi),
+          item.tokenContract?.address
         )
       }
 
       if (!item.borrowContract) {
         item.borrowContract = new web3.eth.Contract(
-          JSON.parse(item.borrowContractInfo?.abi),
-          item.borrowContractInfo?.address
+          JSON.parse(item.borrowContract?.abi),
+          item.borrowContract?.address
         )
         let addressBaseAsset = await item.borrowContract.methods
           .baseAsset()
@@ -64,8 +64,8 @@ export default function CreateBorrowVault() {
 
     try {
       const usdcContract = new web3.eth.Contract(
-        JSON.parse(tokenUsdcContractInfo?.abi),
-        tokenUsdcContractInfo?.address
+        JSON.parse(tokenUsdcContract?.abi),
+        tokenUsdcContract?.address
       )
       if (usdcContract) {
         let decimals = await usdcContract.methods
@@ -91,14 +91,14 @@ export default function CreateBorrowVault() {
     }
     try {
       const compoundUsdcContract = new web3.eth.Contract(
-        JSON.parse(compoundUsdcContractInfo?.abi),
-        compoundUsdcContractInfo?.address
+        JSON.parse(compoundUsdcContract?.abi),
+        compoundUsdcContract?.address
       )
       if (compoundUsdcContract) {
         const tokenAddress =
           item?.depositTokenSymbol === 'BTC'
-            ? tokenBtcContractInfo.address
-            : tokenEthContractInfo.address
+            ? tokenBtcContract.address
+            : tokenEthContract.address
         let assets = await compoundUsdcContract.methods
           .getAssetInfoByAddress(tokenAddress)
           .call({ from: address })
@@ -175,8 +175,8 @@ const BORROW_INFOS: IBorrowInfo[] = [
     loanToValue: 0,
     getTORQ: 28,
     borrowRate: 0,
-    borrowContractInfo: borrowBtcContractInfo,
-    tokenContractInfo: tokenBtcContractInfo,
+    borrowContractInfo: borrowBtcContract,
+    tokenContractInfo: tokenBtcContract,
   },
   {
     depositTokenIcon: '/icons/coin/aeth.png',
@@ -188,7 +188,7 @@ const BORROW_INFOS: IBorrowInfo[] = [
     loanToValue: 0,
     getTORQ: 32,
     borrowRate: 0,
-    borrowContractInfo: borrowEthContractInfo,
-    tokenContractInfo: tokenEthContractInfo,
+    borrowContractInfo: borrowEthContract,
+    tokenContractInfo: tokenEthContract,
   },
 ]
