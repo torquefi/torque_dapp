@@ -4,13 +4,13 @@ import { useEffect, useState } from 'react'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 import {
-  borrowBtcContractInfo,
-  borrowEthContractInfo,
-  compoundUsdcContractInfo,
-  tokenBtcContractInfo,
-  tokenEthContractInfo,
-  tokenUsdContractInfo,
+  borrowBtcContract,
+  borrowEthContract,
+  tokenBtcContract,
+  tokenEthContract,
+  tokenUsdContract,
 } from '../constants/contract'
+import { compoundUsdcContract as compoundUsdcContractData } from '../constants/contract';
 import { IBorrowInfoManage } from '../types'
 import BorrowItem from './BorrowItem'
 import { EmptyBorrow } from './EmptyBorrow'
@@ -97,8 +97,8 @@ export default function ManageBorrowVault() {
 
     try {
       const compoundUsdcContract = new web3.eth.Contract(
-        JSON.parse(compoundUsdcContractInfo?.abi),
-        compoundUsdcContractInfo?.address
+        JSON.parse(compoundUsdcContractData?.abi),
+        compoundUsdcContractData?.address
       )
       if (compoundUsdcContract) {
         let utilization = await compoundUsdcContract.methods
@@ -179,8 +179,8 @@ const DATA_BORROW: IBorrowInfoManage[] = [
     ltv: 0.0,
     apy: 0.0,
     borrowRate: 1359200263,
-    borrowContractInfo: borrowBtcContractInfo,
-    tokenContractInfo: tokenUsdContractInfo,
+    borrowContractInfo: borrowBtcContract,
+    tokenContractInfo: tokenTusdContract,
     borrowMax: 0.0,
   },
   {
@@ -196,8 +196,8 @@ const DATA_BORROW: IBorrowInfoManage[] = [
     ltv: 0.0,
     apy: 0.0,
     borrowRate: 1359200263,
-    borrowContractInfo: borrowEthContractInfo,
-    tokenContractInfo: tokenUsdContractInfo,
+    borrowContractInfo: borrowEthContract,
+    tokenContractInfo: tokenTusdContract,
     borrowMax: 0.0,
   },
 ]

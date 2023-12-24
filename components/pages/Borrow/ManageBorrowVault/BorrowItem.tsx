@@ -17,9 +17,9 @@ import { toast } from 'sonner'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 import {
-  borrowBtcContractInfo,
-  borrowEthContractInfo,
-  tokenUsdContractInfo,
+  borrowBtcContract,
+  borrowEthContract,
+  tokenTusdContract,
 } from '../constants/contract'
 import { IBorrowInfoManage } from '../types'
 import { BorrowItemChart } from './BorrowItemChart'
@@ -77,11 +77,11 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       let contractBorrowAddress
 
       if (item.depositTokenSymbol === 'WBTC') {
-        contractBorrowABI = borrowBtcContractInfo.abi
-        contractBorrowAddress = borrowBtcContractInfo.address
+        contractBorrowABI = borrowBtcContract.abi
+        contractBorrowAddress = borrowBtcContract.address
       } else if (item.depositTokenSymbol === 'AETH') {
-        contractBorrowABI = borrowEthContractInfo.abi
-        contractBorrowAddress = borrowEthContractInfo.address
+        contractBorrowABI = borrowEthContract.abi
+        contractBorrowAddress = borrowEthContract.address
       }
       const contract = new web3.eth.Contract(
         JSON.parse(contractBorrowABI),
@@ -146,8 +146,8 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
     try {
       if (item?.borrowContract) {
         const contract = new web3.eth.Contract(
-          JSON.parse(tokenUsdContractInfo.abi),
-          tokenUsdContractInfo.address
+          JSON.parse(tokenTusdContract.abi),
+          tokenTusdContract.address
         )
         const allowance = await contract.methods
           .allowance(address, item?.borrowContractInfo.address)
@@ -215,8 +215,8 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         await getAllowance()
       }
       const contractUSD = new web3.eth.Contract(
-        JSON.parse(tokenUsdContractInfo.abi),
-        tokenUsdContractInfo.address
+        JSON.parse(tokenTusdContract.abi),
+        tokenTusdContract.address
       )
       const balanceOfUSD = await contractUSD.methods.balanceOf(address).call({
         from: address,
