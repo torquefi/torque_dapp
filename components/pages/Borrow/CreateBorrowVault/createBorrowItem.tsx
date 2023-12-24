@@ -203,8 +203,8 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
         JSON.parse(engineTusdContract?.abi),
         engineTusdContract?.address
       ) as any
-      let mintable = await engineTusdContract.methods
-        .getMintableUSD(tokenCollateralAddress, address, balance)
+      let mintable = await tusdEngineContract.methods
+        .getMintableTusd(tokenCollateralAddress, address, balance)
         .call()
       return Number(mintable[0]) - 100000 || 0
     } catch (e) {
