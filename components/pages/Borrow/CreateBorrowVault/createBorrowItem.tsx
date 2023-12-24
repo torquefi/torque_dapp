@@ -154,7 +154,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
         address
       ) {
         const allowance = await contractETH.methods
-          .allowance(address, borrowEthContractInfo?.address)
+          .allowance(address, borrowEthContract?.address)
           .call({
             from: address,
           })
