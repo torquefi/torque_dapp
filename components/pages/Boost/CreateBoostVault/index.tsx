@@ -5,7 +5,7 @@ import { CreateBoostItem } from './createBoostItem'
 import {
   boostBtcContract,
   btcContract,
-  boostEthContract,
+  boostEtherContract,
   ethContract,
   // boostTorqContract,
   // torqContract,
@@ -107,7 +107,7 @@ const BOOST_VAULTS = [
     yield_provider2: '/icons/coin/stg.png',
     link_yield2: 'https://stargate.finance/',
     tokenContractInfo: ethContract,
-    boostContractInfo: boostEthContract,
+    boostContractInfo: boostEtherContract,
   },
   // {
   //   token: 'TORQ',
