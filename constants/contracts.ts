@@ -4,7 +4,7 @@ import {
   boostEthAbi,
   ethAbi,
   // boostTorqAbi,
-  // torqAbi,
+  torqAbi,
   // boostCompAbi,
   // compAbi,
   tusdAbi,
