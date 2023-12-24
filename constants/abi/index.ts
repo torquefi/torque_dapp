@@ -1,4 +1,4 @@
-// export { default as btcAbi } from './btc.json'
+export { default as btcAbi } from './btc.json'
 export { default as ethAbi } from './eth.json'
 // export { default as torqAbi } from './torq.json'
 // export { default as compAbi } from './comp.json'
