@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'Doreamon Finance',
+      name: 'Torque',
       script: '/usr/local/bin/yarn',
       args: 'start',
       instances: 1,
