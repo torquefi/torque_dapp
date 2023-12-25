@@ -25,7 +25,9 @@ export const Proposals = () => {
             <img src="/assets/pages/vote/genover/next.svg" alt="" className="mb-1"/>
           </button>
         </div>
-        <div className="gradient-border mt-2 hidden h-[1px] w-full md:block"></div>
+        <div className={`mt-2 hidden h-[1px] w-full md:block` +`
+      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'}`
+        }></div>
         {/* {menu.map((item, i) => (
           <ProposalsItem menu={item} />
         ))} */}
