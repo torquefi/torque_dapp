@@ -20,7 +20,7 @@ export default function ClaimModal({
 
   const [torqPrice, setTorqPrice] = useState('0.00');
   const [torqMarketCap, setTorqMarketCap] = useState('0.00m');
-
+  const theme = useSelector((store: AppStore) => store.theme.theme)
   const circulatingSupply = 11121512940; // 11.1 billion
 
   useEffect(() => {
@@ -71,18 +71,20 @@ export default function ClaimModal({
       hideCloseIcon
     >
       <div className="flex items-center justify-between">
-        <div className="font-larken text-[18px] text-[22px] dark:text-white">
+        <div className="text-[#030303] font-larken text-[18px] text-[22px] dark:text-white">
           Rewards
         </div>
         <AiOutlineClose
-          className=" cursor-pointer text-[#ffff]"
+          className=" cursor-pointer text-[#030303] dark:text-[#ffff]"
           onClick={handleClose}
         />
       </div>
-      <div className="gradient-border mt-2 hidden h-[1px] w-full md:block"></div>
+      <div className={`mt-2 hidden h-[1px] w-full md:block` +`
+      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'}`
+        }></div>
       <div className="grid h-auto w-full  grid-cols-2 gap-[12px] overflow-y-auto py-[18px]">
         {rewards.map((item) => (
-          <div className="flex bg-claim-reward h-[102px] flex-col items-center justify-center rounded-[8px] border-[1px] border-[#1A1A1A]">
+          <div className="rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  border-[#E6E6E6] dark:border-[#1A1A1A]  dark:bg-transparent dark:bg-gradient-to-b flex h-[102px] flex-col items-center justify-center rounded-[8px] border-[1px] border-[#1A1A1A]">
             <div className="font-larken text-[24px] text-[#404040] dark:text-white">
               {item.title}
             </div>
