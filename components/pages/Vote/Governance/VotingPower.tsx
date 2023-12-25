@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { DelegateModal } from './DelegateModal'
 import Link from 'next/link'
 import { useSelector } from 'react-redux'
+import { AppStore } from '@/types/store'
 
 export const VotingPower = () => {
   const [openDelegateModal, setOpenDelegateModal] = useState(false)
