@@ -176,7 +176,7 @@ export function CreateBoostItem({ item }: any) {
     <>
       <div
         className={
-          `rounded-[12px] border border-[#E6E6E6] bg-[#ffffff]  px-3 py-6 text-[#404040] dark:border-[#1A1A1A]  dark:text-white lg:px-8 dark:bg-transparent dark:bg-gradient-to-br  from-[#0d0d0d] to-[#0d0d0d]/0` +
+          `rounded-[12px] border border-[#E6E6E6] bg-[#ffffff]  px-4 pt-3 pb-5 text-[#404040] dark:border-[#1A1A1A]  dark:text-white lg:px-8 dark:bg-transparent dark:bg-gradient-to-br  from-[#0d0d0d] to-[#0d0d0d]/0` +
           `  ${theme === 'light' ? ' bg-[#FCFAFF]' : 'bg-overview'}`
         }
       >
@@ -185,9 +185,9 @@ export function CreateBoostItem({ item }: any) {
             <img
               src={`/icons/coin/${item.token.toLocaleLowerCase()}.png`}
               alt=""
-              className="w-24"
+              className="w-[72px] md:w-24"
             />
-            <div className="font-larken grow pb-2 text-[22px] leading-tight xs:text-[18px] sm:text-[22px] lg:text-[26px]">
+            <div className="font-larken text-[#404040] dark:text-white text-[18px] md:text-[22px] leading-tight lg:text-[26px]">
               Deposit {item.token},<br className="" /> Earn {item.token}
             </div>
           </div>
@@ -202,7 +202,7 @@ export function CreateBoostItem({ item }: any) {
                 <img
                   src="/assets/t-logo-circle.svg"
                   alt=""
-                  className="w-[24px] xs:w-[28px]"
+                  className="w-[24px]"
                 />
 
                 <div className="font-mona mx-1 uppercase text-[#AA5BFF] xs:mx-2">
@@ -212,8 +212,8 @@ export function CreateBoostItem({ item }: any) {
             </Link>
           </Popover>
         </div>
-        <div className="grid grid-cols-2 gap-4 mt-4 font-larken">
-          <div className="flex h-[110px] w-full flex-col items-center justify-center gap-3 rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A]  dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
+        <div className="grid grid-cols-2 gap-4 mt-1 mb-1 font-larken">
+          <div className="flex w-full flex items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
             <InputCurrencySwitch
               tokenSymbol={item?.token}
               tokenValue={+amount}
@@ -235,7 +235,7 @@ export function CreateBoostItem({ item }: any) {
               decimalScale={2}
               render={(value) => (
                 <>
-                  <p className="text-[32px] leading-none">{value}</p>
+                  <p className="text-[26px] md:text-[32px] leading-none">{value}</p>
                   <div className="font-mona text-[16px] text-[#959595]">
                     3-Year Value
                   </div>

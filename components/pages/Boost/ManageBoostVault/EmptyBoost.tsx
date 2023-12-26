@@ -25,7 +25,7 @@ export const EmptyBoost = () => {
           }
           alt=""
         />
-        <p className="font-larken text-[24px] text-black dark:text-white">
+        <p className="font-larken text-[24px] text-[#404040] dark:text-white">
           No vehicles created yet
         </p>
         <p className="mt-[12px] max-w-[400px] text-center font-body text-[16px] text-[#959595]">

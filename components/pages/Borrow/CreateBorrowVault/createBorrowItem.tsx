@@ -357,23 +357,25 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
   return (
     <>
       <div
-        className="dark:text-white space-y-4 rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-[16px] py-[24px] text-[#404040] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white xl:px-[32px]"
+        className="dark:text-white space-y-4 rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pt-3 pb-5 text-[#404040] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white xl:px-[32px]"
         key={dataBorrow.depositTokenSymbol}
       >
+      <div className="flex items-center justify-between w-full">
         <div className="flex items-center">
           <img
-            className="w-16 xs:w-20 lg:w-24"
+            className="w-[72px] md:w-24"
             src={dataBorrow.depositTokenIcon}
             alt=""
           />
-          <div className="font-larken grow pb-2 text-[22px] leading-tight xs:text-[18px] lg:text-[26px]">
+          <div className="font-larken text-[#404040] dark:text-white text-[18px] md:text-[22px] leading-tight lg:text-[26px]">
             Deposit {dataBorrow.depositTokenSymbol},<br /> Borrow{' '}
             {dataBorrow.borrowTokenSymbol}
           </div>
+        </div>
           <Popover
             trigger="hover"
             placement="bottom-right"
-            className={`mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#FCFAFF] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#161616]`}
+            className={`mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#161616]`}
             content="The projected TORQ rewards after 1 year of $1,000 borrowed"
           >
             <Link href="#" className="" target={'_blank'}>
@@ -389,11 +391,11 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
           </Popover>
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <div className="font-larken flex h-[100px] flex-col items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
+          <div className="font-larken flex h-[100px] flex items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
             <InputCurrencySwitch
               tokenSymbol={item?.depositTokenSymbol}
               tokenValue={Number(amount)}
-              className="w-full py-4 leading-none lg:py-6"
+              className="w-full py-4"
               subtitle="Collateral"
               usdDefault
               decimalScale={2}
@@ -416,7 +418,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
               )}
               usdDefault
               decimalScale={2}
-              className="w-full py-4 leading-none lg:py-6"
+              className="w-full py-4"
               subtitle="Borrowing"
               onChange={(e) => {
                 setAmountReceive(e)

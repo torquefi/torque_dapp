@@ -105,7 +105,7 @@ export function ManageBoostVault() {
 
   if (!boostDisplayed?.length) {
     return (
-      <div className="font-larken dark-text-white mt-[36px] text-[#464646]">
+      <div className="font-larken dark-text-white mt-[36px] text-[#404040]">
         <div className="text-[24px] dark:text-white">Manage Boost Vehicles</div>
         <EmptyBoost />
       </div>
