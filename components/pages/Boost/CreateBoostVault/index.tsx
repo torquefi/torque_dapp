@@ -19,54 +19,43 @@ export function CreateBoostVault() {
 
   const { Moralis, isInitialized } = useMoralis()
 
-  const getAPR = async () => {
-    try {
-      let data = await Moralis.Cloud.run('getAPR_Stargate')
-      console.log('getAPR_Stargate', data)
-      const newBoost = boostVault.map((item) => {
-        for (var i = 0; i < data.length; i++) {
-          if (item.token?.toLowerCase() == data[i].token?.toLowerCase()) {
-            item.APR = Number(Number(data[i].apr * 100).toFixed(2))
-            break
-          }
-        }
-        return item
-      })
-      setBoostVault(newBoost)
-    } catch (e) {
-      console.log(e)
-    }
-  }
+  // const getAPR = async () => {
+  //   try {
+  //     let data = await Moralis.Cloud.run('getAPR_Stargate')
+  //     console.log('getAPR_Stargate', data)
+  //     const newBoost = boostVault.map((item) => {
+  //       for (var i = 0; i < data.length; i++) {
+  //         if (item.token?.toLowerCase() == data[i].token?.toLowerCase()) {
+  //           item.APR = Number(Number(data[i].apr * 100).toFixed(2))
+  //           break
+  //         }
+  //       }
+  //       return item
+  //     })
+  //     setBoostVault(newBoost)
+  //   } catch (e) {
+  //     console.log(e)
+  //   }
+  // }
+
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1000)
   }, [])
 
-  useEffect(() => {
-    getAPR()
-  }, [isInitialized])
+  // useEffect(() => {
+  //   getAPR()
+  // }, [isInitialized])
 
   return (
-    <div className=" mt-[36px]">
-      {isLoading ? (
-        <div className="mt-[24px]">
-          <SkeletonDefault height={40} width={'200px'} />
-        </div>
-      ) : (
-        <div className="font-larken text-[24px] text-[#000] dark:text-[#ffff]">
-          Create Boost Vehicle
-        </div>
-      )}
+    <div className="space-y-[24px] ">
+      <h3 className="font-larken text-[24px] text-[#404040] dark:text-white">
+        Create Boost Vehicle
+      </h3>
 
-      <div className="mt-[24px] grid gap-[20px] md:grid-cols-2">
-        {boostVault.map((item: any) => {
-          if (isLoading) {
-            return (
-              <div className="">
-                <SkeletonDefault height={'40vh'} width={'100%'} />
-              </div>
-            )
-          } else return <CreateBoostItem item={item} />
-        })}
+      <div className="grid gap-[20px] md:grid-cols-2">
+        {boostVault.map((item, i) => (
+          <CreateBoostItem item={item}/>
+        ))}
       </div>
     </div>
   )
