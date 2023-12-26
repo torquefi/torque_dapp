@@ -379,13 +379,14 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
             content="The projected TORQ rewards after 1 year of $1,000 borrowed"
           >
             <Link href="#" className="" target={'_blank'}>
-              <div className="flex items-center rounded-full bg-[#AA5BFF] bg-opacity-20 p-1 text-[12px] xs:text-[14px]">
+              <div className="flex items-center rounded-full bg-[#AA5BFF] bg-opacity-20 p-1  text-[12px] xs:text-[14px]">
                 <img
                   src="/assets/t-logo-circle.svg"
                   alt=""
-                  className="w-[24px] xs:w-[28px]"
-                />
-                <p className="mx-1 text-[#AA5BFF] xs:mx-2">+0.00 TORQ</p>
+                  className="w-[24px]"/>
+                <div className="font-mona mx-1 uppercase text-[#AA5BFF] xs:mx-2">
+                  +0.00 TORQ
+                </div>
               </div>
             </Link>
           </Popover>
