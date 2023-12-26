@@ -153,7 +153,7 @@ const HomePageFilter = () => {
   }, [address, isConnected])
   if (isLoading) {
     return (
-      <div className="">
+      <div className="mt-2">
         <SkeletonDefault height={'40vh'} width={'100%'} />
       </div>
     )

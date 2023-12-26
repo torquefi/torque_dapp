@@ -6,7 +6,7 @@ import Product from './Product'
 export const HomePage = () => {
   return (
     <div>
-      <div className="">
+      <div className="mt-2">
         {/* <PortfolioChart /> */}
         {/* <NetApy /> */}
         <HomePageFilter />
