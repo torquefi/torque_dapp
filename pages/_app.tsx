@@ -46,12 +46,12 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
   if (typeof window !== 'undefined') {
     if (
-      window.localStorage.getItem('theme') === 'dark' ||
+      window.localStorage.getItem('theme') === 'light' ||
       !('theme' in window.localStorage)
     ) {
-      document.documentElement.classList.add('dark')
+      document.documentElement.classList.add('light')
     } else {
-      document.documentElement.classList.remove('dark')
+      document.documentElement.classList.remove('light')
     }
   }
 

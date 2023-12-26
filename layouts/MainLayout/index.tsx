@@ -17,7 +17,7 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
 
   useEffect(() => {
     if (theme == '') {
-      dispatch(updateTheme('dark' as any))
+      dispatch(updateTheme('light' as any))
     }
   }, [theme])
 
