@@ -98,7 +98,7 @@ export default function InputCurrencySwitch({
   return (
     <div
       className={
-        'cursor-pointer select-none text-center leading-none text-[#000] transition-all active:scale-90 dark:text-white' +
+        'cursor-pointer select-none text-center leading-none text-[#030303] transition-all active:scale-90 dark:text-white' +
         ` ${className}`
       }
       onClick={() => {
@@ -109,7 +109,7 @@ export default function InputCurrencySwitch({
       <NumberFormat
         suffix={!isShowUsd ? ' ' + tokenSymbol : ''}
         prefix={isShowUsd ? '$' : ''}
-        className={`max-w-full bg-transparent pb-[2px] text-center text-[32px] font-bold text-[#000] placeholder-[#464646] dark:text-[#ffff] dark:placeholder-[#fff]`}
+        className={`max-w-full bg-transparent pb-[3px] text-center text-[26px] md:text-[32px] font-bold text-[#030303] placeholder-[#404040] dark:text-[#ffff] dark:placeholder-[#fff]`}
         value={inputAmount || null}
         onChange={(event: any, value: any) => {
           setInputAmount(value)

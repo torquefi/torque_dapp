@@ -225,7 +225,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         new BigNumber(balanceOfUSD).div(10 ** 18).toString()
       )
       if (inputValue > Number(balanceOf)) {
-        toast.error('Your account does not have enough USD to Repay')
+        toast.error('Not enough TUSD to repay')
         return
       }
       if (!isApprovedUSD) {

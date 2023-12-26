@@ -41,25 +41,25 @@ export const MenuMobile = () => {
 
   return (
     <div>
-      <div className="fixed inset-x-0 bottom-0 z-50 h-[76px] border-t-2 dark:border-[#181818] md:hidden">
-        <div ref={menuContainer} className="relative z-10 flex h-full w-full">
+      <div className="hidden fixed inset-x-0 bottom-0 z-50 h-[76px] border-t-1 border-[#C38BFF] dark:border-[#181818]">
+        <div ref={menuContainer} className="relative z-10 flex w-full h-full">
           <div
             className="absolute top-[-8px] z-[-1] transition-all duration-300"
             ref={menuIndicator}
           >
             <div
               className={
-                'mx-auto aspect-1 w-[76px] rounded-full  from-[#181818] via-[#282828] to-[#181818] p-[2px] dark:bg-gradient-to-r' +
-                ` ${router.pathname === '/overview'
+                'mx-auto aspect-1 w-[76px] rounded-full from-[#181818] via-[#282828] to-[#181818] p-[2px] dark:bg-gradient-to-r' +
+                ` ${router.pathname === '/home'
                   ? 'via-[#332048]'
                   : 'via-[#181818]'
                 }`
               }
             >
-              <div className="h-full w-full rounded-full bg-[#fff]  dark:bg-[#030303]" />
+              <div className="h-full w-full rounded-full bg-white dark:bg-[#030303]" />
             </div>
           </div>
-          <div className="flex h-full w-full items-center bg-[#030303] bg-opacity-40 dark:bg-[#030303]">
+          <div className="flex h-full w-full items-center bg-white bg-opacity-80 dark:bg-[#030303] backdrop-blur-lg">
             {menu.map((item, i) =>
               !item.isExternalLink ? (
                 <Link
@@ -83,7 +83,7 @@ export const MenuMobile = () => {
                   legacyBehavior
                   className={
                     'font-mona flex h-[32px] w-1/5 items-center justify-center transition-all' +
-                    ` ${activeTabIndex === i ? ' origin-bottom scale-[1.6]' : ''
+                    ` ${activeTabIndex === i ? ' origin-bottom scale-[1.2]' : ''
                     }`
                   }
                 >
