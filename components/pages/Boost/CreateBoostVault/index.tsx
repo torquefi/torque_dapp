@@ -38,7 +38,7 @@ export function CreateBoostVault() {
     }
   }
   useEffect(() => {
-    setTimeout(() => setIsLoading(false), 1500)
+    setTimeout(() => setIsLoading(false), 1000)
   }, [])
 
   useEffect(() => {

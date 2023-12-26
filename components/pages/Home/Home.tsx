@@ -160,7 +160,7 @@ const HomePageFilter = () => {
   }
 
   return (
-    <div className="relative mt-[80px] flex w-full flex-wrap items-center justify-center rounded-t-[10px] border-[1px] from-[#25252566] pt-[80px] dark:border-[#1A1A1A] dark:bg-gradient-to-br md:mt-0 md:pt-0">
+    <div className="bg-white dark:bg-transparent relative mt-[80px] flex w-full flex-wrap items-center justify-center rounded-t-[10px] border-[1px] from-[#25252566] pt-[80px] dark:border-[#1A1A1A] dark:bg-gradient-to-br md:mt-0 md:pt-0">
       <div className="h-[100px] w-full md:h-[160px] md:w-[50%]">
         <div className="flex flex-col items-center justify-center w-full h-full space-y-2">
           <div className="text-[15px] text-[#959595]">Total Supply</div>
@@ -168,7 +168,8 @@ const HomePageFilter = () => {
             className="font-larken text-[28px] text-[#404040] dark:text-white"
             displayType="text"
             thousandSeparator
-            value={totalSupply || 0}
+            // value={totalSupply || 0}
+            value={0}
             decimalScale={2}
             fixedDecimalScale
             prefix={'$'}
@@ -182,7 +183,8 @@ const HomePageFilter = () => {
             className="font-larken text-[28px] text-[#404040] dark:text-white"
             displayType="text"
             thousandSeparator
-            value={totalBorrow || 0}
+            // value={totalBorrow || 0}
+            value={0}
             decimalScale={2}
             fixedDecimalScale
             prefix={'$'}
@@ -191,8 +193,8 @@ const HomePageFilter = () => {
       </div>
       <div
         className={
-          `gradient-border hidden h-[1px] w-full md:block ` +
-          `${theme === 'dark' ? `gradient-border` : `gradient-border-white`}`
+          `hidden h-[1px] w-full md:block ` +
+          `${theme === 'light' ? `bg-gradient-divider-light` : `bg-gradient-divider`}`
         }
       ></div>
       <div className="h-[100px] w-full md:h-[160px] md:w-[50%]">
@@ -250,7 +252,7 @@ const HomePageFilter = () => {
           />
         </div>
       </div>
-      <div className="h-2 w-full overflow-hidden bg-[#eaeaea] dark:bg-[#1F1F1F]">
+      <div className="h-2 w-full overflow-hidden bg-[#F7F7F7] dark:bg-[#1F1F1F]">
         <div
           style={{ width: `${calculateBorrow}%` }}
           className="h-full rounded-full bg-gradient-to-r from-[#C38BFF] to-[#AA5BFF] text-center text-white shadow-none"

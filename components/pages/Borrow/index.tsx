@@ -1,8 +1,8 @@
-import SkeletonDefault from '@/components/skeleton'
 import { useEffect, useState } from 'react'
-import Banner from './Banner'
+import SkeletonDefault from '@/components/skeleton'
 import CreateBorrowVault from './CreateBorrowVault'
 import ManageBorrowVault from './ManageBorrowVault'
+import Banner from './Banner'
 
 export const BorrowPage = () => {
   const [isLoading, setLoading] = useState(true)
@@ -14,7 +14,7 @@ export const BorrowPage = () => {
   if (isLoading) {
     return (
       <div className="">
-        <div className="hidden  lg:block">
+        <div className="hidden lg:block">
           <SkeletonDefault height={'48vh'} />
         </div>
         <div className=" lg:hidden">

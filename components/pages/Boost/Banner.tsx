@@ -10,10 +10,10 @@ export default function Banner() {
         className="rounded-xl"
         src={
           theme === 'light'
-            ? '/assets/banners/borrow-light-large.png'
-            : '/assets/banners/borrow-compressed.png'
+            ? '/assets/banners/boost-light-large.png'
+            : '/assets/banners/boost-compressed.png'
         }
-        alt="Torque Borrow"
+        alt="Torque Boost"
       />
       <Link
         href="/home"
