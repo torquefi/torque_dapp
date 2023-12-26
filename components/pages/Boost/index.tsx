@@ -13,7 +13,7 @@ export const BoostPage = () => {
 
   if (isLoading) {
     return (
-      <div className="">
+      <div className="mt-2">
         <div className="hidden lg:block">
           <SkeletonDefault height={'48vh'} />
         </div>
@@ -37,7 +37,7 @@ export const BoostPage = () => {
   }
 
   return (
-    <div className="space-y-[36px] px-2">
+    <div className="space-y-[36px] px-2 mt-2">
       <Banner />
       <CreateBoostVault />
       <ManageBoostVault />

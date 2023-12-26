@@ -6,7 +6,7 @@ import { DetailsVotes } from './Details'
 
 export const VotePage = () => {
   return (
-    <div>
+    <div className="mt-2">
       <Governance />
       {/* <Distribution /> */}
       {/* <LeaderBoard /> */}

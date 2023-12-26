@@ -114,10 +114,10 @@ export const Header = () => {
           Torque is not supported on this network. Please switch to{' '}
           {arbitrumMainnetInfo.name}.
         </div>
-        {/* <div className="flex items-center justify-center bg-[#FF6969] text-center text-[9px] uppercase font-bold transition-all h-[24px]">
-          Not released yet. Please hold your deposits.
-        </div> */}
-        <div className="container relative mx-auto flex h-[72px] max-w-screen-xl items-center justify-between px-4 lg:px-8">
+        <div className="flex items-center justify-center bg-[#aa5bff] text-center text-white text-[9px] uppercase font-bold transition-all h-[24px]">
+          Protocol not released yet. Please stay tuned.
+        </div>
+        <div className="container relative mx-auto flex h-[66px] max-w-screen-xl items-center justify-between px-4 lg:px-8">
           <Link href="/" className="flex items-center">
             <img
               className="h-[42px] sm:h-[42px] mb-1"
