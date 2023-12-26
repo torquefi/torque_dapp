@@ -49,7 +49,7 @@ export function CreateBoostVault() {
   return (
     <div className="space-y-[24px] ">
       <h3 className="font-larken text-[24px] text-[#404040] dark:text-white">
-        Create Boost Vault
+        Create Boost Vehicle
       </h3>
 
       <div className="grid gap-[20px] md:grid-cols-2">
