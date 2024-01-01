@@ -181,7 +181,7 @@ export function CreateBoostItem({ item }: any) {
         }
       >
         <div className="flex items-center justify-between w-full">
-          <div className="flex items-center">
+          <div className="flex items-center ml-[-12px]">
             <img
               src={`/icons/coin/${item.token.toLocaleLowerCase()}.png`}
               alt=""
@@ -213,7 +213,7 @@ export function CreateBoostItem({ item }: any) {
           </Popover>
         </div>
         <div className="grid grid-cols-2 gap-4 mt-1 mb-1 font-larken">
-          <div className="flex w-full flex items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
+          <div className="flex w-full items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
             <InputCurrencySwitch
               tokenSymbol={item?.token}
               tokenValue={+amount}
@@ -231,7 +231,7 @@ export function CreateBoostItem({ item }: any) {
               tokenSymbol={item?.token}
               tokenValue={Number(amount || 0) * item?.rate}
               usdDefault
-              className="w-full space-y-2 py-6 lg:py-[31px]"
+              className="w-full py-6 space-y-2"
               decimalScale={2}
               render={(value) => (
                 <>

@@ -120,13 +120,13 @@ export const Header = () => {
         <div className="container relative mx-auto flex h-[66px] max-w-screen-xl items-center justify-between px-4 lg:px-8">
           <Link href="/" className="flex items-center">
             <img
-              className="h-[42px] sm:h-[42px] mb-1"
-              src="/assets/logo-christmas.png"
+              className="h-[32px] mb-1"
+              src="/assets/logo.png"
               alt=""
             />
             <h2
               style={{ fontFamily: 'Larken-Bold' }}
-              className="font-larken ml-[14px] text-[24px] font-bold text-[#404040] dark:text-white"
+              className="font-larken ml-[16px] text-[24px] font-bold text-[#404040] dark:text-white"
             >
               Torque
             </h2>
@@ -137,7 +137,7 @@ export const Header = () => {
               className="mr-[12px] hidden cursor-pointer items-center xs:flex lg:mr-[24px]"
             >
               <img
-                className="mr-1 h-[24px] lg:h-[26px]"
+                className="mr-[2px] h-[20px] lg:h-[22px]"
                 src="/assets/t-logo-circle.svg"
                 alt=""
               />
