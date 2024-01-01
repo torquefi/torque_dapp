@@ -51,11 +51,14 @@ export const OptionToken = () => {
         </div>
         <div className="w-[50%]">
           <Link
-            href="#"
+            href="https://arbiscan.io/token/0xb56c29413af8778977093b9b4947efeea7136c36"
             className="flex cursor-pointer items-center justify-end gap-[5px]"
+            target="_blank"
+            rel="noopener noreferrer"
+
           >
             <p className="text-[14px] font-[500] uppercase  leading-[40px] text-[#AA5BFF]">
-              Verify
+              Explorer
             </p>
             <img src="/assets/pages/vote/genover/next.svg" alt="" className="mb-1" />
           </Link>
