@@ -141,7 +141,7 @@ export const Header = () => {
                 src="/assets/t-logo-circle.svg"
                 alt=""
               />
-              <p className="font-larken ml-[6px] mt-[2px] text-[16px] text-[#404040] dark:text-white lg:text-[18px]">
+              <p className="font-larken ml-[6px] mt-[2px] text-[16px] text-[#404040] dark:text-white">
                 $
                 <NumberFormat
                   displayType="text"
