@@ -11,7 +11,7 @@ export default function Product() {
   }, [])
   const theme = useSelector((store: AppStore) => store.theme.theme)
   return (
-    <div className="mt-[36px] space-y-[24px]">
+    <div className="mt-[36px] space-y-[18px]">
       {isLoading ? (
         <div className="">
           <SkeletonDefault height={'5vh'} width={'10%'} />
@@ -48,10 +48,10 @@ export default function Product() {
                 />
                 <div className="space-y-[18px] p-[24px] xs:pl-[28px] xs:pt-[32px]">
                   <div className="flex items-center justify-start">
-                    <div className="flex h-[65px] w-[65px] items-center justify-center rounded-full border from-[#232323]  to-[#232323]/0 dark:border-[#1A1A1A] dark:bg-gradient-to-b">
+                    <div className="flex h-[65px] w-[65px] items-center justify-center rounded-full border from-[#232323] to-[#232323]/0 dark:border-[#1A1A1A] dark:bg-gradient-to-b">
                       <img className="w-[30px]" src={item.icon} alt="" />
                     </div>
-                    <p className="font-larken ml-[24px] text-[26px]">
+                    <p className="font-larken ml-[18px] text-[26px]">
                       {item.name}
                     </p>
                   </div>

@@ -225,7 +225,7 @@ const HomePageFilter = () => {
           />
         </div>
       </div>
-      <div className="bottom-[12px] flex w-full items-center justify-between p-2 pt-[32px] md:absolute md:pt-0">
+      <div className="bottom-[0px] flex w-full items-center justify-between p-[8px] md:p-[12px] md:absolute md:pt-0">
         <div className="space-y-1 leading-tight text-[#404040] dark:text-white">
           <div className="text-[12px] text-[#959595]">Borrow Used</div>
           <NumberFormat
