@@ -150,7 +150,7 @@ export default function CreateBorrowVault() {
   }, [isConnected, address])
 
   return (
-    <div className="space-y-[24px] ">
+    <div className="space-y-[18px] ">
       <h3 className="font-larken text-[24px] text-[#404040] dark:text-white">
         Create Borrow Vault
       </h3>
