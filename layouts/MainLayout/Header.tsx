@@ -134,14 +134,14 @@ export const Header = () => {
           <div className="flex items-center">
             <div
               onClick={() => setIsOpenClaim(true)}
-              className="mr-[12px] hidden cursor-pointer items-center xs:flex lg:mr-[24px]"
+              className="mr-[12px] hidden cursor-pointer items-center xs:flex md:mr-[18px]"
             >
               <img
-                className="mr-[2px] h-[20px] lg:h-[22px]"
+                className="h-[20px] lg:h-[22px]"
                 src="/assets/t-logo-circle.svg"
                 alt=""
               />
-              <p className="font-larken ml-[6px] text-[16px] text-[#404040] dark:text-white lg:text-[18px]">
+              <p className="font-larken ml-[6px] mt-[2px] text-[16px] text-[#404040] dark:text-white lg:text-[18px]">
                 $
                 <NumberFormat
                   displayType="text"
