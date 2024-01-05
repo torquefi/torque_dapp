@@ -13,13 +13,13 @@ export const LeaderBoard = () => {
 
   if (isLoading) {
     return (
-      <div className="md:px-[15%]">
-        <Skeleton className="h-[430px] w-full rounded-md" />
+      <div className="md:px-[24%]">
+        <Skeleton className="h-[430px] w-full rounded-xl" />
       </div>
     )
   }
   return (
-    <div className="md:px-[15%]">
+    <div className="md:px-[24%]">
       <div className="w-full rounded-[12px] border border-[1px] border-solid border-[#E6E6E6] dark:border-[#1a1a1a] bg-[#ffffff] dark:bg-transparent dark:bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 text-[#030303] dark:text-white text-center px-[24px] py-[24px]">
         <div className="flex items-center justify-between">
           <h2 className="font-larken text-[24px] font-[400]">
