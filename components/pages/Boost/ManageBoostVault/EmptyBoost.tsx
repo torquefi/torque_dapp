@@ -5,7 +5,7 @@ export const EmptyBoost = () => {
   const theme = useSelector((store: AppStore) => store.theme.theme)
 
   return (
-    <div className="bg-transparent mt-[24px] overflow-hidden rounded-[12px] border border-neutral-200 dark:border-[#1a1a1a] dark:bg-[#030303]">
+    <div className="bg-transparent mt-[18px] overflow-hidden rounded-[12px] border border-neutral-200 dark:border-[#1a1a1a] dark:bg-[#030303]">
       <div
         className={
           'flex h-[300px] flex-col items-center justify-center bg-cover bg-top bg-no-repeat' +
