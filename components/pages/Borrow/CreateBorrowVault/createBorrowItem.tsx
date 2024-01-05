@@ -452,14 +452,14 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
         </div>
         <div className="flex justify-between text-[#959595]">
           <p>Loan-to-value</p>
-          {/* <p>
+          <p>
             {'<'}
             {Number(ltv) * 100}%
-          </p> */}
-          <p>
+          </p>
+          {/* <p>
             {''}
             {Number(ltv * 100).toFixed(2)}%
-          </p>
+          </p> */}
         </div>
         <div className="flex justify-between py-[16px] text-[#959595]">
           <p>Variable APR</p>
