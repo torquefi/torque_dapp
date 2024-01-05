@@ -1,7 +1,7 @@
 import Modal from '@/components/common/Modal'
 import { AiOutlineClose } from 'react-icons/ai'
 import NumberFormat from '../NumberFormat'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { getBalanceByContractToken } from '@/constants/utils'
 import {
   btcContract,
@@ -12,6 +12,8 @@ import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 import { formatUnits } from 'ethers/lib/utils'
 import LoadingCircle from '../Loading/LoadingCircle'
+import { AppStore } from '@/types/store'
+import { useSelector } from 'react-redux'
 
 interface Detail {
   label: string
@@ -49,6 +51,7 @@ export function
   } = props
   const web3 = new Web3(Web3.givenProvider)
   const { address } = useAccount()
+  const theme = useSelector((store: AppStore) => store.theme.theme)
   const [balanceWallet, setBalanceWallet] = useState<any>(0)
   useEffect(() => {
     if (address) {
@@ -77,26 +80,28 @@ export function
 
   return (
     <Modal
-      className="w-full max-w-[420px]  bg-[#FCFAFF] p-[10px] dark:bg-[#030303]"
+      className="bg-[#FCFAFF] dark:bg-[#030303] mx-auto w-[90%] max-w-[360px] px-[24px]"
       open={open}
       handleClose={handleClose}
       hideCloseIcon
     >
-      <div className="flex items-center justify-between py-3">
-        <div className="font-larken text-[18px] dark:text-white md:text-[32px]">
+      <div className="flex items-center justify-between py-2">
+        <div className="font-larken text-[16px] font-[400] text-[#030303] dark:text-white md:text-[28px]">
           Confirm
         </div>
         <AiOutlineClose
-          className="cursor-pointer text-[#ffff]"
+          className="cursor-pointer text-[#030303] dark:text-[#ffff]"
           onClick={handleClose}
         />
       </div>
-      <div className="gradient-border mt-2 hidden h-[1px] w-full md:block"></div>
+      <div className={`mt-2 hidden h-[1px] w-full md:block` +`
+      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'}`
+        }></div>
       <div className=" h-auto w-full   overflow-y-auto py-[18px]">
         <div className="flex items-center justify-between">
           <div>
             <span className="text-[16px] text-[#959595]">You deposit</span>
-            <div className="font-larken pt-2 text-[23px]">
+            <div className="font-larken pt-2 text-[#030303] text-[23px]">
               <NumberFormat
                 displayType="text"
                 value={coinFrom?.amount || 0}
@@ -113,13 +118,13 @@ export function
         <div className="flex items-center justify-between mt-8">
           <div>
             <span className="text-[16px] text-[#959595]">You receive</span>
-            <div className="font-larken pt-2 text-[23px]">
+            <div className="font-larken pt-2 text-[#030303] text-[23px]">
               <NumberFormat
                 displayType="text"
                 value={coinTo?.amount || 0}
                 suffix={` ${coinTo.symbol}`}
                 thousandSeparator
-                decimalScale={5}
+                decimalScale={2}
               />
             </div>
           </div>
@@ -133,7 +138,9 @@ export function
           </div>
         </div>
       </div>
-      <div className="gradient-border mt-2 hidden h-[1px] w-full md:block"></div>
+      <div className={`mt-2 hidden h-[1px] w-full md:block` +`
+      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'}`
+        }></div>
       <div className="my-5 flex flex-wrap gap-3 text-[16px] text-[#959595]">
         <div className="flex w-full items-center justify-between text-[15px]">
           <p>Wallet balance</p>
