@@ -89,12 +89,12 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
         const aprBorrowETH = await contractBorrowETH.methods.getApr().call({
           from: address,
         })
-        const ltvETH = await contractBorrowETH.methods
-          .getCollateralFactor()
-          .call({
-            from: address,
-          })
-        setltv(web3.utils.fromWei(ltvETH.toString(), 'ether'))
+        // const ltvETH = await contractBorrowETH.methods
+        //   .getCollateralFactor()
+        //   .call({
+        //     from: address,
+        //   })
+        // setltv(web3.utils.fromWei(ltvETH.toString(), 'ether'))
         setAprBorrow(web3.utils.fromWei(aprBorrowETH.toString(), 'ether'))
         setContractBorrowETH(contractBorrowETH)
       }
@@ -103,12 +103,12 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
         const aprBorrowBTC = await contractBorrowBTC.methods.getApr().call({
           from: address,
         })
-        const ltvBTC = await contractBorrowBTC.methods
-          .getCollateralFactor()
-          .call({
-            from: address,
-          })
-        setltv(web3.utils.fromWei(ltvBTC.toString(), 'ether'))
+        // const ltvBTC = await contractBorrowBTC.methods
+        //   .getCollateralFactor()
+        //   .call({
+        //     from: address,
+        //   })
+        // setltv(web3.utils.fromWei(ltvBTC.toString(), 'ether'))
         setAprBorrow(web3.utils.fromWei(aprBorrowBTC.toString(), 'ether'))
         setContractBorrowBTC(contractBorrowBTC)
       }
@@ -357,7 +357,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
   return (
     <>
       <div
-        className="dark:text-white rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pt-3 pb-5 text-[#404040] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white xl:px-[32px]"
+        className="rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pt-3 pb-5 text-[#404040] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white xl:px-[32px]"
         key={dataBorrow.depositTokenSymbol}
       >
       <div className="flex items-center justify-between w-full">
@@ -410,13 +410,8 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
               tokenSymbol={'TUSD'}
               tokenValue={Number(amountReceive)}
               tokenValueChange={Number(
-                (Number(
-                  amount *
-                    price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]
-                ) *
-                  (Number(ltv) * 65)) /
-                  100
-              )}
+                amount * price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`] * (dataBorrow.loanToValue / 140)
+              )}              
               usdDefault
               decimalScale={2}
               className="w-full py-4"
@@ -454,12 +449,8 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
           <p>Loan-to-value</p>
           <p>
             {'<'}
-            {Number(ltv) * 100}%
+            {item?.loanToValue}%
           </p>
-          {/* <p>
-            {''}
-            {Number(ltv * 100).toFixed(2)}%
-          </p> */}
         </div>
         <div className="flex justify-between py-[16px] text-[#959595]">
           <p>Variable APR</p>
@@ -483,9 +474,9 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
               amountReceive /
                 (amount *
                   price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]) >
-              Number(ltv)
+                item?.loanToValue
             ) {
-              toast.error(`Loan-to-value exceeds ${Number(ltv) * 100}%`)
+              toast.error(`Loan-to-value exceeds ${item?.loanToValue}%`)
             } else {
               handleConfirmDeposit()
             }
@@ -517,7 +508,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
         details={[
           {
             label: 'Loan-to-value',
-            value: `<${Number(ltv) * 100}%`,
+            value: `<${item?.loanToValue}%`,
           },
           {
             label: 'Variable APR',

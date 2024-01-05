@@ -28,7 +28,7 @@ export default function CreateBorrowVault() {
       return {
         ...item,
         liquidity: borrowInfo?.liquidity || item?.liquidity,
-        loanToValue: borrowInfo?.loanToValue || item?.loanToValue,
+        loanToValue: item?.loanToValue, // hardcoded loanToValue
         borrowRate: borrowInfo?.borrowRate || item?.borrowRate,
       }
     })
@@ -96,7 +96,7 @@ export default function CreateBorrowVault() {
       );
       if (compoundUsdcContract) {
         const tokenAddress =
-          item?.depositTokenSymbol === 'BTC'
+          item?.depositTokenSymbol === 'WBTC'
             ? tokenBtcContract.address
             : tokenEthContract.address
         let assets = await compoundUsdcContract.methods
@@ -172,7 +172,7 @@ const BORROW_INFOS: IBorrowInfo[] = [
     borrowTokenSymbol: 'TUSD',
     borrowTokenDecimal: 6,
     liquidity: 0,
-    loanToValue: 0,
+    loanToValue: 70,
     getTORQ: 28,
     borrowRate: 0,
     borrowContractInfo: borrowBtcContract,
@@ -185,7 +185,7 @@ const BORROW_INFOS: IBorrowInfo[] = [
     borrowTokenSymbol: 'TUSD',
     borrowTokenDecimal: 6,
     liquidity: 0,
-    loanToValue: 0,
+    loanToValue: 78,
     getTORQ: 32,
     borrowRate: 0,
     borrowContractInfo: borrowEthContract,

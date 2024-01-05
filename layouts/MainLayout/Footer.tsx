@@ -38,8 +38,8 @@ export default function Footer() {
         }
       />
       <footer className="flex w-[1280px] sm:text-[13px] xs:text-[12px] max-w-[1280px] justify-between px-4 pt-6 pb-0 md:pb-[12px] md:pt-4 text-[#959595]">
-        <Link href="https://meticulous.fi" className="transition-colors duration-100 ease-linear cursor-pointer dark:hover:text-white hover:text-gray-500" target="_blank">
-          © 2023 Meticulous
+        <Link href="https://torque.fi" className="transition-colors duration-100 ease-linear cursor-pointer dark:hover:text-white hover:text-gray-500" target="_blank">
+          © 2023 Torque Inc.
         </Link>
         <div className="hidden md:flex space-x-0 md:space-x-8 text-[12px]">
           {socials.map((item, i) => (
