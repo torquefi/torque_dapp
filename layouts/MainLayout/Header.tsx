@@ -125,8 +125,8 @@ export const Header = () => {
               alt=""
             />
             <h2
-              style={{ fontFamily: 'Larken-Bold' }}
-              className="font-larken ml-[10px] text-[24px] font-bold text-[#404040] dark:text-white"
+              // style={{ fontFamily: 'Larken-Bold' }}
+              className="font-larken font-bold ml-[10px] text-[24px] text-[#404040] dark:text-white"
             >
               Torque
             </h2>

@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 import Footer from './Footer'
 import { Header } from './Header'
-import { MenuMobile } from './MenuMobile'
+// import { MenuMobile } from './MenuMobile'
 import { AppStore } from '@/types/store'
 import { useEffect } from 'react'
 import { updateTheme } from '@/lib/redux/slices/theme'
@@ -31,7 +31,7 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
           {children}
         </div>
         <Footer />
-        <MenuMobile />
+        {/* <MenuMobile /> */}
       </div>
     )
 
