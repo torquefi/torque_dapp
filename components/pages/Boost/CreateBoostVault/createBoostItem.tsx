@@ -263,14 +263,14 @@ export function CreateBoostItem({ item }: any) {
           <div className="font-mona">Variable APY</div>
           <div className="">0.00%</div>
         </div>
-        <div className="font-mona flex w-full items-center justify-between py-[16px] text-[16px] text-[#959595]">
+        {/* <div className="font-mona flex w-full items-center justify-between py-[16px] text-[16px] text-[#959595]">
           <div className="font-mona">Min. duration</div>
           <div className="">7 days</div>
         </div>
         <div className="font-mona flex w-full items-center justify-between text-[16px] text-[#959595]">
           <div className="font-mona">Early exit fee</div>
           <div className="">0.00%</div>
-        </div>
+        </div> */}
         <button
           className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
           ${btnLoading ? 'cursor-not-allowed text-[#eee]' : 'cursor-pointer '}
