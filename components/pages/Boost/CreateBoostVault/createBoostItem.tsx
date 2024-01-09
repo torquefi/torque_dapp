@@ -176,7 +176,7 @@ export function CreateBoostItem({ item }: any) {
     <>
       <div
         className={
-          `rounded-[12px] border border-[#E6E6E6] bg-[#ffffff]  px-4 pt-3 pb-5 text-[#404040] dark:border-[#1A1A1A]  dark:text-white lg:px-8 dark:bg-transparent dark:bg-gradient-to-br  from-[#0d0d0d] to-[#0d0d0d]/0` +
+          `rounded-[12px] border border-[#E6E6E6] bg-[#ffffff]  px-4 pt-3 pb-5 text-[#030303] dark:border-[#1A1A1A]  dark:text-white lg:px-8 dark:bg-transparent dark:bg-gradient-to-br  from-[#0d0d0d] to-[#0d0d0d]/0` +
           `  ${theme === 'light' ? ' bg-[#FCFAFF]' : 'bg-overview'}`
         }
       >
@@ -187,7 +187,7 @@ export function CreateBoostItem({ item }: any) {
               alt=""
               className="w-[72px] md:w-24"
             />
-            <div className="font-larken text-[#404040] dark:text-white text-[18px] md:text-[22px] leading-tight lg:text-[26px]">
+            <div className="font-larken text-[#030303] dark:text-white text-[18px] md:text-[22px] leading-tight lg:text-[26px]">
               Deposit {item.token},<br className="" /> Earn {item.token}
             </div>
           </div>
@@ -200,7 +200,7 @@ export function CreateBoostItem({ item }: any) {
             <Link href="#" className="" target={'_blank'}>
               <div className="flex items-center rounded-full bg-[#AA5BFF] bg-opacity-20 p-1  text-[12px] xs:text-[14px]">
                 <img
-                  src="/assets/t-logo-circle.svg"
+                  src="/assets/t-logo-circle.png"
                   alt=""
                   className="w-[24px]"
                 />
@@ -217,7 +217,7 @@ export function CreateBoostItem({ item }: any) {
             <InputCurrencySwitch
               tokenSymbol={item?.token}
               tokenValue={+amount}
-              className="w-full py-4 dark:text-white lg:py-6"
+              className="w-full py-4 text-[#030303] dark:text-white lg:py-6"
               decimalScale={2}
               usdDefault
               subtitle="Deposit"
@@ -231,7 +231,7 @@ export function CreateBoostItem({ item }: any) {
               tokenSymbol={item?.token}
               tokenValue={Number(amount || 0) * item?.rate}
               usdDefault
-              className="w-full py-6 space-y-2"
+              className="w-full py-6 text-[#030303] dark:text-white space-y-2"
               decimalScale={2}
               render={(value) => (
                 <>

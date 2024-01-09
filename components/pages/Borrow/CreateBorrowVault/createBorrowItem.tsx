@@ -357,7 +357,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
   return (
     <>
       <div
-        className="rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pt-3 pb-5 text-[#404040] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white xl:px-[32px]"
+        className="rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pt-3 pb-5 text-[#030303] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white xl:px-[32px]"
         key={dataBorrow.depositTokenSymbol}
       >
       <div className="flex items-center justify-between w-full">
@@ -367,7 +367,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
             src={dataBorrow.depositTokenIcon}
             alt=""
           />
-          <div className="font-larken text-[#404040] dark:text-white text-[18px] md:text-[22px] leading-tight lg:text-[26px]">
+          <div className="font-larken text-[#030303] dark:text-white text-[18px] md:text-[22px] leading-tight lg:text-[26px]">
             Deposit {dataBorrow.depositTokenSymbol},<br /> Borrow{' '}
             {dataBorrow.borrowTokenSymbol}
           </div>
@@ -381,7 +381,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
             <Link href="#" className="" target={'_blank'}>
               <div className="flex items-center rounded-full bg-[#AA5BFF] bg-opacity-20 p-1  text-[12px] xs:text-[14px]">
                 <img
-                  src="/assets/t-logo-circle.svg"
+                  src="/assets/t-logo-circle.png"
                   alt=""
                   className="w-[24px]"/>
                 <div className="font-mona mx-1 uppercase text-[#AA5BFF] xs:mx-2">
@@ -396,7 +396,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
             <InputCurrencySwitch
               tokenSymbol={item?.depositTokenSymbol}
               tokenValue={Number(amount)}
-              className="w-full py-4 dark:text-white lg:py-6"
+              className="w-full py-4 text-[#030303] dark:text-white lg:py-6"
               subtitle="Collateral"
               usdDefault
               decimalScale={2}
@@ -414,7 +414,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
               )}              
               usdDefault
               decimalScale={2}
-              className="w-full py-4"
+              className="w-full py-4 text-[#030303] dark:text-white"
               subtitle="Borrowing"
               onChange={(e) => {
                 setAmountReceive(e)
