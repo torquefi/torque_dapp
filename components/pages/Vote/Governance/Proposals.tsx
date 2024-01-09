@@ -10,7 +10,7 @@ export const Proposals = () => {
 
   return (
     <>
-      <div className="dark:text-white space-y-4 rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-[16px] py-[24px] w-full text-[#404040] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b xl:px-[32px] sm:mr-0 md:w-[59%] md:px-[37px] lg:mr-2">
+      <div className="dark:text-white rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-[16px] py-[12px] w-full text-[#404040] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b xl:px-[32px] sm:mr-0 md:w-[59%] md:px-[37px] lg:mr-[2px]">
         <div className="flex items-center justify-between">
           <h4 className="font-larken text-[24px] font-[400] leading-[40px]">
             Proposals

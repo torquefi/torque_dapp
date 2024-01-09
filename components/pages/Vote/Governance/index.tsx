@@ -39,7 +39,7 @@ export const Governance = () => {
         </p>
       </div>
       <OptionToken />
-      <div className="mt-[20px] items-start justify-between md:flex">
+      <div className="mt-[16px] items-start justify-between md:flex">
         <Proposals />
         <VotingPower />
       </div>
