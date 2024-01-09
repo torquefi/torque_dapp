@@ -274,7 +274,7 @@ export function CreateBoostItem({ item }: any) {
             className={`font-mona text-[#030303] dark:text-white mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
             content="Factors include raw yield, total value locked, IL, and history"
           >
-            <button className="mt-[7px] ml-1">
+            <button className="mt-[7px] ml-[5px]">
               <img src="/assets/pages/vote/ic-info.svg" alt="risk score system" className="w-[13px]"/>
             </button>
           </Popover>
