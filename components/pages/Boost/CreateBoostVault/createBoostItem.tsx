@@ -263,21 +263,29 @@ export function CreateBoostItem({ item }: any) {
           <div className="font-mona">Variable APY</div>
           <div className="">0.00%</div>
         </div>
-        {/* <div className="font-mona flex w-full items-center justify-between py-[16px] text-[16px] text-[#959595]">
+        <div className="font-mona flex w-full items-center justify-between py-[16px] text-[16px] text-[#959595]">
           <div className="flex items-center justify-center">
             <div>
-              Risk score
+              Safety score
             </div>
-            <a className="ml-1" href="https://docs.torque.fi" target="_blank" rel="noopener noreferrer">
+            <Popover
+            trigger="hover"
+            placement="bottom-left"
+            className={`font-mona text-[#030303] dark:text-white mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
+            content="Factors include raw yield, total value locked, IL, and history"
+          >
+            <button className="mt-[7px] ml-1">
               <img src="/assets/pages/vote/ic-info.svg" alt="risk score system" className="w-[13px]"/>
-            </a>
+            </button>
+          </Popover>
           </div>
-          <div>～/10</div>
+          <div>9.8/10</div>
+          {/* TODO: dynamic value */}
         </div>
         <div className="font-mona flex w-full items-center justify-between text-[16px] text-[#959595]">
-          <div>Lorem fee</div>
-          <div>0.00%</div>
-        </div> */}
+          <div>Assets routed</div>
+          <div>$0.00</div>
+        </div>
         <button
           className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
           ${btnLoading ? 'cursor-not-allowed text-[#eee]' : 'cursor-pointer '}
