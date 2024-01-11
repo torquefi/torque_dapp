@@ -2,6 +2,7 @@ import Skeleton from '@/components/skeleton/Skeleton'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { AppStore } from '@/types/store'
+import Popover from '@/components/common/Popover'
 
 export const LeaderBoard = () => {
   const [isLoading, setIsLoading] = useState(true)
@@ -25,9 +26,16 @@ export const LeaderBoard = () => {
           <h2 className="font-larken text-[24px] font-[400]">
             Leaderboard
           </h2>
+          <Popover
+            trigger="hover"
+            placement="bottom-right"
+            className={`font-mona text-[#030303] dark:text-white mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
+            content="Torque is governed by a global community of TORQ holders."
+          >
           <button>
             <img src="/assets/pages/vote/ic-info.svg" alt="" />
           </button>
+          </Popover>
         </div>
         <div className={`mt-4 hidden h-[1px] w-full md:block` +`
       ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'}`
