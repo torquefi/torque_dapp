@@ -1,6 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { AppStore } from '@/types/store'
+import Popover from '@/components/common/Popover'
 
 export const ListPools = () => {
   const theme = useSelector((store: AppStore) => store.theme.theme)
@@ -10,9 +11,16 @@ export const ListPools = () => {
       <div className="w-full rounded-[12px] border border-[1px] border-solid border-[#E6E6E6] dark:border-[#1a1a1a] bg-[#ffffff] dark:bg-transparent dark:bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 text-[#404040] dark:text-white text-center px-[24px] pt-[12px] pb-[6px]">
         <div className="flex items-center justify-between mt-1">
           <h2 className="font-larken text-[24px]">Pools</h2>
+          <Popover
+            trigger="hover"
+            placement="bottom-right"
+            className={`font-mona text-[#030303] dark:text-white mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
+            content="Earn Torque (TORQ) by providing liquidity to Torque pools."
+          >
           <button>
             <img src="/assets/pages/vote/ic-info.svg" alt="" />
           </button>
+          </Popover>
         </div>
         <div className={`mt-4 hidden h-[1px] w-full md:block` +`
       ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'}`
