@@ -56,7 +56,7 @@ export function CreateBoostItem({ item }: any) {
       item.tokenContractInfo.address
     );
   }, [item]);
-  
+
   const boostContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider);
     if (!item?.boostContractInfo?.abi) {
@@ -68,7 +68,7 @@ export function CreateBoostItem({ item }: any) {
       item.boostContractInfo.address
     );
   }, [item]);
-  
+
   const getAllowance = async () => {
     try {
       const allowanceToken = await tokenContract.methods
@@ -172,6 +172,7 @@ export function CreateBoostItem({ item }: any) {
     }
     return 'Confirm Deposit'
   }
+
   return (
     <>
       <div
@@ -222,6 +223,7 @@ export function CreateBoostItem({ item }: any) {
               usdDefault
               subtitle="Deposit"
               onChange={(e) => {
+                console.log('e :>> ', e);
                 setAmount(e)
               }}
             />
@@ -233,14 +235,17 @@ export function CreateBoostItem({ item }: any) {
               usdDefault
               className="w-full py-6 text-[#030303] dark:text-white space-y-2"
               decimalScale={2}
-              render={(value) => (
-                <>
-                  <p className="text-[26px] md:text-[32px] leading-none">{value}</p>
-                  <div className="font-mona text-[16px] text-[#959595]">
-                    3-Year Value
-                  </div>
-                </>
-              )}
+              render={(value) => {
+                console.log('value :>> ', value);
+                return (
+                  <>
+                    <p className="text-[26px] md:text-[32px] leading-none">{value}</p>
+                    <div className="font-mona text-[16px] text-[#959595]">
+                      3-Year Value
+                    </div>
+                  </>
+                )
+              }}
             />
           </div>
         </div>
@@ -269,15 +274,15 @@ export function CreateBoostItem({ item }: any) {
               Safety score
             </div>
             <Popover
-            trigger="hover"
-            placement="bottom-left"
-            className={`font-mona text-[#030303] dark:text-white mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
-            content="Factors include raw yield, total value locked, IL, and history"
-          >
-            <button className="mt-[7px] ml-[5px]">
-              <img src="/assets/pages/vote/ic-info.svg" alt="risk score system" className="w-[13px]"/>
-            </button>
-          </Popover>
+              trigger="hover"
+              placement="bottom-left"
+              className={`font-mona text-[#030303] dark:text-white mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
+              content="Factors include raw yield, total value locked, IL, and history"
+            >
+              <button className="mt-[7px] ml-[5px]">
+                <img src="/assets/pages/vote/ic-info.svg" alt="risk score system" className="w-[13px]" />
+              </button>
+            </Popover>
           </div>
           <div>9.8/10</div>
           {/* TODO: dynamic value */}
