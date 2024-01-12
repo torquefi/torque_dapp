@@ -1,17 +1,12 @@
-import SkeletonDefault from '@/components/skeleton'
+import {
+  boostBtcContract,
+  boostEtherContract,
+  btcContract,
+  ethContract,
+} from '@/constants/contracts'
 import { useEffect, useState } from 'react'
 import { useMoralis } from 'react-moralis'
 import { CreateBoostItem } from './createBoostItem'
-import {
-  boostBtcContract,
-  btcContract,
-  boostEtherContract,
-  ethContract,
-  // boostTorqContract,
-  // torqContract,
-  // boostCompContract,
-  // compContract,
-} from '@/constants/contracts'
 
 export function CreateBoostVault() {
   const [boostVault, setBoostVault] = useState(BOOST_VAULTS)
@@ -54,7 +49,7 @@ export function CreateBoostVault() {
 
       <div className="grid gap-[20px] md:grid-cols-2">
         {boostVault.map((item, i) => (
-          <CreateBoostItem item={item}/>
+          <CreateBoostItem item={item} />
         ))}
       </div>
     </div>
@@ -63,7 +58,9 @@ export function CreateBoostVault() {
 
 const BOOST_VAULTS = [
   {
-    token: 'WBTC',
+    depositTokenSymbol: 'WTBC',
+    depositTokenIcon: '/icons/coin/wbtc.png',
+    earnTokenSymbol: 'tBTC',
     bonus_TORQ: 0,
     deposit: 0,
     threeYearValue: 0,
@@ -81,7 +78,9 @@ const BOOST_VAULTS = [
     boostContractInfo: boostBtcContract,
   },
   {
-    token: 'AETH',
+    depositTokenSymbol: 'AETH',
+    depositTokenIcon: '/icons/coin/aeth.png',
+    earnTokenSymbol: 'tETH',
     bonus_TORQ: 0,
     deposit: 0,
     threeYearValue: 0,

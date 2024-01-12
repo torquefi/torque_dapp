@@ -46,28 +46,28 @@ export function CreateBoostItem({ item }: any) {
   // }, [Web3.givenProvider, item?.symbol])
 
   const tokenContract = useMemo(() => {
-    const web3 = new Web3(Web3.givenProvider);
+    const web3 = new Web3(Web3.givenProvider)
     if (!item?.tokenContractInfo?.abi) {
-      console.error('Token contract ABI is undefined');
-      return null;
+      console.error('Token contract ABI is undefined')
+      return null
     }
     return new web3.eth.Contract(
       JSON.parse(item.tokenContractInfo.abi),
       item.tokenContractInfo.address
-    );
-  }, [item]);
+    )
+  }, [item])
 
   const boostContract = useMemo(() => {
-    const web3 = new Web3(Web3.givenProvider);
+    const web3 = new Web3(Web3.givenProvider)
     if (!item?.boostContractInfo?.abi) {
-      console.error('Boost contract ABI is undefined');
-      return null;
+      console.error('Boost contract ABI is undefined')
+      return null
     }
     return new web3.eth.Contract(
       JSON.parse(item.boostContractInfo.abi),
       item.boostContractInfo.address
-    );
-  }, [item]);
+    )
+  }, [item])
 
   const getAllowance = async () => {
     try {
@@ -154,7 +154,7 @@ export function CreateBoostItem({ item }: any) {
         .deposit(item?.tokenContractInfo?.address, tokenAmount)
         .send({
           from: address,
-          value: item?.token === 'ETH' ? tokenAmount : 0,
+          value: item?.depositTokenSymbol === 'AETH' ? tokenAmount : 0,
         })
       toast.success('Boost Successful')
       dispatch(updateborrowTime(new Date().getTime().toString() as any))
@@ -177,19 +177,20 @@ export function CreateBoostItem({ item }: any) {
     <>
       <div
         className={
-          `rounded-[12px] border border-[#E6E6E6] bg-[#ffffff]  px-4 pt-3 pb-5 text-[#030303] dark:border-[#1A1A1A]  dark:text-white lg:px-8 dark:bg-transparent dark:bg-gradient-to-br  from-[#0d0d0d] to-[#0d0d0d]/0` +
+          `rounded-[12px] border border-[#E6E6E6] bg-[#ffffff]  from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pb-5 pt-3  text-[#030303] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br  dark:text-white lg:px-8` +
           `  ${theme === 'light' ? ' bg-[#FCFAFF]' : 'bg-overview'}`
         }
       >
-        <div className="flex items-center justify-between w-full">
-          <div className="flex items-center ml-[-12px]">
+        <div className="flex w-full items-center justify-between">
+          <div className="ml-[-12px] flex items-center">
             <img
-              src={`/icons/coin/${item.token.toLocaleLowerCase()}.png`}
+              src={item?.depositTokenIcon}
               alt=""
               className="w-[72px] md:w-24"
             />
-            <div className="font-larken text-[#030303] dark:text-white text-[18px] md:text-[22px] leading-tight lg:text-[26px]">
-              Deposit {item.token},<br className="" /> Earn {item.token}
+            <div className="font-larken text-[18px] leading-tight text-[#030303] dark:text-white md:text-[22px] lg:text-[26px]">
+              Deposit {item.depositTokenSymbol},<br className="" /> Earn{' '}
+              {item.earnTokenSymbol}
             </div>
           </div>
           <Popover
@@ -213,33 +214,35 @@ export function CreateBoostItem({ item }: any) {
             </Link>
           </Popover>
         </div>
-        <div className="grid grid-cols-2 gap-4 mt-1 mb-1 font-larken">
+        <div className="font-larken mb-1 mt-1 grid grid-cols-2 gap-4">
           <div className="flex w-full items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
             <InputCurrencySwitch
-              tokenSymbol={item?.token}
+              tokenSymbol={item?.depositTokenSymbol}
               tokenValue={+amount}
               className="w-full py-4 text-[#030303] dark:text-white lg:py-6"
               decimalScale={2}
               usdDefault
               subtitle="Deposit"
               onChange={(e) => {
-                console.log('e :>> ', e);
+                console.log('e :>> ', e)
                 setAmount(e)
               }}
             />
           </div>
           <div className="flex h-[110px] w-full flex-col items-center justify-center gap-3 rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A]  dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
             <CurrencySwitch
-              tokenSymbol={item?.token}
+              tokenSymbol={item?.depositTokenSymbol}
               tokenValue={Number(amount || 0) * item?.rate}
               usdDefault
-              className="w-full py-6 text-[#030303] dark:text-white space-y-2"
+              className="w-full space-y-2 py-6 text-[#030303] dark:text-white"
               decimalScale={2}
               render={(value) => {
-                console.log('value :>> ', value);
+                console.log('value :>> ', value)
                 return (
                   <>
-                    <p className="text-[26px] md:text-[32px] leading-none">{value}</p>
+                    <p className="text-[26px] leading-none md:text-[32px]">
+                      {value}
+                    </p>
                     <div className="font-mona text-[16px] text-[#959595]">
                       3-Year Value
                     </div>
@@ -270,17 +273,19 @@ export function CreateBoostItem({ item }: any) {
         </div>
         <div className="font-mona flex w-full items-center justify-between py-[16px] text-[16px] text-[#959595]">
           <div className="flex items-center justify-center">
-            <div>
-              Safety score
-            </div>
+            <div>Safety score</div>
             <Popover
               trigger="hover"
               placement="bottom-left"
-              className={`font-mona text-[#030303] dark:text-white mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
+              className={`font-mona mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
               content="Factors include raw yield, total value locked, IL, and history"
             >
-              <button className="mt-[7px] ml-[5px]">
-                <img src="/assets/pages/vote/ic-info.svg" alt="risk score system" className="w-[13px]" />
+              <button className="ml-[5px] mt-[7px]">
+                <img
+                  src="/assets/pages/vote/ic-info.svg"
+                  alt="risk score system"
+                  className="w-[13px]"
+                />
               </button>
             </Popover>
           </div>
@@ -315,18 +320,18 @@ export function CreateBoostItem({ item }: any) {
         loading={btnLoading}
         coinFrom={{
           amount: amount,
-          icon: `/icons/coin/${item.token.toLocaleLowerCase()}.png`,
-          symbol: item.token,
+          icon: item?.depositTokenIcon,
+          symbol: item.depositTokenSymbol,
         }}
         coinTo={{
           amount: amount,
-          icon: `/icons/coin/${item.token.toLocaleLowerCase()}.png`,
-          symbol: 't' + item.token,
+          icon: item?.depositTokenIcon,
+          symbol: item.depositTokenSymbol,
         }}
         details={[
           {
             label: 'Exchange rate',
-            value: `1 ${item?.token} = 1 t${item?.token}`,
+            value: `1 ${item?.depositTokenSymbol} = 1 ${item?.earnTokenSymbol}`,
           },
           {
             label: 'Variable APY',
