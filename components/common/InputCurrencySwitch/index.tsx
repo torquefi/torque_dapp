@@ -54,9 +54,9 @@ export default function InputCurrencySwitch({
     }
     setPrice(price)
     setTokenPrice(
-      price[tokenSymbol?.toLocaleLowerCase()] ||
-      usdPrice[tokenSymbol?.toLocaleLowerCase()] ||
-      0
+      price[tokenSymbol.toLocaleLowerCase()] ||
+        usdPrice[tokenSymbol.toLocaleLowerCase()] ||
+        0
     )
   }
 

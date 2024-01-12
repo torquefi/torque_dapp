@@ -24,21 +24,18 @@ export default function CurrencySwitchInit({ children }: any) {
           'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd'
         const response = await fetch(url)
         const data = await response.json()
-        const usdPrice: any = {}
-        // const usdPrice = data?.reduce((acc: any, cur: any) => {
-        //   if (!acc[cur?.symbol]) {
-        //     acc[cur?.symbol] = cur?.current_price
-        //     acc[cur?.symbol?.toUpperCase()] = cur?.current_price
-        //   }
-        //   return acc
-        // }, {})
+        const usdPrice = data?.reduce((acc: any, cur: any) => {
+          if (!acc[cur?.symbol]) {
+            acc[cur?.symbol] = cur?.current_price
+            acc[cur?.symbol?.toUpperCase()] = cur?.current_price
+          }
+          return acc
+        }, {})
         const ethPrice = await getPriceToken('ETH')
         const btcPrice = await getPriceToken('BTC')
         const usgPrice = await getPriceToken('USDC')
         usdPrice.eth = ethPrice || usdPrice.eth || 1800
         usdPrice.btc = btcPrice || usdPrice.btc || 28000
-        usdPrice.wbtc = btcPrice || usdPrice.btc || 28000
-        usdPrice.WBTC = btcPrice || usdPrice.btc || 28000
         usdPrice.usg = usgPrice || usdPrice.usg || 1
         usdPrice.ETH = ethPrice || usdPrice.ETH || 1800
         usdPrice.BTC = btcPrice || usdPrice.BTC || 28000
