@@ -53,9 +53,10 @@ export function CreateBoostVault() {
       </h3>
 
       <div className="grid gap-[20px] md:grid-cols-2">
-        {boostVault.map((item, i) => (
-          <CreateBoostItem item={item}/>
-        ))}
+        {boostVault.map((item, i) => {
+          console.log('item :>> ', item);
+          return <CreateBoostItem item={item} />
+        })}
       </div>
     </div>
   )
@@ -64,6 +65,7 @@ export function CreateBoostVault() {
 const BOOST_VAULTS = [
   {
     token: 'WBTC',
+    earnToken: 'tBTC',
     bonus_TORQ: 0,
     deposit: 0,
     threeYearValue: 0,
@@ -82,6 +84,7 @@ const BOOST_VAULTS = [
   },
   {
     token: 'AETH',
+    earnToken: 'tETH',
     bonus_TORQ: 0,
     deposit: 0,
     threeYearValue: 0,
