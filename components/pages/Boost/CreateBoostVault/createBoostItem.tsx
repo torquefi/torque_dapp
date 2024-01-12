@@ -15,6 +15,7 @@ import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 
 export function CreateBoostItem({ item }: any) {
+  console.log('item :>> ', item);
   const { address, isConnected } = useAccount()
   const [btnLoading, setBtnLoading] = useState(false)
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
@@ -321,12 +322,13 @@ export function CreateBoostItem({ item }: any) {
         coinTo={{
           amount: amount,
           icon: `/icons/coin/${item.token.toLocaleLowerCase()}.png`,
-          symbol: 't' + item.token,
+          // symbol: 't' + item.token,
+          symbol: item?.earnToken
         }}
         details={[
           {
             label: 'Exchange rate',
-            value: `1 ${item?.token} = 1 t${item?.token}`,
+            value: `1 ${item?.token} = 1 ${item?.earnToken}`,
           },
           {
             label: 'Variable APY',
