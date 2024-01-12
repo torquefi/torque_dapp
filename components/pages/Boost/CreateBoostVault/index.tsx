@@ -20,7 +20,7 @@ export function CreateBoostVault() {
       console.log('getAPR_Stargate', data)
       const newBoost = boostVault.map((item) => {
         for (var i = 0; i < data.length; i++) {
-          if (item.token?.toLowerCase() == data[i].token?.toLowerCase()) {
+          if (item.depositTokenSymbol?.toLowerCase() == data[i].depositTokenSymbol?.toLowerCase()) {
             item.APR = Number(Number(data[i].apr * 100).toFixed(2))
             break
           }
@@ -69,7 +69,10 @@ export function CreateBoostVault() {
 
 const BOOST_VAULTS = [
   {
-    token: 'AETH',
+    depositTokenSymbol: 'AETH',
+    depositTokenIcon: '/icons/coin/aeth.png',
+    earnTokenSymbol: 'tETH',
+    // earnTokenIcon: '/icons/coin/eth.png',
     bonus_TORQ: 0,
     deposit: 0,
     threeYearValue: 0,
@@ -87,7 +90,9 @@ const BOOST_VAULTS = [
     boostContractInfo: boostContract,
   },
   {
-    token: 'TUSD',
+    depositTokenSymbol: 'TUSD',
+    depositTokenIcon: '/icons/coin/tusd.png',
+    earnTokenSymbol: 'tETH',
     bonus_TORQ: 0,
     deposit: 0,
     threeYearValue: 0,

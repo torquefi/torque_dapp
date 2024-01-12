@@ -130,7 +130,7 @@ export function CreateBoostItem({ item }: any) {
         .deposit(item?.tokenContractInfo?.address, tokenAmount)
         .send({
           from: address,
-          value: item?.token === 'ETH' ? tokenAmount : 0,
+          value: item?.depositTokenSymbol === 'AETH' ? tokenAmount : 0,
         })
       toast.success('Boost Successful')
       dispatch(updateborrowTime(new Date().getTime().toString() as any))
@@ -156,15 +156,12 @@ export function CreateBoostItem({ item }: any) {
           `  ${theme === 'light' ? ' bg-[#FCFAFF]' : 'bg-overview'}`
         }
       >
-        <div className="flex items-center justify-between w-full">
+        <div className="flex w-full items-center justify-between">
           <div className="flex items-center">
-            <img
-              src={`/icons/coin/${item.token.toLocaleLowerCase()}.png`}
-              alt=""
-              className="w-24"
-            />
+            <img src={item.depositTokenIcon} alt="" className="w-24" />
             <div className="font-larken grow pb-2 text-[22px] leading-tight xs:text-[18px] sm:text-[22px] lg:text-[26px]">
-              Deposit {item.token},<br className="" /> Earn {item.token}
+              Deposit {item.depositTokenSymbol},<br className="" /> Earn{' '}
+              {item.earnTokenSymbol}
             </div>
           </div>
           <Popover
@@ -188,10 +185,10 @@ export function CreateBoostItem({ item }: any) {
             </Link>
           </Popover>
         </div>
-        <div className="grid grid-cols-2 gap-4 mt-4 font-larken">
+        <div className="font-larken mt-4 grid grid-cols-2 gap-4">
           <div className="flex h-[110px] w-full flex-col items-center justify-center gap-3 rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A]  dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
             <InputCurrencySwitch
-              tokenSymbol={item?.token}
+              tokenSymbol={item?.depositTokenSymbol}
               tokenValue={+amount}
               className="w-full py-4 dark:text-white lg:py-6"
               decimalScale={2}
@@ -204,7 +201,7 @@ export function CreateBoostItem({ item }: any) {
           </div>
           <div className="flex h-[110px] w-full flex-col items-center justify-center gap-3 rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A]  dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
             <CurrencySwitch
-              tokenSymbol={item?.token}
+              tokenSymbol={item?.depositTokenSymbol}
               tokenValue={Number(amount || 0) * item?.rate}
               usdDefault
               className="w-full space-y-2 py-6 lg:py-[31px]"
@@ -271,18 +268,18 @@ export function CreateBoostItem({ item }: any) {
         loading={btnLoading}
         coinFrom={{
           amount: amount,
-          icon: `/icons/coin/${item.token.toLocaleLowerCase()}.png`,
-          symbol: item.token,
+          icon: item?.depositTokenIcon,
+          symbol: item.depositTokenSymbol,
         }}
         coinTo={{
           amount: amount,
-          icon: `/icons/coin/${item.token.toLocaleLowerCase()}.png`,
-          symbol: 't' + item.token,
+          icon: item?.depositTokenIcon,
+          symbol: item.earnTokenSymbol,
         }}
         details={[
           {
             label: 'Exchange rate',
-            value: `1 ${item?.token} = 1 t${item?.token}`,
+            value: `1 ${item?.depositTokenSymbol} = 1 ${item?.earnTokenSymbol}`,
           },
           {
             label: 'Variable APY',
