@@ -28,7 +28,7 @@ type AppPropsWithLayout = AppProps & {
 }
 
 const chains = [arbitrum]
-const projectId = process.env.REACT_APP_PROJECT_ID;
+const projectId = process.env.REACT_APP_PROJECT_ID || '02a231b2406ed316c861abefc95c5e59';
 
 const { publicClient } = configureChains(chains, [w3mProvider({ projectId })])
 const wagmiConfig = createConfig({

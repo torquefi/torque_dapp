@@ -16,6 +16,7 @@ import { useAccount, useDisconnect, useNetwork } from 'wagmi'
 import Web3 from 'web3'
 import ConnectWalletModal from './ConnectWalletModal'
 import ClaimModal from './ClaimModal'
+import { useWeb3Modal } from '@web3modal/react'
 
 // const goerliTestnetInfo = {
 //   name: 'Goerli',
@@ -42,8 +43,8 @@ const arbitrumMainnetInfo = {
 export const Header = () => {
   const theme = useSelector((store: AppStore) => store.theme.theme)
   const { address, isConnected } = useAccount()
-  const { disconnect } = useDisconnect()
   const { chain, chains } = useNetwork()
+  const { open } = useWeb3Modal()
 
   const [isShowNetworkAlert, setIsShowNetworkAlert] = useState(false)
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
@@ -97,9 +98,7 @@ export const Header = () => {
     }
   }, [chain, chains])
 
-  const handleDisconnect = async () => {
-    disconnect()
-  }
+  console.log('address :>> ', address);
 
   return (
     <div>
@@ -114,16 +113,12 @@ export const Header = () => {
           Torque is not supported on this network. Please switch to{' '}
           {arbitrumMainnetInfo.name}.
         </div>
-        <div className="font-mona flex items-center justify-center bg-[#aa5bff] text-center text-white text-[9px] uppercase font-bold transition-all h-[24px]">
+        <div className="flex h-[24px] items-center justify-center bg-[#aa5bff] text-center text-[9px] font-bold uppercase text-white transition-all">
           Protocol not released yet. Please stay tuned.
         </div>
         <div className="container relative mx-auto flex h-[66px] max-w-screen-xl items-center justify-between px-4 lg:px-8">
           <Link href="/" className="flex items-center">
-            <img
-              className="h-[32px] mb-1"
-              src="/assets/logo.png"
-              alt=""
-            />
+            <img className="mb-1 h-[32px]" src="/assets/logo.png" alt="" />
             <h2
               // style={{ fontFamily: 'Larken-Bold' }}
               className="font-larken font-bold ml-[10px] text-[24px] text-[#404040] dark:text-white"
@@ -141,7 +136,7 @@ export const Header = () => {
                 src="/assets/t-logo-circle.svg"
                 alt=""
               />
-              <p className="font-larken ml-[6px] mt-[2px] text-[16px] text-[#404040] dark:text-white">
+              <p className="font-larken ml-[6px] text-[16px] text-[#404040] lg:text-[18px] dark:text-white">
                 $
                 <NumberFormat
                   displayType="text"
@@ -152,7 +147,7 @@ export const Header = () => {
                 />
               </p>
             </div>
-            {isConnected && address ? (
+            {/* {isConnected && address ? (
               <Popover
                 placement="bottom-right"
                 className={`mt-[12px] w-[200px] leading-none`}
@@ -182,16 +177,16 @@ export const Header = () => {
                   {shortenAddress(address)}
                 </div>
               </Popover>
-            ) : (
-              <div
-                className="font-mona cursor-pointer rounded-full border border-[#AA5BFF] px-[18px] py-[6px] text-[14px] uppercase leading-none text-[#AA5BFF] transition-all duration-200 ease-in hover:scale-x-[102%] xs:px-[16px] xs:py-[4px] lg:px-[32px] lg:py-[6px] lg:text-[16px]"
-                onClick={() => setOpenConnectWalletModal(true)}
-              >
-                Connect
-              </div>
-            )}
+            ) : ( */}
+            <div
+              className="font-mona cursor-pointer rounded-full border border-[#AA5BFF] px-[18px] py-[6px] text-[14px] uppercase leading-none text-[#AA5BFF] transition-all duration-200 ease-in hover:scale-x-[102%] xs:px-[16px] xs:py-[4px] lg:px-[32px] lg:py-[6px] lg:text-[16px]"
+              onClick={open}
+            >
+              {address ? shortenAddress(address) : 'Connect'}
+            </div>
+            {/* )} */}
           </div>
-          <div className="absolute hidden -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 md:block">
+          <div className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 md:block">
             <HoverIndicator
               activeIndex={activeTabIndex}
               className="w-[320px] lg:w-[400px] xl:w-[480px]"
@@ -202,17 +197,16 @@ export const Header = () => {
                   key={i}
                   className={
                     'font-mona relative flex h-[35px]  items-center justify-center pr-[4px] transition-all duration-200 ease-in' +
-                    ` ${
-                      activeTabIndex === i
-                        ? 'text-[#404040] dark:text-white '
-                        : 'text-[#959595]'
+                    ` ${activeTabIndex === i
+                      ? 'text-[#404040] dark:text-white '
+                      : 'text-[#959595]'
                     }`
                   }
                   onMouseEnter={() => {
                     setActiveTabIndex(i)
                   }}
                   onMouseLeave={() => setActiveTabIndex(currentTabIndex)}
-                  // target={item.isExternal ? '_blank' : '_self'}
+                // target={item.isExternal ? '_blank' : '_self'}
                 >
                   {theme === 'light' ? (
                     <img
@@ -238,10 +232,9 @@ export const Header = () => {
             className={
               ` absolute bottom-0 left-0 h-[1px] w-full` +
               `
-              ${
-                theme === 'light'
-                  ? 'bg-gradient-divider-light'
-                  : 'bg-gradient-divider'
+              ${theme === 'light'
+                ? 'bg-gradient-divider-light'
+                : 'bg-gradient-divider'
               }
                `
             }
