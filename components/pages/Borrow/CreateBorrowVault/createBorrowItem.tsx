@@ -62,7 +62,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
 
   const [ltv, setltv] = useState('')
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const ethPrice = await getPriceToken('ETH')
       const btcPrice = await getPriceToken('BTC')
       setPrice({
@@ -360,18 +360,18 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
         className="rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pt-3 pb-5 text-[#030303] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white xl:px-[32px]"
         key={dataBorrow.depositTokenSymbol}
       >
-      <div className="flex items-center justify-between w-full">
-        <div className="flex items-center ml-[-12px]">
-          <img
-            className="w-[72px] md:w-24"
-            src={dataBorrow.depositTokenIcon}
-            alt=""
-          />
-          <div className="font-larken text-[#030303] dark:text-white text-[18px] md:text-[22px] leading-tight lg:text-[26px]">
-            Deposit {dataBorrow.depositTokenSymbol},<br /> Borrow{' '}
-            {dataBorrow.borrowTokenSymbol}
+        <div className="flex items-center justify-between w-full">
+          <div className="flex items-center ml-[-12px]">
+            <img
+              className="w-[72px] md:w-24"
+              src={dataBorrow.depositTokenIcon}
+              alt=""
+            />
+            <div className="font-larken text-[#030303] dark:text-white text-[18px] md:text-[22px] leading-tight lg:text-[26px]">
+              Deposit {dataBorrow.depositTokenSymbol},<br /> Borrow{' '}
+              {dataBorrow.borrowTokenSymbol}
+            </div>
           </div>
-        </div>
           <Popover
             trigger="hover"
             placement="bottom-right"
@@ -383,7 +383,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
                 <img
                   src="/assets/t-logo-circle.png"
                   alt=""
-                  className="w-[24px]"/>
+                  className="w-[24px]" />
                 <div className="font-mona mx-1 uppercase text-[#AA5BFF] xs:mx-2">
                   +0.00 TORQ
                 </div>
@@ -401,6 +401,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
               usdDefault
               decimalScale={2}
               onChange={(e) => {
+                console.log('amount :>> ', amount);
                 setAmount(e)
               }}
             />
@@ -411,7 +412,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
               tokenValue={Number(amountReceive)}
               tokenValueChange={Number(
                 amount * price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`] * (dataBorrow.loanToValue / 140)
-              )}              
+              )}
               usdDefault
               decimalScale={2}
               className="w-full py-4 text-[#030303] dark:text-white"
@@ -465,16 +466,15 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
           </p>
         </div>
         <button
-          className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${
-            buttonLoading && 'cursor-not-allowed opacity-50'
-          }`}
+          className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
+            }`}
           disabled={buttonLoading != ''}
           onClick={() => {
             if (
               amountReceive /
-                (amount *
-                  price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]) >
-                item?.loanToValue
+              (amount *
+                price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]) >
+              item?.loanToValue
             ) {
               toast.error(`Loan-to-value exceeds ${item?.loanToValue}%`)
             } else {

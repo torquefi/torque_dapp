@@ -58,7 +58,7 @@ export function CreateBoostVault() {
 
 const BOOST_VAULTS = [
   {
-    depositTokenSymbol: 'WTBC',
+    depositTokenSymbol: 'WBTC',
     depositTokenIcon: '/icons/coin/wbtc.png',
     earnTokenSymbol: 'tBTC',
     bonus_TORQ: 0,
