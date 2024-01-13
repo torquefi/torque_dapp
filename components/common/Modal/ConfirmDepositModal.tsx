@@ -107,7 +107,7 @@ export function
                 value={coinFrom?.amount || 0}
                 suffix={` ${coinFrom.symbol}`}
                 thousandSeparator
-                decimalScale={5}
+                decimalScale={4}
               />
             </div>
           </div>
@@ -124,7 +124,7 @@ export function
                 value={coinTo?.amount || 0}
                 suffix={` ${coinTo.symbol}`}
                 thousandSeparator
-                decimalScale={2}
+                decimalScale={4}
               />
             </div>
           </div>
