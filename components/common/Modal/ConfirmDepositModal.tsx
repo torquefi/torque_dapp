@@ -14,6 +14,7 @@ import { formatUnits } from 'ethers/lib/utils'
 import LoadingCircle from '../Loading/LoadingCircle'
 import { AppStore } from '@/types/store'
 import { useSelector } from 'react-redux'
+import { convertNumber } from '@/lib/helpers/number'
 
 interface Detail {
   label: string
@@ -94,9 +95,9 @@ export function
           onClick={handleClose}
         />
       </div>
-      <div className={`mt-2 hidden h-[1px] w-full md:block` +`
+      <div className={`mt-2 hidden h-[1px] w-full md:block` + `
       ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'}`
-        }></div>
+      }></div>
       <div className=" h-auto w-full   overflow-y-auto py-[18px]">
         <div className="flex items-center justify-between">
           <div>
@@ -104,10 +105,10 @@ export function
             <div className="font-larken pt-2 text-[#030303] text-[23px]">
               <NumberFormat
                 displayType="text"
-                value={coinFrom?.amount || 0}
+                value={convertNumber(coinFrom?.amount || 0)}
                 suffix={` ${coinFrom.symbol}`}
-                thousandSeparator
-                decimalScale={4}
+              // thousandSeparator
+              // decimalScale={4}
               />
             </div>
           </div>
@@ -121,10 +122,9 @@ export function
             <div className="font-larken pt-2 text-[#030303] text-[23px]">
               <NumberFormat
                 displayType="text"
-                value={coinTo?.amount || 0}
+                value={convertNumber(coinTo?.amount || 0)}
                 suffix={` ${coinTo.symbol}`}
                 thousandSeparator
-                decimalScale={4}
               />
             </div>
           </div>
@@ -138,9 +138,9 @@ export function
           </div>
         </div>
       </div>
-      <div className={`mt-2 hidden h-[1px] w-full md:block` +`
+      <div className={`mt-2 hidden h-[1px] w-full md:block` + `
       ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'}`
-        }></div>
+      }></div>
       <div className="my-5 flex flex-wrap gap-3 text-[16px] text-[#959595]">
         <div className="flex w-full items-center justify-between text-[15px]">
           <p>Wallet balance</p>

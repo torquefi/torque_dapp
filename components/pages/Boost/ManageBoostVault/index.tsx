@@ -72,7 +72,7 @@ export function ManageBoostVault() {
 
       const dataBoost = await Promise.all(DATA_BOOST_VAULT?.map(getBoostData))
       setDataBoost(dataBoost)
-    } catch (error) {}
+    } catch (error) { }
     if (loading) {
       setSkeletonLoading(false)
     }

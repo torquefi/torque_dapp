@@ -129,7 +129,7 @@ export default function ManageBorrowVault() {
     try {
       const dataBorrow = await Promise.all(DATA_BORROW?.map(getBorrowData))
       setDataBorrow(dataBorrow)
-    } catch (error) {}
+    } catch (error) { }
     setSkeletonLoading(false)
   }
 
@@ -169,7 +169,7 @@ const DATA_BORROW: IBorrowInfoManage[] = [
   {
     depositTokenSymbol: 'WBTC',
     depositTokenDecimal: 8,
-    borrowTokenSymbol: 'USD',
+    borrowTokenSymbol: 'TUSD',
     borrowTokenDecimal: 6,
     label: 'House',
     labelKey: 'name_borrow_vault_2',
@@ -186,7 +186,7 @@ const DATA_BORROW: IBorrowInfoManage[] = [
   {
     depositTokenSymbol: 'AETH',
     depositTokenDecimal: 18,
-    borrowTokenSymbol: 'USD',
+    borrowTokenSymbol: 'TUSD',
     borrowTokenDecimal: 6,
     label: 'Lambo',
     labelKey: 'name_borrow_vault_1',
