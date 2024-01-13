@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { InforVotes } from './Infor'
 import { MainContent } from './MainContent'
-import Skeleton from '@/components/skeleton/Skeleton'
+import SkeletonDefault from '@/components/skeleton'
 
 export const DetailsVotes = () => {
   const [isLoading, setIsLoading] = useState(true)
@@ -13,24 +13,37 @@ export const DetailsVotes = () => {
   if (isLoading) {
     return (
       <div className="">
-        <Skeleton className="mx-auto h-[84px] max-w-[400px] rounded-full" />
+        <div className="mx-auto h-[84px] max-w-[400px] rounded-full">
+          <SkeletonDefault className="h-[84px]" />
+        </div>
+
         <div className="mt-[41px] justify-between md:flex">
-          <Skeleton className="h-[350px] w-[49%] rounded-[48px]" />
-          <Skeleton className="h-[350px] w-[49%] rounded-[48px]" />
+          <div className="md:w-[49%] rounded-[48px] w-full">
+            <SkeletonDefault className="h-[350px]" />
+          </div>
+          <div className="md:w-[49%] rounded-[48px] w-full md:mt-[0px] mt-[20px]">
+            <SkeletonDefault className="h-[350px]" />
+          </div>
         </div>
         <div className="mt-[26px] justify-between md:flex">
-          <Skeleton className="h-[610px] w-[55%] rounded-[48px]" />
-          <div className="w-[43%]">
-            <Skeleton className="h-[300px] w-full rounded-[48px]" />
-            <Skeleton className="mt-[10px] h-[300px] w-full rounded-[48px]" />
+          <div className="w-full md:w-[55%] rounded-[48px]">
+            <SkeletonDefault className="h-[610px]" />
+          </div>
+          <div className="w-full md:w-[43%] md:mt-[0px] mt-[20px]">
+            <div className='w-full rounded-[48px]'>
+              <SkeletonDefault className="h-[300px]" />
+            </div>
+            <div className='mt-[10px] w-full rounded-[48px]'>
+              <SkeletonDefault className="h-[300px]" />
+            </div>
           </div>
         </div>
       </div>
     )
   }
   return (
-    <div className="w-full mx-auto text-center">
-      <h1 className="mx-auto w-full font-larken max-w-[588px] text-[20px] font-[400] leading-[23px] md:text-[36px] md:leading-[44px]">
+    <div className="mx-auto w-full text-center">
+      <h1 className="font-larken mx-auto w-full max-w-[588px] text-[20px] font-[400] leading-[23px] md:text-[36px] md:leading-[44px]">
         Increase rate of distribution across tBoost pools to 1m TORQ per day
       </h1>
       <div className="mt-[14px]">

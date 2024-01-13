@@ -1,4 +1,3 @@
-import Skeleton from '@/components/skeleton/Skeleton'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 
@@ -33,7 +32,7 @@ export const OptionToken = () => {
             <p className="text-[14px] font-[500] uppercase  text-[#AA5BFF]">
               learn
             </p>
-            <img src="/assets/pages/vote/genover/next.svg" alt="" className="mb-1"/>
+            <img src="/assets/pages/vote/genover/next.svg" alt="" className="mb-1" />
           </Link>
           <div className="relative h-[4px] w-full bg-[#aa5bff33]">
             <div className="absolute h-[4px] w-[95%] bg-[#AA5BFF]"></div>
@@ -85,7 +84,7 @@ export const OptionToken = () => {
             <p className="text-[14px] font-[500] uppercase  leading-[40px] text-[#AA5BFF]">
               leaders
             </p>
-            <img src="/assets/pages/vote/genover/next.svg" alt="" className="mb-1"/>
+            <img src="/assets/pages/vote/genover/next.svg" alt="" className="mb-1" />
           </Link>
           <div className="flex items-center justify-end gap-[4px]">
             <img src="/assets/pages/vote/genover/up-green.svg" alt="" />

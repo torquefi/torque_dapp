@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { InforTORQ } from './InforTORQ'
 import { ListPools } from './ListPools'
-import Skeleton from '@/components/skeleton/Skeleton'
+import SkeletonDefault from '@/components/skeleton'
+
 
 export const Distribution = () => {
   const [isLoading, setIsLoading] = useState(true)
+
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1000)
   }, [])
@@ -12,15 +14,25 @@ export const Distribution = () => {
   if (isLoading) {
     return (
       <div className="md:px-[15%]">
-        <Skeleton className="mx-auto mb-4 h-[48px] w-[340px] rounded-full" />
-        <Skeleton className="mx-auto h-[40px] w-[300px] rounded-full" />
-        <div className="mt-[42px] flex items-center justify-between">
-          <Skeleton className="h-[110px] w-[32%] rounded-[32px]" />
-          <Skeleton className="h-[110px] w-[32%] rounded-[32px]" />
-          <Skeleton className="h-[110px] w-[32%] rounded-[32px]" />
+        <div className='w-[340px] rounded-full mx-auto mb-4'>
+          <SkeletonDefault className="h-[48px] " />
         </div>
-        <div className="mt-[24px]">
-          <Skeleton className="h-[400px] w-full rounded-[48px]" />
+        <div className='mx-auto w-[300px] rounded-full'>
+          <SkeletonDefault className="h-[40px]" />
+        </div>
+        <div className="mt-[42px] flex items-center justify-between flex-col md:flex-row">
+          <div className='md:w-[32%] rounded-[32px] w-full mb-[20px] md:mb-[0px]'>
+            <SkeletonDefault className="h-[110px]" />
+          </div>
+          <div className='md:w-[32%] rounded-[32px] w-full mb-[20px] md:mb-[0px]'>
+            <SkeletonDefault className="h-[110px]" />
+          </div>
+          <div className='md:w-[32%] rounded-[32px] w-full md:mb-[0px]'>
+            <SkeletonDefault className="h-[110px]" />
+          </div>
+        </div>
+        <div className="mt-[24px] w-full rounded-[48px]">
+          <SkeletonDefault className="h-[400px]" />
         </div>
       </div>
     )
