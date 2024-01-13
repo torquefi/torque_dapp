@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { OptionToken } from './OptionToken'
 import { Proposals } from './Proposals'
 import { VotingPower } from './VotingPower'
-import Skeleton from '@/components/skeleton/Skeleton'
+import SkeletonDefault from '@/components/skeleton'
 
 export const Governance = () => {
   const [isLoading, setIsLoading] = useState(true)
@@ -13,24 +13,39 @@ export const Governance = () => {
   if (isLoading) {
     return (
       <>
-        <Skeleton className="mx-auto mb-4 h-[48px] w-[340px] rounded-full" />
-        <Skeleton className="mx-auto h-[40px] w-[300px] rounded-full" />
+        <div className="mx-auto mb-4 w-[340px] rounded-full text-center">
+          <SkeletonDefault className="h-[48px]" />
+        </div>
+        <div className="mx-auto mb-4 w-[340px] rounded-full text-center">
+          <SkeletonDefault className="h-[48px]" />
+        </div>
+
         <div className="mt-[32px] items-center justify-between rounded-full md:flex">
-          <Skeleton className="h-[110px] w-[32%] rounded-[32px]" />
-          <Skeleton className="h-[110px] w-[32%] rounded-[32px]" />
-          <Skeleton className="h-[110px] w-[32%] rounded-[32px]" />
+          <div className="md:w-[32%] w-full">
+            <SkeletonDefault className="h-[110px] rounded-[32px]" />
+          </div>
+          <div className="md:w-[32%] w-full">
+            <SkeletonDefault className="h-[110px] rounded-[32px]" />
+          </div>
+          <div className="md:w-[32%] w-full">
+            <SkeletonDefault className="h-[110px] rounded-[32px]" />
+          </div>
         </div>
         <div className="mt-[32px] items-start justify-between md:flex">
-          <Skeleton className="h-[470px] w-[59%] rounded-[48px]" />
-          <Skeleton className="h-[339px] w-[39%] rounded-[48px]" />
+          <div className="md:w-[59%] w-full">
+            <SkeletonDefault className="h-[470px] rounded-[48px]" />
+          </div>
+          <div className="md:w-[39%] w-full">
+            <SkeletonDefault className="h-[339px] rounded-[48px]" />
+          </div>
         </div>
       </>
     )
   }
   return (
     <>
-      <div className="w-full mx-auto text-center">
-        <h1 className="font-larken text-[#030303] dark:text-white text-[38px] font-[400] leading-[60px] md:text-[52px]">
+      <div className="mx-auto w-full text-center">
+        <h1 className="font-larken text-[38px] font-[400] leading-[60px] text-[#030303] md:text-[52px] dark:text-white">
           Governance
         </h1>
         <p className="mx-auto w-full max-w-[332px] font-[500] leading-[24px] text-[#959595]">

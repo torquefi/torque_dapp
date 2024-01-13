@@ -1,4 +1,5 @@
-import Skeleton from '@/components/skeleton/Skeleton'
+import SkeletonDefault from '@/components/skeleton'
+
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { AppStore } from '@/types/store'
@@ -15,7 +16,7 @@ export const LeaderBoard = () => {
   if (isLoading) {
     return (
       <div className="md:px-[24%]">
-        <Skeleton className="h-[430px] w-full rounded-xl" />
+        <SkeletonDefault className="h-[430px] w-full rounded-xl" />
       </div>
     )
   }
@@ -32,12 +33,12 @@ export const LeaderBoard = () => {
             className={`font-mona text-[#030303] dark:text-white mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
             content="Torque is governed by a global community of TORQ holders."
           >
-          <button>
-            <img src="/assets/pages/vote/ic-info.svg" alt="" />
-          </button>
+            <button>
+              <img src="/assets/pages/vote/ic-info.svg" alt="" />
+            </button>
           </Popover>
         </div>
-        <div className={`mt-4 hidden h-[1px] w-full md:block` +`
+        <div className={`mt-4 hidden h-[1px] w-full md:block` + `
       ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'}`
         }></div>
         <div className="mx-auto w-full py-[58px]">
@@ -54,7 +55,7 @@ export const LeaderBoard = () => {
             No leaders yet
           </h3>
           <p className="mx-auto mt-[6px] w-full text-center text-[16px] font-[500] max-w-[320px] text-[#959595]">
-          Official releases of Boost, Borrow, and Farm liquidity pools are coming soon.
+            Official releases of Boost, Borrow, and Farm liquidity pools are coming soon.
           </p>
         </div>
         {/* <table className="w-full">
