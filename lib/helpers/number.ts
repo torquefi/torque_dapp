@@ -17,3 +17,15 @@ export const floorFraction = (number: number, fraction = 0) => {
     Math.floor(+(number || 0) * Math.pow(10, fraction)) / Math.pow(10, fraction)
   )
 }
+
+export const convertNumber = (number: string | number) => {
+  if (!number) {
+    return '0'
+  }
+  let result = Number(number).toFixed(4)
+  const hasFourZeros = /\.\d{4}$/.test(result)
+  if (hasFourZeros) {
+    result = Number(number).toFixed(2)
+  }
+  return result
+}

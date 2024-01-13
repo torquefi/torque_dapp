@@ -62,7 +62,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
 
   const [ltv, setltv] = useState('')
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const ethPrice = await getPriceToken('ETH')
       const btcPrice = await getPriceToken('BTC')
       setPrice({
@@ -354,24 +354,27 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
     // return 'Deposit & Borrow'
     return 'Confirm Deposit'
   }
+
+  console.log('object :>> ', aprBorrow)
+
   return (
     <>
       <div
-        className="rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pt-3 pb-5 text-[#030303] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white xl:px-[32px]"
+        className="rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pb-5 pt-3 text-[#030303] xl:px-[32px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white"
         key={dataBorrow.depositTokenSymbol}
       >
-      <div className="flex items-center justify-between w-full">
-        <div className="flex items-center ml-[-12px]">
-          <img
-            className="w-[72px] md:w-24"
-            src={dataBorrow.depositTokenIcon}
-            alt=""
-          />
-          <div className="font-larken text-[#030303] dark:text-white text-[18px] md:text-[22px] leading-tight lg:text-[26px]">
-            Deposit {dataBorrow.depositTokenSymbol},<br /> Borrow{' '}
-            {dataBorrow.borrowTokenSymbol}
+        <div className="flex w-full items-center justify-between">
+          <div className="ml-[-12px] flex items-center">
+            <img
+              className="w-[72px] md:w-24"
+              src={dataBorrow.depositTokenIcon}
+              alt=""
+            />
+            <div className="font-larken text-[18px] leading-tight text-[#030303] md:text-[22px] lg:text-[26px] dark:text-white">
+              Deposit {dataBorrow.depositTokenSymbol},<br /> Borrow{' '}
+              {dataBorrow.borrowTokenSymbol}
+            </div>
           </div>
-        </div>
           <Popover
             trigger="hover"
             placement="bottom-right"
@@ -383,7 +386,8 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
                 <img
                   src="/assets/t-logo-circle.png"
                   alt=""
-                  className="w-[24px]"/>
+                  className="w-[24px]"
+                />
                 <div className="font-mona mx-1 uppercase text-[#AA5BFF] xs:mx-2">
                   +0.00 TORQ
                 </div>
@@ -391,12 +395,12 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
             </Link>
           </Popover>
         </div>
-        <div className="grid grid-cols-2 gap-4 mt-1 mb-1 font-larken">
-          <div className="flex w-full items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
+        <div className="font-larken mb-1 mt-1 grid grid-cols-2 gap-4">
+          <div className="flex w-full items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  lg:h-[140px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
             <InputCurrencySwitch
               tokenSymbol={item?.depositTokenSymbol}
               tokenValue={Number(amount)}
-              className="w-full py-4 text-[#030303] dark:text-white lg:py-6"
+              className="w-full py-4 text-[#030303] lg:py-6 dark:text-white"
               subtitle="Collateral"
               usdDefault
               decimalScale={2}
@@ -405,13 +409,15 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
               }}
             />
           </div>
-          <div className="font-larken h-[110px] flex flex-col items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
+          <div className="font-larken flex h-[110px] flex-col items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0 lg:h-[140px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
             <InputCurrencySwitch
               tokenSymbol={'TUSD'}
               tokenValue={Number(amountReceive)}
               tokenValueChange={Number(
-                amount * price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`] * (dataBorrow.loanToValue / 140)
-              )}              
+                amount *
+                price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`] *
+                (dataBorrow.loanToValue / 140)
+              )}
               usdDefault
               decimalScale={2}
               className="w-full py-4 text-[#030303] dark:text-white"
@@ -422,7 +428,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
             />
           </div>
         </div>
-        <div className="flex items-center py-4 justify-between text-[#959595]">
+        <div className="flex items-center justify-between py-4 text-[#959595]">
           <p>Loan providers</p>
           <div className="flex items-center">
             <Link
@@ -455,7 +461,9 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
         <div className="flex justify-between py-[16px] text-[#959595]">
           <p>Variable APR</p>
           <p>
-            {!aprBorrow ? '-0.00%' : -(Number(aprBorrow) * 100).toFixed(2) + '%'}
+            {!aprBorrow
+              ? '-0.00%'
+              : -(Number(aprBorrow) * 100).toFixed(2) + '%'}
           </p>
         </div>
         <div className="flex justify-between text-[#959595]">
@@ -465,16 +473,15 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
           </p>
         </div>
         <button
-          className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${
-            buttonLoading && 'cursor-not-allowed opacity-50'
-          }`}
+          className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
+            }`}
           disabled={buttonLoading != ''}
           onClick={() => {
             if (
               amountReceive /
-                (amount *
-                  price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]) >
-                item?.loanToValue
+              (amount *
+                price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]) >
+              item?.loanToValue
             ) {
               toast.error(`Loan-to-value exceeds ${item?.loanToValue}%`)
             } else {
@@ -512,7 +519,9 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
           },
           {
             label: 'Variable APR',
-            value: `${Number(aprBorrow).toFixed(2)}%`,
+            value: !aprBorrow
+              ? '-0.00%'
+              : -(Number(aprBorrow) * 100).toFixed(2) + '%',
           },
         ]}
       />
