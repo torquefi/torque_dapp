@@ -33,10 +33,11 @@ export default function CurrencySwitchInit({ children }: any) {
         }, {})
         const ethPrice = await getPriceToken('ETH')
         const btcPrice = await getPriceToken('BTC')
-        const TUSTPrice = await getPriceToken('USDC')
+        const tusdPrice = await getPriceToken('USDC')
+
         usdPrice.eth = ethPrice || usdPrice.eth || 1800
         usdPrice.btc = btcPrice || usdPrice.btc || 28000
-        usdPrice.tUSD = TUSTPrice || usdPrice.TUSTPrice || 1
+        usdPrice.TUSD = tusdPrice || usdPrice.TUSD || 1
         usdPrice.ETH = ethPrice || usdPrice.ETH || 1800
         usdPrice.BTC = btcPrice || usdPrice.BTC || 28000
         usdPrice.AETH = ethPrice || usdPrice.eth || 1800
