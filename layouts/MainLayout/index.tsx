@@ -12,12 +12,24 @@ interface MainLayoutProps {
 }
 
 export const MainLayout = ({ children }: MainLayoutProps) => {
-  const theme = useSelector((store: AppStore) => store.theme.theme)
   const dispatch = useDispatch()
+  const theme = useSelector((store: AppStore) => store.theme.theme)
 
   useEffect(() => {
     if (theme == '') {
       dispatch(updateTheme('light' as any))
+    }
+
+    if (typeof window !== 'undefined') {
+      if (
+        theme === 'light'
+      ) {
+        document.documentElement.classList.remove('dark')
+        document.documentElement.classList.add('light')
+      } else {
+        document.documentElement.classList.add('dark')
+        document.documentElement.classList.remove('light')
+      }
     }
   }, [theme])
 

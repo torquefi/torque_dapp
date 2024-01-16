@@ -7,7 +7,7 @@ import type { AppProps } from 'next/app'
 import { ReactElement, ReactNode, useEffect } from 'react'
 import 'react-loading-skeleton/dist/skeleton.css'
 import { MoralisProvider } from 'react-moralis'
-import { Provider } from 'react-redux'
+import { Provider, useSelector } from 'react-redux'
 import { PersistGate } from 'redux-persist/lib/integration/react'
 import { Toaster } from 'sonner'
 import SEO from '../next-seo.config'
@@ -17,6 +17,7 @@ import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
 import { Web3Modal } from '@web3modal/react'
 import { WagmiConfig, configureChains, createConfig } from 'wagmi'
 import { arbitrum, arbitrumGoerli, goerli } from 'wagmi/chains'
+import { AppStore } from '@/types/store'
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -43,17 +44,6 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const appId = '1'
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page)
-
-  if (typeof window !== 'undefined') {
-    if (
-      window.localStorage.getItem('theme') === 'light' ||
-      !('theme' in window.localStorage)
-    ) {
-      document.documentElement.classList.add('light')
-    } else {
-      document.documentElement.classList.remove('light')
-    }
-  }
 
   useEffect(() => {
     Moralis.start({
