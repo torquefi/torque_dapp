@@ -363,7 +363,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
         className="rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pb-5 pt-3 text-[#030303] xl:px-[32px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white"
         key={dataBorrow.depositTokenSymbol}
       >
-        <div className="flex w-full items-center justify-between">
+        <div className="flex items-center justify-between w-full">
           <div className="ml-[-12px] flex items-center">
             <img
               className="w-[72px] md:w-24"
@@ -395,7 +395,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
             </Link>
           </Popover>
         </div>
-        <div className="font-larken mb-1 mt-1 grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4 mt-1 mb-1 font-larken">
           <div className="flex w-full items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  lg:h-[140px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
             <InputCurrencySwitch
               tokenSymbol={item?.depositTokenSymbol}
@@ -473,7 +473,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
           </p>
         </div>
         <button
-          className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
+          className={`font-mona text-[14px] mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
             }`}
           disabled={buttonLoading != ''}
           onClick={() => {
