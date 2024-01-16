@@ -9,7 +9,7 @@ const initialState: IthemeType = {
 }
 
 export const ThemeSlice = createSlice({
-  name: 'usdPrice',
+  name: 'theme',
   initialState,
   reducers: {
     updateTheme: (state: IthemeType, action: any): IthemeType => {
