@@ -442,10 +442,10 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
                 className="w-[26px]"
               />
             </Link>
-            <Link href={'https://www.usd.farm/'} className="" target={'_blank'}>
+            <Link href={'https://tusd.torque.fi/'} className="" target={'_blank'}>
               <img
                 src={'/icons/coin/torq-yi.svg'}
-                alt="USD.farm"
+                alt="Torque USD"
                 className="w-[26px]"
               />
             </Link>
