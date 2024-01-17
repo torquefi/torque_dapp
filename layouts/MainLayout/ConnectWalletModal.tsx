@@ -23,14 +23,14 @@ export default function ConnectWalletModal({
 
   useEffect(() => {
     setTheme({
-      themeMode: 'light',
+      themeMode: theme === 'light' ? 'light' : 'dark',
       themeVariables: {
         '--w3m-accent-color': '#AA5BFF',
         '--w3m-background-color': '#AA5BFF',
         "--w3m-z-index": '999'
       },
     })
-  }, [])
+  }, [theme])
 
   const CONNECTORS = [
     {

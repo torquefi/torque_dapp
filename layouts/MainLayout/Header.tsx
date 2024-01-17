@@ -121,7 +121,7 @@ export const Header = () => {
             <img className="mb-1 h-[32px]" src="/assets/logo.png" alt="" />
             <h2
               // style={{ fontFamily: 'Larken-Bold' }}
-              className="font-larken font-bold ml-[10px] text-[24px] text-[#404040] dark:text-white"
+              className="font-larken ml-[10px] text-[24px] text-[#404040] dark:text-white"
             >
               Torque
             </h2>
