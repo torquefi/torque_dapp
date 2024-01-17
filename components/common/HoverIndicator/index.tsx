@@ -49,7 +49,7 @@ export default function HoverIndicator({
           indicator.current.style.opacity = '0'
         } else {
           const top = indicatorWidth * activeTabIndex
-          indicator.current.style.left = `${top}px`
+          indicator.current.style.transform = `translateX(${top}px)`
           indicator.current.style.opacity = '1'
         }
       }
@@ -62,7 +62,7 @@ export default function HoverIndicator({
           indicator.current.style.opacity = '0'
         } else {
           const top = indicatorHeight * activeTabIndex
-          indicator.current.style.top = `${top}px`
+          indicator.current.style.transform = `translateY(${top}px)`
           indicator.current.style.opacity = '1'
         }
       }
@@ -88,7 +88,7 @@ export default function HoverIndicator({
     >
       <div
         className={
-          'pointer-events-none absolute w-full rounded-[6px] bg-[#f6f4f8] dark:bg-[#141414] transition-all duration-300' +
+          'pointer-events-none absolute w-full rounded-[6px] bg-[#f6f4f8] dark:bg-[#141414] transition-transform duration-300' +
           ` ${direction === 'horizontal' ? 'inset-y-0' : ''}` +
           ` ${direction === 'vertical' ? 'inset-x-0' : ''}` +
           ` ${indicatorClassName}`
