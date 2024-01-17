@@ -23,7 +23,7 @@ export default function ConnectWalletModal({
 
   useEffect(() => {
     setTheme({
-      themeMode: 'dark',
+      themeMode: 'light',
       themeVariables: {
         '--w3m-accent-color': '#AA5BFF',
         '--w3m-background-color': '#AA5BFF',
