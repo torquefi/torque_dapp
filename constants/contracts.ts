@@ -8,7 +8,7 @@ import {
   // boostCompAbi,
   // compAbi,
   tusdAbi,
-} from './abi';
+} from './abi'
 export interface IContractInfo {
   name?: string
   address: string
@@ -54,6 +54,11 @@ export const torqContract: IContractInfo = {
 //   address: '0xEe01c0CD76354C383B8c7B4e65EA88D00B06f36f',
 //   abi: JSON.stringify(compAbi),
 // }
+
+export const wethContract: IContractInfo = {
+  address: '0x82aF49447D8a07e3bd95BD0d56f35241523fBab1',
+  abi: JSON.stringify(torqAbi),
+}
 
 export const tusdContract: IContractInfo = {
   address: '0x2B9960680D91d7791e9a24aCFb03CE0d234cC708',
