@@ -72,17 +72,16 @@ export const VotingPower = () => {
             }`
           }
         ></div>
-        <div className="mb-2 grid h-auto w-full grid-cols-2 gap-4 overflow-y-auto py-2">
+        <div className="grid w-full h-auto grid-cols-2 gap-4 py-2 mb-2 overflow-y-auto">
           <div className="flex h-[102px] flex-col items-center justify-center  rounded-[8px] rounded-md  border border-[1px] border-[#1A1A1A] border-[#E6E6E6] bg-[#FCFCFC] from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
             <div className="font-larken mt-1 text-[24px] text-[#404040] dark:text-white">
               <NumericFormat
-                value={address ? torqueBalance || '0' : '0'}
+                value={address ? torqueBalance || '0.00' : '0.00'}
                 displayType="text"
                 thousandSeparator
-                decimalScale={4}
+                decimalScale={2}
               />
             </div>
-            {/* TODO: replace hardcode with dynamic value */}
             <div className="mt-1 text-[15px] text-[#959595]">Your Power</div>
           </div>
           <div className="flex h-[102px] flex-col items-center justify-center rounded-[8px] rounded-md  border border-[1px] border-[#1A1A1A] border-[#E6E6E6] bg-[#FCFCFC] from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
@@ -93,15 +92,14 @@ export const VotingPower = () => {
                     ? new BigNumber(torqueBalance || 0)
                       .multipliedBy(new BigNumber(torquePrice || 0))
                       .toString()
-                    : '0'
+                    : '0.00'
                 }
                 displayType="text"
                 thousandSeparator
-                decimalScale={4}
+                decimalScale={2}
                 prefix="$"
               />
             </div>
-            {/* TODO: replace hardcode with dynamic value */}
             <div className="mt-1 text-[15px] text-[#959595]">Your Value</div>
           </div>
         </div>
