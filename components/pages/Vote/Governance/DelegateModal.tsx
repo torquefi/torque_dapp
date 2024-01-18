@@ -17,7 +17,6 @@ export const DelegateModal = (props: any) => {
   const { address } = useAccount()
   const theme = useSelector((store: AppStore) => store.theme.theme)
 
-
   const [loading, setLoading] = useState(false)
   const [addressInput, setAddressInput] = useState('')
 
@@ -43,8 +42,12 @@ export const DelegateModal = (props: any) => {
       const tx = await tokenContract.methods
         .delegates(addressInput)
         .send({ from: address })
-      toast.success('Delegate Successfully')
-      handleClose()
+      if (tx.status) {
+        toast.success('Delegate Successfully')
+        handleClose()
+        setAddressInput('')
+      }
+
       console.log('tx :>> ', tx)
     } catch (error) {
       toast.error('Delegate Failed')
@@ -53,8 +56,6 @@ export const DelegateModal = (props: any) => {
       setLoading(false)
     }
   }
-
-
 
   return (
     <div>
