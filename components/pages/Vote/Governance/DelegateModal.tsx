@@ -8,7 +8,7 @@ import { useAccount } from 'wagmi'
 import { useMemo, useState } from 'react'
 import Web3 from 'web3'
 import { torqContract } from '@/constants/contracts'
-import { toast } from 'react-toastify'
+import { toast } from 'sonner'
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
 import BigNumber from 'bignumber.js'
 
@@ -87,6 +87,7 @@ export const DelegateModal = (props: any) => {
             className="w-full rounded-[12px] border-[1px] border-solid border-[#E6E6E6] bg-transparent px-[21px] py-[12px] text-[14px] font-[500] text-[#959595] dark:border-[#1a1a1a]"
             type="text"
             placeholder="Address*"
+            value={addressInput}
             onChange={(event: any) => setAddressInput(event.target.value)}
           />
         </div>
