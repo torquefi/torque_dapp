@@ -67,7 +67,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
             )}
           </PersistGate>
         </WagmiConfig>
-        <Toaster theme="dark" richColors />
+        <Toaster theme="dark" richColors style={{ zIndex: 10000 }} />
         <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
       </MoralisProvider>
     </Provider>
