@@ -54,7 +54,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
   const [aprBorrow, setAprBorrow] = useState('')
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const ethPrice = await getPriceToken('ETH')
       const btcPrice = await getPriceToken('BTC')
       setPrice({
@@ -196,7 +196,6 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
           tusdBorrowAmount
         )
 
-        ethers.providers.Web3Provider
 
         // await borrowContract.methods
         //   .borrow(borrow.toString(), newUsdcBorrowAmount, tusdBorrowAmount)
@@ -206,7 +205,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
         //   })
 
         console.log(JSON.parse(item?.borrowContractInfo?.abi),
-        item?.borrowContractInfo?.address,)
+          item?.borrowContractInfo?.address,)
         const provider = new ethers.providers.Web3Provider(window.ethereum)
         const signer = provider.getSigner(address)
         const borrowContract2 = new ethers.Contract(
@@ -214,7 +213,11 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
           (item?.borrowContractInfo?.abi),
           signer
         )
-        await borrowContract2.borrow(borrow.toString(), newUsdcBorrowAmount, tusdBorrowAmount)
+        const tx = await borrowContract2.borrow(borrow.toString(), newUsdcBorrowAmount, tusdBorrowAmount)
+        await tx.wait()
+        toast.success('Borrow Successful')
+        setOpenConfirmDepositModal(false)
+        setIsLoading(false)
       } else if (item.depositTokenSymbol === 'AETH') {
         const borrowAmount =
           amountReceive /
@@ -247,12 +250,10 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
           })
       }
       // dispatch(updateborrowTime(new Date().getTime() as any))
-      toast.success('Borrow Successful')
     } catch (e) {
       console.log('CreateBorrowItem.onBorrow', e)
       toast.error('Borrow Failed')
     } finally {
-      setIsLoading(false)
       // setOpenConfirmDepositModal(false)
     }
   }
@@ -327,8 +328,8 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
               tokenValue={Number(amountReceive)}
               tokenValueChange={Number(
                 amount *
-                  price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`] *
-                  (dataBorrow.loanToValue / 140)
+                price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`] *
+                (dataBorrow.loanToValue / 140)
               )}
               usdDefault
               decimalScale={2}
@@ -389,15 +390,14 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
           </p>
         </div>
         <button
-          className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${
-            buttonLoading && 'cursor-not-allowed opacity-50'
-          }`}
+          className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
+            }`}
           disabled={buttonLoading != ''}
           onClick={() => {
             if (
               amountReceive /
-                (amount *
-                  price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]) >
+              (amount *
+                price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]) >
               item?.loanToValue
             ) {
               toast.error(`Loan-to-value exceeds ${item?.loanToValue}%`)
