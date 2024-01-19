@@ -113,14 +113,6 @@ export const DelegateModal = (props: any) => {
               TORQ
             </p>
           </div>
-          <div className="mt-[22px] flex justify-between font-[500] leading-[20px] text-[#959595]">
-            <p>Vote power</p>
-            <p>0.00 TORQ</p>
-          </div>
-          {/* <div className="mt-[22px] flex justify-between font-[500] leading-[20px] text-[#959595]">
-            <p>Delegate APR</p>
-            <p>0.00%</p>
-          </div> */}
         </div>
         <button
           onClick={handleDelegate}
