@@ -3,11 +3,7 @@ import { AiOutlineClose } from 'react-icons/ai'
 import NumberFormat from '../NumberFormat'
 import React, { useEffect, useState } from 'react'
 import { getBalanceByContractToken } from '@/constants/utils'
-import {
-  btcContract,
-  ethContract,
-  tusdContract,
-} from '@/constants/contracts'
+import { btcContract, ethContract, tusdContract } from '@/constants/contracts'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 import { formatUnits } from 'ethers/lib/utils'
@@ -38,8 +34,7 @@ interface ConfirmDepositModalProps {
   loading?: boolean
 }
 
-export function
-  ConfirmDepositModal(props: ConfirmDepositModalProps) {
+export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
   const {
     open,
     handleClose,
@@ -48,7 +43,7 @@ export function
     coinFrom,
     coinTo,
     details = [],
-    loading
+    loading,
   } = props
   const web3 = new Web3(Web3.givenProvider)
   const { address } = useAccount()
@@ -81,13 +76,13 @@ export function
 
   return (
     <Modal
-      className="bg-[#FCFAFF] dark:bg-[#030303] mx-auto w-[90%] max-w-[360px] px-[24px]"
+      className="mx-auto w-[90%] max-w-[360px] bg-[#FCFAFF] px-[24px] dark:bg-[#030303]"
       open={open}
       handleClose={handleClose}
       hideCloseIcon
     >
       <div className="flex items-center justify-between py-2">
-        <div className="font-larken text-[16px] font-[400] text-[#030303] dark:text-white md:text-[28px]">
+        <div className="font-larken text-[16px] font-[400] text-[#030303] md:text-[28px] dark:text-white">
           Confirm
         </div>
         <AiOutlineClose
@@ -95,14 +90,19 @@ export function
           onClick={handleClose}
         />
       </div>
-      <div className={`mt-2 hidden h-[1px] w-full md:block` + `
-      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'}`
-      }></div>
+      <div
+        className={
+          `mt-2 hidden h-[1px] w-full md:block` +
+          `
+      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+          }`
+        }
+      ></div>
       <div className=" h-auto w-full   overflow-y-auto py-[18px]">
         <div className="flex items-center justify-between">
           <div>
             <span className="text-[16px] text-[#959595]">You deposit</span>
-            <div className="font-larken pt-2 text-[#030303] text-[23px]">
+            <div className="font-larken pt-2 text-[23px] text-[#030303]">
               <NumberFormat
                 displayType="text"
                 value={convertNumber(coinFrom?.amount || 0)}
@@ -116,10 +116,10 @@ export function
             <img className="w-16" src={coinFrom?.icon} alt="" />
           </div>
         </div>
-        <div className="flex items-center justify-between mt-8">
+        <div className="mt-8 flex items-center justify-between">
           <div>
             <span className="text-[16px] text-[#959595]">You receive</span>
-            <div className="font-larken pt-2 text-[#030303] text-[23px]">
+            <div className="font-larken pt-2 text-[23px] text-[#030303]">
               <NumberFormat
                 displayType="text"
                 value={convertNumber(coinTo?.amount || 0)}
@@ -131,16 +131,21 @@ export function
           <div className="relative w-16">
             <img className="w-16 " src={coinTo?.icon} alt="" />
             <img
-              className="absolute w-5 bottom-3 right-3"
+              className="absolute bottom-3 right-3 w-5"
               src="/assets/t-logo-circle.svg"
               alt=""
             />
           </div>
         </div>
       </div>
-      <div className={`mt-2 hidden h-[1px] w-full md:block` + `
-      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'}`
-      }></div>
+      <div
+        className={
+          `mt-2 hidden h-[1px] w-full md:block` +
+          `
+      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+          }`
+        }
+      ></div>
       <div className="my-5 flex flex-wrap gap-3 text-[16px] text-[#959595]">
         <div className="flex w-full items-center justify-between text-[15px]">
           <p>Wallet balance</p>
@@ -160,7 +165,9 @@ export function
       </div>
       <button
         onClick={onConfirm}
+        disabled={loading}
         className={`font-mona w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
+        ${loading ? ' cursor-not-allowed text-[#eee]' : ' cursor-pointer'}
         `}
       >
         {loading && <LoadingCircle />}

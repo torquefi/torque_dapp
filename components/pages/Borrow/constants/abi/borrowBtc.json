@@ -1,48 +1,33 @@
 [
   {
-    "anonymous": false,
     "inputs": [
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "previousAdmin",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "newAdmin",
-        "type": "address"
-      }
+      { "internalType": "address", "name": "_initialOwner", "type": "address" },
+      { "internalType": "address", "name": "_comet", "type": "address" },
+      { "internalType": "address", "name": "_cometReward", "type": "address" },
+      { "internalType": "address", "name": "_asset", "type": "address" },
+      { "internalType": "address", "name": "_baseAsset", "type": "address" },
+      { "internalType": "address", "name": "_bulker", "type": "address" },
+      { "internalType": "address", "name": "_engine", "type": "address" },
+      { "internalType": "address", "name": "_tusd", "type": "address" },
+      { "internalType": "address", "name": "_treasury", "type": "address" },
+      { "internalType": "uint256", "name": "_repaySlippage", "type": "uint256" }
     ],
-    "name": "AdminChanged",
-    "type": "event"
+    "stateMutability": "nonpayable",
+    "type": "constructor"
   },
   {
-    "anonymous": false,
     "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "beacon",
-        "type": "address"
-      }
+      { "internalType": "address", "name": "owner", "type": "address" }
     ],
-    "name": "BeaconUpgraded",
-    "type": "event"
+    "name": "OwnableInvalidOwner",
+    "type": "error"
   },
   {
-    "anonymous": false,
     "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint8",
-        "name": "version",
-        "type": "uint8"
-      }
+      { "internalType": "address", "name": "account", "type": "address" }
     ],
-    "name": "Initialized",
-    "type": "event"
+    "name": "OwnableUnauthorizedAccount",
+    "type": "error"
   },
   {
     "anonymous": false,
@@ -61,19 +46,6 @@
       }
     ],
     "name": "OwnershipTransferred",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "implementation",
-        "type": "address"
-      }
-    ],
-    "name": "Upgraded",
     "type": "event"
   },
   {
@@ -175,17 +147,6 @@
     "type": "function"
   },
   {
-    "inputs": [
-      { "internalType": "address", "name": "_asset", "type": "address" },
-      { "internalType": "address", "name": "spender", "type": "address" },
-      { "internalType": "uint256", "name": "amount", "type": "uint256" }
-    ],
-    "name": "allow",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
     "inputs": [],
     "name": "asset",
     "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
@@ -202,10 +163,14 @@
   {
     "inputs": [
       { "internalType": "uint256", "name": "supplyAmount", "type": "uint256" },
-      { "internalType": "uint256", "name": "borrowAmount", "type": "uint256" },
       {
         "internalType": "uint256",
-        "name": "tusdBorrowAmount",
+        "name": "borrowAmountUSDC",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tUSDBorrowAmount",
         "type": "uint256"
       }
     ],
@@ -231,8 +196,7 @@
       { "internalType": "uint256", "name": "baseBorrowed", "type": "uint256" },
       { "internalType": "uint256", "name": "borrowed", "type": "uint256" },
       { "internalType": "uint256", "name": "supplied", "type": "uint256" },
-      { "internalType": "uint256", "name": "borrowTime", "type": "uint256" },
-      { "internalType": "uint256", "name": "reward", "type": "uint256" }
+      { "internalType": "uint256", "name": "borrowTime", "type": "uint256" }
     ],
     "stateMutability": "view",
     "type": "function"
@@ -311,6 +275,13 @@
   },
   {
     "inputs": [],
+    "name": "decimalAdjust",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "engine",
     "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
@@ -325,16 +296,6 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "supplyAmount", "type": "uint256" },
-      { "internalType": "address", "name": "_user", "type": "address" }
-    ],
-    "name": "getBorrowable",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
       { "internalType": "uint256", "name": "supplyAmount", "type": "uint256" }
     ],
     "name": "getBorrowableUsdc",
@@ -343,8 +304,48 @@
     "type": "function"
   },
   {
+    "inputs": [
+      { "internalType": "uint256", "name": "maxUSDC", "type": "uint256" },
+      { "internalType": "address", "name": "_user", "type": "address" }
+    ],
+    "name": "getBorrowableV2",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_tUsdRepayAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tUSDBorrowAmount",
+        "type": "uint256"
+      },
+      { "internalType": "uint256", "name": "_usdcToBePayed", "type": "uint256" }
+    ],
+    "name": "getBurnableToken",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "getCollateralFactor",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_usdcSupply", "type": "uint256" },
+      { "internalType": "uint256", "name": "_mintedTUSD", "type": "uint256" },
+      { "internalType": "uint256", "name": "_toMintTUSD", "type": "uint256" }
+    ],
+    "name": "getMintableToken",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
@@ -378,20 +379,29 @@
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "_comet", "type": "address" },
-      { "internalType": "address", "name": "_cometReward", "type": "address" },
-      { "internalType": "address", "name": "_asset", "type": "address" },
-      { "internalType": "address", "name": "_baseAsset", "type": "address" },
-      { "internalType": "address", "name": "_bulker", "type": "address" },
-      { "internalType": "address", "name": "_engine", "type": "address" },
-      { "internalType": "address", "name": "_tusd", "type": "address" },
-      { "internalType": "address", "name": "_treasury", "type": "address" },
-      { "internalType": "address", "name": "_rewardUtil", "type": "address" },
-      { "internalType": "address", "name": "_rewardToken", "type": "address" }
+      {
+        "internalType": "uint256",
+        "name": "tusdRepayAmount",
+        "type": "uint256"
+      }
     ],
-    "name": "initialize",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "name": "getWbtcWithdraw",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "tusdRepayAmount",
+        "type": "uint256"
+      },
+      { "internalType": "uint256", "name": "_repaySlippage", "type": "uint256" }
+    ],
+    "name": "getWbtcWithdrawWithSlippage",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -402,16 +412,18 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "owner",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "inputs": [
+      { "internalType": "uint256", "name": "supplyAmount", "type": "uint256" }
+    ],
+    "name": "mintableTUSD",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
-    "name": "proxiableUUID",
-    "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
+    "name": "owner",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
     "type": "function"
   },
@@ -428,7 +440,8 @@
         "internalType": "uint256",
         "name": "tusdRepayAmount",
         "type": "uint256"
-      }
+      },
+      { "internalType": "uint256", "name": "WbtcWithdraw", "type": "uint256" }
     ],
     "name": "repay",
     "outputs": [],
@@ -440,102 +453,6 @@
     "name": "repaySlippage",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "rewardToken",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "rewardUtil",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "address", "name": "manager", "type": "address" },
-      { "internalType": "bool", "name": "_allow", "type": "bool" }
-    ],
-    "name": "setAllowTo",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "address", "name": "_bulker", "type": "address" }
-    ],
-    "name": "setBulker",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "address", "name": "_comet", "type": "address" }
-    ],
-    "name": "setComet",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "uint256", "name": "_repaySlippage", "type": "uint256" }
-    ],
-    "name": "setRepaySlippage",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "uint256", "name": "_totalBorrow", "type": "uint256" }
-    ],
-    "name": "setTotalBorrow",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "uint256", "name": "_totalSupplied", "type": "uint256" }
-    ],
-    "name": "setTotalSupplied",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "address", "name": "_tusd", "type": "address" }
-    ],
-    "name": "setTusd",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "address", "name": "_newEngine", "type": "address" }
-    ],
-    "name": "setTusdEngine",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "address", "name": "_asset", "type": "address" }
-    ],
-    "name": "setasset",
-    "outputs": [],
-    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -569,35 +486,8 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "newImplementation",
-        "type": "address"
-      }
-    ],
-    "name": "upgradeTo",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "newImplementation",
-        "type": "address"
-      },
-      { "internalType": "bytes", "name": "data", "type": "bytes" }
-    ],
-    "name": "upgradeToAndCall",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
     "inputs": [],
-    "name": "usd",
+    "name": "tusd",
     "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
     "type": "function"
@@ -609,18 +499,6 @@
     "name": "withdraw",
     "outputs": [],
     "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "address", "name": "_user", "type": "address" }
-    ],
-    "name": "getWithdrawableAmount",
-    "outputs": [
-      { "internalType": "uint256", "name": "", "type": "uint256" },
-      { "internalType": "uint256", "name": "", "type": "uint256" }
-    ],
-    "stateMutability": "view",
     "type": "function"
   },
   { "stateMutability": "payable", "type": "receive" }
