@@ -214,7 +214,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
           (item?.borrowContractInfo?.abi),
           signer
         )
-        borrowContract2.borrow(borrow.toString(), newUsdcBorrowAmount, tusdBorrowAmount)
+        await borrowContract2.borrow(borrow.toString(), newUsdcBorrowAmount, tusdBorrowAmount)
       } else if (item.depositTokenSymbol === 'AETH') {
         const borrowAmount =
           amountReceive /
