@@ -23,8 +23,8 @@ import {
   tokenEthContract,
 } from '../constants/contract'
 import { IBorrowInfo } from '../types'
-import { log } from 'console'
 import BigNumber from 'bignumber.js'
+import { useWeb3Modal } from '@web3modal/react'
 
 const SECONDS_PER_YEAR = 60 * 60 * 24 * 365
 
@@ -33,7 +33,10 @@ interface CreateBorrowItemProps {
 }
 
 export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
-  let web3 = new Web3(Web3.givenProvider)
+  const web3 = new Web3(Web3.givenProvider)
+  const { open } = useWeb3Modal()
+  console.log('item :>> ', item);
+
   const [dataBorrow, setDataBorrow] = useState(item)
   const [isLoading, setIsLoading] = useState(true)
   const [amount, setAmount] = useState(0)
@@ -42,17 +45,13 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
   const [contractBorrowBTC, setContractBorrowBTC] = useState<any>(null)
   const [contractBTC, setContractBTC] = useState<any>(null)
   const [contractETH, setContractETH] = useState<any>(null)
-  const [allowance, setAllowance] = useState(0)
-  const [balance, setBalance] = useState(0)
   const [buttonLoading, setButtonLoading] = useState('')
-
   const [price, setPrice] = useState<any>({
     aeth: 0,
     wbtc: 0,
     tusd: 1,
   })
   const { address, isConnected } = useAccount()
-  const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
   const [isOpenConfirmDepositModal, setOpenConfirmDepositModal] =
     useState(false)
 
@@ -60,7 +59,6 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
 
   const [aprBorrow, setAprBorrow] = useState('')
 
-  const [ltv, setltv] = useState('')
   useEffect(() => {
     ; (async () => {
       const ethPrice = await getPriceToken('ETH')
@@ -89,12 +87,6 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
         const aprBorrowETH = await contractBorrowETH.methods.getApr().call({
           from: address,
         })
-        // const ltvETH = await contractBorrowETH.methods
-        //   .getCollateralFactor()
-        //   .call({
-        //     from: address,
-        //   })
-        // setltv(web3.utils.fromWei(ltvETH.toString(), 'ether'))
         setAprBorrow(web3.utils.fromWei(aprBorrowETH.toString(), 'ether'))
         setContractBorrowETH(contractBorrowETH)
       }
@@ -103,12 +95,6 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
         const aprBorrowBTC = await contractBorrowBTC.methods.getApr().call({
           from: address,
         })
-        // const ltvBTC = await contractBorrowBTC.methods
-        //   .getCollateralFactor()
-        //   .call({
-        //     from: address,
-        //   })
-        // setltv(web3.utils.fromWei(ltvBTC.toString(), 'ether'))
         setAprBorrow(web3.utils.fromWei(aprBorrowBTC.toString(), 'ether'))
         setContractBorrowBTC(contractBorrowBTC)
       }
@@ -133,131 +119,37 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
     }
   }
 
-  const getAllowance = async () => {
-    try {
-      if (
-        item.depositTokenSymbol === 'WBTC' &&
-        contractBTC &&
-        contractBorrowBTC &&
-        address
-      ) {
-        const allowance = await contractBTC.methods
-          .allowance(address, borrowBtcContract?.address)
-          .call({
-            from: address,
-          })
-        setAllowance(allowance / 10 ** dataBorrow.depositTokenDecimal || 0)
-      } else if (
-        item.depositTokenSymbol === 'AETH' &&
-        contractETH &&
-        contractBorrowETH &&
-        address
-      ) {
-        const allowance = await contractETH.methods
-          .allowance(address, borrowEthContract?.address)
-          .call({
-            from: address,
-          })
-        console.log('allowance', allowance)
-
-        setAllowance(allowance / 10 ** dataBorrow.depositTokenDecimal || 0)
-      }
-    } catch (e) {
-      console.log('CreateBorrowItem.getAllowance', e)
-    }
-  }
-
-  useEffect(() => {
-    if (address && contractBorrowBTC && contractBTC) {
-      getAllowance()
-    }
-  }, [
-    address,
-    contractBorrowBTC,
-    contractBTC,
-    dataBorrow.depositTokenDecimal,
-    amount,
-  ])
-
-  const updateBalance = async () => {
-    try {
-      if (item.tokenContract && address) {
-        const balance = await item.tokenContract.methods
-          .balanceOf(address)
-          .call()
-        setBalance(
-          ethers?.utils
-            .parseUnits(balance, dataBorrow.depositTokenDecimal)
-            .toNumber()
-        )
-      }
-    } catch (e) {
-      console.log('item :>> ', item?.depositTokenSymbol)
-      console.log('CreateBorrowItem.updateBalance', e)
-    }
-  }
-
-  async function getMintable(balance: any, tokenCollateralAddress: string) {
-    try {
-      const tusdEngineContract = new web3.eth.Contract(
-        JSON.parse(engineTusdContract?.abi),
-        engineTusdContract?.address
-      ) as any
-      let mintable = await tusdEngineContract.methods
-        .getMintableTusd(tokenCollateralAddress, address, balance)
-        .call()
-      return Number(mintable[0]) - 100000 || 0
-    } catch (e) {
-      console.log('CreateBorrowItem.getMintable', e)
-      return 0
-    }
-  }
-
-  const handleConfirmDeposit = () => {
+  const handleConfirmDeposit = async () => {
     if (!isConnected) {
-      setOpenConnectWalletModal(true)
+      await open()
       return
     }
     setOpenConfirmDepositModal(true)
   }
 
   const onBorrow = async () => {
+    console.log('amount :>> ', amount);
     try {
       if (amount <= 0) {
         toast.error('You must deposit WBTC to borrow')
         return
       }
-      if (amountReceive < 0) {
+      if (amountReceive <= 0) {
         toast.error('Can not borrow less than 0 TUSD')
         return
       }
       setButtonLoading('APPROVING...')
-      if (!isApproved && item.depositTokenSymbol == 'WBTC') {
-        const borrowAmount = Number(
-          new BigNumber(amount)
-            .multipliedBy(10 ** item.depositTokenDecimal)
-            .toString()
-        ).toFixed(0)
+      if (item.depositTokenSymbol == 'WBTC') {
         await contractBTC.methods
-          .approve(item?.borrowContractInfo?.address, borrowAmount)
+          .approve(
+            item?.borrowContractInfo?.address,
+            '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+          )
           .send({
             from: address,
           })
         toast.success('Approve Successful')
       }
-      // else if (!isApproved && item.depositTokenSymbol == 'ETH') {
-      //   const borrowAmount = Number(
-      //     new BigNumber(amount)
-      //       .multipliedBy(10 ** item.depositTokenDecimal)
-      //       .toString()
-      //   ).toFixed(0)
-      //   await contractETH.methods
-      //     .approve(item?.borrowContractInfo?.address, borrowAmount)
-      //     .send({
-      //       from: address,
-      //     })
-      //   toast.success('Approve Successful')
-      // }
       setButtonLoading('BORROWING...')
 
       if (item.depositTokenSymbol == 'WBTC') {
@@ -265,18 +157,14 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
           new BigNumber(amount)
             .multipliedBy(10 ** item.borrowTokenDecimal)
             .toString()
-        ).toFixed(0)
-        const borrowAmount = Number(
-          new BigNumber(amountReceive)
-            .multipliedBy(10 ** item.borrowTokenDecimal)
-            .toString()
         )
         const usdcBorrowAmount = await contractBorrowBTC.methods
           .getBorrowableUsdc(borrow)
           .call()
         const tusdBorrowAmount = await contractBorrowBTC.methods
-          .getBorrowable(borrowAmount, address)
+          .getBorrowableV2(usdcBorrowAmount, address)
           .call()
+        console.log('tusdBorrowAmount :>> ', tusdBorrowAmount)
         if (tusdBorrowAmount == 0) {
           toast.error('Borrow failed. Please try again')
           return
@@ -294,7 +182,6 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
         const borrowAmount =
           amountReceive /
           price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]
-        console.log('borrowAmount', borrowAmount)
 
         const borrow = Number(
           new BigNumber(borrowAmount)
@@ -329,24 +216,14 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
       toast.error('Borrow Failed')
     } finally {
       setButtonLoading('')
-      setOpenConfirmDepositModal(false)
+      // setOpenConfirmDepositModal(false)
     }
   }
-
-  useEffect(() => {
-    if (address) {
-      updateBalance()
-    }
-  }, [dataBorrow, item?.tokenContract, item?.borrowContract, address])
 
   useEffect(() => {
     initContract()
   }, [])
 
-  const isApproved = useMemo(
-    () => amount < allowance,
-    [allowance, dataBorrow, amount]
-  )
   const renderSubmitText = () => {
     if (!address) {
       return 'Connect Wallet'
@@ -355,15 +232,13 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
     return 'Confirm Deposit'
   }
 
-  console.log('object :>> ', aprBorrow)
-
   return (
     <>
       <div
         className="rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pb-5 pt-3 text-[#030303] xl:px-[32px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white"
         key={dataBorrow.depositTokenSymbol}
       >
-        <div className="flex items-center justify-between w-full">
+        <div className="flex w-full items-center justify-between">
           <div className="ml-[-12px] flex items-center">
             <img
               className="w-[72px] md:w-24"
@@ -395,7 +270,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
             </Link>
           </Popover>
         </div>
-        <div className="grid grid-cols-2 gap-4 mt-1 mb-1 font-larken">
+        <div className="font-larken mb-1 mt-1 grid grid-cols-2 gap-4">
           <div className="flex w-full items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  lg:h-[140px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
             <InputCurrencySwitch
               tokenSymbol={item?.depositTokenSymbol}
@@ -442,7 +317,11 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
                 className="w-[26px]"
               />
             </Link>
-            <Link href={'https://tusd.torque.fi/'} className="" target={'_blank'}>
+            <Link
+              href={'https://tusd.torque.fi/'}
+              className=""
+              target={'_blank'}
+            >
               <img
                 src={'/icons/coin/torq-yi.svg'}
                 alt="Torque USD"
@@ -473,7 +352,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
           </p>
         </div>
         <button
-          className={`font-mona text-[14px] mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
+          className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
             }`}
           disabled={buttonLoading != ''}
           onClick={() => {
@@ -493,10 +372,6 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
           {buttonLoading != '' ? buttonLoading : renderSubmitText()}
         </button>
       </div>
-      <ConnectWalletModal
-        openModal={isOpenConnectWalletModal}
-        handleClose={() => setOpenConnectWalletModal(false)}
-      />
       <ConfirmDepositModal
         open={isOpenConfirmDepositModal}
         handleClose={() => setOpenConfirmDepositModal(false)}
