@@ -4,13 +4,12 @@ import InputCurrencySwitch, {
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
 import { ConfirmDepositModal } from '@/components/common/Modal/ConfirmDepositModal'
 import Popover from '@/components/common/Popover'
-import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
 import { toMetricUnits } from '@/lib/helpers/number'
-import { updateborrowTime } from '@/lib/redux/slices/borrow'
+import { useWeb3Modal } from '@web3modal/react'
+import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
 import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
-import { useMoralis } from 'react-moralis'
 import { useDispatch } from 'react-redux'
 import { toast } from 'sonner'
 import { useAccount } from 'wagmi'
@@ -18,13 +17,10 @@ import Web3 from 'web3'
 import {
   borrowBtcContract,
   borrowEthContract,
-  engineTusdContract,
   tokenBtcContract,
   tokenEthContract,
 } from '../constants/contract'
 import { IBorrowInfo } from '../types'
-import BigNumber from 'bignumber.js'
-import { useWeb3Modal } from '@web3modal/react'
 
 const SECONDS_PER_YEAR = 60 * 60 * 24 * 365
 
@@ -58,7 +54,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
   const [aprBorrow, setAprBorrow] = useState('')
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       const ethPrice = await getPriceToken('ETH')
       const btcPrice = await getPriceToken('BTC')
       setPrice({
@@ -193,13 +189,32 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
         const tusdBorrowAmount = await borrowContract.methods
           .getMintableToken(newUsdcBorrowAmount, tusdBorrowedAmount, 0)
           .call()
-        console.log('params :>> ', borrow, newUsdcBorrowAmount, tusdBorrowAmount);
-        await borrowContract.methods
-          .borrow(borrow, newUsdcBorrowAmount, tusdBorrowAmount)
-          .send({
-            from: address,
-            gasPrice: '5000000000'
-          })
+        console.log(
+          'params :>> ',
+          borrow.toString(),
+          newUsdcBorrowAmount,
+          tusdBorrowAmount
+        )
+
+        ethers.providers.Web3Provider
+
+        // await borrowContract.methods
+        //   .borrow(borrow.toString(), newUsdcBorrowAmount, tusdBorrowAmount)
+        //   .send({
+        //     from: address,
+        //     gasPrice: '5000000000'
+        //   })
+
+        console.log(JSON.parse(item?.borrowContractInfo?.abi),
+        item?.borrowContractInfo?.address,)
+        const provider = new ethers.providers.Web3Provider(window.ethereum)
+        const signer = provider.getSigner(address)
+        const borrowContract2 = new ethers.Contract(
+          item?.borrowContractInfo?.address,
+          (item?.borrowContractInfo?.abi),
+          signer
+        )
+        borrowContract2.borrow(borrow.toString(), newUsdcBorrowAmount, tusdBorrowAmount)
       } else if (item.depositTokenSymbol === 'AETH') {
         const borrowAmount =
           amountReceive /
@@ -257,7 +272,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
   return (
     <>
       <div
-        className="rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pb-5 pt-3 text-[#030303] xl:px-[32px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white"
+        className="rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pb-5 pt-3 text-[#030303] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white xl:px-[32px]"
         key={dataBorrow.depositTokenSymbol}
       >
         <div className="flex w-full items-center justify-between">
@@ -267,7 +282,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
               src={dataBorrow.depositTokenIcon}
               alt=""
             />
-            <div className="font-larken text-[18px] leading-tight text-[#030303] md:text-[22px] lg:text-[26px] dark:text-white">
+            <div className="font-larken text-[18px] leading-tight text-[#030303] dark:text-white md:text-[22px] lg:text-[26px]">
               Deposit {dataBorrow.depositTokenSymbol},<br /> Borrow{' '}
               {dataBorrow.borrowTokenSymbol}
             </div>
@@ -293,11 +308,11 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
           </Popover>
         </div>
         <div className="font-larken mb-1 mt-1 grid grid-cols-2 gap-4">
-          <div className="flex w-full items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  lg:h-[140px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
+          <div className="flex w-full items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
             <InputCurrencySwitch
               tokenSymbol={item?.depositTokenSymbol}
               tokenValue={Number(amount)}
-              className="w-full py-4 text-[#030303] lg:py-6 dark:text-white"
+              className="w-full py-4 text-[#030303] dark:text-white lg:py-6"
               subtitle="Collateral"
               usdDefault
               decimalScale={2}
@@ -306,14 +321,14 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
               }}
             />
           </div>
-          <div className="font-larken flex h-[110px] flex-col items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0 lg:h-[140px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
+          <div className="font-larken flex h-[110px] flex-col items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
             <InputCurrencySwitch
               tokenSymbol="TUSD"
               tokenValue={Number(amountReceive)}
               tokenValueChange={Number(
                 amount *
-                price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`] *
-                (dataBorrow.loanToValue / 140)
+                  price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`] *
+                  (dataBorrow.loanToValue / 140)
               )}
               usdDefault
               decimalScale={2}
@@ -374,14 +389,15 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
           </p>
         </div>
         <button
-          className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
-            }`}
+          className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${
+            buttonLoading && 'cursor-not-allowed opacity-50'
+          }`}
           disabled={buttonLoading != ''}
           onClick={() => {
             if (
               amountReceive /
-              (amount *
-                price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]) >
+                (amount *
+                  price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]) >
               item?.loanToValue
             ) {
               toast.error(`Loan-to-value exceeds ${item?.loanToValue}%`)
