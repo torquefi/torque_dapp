@@ -46,7 +46,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
   const [borrowed, setBorrowed] = useState('0')
   const [collateral, setCollateral] = useState('0')
   const [depositedToken, setDepositedToken] = useState('0')
-  const [ltv, setltv] = useState('')
+  const [ltv, setLtv] = useState('')
 
   const tusdPrice = usdPrice['TUSD']
   const usdcPrice = usdPrice['USDC']
@@ -130,6 +130,11 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         .formatUnits(borrowInfoMap.supplied, depositTokenDecimal)
         .toString()
       setDepositedToken(deposit)
+
+      const collateralFactor = await borrowContract.methods.getCollateralFactor().call()
+      const ltv = new BigNumber(ethers.utils.formatUnits(collateralFactor, tokenDecimal)).toString()
+      setLtv(ltv)
+
       console.log('deposit :>> ', deposit)
       console.log('borrowed :>> ', borrowed)
       console.log('tokenDecimal :>> ', tokenDecimal)
@@ -345,7 +350,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       />
       <div className="w-1/4 space-y-1">
         <p className="font-larken whitespace-nowrap text-[22px]">
-          {Number(ltv) * 100}%
+          {'<'}{Number(ltv) * 100}%
         </p>
         <p className="whitespace-nowrap text-[14px] text-[#959595]">
           Loan-to-value
