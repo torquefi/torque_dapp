@@ -3,7 +3,6 @@ import { getPriceToken } from '@/components/common/InputCurrencySwitch'
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
 import SkeletonDefault from '@/components/skeleton'
 import { MAX_UINT256 } from '@/constants/utils'
-import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
 import { AppStore } from '@/types/store'
 import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
@@ -31,16 +30,13 @@ enum Action {
 
 const SECONDS_PER_YEAR = 60 * 60 * 24 * 365
 export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
-  const [dataBorrow, setDataBorrow] = useState(item)
   const borrowTime = useSelector((store: AppStore) => store)
   const theme = useSelector((store: AppStore) => store.theme.theme)
   const [isExpand, setExpand] = useState(false)
   const [action, setAction] = useState(Action.Repay)
+
   const [isLoading, setIsLoading] = useState(true)
   const [inputValue, setInputValue] = useState(0)
-  const [contractBorrow, setContractBorrow] = useState(null)
-  const [allowance, setAllowance] = useState(0)
-  const [allowanceUSD, setAllowanceUSD] = useState(0)
   const [buttonLoading, setButtonLoading] = useState('')
   const [dataUserBorrow, setDataUserBorrow] = useState<any>()
   const [price, setPrice] = useState<any>({
@@ -52,8 +48,8 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
   const refLabelInput = useRef<HTMLInputElement>(null)
   const { address, isConnected } = useAccount()
   const { Moralis, isWeb3Enabled } = useMoralis()
-  const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
   const [ltv, setltv] = useState('')
+
   const borrowAPR = useMemo(
     () =>
       Number(ethers.utils.formatUnits(item?.borrowRate, 18).toString()) *
@@ -70,6 +66,17 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       wbtc: await getPriceToken('BTC'),
     })
   }
+
+  console.log('item :>> ', item)
+
+  const borrowContract = useMemo(() => {
+    const web3 = new Web3(Web3.givenProvider)
+    const contract = new web3.eth.Contract(
+      JSON.parse(item?.borrowContractInfo?.abi),
+      item?.borrowContractInfo?.address
+    )
+    return contract
+  }, [Web3.givenProvider, item.borrowContractInfo])
 
   const initContract = async () => {
     try {
@@ -92,12 +99,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
           from: address,
         })
         const suppliedUSD = await contract.methods
-          .getBorrowable(data?.supplied, address)
-          .call({
-            from: address,
-          })
-        const borrowedUSD = await contract.methods
-          .getBorrowable(data?.borrowed, address)
+          .getBorrowableV2(data?.supplied, address)
           .call({
             from: address,
           })
@@ -120,100 +122,24 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
               .toString()
           ),
         })
-        setContractBorrow(contract)
       }
     } catch (e) {
       console.log(e)
     }
   }
 
-  const getAllowance = async () => {
-    try {
-      if (item?.tokenContract && item?.borrowContract) {
-        const allowance = await item?.tokenContract.methods
-          .allowance(address, item?.borrowContractInfo.address)
-          .call({
-            from: address,
-          })
-        setAllowance(allowance / 10 ** 18 || 0)
-      }
-    } catch (e) {
-      console.log(e)
-    }
-  }
-
-  const getAllowanceUSD = async () => {
-    try {
-      if (item?.borrowContract) {
-        const contract = new web3.eth.Contract(
-          JSON.parse(tokenTusdContract.abi),
-          tokenTusdContract.address
-        )
-        const allowance = await contract.methods
-          .allowance(address, item?.borrowContractInfo.address)
-          .call({
-            from: address,
-          })
-        console.log('allowance', allowance)
-
-        setAllowanceUSD(allowance / 10 ** dataBorrow.borrowTokenDecimal || 0)
-      }
-    } catch (e) {
-      console.log(e)
-    }
-  }
-
-  const onApprove = async () => {
-    try {
-      setButtonLoading('')
-      await item?.tokenContract.methods
-        .approve(
-          item?.borrowContractInfo.address,
-          Web3.utils.toWei(Number(inputValue).toFixed(2), 'ether')
-        )
-        .send({
-          from: address,
-        })
-      toast.success('Approve Successful')
-      await getAllowance()
-    } catch (e) {
-      toast.error('Approve Failed')
-      console.log(e)
-    } finally {
-      setButtonLoading('false')
-    }
-  }
-
-  const getUSDBorrow = async (percent: number) => {
-    const amountRepay = Number(
-      new BigNumber(Number((item.borrowed * percent) / 100))
-        .multipliedBy(10 ** 18)
-        .toString()
-    ).toFixed(0)
-    const usdBorrowAmount = await item?.borrowContract.methods
-      .getBorrowableUsdc(amountRepay.toString())
-      .call()
-    const amount = Number(
-      new BigNumber(usdBorrowAmount).div(10 ** 18).toString()
-    ).toFixed(3)
-    setInputValue(Number(amount))
-  }
   const onRepay = async () => {
     if (!isConnected) {
-      setOpenConnectWalletModal(true)
       return
     }
     try {
       setButtonLoading('APPROVING...')
-      if (!isApproved) {
-        await item?.tokenContract.methods
-          .approve(item?.borrowContractInfo.address, MAX_UINT256)
-          .send({
-            from: address,
-          })
-        toast.success('Approve Successful')
-        await getAllowance()
-      }
+      await item?.tokenContract.methods
+        .approve(item?.borrowContractInfo.address, MAX_UINT256)
+        .send({
+          from: address,
+        })
+      toast.success('Approve Successful')
       const contractUSD = new web3.eth.Contract(
         JSON.parse(tokenTusdContract.abi),
         tokenTusdContract.address
@@ -228,15 +154,12 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         toast.error('Not enough TUSD to repay')
         return
       }
-      if (!isApprovedUSD) {
-        await contractUSD.methods
-          .approve(item?.borrowContractInfo.address, MAX_UINT256)
-          .send({
-            from: address,
-          })
-        toast.success('Approve Successful')
-        await getAllowance()
-      }
+      await contractUSD.methods
+        .approve(item?.borrowContractInfo.address, MAX_UINT256)
+        .send({
+          from: address,
+        })
+      toast.success('Approve Successful')
       setButtonLoading('REPAYING...')
       const amountRepay = Number(
         new BigNumber(inputValue).multipliedBy(10 ** 18).toString()
@@ -256,20 +179,16 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
 
   const onWithdraw = async () => {
     if (!isConnected) {
-      setOpenConnectWalletModal(true)
       return
     }
     try {
       setButtonLoading('APPROVING...')
-      if (!isApproved) {
-        await item?.tokenContract?.methods
-          .approve(item?.borrowContractInfo.address, MAX_UINT256)
-          .send({
-            from: address,
-          })
-        toast.success('Approve Successful')
-        await getAllowance()
-      }
+      await item?.tokenContract?.methods
+        .approve(item?.borrowContractInfo.address, MAX_UINT256)
+        .send({
+          from: address,
+        })
+      toast.success('Approve Successful')
       console.log(
         'amount withdraw',
         Number(
@@ -315,7 +234,6 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
 
     data[`${item.labelKey}`] = name
     data[`address`] = address
-    console.log(data)
     await Moralis.Cloud.run('updateDataBorrowUser', {
       ...data,
     })
@@ -327,11 +245,6 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         toast.error('Update name failed')
       })
   }
-
-  useEffect(() => {
-    getAllowance()
-    getAllowanceUSD()
-  }, [item?.tokenContract, item?.borrowContract, inputValue])
 
   useEffect(() => {
     getPrice()
@@ -351,15 +264,6 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
     setTimeout(() => setIsLoading(false), 1000)
   }, [])
 
-  const isApproved = useMemo(
-    () => inputValue < allowance,
-    [allowance, inputValue]
-  )
-
-  const isApprovedUSD = useMemo(
-    () => inputValue < allowanceUSD,
-    [allowance, inputValue]
-  )
   useEffect(() => {
     if (isEdit && refLabelInput.current) {
       refLabelInput.current.focus()
@@ -372,12 +276,13 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
     }
     return action
   }
+
   const summaryInfo = (
     <div className="flex w-full text-center md:w-[400px] lg:w-[500px] xl:w-[600px]">
       <CurrencySwitch
         tokenSymbol={''}
         tokenValue={item?.supplied || item.collateral}
-        className="w-1/4 py-4 -my-4 space-y-1 font-larken"
+        className="font-larken -my-4 w-1/4 space-y-1 py-4"
         decimalScale={2}
         render={(value) => (
           <div>
@@ -392,7 +297,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         tokenSymbol={'USD'}
         tokenValue={item?.borrowed || item.borrowed}
         usdDefault
-        className="w-1/4 py-4 -my-4 space-y-1 font-larken"
+        className="font-larken -my-4 w-1/4 space-y-1 py-4"
         decimalScale={2}
         render={(value) => (
           <div>
@@ -496,10 +401,9 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
           <div
             className={
               'flex flex-wrap overflow-hidden px-[16px] transition-all duration-300 sm:px-[24px]' +
-              ` ${
-                isExpand
-                  ? 'max-h-[1000px] py-[16px] ease-in'
-                  : 'max-h-0 py-0 ease-out'
+              ` ${isExpand
+                ? 'max-h-[1000px] py-[16px] ease-in'
+                : 'max-h-0 py-0 ease-out'
               }`
             }
           >
@@ -541,7 +445,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
               <div className="flex items-center justify-between">
                 <p className="font-larken text-[24px]">
                   {action}{' '}
-                  {action == Action.Repay ? 'USD' : item.depositTokenSymbol}
+                  {action == Action.Repay ? 'TUSD' : item.depositTokenSymbol}
                 </p>
                 <div className="rounded-md border from-[#161616] via-[#161616]/40 to-[#0e0e0e] dark:border-[#1A1A1A] dark:bg-gradient-to-b">
                   {[Action.Repay, Action.Withdraw].map((item, i) => (
@@ -549,10 +453,9 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                       key={i}
                       className={
                         'w-[52px]  py-[8px] text-[10px] leading-none xs:w-[80px] xs:text-[12px]' +
-                        ` ${
-                          action === item
-                            ? 'rounded-md bg-[#F4F4F4] dark:bg-[#171717]'
-                            : 'text-[#959595]'
+                        ` ${action === item
+                          ? 'rounded-md bg-[#F4F4F4] dark:bg-[#171717]'
+                          : 'text-[#959595]'
                         }`
                       }
                       onClick={() => setAction(item)}
@@ -574,7 +477,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                 <div className="flex select-none justify-between space-x-1 text-[12px] text-[#959595] sm:text-[14px]">
                   {[25, 50, 100].map((percent, i) => (
                     <div
-                      className="cursor-pointer rounded-md bg-[#F4F4F4]  px-[6px] py-[2px] transition active:scale-95 dark:bg-[#171717] xs:px-[8px] xs:py-[4px]"
+                      className="cursor-pointer rounded-md bg-[#F4F4F4]  px-[6px] py-[2px] transition active:scale-95 xs:px-[8px] xs:py-[4px] dark:bg-[#171717]"
                       onClick={() => {
                         if (action == Action.Withdraw) {
                           setInputValue(
@@ -594,9 +497,8 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                 </div>
               </div>
               <button
-                className={`font-mona text-[14px] mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${
-                  buttonLoading && 'cursor-not-allowed opacity-50'
-                }`}
+                className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
+                  }`}
                 disabled={buttonLoading != ''}
                 onClick={() =>
                   action == Action.Repay ? onRepay() : onWithdraw()
@@ -608,10 +510,6 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
             </div>
           </div>
         </div>
-        <ConnectWalletModal
-          openModal={isOpenConnectWalletModal}
-          handleClose={() => setOpenConnectWalletModal(false)}
-        />
       </>
     )
 }

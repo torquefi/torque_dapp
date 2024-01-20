@@ -21,6 +21,7 @@ export default function ManageBorrowVault() {
   const { address, isConnected } = useAccount()
   const [dataBorrow, setDataBorrow] = useState(DATA_BORROW)
   const [isSkeletonLoading, setSkeletonLoading] = useState(true)
+
   const getBorrowData = async (item: IBorrowInfoManage) => {
     try {
       if (!item.tokenContract) {
@@ -92,7 +93,7 @@ export default function ManageBorrowVault() {
         )
       }
     } catch (error) {
-      console.log('ManageStaking.handleGetStakeData', error)
+      console.log('ManageStaking.', error)
     }
 
     try {
