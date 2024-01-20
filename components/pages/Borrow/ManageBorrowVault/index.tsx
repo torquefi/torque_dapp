@@ -182,6 +182,7 @@ const DATA_BORROW: IBorrowInfoManage[] = [
     borrowRate: 1359200263,
     borrowContractInfo: borrowBtcContract,
     tokenContractInfo: tokenTusdContract,
+    depositContractInfo: tokenBtcContract,
     borrowMax: 0.0,
   },
   {
@@ -199,6 +200,7 @@ const DATA_BORROW: IBorrowInfoManage[] = [
     borrowRate: 1359200263,
     borrowContractInfo: borrowEthContract,
     tokenContractInfo: tokenTusdContract,
+    depositContractInfo: tokenEthContract,
     borrowMax: 0.0,
   },
 ]
