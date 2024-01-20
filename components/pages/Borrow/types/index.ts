@@ -11,9 +11,6 @@ export interface IBorrowInfo {
   loanToValue: number
   getTORQ: number
   borrowRate: number
-  // amount: 0
-  // amountRecieve: 0
-  
   borrowContractInfo?: IContractInfo
   tokenContractInfo?: IContractInfo
   borrowContract?: Contract
@@ -21,7 +18,6 @@ export interface IBorrowInfo {
 }
 
 export interface IBorrowInfoManage {
-  // depositTokenIcon: string
   depositTokenSymbol: string
   depositTokenDecimal: number
   borrowTokenSymbol: string
@@ -38,5 +34,6 @@ export interface IBorrowInfoManage {
   tokenContractInfo?: IContractInfo
   borrowContract?: Contract
   tokenContract?: Contract
+  depositContractInfo?: IContractInfo
   borrowMax?: number
 }

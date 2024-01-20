@@ -92,12 +92,14 @@ const HomePageFilter = () => {
         const yourTotalBorrow = new BigNumber(yourBorrowedyBTC)
           .plus(yourBorrowedyETH)
           .toString()
+
         const calculate = new BigNumber(yourTotalBorrow)
           .div(yourTotalSupply)
           .multipliedBy(
             Number(web3.utils.fromWei(ltvETH.toString(), 'ether')) * 100
           )
           .toFixed(2)
+
         setcalculateBorrow(Number(calculate))
         setYourSupply(yourTotalSupply)
         setYourBorrow(yourTotalBorrow)
@@ -130,7 +132,7 @@ const HomePageFilter = () => {
         from: address,
       })
     const totalSuppliETH_USD = await contractBorrowETH.methods
-      .getBorrowable(totalSupplyETH, address || DEFAULT_WALLET)
+      .getBorrowableV2(totalSupplyETH, address || DEFAULT_WALLET)
       .call({
         from: address,
       })
@@ -151,6 +153,7 @@ const HomePageFilter = () => {
   useEffect(() => {
     getInfor()
   }, [address, isConnected])
+
   if (isLoading) {
     return (
       <div className="mt-2">
