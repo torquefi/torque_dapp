@@ -38,7 +38,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
 
   const [isLoading, setIsLoading] = useState(true)
   const [inputValue, setInputValue] = useState(0)
-  const [buttonLoading, setButtonLoading] = useState('')
+  const [buttonLoading, setButtonLoading] = useState(false)
   const [borrowInfoMap, setBorrowInfoMap] = useState<any>()
   const [label, setLabel] = useState(item?.label)
   const [isEdit, setEdit] = useState(false)
@@ -149,6 +149,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       await open()
       return
     }
+    setButtonLoading(true)
     try {
       const allowance = await tokenContract.methods
         .allowance(address, item.borrowContractInfo.address)
@@ -176,8 +177,10 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         .parseUnits(inputValue.toString(), tokenDecimal)
         .toString()
       console.log('amountRepay :>> ', amountRepay)
-      const wbtcWithdraw = await borrowContract.methods.getWbtcWithdraw(amountRepay, address).call()
-      console.log('wbtcWithdraw :>> ', wbtcWithdraw);
+      const wbtcWithdraw = await borrowContract.methods
+        .getWbtcWithdraw(amountRepay, address)
+        .call()
+      console.log('wbtcWithdraw :>> ', wbtcWithdraw)
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const signer = provider.getSigner(address)
       const borrowContract2 = new ethers.Contract(
@@ -186,18 +189,16 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         signer
       )
 
-      const tx = await borrowContract2.repay(
-        amountRepay,
-        wbtcWithdraw
-      )
+      const tx = await borrowContract2.repay(amountRepay, wbtcWithdraw)
       await tx.wait()
       toast.success('Repay Successfully')
       handleGetBorrowData()
+      setInputValue(0)
     } catch (e) {
       console.log(e)
       toast.error('Repay Failed')
     } finally {
-      setButtonLoading('')
+      setButtonLoading(false)
     }
   }
 
@@ -235,9 +236,12 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         item?.borrowContractInfo?.abi,
         signer
       )
-      console.log('params :>> ', ethers.utils
-        .parseUnits(inputValue.toFixed(5).toString(), depositTokenDecimal)
-        .toString());
+      console.log(
+        'params :>> ',
+        ethers.utils
+          .parseUnits(inputValue.toFixed(5).toString(), depositTokenDecimal)
+          .toString()
+      )
       const tx = await borrowContract2.withdraw(
         ethers.utils
           .parseUnits(inputValue.toFixed(5).toString(), depositTokenDecimal)
@@ -513,7 +517,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                       onClick={() => {
                         if (action == Action.Withdraw) {
                           setInputValue(
-                            ((Number(depositedToken) * percent) / 100.01)
+                            (Number(depositedToken) * percent) / 100.01
                           )
                         } else {
                           setInputValue((Number(borrowed) * percent) / 100.01)
@@ -529,13 +533,13 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
               <button
                 className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
                   }`}
-                disabled={buttonLoading != ''}
+                disabled={buttonLoading}
                 onClick={() =>
                   action == Action.Repay ? onRepay() : onWithdraw()
                 }
               >
-                {buttonLoading != '' && <LoadingCircle />}
-                {buttonLoading != '' ? buttonLoading : renderSubmitText()}
+                {buttonLoading && <LoadingCircle />}
+                {renderSubmitText()}
               </button>
             </div>
           </div>
