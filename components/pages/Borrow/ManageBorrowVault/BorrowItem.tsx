@@ -207,6 +207,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       await open()
       return
     }
+    setButtonLoading(true)
     try {
       // await depositContract?.methods
       //   .approve(item?.borrowContractInfo.address, MAX_UINT256)
@@ -253,7 +254,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       console.log(e)
       toast.error('Withdraw Failed')
     } finally {
-      setButtonLoading('')
+      setButtonLoading(false)
     }
   }
 
@@ -493,7 +494,11 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                           : 'text-[#959595]'
                         }`
                       }
-                      onClick={() => setAction(item)}
+                      onClick={() => {
+                        console.log('323 :>> ', 323);
+                        setInputValue(0)
+                        setAction(item)
+                      }}
                     >
                       {item}
                     </button>
