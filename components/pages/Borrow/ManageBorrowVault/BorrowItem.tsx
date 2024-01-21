@@ -176,12 +176,8 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         .parseUnits(inputValue.toString(), tokenDecimal)
         .toString()
       console.log('amountRepay :>> ', amountRepay)
-      const repaySlippage = await borrowContract.methods.repaySlippage().call()
-      console.log('repaySlippage :>> ', repaySlippage)
-      const wbtcWithdrawWithSlippage = await borrowContract.methods
-        .getWbtcWithdrawWithSlippage(amountRepay, repaySlippage)
-        .call()
-      console.log('wbtcWithdrawWithSlippage :>> ', wbtcWithdrawWithSlippage)
+      const wbtcWithdraw = await borrowContract.methods.getWbtcWithdraw(amountRepay, address).call()
+      console.log('wbtcWithdraw :>> ', wbtcWithdraw);
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const signer = provider.getSigner(address)
       const borrowContract2 = new ethers.Contract(
@@ -192,7 +188,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
 
       const tx = await borrowContract2.repay(
         amountRepay,
-        wbtcWithdrawWithSlippage
+        wbtcWithdraw
       )
       await tx.wait()
       toast.success('Repay Successfully')

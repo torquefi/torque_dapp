@@ -383,7 +383,8 @@
         "internalType": "uint256",
         "name": "tusdRepayAmount",
         "type": "uint256"
-      }
+      },
+      { "internalType": "address", "name": "_address", "type": "address" }
     ],
     "name": "getWbtcWithdraw",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
@@ -397,6 +398,7 @@
         "name": "tusdRepayAmount",
         "type": "uint256"
       },
+      { "internalType": "address", "name": "_address", "type": "address" },
       { "internalType": "uint256", "name": "_repaySlippage", "type": "uint256" }
     ],
     "name": "getWbtcWithdrawWithSlippage",
@@ -413,7 +415,8 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "supplyAmount", "type": "uint256" }
+      { "internalType": "uint256", "name": "supplyAmount", "type": "uint256" },
+      { "internalType": "address", "name": "_address", "type": "address" }
     ],
     "name": "mintableTUSD",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
