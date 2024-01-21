@@ -16,7 +16,7 @@ import BorrowItem from './BorrowItem'
 import { EmptyBorrow } from './EmptyBorrow'
 import BigNumber from 'bignumber.js'
 
-export default function ManageBorrowVault() {
+export default function ManageBorrowVault({ isFetchBorrowData }: any) {
   const web3 = new Web3(Web3.givenProvider)
   const { address, isConnected } = useAccount()
   const [dataBorrow, setDataBorrow] = useState(DATA_BORROW)
@@ -136,7 +136,7 @@ export default function ManageBorrowVault() {
 
   useEffect(() => {
     handleUpdateStakeData()
-  }, [isConnected, address])
+  }, [isConnected, address, isFetchBorrowData])
 
   // const borrowDisplayed = dataBorrow
   const borrowDisplayed = dataBorrow.filter((item) => item?.borrowed > 0)

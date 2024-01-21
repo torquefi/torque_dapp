@@ -6,6 +6,7 @@ import Banner from './Banner'
 
 export const BorrowPage = () => {
   const [isLoading, setLoading] = useState(true)
+  const [isFetchBorrowData, setIsFetchBorrowLoading] = useState(false)
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 1000)
@@ -39,8 +40,8 @@ export const BorrowPage = () => {
   return (
     <div className="space-y-[36px] px-2 mt-2">
       <Banner />
-      <CreateBorrowVault />
-      <ManageBorrowVault />
+      <CreateBorrowVault setIsFetchBorrowLoading={setIsFetchBorrowLoading} />
+      <ManageBorrowVault isFetchBorrowData={isFetchBorrowData} />
     </div>
   )
 }

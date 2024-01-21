@@ -102,7 +102,7 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
         <div className="flex items-center justify-between">
           <div>
             <span className="text-[16px] text-[#959595]">You deposit</span>
-            <div className="font-larken pt-2 text-[23px] text-[#030303]">
+            <div className="font-larken pt-2 text-[23px] text-[#030303] dark:text-white">
               <NumberFormat
                 displayType="text"
                 value={convertNumber(coinFrom?.amount || 0)}
@@ -119,7 +119,7 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
         <div className="mt-8 flex items-center justify-between">
           <div>
             <span className="text-[16px] text-[#959595]">You receive</span>
-            <div className="font-larken pt-2 text-[23px] text-[#030303]">
+            <div className="font-larken pt-2 text-[23px] text-[#030303] dark:text-white">
               <NumberFormat
                 displayType="text"
                 value={convertNumber(coinTo?.amount || 0)}
@@ -173,6 +173,6 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
         {loading && <LoadingCircle />}
         {confirmButtonText}
       </button>
-    </Modal>
+    </Modal >
   )
 }
