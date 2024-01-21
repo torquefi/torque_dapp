@@ -107,7 +107,8 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       setBorrowInfoMap(borrowInfoMap)
       console.log('borrowInfoMap :>> ', borrowInfoMap)
 
-      const usdcDecimal = await usdcContract.methods.decimals().call()
+      const usdcDecimal = await depositContract.methods.decimals().call()
+      // if (item.depositTokenSymbol === 'AETH') { usdcDecimal = 18; }
       const collateral = new BigNumber(usdcPrice)
         .multipliedBy(
           ethers.utils.formatUnits(borrowInfoMap.supplied, usdcDecimal)
@@ -323,7 +324,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         render={(value) => (
           <div>
             <p className="mb-[12px] whitespace-nowrap text-[22px]">
-              ${Number(collateral || 0)?.toFixed(5)}
+              ${(Number(collateral || 0) * usdPrice[item?.depositTokenSymbol])?.toFixed(5)}
             </p>
             <p className="font-mona text-[14px] text-[#959595]">Collateral</p>
           </div>
@@ -495,7 +496,6 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                         }`
                       }
                       onClick={() => {
-                        console.log('323 :>> ', 323);
                         setInputValue(0)
                         setAction(item)
                       }}

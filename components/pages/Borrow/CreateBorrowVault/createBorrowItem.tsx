@@ -26,9 +26,10 @@ const SECONDS_PER_YEAR = 60 * 60 * 24 * 365
 
 interface CreateBorrowItemProps {
   item: IBorrowInfo
+  setIsFetchBorrowLoading?: any
 }
 
-export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
+export default function CreateBorrowItem({ item, setIsFetchBorrowLoading }: CreateBorrowItemProps) {
   const web3 = new Web3(Web3.givenProvider)
   const { open } = useWeb3Modal()
 
@@ -196,7 +197,6 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
           tusdBorrowAmount
         )
 
-
         // await borrowContract.methods
         //   .borrow(borrow.toString(), newUsdcBorrowAmount, tusdBorrowAmount)
         //   .send({
@@ -204,57 +204,112 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
         //     gasPrice: '5000000000'
         //   })
 
-        console.log(JSON.parse(item?.borrowContractInfo?.abi),
-          item?.borrowContractInfo?.address,)
+        console.log(
+          JSON.parse(item?.borrowContractInfo?.abi),
+          item?.borrowContractInfo?.address
+        )
         const provider = new ethers.providers.Web3Provider(window.ethereum)
         const signer = provider.getSigner(address)
         const borrowContract2 = new ethers.Contract(
           item?.borrowContractInfo?.address,
-          (item?.borrowContractInfo?.abi),
+          item?.borrowContractInfo?.abi,
           signer
         )
-        const tx = await borrowContract2.borrow(borrow.toString(), newUsdcBorrowAmount, tusdBorrowAmount)
+        const tx = await borrowContract2.borrow(
+          borrow.toString(),
+          newUsdcBorrowAmount,
+          tusdBorrowAmount
+        )
         await tx.wait()
         toast.success('Borrow Successful')
         setOpenConfirmDepositModal(false)
         setIsLoading(false)
-      } else if (item.depositTokenSymbol === 'AETH') {
-        const borrowAmount =
-          amountReceive /
-          price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]
-
+        setIsFetchBorrowLoading && setIsFetchBorrowLoading((prev: any) => !prev)
+      }
+      if (item.depositTokenSymbol == 'AETH') {
+        const allowance = await tokenContract.methods
+          .allowance(address, item.borrowContractInfo.address)
+          .call()
+        if (new BigNumber(allowance).lte(new BigNumber('0'))) {
+          await tokenContract.methods
+            .approve(
+              item?.borrowContractInfo?.address,
+              '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+            )
+            .send({
+              from: address,
+            })
+        }
+        const tokenDepositDecimals = await tokenContract.methods
+          .decimals()
+          .call()
         const borrow = Number(
-          new BigNumber(borrowAmount)
-            .multipliedBy(10 ** item.depositTokenDecimal)
+          new BigNumber(amount.toFixed(tokenDepositDecimals))
+            .multipliedBy(10 ** tokenDepositDecimals)
             .toString()
-        ).toFixed(0)
-        const usdcBorrowAmount = await contractBorrowETH.methods
+        )
+        const usdcBorrowAmount = await borrowContract.methods
           .getBorrowableUsdc(borrow)
           .call()
-        const tusdBorrowAmount = await contractBorrowETH.methods
-          .getBorrowable(borrow, address)
-          .call()
+        const newUsdcBorrowAmount = new BigNumber(usdcBorrowAmount)
+          .multipliedBy(0.98)
+          .toFixed(0)
+          .toString()
 
-        if (tusdBorrowAmount == 0) {
-          toast.error('Borrow failed. Please try again')
-          return
-        }
-        await contractBorrowETH.methods
-          .borrow(
-            usdcBorrowAmount.toString(),
-            (Number(tusdBorrowAmount) * 0.99).toString() || 0
-          )
-          .send({
-            value: borrow,
-            from: address,
-          })
+        const borrowInfoMap = await borrowContract.methods
+          .borrowInfoMap(address)
+          .call()
+        const tusdBorrowedAmount = borrowInfoMap?.baseBorrowed
+        console.log('tusdBorrowedAmount :>> ', tusdBorrowedAmount)
+
+        const tusdBorrowAmount = await borrowContract.methods
+          .getMintableToken(newUsdcBorrowAmount, tusdBorrowedAmount, 0)
+          .call()
+        console.log(
+          'params :>> ',
+          borrow.toString(),
+          newUsdcBorrowAmount,
+          tusdBorrowAmount
+        )
+
+        // await borrowContract.methods
+        //   .borrow(borrow.toString(), newUsdcBorrowAmount, tusdBorrowAmount)
+        //   .send({
+        //     from: address,
+        //     gasPrice: '5000000000'
+        //   })
+        const provider = new ethers.providers.Web3Provider(window.ethereum)
+        const signer = provider.getSigner(address)
+        const borrowContract2 = new ethers.Contract(
+          item?.borrowContractInfo?.address,
+          item?.borrowContractInfo?.abi,
+          signer
+        )
+
+        console.log(
+          'object :>> ',
+          borrow.toString(),
+          newUsdcBorrowAmount,
+          tusdBorrowAmount
+        )
+
+        const tx = await borrowContract2.borrow(
+          borrow.toString(),
+          newUsdcBorrowAmount,
+          tusdBorrowAmount
+        )
+        await tx.wait()
+        toast.success('Borrow Successful')
+        setOpenConfirmDepositModal(false)
+        setIsLoading(false)
+        setIsFetchBorrowLoading && setIsFetchBorrowLoading((prev: any) => !prev)
       }
       // dispatch(updateborrowTime(new Date().getTime() as any))
     } catch (e) {
       console.log('CreateBorrowItem.onBorrow', e)
       toast.error('Borrow Failed')
     } finally {
-      // setOpenConfirmDepositModal(false)
+      setIsLoading(false)
     }
   }
 
@@ -273,7 +328,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
   return (
     <>
       <div
-        className="rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pb-5 pt-3 text-[#030303] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white xl:px-[32px]"
+        className="rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pb-5 pt-3 text-[#030303] xl:px-[32px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white"
         key={dataBorrow.depositTokenSymbol}
       >
         <div className="flex w-full items-center justify-between">
@@ -283,7 +338,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
               src={dataBorrow.depositTokenIcon}
               alt=""
             />
-            <div className="font-larken text-[18px] leading-tight text-[#030303] dark:text-white md:text-[22px] lg:text-[26px]">
+            <div className="font-larken text-[18px] leading-tight text-[#030303] md:text-[22px] lg:text-[26px] dark:text-white">
               Deposit {dataBorrow.depositTokenSymbol},<br /> Borrow{' '}
               {dataBorrow.borrowTokenSymbol}
             </div>
@@ -309,11 +364,11 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
           </Popover>
         </div>
         <div className="font-larken mb-1 mt-1 grid grid-cols-2 gap-4">
-          <div className="flex w-full items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
+          <div className="flex w-full items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  lg:h-[140px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
             <InputCurrencySwitch
               tokenSymbol={item?.depositTokenSymbol}
               tokenValue={Number(amount)}
-              className="w-full py-4 text-[#030303] dark:text-white lg:py-6"
+              className="w-full py-4 text-[#030303] lg:py-6 dark:text-white"
               subtitle="Collateral"
               usdDefault
               decimalScale={2}
@@ -322,7 +377,7 @@ export default function CreateBorrowItem({ item }: CreateBorrowItemProps) {
               }}
             />
           </div>
-          <div className="font-larken flex h-[110px] flex-col items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
+          <div className="font-larken flex h-[110px] flex-col items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0 lg:h-[140px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
             <InputCurrencySwitch
               tokenSymbol="TUSD"
               tokenValue={Number(amountReceive)}

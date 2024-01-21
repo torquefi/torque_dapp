@@ -16,7 +16,7 @@ import { compoundUsdcContract as compoundUsdcContractData } from '../constants/c
 import { IBorrowInfo } from '../types'
 import CreateBorrowItem from './createBorrowItem'
 
-export default function CreateBorrowVault() {
+export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
   const { address, isConnected } = useAccount()
   const { borrowInfoByDepositSymbol } = useSelector(
     (store: AppState) => store?.borrow
@@ -157,7 +157,7 @@ export default function CreateBorrowVault() {
 
       <div className="grid gap-[20px] md:grid-cols-2">
         {dataBorrow.map((item, i) => (
-          <CreateBorrowItem item={item} key={i} />
+          <CreateBorrowItem item={item} key={i} setIsFetchBorrowLoading={setIsFetchBorrowLoading} />
         ))}
       </div>
     </div>
