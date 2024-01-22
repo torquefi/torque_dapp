@@ -401,7 +401,7 @@ const HomePageFilter = () => {
             displayType="text"
             thousandSeparator
             // value={Number(ltv) * 100}
-            value={78}
+            value={100}
             decimalScale={2}
             fixedDecimalScale
             suffix={'%'}

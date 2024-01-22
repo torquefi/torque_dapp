@@ -74,6 +74,8 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
     }
   }, [coinFrom.symbol, address])
 
+  console.log('coinFrom :>> ', coinFrom);
+
   return (
     <Modal
       className="mx-auto w-[90%] max-w-[360px] bg-[#FCFAFF] px-[24px] dark:bg-[#030303]"
@@ -105,10 +107,10 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
             <div className="font-larken pt-2 text-[23px] text-[#030303] dark:text-white">
               <NumberFormat
                 displayType="text"
-                value={convertNumber(coinFrom?.amount || 0)}
+                value={coinFrom?.amount || 0}
                 suffix={` ${coinFrom.symbol}`}
-              // thousandSeparator
-              // decimalScale={4}
+                // thousandSeparator
+                decimalScale={4}
               />
             </div>
           </div>

@@ -314,6 +314,8 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
     return action
   }
 
+  const collateralUsd = (Number(collateral || 0) * usdPrice[item?.depositTokenSymbol])?.toFixed(5)
+
   const summaryInfo = (
     <div className="flex w-full text-center md:w-[400px] lg:w-[500px] xl:w-[600px]">
       <CurrencySwitch
@@ -324,7 +326,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         render={(value) => (
           <div>
             <p className="mb-[12px] whitespace-nowrap text-[22px]">
-              ${(Number(collateral || 0) * usdPrice[item?.depositTokenSymbol])?.toFixed(5)}
+              ${collateralUsd}
             </p>
             <p className="font-mona text-[14px] text-[#959595]">Collateral</p>
           </div>
@@ -347,7 +349,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       />
       <div className="w-1/4 space-y-1">
         <p className="font-larken whitespace-nowrap text-[22px]">
-          {Number(ltv) * 100}%
+          {!collateralUsd ? 0 : (Number(borrowed || 0) / Number(collateralUsd) * 100).toFixed(2)}%
         </p>
         <p className="whitespace-nowrap text-[14px] text-[#959595]">
           Loan-to-value
