@@ -143,7 +143,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
 
   useEffect(() => {
     handleGetBorrowData()
-  }, [borrowContract])
+  }, [borrowContract, usdPrice])
 
   const onRepay = async () => {
     if (!isConnected || !address) {
