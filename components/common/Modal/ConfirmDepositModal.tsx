@@ -49,17 +49,18 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
   const { address } = useAccount()
   const theme = useSelector((store: AppStore) => store.theme.theme)
   const [balanceWallet, setBalanceWallet] = useState<any>(0)
+
   useEffect(() => {
     if (address) {
       ; (async () => {
-        if (coinFrom.symbol === 'BTC') {
+        if (coinFrom.symbol === 'WBTC') {
           const amount = await getBalanceByContractToken(
             btcContract.abi,
             btcContract.address,
             address
           )
           setBalanceWallet(amount)
-        } else if (coinFrom.symbol === 'ETH') {
+        } else if (coinFrom.symbol === 'WETH') {
           const balance = await web3.eth.getBalance(address)
           setBalanceWallet(Number(formatUnits(balance, 18)))
         } else if (coinFrom.symbol === 'TUSD') {
@@ -109,7 +110,7 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
                 displayType="text"
                 value={coinFrom?.amount || 0}
                 suffix={` ${coinFrom.symbol}`}
-                // thousandSeparator
+                thousandSeparator
                 decimalScale={4}
               />
             </div>
@@ -124,9 +125,10 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
             <div className="font-larken pt-2 text-[23px] text-[#030303] dark:text-white">
               <NumberFormat
                 displayType="text"
-                value={convertNumber(coinTo?.amount || 0)}
+                value={coinTo?.amount || 0}
                 suffix={` ${coinTo.symbol}`}
                 thousandSeparator
+                decimalScale={4}
               />
             </div>
           </div>
@@ -152,7 +154,14 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
         <div className="flex w-full items-center justify-between text-[15px]">
           <p>Wallet balance</p>
           <span>
-            {Number(balanceWallet).toFixed(2)} {coinFrom.symbol}
+            <NumberFormat
+              displayType="text"
+              value={balanceWallet}
+              suffix={` ${coinFrom.symbol}`}
+              thousandSeparator
+              decimalScale={4}
+            />
+            {/* {Number(balanceWallet)} {coinFrom.symbol} */}
           </span>
         </div>
         {details?.map((item, i) => (
