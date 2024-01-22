@@ -30,9 +30,11 @@ const HomePageFilter = () => {
   const [totalMyBorrowed, setTotalMyBorrowed] = useState('0')
 
   const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
-  const wbtcPrice = usdPrice['WBTC']
-  const wethPrice = usdPrice['AETH']
-  const tusdPrice = usdPrice['TUSD']
+  const wbtcPrice = usdPrice['WBTC'] || 0
+  const wethPrice = usdPrice['AETH'] || 0
+  const tusdPrice = usdPrice['TUSD'] || 0
+
+  console.log('object :>> ', usdPrice, wbtcPrice, wethPrice, tusdPrice);
 
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1000)
