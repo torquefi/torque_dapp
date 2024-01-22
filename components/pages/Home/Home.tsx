@@ -21,8 +21,7 @@ const HomePageFilter = () => {
   const { address } = useAccount()
   const [isLoading, setIsLoading] = useState(true)
   const theme = useSelector((store: AppStore) => store.theme.theme)
-  const [calculateBorrow, setCalculateBorrow] = useState(0)
-  const [netAPY, setNetAPY] = useState('')
+  const [netAPY, setNetAPY] = useState('0')
 
   // new
   const [totalBorrow, setTotalBorrow] = useState('0')
@@ -261,7 +260,23 @@ const HomePageFilter = () => {
           .plus(new BigNumber(totalWethBorrowedUsd))
           .toString()
       )
-    } catch (error) { }
+
+      const netApy = await borrowWBTCContract.methods.getApr().call()
+      console.log('netApy :>> ', netApy)
+      console.log(
+        'netAPY :>> ',
+        new BigNumber(
+          ethers.utils.formatUnits(netApy, 18)
+        ).toString()
+      )
+      setNetAPY(
+        new BigNumber(
+          ethers.utils.formatUnits(netApy, 18)
+        ).toString()
+      )
+    } catch (error) {
+      console.log('error general:>> ', error)
+    }
   }
 
   useEffect(() => {
@@ -283,12 +298,13 @@ const HomePageFilter = () => {
     )
   }
 
-  const percent = address
-    ? new BigNumber(totalMyBorrowed)
-      .dividedBy(new BigNumber(totalBorrow))
-      .multipliedBy(100)
-      .toString()
-    : 0
+  const percent =
+    address && totalBorrow
+      ? new BigNumber(totalMyBorrowed || 0)
+        .dividedBy(new BigNumber(totalBorrow))
+        .multipliedBy(100)
+        .toString()
+      : 0
 
   return (
     <div className="relative mt-[80px] flex w-full flex-wrap items-center justify-center rounded-t-[10px] border-[1px] bg-white from-[#25252566] pt-[80px] md:mt-0 md:pt-0 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br">
@@ -364,7 +380,7 @@ const HomePageFilter = () => {
             className="font-larken text-[16px]"
             displayType="text"
             thousandSeparator
-            value={percent}
+            value={percent || '0'}
             decimalScale={2}
             fixedDecimalScale
             suffix={'%'}
@@ -398,7 +414,7 @@ const HomePageFilter = () => {
               className="font-larken text-[28px] text-[#404040] dark:text-white"
               displayType="text"
               thousandSeparator
-              value={-Number(netAPY) * 100 || 0}
+              value={Number(netAPY || 0) * 100 || 0}
               decimalScale={2}
               fixedDecimalScale
               suffix={'%'}
