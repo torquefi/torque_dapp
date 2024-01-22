@@ -186,7 +186,7 @@ const DATA_BORROW: IBorrowInfoManage[] = [
     borrowMax: 0.0,
   },
   {
-    depositTokenSymbol: 'AETH',
+    depositTokenSymbol: 'WETH',
     depositTokenDecimal: 18,
     borrowTokenSymbol: 'TUSD',
     borrowTokenDecimal: 6,

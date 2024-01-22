@@ -40,7 +40,7 @@ export default function CurrencySwitchInit({ children }: any) {
         usdPrice.TUSD = tusdPrice || usdPrice.TUSD || 1
         usdPrice.ETH = ethPrice || usdPrice.ETH || 1800
         usdPrice.BTC = btcPrice || usdPrice.BTC || 28000
-        usdPrice.AETH = ethPrice || usdPrice.eth || 1800
+        usdPrice.WETH = ethPrice || usdPrice.eth || 1800
         dispatch(updateAllUsdPrice(usdPrice))
       } catch (error) {
         console.log('CurrencySwitchInit.handleGetUsdPrice', error)

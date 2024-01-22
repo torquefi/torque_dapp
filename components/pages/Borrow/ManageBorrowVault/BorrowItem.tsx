@@ -314,6 +314,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
     return action
   }
 
+  console.log('object :>> ', usdPrice[item?.depositTokenSymbol]);
   const collateralUsd = (Number(collateral || 0) * usdPrice[item?.depositTokenSymbol])?.toFixed(5)
 
   const summaryInfo = (
@@ -470,7 +471,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                 tokenPrice={
                   item?.depositTokenSymbol === 'WBTC'
                     ? usdPrice['wbtc']
-                    : usdPrice['aeth']
+                    : usdPrice['weth']
                 }
                 aprPercent={-borrowAPR}
               />

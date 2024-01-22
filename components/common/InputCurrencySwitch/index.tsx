@@ -48,15 +48,15 @@ export default function InputCurrencySwitch({
 
   const getPrice = async () => {
     let price: any = {
-      aeth: (await getPriceToken('ETH')) || 1800,
+      weth: (await getPriceToken('ETH')) || 1800,
       wbtc: (await getPriceToken('BTC')) || 28000,
       usd: (await getPriceToken('USDC')) || 1,
     }
     setPrice(price)
     setTokenPrice(
       price[tokenSymbol.toLocaleLowerCase()] ||
-        usdPrice[tokenSymbol.toLocaleLowerCase()] ||
-        0
+      usdPrice[tokenSymbol.toLocaleLowerCase()] ||
+      0
     )
   }
 

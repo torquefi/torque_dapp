@@ -44,7 +44,7 @@ export default function CreateBorrowItem({ item, setIsFetchBorrowLoading }: Crea
   const [buttonLoading, setButtonLoading] = useState('')
   const [borrow1Contract, setBorrow1Contract] = useState<any>()
   const [price, setPrice] = useState<any>({
-    aeth: 0,
+    weth: 0,
     wbtc: 0,
     tusd: 1,
   })
@@ -59,7 +59,7 @@ export default function CreateBorrowItem({ item, setIsFetchBorrowLoading }: Crea
       const ethPrice = await getPriceToken('ETH')
       const btcPrice = await getPriceToken('BTC')
       setPrice({
-        aeth: ethPrice,
+        weth: ethPrice,
         wbtc: btcPrice,
         tusd: 1,
       })
@@ -78,7 +78,7 @@ export default function CreateBorrowItem({ item, setIsFetchBorrowLoading }: Crea
         JSON.parse(borrowBtcContract?.abi),
         borrowBtcContract?.address
       )
-      if (contractBorrowETH && item.depositTokenSymbol === 'AETH') {
+      if (contractBorrowETH && item.depositTokenSymbol === 'WETH') {
         const aprBorrowETH = await contractBorrowETH.methods.getApr().call({
           from: address,
         })
@@ -226,7 +226,7 @@ export default function CreateBorrowItem({ item, setIsFetchBorrowLoading }: Crea
         setIsLoading(false)
         setIsFetchBorrowLoading && setIsFetchBorrowLoading((prev: any) => !prev)
       }
-      if (item.depositTokenSymbol == 'AETH') {
+      if (item.depositTokenSymbol == 'WETH') {
         const allowance = await tokenContract.methods
           .allowance(address, item.borrowContractInfo.address)
           .call()

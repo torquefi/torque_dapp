@@ -11,7 +11,7 @@ const rpc = 'https://arbitrum.llamarpc.com'
 
 export const useGetPriceTorqueToken = () => {
   const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
-  const nativePrice = usdPrice['AETH']
+  const nativePrice = usdPrice['WETH']
 
   const [nativeInPool, setNativeInPool] = useState('0')
   const [totalTorqueInPool, setTotalTorqueInPool] = useState('0')
