@@ -31,7 +31,7 @@ const HomePageFilter = () => {
 
   const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
   const wbtcPrice = usdPrice['WBTC'] || 0
-  const wethPrice = usdPrice['AETH'] || 0
+  const wethPrice = usdPrice['WETH'] || 0
   const tusdPrice = usdPrice['TUSD'] || 0
 
   console.log('object :>> ', usdPrice, wbtcPrice, wethPrice, tusdPrice);

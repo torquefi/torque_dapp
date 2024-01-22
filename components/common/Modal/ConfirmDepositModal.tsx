@@ -74,7 +74,7 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
     }
   }, [coinFrom.symbol, address])
 
-  console.log('coinFrom :>> ', coinFrom);
+  console.log('coinFrom :>> ', coinTo);
 
   return (
     <Modal

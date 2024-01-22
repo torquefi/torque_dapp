@@ -137,7 +137,7 @@ const DATA_BOOST_VAULT: IBoostInfo[] = [
     boostContractInfo: boostBtcContract,
   },
   {
-    tokenSymbol: 'AETH',
+    tokenSymbol: 'WETH',
     tokenDecimals: 18,
     defaultLabel: 'Vehicle #2',
     labelKey: 'name_boost_vault_1',

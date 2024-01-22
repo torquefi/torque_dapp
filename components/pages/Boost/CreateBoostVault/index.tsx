@@ -83,7 +83,7 @@ const BOOST_VAULTS = [
     boostContractInfo: boostBtcContract,
   },
   {
-    token: 'AETH',
+    token: 'WETH',
     earnToken: 'tETH',
     bonus_TORQ: 0,
     deposit: 0,

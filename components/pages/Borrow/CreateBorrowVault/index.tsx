@@ -180,7 +180,7 @@ const BORROW_INFOS: IBorrowInfo[] = [
   },
   {
     depositTokenIcon: '/icons/coin/aeth.png',
-    depositTokenSymbol: 'AETH',
+    depositTokenSymbol: 'WETH',
     depositTokenDecimal: 18,
     borrowTokenSymbol: 'TUSD',
     borrowTokenDecimal: 6,
