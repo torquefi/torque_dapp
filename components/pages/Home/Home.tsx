@@ -352,7 +352,7 @@ const HomePageFilter = () => {
             className="font-larken text-[28px] text-[#404040] dark:text-white"
             displayType="text"
             thousandSeparator
-            value={totalMySupplied || 0}
+            value={address ? totalMySupplied : 0}
             decimalScale={2}
             fixedDecimalScale
             prefix={'$'}
@@ -366,7 +366,7 @@ const HomePageFilter = () => {
             className="font-larken text-[28px] text-[#404040] dark:text-white"
             displayType="text"
             thousandSeparator
-            value={totalMyBorrowed || 0}
+            value={address ? totalMyBorrowed : 0}
             decimalScale={2}
             fixedDecimalScale
             prefix={'$'}
@@ -380,7 +380,7 @@ const HomePageFilter = () => {
             className="font-larken text-[16px]"
             displayType="text"
             thousandSeparator
-            value={percent || '0'}
+            value={address ? percent : '0'}
             decimalScale={2}
             fixedDecimalScale
             suffix={'%'}
@@ -402,7 +402,7 @@ const HomePageFilter = () => {
       </div>
       <div className="h-2 w-full overflow-hidden bg-[#F7F7F7] dark:bg-[#1F1F1F]">
         <div
-          style={{ width: `${percent}%` }}
+          style={{ width: `${address ? percent : 0}%` }}
           className="h-full rounded-full bg-gradient-to-r from-[#C38BFF] to-[#AA5BFF] text-center text-white shadow-none"
         ></div>
       </div>
@@ -414,7 +414,7 @@ const HomePageFilter = () => {
               className="font-larken text-[28px] text-[#404040] dark:text-white"
               displayType="text"
               thousandSeparator
-              value={-Number(netAPY || 0) * 100 || 0}
+              value={address ? -Number(netAPY || 0) * 100 : 0}
               decimalScale={2}
               fixedDecimalScale
               suffix={'%'}
