@@ -178,6 +178,9 @@ const HomePageFilter = () => {
     tokenWBTCContract,
     tokenWETHContract,
     tokenTUSDContract,
+    wbtcPrice,
+    wethPrice,
+    tusdPrice
   ])
 
   const handleGetGeneralInfo = async () => {
@@ -290,6 +293,9 @@ const HomePageFilter = () => {
     tokenWETHContract,
     tokenTUSDContract,
     address,
+    wbtcPrice,
+    wethPrice,
+    tusdPrice
   ])
 
   if (isLoading) {
@@ -354,7 +360,7 @@ const HomePageFilter = () => {
             className="font-larken text-[28px] text-[#404040] dark:text-white"
             displayType="text"
             thousandSeparator
-            value={address ? totalMySupplied : 0}
+            value={address ? (totalMySupplied || '0') : 0}
             decimalScale={2}
             fixedDecimalScale
             prefix={'$'}
@@ -368,7 +374,7 @@ const HomePageFilter = () => {
             className="font-larken text-[28px] text-[#404040] dark:text-white"
             displayType="text"
             thousandSeparator
-            value={address ? totalMyBorrowed : 0}
+            value={address ? (totalMyBorrowed || '0') : 0}
             decimalScale={2}
             fixedDecimalScale
             prefix={'$'}
