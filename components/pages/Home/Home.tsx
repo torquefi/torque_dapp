@@ -422,7 +422,7 @@ const HomePageFilter = () => {
               className="font-larken text-[28px] text-[#404040] dark:text-white"
               displayType="text"
               thousandSeparator
-              value={address && totalMyBorrowed ? -Number(netAPY || 0) * 100 : 0}
+              value={address && Number(totalMyBorrowed) > 0 ? -Number(netAPY || 0) * 100 : 0}
               decimalScale={2}
               fixedDecimalScale
               suffix={'%'}
