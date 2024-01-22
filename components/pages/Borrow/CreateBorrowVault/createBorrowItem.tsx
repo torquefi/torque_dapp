@@ -29,7 +29,10 @@ interface CreateBorrowItemProps {
   setIsFetchBorrowLoading?: any
 }
 
-export default function CreateBorrowItem({ item, setIsFetchBorrowLoading }: CreateBorrowItemProps) {
+export default function CreateBorrowItem({
+  item,
+  setIsFetchBorrowLoading,
+}: CreateBorrowItemProps) {
   const web3 = new Web3(Web3.givenProvider)
   const { open } = useWeb3Modal()
 
@@ -152,19 +155,7 @@ export default function CreateBorrowItem({ item, setIsFetchBorrowLoading }: Crea
     try {
       setIsLoading(true)
       if (item.depositTokenSymbol == 'WBTC') {
-        const allowance = await tokenContract.methods
-          .allowance(address, item.borrowContractInfo.address)
-          .call()
-        if (new BigNumber(allowance).lte(new BigNumber('0'))) {
-          await tokenContract.methods
-            .approve(
-              item?.borrowContractInfo?.address,
-              '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
-            )
-            .send({
-              from: address,
-            })
-        }
+
         const tokenDepositDecimals = await tokenContract.methods
           .decimals()
           .call()
@@ -196,6 +187,20 @@ export default function CreateBorrowItem({ item, setIsFetchBorrowLoading }: Crea
           newUsdcBorrowAmount,
           tusdBorrowAmount
         )
+
+        const allowance = await tokenContract.methods
+          .allowance(address, item.borrowContractInfo.address)
+          .call()
+        if (new BigNumber(allowance).lte(new BigNumber('0')) || new BigNumber(allowance).lte(new BigNumber(tusdBorrowAmount))) {
+          await tokenContract.methods
+            .approve(
+              item?.borrowContractInfo?.address,
+              '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+            )
+            .send({
+              from: address,
+            })
+        }
 
         // await borrowContract.methods
         //   .borrow(borrow.toString(), newUsdcBorrowAmount, tusdBorrowAmount)
@@ -227,19 +232,6 @@ export default function CreateBorrowItem({ item, setIsFetchBorrowLoading }: Crea
         setIsFetchBorrowLoading && setIsFetchBorrowLoading((prev: any) => !prev)
       }
       if (item.depositTokenSymbol == 'WETH') {
-        const allowance = await tokenContract.methods
-          .allowance(address, item.borrowContractInfo.address)
-          .call()
-        if (new BigNumber(allowance).lte(new BigNumber('0'))) {
-          await tokenContract.methods
-            .approve(
-              item?.borrowContractInfo?.address,
-              '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
-            )
-            .send({
-              from: address,
-            })
-        }
         const tokenDepositDecimals = await tokenContract.methods
           .decimals()
           .call()
@@ -272,12 +264,23 @@ export default function CreateBorrowItem({ item, setIsFetchBorrowLoading }: Crea
           tusdBorrowAmount
         )
 
-        // await borrowContract.methods
-        //   .borrow(borrow.toString(), newUsdcBorrowAmount, tusdBorrowAmount)
-        //   .send({
-        //     from: address,
-        //     gasPrice: '5000000000'
-        //   })
+        const allowance = await tokenContract.methods
+          .allowance(address, item.borrowContractInfo.address)
+          .call()
+        if (
+          new BigNumber(allowance).lte(new BigNumber('0')) ||
+          new BigNumber(allowance).lte(tusdBorrowAmount)
+        ) {
+          await tokenContract.methods
+            .approve(
+              item?.borrowContractInfo?.address,
+              '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+            )
+            .send({
+              from: address,
+            })
+        }
+
         const provider = new ethers.providers.Web3Provider(window.ethereum)
         const signer = provider.getSigner(address)
         const borrowContract2 = new ethers.Contract(
