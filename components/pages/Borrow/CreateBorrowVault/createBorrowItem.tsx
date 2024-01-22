@@ -371,7 +371,7 @@ export default function CreateBorrowItem({ item, setIsFetchBorrowLoading }: Crea
               className="w-full py-4 text-[#030303] lg:py-6 dark:text-white"
               subtitle="Collateral"
               usdDefault
-              decimalScale={2}
+              decimalScale={4}
               onChange={(e) => {
                 setAmount(e)
               }}
@@ -387,7 +387,7 @@ export default function CreateBorrowItem({ item, setIsFetchBorrowLoading }: Crea
                 (dataBorrow.loanToValue / 140)
               )}
               usdDefault
-              decimalScale={2}
+              decimalScale={4}
               className="w-full py-4 text-[#030303] dark:text-white"
               subtitle="Borrowing"
               onChange={(e) => {
