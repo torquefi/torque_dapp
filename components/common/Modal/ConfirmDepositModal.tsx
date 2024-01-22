@@ -109,7 +109,7 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
                 displayType="text"
                 value={coinFrom?.amount || 0}
                 suffix={` ${coinFrom.symbol}`}
-                // thousandSeparator
+                thousandSeparator
                 decimalScale={4}
               />
             </div>
@@ -124,9 +124,10 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
             <div className="font-larken pt-2 text-[23px] text-[#030303] dark:text-white">
               <NumberFormat
                 displayType="text"
-                value={convertNumber(coinTo?.amount || 0)}
+                value={coinTo?.amount || 0}
                 suffix={` ${coinTo.symbol}`}
                 thousandSeparator
+                decimalScale={4}
               />
             </div>
           </div>
