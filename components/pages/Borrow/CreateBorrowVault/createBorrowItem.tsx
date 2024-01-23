@@ -478,7 +478,9 @@ export default function CreateBorrowItem({
           symbol: item.depositTokenSymbol,
         }}
         coinTo={{
-          amount: amountReceive,
+          amount: amount *
+            price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`] *
+            (dataBorrow.loanToValue / 140),
           icon: `/icons/coin/${item.borrowTokenSymbol.toLocaleLowerCase()}.png`,
           symbol: item.borrowTokenSymbol,
         }}
