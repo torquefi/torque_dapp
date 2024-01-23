@@ -9,9 +9,15 @@ export const getBalanceByContractToken = async (
   contractAddress: any,
   userWalletAddress: any
 ) => {
-  const contract = new web3.eth.Contract(JSON.parse(abi), contractAddress)
-  const balance = await contract.methods.balanceOf(userWalletAddress).call()
-  return web3.utils.fromWei(balance, 'ether')
+  try {
+    const contract = new web3.eth.Contract(JSON.parse(abi), contractAddress)
+    const decimal = await contract.methods.decimals().call()
+    const balance = await contract.methods.balanceOf(userWalletAddress).call()
+    return ethers.utils.formatUnits(balance, decimal).toString()
+  } catch (error) {
+    console.log('error :>> ', error)
+    return 0
+  }
 }
 
 export const MAX_UINT256 =

@@ -3,7 +3,6 @@ import { AiOutlineClose } from 'react-icons/ai'
 import NumberFormat from '../NumberFormat'
 import React, { useEffect, useState } from 'react'
 import { getBalanceByContractToken } from '@/constants/utils'
-import { btcContract, ethContract, tusdContract } from '@/constants/contracts'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 import { formatUnits } from 'ethers/lib/utils'
@@ -11,6 +10,7 @@ import LoadingCircle from '../Loading/LoadingCircle'
 import { AppStore } from '@/types/store'
 import { useSelector } from 'react-redux'
 import { convertNumber } from '@/lib/helpers/number'
+import { tokenBtcContract, tokenEthContract, tokenTusdContract } from '@/components/pages/Borrow/constants/contract'
 
 interface Detail {
   label: string
@@ -50,25 +50,29 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
   const theme = useSelector((store: AppStore) => store.theme.theme)
   const [balanceWallet, setBalanceWallet] = useState<any>(0)
 
-  console.log('coinFrom :>> ', coinFrom);
+  console.log('balanceWallet :>> ', balanceWallet);
 
   useEffect(() => {
     if (address) {
       ; (async () => {
         if (coinFrom.symbol === 'WBTC') {
           const amount = await getBalanceByContractToken(
-            btcContract.abi,
-            btcContract.address,
+            tokenBtcContract.abi,
+            tokenBtcContract.address,
             address
           )
           setBalanceWallet(amount)
         } else if (coinFrom.symbol === 'WETH') {
-          const balance = await web3.eth.getBalance(address)
-          setBalanceWallet(Number(formatUnits(balance, 18)))
+          const amount = await getBalanceByContractToken(
+            tokenEthContract.abi,
+            tokenEthContract.address,
+            address
+          )
+          setBalanceWallet(amount)
         } else if (coinFrom.symbol === 'TUSD') {
           const amount = await getBalanceByContractToken(
-            tusdContract.abi,
-            tusdContract.address,
+            tokenTusdContract.abi,
+            tokenTusdContract.address,
             address
           )
           setBalanceWallet(amount)
@@ -76,8 +80,6 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
       })()
     }
   }, [coinFrom.symbol, address])
-
-  console.log('coinFrom :>> ', coinTo);
 
   return (
     <Modal
