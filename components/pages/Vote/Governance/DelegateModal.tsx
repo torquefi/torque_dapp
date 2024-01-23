@@ -107,7 +107,7 @@ export const DelegateModal = (props: any) => {
                 value={address ? balance || '0' : '0'}
                 displayType="text"
                 thousandSeparator
-                decimalScale={4}
+                decimalScale={2}
                 suffix=" "
               />
               TORQ
