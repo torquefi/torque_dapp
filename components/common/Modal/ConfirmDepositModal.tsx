@@ -50,6 +50,8 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
   const theme = useSelector((store: AppStore) => store.theme.theme)
   const [balanceWallet, setBalanceWallet] = useState<any>(0)
 
+  console.log('coinFrom :>> ', coinFrom);
+
   useEffect(() => {
     if (address) {
       ; (async () => {
@@ -161,7 +163,6 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
               thousandSeparator
               decimalScale={4}
             />
-            {/* {Number(balanceWallet)} {coinFrom.symbol} */}
           </span>
         </div>
         {details?.map((item, i) => (

@@ -14,10 +14,10 @@ import { NumericFormat } from 'react-number-format'
 import { useSelector } from 'react-redux'
 import { toast } from 'sonner'
 import { useAccount } from 'wagmi'
-import Web3 from 'web3'
-import { tokenUsdcContract } from '../constants/contract'
 import { IBorrowInfoManage } from '../types'
 import { BorrowItemChart } from './BorrowItemChart'
+import Web3 from 'web3'
+import { ConfirmDepositModal } from '@/components/common/Modal/ConfirmDepositModal'
 
 enum Action {
   Borrow = 'Borrow',
@@ -27,14 +27,12 @@ enum Action {
 
 const SECONDS_PER_YEAR = 60 * 60 * 24 * 365
 export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
-  console.log('item :>> ', item)
   const { open } = useWeb3Modal()
   const refLabelInput = useRef<HTMLInputElement>(null)
-
   const borrowTime = useSelector((store: AppStore) => store)
   const theme = useSelector((store: AppStore) => store.theme.theme)
   const [isExpand, setExpand] = useState(false)
-  const [action, setAction] = useState(Action.Repay)
+  const [action, setAction] = useState(Action.Borrow)
   const { Moralis, isWeb3Enabled } = useMoralis()
   const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
 
@@ -48,7 +46,10 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
   const [borrowed, setBorrowed] = useState('0')
   const [collateral, setCollateral] = useState('0')
   const [depositedToken, setDepositedToken] = useState('0')
-  const [ltv, setltv] = useState('')
+  const [depositBalance, setDepositBalance] = useState('0')
+  const [isOpenConfirmDepositModal, setOpenConfirmDepositModal] =
+    useState(false)
+  const [activeItem, setActiveItem] = useState<any>()
 
   const tusdPrice = usdPrice['TUSD']
   const usdcPrice = usdPrice['USDC']
@@ -88,14 +89,28 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
     return contract
   }, [Web3.givenProvider, item.tokenContractInfo])
 
-  const usdcContract = useMemo(() => {
-    const web3 = new Web3(Web3.givenProvider)
-    const contract = new web3.eth.Contract(
-      JSON.parse(tokenUsdcContract.abi),
-      tokenUsdcContract.address
-    )
-    return contract
-  }, [Web3.givenProvider, tokenUsdcContract])
+  const handleGetDepositBalance = async () => {
+    if (!address || !depositContract) {
+      return
+    }
+    try {
+      const depositDecimal = await depositContract.methods.decimals().call()
+      const depositBalance = await depositContract.methods
+        .balanceOf(address)
+        .call()
+      setDepositBalance(
+        ethers.utils.formatUnits(depositBalance, depositDecimal)
+      )
+      console.log('depositDecimal :>> ', depositDecimal)
+      console.log('depositBalance :>> ', depositBalance)
+    } catch (error) {
+      console.log('error balance deposit token :>> ', error)
+    }
+  }
+
+  useEffect(() => {
+    handleGetDepositBalance()
+  }, [depositContract, address])
 
   const handleGetBorrowData = async () => {
     if (!borrowContract || !address || !tokenContract) {
@@ -111,7 +126,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
 
       const usdcDecimal = await depositContract.methods.decimals().call()
       // if (item.depositTokenSymbol === 'AETH') { usdcDecimal = 18; }
-      const collateral = new BigNumber(usdcPrice)
+      const collateral = new BigNumber(usdcPrice || 0)
         .multipliedBy(
           ethers.utils.formatUnits(borrowInfoMap.supplied, usdcDecimal)
         )
@@ -119,7 +134,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       setCollateral(collateral)
 
       const tokenDecimal = await tokenContract.methods.decimals().call()
-      const borrowed = new BigNumber(tusdPrice)
+      const borrowed = new BigNumber(tusdPrice || 0)
         .multipliedBy(
           ethers.utils.formatUnits(borrowInfoMap.baseBorrowed, tokenDecimal)
         )
@@ -269,6 +284,29 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
     }
   }
 
+  const handleConfirmBorrow = async () => {
+    if (inputValue <= 0) {
+      toast.error('You must deposit WBTC to borrow')
+      return
+    }
+    setOpenConfirmDepositModal(true)
+    setActiveItem(item)
+  }
+
+  const onBorrow = async () => {
+
+  }
+
+  const handleAction = () => {
+    if (action === Action.Borrow) {
+      handleConfirmBorrow()
+    } else if (action === Action.Repay) {
+      onRepay()
+    } else if (action === Action.Withdraw) {
+      onWithdraw()
+    }
+  }
+
   const getDataNameBorrow = async () => {
     const data = await Moralis.Cloud.run('getDataBorrowUser', {
       address: address,
@@ -324,18 +362,8 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
     return action
   }
 
-  const handleAction = () => {
-    if (action === Action.Borrow) {
-      return
-    } else if (action === Action.Repay) {
-      onRepay()
-    } else if (action === Action.Withdraw) {
-      onWithdraw()
-    }
-  }
-
   const collateralUsd = (
-    Number(collateral || 0) * usdPrice[item?.depositTokenSymbol]
+    Number(collateral || 0) * (usdPrice[item?.depositTokenSymbol] || 0)
   )?.toFixed(5)
 
   const summaryInfo = (
@@ -355,7 +383,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         )}
       />
       <CurrencySwitch
-        tokenSymbol={'TUSD'}
+        tokenSymbol="TUSD"
         tokenValue={borrowInfoMap?.borrowed || item.borrowed}
         usdDefault
         className="font-larken -my-4 w-1/4 space-y-1 py-4"
@@ -392,6 +420,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       </div>
     </div>
   )
+
   if (isLoading)
     return (
       <div className="">
@@ -449,7 +478,11 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
             <div className="hidden md:block">{summaryInfo}</div>
             <div
               className="flex h-[64px] w-[64px] cursor-pointer select-none items-center justify-center rounded-full"
-              onClick={() => setExpand(!isExpand)}
+              onClick={() => {
+                setExpand(!isExpand)
+                setInputValue(0)
+                setAction(Action.Borrow)
+              }}
             >
               <img
                 className={
@@ -475,21 +508,6 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
           >
             <div className="w-full md:hidden">{summaryInfo}</div>
             <div className=" w-full md:w-[40%] lg:w-[50%] xl:w-[55%]">
-              {/* <Chart
-              chartData={[
-                {
-                  time: new Date().toISOString(),
-                  balanceUsd:
-                    dataUserBorrow?.supplied * price[item.token.toLowerCase()],
-                },
-                {
-                  time: new Date().toISOString(),
-                  balanceUsd:
-                    dataUserBorrow?.supplied * price[item.token.toLowerCase()],
-                },
-              ]}
-            /> */}
-              {/* <img src="/assets/pages/boost/chart.svg" alt="" /> */}
               <BorrowItemChart
                 label="Borrow Apr"
                 tokenAddress={item?.borrowContractInfo.address}
@@ -501,11 +519,6 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                 }
                 aprPercent={-borrowAPR}
               />
-              {/* <VaultChart
-                label="Borrow Apr"
-                percent={borrowAPR}
-                value={49510000}
-              /> */}
             </div>
             <div className="w-full space-y-6 md:w-[60%] md:pl-[36px] lg:w-[50%] xl:w-[45%]">
               <div className="flex items-center justify-between">
@@ -559,9 +572,11 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                           )
                         } else if (action === Action.Repay) {
                           setInputValue((Number(borrowed) * percent) / 100.01)
-                        } else {
-                          return
-                        }
+                        } else if (action === Action.Borrow) {
+                          setInputValue(
+                            (Number(depositBalance) * percent) / 100.01
+                          )
+                        } else return 0
                       }}
                       key={i}
                     >
@@ -582,6 +597,44 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
             </div>
           </div>
         </div>
+
+        <ConfirmDepositModal
+          open={isOpenConfirmDepositModal}
+          handleClose={() => setOpenConfirmDepositModal(false)}
+          confirmButtonText="Deposit & Borrow"
+          onConfirm={() => onBorrow()}
+          loading={isLoading}
+          coinFrom={{
+            amount: inputValue,
+            icon: `/icons/coin/${item.depositTokenSymbol.toLocaleLowerCase()}.png`,
+            symbol: item.depositTokenSymbol,
+          }}
+          coinTo={{
+            amount: Number(
+              inputValue * usdPrice[`${item.depositTokenSymbol.toLowerCase()}`]
+            ),
+            icon: `/icons/coin/${item.borrowTokenSymbol.toLocaleLowerCase()}.png`,
+            symbol: item?.borrowTokenSymbol,
+          }}
+          details={[
+            {
+              label: 'Loan-to-value',
+              value: `<${!collateralUsd
+                ? 0
+                : (
+                  (Number(borrowed || 0) / Number(collateralUsd)) *
+                  100
+                ).toFixed(2)
+                }%`,
+            },
+            {
+              label: 'Variable APR',
+              value: !borrowAPR
+                ? '-0.00%'
+                : -Number(borrowAPR).toFixed(2) + '%',
+            },
+          ]}
+        />
       </>
     )
 }

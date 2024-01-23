@@ -45,7 +45,6 @@ export default function CreateBorrowItem({
   const [contractBTC, setContractBTC] = useState<any>(null)
   const [contractETH, setContractETH] = useState<any>(null)
   const [buttonLoading, setButtonLoading] = useState('')
-  const [borrow1Contract, setBorrow1Contract] = useState<any>()
   const [price, setPrice] = useState<any>({
     weth: 0,
     wbtc: 0,
@@ -54,7 +53,6 @@ export default function CreateBorrowItem({
   const { address, isConnected } = useAccount()
   const [isOpenConfirmDepositModal, setOpenConfirmDepositModal] =
     useState(false)
-  const dispatch = useDispatch()
   const [aprBorrow, setAprBorrow] = useState('')
 
   useEffect(() => {
