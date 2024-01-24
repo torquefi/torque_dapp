@@ -44,6 +44,7 @@ export default function InputCurrencySwitch({
     eth: 1800,
     btc: 28000,
     usd: 1,
+    tusd: 1
   })
 
   const getPrice = async () => {
@@ -51,6 +52,7 @@ export default function InputCurrencySwitch({
       weth: (await getPriceToken('ETH')) || 1800,
       wbtc: (await getPriceToken('BTC')) || 28000,
       usd: (await getPriceToken('USDC')) || 1,
+      tusd: (await getPriceToken('TUSD')) || 1,
     }
     setPrice(price)
     setTokenPrice(
@@ -59,6 +61,8 @@ export default function InputCurrencySwitch({
       0
     )
   }
+
+  console.log('price :>> ', price);
 
   // const valueToShow = isShowUsd
   //   ? tokenValue * (usdPrice?.[tokenSymbol] || 1)
