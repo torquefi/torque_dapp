@@ -1,10 +1,11 @@
 import SkeletonDefault from '@/components/skeleton'
 import {
-  boostEtherContract,
-  ethContract,
   boostBtcContract,
+  boostEtherContract,
   btcContract,
+  ethContract,
 } from '@/constants/contracts'
+import { LabelApi } from '@/lib/api/LabelApi'
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import { useAccount } from 'wagmi'
@@ -67,12 +68,26 @@ export function ManageBoostVault() {
     if (loading) {
       setSkeletonLoading(true)
     }
-    try {
-      console.log('getBoostData', getBoostData)
 
-      const dataBoost = await Promise.all(DATA_BOOST_VAULT?.map(getBoostData))
-      setDataBoost(dataBoost)
-    } catch (error) { }
+    let dataBoost: IBoostInfo[] = []
+    try {
+      // console.log('getBoostData', getBoostData)
+
+      const labelRes = await LabelApi.getListLabel({
+        walletAddress: address,
+        position: 'Boost',
+      })
+      const labels: any[] = labelRes?.data || []
+      dataBoost = DATA_BOOST_VAULT?.map((item) => ({
+        ...item,
+        label:
+          labels?.find((label) => label?.tokenSymbol === item?.tokenSymbol)
+            ?.name || item?.defaultLabel,
+      }))
+
+      dataBoost = await Promise.all(dataBoost?.map(getBoostData))
+    } catch (error) {}
+    setDataBoost(dataBoost)
     if (loading) {
       setSkeletonLoading(false)
     }
@@ -84,6 +99,7 @@ export function ManageBoostVault() {
 
   console.log('dataBoost :>> ', dataBoost)
 
+  // const boostDisplayed = dataBoost
   const boostDisplayed = dataBoost.filter((item) => Number(item?.deposited) > 0)
 
   console.log('boostDisplayed :>> ', boostDisplayed)
@@ -129,7 +145,6 @@ const DATA_BOOST_VAULT: IBoostInfo[] = [
     tokenSymbol: 'WBTC',
     tokenDecimals: 18,
     defaultLabel: 'Vehicle #1',
-    labelKey: 'name_boost_vault_2',
     deposited: 0.0,
     earnings: 0.0,
     APR: 0.0,
@@ -140,7 +155,6 @@ const DATA_BOOST_VAULT: IBoostInfo[] = [
     tokenSymbol: 'WETH',
     tokenDecimals: 18,
     defaultLabel: 'Vehicle #2',
-    labelKey: 'name_boost_vault_1',
     deposited: 0.0,
     earnings: 0.0,
     APR: 0.0,
