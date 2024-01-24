@@ -160,7 +160,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         return
       }
       const amountRepay = ethers.utils
-        .parseUnits(inputValue.toString(), tokenDecimal)
+        .parseUnits(Number(inputValue).toFixed(tokenDecimal), tokenDecimal)
         .toString()
       console.log('amountRepay :>> ', amountRepay)
 
