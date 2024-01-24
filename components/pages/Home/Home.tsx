@@ -129,7 +129,7 @@ const HomePageFilter = () => {
 
       // WETH
       const wethDecimal = await tokenWETHContract.methods.decimals().call()
-      const myDataWethBorrow = await borrowWBTCContract.methods
+      const myDataWethBorrow = await borrowWETHContract.methods
         .borrowInfoMap(address)
         .call()
 
@@ -138,7 +138,7 @@ const HomePageFilter = () => {
       const myWethSuppliedUsd = new BigNumber(
         ethers.utils.formatUnits(myWethSupply, wethDecimal)
       )
-        .multipliedBy(wbtcPrice)
+        .multipliedBy(wethPrice)
         .toString()
       console.log('myDataWethBorrow :>> ', myDataWethBorrow)
       console.log('myWethSupply :>> ', myWethSupply)
@@ -163,7 +163,7 @@ const HomePageFilter = () => {
 
       setTotalMyBorrowed(
         new BigNumber(myWbtcBorrowedUsd)
-          .plus(new BigNumber(myWethSuppliedUsd))
+          .plus(new BigNumber(myWethBorrowedUsd))
           .toString()
       )
     } catch (error) { }
@@ -313,6 +313,8 @@ const HomePageFilter = () => {
         .multipliedBy(100)
         .toString()
       : 0
+
+  console.log('totalMyBorrowed :>> ', totalMyBorrowed);
 
   return (
     <div className="relative mt-[80px] flex w-full flex-wrap items-center justify-center rounded-t-[10px] border-[1px] bg-white from-[#25252566] pt-[80px] md:mt-0 md:pt-0 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br">
