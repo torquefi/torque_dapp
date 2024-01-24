@@ -1,4 +1,5 @@
-import { chainRpcUrl } from '@/constants/chain'
+import { LabelApi } from '@/lib/api/LabelApi'
+import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import { useAccount } from 'wagmi'
@@ -6,15 +7,14 @@ import Web3 from 'web3'
 import {
   borrowBtcContract,
   borrowEthContract,
+  compoundUsdcContract as compoundUsdcContractData,
   tokenBtcContract,
   tokenEthContract,
   tokenTusdContract,
 } from '../constants/contract'
-import { compoundUsdcContract as compoundUsdcContractData } from '../constants/contract';
 import { IBorrowInfoManage } from '../types'
 import BorrowItem from './BorrowItem'
 import { EmptyBorrow } from './EmptyBorrow'
-import BigNumber from 'bignumber.js'
 
 export default function ManageBorrowVault({ isFetchBorrowData }: any) {
   const web3 = new Web3(Web3.givenProvider)
@@ -88,7 +88,8 @@ export default function ManageBorrowVault({ isFetchBorrowData }: any) {
         item.borrowed = Number(
           new BigNumber(data.baseBorrowed).div(10 ** 18).toString()
         )
-        console.log("111",
+        console.log(
+          '111',
           Number(new BigNumber(data.baseBorrowed).div(10 ** 18).toString())
         )
       }
@@ -125,17 +126,34 @@ export default function ManageBorrowVault({ isFetchBorrowData }: any) {
     return item
   }
 
-  const handleUpdateStakeData = async () => {
+  const handleUpdateBorrowData = async () => {
     setSkeletonLoading(true)
+    let dataBorrow: IBorrowInfoManage[] = []
     try {
-      const dataBorrow = await Promise.all(DATA_BORROW?.map(getBorrowData))
-      setDataBorrow(dataBorrow)
-    } catch (error) { }
+      const labelRes = await LabelApi.getListLabel({
+        walletAddress: address,
+        position: 'Borrow',
+      })
+      const labels: any[] = labelRes?.data || []
+      dataBorrow = DATA_BORROW?.map((item) => ({
+        ...item,
+        label:
+          labels?.find(
+            (label) => label?.tokenSymbol === item?.depositTokenSymbol
+          )?.name || item?.label,
+      }))
+
+      dataBorrow = await Promise.all(dataBorrow?.map(getBorrowData))
+      console.log(dataBorrow)
+    } catch (error) {
+      console.error('handleUpdateBorrowData', error)
+    }
+    setDataBorrow(dataBorrow)
     setSkeletonLoading(false)
   }
 
   useEffect(() => {
-    handleUpdateStakeData()
+    handleUpdateBorrowData()
   }, [isConnected, address, isFetchBorrowData])
 
   // const borrowDisplayed = dataBorrow

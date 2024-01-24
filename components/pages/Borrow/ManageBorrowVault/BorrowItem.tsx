@@ -1,7 +1,9 @@
 import CurrencySwitch from '@/components/common/CurrencySwitch'
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
+import { ConfirmDepositModal } from '@/components/common/Modal/ConfirmDepositModal'
 import SkeletonDefault from '@/components/skeleton'
 import { MAX_UINT256 } from '@/constants/utils'
+import { LabelApi } from '@/lib/api/LabelApi'
 import { AppStore } from '@/types/store'
 import { useWeb3Modal } from '@web3modal/react'
 import BigNumber from 'bignumber.js'
@@ -14,10 +16,9 @@ import { NumericFormat } from 'react-number-format'
 import { useSelector } from 'react-redux'
 import { toast } from 'sonner'
 import { useAccount } from 'wagmi'
+import Web3 from 'web3'
 import { IBorrowInfoManage } from '../types'
 import { BorrowItemChart } from './BorrowItemChart'
-import Web3 from 'web3'
-import { ConfirmDepositModal } from '@/components/common/Modal/ConfirmDepositModal'
 
 enum Action {
   Borrow = 'Borrow',
@@ -293,9 +294,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
     setActiveItem(item)
   }
 
-  const onBorrow = async () => {
-
-  }
+  const onBorrow = async () => {}
 
   const handleAction = () => {
     if (action === Action.Borrow) {
@@ -307,43 +306,21 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
     }
   }
 
-  const getDataNameBorrow = async () => {
-    const data = await Moralis.Cloud.run('getDataBorrowUser', {
-      address: address,
-    })
-    setLabel(data[`${item.labelKey}`] || item?.label)
-  }
-
-  const updateDataNameBorrow = async (name: string) => {
-    const data = await Moralis.Cloud.run('getDataBorrowUser', {
-      address: address,
-    })
-
-    data[`${item.labelKey}`] = name
-    data[`address`] = address
-    await Moralis.Cloud.run('updateDataBorrowUser', {
-      ...data,
-    })
-      .then(() => {
-        toast.success('Update name successful')
-        getDataNameBorrow()
+  const updateBorrowLabel = async () => {
+    setEdit(false)
+    try {
+      await LabelApi.updateLabel({
+        walletAddress: address,
+        tokenSymbol: item?.depositTokenSymbol,
+        position: 'Borrow',
+        name: label,
       })
-      .catch(() => {
-        toast.error('Update name failed')
-      })
+      toast.success('Update name successful')
+    } catch (error) {
+      toast.error('Update name failed')
+      console.error('updateBorrowLabel', error)
+    }
   }
-
-  useEffect(() => {
-    setTimeout(() => setIsLoading(false), 1000)
-  }, [])
-
-  useEffect(() => {
-    getDataNameBorrow()
-  }, [address])
-
-  useEffect(() => {
-    getDataNameBorrow()
-  }, [isWeb3Enabled, address, isConnected, borrowTime])
 
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1000)
@@ -354,6 +331,10 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       refLabelInput.current.focus()
     }
   }, [isEdit])
+
+  useEffect(() => {
+    setLabel(item?.label)
+  }, [item?.label])
 
   const renderSubmitText = () => {
     if (!address) {
@@ -402,8 +383,8 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
           {!collateralUsd
             ? 0
             : ((Number(borrowed || 0) / Number(collateralUsd)) * 100).toFixed(
-              2
-            )}
+                2
+              )}
           %
         </p>
         <p className="whitespace-nowrap text-[14px] text-[#959595]">
@@ -461,15 +442,12 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                     className="min-w-[60px] bg-transparent"
                     value={label}
                     onChange={(e) => setLabel(e.target.value)}
-                    onKeyUp={(e) => e.key === 'Enter' && setEdit(false)}
+                    onKeyUp={(e) => e.key === 'Enter' && updateBorrowLabel()}
                   />
                   <button className="">
                     <AiOutlineCheck
                       className=""
-                      onClick={() => {
-                        updateDataNameBorrow(label)
-                        setEdit(!isEdit)
-                      }}
+                      onClick={() => updateBorrowLabel()}
                     />
                   </button>
                 </div>
@@ -500,9 +478,10 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
           <div
             className={
               'flex flex-wrap overflow-hidden px-[16px] transition-all duration-300 sm:px-[24px]' +
-              ` ${isExpand
-                ? 'max-h-[1000px] py-[16px] ease-in'
-                : 'max-h-0 py-0 ease-out'
+              ` ${
+                isExpand
+                  ? 'max-h-[1000px] py-[16px] ease-in'
+                  : 'max-h-0 py-0 ease-out'
               }`
             }
           >
@@ -535,9 +514,10 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                         key={i}
                         className={
                           'w-[52px]  py-[8px] text-[10px] leading-none xs:w-[80px] xs:text-[12px]' +
-                          ` ${action === item
-                            ? 'rounded-md bg-[#F4F4F4] dark:bg-[#171717]'
-                            : 'text-[#959595]'
+                          ` ${
+                            action === item
+                              ? 'rounded-md bg-[#F4F4F4] dark:bg-[#171717]'
+                              : 'text-[#959595]'
                           }`
                         }
                         onClick={() => {
@@ -564,7 +544,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                 <div className="flex select-none justify-between space-x-1 text-[12px] text-[#959595] sm:text-[14px]">
                   {[25, 50, 100].map((percent, i) => (
                     <div
-                      className="cursor-pointer rounded-md bg-[#F4F4F4]  px-[6px] py-[2px] transition active:scale-95 xs:px-[8px] xs:py-[4px] dark:bg-[#171717]"
+                      className="cursor-pointer rounded-md bg-[#F4F4F4]  px-[6px] py-[2px] transition active:scale-95 dark:bg-[#171717] xs:px-[8px] xs:py-[4px]"
                       onClick={() => {
                         if (action == Action.Withdraw) {
                           setInputValue(
@@ -586,8 +566,9 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                 </div>
               </div>
               <button
-                className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
-                  }`}
+                className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${
+                  buttonLoading && 'cursor-not-allowed opacity-50'
+                }`}
                 disabled={buttonLoading}
                 onClick={handleAction}
               >
@@ -619,13 +600,14 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
           details={[
             {
               label: 'Loan-to-value',
-              value: `<${!collateralUsd
-                ? 0
-                : (
-                  (Number(borrowed || 0) / Number(collateralUsd)) *
-                  100
-                ).toFixed(2)
-                }%`,
+              value: `<${
+                !collateralUsd
+                  ? 0
+                  : (
+                      (Number(borrowed || 0) / Number(collateralUsd)) *
+                      100
+                    ).toFixed(2)
+              }%`,
             },
             {
               label: 'Variable APR',

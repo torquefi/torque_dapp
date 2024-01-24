@@ -5,7 +5,7 @@ export interface IBoostInfo {
   tokenSymbol: string
   tokenDecimals: number
   defaultLabel: string
-  labelKey: string
+  label?: string
   deposited: number
   earnings: number
   APR: number
