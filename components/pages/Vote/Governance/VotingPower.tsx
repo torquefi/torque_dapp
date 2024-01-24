@@ -106,7 +106,7 @@ export const VotingPower = () => {
         <div className="flex flex-col">
           <button
             onClick={() => setOpenDelegateModal(true)}
-            className={`font-mona w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
+            className={`font-mona w-full text-[14px] rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
           `}
           >
             Delegate votes
@@ -114,7 +114,7 @@ export const VotingPower = () => {
           <Link
             href="https://bit.ly/torq-uniswap"
             target="_blank"
-            className="font-mona mt-2 w-full rounded-full border border-[#AA5BFF] bg-transparent py-1 text-center uppercase text-[#AA5BFF] transition-all"
+            className="font-mona mt-2 w-full text-[14px] rounded-full border border-[#AA5BFF] bg-transparent py-1 text-center uppercase text-[#AA5BFF] transition-all"
           >
             acquire torq
           </Link>
