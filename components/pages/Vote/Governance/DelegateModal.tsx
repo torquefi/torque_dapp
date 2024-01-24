@@ -43,14 +43,14 @@ export const DelegateModal = (props: any) => {
         .delegates(addressInput)
         .send({ from: address })
       if (tx.status) {
-        toast.success('Delegate Successfully')
+        toast.success('Delegation Successful')
         handleClose()
         setAddressInput('')
       }
 
       console.log('tx :>> ', tx)
     } catch (error) {
-      toast.error('Delegate Failed')
+      toast.error('Delegation Failed')
       console.log('error :>> ', error)
     } finally {
       setLoading(false)
