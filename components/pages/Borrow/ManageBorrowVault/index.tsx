@@ -64,18 +64,18 @@ export default function ManageBorrowVault({ isFetchBorrowData }: any) {
       )
       if (contract) {
         let data = await contract.methods.borrowInfoMap(address).call()
-        const withdrawableAmount = await contract.methods
-          .getWithdrawableAmount(address)
-          .call({
-            from: address,
-          })
-        console.log('withdrawableAmount', withdrawableAmount)
-        item.borrowMax = Number(
-          new BigNumber(withdrawableAmount[0])
-            .div(10 ** item.depositTokenDecimal)
-            .multipliedBy(0.99)
-            .toString()
-        )
+        // const withdrawableAmount = await contract.methods
+        //   .getWithdrawableAmount(address)
+        //   .call({
+        //     from: address,
+        //   })
+        // console.log('withdrawableAmount', withdrawableAmount)
+        // item.borrowMax = Number(
+        //   new BigNumber(withdrawableAmount[0])
+        //     .div(10 ** item.depositTokenDecimal)
+        //     .multipliedBy(0.99)
+        //     .toString()
+        // )
         item.supplied = Number(
           new BigNumber(data.supplied)
             .div(10 ** item.depositTokenDecimal)
