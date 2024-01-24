@@ -160,8 +160,8 @@ export default function ManageBorrowVault({ isFetchBorrowData }: any) {
     handleUpdateBorrowData()
   }, [isConnected, address, isFetchBorrowData])
 
-  const borrowDisplayed = dataBorrow
-  // const borrowDisplayed = dataBorrow.filter((item) => item?.borrowed > 0)
+  // const borrowDisplayed = dataBorrow
+  const borrowDisplayed = dataBorrow.filter((item) => item?.borrowed > 0)
 
   if (!borrowDisplayed?.length) {
     return (

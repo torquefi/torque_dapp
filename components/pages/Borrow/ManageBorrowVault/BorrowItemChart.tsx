@@ -129,11 +129,12 @@ export const BorrowItemChart: FC<BorrowItemChartProps> = (props) => {
               item?.toString()
             )
 
+            const tusdDecimals = 18
             const tusdAmountFormatted = ethers.utils
-              .formatUnits(tusdAmount, tokenDecimals)
+              .formatUnits(tusdAmount, tusdDecimals)
               .toString()
 
-            const tusdDollar = +tusdAmountFormatted * tusdPrice
+            const tusdDollar = +tusdAmountFormatted
 
             console.log(tusdAmount, tusdDollar)
 
@@ -146,12 +147,18 @@ export const BorrowItemChart: FC<BorrowItemChartProps> = (props) => {
 
         let chartData = Object.values(chartDataObj)?.map((item, i) => ({
           ...item,
-          value: item?.valueBar * tokenPrice,
-          valueBar: 1 + item?.valueBar * tokenPrice,
+          value: item?.valueBar * tusdPrice,
+          valueBar: 1 + item?.valueBar * tusdPrice,
           valueLine: lineValue * 1.5,
         }))
 
-        // console.log(tokenAddress, tokenPrice, tokenDecimals, aprPercent, chartData)
+        console.log(
+          tokenAddress,
+          tusdPrice,
+          tokenDecimals,
+          aprPercent,
+          chartData
+        )
         setChartData(chartData)
       } catch (error) {
         console.log(
