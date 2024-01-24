@@ -2,10 +2,12 @@
 
 import axiosInstance from '@/configs/axios.config'
 import { toMetricUnits } from '@/lib/helpers/number'
+import { AppState } from '@/lib/redux/store'
 import dayjs from 'dayjs'
 import { ethers } from 'ethers'
 import { FC, useEffect, useRef, useState } from 'react'
 import { NumericFormat } from 'react-number-format'
+import { useSelector } from 'react-redux'
 import {
   Bar,
   ComposedChart,
@@ -14,6 +16,7 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from 'recharts'
+import { borrowBtcContract } from '../constants/contract'
 
 interface BorrowItemChartProps {
   label?: string
@@ -31,9 +34,12 @@ export const BorrowItemChart: FC<BorrowItemChartProps> = (props) => {
     tokenDecimals,
     aprPercent,
   } = props
+  const usdPrice = useSelector((store: AppState) => store?.usdPrice?.price)
   const [loading, setLoading] = useState(true)
   const [chartData, setChartData] = useState<any[]>([])
   const chartContainerRef = useRef<HTMLDivElement>(null)
+
+  const tusdPrice = usdPrice['TUSD']
 
   const CustomTooltip = (props: any) => {
     const { active, payload, label } = props
@@ -110,7 +116,29 @@ export const BorrowItemChart: FC<BorrowItemChartProps> = (props) => {
         transactions?.forEach((item) => {
           const key = dayjs(+item?.timeStamp * 1000).format('YYYY-MM-DD')
           if (chartDataObj[key]) {
-            const value = +ethers.utils.formatUnits(item?.value, tokenDecimals)
+            const abi = JSON.parse(borrowBtcContract.abi)
+
+            const inputs = new ethers.utils.AbiCoder().decode(
+              abi
+                ?.find((item) => item?.name === 'borrow')
+                ?.inputs?.map((item) => item?.type),
+              ethers.utils.hexDataSlice(item?.input, 4)
+            )
+
+            const [param1, param2, tusdAmount] = inputs?.map((item) =>
+              item?.toString()
+            )
+
+            const tusdAmountFormatted = ethers.utils
+              .formatUnits(tusdAmount, tokenDecimals)
+              .toString()
+
+            const tusdDollar = +tusdAmountFormatted * tusdPrice
+
+            console.log(tusdAmount, tusdDollar)
+
+            // const value = +ethers.utils.formatUnits(item?.value, tokenDecimals)
+            const value = +tusdDollar
             chartDataObj[key].valueBar += value
             lineValue = Math.max(lineValue, value)
           }
