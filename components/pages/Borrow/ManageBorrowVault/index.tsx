@@ -125,6 +125,7 @@ export default function ManageBorrowVault({ isFetchBorrowData }: any) {
   const handleUpdateBorrowData = async () => {
     setSkeletonLoading(true)
     let dataBorrow: IBorrowInfoManage[] = []
+
     try {
       dataBorrow = await Promise.all(dataBorrow?.map(getBorrowData))
 
@@ -140,10 +141,17 @@ export default function ManageBorrowVault({ isFetchBorrowData }: any) {
             (label) => label?.tokenSymbol === item?.depositTokenSymbol
           )?.name || item?.label,
       }))
+    } catch (error) {
+      console.error('handleUpdateBorrowData1', error)
+    }
+
+    try {
+      dataBorrow = await Promise.all(dataBorrow?.map(getBorrowData))
       console.log(dataBorrow)
     } catch (error) {
-      console.error('handleUpdateBorrowData', error)
+      console.error('handleUpdateBorrowData2', error)
     }
+
     setDataBorrow(dataBorrow)
     setSkeletonLoading(false)
   }
@@ -152,8 +160,8 @@ export default function ManageBorrowVault({ isFetchBorrowData }: any) {
     handleUpdateBorrowData()
   }, [isConnected, address, isFetchBorrowData])
 
-  // const borrowDisplayed = dataBorrow
-  const borrowDisplayed = dataBorrow.filter((item) => item?.borrowed > 0)
+  const borrowDisplayed = dataBorrow
+  // const borrowDisplayed = dataBorrow.filter((item) => item?.borrowed > 0)
 
   if (!borrowDisplayed?.length) {
     return (
