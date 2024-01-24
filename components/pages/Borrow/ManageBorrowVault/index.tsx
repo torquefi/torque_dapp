@@ -49,9 +49,7 @@ export default function ManageBorrowVault({ isFetchBorrowData }: any) {
       if (item.borrowContract) {
         let data = await item.borrowContract.methods
           .borrowInfoMap(address)
-          .call({
-            from: address,
-          })
+          .call()
         item.supplied = +ethers.utils
           .formatUnits(data.supplied, item.borrowTokenDecimal)
           .toString()
@@ -65,9 +63,7 @@ export default function ManageBorrowVault({ isFetchBorrowData }: any) {
         item?.borrowContractInfo?.address
       )
       if (contract) {
-        let data = await contract.methods.borrowInfoMap(address).call({
-          from: address,
-        })
+        let data = await contract.methods.borrowInfoMap(address).call()
         const withdrawableAmount = await contract.methods
           .getWithdrawableAmount(address)
           .call({
@@ -131,6 +127,8 @@ export default function ManageBorrowVault({ isFetchBorrowData }: any) {
     let dataBorrow: IBorrowInfoManage[] = []
 
     try {
+      dataBorrow = await Promise.all(dataBorrow?.map(getBorrowData))
+
       const labelRes = await LabelApi.getListLabel({
         walletAddress: address,
         position: 'Borrow',
