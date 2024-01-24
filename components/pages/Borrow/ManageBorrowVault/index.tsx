@@ -126,6 +126,8 @@ export default function ManageBorrowVault({ isFetchBorrowData }: any) {
     setSkeletonLoading(true)
     let dataBorrow: IBorrowInfoManage[] = []
     try {
+      dataBorrow = await Promise.all(dataBorrow?.map(getBorrowData))
+
       const labelRes = await LabelApi.getListLabel({
         walletAddress: address,
         position: 'Borrow',
@@ -138,8 +140,6 @@ export default function ManageBorrowVault({ isFetchBorrowData }: any) {
             (label) => label?.tokenSymbol === item?.depositTokenSymbol
           )?.name || item?.label,
       }))
-
-      dataBorrow = await Promise.all(dataBorrow?.map(getBorrowData))
       console.log(dataBorrow)
     } catch (error) {
       console.error('handleUpdateBorrowData', error)
