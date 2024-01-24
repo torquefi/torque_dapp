@@ -17,7 +17,6 @@ import { useAccount } from 'wagmi'
 import { IBorrowInfoManage } from '../types'
 import { BorrowItemChart } from './BorrowItemChart'
 import Web3 from 'web3'
-import { ConfirmDepositModal } from '@/components/common/Modal/ConfirmDepositModal'
 
 enum Action {
   Borrow = 'Borrow',
@@ -47,9 +46,6 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
   const [collateral, setCollateral] = useState('0')
   const [depositedToken, setDepositedToken] = useState('0')
   const [depositBalance, setDepositBalance] = useState('0')
-  const [isOpenConfirmDepositModal, setOpenConfirmDepositModal] =
-    useState(false)
-  const [activeItem, setActiveItem] = useState<any>()
 
   const tusdPrice = usdPrice['TUSD']
   const usdcPrice = usdPrice['USDC']
@@ -122,13 +118,11 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         .borrowInfoMap(address)
         .call()
       setBorrowInfoMap(borrowInfoMap)
-      console.log('borrowInfoMap :>> ', borrowInfoMap)
 
-      const usdcDecimal = await depositContract.methods.decimals().call()
-      // if (item.depositTokenSymbol === 'AETH') { usdcDecimal = 18; }
+      const depositTokenDecimal = await depositContract.methods.decimals().call()
       const collateral = new BigNumber(usdcPrice || 0)
         .multipliedBy(
-          ethers.utils.formatUnits(borrowInfoMap.supplied, usdcDecimal)
+          ethers.utils.formatUnits(borrowInfoMap.supplied, depositTokenDecimal)
         )
         .toString()
       setCollateral(collateral)
@@ -141,9 +135,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         .toString()
       setBorrowed(borrowed)
 
-      const depositTokenDecimal = await depositContract.methods
-        .decimals()
-        .call()
+
       const deposit = ethers.utils
         .formatUnits(borrowInfoMap.supplied, depositTokenDecimal)
         .toString()
@@ -235,26 +227,10 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
     }
     setButtonLoading(true)
     try {
-      // await depositContract?.methods
-      //   .approve(item?.borrowContractInfo.address, MAX_UINT256)
-      //   .send({
-      //     from: address,
-      //   })
-
       console.log('inputValue :>> ', inputValue)
       const depositTokenDecimal = await depositContract.methods
         .decimals()
         .call()
-
-      // await borrowContract?.methods
-      //   .withdraw(
-      //     ethers.utils
-      //       .parseUnits(inputValue.toFixed(5).toString(), depositTokenDecimal)
-      //       .toString()
-      //   )
-      //   .send({
-      //     from: address,
-      //   })
 
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const signer = provider.getSigner(address)
@@ -284,22 +260,17 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
     }
   }
 
-  const handleConfirmBorrow = async () => {
+  const onBorrow = async () => {
     if (inputValue <= 0) {
       toast.error('You must deposit WBTC to borrow')
       return
     }
-    setOpenConfirmDepositModal(true)
-    setActiveItem(item)
-  }
-
-  const onBorrow = async () => {
 
   }
 
   const handleAction = () => {
     if (action === Action.Borrow) {
-      handleConfirmBorrow()
+      onBorrow()
     } else if (action === Action.Repay) {
       onRepay()
     } else if (action === Action.Withdraw) {
@@ -597,44 +568,6 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
             </div>
           </div>
         </div>
-
-        <ConfirmDepositModal
-          open={isOpenConfirmDepositModal}
-          handleClose={() => setOpenConfirmDepositModal(false)}
-          confirmButtonText="Deposit & Borrow"
-          onConfirm={() => onBorrow()}
-          loading={isLoading}
-          coinFrom={{
-            amount: inputValue,
-            icon: `/icons/coin/${item.depositTokenSymbol.toLocaleLowerCase()}.png`,
-            symbol: item.depositTokenSymbol,
-          }}
-          coinTo={{
-            amount: Number(
-              inputValue * usdPrice[`${item.depositTokenSymbol.toLowerCase()}`]
-            ),
-            icon: `/icons/coin/${item.borrowTokenSymbol.toLocaleLowerCase()}.png`,
-            symbol: item?.borrowTokenSymbol,
-          }}
-          details={[
-            {
-              label: 'Loan-to-value',
-              value: `<${!collateralUsd
-                ? 0
-                : (
-                  (Number(borrowed || 0) / Number(collateralUsd)) *
-                  100
-                ).toFixed(2)
-                }%`,
-            },
-            {
-              label: 'Variable APR',
-              value: !borrowAPR
-                ? '-0.00%'
-                : -Number(borrowAPR).toFixed(2) + '%',
-            },
-          ]}
-        />
       </>
     )
 }

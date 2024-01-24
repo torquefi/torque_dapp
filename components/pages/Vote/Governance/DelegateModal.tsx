@@ -10,7 +10,6 @@ import Web3 from 'web3'
 import { torqContract } from '@/constants/contracts'
 import { toast } from 'sonner'
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
-import BigNumber from 'bignumber.js'
 
 export const DelegateModal = (props: any) => {
   const { openModal, handleClose, balance } = props
@@ -40,7 +39,7 @@ export const DelegateModal = (props: any) => {
     try {
       setLoading(true)
       const tx = await tokenContract.methods
-        .delegates(addressInput)
+        .delegate(addressInput)
         .send({ from: address })
       if (tx.status) {
         toast.success('Delegate Successfully')
