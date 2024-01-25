@@ -57,7 +57,7 @@ export const CreateModal = (props: any) => {
       <Modal
         open={openModal}
         handleClose={handleCLose}
-        className="no-scrollbar mx-auto w-[90%] max-w-[420px] overflow-hidden bg-[#FCFAFF] px-[24px] hover:overflow-y-auto dark:bg-[#030303]"
+        className="no-scrollbar mx-auto max-h-[420px] w-[90%] max-w-[380px] overflow-hidden bg-[#FCFAFF] px-[24px] hover:overflow-y-auto dark:bg-[#030303]"
         hideCloseIcon
       >
         <div className="flex items-center justify-between py-2">
