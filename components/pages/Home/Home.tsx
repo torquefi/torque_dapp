@@ -300,8 +300,8 @@ const HomePageFilter = () => {
 
   if (isLoading) {
     return (
-      <div className="mt-2">
-        <SkeletonDefault className='h-[700px] md:h-[330px]' width={'100%'} />
+      <div className="mt-[80px]">
+        <SkeletonDefault className='h-[500px] md:h-[330px]' width={'100%'} />
       </div>
     )
   }
