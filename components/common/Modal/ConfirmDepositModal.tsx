@@ -123,7 +123,7 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
             <img className="w-16" src={coinFrom?.icon} alt="" />
           </div>
         </div>
-        <div className="mt-8 flex items-center justify-between">
+        <div className="flex items-center justify-between mt-8">
           <div>
             <span className="text-[16px] text-[#959595]">You receive</span>
             <div className="font-larken pt-2 text-[23px] text-[#030303] dark:text-white">
@@ -139,7 +139,7 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
           <div className="relative w-16">
             <img className="w-16 " src={coinTo?.icon} alt="" />
             <img
-              className="absolute bottom-3 right-3 w-5"
+              className="absolute w-5 bottom-3 right-3"
               src="/assets/t-logo-circle.svg"
               alt=""
             />
@@ -180,7 +180,7 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
       <button
         onClick={onConfirm}
         disabled={loading}
-        className={`font-mona w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
+        className={`font-mona text-[14px] w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
         ${loading ? ' cursor-not-allowed text-[#eee]' : ' cursor-pointer'}
         `}
       >

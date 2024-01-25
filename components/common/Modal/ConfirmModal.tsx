@@ -22,13 +22,13 @@ export default function ConfirmModal({
       handleClose={handleClose}
       title={title}
     >
-      <p className="lg:text-18 my-10">{content}</p>
-      <div className="mt-4 flex justify-end space-x-2">
+      <p className="my-10 lg:text-18">{content}</p>
+      <div className="flex justify-end mt-4 space-x-2">
         <button className="rounded-full px-[12px] py-1" onClick={handleClose}>
           Close
         </button>
         <button
-          className="rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] px-[12px] py-1 font-mona text-[16px] uppercase transition-all duration-300 ease-linear hover:bg-gradient-to-t"
+          className="rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] px-[12px] py-1 font-mona text-[14px] uppercase transition-all duration-300 ease-linear hover:bg-gradient-to-t"
           onClick={onConfirm}
         >
           Confirm

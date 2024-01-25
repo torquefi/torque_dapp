@@ -20,7 +20,7 @@ import { IBorrowInfoManage } from '../types'
 import { BorrowItemChart } from './BorrowItemChart'
 
 enum Action {
-  Borrow = 'Borrow',
+  Borrow = 'Borrow More',
   Repay = 'Repay',
   Withdraw = 'Withdraw',
 }
@@ -338,7 +338,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       <CurrencySwitch
         tokenSymbol={item.depositTokenSymbol}
         tokenValue={collateral ? Number(collateral) : 0}
-        className="font-larken -my-4 w-1/4 space-y-1 py-4"
+        className="w-1/4 py-4 -my-4 space-y-1 font-larken"
         decimalScale={5}
         render={(value) => (
           <div>
@@ -352,7 +352,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         tokenSymbol="TUSD"
         tokenValue={borrowed ? Number(borrowed) : 0}
         usdDefault
-        className="font-larken -my-4 w-1/4 space-y-1 py-4"
+        className="w-1/4 py-4 -my-4 space-y-1 font-larken"
         decimalScale={5}
         render={(value) => (
           <div>
