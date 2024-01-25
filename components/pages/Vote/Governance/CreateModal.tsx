@@ -1,3 +1,4 @@
+import HoverIndicator from '@/components/common/HoverIndicator'
 import Modal from '@/components/common/Modal'
 import { AppStore } from '@/types/store'
 import { Menu, Transition } from '@headlessui/react'
@@ -40,6 +41,10 @@ export const CreateModal = (props: any) => {
   const optionLabel = options?.find(
     (item) => item?.value === values?.action
   )?.label
+  let optionIndex = options?.findIndex((item) => item?.value === values?.action)
+  if (optionIndex < 0) {
+    optionIndex = undefined
+  }
 
   useEffect(() => {
     if (openModal) {
@@ -52,7 +57,7 @@ export const CreateModal = (props: any) => {
       <Modal
         open={openModal}
         handleClose={handleCLose}
-        className="no-scrollbar mx-auto max-h-[420px] w-[90%] max-w-[380px] overflow-hidden bg-[#FCFAFF] px-[24px] hover:overflow-y-auto dark:bg-[#030303]"
+        className="no-scrollbar mx-auto w-[90%] max-w-[560px] overflow-hidden bg-[#FCFAFF] px-[24px] hover:overflow-y-auto dark:bg-[#030303]"
         hideCloseIcon
       >
         <div className="flex items-center justify-between py-2">
@@ -115,28 +120,29 @@ export const CreateModal = (props: any) => {
                 leaveFrom="transform opacity-100 scale-100"
                 leaveTo="transform opacity-0 scale-95"
               >
-                <Menu.Items className="absolute bottom-[108%] right-0 mt-2 w-56 origin-bottom-right space-y-[2px] rounded-md bg-[#FCFAFF] py-[8px] shadow-sm dark:bg-[#191919]">
-                  {options.map((item, i) => (
-                    /* Use the `active` state to conditionally style the active item. */
-                    <Menu.Item key={i}>
-                      {({ active }) => (
-                        <button
-                          className={`${
-                            active || item?.value === values?.action
-                              ? 'bg-[#AA5BFF] text-white'
-                              : 'text-[#959595]'
-                          } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                          onClick={() =>
-                            form.setValue('action', item?.value, {
-                              shouldValidate: true,
-                            })
-                          }
-                        >
-                          {item?.label}
-                        </button>
-                      )}
-                    </Menu.Item>
-                  ))}
+                <Menu.Items className="absolute bottom-[108%] right-0 mt-2 w-full origin-bottom-right rounded-md border bg-[#FCFAFF] py-[8px] shadow-sm dark:border-[#1D1D1D] dark:bg-[#090909]">
+                  <HoverIndicator
+                    direction="vertical"
+                    activeIndex={optionIndex}
+                  >
+                    {options.map((item, i) => (
+                      /* Use the `active` state to conditionally style the active item. */
+                      <Menu.Item key={i}>
+                        {({ active }) => (
+                          <button
+                            className={`group flex h-[48px] w-full items-center rounded-md px-2 py-2 text-sm text-[#959595]`}
+                            onClick={() =>
+                              form.setValue('action', item?.value, {
+                                shouldValidate: true,
+                              })
+                            }
+                          >
+                            {item?.label}
+                          </button>
+                        )}
+                      </Menu.Item>
+                    ))}
+                  </HoverIndicator>
                 </Menu.Items>
               </Transition>
             </Menu>

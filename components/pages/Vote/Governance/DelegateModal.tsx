@@ -1,15 +1,14 @@
-import Modal from '@/components/common/Modal'
-import { AiOutlineClose } from 'react-icons/ai'
-import { FaAngleDown } from 'react-icons/fa'
-import { useSelector } from 'react-redux'
-import { AppStore } from '@/types/store'
-import { NumericFormat } from 'react-number-format'
-import { useAccount } from 'wagmi'
-import { useMemo, useState } from 'react'
-import Web3 from 'web3'
-import { torqContract } from '@/constants/contracts'
-import { toast } from 'sonner'
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
+import Modal from '@/components/common/Modal'
+import { torqContract } from '@/constants/contracts'
+import { AppStore } from '@/types/store'
+import { useMemo, useState } from 'react'
+import { AiOutlineClose } from 'react-icons/ai'
+import { NumericFormat } from 'react-number-format'
+import { useSelector } from 'react-redux'
+import { toast } from 'sonner'
+import { useAccount } from 'wagmi'
+import Web3 from 'web3'
 
 export const DelegateModal = (props: any) => {
   const { openModal, handleClose, balance } = props
@@ -61,11 +60,11 @@ export const DelegateModal = (props: any) => {
       <Modal
         open={openModal}
         handleClose={handleClose}
-        className="mx-auto w-[90%] max-w-[360px] bg-[#FCFAFF] px-[24px] dark:bg-[#030303]"
+        className="mx-auto w-[90%] max-w-[560px] bg-[#FCFAFF] px-[24px] dark:bg-[#030303]"
         hideCloseIcon
       >
         <div className="flex items-center justify-between py-2">
-          <div className="font-larken text-[16px] font-[400] text-[#030303] md:text-[28px] dark:text-white">
+          <div className="font-larken text-[16px] font-[400] text-[#030303] dark:text-white md:text-[28px]">
             Delegate
           </div>
           <AiOutlineClose
@@ -77,8 +76,9 @@ export const DelegateModal = (props: any) => {
           className={
             `mt-2 hidden h-[1px] w-full md:block` +
             `
-      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
-            }`
+      ${
+        theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+      }`
           }
         ></div>
         <div className="mt-[18px]">
@@ -94,8 +94,9 @@ export const DelegateModal = (props: any) => {
           className={
             `mt-[18px] hidden h-[1px] w-full md:block` +
             `
-      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
-            }`
+      ${
+        theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+      }`
           }
         ></div>
         <div className="mt-[22px]">
@@ -116,7 +117,7 @@ export const DelegateModal = (props: any) => {
         <button
           onClick={handleDelegate}
           disabled={loading}
-          className={`font-mona mt-[16px] text-[14px] w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
+          className={`font-mona mt-[16px] w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
         ${loading ? ' cursor-not-allowed opacity-50' : ''}`}
         >
           {loading && <LoadingCircle />}
