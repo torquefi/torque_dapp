@@ -1,4 +1,6 @@
+import { AppStore } from '@/types/store'
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { useSelector } from 'react-redux'
 
 interface HoverIndicatorProps {
   activeIndex?: number
@@ -20,6 +22,7 @@ export default function HoverIndicator({
   const [activeTabIndex, setActiveTabIndex] = useState(null)
   const container = useRef<HTMLDivElement>(null)
   const indicator = useRef<HTMLDivElement>(null)
+  const theme = useSelector((store: AppStore) => store.theme.theme)
 
   const childrenArr = useMemo(() => {
     if (children === null) {
@@ -88,7 +91,7 @@ export default function HoverIndicator({
     >
       <div
         className={
-          'pointer-events-none absolute w-full rounded-[6px] bg-[#f6f4f8] dark:bg-[#141414] transition-transform duration-300' +
+          'pointer-events-none absolute w-full rounded-[6px] bg-[#f6f4f8] transition-transform duration-300 dark:bg-[#141414]' +
           ` ${direction === 'horizontal' ? 'inset-y-0' : ''}` +
           ` ${direction === 'vertical' ? 'inset-x-0' : ''}` +
           ` ${indicatorClassName}`
@@ -103,7 +106,16 @@ export default function HoverIndicator({
           onMouseLeave={() => setActiveTabIndex(activeIndex ?? null)}
         >
           {divider && i !== 0 && (
-            <div className="dark:bg-gradient-divider absolute inset-x-0 top-[-0.5px] h-[1px]" />
+            <div
+              className={
+                'absolute inset-x-0 top-[-0.5px] h-[1px]' +
+                ` ${
+                  theme === 'light'
+                    ? 'bg-gradient-divider-light'
+                    : 'bg-gradient-divider'
+                }`
+              }
+            />
           )}
           {item}
         </div>
