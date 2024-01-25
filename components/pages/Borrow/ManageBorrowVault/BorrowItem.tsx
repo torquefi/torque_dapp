@@ -10,7 +10,6 @@ import { ethers } from 'ethers'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { AutowidthInput } from 'react-autowidth-input'
 import { AiOutlineCheck, AiOutlineEdit } from 'react-icons/ai'
-import { useMoralis } from 'react-moralis'
 import { NumericFormat } from 'react-number-format'
 import { useSelector } from 'react-redux'
 import { toast } from 'sonner'
@@ -29,24 +28,21 @@ const SECONDS_PER_YEAR = 60 * 60 * 24 * 365
 export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
   const { open } = useWeb3Modal()
   const refLabelInput = useRef<HTMLInputElement>(null)
-  const borrowTime = useSelector((store: AppStore) => store)
   const theme = useSelector((store: AppStore) => store.theme.theme)
   const [isExpand, setExpand] = useState(false)
   const [action, setAction] = useState(Action.Borrow)
-  const { Moralis, isWeb3Enabled } = useMoralis()
   const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
 
   const [isLoading, setIsLoading] = useState(true)
   const [inputValue, setInputValue] = useState('')
   const [buttonLoading, setButtonLoading] = useState(false)
-  const [borrowInfoMap, setBorrowInfoMap] = useState<any>()
   const [label, setLabel] = useState(item?.label)
   const [isEdit, setEdit] = useState(false)
   const { address, isConnected } = useAccount()
   const [borrowed, setBorrowed] = useState('0')
   const [collateral, setCollateral] = useState('0')
   const [depositedToken, setDepositedToken] = useState('0')
-  const [depositInput, setDepositInput] = useState('0')
+  const [maxMoreMinTable, setMaxMoreMinTable] = useState('0')
 
   const tusdPrice = usdPrice['TUSD']
   const usdcPrice = usdPrice['USDC']
@@ -92,11 +88,10 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
     }
 
     try {
+
       const borrowInfoMap = await borrowContract.methods
         .borrowInfoMap(address)
         .call()
-      setBorrowInfoMap(borrowInfoMap)
-
       const depositTokenDecimal = await depositContract.methods
         .decimals()
         .call()
@@ -108,6 +103,9 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       setCollateral(collateral)
 
       const tokenDecimal = await tokenContract.methods.decimals().call()
+      const maxMoreMinTable = await borrowContract.methods.maxMoreMintable(address).call();
+      setMaxMoreMinTable(new BigNumber(ethers.utils.formatUnits(maxMoreMinTable, tokenDecimal)).toString())
+
       const borrowed = new BigNumber(tusdPrice || 0)
         .multipliedBy(
           ethers.utils.formatUnits(borrowInfoMap.baseBorrowed, tokenDecimal)
@@ -228,31 +226,12 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
   }
 
   const onBorrow = async () => {
-    console.log('1321 :>> ', 1321)
     try {
       setButtonLoading(true)
       const tokenDecimal = await tokenContract.methods.decimals().call()
-      console.log('tokenDecimal :>> ', tokenDecimal)
-      console.log('inputValue :>> ', inputValue)
       const tusdBorrowAmount = ethers.utils
-        .parseUnits(Number(inputValue).toFixed(5), tokenDecimal)
+        .parseUnits(Number(inputValue).toFixed(tokenDecimal), tokenDecimal)
         .toString()
-      const allowance = await tokenContract.methods
-        .allowance(address, item.borrowContractInfo.address)
-        .call()
-      if (
-        new BigNumber(allowance).lte(new BigNumber('0')) ||
-        new BigNumber(allowance).lte(new BigNumber(tusdBorrowAmount))
-      ) {
-        await tokenContract.methods
-          .approve(
-            item?.borrowContractInfo?.address,
-            '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
-          )
-          .send({
-            from: address,
-          })
-      }
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const signer = provider.getSigner(address)
       const borrowContract2 = new ethers.Contract(
@@ -333,12 +312,14 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
     Number(collateral || 0) * (usdPrice[item?.depositTokenSymbol] || 0)
   )?.toFixed(5)
 
+  console.log('max :>> ', maxMoreMinTable);
+
   const summaryInfo = (
     <div className="flex w-full text-center md:w-[500px] lg:w-[600px] xl:w-[700px]">
       <CurrencySwitch
         tokenSymbol={item.depositTokenSymbol}
         tokenValue={collateral ? Number(collateral) : 0}
-        className="w-1/4 py-4 -my-4 space-y-1 font-larken"
+        className="font-larken -my-4 w-1/4 space-y-1 py-4"
         decimalScale={5}
         render={(value) => (
           <div>
@@ -352,7 +333,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         tokenSymbol="TUSD"
         tokenValue={borrowed ? Number(borrowed) : 0}
         usdDefault
-        className="w-1/4 py-4 -my-4 space-y-1 font-larken"
+        className="font-larken -my-4 w-1/4 space-y-1 py-4"
         decimalScale={5}
         render={(value) => (
           <div>
@@ -527,7 +508,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                 <div className="flex select-none justify-between space-x-1 text-[12px] text-[#959595] sm:text-[14px]">
                   {[25, 50, 100].map((percent, i) => (
                     <div
-                      className="cursor-pointer rounded-md bg-[#F4F4F4]  px-[6px] py-[2px] transition active:scale-95 dark:bg-[#171717] xs:px-[8px] xs:py-[4px]"
+                      className="cursor-pointer rounded-md bg-[#F4F4F4]  px-[6px] py-[2px] transition active:scale-95 xs:px-[8px] xs:py-[4px] dark:bg-[#171717]"
                       onClick={() => {
                         if (action == Action.Withdraw) {
                           setInputValue(
@@ -545,13 +526,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                           )
                         } else if (action === Action.Borrow) {
                           setInputValue(
-                            new BigNumber(borrowed)
-                              .multipliedBy(percent)
-                              .dividedBy(100.01)
-                              .toString()
-                          )
-                          setDepositInput(
-                            new BigNumber(collateral)
+                            new BigNumber(maxMoreMinTable)
                               .multipliedBy(percent)
                               .dividedBy(100.01)
                               .toString()

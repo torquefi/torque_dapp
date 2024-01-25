@@ -190,6 +190,13 @@
   },
   {
     "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "name": "borrowHealth",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "name": "borrowInfoMap",
     "outputs": [
       { "internalType": "address", "name": "user", "type": "address" },
@@ -416,6 +423,15 @@
   {
     "inputs": [],
     "name": "lastClaimCometTime",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_address", "type": "address" }
+    ],
+    "name": "maxMoreMintable",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"

@@ -31,12 +31,12 @@ export const engineTusdContract: IContractInfo = {
 // ======================================================================
 
 export const borrowBtcContract: IContractInfo = {
-  address: '0x29f7c7f92F64ff3a5B3071c33Fb5033cdAAc9724',
+  address: '0xa54413982C400C8E36Fbe2E95ce1B6979dcC4754',
   abi: JSON.stringify(borrowBtc),
 }
 
 export const borrowEthContract: IContractInfo = {
-  address: '0x73b7DE21e4B6e511e663c02Bf6BdCAEe3c0Aee86',
+  address: '0xBbcb32042CEF6De36A18843574ceF84fbc6547FF',
   abi: JSON.stringify(borrowEth),
 }
 
