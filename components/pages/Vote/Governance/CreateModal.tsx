@@ -120,7 +120,7 @@ export const CreateModal = (props: any) => {
                 leaveFrom="transform opacity-100 scale-100"
                 leaveTo="transform opacity-0 scale-95"
               >
-                <Menu.Items className="absolute bottom-[108%] right-0 mt-2 w-full origin-bottom-right rounded-md border bg-[#FCFAFF] py-[8px] shadow-sm dark:border-[#1D1D1D] dark:bg-[#090909]">
+                <Menu.Items className="absolute bottom-[108%] right-0 mt-2 w-full origin-bottom-right rounded-md border bg-[#FCFAFF] p-[6px] py-[8px] shadow-sm dark:border-[#1D1D1D] dark:bg-[#090909]">
                   <HoverIndicator
                     direction="vertical"
                     activeIndex={optionIndex}
