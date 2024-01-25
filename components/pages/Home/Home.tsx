@@ -28,13 +28,14 @@ const HomePageFilter = () => {
   const [totalSupplied, setTotalSupplied] = useState('0')
   const [totalMySupplied, setTotalMySupplied] = useState('0')
   const [totalMyBorrowed, setTotalMyBorrowed] = useState('0')
+  const [borrowedPercent, setBorrowedPercent] = useState('0')
 
   const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
   const wbtcPrice = usdPrice['WBTC'] || 0
   const wethPrice = usdPrice['WETH'] || 0
   const tusdPrice = usdPrice['TUSD'] || 0
 
-  console.log('object :>> ', usdPrice, wbtcPrice, wethPrice, tusdPrice);
+  console.log('object :>> ', usdPrice, wbtcPrice, wethPrice, tusdPrice)
 
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1000)
@@ -124,8 +125,16 @@ const HomePageFilter = () => {
         .multipliedBy(new BigNumber(tusdPrice || 0))
         .toString()
 
+      const wbtcCollateral = new BigNumber(
+        ethers.utils.formatUnits(myDataWbtcBorrow.supplied, wbtcDecimal)
+      ).toString()
+      const wbtcCollateralUsd = new BigNumber(wbtcCollateral || '0').multipliedBy(usdPrice['WBTC'] || 0).toString()
+      const wbtcLoanToValue = !wbtcCollateralUsd ? '0' : new BigNumber(myWbtcBorrowedUsd).dividedBy(new BigNumber(wbtcCollateralUsd)).toString()
+      console.log('wbtcLoanToValue :>> ', wbtcLoanToValue);
+      console.log('wbtcCollateral :>> ', wbtcCollateral);
       console.log('myWbtcBorrowed :>> ', myWbtcBorrowed)
       console.log('myWbtcBorrowedUsd :>> ', myWbtcBorrowedUsd)
+
 
       // WETH
       const wethDecimal = await tokenWETHContract.methods.decimals().call()
@@ -140,6 +149,7 @@ const HomePageFilter = () => {
       )
         .multipliedBy(wethPrice)
         .toString()
+
       console.log('myDataWethBorrow :>> ', myDataWethBorrow)
       console.log('myWethSupply :>> ', myWethSupply)
       console.log('myWethSuppliedUsd :>> ', myWethSuppliedUsd)
@@ -151,7 +161,12 @@ const HomePageFilter = () => {
       )
         .multipliedBy(new BigNumber(tusdPrice || 0))
         .toString()
-
+      const wethCollateral = new BigNumber(
+        ethers.utils.formatUnits(myDataWethBorrow.supplied, wethDecimal)
+      ).toString()
+      const wethCollateralUsd = new BigNumber(wethCollateral || '0').multipliedBy(usdPrice['WETH'] || 0).toString()
+      const wethLoanToValue = !wethCollateralUsd ? '0' : new BigNumber(myWethBorrowedUsd).dividedBy(new BigNumber(wethCollateralUsd)).toString()
+      console.log('wethLoanToValue :>> ', wethLoanToValue);
       console.log('myWethBorrowed :>> ', myWethBorrowed)
       console.log('myWethBorrowedUsd :>> ', myWethBorrowedUsd)
 
@@ -180,7 +195,7 @@ const HomePageFilter = () => {
     tokenTUSDContract,
     wbtcPrice,
     wethPrice,
-    tusdPrice
+    tusdPrice,
   ])
 
   const handleGetGeneralInfo = async () => {
@@ -270,15 +285,9 @@ const HomePageFilter = () => {
       console.log('netApy :>> ', netApy)
       console.log(
         'netAPY :>> ',
-        new BigNumber(
-          ethers.utils.formatUnits(netApy, 18)
-        ).toString()
+        new BigNumber(ethers.utils.formatUnits(netApy, 18)).toString()
       )
-      setNetAPY(
-        new BigNumber(
-          ethers.utils.formatUnits(netApy, 18)
-        ).toString()
-      )
+      setNetAPY(new BigNumber(ethers.utils.formatUnits(netApy, 18)).toString())
     } catch (error) {
       console.log('error general:>> ', error)
     }
@@ -295,7 +304,7 @@ const HomePageFilter = () => {
     address,
     wbtcPrice,
     wethPrice,
-    tusdPrice
+    tusdPrice,
   ])
 
   if (isLoading) {
@@ -314,7 +323,7 @@ const HomePageFilter = () => {
         .toString()
       : 0
 
-  console.log('totalMyBorrowed :>> ', totalMyBorrowed);
+  console.log('totalMyBorrowed :>> ', totalMyBorrowed)
 
   return (
     <div className="relative mt-[80px] flex w-full flex-wrap items-center justify-center rounded-t-[10px] border-[1px] bg-white from-[#25252566] pt-[80px] md:mt-0 md:pt-0 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br">
@@ -362,7 +371,7 @@ const HomePageFilter = () => {
             className="font-larken text-[28px] text-[#404040] dark:text-white"
             displayType="text"
             thousandSeparator
-            value={address ? (totalMySupplied || '0') : 0}
+            value={address ? totalMySupplied || '0' : 0}
             decimalScale={2}
             fixedDecimalScale
             prefix={'$'}
@@ -376,7 +385,7 @@ const HomePageFilter = () => {
             className="font-larken text-[28px] text-[#404040] dark:text-white"
             displayType="text"
             thousandSeparator
-            value={address ? (totalMyBorrowed || '0') : 0}
+            value={address ? totalMyBorrowed || '0' : 0}
             decimalScale={2}
             fixedDecimalScale
             prefix={'$'}
@@ -424,7 +433,11 @@ const HomePageFilter = () => {
               className="font-larken text-[28px] text-[#404040] dark:text-white"
               displayType="text"
               thousandSeparator
-              value={address && Number(totalMyBorrowed) > 0 ? -Number(netAPY || 0) * 100 : 0}
+              value={
+                address && Number(totalMyBorrowed) > 0
+                  ? -Number(netAPY || 0) * 100
+                  : 0
+              }
               decimalScale={2}
               fixedDecimalScale
               suffix={'%'}
