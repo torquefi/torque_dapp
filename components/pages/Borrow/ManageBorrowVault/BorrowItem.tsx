@@ -337,7 +337,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
     <div className="flex w-full text-center md:w-[500px] lg:w-[600px] xl:w-[700px]">
       <CurrencySwitch
         tokenSymbol={item.depositTokenSymbol}
-        tokenValue={borrowInfoMap?.supplied || item.collateral}
+        tokenValue={collateral ? Number(collateral) : 0}
         className="font-larken -my-4 w-1/4 space-y-1 py-4"
         decimalScale={5}
         render={(value) => (
@@ -350,7 +350,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       />
       <CurrencySwitch
         tokenSymbol="TUSD"
-        tokenValue={borrowInfoMap?.borrowed || item.borrowed}
+        tokenValue={borrowed ? Number(borrowed) : 0}
         usdDefault
         className="font-larken -my-4 w-1/4 space-y-1 py-4"
         decimalScale={5}
@@ -366,8 +366,8 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
           {!collateralUsd
             ? 0
             : +((Number(borrowed || 0) / Number(collateralUsd)) * 100).toFixed(
-                2
-              ) || 0}
+              2
+            ) || 0}
           %
         </p>
         <p className="whitespace-nowrap text-[14px] text-[#959595]">
@@ -463,10 +463,9 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
           <div
             className={
               'flex flex-wrap overflow-hidden px-[16px] transition-all duration-300 sm:px-[24px]' +
-              ` ${
-                isExpand
-                  ? 'max-h-[1000px] py-[16px] ease-in'
-                  : 'max-h-0 py-0 ease-out'
+              ` ${isExpand
+                ? 'max-h-[1000px] py-[16px] ease-in'
+                : 'max-h-0 py-0 ease-out'
               }`
             }
           >
@@ -499,10 +498,9 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                         key={i}
                         className={
                           'w-[52px]  py-[8px] text-[10px] leading-none xs:w-[80px] xs:text-[12px]' +
-                          ` ${
-                            action === item
-                              ? 'rounded-md bg-[#F4F4F4] dark:bg-[#171717]'
-                              : 'text-[#959595]'
+                          ` ${action === item
+                            ? 'rounded-md bg-[#F4F4F4] dark:bg-[#171717]'
+                            : 'text-[#959595]'
                           }`
                         }
                         onClick={() => {
@@ -568,9 +566,8 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                 </div>
               </div>
               <button
-                className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${
-                  buttonLoading && 'cursor-not-allowed opacity-50'
-                }`}
+                className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
+                  }`}
                 disabled={buttonLoading}
                 onClick={handleAction}
               >
