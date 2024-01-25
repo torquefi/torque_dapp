@@ -135,7 +135,6 @@ const HomePageFilter = () => {
       console.log('myWbtcBorrowed :>> ', myWbtcBorrowed)
       console.log('myWbtcBorrowedUsd :>> ', myWbtcBorrowedUsd)
 
-
       // WETH
       const wethDecimal = await tokenWETHContract.methods.decimals().call()
       const myDataWethBorrow = await borrowWETHContract.methods
@@ -169,6 +168,17 @@ const HomePageFilter = () => {
       console.log('wethLoanToValue :>> ', wethLoanToValue);
       console.log('myWethBorrowed :>> ', myWethBorrowed)
       console.log('myWethBorrowedUsd :>> ', myWethBorrowedUsd)
+
+      let borrowedPercent = 0;
+      if (Number(wethLoanToValue) > 0 && Number(wbtcLoanToValue) > 0) {
+        borrowedPercent = 100 - (70 - (Number(wbtcLoanToValue) * 100)) - (78 - Number(wethLoanToValue) * 100)
+      } else if (Number(wethLoanToValue) > 0 && !Number(wbtcLoanToValue)) {
+        borrowedPercent = 100 - (78 - Number(wethLoanToValue) * 100)
+      } else if (!Number(wethLoanToValue) && Number(wbtcLoanToValue) > 0) {
+        borrowedPercent = 100 - (70 - (Number(wbtcLoanToValue) * 100))
+      }
+      setBorrowedPercent(borrowedPercent.toString())
+
 
       setTotalMySupplied(
         new BigNumber(myWbtcSuppliedUsd)
@@ -399,7 +409,7 @@ const HomePageFilter = () => {
             className="font-larken text-[16px]"
             displayType="text"
             thousandSeparator
-            value={address ? percent : '0'}
+            value={address ? borrowedPercent : '0'}
             decimalScale={2}
             fixedDecimalScale
             suffix={'%'}
@@ -421,7 +431,7 @@ const HomePageFilter = () => {
       </div>
       <div className="h-2 w-full overflow-hidden bg-[#F7F7F7] dark:bg-[#1F1F1F]">
         <div
-          style={{ width: `${address ? percent : 0}%` }}
+          style={{ width: `${address ? Number(borrowedPercent).toFixed(2) : 0}%` }}
           className="h-full rounded-full bg-gradient-to-r from-[#C38BFF] to-[#AA5BFF] text-center text-white shadow-none"
         ></div>
       </div>
