@@ -301,7 +301,7 @@ const HomePageFilter = () => {
   if (isLoading) {
     return (
       <div className="mt-2">
-        <SkeletonDefault height={'40vh'} width={'100%'} />
+        <SkeletonDefault className='h-[700px] md:h-[330px]' width={'100%'} />
       </div>
     )
   }

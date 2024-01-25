@@ -1,6 +1,5 @@
 import CurrencySwitch from '@/components/common/CurrencySwitch'
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
-import { ConfirmDepositModal } from '@/components/common/Modal/ConfirmDepositModal'
 import SkeletonDefault from '@/components/skeleton'
 import { MAX_UINT256 } from '@/constants/utils'
 import { LabelApi } from '@/lib/api/LabelApi'
@@ -229,12 +228,12 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
   }
 
   const onBorrow = async () => {
-    console.log('1321 :>> ', 1321);
+    console.log('1321 :>> ', 1321)
     try {
       setButtonLoading(true)
       const tokenDecimal = await tokenContract.methods.decimals().call()
-      console.log('tokenDecimal :>> ', tokenDecimal);
-      console.log('inputValue :>> ', inputValue);
+      console.log('tokenDecimal :>> ', tokenDecimal)
+      console.log('inputValue :>> ', inputValue)
       const tusdBorrowAmount = ethers.utils
         .parseUnits(Number(inputValue).toFixed(5), tokenDecimal)
         .toString()
@@ -261,7 +260,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         item?.borrowContractInfo?.abi,
         signer
       )
-      console.log('tusdBorrowAmount :>> ', tusdBorrowAmount);
+      console.log('tusdBorrowAmount :>> ', tusdBorrowAmount)
       const tx = await borrowContract2.mintTUSD(tusdBorrowAmount)
       await tx.wait()
       toast.success('Borrow Successfully')
@@ -335,17 +334,15 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
   )?.toFixed(5)
 
   const summaryInfo = (
-    <div className="flex w-full text-center md:w-[400px] lg:w-[500px] xl:w-[600px]">
+    <div className="flex w-full text-center md:w-[500px] lg:w-[600px] xl:w-[700px]">
       <CurrencySwitch
         tokenSymbol={item.depositTokenSymbol}
-        tokenValue={borrowInfoMap?.supplied || item.collateral}
+        tokenValue={collateral ? Number(collateral) : 0}
         className="font-larken -my-4 w-1/4 space-y-1 py-4"
         decimalScale={5}
         render={(value) => (
           <div>
-            <p className="mb-[12px] whitespace-nowrap text-[22px]">
-              ${collateralUsd}
-            </p>
+            <p className="mb-[12px] whitespace-nowrap text-[22px]">{value}</p>
             <p className="font-mona text-[14px] text-[#959595]">Collateral</p>
           </div>
         )}
@@ -353,15 +350,13 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       />
       <CurrencySwitch
         tokenSymbol="TUSD"
-        tokenValue={borrowInfoMap?.borrowed || item.borrowed}
+        tokenValue={borrowed ? Number(borrowed) : 0}
         usdDefault
         className="font-larken -my-4 w-1/4 space-y-1 py-4"
         decimalScale={5}
         render={(value) => (
           <div>
-            <p className="mb-[12px] text-[22px] leading-none">
-              ${Number(borrowed || 0)?.toFixed(5)}
-            </p>
+            <p className="mb-[12px] text-[22px] leading-none">{value}</p>
             <p className="font-mona text-[14px] text-[#959595]">Borrowed</p>
           </div>
         )}
@@ -370,9 +365,9 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         <p className="font-larken whitespace-nowrap text-[22px]">
           {!collateralUsd
             ? 0
-            : ((Number(borrowed || 0) / Number(collateralUsd)) * 100).toFixed(
+            : +((Number(borrowed || 0) / Number(collateralUsd)) * 100).toFixed(
               2
-            )}
+            ) || 0}
           %
         </p>
         <p className="whitespace-nowrap text-[14px] text-[#959595]">
@@ -532,7 +527,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                 <div className="flex select-none justify-between space-x-1 text-[12px] text-[#959595] sm:text-[14px]">
                   {[25, 50, 100].map((percent, i) => (
                     <div
-                      className="cursor-pointer rounded-md bg-[#F4F4F4]  px-[6px] py-[2px] transition active:scale-95 xs:px-[8px] xs:py-[4px] dark:bg-[#171717]"
+                      className="cursor-pointer rounded-md bg-[#F4F4F4]  px-[6px] py-[2px] transition active:scale-95 dark:bg-[#171717] xs:px-[8px] xs:py-[4px]"
                       onClick={() => {
                         if (action == Action.Withdraw) {
                           setInputValue(
