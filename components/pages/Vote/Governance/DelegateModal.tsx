@@ -60,7 +60,7 @@ export const DelegateModal = (props: any) => {
       <Modal
         open={openModal}
         handleClose={handleClose}
-        className="mx-auto w-[90%] max-w-[427px] bg-[#FCFAFF] px-[24px] dark:bg-[#030303]"
+        className="mx-auto w-[90%] max-w-[360px] bg-[#FCFAFF] px-[24px] dark:bg-[#030303]"
         hideCloseIcon
       >
         <div className="flex items-center justify-between py-2">
@@ -76,9 +76,8 @@ export const DelegateModal = (props: any) => {
           className={
             `mt-2 hidden h-[1px] w-full md:block` +
             `
-      ${
-        theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
-      }`
+      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+            }`
           }
         ></div>
         <div className="mt-[18px]">
@@ -94,9 +93,8 @@ export const DelegateModal = (props: any) => {
           className={
             `mt-[18px] hidden h-[1px] w-full md:block` +
             `
-      ${
-        theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
-      }`
+      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+            }`
           }
         ></div>
         <div className="mt-[22px]">
