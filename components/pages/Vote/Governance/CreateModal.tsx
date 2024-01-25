@@ -72,8 +72,10 @@ export const CreateModal = (props: any) => {
         <div
           className={
             `mt-2 hidden h-[1px] w-full md:block` +
-            `
-      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+            ` ${
+              theme === 'light'
+                ? 'bg-gradient-divider-light'
+                : 'bg-gradient-divider'
             }`
           }
         ></div>
@@ -104,46 +106,56 @@ export const CreateModal = (props: any) => {
           </div>
           <div>
             <Menu as="div" className="relative block text-left">
-              <div>
-                <Menu.Button className="mt-[14px] flex w-full items-center  justify-between rounded-[8px] border-[1px] border-solid border-[#E6E6E6] px-[21px] py-[12px] text-[#959595] dark:border-[#1a1a1a]">
-                  {optionLabel || 'Add action'}
-                  <FaAngleDown className="h-[24px] cursor-pointer text-[#959595]" />
-                </Menu.Button>
-              </div>
-              <Transition
-                as={Fragment}
-                enter="transition ease-out duration-100"
-                enterFrom="transform opacity-0 scale-95"
-                enterTo="transform opacity-100 scale-100"
-                leave="transition ease-in duration-75"
-                leaveFrom="transform opacity-100 scale-100"
-                leaveTo="transform opacity-0 scale-95"
-              >
-                <Menu.Items className="absolute bottom-[108%] right-0 mt-2 w-full origin-bottom-right rounded-md border bg-[#FCFAFF] p-[6px] py-[8px] shadow-sm dark:border-[#1D1D1D] dark:bg-[#090909]">
-                  <HoverIndicator
-                    direction="vertical"
-                    activeIndex={optionIndex}
+              {({ open }) => (
+                <>
+                  <div>
+                    <Menu.Button className="mt-[14px] flex w-full items-center  justify-between rounded-[8px] border-[1px] border-solid border-[#E6E6E6] px-[21px] py-[12px] text-[#959595] dark:border-[#1a1a1a]">
+                      {optionLabel || 'Add action'}
+                      <FaAngleDown
+                        className={
+                          'h-[24px] cursor-pointer text-[#959595] transition-all duration-200' +
+                          ` ${open ? 'rotate-180' : ''}`
+                        }
+                      />
+                    </Menu.Button>
+                  </div>
+                  <Transition
+                    as={Fragment}
+                    enter="transition ease-out duration-100"
+                    enterFrom="transform opacity-0 scale-95"
+                    enterTo="transform opacity-100 scale-100"
+                    leave="transition ease-in duration-75"
+                    leaveFrom="transform opacity-100 scale-100"
+                    leaveTo="transform opacity-0 scale-95"
                   >
-                    {options.map((item, i) => (
-                      /* Use the `active` state to conditionally style the active item. */
-                      <Menu.Item key={i}>
-                        {({ active }) => (
-                          <button
-                            className={`group flex h-[48px] w-full items-center rounded-md px-2 py-2 text-sm text-[#959595]`}
-                            onClick={() =>
-                              form.setValue('action', item?.value, {
-                                shouldValidate: true,
-                              })
-                            }
-                          >
-                            {item?.label}
-                          </button>
-                        )}
-                      </Menu.Item>
-                    ))}
-                  </HoverIndicator>
-                </Menu.Items>
-              </Transition>
+                    <Menu.Items className="absolute bottom-[108%] right-0 mt-2 w-full origin-bottom-right rounded-md border bg-[#FCFAFF] p-[6px] py-[8px] shadow-sm dark:border-[#1D1D1D] dark:bg-[#090909]">
+                      <HoverIndicator
+                        direction="vertical"
+                        activeIndex={optionIndex}
+                        divider
+                      >
+                        {options.map((item, i) => (
+                          /* Use the `active` state to conditionally style the active item. */
+                          <Menu.Item key={i}>
+                            {({ active }) => (
+                              <button
+                                className={`group flex h-[48px] w-full items-center rounded-md px-2 py-2 text-sm text-[#959595]`}
+                                onClick={() =>
+                                  form.setValue('action', item?.value, {
+                                    shouldValidate: true,
+                                  })
+                                }
+                              >
+                                {item?.label}
+                              </button>
+                            )}
+                          </Menu.Item>
+                        ))}
+                      </HoverIndicator>
+                    </Menu.Items>
+                  </Transition>
+                </>
+              )}
             </Menu>
           </div>
         </div>
