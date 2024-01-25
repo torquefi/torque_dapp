@@ -1,6 +1,5 @@
 import CurrencySwitch from '@/components/common/CurrencySwitch'
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
-import { ConfirmDepositModal } from '@/components/common/Modal/ConfirmDepositModal'
 import SkeletonDefault from '@/components/skeleton'
 import { MAX_UINT256 } from '@/constants/utils'
 import { LabelApi } from '@/lib/api/LabelApi'
@@ -229,12 +228,12 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
   }
 
   const onBorrow = async () => {
-    console.log('1321 :>> ', 1321);
+    console.log('1321 :>> ', 1321)
     try {
       setButtonLoading(true)
       const tokenDecimal = await tokenContract.methods.decimals().call()
-      console.log('tokenDecimal :>> ', tokenDecimal);
-      console.log('inputValue :>> ', inputValue);
+      console.log('tokenDecimal :>> ', tokenDecimal)
+      console.log('inputValue :>> ', inputValue)
       const tusdBorrowAmount = ethers.utils
         .parseUnits(Number(inputValue).toFixed(5), tokenDecimal)
         .toString()
@@ -261,7 +260,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         item?.borrowContractInfo?.abi,
         signer
       )
-      console.log('tusdBorrowAmount :>> ', tusdBorrowAmount);
+      console.log('tusdBorrowAmount :>> ', tusdBorrowAmount)
       const tx = await borrowContract2.mintTUSD(tusdBorrowAmount)
       await tx.wait()
       toast.success('Borrow Successfully')
@@ -335,7 +334,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
   )?.toFixed(5)
 
   const summaryInfo = (
-    <div className="flex w-full text-center md:w-[400px] lg:w-[500px] xl:w-[600px]">
+    <div className="flex w-full text-center md:w-[500px] lg:w-[600px] xl:w-[700px]">
       <CurrencySwitch
         tokenSymbol={item.depositTokenSymbol}
         tokenValue={borrowInfoMap?.supplied || item.collateral}
@@ -343,9 +342,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         decimalScale={5}
         render={(value) => (
           <div>
-            <p className="mb-[12px] whitespace-nowrap text-[22px]">
-              ${collateralUsd}
-            </p>
+            <p className="mb-[12px] whitespace-nowrap text-[22px]">{value}</p>
             <p className="font-mona text-[14px] text-[#959595]">Collateral</p>
           </div>
         )}
@@ -359,9 +356,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         decimalScale={5}
         render={(value) => (
           <div>
-            <p className="mb-[12px] text-[22px] leading-none">
-              ${Number(borrowed || 0)?.toFixed(5)}
-            </p>
+            <p className="mb-[12px] text-[22px] leading-none">{value}</p>
             <p className="font-mona text-[14px] text-[#959595]">Borrowed</p>
           </div>
         )}
@@ -370,9 +365,9 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         <p className="font-larken whitespace-nowrap text-[22px]">
           {!collateralUsd
             ? 0
-            : ((Number(borrowed || 0) / Number(collateralUsd)) * 100).toFixed(
-              2
-            )}
+            : +((Number(borrowed || 0) / Number(collateralUsd)) * 100).toFixed(
+                2
+              ) || 0}
           %
         </p>
         <p className="whitespace-nowrap text-[14px] text-[#959595]">
@@ -468,9 +463,10 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
           <div
             className={
               'flex flex-wrap overflow-hidden px-[16px] transition-all duration-300 sm:px-[24px]' +
-              ` ${isExpand
-                ? 'max-h-[1000px] py-[16px] ease-in'
-                : 'max-h-0 py-0 ease-out'
+              ` ${
+                isExpand
+                  ? 'max-h-[1000px] py-[16px] ease-in'
+                  : 'max-h-0 py-0 ease-out'
               }`
             }
           >
@@ -503,9 +499,10 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                         key={i}
                         className={
                           'w-[52px]  py-[8px] text-[10px] leading-none xs:w-[80px] xs:text-[12px]' +
-                          ` ${action === item
-                            ? 'rounded-md bg-[#F4F4F4] dark:bg-[#171717]'
-                            : 'text-[#959595]'
+                          ` ${
+                            action === item
+                              ? 'rounded-md bg-[#F4F4F4] dark:bg-[#171717]'
+                              : 'text-[#959595]'
                           }`
                         }
                         onClick={() => {
@@ -532,7 +529,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                 <div className="flex select-none justify-between space-x-1 text-[12px] text-[#959595] sm:text-[14px]">
                   {[25, 50, 100].map((percent, i) => (
                     <div
-                      className="cursor-pointer rounded-md bg-[#F4F4F4]  px-[6px] py-[2px] transition active:scale-95 xs:px-[8px] xs:py-[4px] dark:bg-[#171717]"
+                      className="cursor-pointer rounded-md bg-[#F4F4F4]  px-[6px] py-[2px] transition active:scale-95 dark:bg-[#171717] xs:px-[8px] xs:py-[4px]"
                       onClick={() => {
                         if (action == Action.Withdraw) {
                           setInputValue(
@@ -571,8 +568,9 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                 </div>
               </div>
               <button
-                className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
-                  }`}
+                className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${
+                  buttonLoading && 'cursor-not-allowed opacity-50'
+                }`}
                 disabled={buttonLoading}
                 onClick={handleAction}
               >
