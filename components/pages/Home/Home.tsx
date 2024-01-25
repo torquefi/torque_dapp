@@ -300,7 +300,7 @@ const HomePageFilter = () => {
 
   if (isLoading) {
     return (
-      <div className="mt-[80px]">
+      <div className="mt-[80px] md:mt-[0px]">
         <SkeletonDefault className='h-[500px] md:h-[330px]' width={'100%'} />
       </div>
     )
@@ -319,7 +319,7 @@ const HomePageFilter = () => {
   return (
     <div className="relative mt-[80px] flex w-full flex-wrap items-center justify-center rounded-t-[10px] border-[1px] bg-white from-[#25252566] pt-[80px] md:mt-0 md:pt-0 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br">
       <div className="h-[100px] w-full md:h-[160px] md:w-[50%]">
-        <div className="flex h-full w-full flex-col items-center justify-center space-y-2">
+        <div className="flex flex-col items-center justify-center w-full h-full space-y-2">
           <div className="text-[15px] text-[#959595]">Total Supply</div>
           <NumberFormat
             className="font-larken text-[28px] text-[#404040] dark:text-white"
@@ -333,7 +333,7 @@ const HomePageFilter = () => {
         </div>
       </div>
       <div className="h-[100px] w-full md:h-[160px] md:w-[50%]">
-        <div className="flex h-full w-full flex-col items-center justify-center space-y-2">
+        <div className="flex flex-col items-center justify-center w-full h-full space-y-2">
           <div className="text-[15px] text-[#959595]">Total Borrow</div>
           <NumberFormat
             className="font-larken text-[28px] text-[#404040] dark:text-white"
@@ -356,7 +356,7 @@ const HomePageFilter = () => {
         }
       ></div>
       <div className="h-[100px] w-full md:h-[160px] md:w-[50%]">
-        <div className="flex h-full w-full flex-col items-center justify-center space-y-2">
+        <div className="flex flex-col items-center justify-center w-full h-full space-y-2">
           <div className="text-[15px] text-[#959595]">Your Supply</div>
           <NumberFormat
             className="font-larken text-[28px] text-[#404040] dark:text-white"
@@ -370,7 +370,7 @@ const HomePageFilter = () => {
         </div>
       </div>
       <div className="h-[100px] w-full md:h-[160px] md:w-[50%]">
-        <div className="flex h-full w-full flex-col items-center justify-center space-y-2">
+        <div className="flex flex-col items-center justify-center w-full h-full space-y-2">
           <div className="text-[15px] text-[#959595]">Your Borrow</div>
           <NumberFormat
             className="font-larken text-[28px] text-[#404040] dark:text-white"
@@ -397,7 +397,7 @@ const HomePageFilter = () => {
           />
         </div>
         <div className="space-y-1 text-right leading-tight text-[#404040] dark:text-white">
-          <div className="text-[12px] text-[#959595]">Borrow Max</div>
+          <div className="text-[12px] text-[#959595]">Capacity</div>
           <NumberFormat
             className="font-larken text-[16px]"
             displayType="text"
@@ -418,7 +418,7 @@ const HomePageFilter = () => {
       </div>
       <div className="z-100000 absolute top-[-80px] h-[160px] w-[160px] rounded-full border-2 border-[#E6E6E6] bg-white p-2 md:top-auto dark:border-[#25252566] dark:bg-[#1A1A1A]">
         <div className="h-full w-full rounded-full border-4 border-[#C38BFF] dark:bg-[#0D0D0D66]">
-          <div className="flex h-full w-full flex-col items-center justify-center space-y-2">
+          <div className="flex flex-col items-center justify-center w-full h-full space-y-2">
             <div className="text-[14px] text-[#959595]">NET APY</div>
             <NumberFormat
               className="font-larken text-[28px] text-[#404040] dark:text-white"
