@@ -142,7 +142,7 @@ export default function CreateBorrowItem({
           .decimals()
           .call()
         const borrow = Number(
-          new BigNumber(amount.toFixed(tokenDepositDecimals))
+          new BigNumber(Number(amount).toFixed(5))
             .multipliedBy(10 ** tokenDepositDecimals)
             .toString()
         )
@@ -169,6 +169,7 @@ export default function CreateBorrowItem({
           .decimals()
           .call()
         console.log('tokenDecimal :>> ', tokenBorrowDecimal)
+        console.log('amountReceive :>> ', amountReceive);
         if (amountReceive) {
           tusdBorrowAmount = ethers.utils
             .parseUnits(
@@ -231,7 +232,7 @@ export default function CreateBorrowItem({
           .decimals()
           .call()
         const borrow = Number(
-          new BigNumber(amount.toFixed(tokenDepositDecimals))
+          new BigNumber(Number(amount).toFixed(tokenDepositDecimals))
             .multipliedBy(10 ** tokenDepositDecimals)
             .toString()
         )
@@ -378,7 +379,7 @@ export default function CreateBorrowItem({
               className="w-full py-4 text-[#030303] lg:py-6 dark:text-white"
               subtitle="Collateral"
               usdDefault
-              decimalScale={4}
+              decimalScale={5}
               onChange={(e) => {
                 setAmount(e)
               }}
@@ -394,7 +395,7 @@ export default function CreateBorrowItem({
                 (dataBorrow.loanToValue / 140)
               )}
               usdDefault
-              decimalScale={4}
+              decimalScale={5}
               className="w-full py-4 text-[#030303] dark:text-white"
               subtitle="Borrowing"
               onChange={(e) => {
