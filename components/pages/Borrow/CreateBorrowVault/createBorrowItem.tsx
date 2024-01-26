@@ -19,11 +19,9 @@ import {
   borrowEthContract,
   tokenBtcContract,
   tokenEthContract,
+  tokenTusdContract,
 } from '../constants/contract'
 import { IBorrowInfo } from '../types'
-
-const SECONDS_PER_YEAR = 60 * 60 * 24 * 365
-
 interface CreateBorrowItemProps {
   item: IBorrowInfo
   setIsFetchBorrowLoading?: any
@@ -40,10 +38,6 @@ export default function CreateBorrowItem({
   const [isLoading, setIsLoading] = useState(true)
   const [amount, setAmount] = useState(0)
   const [amountReceive, setAmountReceive] = useState(0)
-  const [contractBorrowETH, setContractBorrowETH] = useState<any>(null)
-  const [contractBorrowBTC, setContractBorrowBTC] = useState<any>(null)
-  const [contractBTC, setContractBTC] = useState<any>(null)
-  const [contractETH, setContractETH] = useState<any>(null)
   const [buttonLoading, setButtonLoading] = useState('')
   const [price, setPrice] = useState<any>({
     weth: 0,
@@ -84,7 +78,6 @@ export default function CreateBorrowItem({
           from: address,
         })
         setAprBorrow(web3.utils.fromWei(aprBorrowETH.toString(), 'ether'))
-        setContractBorrowETH(contractBorrowETH)
       }
 
       if (contractBorrowBTC && item.depositTokenSymbol === 'WBTC') {
@@ -92,28 +85,20 @@ export default function CreateBorrowItem({
           from: address,
         })
         setAprBorrow(web3.utils.fromWei(aprBorrowBTC.toString(), 'ether'))
-        setContractBorrowBTC(contractBorrowBTC)
-      }
-
-      let contractBTC = new web3.eth.Contract(
-        JSON.parse(tokenBtcContract?.abi),
-        tokenBtcContract?.address
-      )
-
-      let contractETH = new web3.eth.Contract(
-        JSON.parse(tokenEthContract?.abi),
-        tokenEthContract?.address
-      )
-      if (contractETH) {
-        setContractETH(contractETH)
-      }
-      if (contractBTC) {
-        setContractBTC(contractBTC)
       }
     } catch (e) {
       console.log(e)
     }
   }
+
+  const tokenBorrowContract = useMemo(() => {
+    const web3 = new Web3(Web3.givenProvider)
+    const contract = new web3.eth.Contract(
+      JSON.parse(item?.tokenBorrowContractInfo?.abi),
+      item?.tokenBorrowContractInfo?.address
+    )
+    return contract
+  }, [Web3.givenProvider, item.tokenContractInfo])
 
   const tokenContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
@@ -153,7 +138,6 @@ export default function CreateBorrowItem({
     try {
       setIsLoading(true)
       if (item.depositTokenSymbol == 'WBTC') {
-
         const tokenDepositDecimals = await tokenContract.methods
           .decimals()
           .call()
@@ -175,10 +159,25 @@ export default function CreateBorrowItem({
           .call()
         const tusdBorrowedAmount = borrowInfoMap?.baseBorrowed
         console.log('tusdBorrowedAmount :>> ', tusdBorrowedAmount)
+        console.log('amountReceive :>> ', amountReceive)
 
-        const tusdBorrowAmount = await borrowContract.methods
+        let tusdBorrowAmount = await borrowContract.methods
           .getMintableToken(newUsdcBorrowAmount, tusdBorrowedAmount, 0)
           .call()
+
+        const tokenBorrowDecimal = await tokenBorrowContract.methods
+          .decimals()
+          .call()
+        console.log('tokenDecimal :>> ', tokenBorrowDecimal)
+        if (amountReceive) {
+          tusdBorrowAmount = ethers.utils
+            .parseUnits(
+              Number(amountReceive).toFixed(5).toString(),
+              tokenBorrowDecimal
+            )
+            .toString()
+        }
+
         console.log(
           'params :>> ',
           borrow.toString(),
@@ -189,7 +188,10 @@ export default function CreateBorrowItem({
         const allowance = await tokenContract.methods
           .allowance(address, item.borrowContractInfo.address)
           .call()
-        if (new BigNumber(allowance).lte(new BigNumber('0')) || new BigNumber(allowance).lte(new BigNumber(tusdBorrowAmount))) {
+        if (
+          new BigNumber(allowance).lte(new BigNumber('0')) ||
+          new BigNumber(allowance).lte(new BigNumber(tusdBorrowAmount))
+        ) {
           await tokenContract.methods
             .approve(
               item?.borrowContractInfo?.address,
@@ -206,11 +208,6 @@ export default function CreateBorrowItem({
         //     from: address,
         //     gasPrice: '5000000000'
         //   })
-
-        console.log(
-          JSON.parse(item?.borrowContractInfo?.abi),
-          item?.borrowContractInfo?.address
-        )
         const provider = new ethers.providers.Web3Provider(window.ethereum)
         const signer = provider.getSigner(address)
         const borrowContract2 = new ethers.Contract(
@@ -252,9 +249,23 @@ export default function CreateBorrowItem({
         const tusdBorrowedAmount = borrowInfoMap?.baseBorrowed
         console.log('tusdBorrowedAmount :>> ', tusdBorrowedAmount)
 
-        const tusdBorrowAmount = await borrowContract.methods
+        let tusdBorrowAmount = await borrowContract.methods
           .getMintableToken(newUsdcBorrowAmount, tusdBorrowedAmount, 0)
           .call()
+
+        const tokenBorrowDecimal = await tokenBorrowContract.methods
+          .decimals()
+          .call()
+        console.log('tokenDecimal :>> ', tokenBorrowDecimal)
+        if (amountReceive) {
+          tusdBorrowAmount = ethers.utils
+            .parseUnits(
+              Number(amountReceive).toFixed(5).toString(),
+              tokenBorrowDecimal
+            )
+            .toString()
+        }
+
         console.log(
           'params :>> ',
           borrow.toString(),
@@ -287,13 +298,6 @@ export default function CreateBorrowItem({
           signer
         )
 
-        console.log(
-          'object :>> ',
-          borrow.toString(),
-          newUsdcBorrowAmount,
-          tusdBorrowAmount
-        )
-
         const tx = await borrowContract2.borrow(
           borrow.toString(),
           newUsdcBorrowAmount,
@@ -313,6 +317,8 @@ export default function CreateBorrowItem({
       setIsLoading(false)
     }
   }
+
+  console.log('amountReceive :>> ', amountReceive);
 
   useEffect(() => {
     initContract()

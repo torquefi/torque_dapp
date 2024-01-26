@@ -10,6 +10,7 @@ import {
   borrowEthContract,
   tokenBtcContract,
   tokenEthContract,
+  tokenTusdContract,
   tokenUsdcContract,
 } from '../constants/contract'
 import { compoundUsdcContract as compoundUsdcContractData } from '../constants/contract';
@@ -177,6 +178,7 @@ const BORROW_INFOS: IBorrowInfo[] = [
     borrowRate: 0,
     borrowContractInfo: borrowBtcContract,
     tokenContractInfo: tokenBtcContract,
+    tokenBorrowContractInfo: tokenTusdContract
   },
   {
     depositTokenIcon: '/icons/coin/aeth.png',
@@ -190,5 +192,6 @@ const BORROW_INFOS: IBorrowInfo[] = [
     borrowRate: 0,
     borrowContractInfo: borrowEthContract,
     tokenContractInfo: tokenEthContract,
+    tokenBorrowContractInfo: tokenTusdContract
   },
 ]
