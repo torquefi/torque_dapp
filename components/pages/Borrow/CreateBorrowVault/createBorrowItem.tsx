@@ -91,6 +91,15 @@ export default function CreateBorrowItem({
     }
   }
 
+  const tokenBorrowContract = useMemo(() => {
+    const web3 = new Web3(Web3.givenProvider)
+    const contract = new web3.eth.Contract(
+      JSON.parse(item?.tokenBorrowContractInfo?.abi),
+      item?.tokenBorrowContractInfo?.address
+    )
+    return contract
+  }, [Web3.givenProvider, item.tokenContractInfo])
+
   const tokenContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
     const contract = new web3.eth.Contract(
@@ -150,27 +159,39 @@ export default function CreateBorrowItem({
           .call()
         const tusdBorrowedAmount = borrowInfoMap?.baseBorrowed
         console.log('tusdBorrowedAmount :>> ', tusdBorrowedAmount)
-        console.log('amountReceive :>> ', amountReceive);
+        console.log('amountReceive :>> ', amountReceive)
 
         let tusdBorrowAmount = await borrowContract.methods
           .getMintableToken(newUsdcBorrowAmount, tusdBorrowedAmount, 0)
           .call()
+
+        const tokenBorrowDecimal = await tokenBorrowContract.methods
+          .decimals()
+          .call()
+        console.log('tokenDecimal :>> ', tokenBorrowDecimal)
+        if (amountReceive) {
+          tusdBorrowAmount = ethers.utils
+            .parseUnits(
+              Number(amountReceive).toFixed(5).toString(),
+              tokenBorrowDecimal
+            )
+            .toString()
+        }
+
         console.log(
           'params :>> ',
           borrow.toString(),
           newUsdcBorrowAmount,
           tusdBorrowAmount
         )
-        const tokenDecimal = await tokenContract.methods.decimals().call()
-        if (amountReceive) {
-          tusdBorrowAmount = ethers.utils.parseUnits(Number(amountReceive).toFixed(5).toString(), tokenDecimal)
-        }
-
 
         const allowance = await tokenContract.methods
           .allowance(address, item.borrowContractInfo.address)
           .call()
-        if (new BigNumber(allowance).lte(new BigNumber('0')) || new BigNumber(allowance).lte(new BigNumber(tusdBorrowAmount))) {
+        if (
+          new BigNumber(allowance).lte(new BigNumber('0')) ||
+          new BigNumber(allowance).lte(new BigNumber(tusdBorrowAmount))
+        ) {
           await tokenContract.methods
             .approve(
               item?.borrowContractInfo?.address,
@@ -228,9 +249,23 @@ export default function CreateBorrowItem({
         const tusdBorrowedAmount = borrowInfoMap?.baseBorrowed
         console.log('tusdBorrowedAmount :>> ', tusdBorrowedAmount)
 
-        const tusdBorrowAmount = await borrowContract.methods
+        let tusdBorrowAmount = await borrowContract.methods
           .getMintableToken(newUsdcBorrowAmount, tusdBorrowedAmount, 0)
           .call()
+
+        const tokenBorrowDecimal = await tokenBorrowContract.methods
+          .decimals()
+          .call()
+        console.log('tokenDecimal :>> ', tokenBorrowDecimal)
+        if (amountReceive) {
+          tusdBorrowAmount = ethers.utils
+            .parseUnits(
+              Number(amountReceive).toFixed(5).toString(),
+              tokenBorrowDecimal
+            )
+            .toString()
+        }
+
         console.log(
           'params :>> ',
           borrow.toString(),
@@ -263,13 +298,6 @@ export default function CreateBorrowItem({
           signer
         )
 
-        console.log(
-          'object :>> ',
-          borrow.toString(),
-          newUsdcBorrowAmount,
-          tusdBorrowAmount
-        )
-
         const tx = await borrowContract2.borrow(
           borrow.toString(),
           newUsdcBorrowAmount,
@@ -289,6 +317,8 @@ export default function CreateBorrowItem({
       setIsLoading(false)
     }
   }
+
+  console.log('amountReceive :>> ', amountReceive);
 
   useEffect(() => {
     initContract()
