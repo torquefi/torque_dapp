@@ -115,7 +115,7 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
                 value={coinFrom?.amount || 0}
                 suffix={` ${coinFrom.symbol}`}
                 thousandSeparator
-                decimalScale={4}
+                decimalScale={5}
               />
             </div>
           </div>
@@ -132,7 +132,7 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
                 value={coinTo?.amount || 0}
                 suffix={` ${coinTo.symbol}`}
                 thousandSeparator
-                decimalScale={4}
+                decimalScale={5}
               />
             </div>
           </div>

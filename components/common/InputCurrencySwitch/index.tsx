@@ -26,14 +26,12 @@ export const getPriceToken = async (symbol: string) => {
 
 export default function InputCurrencySwitch({
   tokenSymbol,
-  tokenValue,
   tokenValueChange,
   usdDefault = false,
   className = '',
   decimalScale = 2,
   subtitle,
   onChange,
-  render,
   onSetShowUsd,
 }: InputCurrencySwitchProps) {
   const [isShowUsd, setShowUsd] = useState(usdDefault)

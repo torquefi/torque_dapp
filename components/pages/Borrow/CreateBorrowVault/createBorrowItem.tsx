@@ -10,18 +10,16 @@ import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
 import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
-import { useDispatch } from 'react-redux'
 import { toast } from 'sonner'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 import {
   borrowBtcContract,
   borrowEthContract,
-  tokenBtcContract,
-  tokenEthContract,
-  tokenTusdContract,
 } from '../constants/contract'
 import { IBorrowInfo } from '../types'
+import { useSelector } from 'react-redux'
+import { AppStore } from '@/types/store'
 interface CreateBorrowItemProps {
   item: IBorrowInfo
   setIsFetchBorrowLoading?: any
@@ -39,28 +37,19 @@ export default function CreateBorrowItem({
   const [amount, setAmount] = useState(0)
   const [amountReceive, setAmountReceive] = useState(0)
   const [buttonLoading, setButtonLoading] = useState('')
-  const [price, setPrice] = useState<any>({
-    weth: 0,
-    wbtc: 0,
-    tusd: 1,
-  })
   const { address, isConnected } = useAccount()
   const [isOpenConfirmDepositModal, setOpenConfirmDepositModal] =
     useState(false)
   const [aprBorrow, setAprBorrow] = useState('')
+  const [isUsdBorrowToken, setIsUsdBorrowToken] = useState(false)
+  const [isUsdDepositToken, setIsUsdDepositToken] = useState(false)
 
   useEffect(() => {
-    ; (async () => {
-      const ethPrice = await getPriceToken('ETH')
-      const btcPrice = await getPriceToken('BTC')
-      setPrice({
-        weth: ethPrice,
-        wbtc: btcPrice,
-        tusd: 1,
-      })
-    })()
     setTimeout(() => setIsLoading(false), 1000)
   }, [])
+
+  const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
+
 
   const initContract = async () => {
     try {
@@ -128,7 +117,7 @@ export default function CreateBorrowItem({
 
   const onBorrow = async () => {
     if (amount <= 0) {
-      toast.error('You must deposit WBTC to borrow')
+      toast.error(`You must deposit ${item.depositTokenSymbol} to borrow`)
       return
     }
     // if (amountReceive <= 0) {
@@ -333,6 +322,9 @@ export default function CreateBorrowItem({
     return 'Confirm Deposit'
   }
 
+  console.log('isUsdBorrowToken :>> ', isUsdBorrowToken);
+  console.log('isUsdDepositToken :>> ', isUsdDepositToken);
+
   return (
     <>
       <div
@@ -383,6 +375,7 @@ export default function CreateBorrowItem({
               onChange={(e) => {
                 setAmount(e)
               }}
+              onSetShowUsd={setIsUsdDepositToken}
             />
           </div>
           <div className="font-larken flex h-[110px] flex-col items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0 lg:h-[140px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
@@ -391,7 +384,7 @@ export default function CreateBorrowItem({
               tokenValue={Number(amountReceive)}
               tokenValueChange={Number(
                 amount *
-                price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`] *
+                usdPrice?.[`${dataBorrow.depositTokenSymbol.toLowerCase()}`] *
                 (dataBorrow.loanToValue / 140)
               )}
               usdDefault
@@ -401,6 +394,7 @@ export default function CreateBorrowItem({
               onChange={(e) => {
                 setAmountReceive(e)
               }}
+              onSetShowUsd={setIsUsdBorrowToken}
             />
           </div>
         </div>
@@ -460,7 +454,7 @@ export default function CreateBorrowItem({
             if (
               amountReceive /
               (amount *
-                price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]) >
+                usdPrice?.[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]) >
               item?.loanToValue
             ) {
               toast.error(`Loan-to-value exceeds ${item?.loanToValue}%`)
@@ -485,9 +479,6 @@ export default function CreateBorrowItem({
           symbol: item.depositTokenSymbol,
         }}
         coinTo={{
-          // amount: amount *
-          //   price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`] *
-          //   (dataBorrow.loanToValue / 140),
           amount: amountReceive,
           icon: `/icons/coin/${item.borrowTokenSymbol.toLocaleLowerCase()}.png`,
           symbol: item.borrowTokenSymbol,
