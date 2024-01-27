@@ -1,26 +1,19 @@
-import InputCurrencySwitch, {
-  getPriceToken,
-} from '@/components/common/InputCurrencySwitch'
+import InputCurrencySwitch from '@/components/common/InputCurrencySwitch'
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
 import { ConfirmDepositModal } from '@/components/common/Modal/ConfirmDepositModal'
 import Popover from '@/components/common/Popover'
 import { toMetricUnits } from '@/lib/helpers/number'
+import { AppStore } from '@/types/store'
 import { useWeb3Modal } from '@web3modal/react'
 import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
 import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { toast } from 'sonner'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
-import {
-  borrowBtcContract,
-  borrowEthContract,
-  tokenBtcContract,
-  tokenEthContract,
-  tokenTusdContract,
-} from '../constants/contract'
+import { borrowBtcContract, borrowEthContract } from '../constants/contract'
 import { IBorrowInfo } from '../types'
 interface CreateBorrowItemProps {
   item: IBorrowInfo
@@ -39,28 +32,18 @@ export default function CreateBorrowItem({
   const [amount, setAmount] = useState(0)
   const [amountReceive, setAmountReceive] = useState(0)
   const [buttonLoading, setButtonLoading] = useState('')
-  const [price, setPrice] = useState<any>({
-    weth: 0,
-    wbtc: 0,
-    tusd: 1,
-  })
   const { address, isConnected } = useAccount()
   const [isOpenConfirmDepositModal, setOpenConfirmDepositModal] =
     useState(false)
   const [aprBorrow, setAprBorrow] = useState('')
+  const [isUsdBorrowToken, setIsUsdBorrowToken] = useState(true)
+  const [isUsdDepositToken, setIsUsdDepositToken] = useState(true)
 
   useEffect(() => {
-    ; (async () => {
-      const ethPrice = await getPriceToken('ETH')
-      const btcPrice = await getPriceToken('BTC')
-      setPrice({
-        weth: ethPrice,
-        wbtc: btcPrice,
-        tusd: 1,
-      })
-    })()
     setTimeout(() => setIsLoading(false), 1000)
   }, [])
+
+  const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
 
   const initContract = async () => {
     try {
@@ -128,7 +111,7 @@ export default function CreateBorrowItem({
 
   const onBorrow = async () => {
     if (amount <= 0) {
-      toast.error('You must deposit WBTC to borrow')
+      toast.error(`You must deposit ${item.depositTokenSymbol} to borrow`)
       return
     }
     // if (amountReceive <= 0) {
@@ -169,7 +152,7 @@ export default function CreateBorrowItem({
           .decimals()
           .call()
         console.log('tokenDecimal :>> ', tokenBorrowDecimal)
-        console.log('amountReceive :>> ', amountReceive);
+        console.log('amountReceive :>> ', amountReceive)
         if (amountReceive) {
           tusdBorrowAmount = ethers.utils
             .parseUnits(
@@ -319,7 +302,7 @@ export default function CreateBorrowItem({
     }
   }
 
-  console.log('amountReceive :>> ', amountReceive);
+  console.log('amountReceive :>> ', amountReceive)
 
   useEffect(() => {
     initContract()
@@ -333,10 +316,13 @@ export default function CreateBorrowItem({
     return 'Confirm Deposit'
   }
 
+  console.log('isUsdBorrowToken :>> ', isUsdBorrowToken)
+  console.log('isUsdDepositToken :>> ', isUsdDepositToken)
+
   return (
     <>
       <div
-        className="rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pb-5 pt-3 text-[#030303] xl:px-[32px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white"
+        className="rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pb-5 pt-3 text-[#030303] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white xl:px-[32px]"
         key={dataBorrow.depositTokenSymbol}
       >
         <div className="flex w-full items-center justify-between">
@@ -346,7 +332,7 @@ export default function CreateBorrowItem({
               src={dataBorrow.depositTokenIcon}
               alt=""
             />
-            <div className="font-larken text-[18px] leading-tight text-[#030303] md:text-[22px] lg:text-[26px] dark:text-white">
+            <div className="font-larken text-[18px] leading-tight text-[#030303] dark:text-white md:text-[22px] lg:text-[26px]">
               Deposit {dataBorrow.depositTokenSymbol},<br /> Borrow{' '}
               {dataBorrow.borrowTokenSymbol}
             </div>
@@ -372,27 +358,28 @@ export default function CreateBorrowItem({
           </Popover>
         </div>
         <div className="font-larken mb-1 mt-1 grid grid-cols-2 gap-4">
-          <div className="flex w-full items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  lg:h-[140px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
+          <div className="flex w-full items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
             <InputCurrencySwitch
               tokenSymbol={item?.depositTokenSymbol}
               tokenValue={Number(amount)}
-              className="w-full py-4 text-[#030303] lg:py-6 dark:text-white"
+              className="w-full py-4 text-[#030303] dark:text-white lg:py-6"
               subtitle="Collateral"
               usdDefault
               decimalScale={5}
               onChange={(e) => {
                 setAmount(e)
               }}
+              onSetShowUsd={setIsUsdDepositToken}
             />
           </div>
-          <div className="font-larken flex h-[110px] flex-col items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0 lg:h-[140px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
+          <div className="font-larken flex h-[110px] flex-col items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
             <InputCurrencySwitch
               tokenSymbol="TUSD"
               tokenValue={Number(amountReceive)}
               tokenValueChange={Number(
                 amount *
-                price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`] *
-                (dataBorrow.loanToValue / 140)
+                  usdPrice?.[`${dataBorrow.depositTokenSymbol.toLowerCase()}`] *
+                  (dataBorrow.loanToValue / 140)
               )}
               usdDefault
               decimalScale={5}
@@ -401,6 +388,7 @@ export default function CreateBorrowItem({
               onChange={(e) => {
                 setAmountReceive(e)
               }}
+              onSetShowUsd={setIsUsdBorrowToken}
             />
           </div>
         </div>
@@ -453,14 +441,17 @@ export default function CreateBorrowItem({
           </p>
         </div>
         <button
-          className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
-            }`}
+          className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${
+            buttonLoading && 'cursor-not-allowed opacity-50'
+          }`}
           disabled={buttonLoading != ''}
           onClick={() => {
             if (
               amountReceive /
-              (amount *
-                price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`]) >
+                (amount *
+                  usdPrice?.[
+                    `${dataBorrow.depositTokenSymbol.toLowerCase()}`
+                  ]) >
               item?.loanToValue
             ) {
               toast.error(`Loan-to-value exceeds ${item?.loanToValue}%`)
@@ -483,14 +474,13 @@ export default function CreateBorrowItem({
           amount: amount,
           icon: `/icons/coin/${item.depositTokenSymbol.toLocaleLowerCase()}.png`,
           symbol: item.depositTokenSymbol,
+          isUsd: isUsdDepositToken
         }}
         coinTo={{
-          // amount: amount *
-          //   price[`${dataBorrow.depositTokenSymbol.toLowerCase()}`] *
-          //   (dataBorrow.loanToValue / 140),
           amount: amountReceive,
           icon: `/icons/coin/${item.borrowTokenSymbol.toLocaleLowerCase()}.png`,
           symbol: item.borrowTokenSymbol,
+          isUsd: isUsdBorrowToken
         }}
         details={[
           {

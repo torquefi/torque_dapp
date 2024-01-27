@@ -26,14 +26,12 @@ export const getPriceToken = async (symbol: string) => {
 
 export default function InputCurrencySwitch({
   tokenSymbol,
-  tokenValue,
   tokenValueChange,
   usdDefault = false,
   className = '',
   decimalScale = 2,
   subtitle,
   onChange,
-  render,
   onSetShowUsd,
 }: InputCurrencySwitchProps) {
   const [isShowUsd, setShowUsd] = useState(usdDefault)
@@ -52,7 +50,7 @@ export default function InputCurrencySwitch({
       weth: (await getPriceToken('ETH')) || 1800,
       wbtc: (await getPriceToken('BTC')) || 28000,
       usd: (await getPriceToken('USDC')) || 1,
-      tusd: (await getPriceToken('TUSD')) || 1,
+      tusd: (await getPriceToken('USDC')) || 1,
     }
     setPrice(price)
     setTokenPrice(
