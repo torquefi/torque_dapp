@@ -51,7 +51,6 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
   const web3 = new Web3(Web3.givenProvider)
   const { address } = useAccount()
   const theme = useSelector((store: AppStore) => store.theme.theme)
-  const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
   const [balanceWallet, setBalanceWallet] = useState<any>(0)
 
   console.log('balanceWallet :>> ', balanceWallet)
@@ -117,11 +116,7 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
             <div className="font-larken pt-2 text-[23px] text-[#030303] dark:text-white">
               <NumberFormat
                 displayType="text"
-                value={
-                  coinFrom?.isUsd
-                    ? coinFrom?.amount * usdPrice[coinFrom.symbol] || 0
-                    : coinFrom?.amount || 0
-                }
+                value={coinFrom?.amount}
                 suffix={!coinFrom?.isUsd ? ` ${coinFrom.symbol}` : ''}
                 prefix={coinFrom?.isUsd ? `$` : ''}
                 thousandSeparator
@@ -139,11 +134,7 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
             <div className="font-larken pt-2 text-[23px] text-[#030303] dark:text-white">
               <NumberFormat
                 displayType="text"
-                value={
-                  coinTo?.isUsd
-                    ? coinTo?.amount * usdPrice[coinTo.symbol] || 0
-                    : coinTo?.amount || 0
-                }
+                value={coinTo?.amount}
                 suffix={!coinTo?.isUsd ? ` ${coinTo.symbol}` : ''}
                 prefix={coinTo?.isUsd ? `$` : ''}
                 thousandSeparator

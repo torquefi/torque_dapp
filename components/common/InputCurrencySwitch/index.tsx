@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
 interface InputCurrencySwitchProps {
+  displayType?: 'text' | 'input'
   tokenSymbol: string
   tokenValue?: number
   tokenValueChange?: number
@@ -12,7 +13,7 @@ interface InputCurrencySwitchProps {
   className?: string
   decimalScale?: number
   subtitle?: string
-  onChange?: (num: number) => any
+  onChange?: (num: number, rawValue: number) => any
   render?: (str: string) => any
   onSetShowUsd?: any
 }
@@ -25,6 +26,7 @@ export const getPriceToken = async (symbol: string) => {
 }
 
 export default function InputCurrencySwitch({
+  displayType = 'input',
   tokenSymbol,
   tokenValueChange,
   usdDefault = false,
@@ -36,31 +38,9 @@ export default function InputCurrencySwitch({
 }: InputCurrencySwitchProps) {
   const [isShowUsd, setShowUsd] = useState(usdDefault)
   const [inputAmount, setInputAmount] = useState(0)
-  const [tokenPrice, setTokenPrice] = useState(0)
   const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
-  const [price, setPrice] = useState<any>({
-    eth: 1800,
-    btc: 28000,
-    usd: 1,
-    tusd: 1
-  })
 
-  const getPrice = async () => {
-    let price: any = {
-      weth: (await getPriceToken('ETH')) || 1800,
-      wbtc: (await getPriceToken('BTC')) || 28000,
-      usd: (await getPriceToken('USDC')) || 1,
-      tusd: (await getPriceToken('USDC')) || 1,
-    }
-    setPrice(price)
-    setTokenPrice(
-      price[tokenSymbol.toLocaleLowerCase()] ||
-      usdPrice[tokenSymbol.toLocaleLowerCase()] ||
-      0
-    )
-  }
-
-  console.log('price :>> ', price);
+  const tokenPrice = usdPrice[tokenSymbol.toLocaleLowerCase()] || 0
 
   // const valueToShow = isShowUsd
   //   ? tokenValue * (usdPrice?.[tokenSymbol] || 1)
@@ -74,9 +54,9 @@ export default function InputCurrencySwitch({
   useEffect(() => {
     if (onChange)
       if (isShowUsd) {
-        onChange(!!tokenPrice ? inputAmount / tokenPrice : 0)
+        onChange(!!tokenPrice ? inputAmount / tokenPrice : 0, inputAmount)
       } else {
-        onChange(inputAmount)
+        onChange(inputAmount, inputAmount)
       }
   }, [inputAmount])
 
@@ -93,10 +73,6 @@ export default function InputCurrencySwitch({
     else setInputAmount(inputAmount / tokenPrice)
   }, [isShowUsd])
 
-  useEffect(() => {
-    getPrice()
-  }, [])
-
   return (
     <div
       className={
@@ -109,10 +85,11 @@ export default function InputCurrencySwitch({
       }}
     >
       <NumberFormat
+        displayType={displayType}
         suffix={!isShowUsd ? ' ' + tokenSymbol : ''}
         prefix={isShowUsd ? '$' : ''}
-        className={`max-w-full bg-transparent pb-[3px] text-center text-[26px] md:text-[32px] text-[#030303] placeholder-[#030303] dark:text-[#ffff] dark:placeholder-[#fff]`}
-        value={inputAmount || null}
+        className={`block max-w-full whitespace-nowrap bg-transparent pb-[3px] text-center text-[26px] leading-tight text-[#030303] placeholder-[#030303] dark:text-[#ffff] dark:placeholder-[#fff] md:text-[32px]`}
+        value={inputAmount || (displayType === 'input' ? null : '0.00')}
         onChange={(event: any, value: any) => {
           setInputAmount(value)
         }}

@@ -36,6 +36,8 @@ export default function CreateBorrowItem({
   const [isOpenConfirmDepositModal, setOpenConfirmDepositModal] =
     useState(false)
   const [aprBorrow, setAprBorrow] = useState('')
+  const [amountRaw, setAmountRaw] = useState(0)
+  const [amountReceiveRaw, setAmountReceiveRaw] = useState(0)
   const [isUsdBorrowToken, setIsUsdBorrowToken] = useState(true)
   const [isUsdDepositToken, setIsUsdDepositToken] = useState(true)
 
@@ -365,8 +367,9 @@ export default function CreateBorrowItem({
               subtitle="Collateral"
               usdDefault
               decimalScale={5}
-              onChange={(e) => {
-                setAmount(e)
+              onChange={(tokenValue, rawValue) => {
+                setAmount(tokenValue)
+                setAmountRaw(rawValue)
               }}
               onSetShowUsd={setIsUsdDepositToken}
             />
@@ -384,10 +387,12 @@ export default function CreateBorrowItem({
               decimalScale={5}
               className="w-full py-4 text-[#030303] dark:text-white"
               subtitle="Borrowing"
-              onChange={(e) => {
-                setAmountReceive(e)
+              onChange={(tokenValue, rawValue) => {
+                setAmountReceive(tokenValue)
+                setAmountReceiveRaw(rawValue)
               }}
               onSetShowUsd={setIsUsdBorrowToken}
+              displayType="text"
             />
           </div>
         </div>
@@ -469,16 +474,16 @@ export default function CreateBorrowItem({
         onConfirm={() => onBorrow()}
         loading={isLoading}
         coinFrom={{
-          amount: amount,
+          amount: amountRaw,
           icon: `/icons/coin/${item.depositTokenSymbol.toLocaleLowerCase()}.png`,
           symbol: item.depositTokenSymbol,
-          isUsd: isUsdDepositToken
+          isUsd: isUsdDepositToken,
         }}
         coinTo={{
-          amount: amountReceive,
+          amount: amountReceiveRaw,
           icon: `/icons/coin/${item.borrowTokenSymbol.toLocaleLowerCase()}.png`,
           symbol: item.borrowTokenSymbol,
-          isUsd: isUsdBorrowToken
+          isUsd: isUsdBorrowToken,
         }}
         details={[
           {

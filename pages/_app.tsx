@@ -1,4 +1,3 @@
-import CurrencySwitchInit from '@/components/common/CurrencySwitch/Provider'
 import store, { persistor } from '@/lib/redux/store'
 import Moralis from 'moralis-v1'
 import type { NextPage } from 'next'
@@ -7,7 +6,7 @@ import type { AppProps } from 'next/app'
 import { ReactElement, ReactNode, useEffect } from 'react'
 import 'react-loading-skeleton/dist/skeleton.css'
 import { MoralisProvider } from 'react-moralis'
-import { Provider, useSelector } from 'react-redux'
+import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/lib/integration/react'
 import { Toaster } from 'sonner'
 import SEO from '../next-seo.config'
@@ -15,9 +14,9 @@ import '../styles/style.scss'
 
 import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
 import { Web3Modal } from '@web3modal/react'
-import { WagmiConfig, configureChains, createConfig } from 'wagmi'
-import { arbitrum, arbitrumGoerli, goerli } from 'wagmi/chains'
-import { AppStore } from '@/types/store'
+import { configureChains, createConfig, WagmiConfig } from 'wagmi'
+import { arbitrum } from 'wagmi/chains'
+import { TokenPriceProvider } from '../components/providers/TokenPriceProvider'
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -29,7 +28,8 @@ type AppPropsWithLayout = AppProps & {
 }
 
 const chains = [arbitrum]
-const projectId = process.env.REACT_APP_PROJECT_ID || '02a231b2406ed316c861abefc95c5e59';
+const projectId =
+  process.env.REACT_APP_PROJECT_ID || '02a231b2406ed316c861abefc95c5e59'
 
 const { publicClient } = configureChains(chains, [w3mProvider({ projectId })])
 const wagmiConfig = createConfig({
@@ -61,7 +61,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           <PersistGate persistor={persistor}>
             {() => (
               <div>
-                <CurrencySwitchInit />
+                <TokenPriceProvider />
                 {getLayout(<Component {...pageProps} />)}
               </div>
             )}
