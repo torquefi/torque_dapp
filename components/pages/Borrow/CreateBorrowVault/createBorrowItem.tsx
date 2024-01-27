@@ -121,11 +121,12 @@ export default function CreateBorrowItem({
     try {
       setIsLoading(true)
       if (item.depositTokenSymbol == 'WBTC') {
+        console.log('12321 :>> ', 12321);
         const tokenDepositDecimals = await tokenContract.methods
           .decimals()
           .call()
         const borrow = Number(
-          new BigNumber(Number(amount).toFixed(5))
+          new BigNumber(Number(amount).toFixed(tokenDepositDecimals))
             .multipliedBy(10 ** tokenDepositDecimals)
             .toString()
         )
@@ -140,6 +141,8 @@ export default function CreateBorrowItem({
         const borrowInfoMap = await borrowContract.methods
           .borrowInfoMap(address)
           .call()
+        console.log('borrow :>> ', borrow);
+
         const tusdBorrowedAmount = borrowInfoMap?.baseBorrowed
         console.log('tusdBorrowedAmount :>> ', tusdBorrowedAmount)
         console.log('amountReceive :>> ', amountReceive)
@@ -156,7 +159,7 @@ export default function CreateBorrowItem({
         if (amountReceive) {
           tusdBorrowAmount = ethers.utils
             .parseUnits(
-              Number(amountReceive).toFixed(5).toString(),
+              Number(amountReceive).toFixed(tokenBorrowDecimal).toString(),
               tokenBorrowDecimal
             )
             .toString()
@@ -199,6 +202,7 @@ export default function CreateBorrowItem({
           item?.borrowContractInfo?.abi,
           signer
         )
+
         const tx = await borrowContract2.borrow(
           borrow.toString(),
           newUsdcBorrowAmount,
@@ -244,7 +248,7 @@ export default function CreateBorrowItem({
         if (amountReceive) {
           tusdBorrowAmount = ethers.utils
             .parseUnits(
-              Number(amountReceive).toFixed(5).toString(),
+              Number(amountReceive).toFixed(tokenBorrowDecimal).toString(),
               tokenBorrowDecimal
             )
             .toString()
@@ -302,8 +306,6 @@ export default function CreateBorrowItem({
     }
   }
 
-  console.log('amountReceive :>> ', amountReceive)
-
   useEffect(() => {
     initContract()
   }, [])
@@ -315,9 +317,6 @@ export default function CreateBorrowItem({
     // return 'Deposit & Borrow'
     return 'Confirm Deposit'
   }
-
-  console.log('isUsdBorrowToken :>> ', isUsdBorrowToken)
-  console.log('isUsdDepositToken :>> ', isUsdDepositToken)
 
   return (
     <>
@@ -378,8 +377,8 @@ export default function CreateBorrowItem({
               tokenValue={Number(amountReceive)}
               tokenValueChange={Number(
                 amount *
-                  usdPrice?.[`${dataBorrow.depositTokenSymbol.toLowerCase()}`] *
-                  (dataBorrow.loanToValue / 140)
+                usdPrice?.[`${dataBorrow.depositTokenSymbol.toLowerCase()}`] *
+                (dataBorrow.loanToValue / 140)
               )}
               usdDefault
               decimalScale={5}
@@ -441,17 +440,16 @@ export default function CreateBorrowItem({
           </p>
         </div>
         <button
-          className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${
-            buttonLoading && 'cursor-not-allowed opacity-50'
-          }`}
+          className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
+            }`}
           disabled={buttonLoading != ''}
           onClick={() => {
             if (
               amountReceive /
-                (amount *
-                  usdPrice?.[
-                    `${dataBorrow.depositTokenSymbol.toLowerCase()}`
-                  ]) >
+              (amount *
+                usdPrice?.[
+                `${dataBorrow.depositTokenSymbol.toLowerCase()}`
+                ]) >
               item?.loanToValue
             ) {
               toast.error(`Loan-to-value exceeds ${item?.loanToValue}%`)
