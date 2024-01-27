@@ -95,10 +95,9 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       const depositTokenDecimal = await depositContract.methods
         .decimals()
         .call()
-      const collateral = new BigNumber(usdcPrice || 0)
-        .multipliedBy(
-          ethers.utils.formatUnits(borrowInfoMap.supplied, depositTokenDecimal)
-        )
+      const collateral = new BigNumber(
+        ethers.utils.formatUnits(borrowInfoMap.supplied, depositTokenDecimal)
+      )
         .toString()
       setCollateral(collateral)
 
@@ -308,6 +307,8 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
     return action
   }
 
+  console.log('usdPrice :>> ', usdPrice);
+
   const collateralUsd = (
     Number(collateral || 0) * (usdPrice[item?.depositTokenSymbol] || 0)
   )?.toFixed(5)
@@ -344,7 +345,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       />
       <div className="w-1/4 space-y-1">
         <p className="font-larken whitespace-nowrap text-[22px]">
-          {!collateralUsd
+          {!Number(collateralUsd)
             ? 0
             : +((Number(borrowed || 0) / Number(collateralUsd)) * 100).toFixed(
               2
