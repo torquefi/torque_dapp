@@ -123,7 +123,6 @@ export default function CreateBorrowItem({
     try {
       setIsLoading(true)
       if (item.depositTokenSymbol == 'WBTC') {
-        console.log('12321 :>> ', 12321);
         const tokenDepositDecimals = await tokenContract.methods
           .decimals()
           .call()
@@ -246,7 +245,9 @@ export default function CreateBorrowItem({
         const tokenBorrowDecimal = await tokenBorrowContract.methods
           .decimals()
           .call()
+
         console.log('tokenDecimal :>> ', tokenBorrowDecimal)
+
         if (amountReceive) {
           tusdBorrowAmount = ethers.utils
             .parseUnits(
@@ -263,6 +264,15 @@ export default function CreateBorrowItem({
           tusdBorrowAmount
         )
 
+        const provider = new ethers.providers.Web3Provider(window.ethereum)
+        const signer = provider.getSigner(address)
+
+        const tokenContract1 = new ethers.Contract(
+          item?.tokenContractInfo?.address,
+          item?.tokenContractInfo?.abi,
+          signer
+        )
+
         const allowance = await tokenContract.methods
           .allowance(address, item.borrowContractInfo.address)
           .call()
@@ -270,18 +280,18 @@ export default function CreateBorrowItem({
           new BigNumber(allowance).lte(new BigNumber('0')) ||
           new BigNumber(allowance).lte(tusdBorrowAmount)
         ) {
-          await tokenContract.methods
+          const tx = await tokenContract1
             .approve(
               item?.borrowContractInfo?.address,
               '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
             )
-            .send({
-              from: address,
-            })
+          // .send({
+          //   from: address,
+          // })
+          await tx.wait()
         }
 
-        const provider = new ethers.providers.Web3Provider(window.ethereum)
-        const signer = provider.getSigner(address)
+
         const borrowContract2 = new ethers.Contract(
           item?.borrowContractInfo?.address,
           item?.borrowContractInfo?.abi,
