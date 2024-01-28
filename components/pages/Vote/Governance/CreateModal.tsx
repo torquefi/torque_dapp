@@ -26,7 +26,7 @@ const defaultValues = {
   link: '',
   description: '',
   action: '',
-  amount: null,
+  amount: null as number | null,
   asset: '', 
   pool: '',
 }
