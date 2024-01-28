@@ -21,7 +21,17 @@ const validationSchema = yup.object({
   pool: yup.string().nullable(),
 });
 
-const defaultValues: IFormData = {
+type DefaultValues = {
+  title: string;
+  link: string;
+  description: string;
+  action: string;
+  amount: number | null;
+  asset: string;
+  pool: string;
+};
+
+const defaultValues: DefaultValues = {
   title: '',
   link: '',
   description: '',
@@ -29,17 +39,7 @@ const defaultValues: IFormData = {
   amount: null,
   asset: '', 
   pool: '',
-}
-
-interface IFormData {
-  title: string;
-  link: string;
-  description: string;
-  action: string;
-  amount: number | null; // Include the new fields
-  asset: string | null;
-  pool: string | null;
-}
+};
 
 export const CreateModal = (props: any) => {
   const { openModal, handleCLose } = props
@@ -48,10 +48,11 @@ export const CreateModal = (props: any) => {
   const [showAssetInput, setShowAssetInput] = useState(false);
   const [showPoolInput, setShowPoolInput] = useState(false);
 
-  const form = useForm<IFormData>({
+  const form = useForm({
     defaultValues: defaultValues,
     resolver: yupResolver(validationSchema),
   })
+
   const values = form.watch()
 
   const options = [
