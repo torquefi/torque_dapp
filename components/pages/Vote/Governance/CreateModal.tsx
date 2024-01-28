@@ -16,9 +16,9 @@ const validationSchema = yup.object({
   link: yup.string().trim().required("Link is required"),
   description: yup.string().trim().required("Description is required"),
   action: yup.string().trim().required("Action is required"),
-  amount: yup.number().nullable().transform(value => (isNaN(value) ? undefined : value)),
-  asset: yup.string().trim().nullable(),
-  pool: yup.string().trim().nullable(),
+  amount: yup.number().nullable(true),
+  asset: yup.string().nullable(true),
+  pool: yup.string().nullable(true),
 });
 
 const defaultValues: IFormData = {
