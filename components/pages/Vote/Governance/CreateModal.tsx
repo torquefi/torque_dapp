@@ -49,7 +49,7 @@ export const CreateModal = (props: any) => {
   const [showAssetInput, setShowAssetInput] = useState(false);
   const [showPoolInput, setShowPoolInput] = useState(false);
 
-  const form = useForm<FormData>({
+  const form = useForm<IFormData>({
     defaultValues: defaultValues,
     resolver: yupResolver(validationSchema),
   })
