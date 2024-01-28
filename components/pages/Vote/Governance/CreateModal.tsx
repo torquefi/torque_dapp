@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form'
 import { AiOutlineClose } from 'react-icons/ai'
 import { FaAngleDown } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
+import { useState } from 'react'
 import * as yup from 'yup'
 
 const validationSchema = yup.object({
@@ -27,6 +28,9 @@ const defaultValues = {
 export const CreateModal = (props: any) => {
   const { openModal, handleCLose } = props
   const theme = useSelector((store: AppStore) => store.theme.theme)
+  const [showAmountInput, setShowAmountInput] = useState(false);
+  const [showAssetInput, setShowAssetInput] = useState(false);
+  const [showPoolInput, setShowPoolInput] = useState(false);
 
   const form = useForm({
     defaultValues: defaultValues,
@@ -48,9 +52,26 @@ export const CreateModal = (props: any) => {
 
   useEffect(() => {
     if (openModal) {
-      form.reset()
+      form.reset();
+      setShowAmountInput(false); 
     }
-  }, [])
+  }, [openModal])
+
+  useEffect(() => {
+    if (values.action === 'TransferFromTreasury') {
+      setShowAmountInput(true);
+      setShowAssetInput(true);
+      setShowPoolInput(false);
+    } else if (values.action === 'SetPoolRewardSpeed') {
+      setShowAmountInput(true);
+      setShowAssetInput(false);
+      setShowPoolInput(true);
+    } else {
+      setShowAmountInput(false);
+      setShowAssetInput(false);
+      setShowPoolInput(false);
+    }
+  }, [values.action]);
 
   return (
     <div>
@@ -82,7 +103,7 @@ export const CreateModal = (props: any) => {
         <div className="mt-[22px]">
           <div>
             <input
-              className="w-full rounded-[12px] border-[1px] border-solid border-[#E6E6E6] bg-transparent px-[21px] py-[16px] text-[16px] font-[500] text-[#959595] dark:border-[#1a1a1a]"
+              className="focus:outline-none focus:bg-transparent w-full rounded-[12px] border-[1px] border-solid border-[#E6E6E6] bg-transparent px-[21px] py-[16px] text-[14px] font-[500] text-[#959595] dark:border-[#1a1a1a]"
               type="text"
               placeholder="Title*"
               {...form.register('title')}
@@ -90,7 +111,7 @@ export const CreateModal = (props: any) => {
           </div>
           <div className="mt-[14px]">
             <input
-              className="w-full rounded-[12px] border-[1px] border-solid border-[#E6E6E6] bg-transparent px-[21px] py-[16px] text-[16px] font-[500] text-[#959595] dark:border-[#1a1a1a]"
+              className="focus:outline-none focus:bg-transparent w-full rounded-[12px] border-[1px] border-solid border-[#E6E6E6] bg-transparent px-[21px] py-[16px] text-[14px] font-[500] text-[#959595] dark:border-[#1a1a1a]"
               type="text"
               placeholder="Forum link*"
               {...form.register('link')}
@@ -98,7 +119,7 @@ export const CreateModal = (props: any) => {
           </div>
           <div className="mt-[14px]">
             <input
-              className="w-full rounded-[12px] border-[1px] border-solid border-[#E6E6E6] bg-transparent px-[21px] pb-[190px] pt-[20px] text-[16px] font-[500] text-[#959595] dark:border-[#1a1a1a]"
+              className="focus:outline-none focus:bg-transparent w-full rounded-[12px] border-[1px] border-solid border-[#E6E6E6] bg-transparent px-[21px] pb-[190px] pt-[20px] text-[14px] font-[500] text-[#959595] dark:border-[#1a1a1a]"
               type="text"
               placeholder="Description*"
               {...form.register('description')}
@@ -109,7 +130,7 @@ export const CreateModal = (props: any) => {
               {({ open }) => (
                 <>
                   <div>
-                    <Menu.Button className="mt-[14px] flex w-full items-center  justify-between rounded-[8px] border-[1px] border-solid border-[#E6E6E6] px-[21px] py-[12px] text-[#959595] dark:border-[#1a1a1a]">
+                    <Menu.Button className="mt-[14px] flex w-full items-center text-[14px] justify-between rounded-[8px] border-[1px] border-solid border-[#E6E6E6] px-[21px] py-[12px] text-[#959595] dark:border-[#1a1a1a]">
                       {optionLabel || 'Add action'}
                       <FaAngleDown
                         className={
@@ -158,6 +179,38 @@ export const CreateModal = (props: any) => {
               )}
             </Menu>
           </div>
+        <div className="mt-[14px]">
+        {showAmountInput && (
+            <div className="mt-[14px]">
+              <input
+                className="focus:outline-none focus:bg-transparent w-full rounded-[12px] border-[1px] border-solid border-[#E6E6E6] bg-transparent px-[21px] py-[16px] text-[14px] font-[500] text-[#959595] dark:border-[#1a1a1a]"
+                type="number"
+                placeholder="Amount"
+                {...form.register('amount')}
+              />
+            </div>
+          )}
+        {showAssetInput && (
+            <div className="mt-[14px]">
+              <input
+                className="focus:outline-none focus:bg-transparent w-full rounded-[12px] border-[1px] border-solid border-[#E6E6E6] bg-transparent px-[21px] py-[16px] text-[14px] font-[500] text-[#959595] dark:border-[#1a1a1a]"
+                type="text"
+                placeholder="Asset"
+                {...form.register('asset')}
+              />
+            </div>
+          )}
+        {showPoolInput && (
+            <div className="mt-[14px]">
+              <input
+                className="focus:outline-none focus:bg-transparent w-full rounded-[12px] border-[1px] border-solid border-[#E6E6E6] bg-transparent px-[21px] py-[16px] text-[14px] font-[500] text-[#959595] dark:border-[#1a1a1a]"
+                type="text"
+                placeholder="Pool"
+                {...form.register('pool')}
+              />
+            </div>
+          )}
+        </div>
         </div>
         <button
           className={`font-mona text-[14px] mt-[16px] w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
