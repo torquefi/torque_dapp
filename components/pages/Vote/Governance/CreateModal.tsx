@@ -12,21 +12,21 @@ import { useState } from 'react'
 import * as yup from 'yup'
 
 const validationSchema = yup.object({
-  title: yup.string().trim(),
-  link: yup.string().trim(),
-  description: yup.string().trim(),
-  action: yup.string().trim(),
-  amount: yup.number().nullable(),
+  title: yup.string().trim().required("Title is required"),
+  link: yup.string().trim().required("Link is required"),
+  description: yup.string().trim().required("Description is required"),
+  action: yup.string().trim().required("Action is required"),
+  amount: yup.number().nullable().transform(value => (isNaN(value) ? undefined : value)),
   asset: yup.string().trim().nullable(),
   pool: yup.string().trim().nullable(),
-})
+});
 
-const defaultValues = {
+const defaultValues: IFormData = {
   title: '',
   link: '',
   description: '',
   action: '',
-  amount: null as number | null,
+  amount: null,
   asset: '', 
   pool: '',
 }
@@ -40,7 +40,6 @@ interface IFormData {
   asset: string | null;
   pool: string | null;
 }
-
 
 export const CreateModal = (props: any) => {
   const { openModal, handleCLose } = props
