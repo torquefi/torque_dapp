@@ -429,10 +429,10 @@ const HomePageFilter = () => {
           />
         </div>
       </div>
-      <div className="h-2 w-full overflow-hidden bg-[#F7F7F7] dark:bg-[#1F1F1F]">
+      <div className="h-[6px] w-full overflow-hidden bg-[#F7F7F7] dark:bg-[#1F1F1F]">
         <div
           style={{ width: `${address ? Number(borrowedPercent).toFixed(2) : 0}%` }}
-          className="h-full rounded-full bg-gradient-to-r from-[#C38BFF] to-[#AA5BFF] text-center text-white shadow-none"
+          className="h-full bg-gradient-to-r from-[#C38BFF] to-[#AA5BFF] text-center text-white shadow-none"
         ></div>
       </div>
       <div className="z-100000 absolute top-[-80px] h-[160px] w-[160px] rounded-full border-2 border-[#E6E6E6] bg-white p-2 md:top-auto dark:border-[#25252566] dark:bg-[#1A1A1A]">
