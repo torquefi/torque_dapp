@@ -31,7 +31,7 @@ const defaultValues = {
   pool: '',
 }
 
-interface FormData {
+interface IFormData {
   title: string;
   link: string;
   description: string;
