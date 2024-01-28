@@ -16,9 +16,9 @@ const validationSchema = yup.object({
   link: yup.string().trim().required("Link is required"),
   description: yup.string().trim().required("Description is required"),
   action: yup.string().trim().required("Action is required"),
-  amount: yup.number().nullable(true),
-  asset: yup.string().nullable(true),
-  pool: yup.string().nullable(true),
+  amount: yup.number().nullable(),
+  asset: yup.string().nullable(),
+  pool: yup.string().nullable(),
 });
 
 const defaultValues: IFormData = {
