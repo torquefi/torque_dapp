@@ -31,6 +31,17 @@ const defaultValues = {
   pool: '',
 }
 
+interface FormData {
+  title: string;
+  link: string;
+  description: string;
+  action: string;
+  amount: number | null; // Include the new fields
+  asset: string | null;
+  pool: string | null;
+}
+
+
 export const CreateModal = (props: any) => {
   const { openModal, handleCLose } = props
   const theme = useSelector((store: AppStore) => store.theme.theme)
@@ -38,7 +49,7 @@ export const CreateModal = (props: any) => {
   const [showAssetInput, setShowAssetInput] = useState(false);
   const [showPoolInput, setShowPoolInput] = useState(false);
 
-  const form = useForm({
+  const form = useForm<FormData>({
     defaultValues: defaultValues,
     resolver: yupResolver(validationSchema),
   })
