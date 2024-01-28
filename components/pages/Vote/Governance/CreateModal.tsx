@@ -16,6 +16,9 @@ const validationSchema = yup.object({
   link: yup.string().trim(),
   description: yup.string().trim(),
   action: yup.string().trim(),
+  amount: yup.number().nullable(),
+  asset: yup.string().trim().nullable(),
+  pool: yup.string().trim().nullable(),
 })
 
 const defaultValues = {
@@ -23,6 +26,9 @@ const defaultValues = {
   link: '',
   description: '',
   action: '',
+  amount: null,
+  asset: '', 
+  pool: '',
 }
 
 export const CreateModal = (props: any) => {
