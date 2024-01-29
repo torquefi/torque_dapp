@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import SkeletonDefault from '@/components/skeleton'
-import { CreateBoostVault } from './CreateBoostVault'
 import { ManageBoostVault } from './ManageBoostVault'
 import Banner from './Banner'
+import { CreateBoostVault } from './CreateBoostVault'
 
 export const BoostPage = () => {
   const [isLoading, setLoading] = useState(true)
@@ -40,7 +40,7 @@ export const BoostPage = () => {
   return (
     <div className="space-y-[36px] px-2 mt-2">
       <Banner />
-      {/* <CreateBoostVault setIsFetchBoostLoading={setIsFetchBoostLoading} /> */}
+      <CreateBoostVault setIsFetchBoostLoading={setIsFetchBoostLoading} />
       <ManageBoostVault isFetchBoostData={isFetchBoostData} />
     </div>
   )

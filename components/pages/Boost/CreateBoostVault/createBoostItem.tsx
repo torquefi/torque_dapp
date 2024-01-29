@@ -5,13 +5,17 @@ import Popover from '@/components/common/Popover'
 import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
 import { AppStore } from '@/types/store'
 import { useWeb3Modal } from '@web3modal/react'
+import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
 import Link from 'next/link'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { NumericFormat } from 'react-number-format'
 import { useSelector } from 'react-redux'
 import { toast } from 'sonner'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
+
+const RPC = 'https://arb1.arbitrum.io/rpc'
 
 export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
   const { open } = useWeb3Modal()
@@ -20,10 +24,11 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
   const [isOpenConfirmDepositModal, setOpenConfirmDepositModal] =
     useState(false)
-  const [amountRaw, setAmountRaw] = useState(0)
   const [isUsdDepositToken, setIsUsdDepositToken] = useState(true)
   const [amount, setAmount] = useState<number>(0)
+  const [totalSupply, setTotalSupply] = useState('')
   const theme = useSelector((store: AppStore) => store.theme.theme)
+  const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
 
   const tokenContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
@@ -36,6 +41,41 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
       item.tokenContractInfo.address
     )
   }, [Web3.givenProvider, item.tokenContractInfo])
+
+  const boostReadContract = useMemo(() => {
+    const web3 = new Web3(RPC)
+    if (!item?.boostContractInfo?.abi) {
+      console.error('Token contract ABI is undefined')
+      return null
+    }
+    return new web3.eth.Contract(
+      JSON.parse(item.boostContractInfo.abi),
+      item.boostContractInfo.address
+    )
+  }, [Web3.givenProvider, item.boostContractInfo])
+
+  const handleGetTotalSupply = async () => {
+    if (!tokenContract || !boostReadContract) {
+      return
+    }
+    try {
+      const tokenDecimal = await tokenContract.methods.decimals().call()
+      const totalSupply = await boostReadContract.methods.totalSupply().call()
+      setTotalSupply(
+        new BigNumber(
+          ethers.utils.formatUnits(totalSupply, tokenDecimal)
+        ).toString()
+      )
+    } catch (error) {
+      console.log('handleGetTotalSupply error :>> ', error)
+    }
+  }
+
+  console.log('totalSupply :>> ', totalSupply)
+
+  useEffect(() => {
+    handleGetTotalSupply()
+  }, [boostReadContract, tokenContract])
 
   const gmxContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
@@ -64,10 +104,10 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
     try {
       setBtnLoading(true)
       const tokenDecimal = await tokenContract.methods.decimals().call()
-      console.log('tokenDecimal :>> ', tokenDecimal)
       const depositToken = ethers.utils
         .parseUnits(Number(amount).toFixed(tokenDecimal), tokenDecimal)
         .toString()
+      console.log('depositToken :>> ', depositToken)
 
       const executionFee = await gmxContract.methods.executionFee().call()
 
@@ -103,6 +143,9 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
     }
     return 'Confirm Deposit'
   }
+
+  console.log('usdPrice :>> ', usdPrice);
+  console.log('item :>> ', item);
 
   return (
     <>
@@ -213,7 +256,16 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
         </div>
         <div className="font-mona flex w-full items-center justify-between text-[16px] text-[#959595]">
           <div>Assets routed</div>
-          <div>$0.00</div>
+          {/* <div> */}
+          <NumericFormat
+            prefix="$"
+            value={new BigNumber(totalSupply || 0)
+              .multipliedBy(usdPrice?.[item.token] || 0)
+              .toString()}
+            displayType='text'
+            decimalScale={2}
+          />
+          {/* </div> */}
         </div>
         <button
           className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
