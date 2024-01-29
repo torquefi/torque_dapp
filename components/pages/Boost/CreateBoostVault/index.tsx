@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { CreateBoostItem } from './createBoostItem'
 import {
-  boostBtcContract,
-  btcContract,
+  boostWbtcContract,
+  wbtcContract,
   boostWethContract,
-  ethContract,
+  wethContract,
   gmxWethContract,
 } from '@/constants/contracts'
 
@@ -47,7 +47,12 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
 
       <div className="grid gap-[20px] md:grid-cols-2">
         {boostVault.map((item, i) => {
-          return <CreateBoostItem item={item} setIsFetchBoostLoading={setIsFetchBoostLoading} />
+          return (
+            <CreateBoostItem
+              item={item}
+              setIsFetchBoostLoading={setIsFetchBoostLoading}
+            />
+          )
         })}
       </div>
     </div>
@@ -71,9 +76,9 @@ const BOOST_VAULTS = [
     link_yield1: 'https://gmx.io/',
     yield_provider2: '/icons/coin/uni.svg',
     link_yield2: 'https://uniswap.org/',
-    tokenContractInfo: btcContract,
-    boostContractInfo: boostBtcContract,
-    gmxContractInfo: gmxWethContract
+    tokenContractInfo: wbtcContract,
+    boostContractInfo: boostWbtcContract,
+    gmxContractInfo: gmxWethContract,
   },
   {
     token: 'WETH',
@@ -91,8 +96,8 @@ const BOOST_VAULTS = [
     link_yield1: 'https://gmx.io/',
     yield_provider2: '/icons/coin/stg.png',
     link_yield2: 'https://stargate.finance/',
-    tokenContractInfo: ethContract,
+    tokenContractInfo: wethContract,
     boostContractInfo: boostWethContract,
-    gmxContractInfo: gmxWethContract
+    gmxContractInfo: gmxWethContract,
   },
 ]

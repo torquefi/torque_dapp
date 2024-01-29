@@ -307,8 +307,6 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
     return action
   }
 
-  console.log('usdPrice :>> ', usdPrice);
-
   const collateralUsd = (
     Number(collateral || 0) * (usdPrice[item?.depositTokenSymbol] || 0)
   )?.toFixed(5)
@@ -366,8 +364,6 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       </div>
     </div>
   )
-
-  console.log('inputValue :>> ', inputValue)
 
   if (isLoading)
     return (

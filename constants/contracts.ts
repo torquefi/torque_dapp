@@ -13,13 +13,13 @@ export interface IContractInfo {
   abi: string
 }
 
-export const boostBtcContract: IContractInfo = {
+export const boostWbtcContract: IContractInfo = {
   address: '0xB3F4c9026f0786b4949fFb456CF9530696359B1e',
   abi: JSON.stringify(boostBtcAbi),
 }
 
-export const btcContract: IContractInfo = {
-  address: '0xEe01c0CD76354C383B8c7B4e65EA88D00B06f36f',
+export const wbtcContract: IContractInfo = {
+  address: '0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f',
   abi: JSON.stringify(btcAbi),
 }
 
@@ -33,11 +33,6 @@ export const gmxWethContract: IContractInfo = {
   abi: JSON.stringify(gmxWethAbi),
 }
 
-export const ethContract: IContractInfo = {
-  address: '0x82aF49447D8a07e3bd95BD0d56f35241523fBab1',
-  abi: JSON.stringify(ethAbi),
-}
-
 export const torqContract: IContractInfo = {
   address: '0xb56C29413AF8778977093B9B4947efEeA7136C36',
   abi: JSON.stringify(torqAbi),
@@ -45,7 +40,7 @@ export const torqContract: IContractInfo = {
 
 export const wethContract: IContractInfo = {
   address: '0x82aF49447D8a07e3bd95BD0d56f35241523fBab1',
-  abi: JSON.stringify(torqAbi),
+  abi: JSON.stringify(ethAbi),
 }
 
 export const tusdContract: IContractInfo = {

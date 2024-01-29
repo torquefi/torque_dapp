@@ -1,19 +1,20 @@
 import CurrencySwitch from '@/components/common/CurrencySwitch'
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
 import { VaultChart } from '@/components/common/VaultChart'
-import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
 import { LabelApi } from '@/lib/api/LabelApi'
 import { AppStore } from '@/types/store'
+import { useWeb3Modal } from '@web3modal/react'
 import { ethers } from 'ethers'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { AutowidthInput } from 'react-autowidth-input'
 import { AiOutlineCheck, AiOutlineEdit } from 'react-icons/ai'
-import { useMoralis } from 'react-moralis'
+import { NumericFormat } from 'react-number-format'
 import { useSelector } from 'react-redux'
 import { toast } from 'sonner'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 import { IBoostInfo } from '../types'
+import BigNumber from 'bignumber.js'
 
 interface BoostItemProps {
   item: IBoostInfo
@@ -21,17 +22,16 @@ interface BoostItemProps {
 }
 
 export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
-  const [theme, setTheme] = useState(null)
-  const [label, setLabel] = useState(item?.defaultLabel)
+  const theme = useSelector((store: AppStore) => store.theme.theme)
+  const { open } = useWeb3Modal()
   const [isOpen, setOpen] = useState(false)
   const [amount, setAmount] = useState('')
   const [isEdit, setEdit] = useState(false)
   const [isSubmitLoading, setSubmitLoading] = useState(false)
+  const [label, setLabel] = useState(item?.defaultLabel)
+
   const { address, isConnected } = useAccount()
-  const { Moralis, isWeb3Enabled } = useMoralis()
-  const borrowTime = useSelector((store: AppStore) => store)
   const refLabelInput = useRef<HTMLInputElement>(null)
-  const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
 
   const tokenContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
@@ -41,6 +41,18 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
     )
     return contract
   }, [Web3.givenProvider, item?.tokenSymbol])
+
+  const gmxContract = useMemo(() => {
+    const web3 = new Web3(Web3.givenProvider)
+    if (!item?.gmxContractInfo?.abi) {
+      console.error('Token contract ABI is undefined')
+      return null
+    }
+    return new web3.eth.Contract(
+      JSON.parse(item.gmxContractInfo.abi),
+      item.gmxContractInfo.address
+    )
+  }, [Web3.givenProvider, item.gmxContractInfo])
 
   const boostContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
@@ -52,21 +64,24 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
   }, [Web3.givenProvider, item?.tokenSymbol])
 
   const onWithdraw = async () => {
-    if (!isConnected) {
-      setOpenConnectWalletModal(true)
+    if (!isConnected || !address) {
+      await open()
       return
     }
     try {
       setSubmitLoading(true)
+      const decimalToken = await tokenContract.methods.decimals().call()
+      const withdrawAmount = ethers.utils
+        .parseUnits(Number(amount).toFixed(decimalToken), decimalToken)
+        .toString()
 
       const allowanceToken = await tokenContract.methods
         .allowance(address, item?.boostContractInfo?.address)
         .call()
-      const allowance = ethers.utils
-        .formatUnits(allowanceToken, item?.tokenDecimals)
-        .toString()
-
-      if (+allowance < +amount) {
+      if (
+        new BigNumber(allowanceToken).lte(new BigNumber('0')) ||
+        new BigNumber(allowanceToken).lte(withdrawAmount)
+      ) {
         await tokenContract.methods
           .approve(
             item?.boostContractInfo?.address,
@@ -74,32 +89,27 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
           )
           .send({ from: address })
       }
-
-      console.log(
-        'token',
-        item.tokenContractInfo?.address,
-        ethers.utils.parseUnits(amount, item.tokenDecimals).toString()
+      const executionFee = await gmxContract.methods.executionFee().call()
+      const provider = new ethers.providers.Web3Provider(window.ethereum)
+      const signer = provider.getSigner(address)
+      const boostContract2 = new ethers.Contract(
+        item?.boostContractInfo?.address,
+        JSON.parse(item?.boostContractInfo?.abi),
+        signer
       )
-      await boostContract.methods
-        .withdraw(
-          item.tokenContractInfo?.address,
-          ethers.utils.parseUnits(amount, item.tokenDecimals).toString()
-        )
-        .send({
-          from: address,
-          value:
-            item?.tokenSymbol === 'ETH'
-              ? ethers.utils.parseUnits(amount, item.tokenDecimals).toString()
-              : 0,
-        })
-      onWithdrawSuccess && onWithdrawSuccess()
+      const tx = await boostContract2.withdrawETH(withdrawAmount, {
+        value: executionFee,
+      })
+      await tx.wait()
       setAmount('')
-      toast.success('Withdraw Successful')
+      toast.success('Withdraw Successfully')
+      onWithdrawSuccess && onWithdrawSuccess()
     } catch (e) {
       toast.error('Withdraw Failed')
       console.log(e)
+    } finally {
+      setSubmitLoading(false)
     }
-    setSubmitLoading(false)
   }
 
   const updateBoostLabel = async () => {
@@ -111,7 +121,7 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
         position: 'Boost',
         name: label,
       })
-      toast.success('Update name successful')
+      toast.success('Update name successfully')
     } catch (error) {
       toast.error('Update name failed')
       console.error('updateBoostLabel', error)
@@ -123,14 +133,6 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
       refLabelInput.current.focus()
     }
   }, [isEdit])
-
-  // useEffect(() => {
-  //   setTheme(
-  //     typeof window !== 'undefined'
-  //       ? window.localStorage.getItem('theme')
-  //       : null
-  //   )
-  // }, [typeof window !== 'undefined'])
 
   useEffect(() => {
     setLabel(item?.label)
@@ -152,14 +154,14 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
               </div>
             </div>
           )}
-          decimalScale={2}
+          decimalScale={5}
         />
         <CurrencySwitch
           tokenSymbol={item?.tokenSymbol}
           tokenValue={item.earnings}
           usdDefault
           className="-my-4 flex h-full min-w-[130px] flex-col items-center justify-center gap-2 py-4"
-          decimalScale={2}
+          decimalScale={5}
           render={(value) => (
             <div className="flex min-w-[130px] flex-col items-center justify-center gap-2">
               <p className="text-[22px]">{value}</p>
@@ -182,9 +184,6 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
   const renderSubmitText = () => {
     if (!address) {
       return 'Connect Wallet'
-    }
-    if (isSubmitLoading) {
-      return 'WITHDRAWING...'
     }
     return 'Withdraw'
   }
@@ -222,14 +221,12 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
                   className="min-w-[60px] bg-transparent"
                   value={label}
                   onChange={(e) => setLabel(e.target.value)}
-                  onKeyUp={(e) => e.key === 'Enter' && setEdit(false)}
+                  onKeyUp={(e) => e.key === 'Enter' && updateBoostLabel()}
                 />
                 <button className="">
                   <AiOutlineCheck
                     className=""
-                    onClick={() => {
-                      updateBoostLabel()
-                    }}
+                    onClick={() => updateBoostLabel()}
                   />
                 </button>
               </div>
@@ -246,7 +243,6 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
                     'w-[18px] text-[#000] transition-all' +
                     ` ${isOpen ? 'rotate-180' : ''}`
                   }
-                  // src="/icons/arrow-down.svg"
                   src={
                     theme == 'light'
                       ? '/icons/dropdow-dark.png'
@@ -259,18 +255,15 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
           </div>
         </div>
         <div
-          className={`grid grid-cols-1 gap-8 overflow-hidden transition-all duration-300 lg:grid-cols-2 ${
-            isOpen
-              ? 'max-h-[1000px] py-[16px] ease-in'
-              : 'max-h-0 py-0 opacity-0 ease-out'
-          }`}
+          className={`grid grid-cols-1 gap-8 overflow-hidden transition-all duration-300 lg:grid-cols-2 ${isOpen
+            ? 'max-h-[1000px] py-[16px] ease-in'
+            : 'max-h-0 py-0 opacity-0 ease-out'
+            }`}
         >
           <div className="flex items-center justify-between gap-4 lg:hidden">
             {summaryInfo()}
           </div>
           <div className="">
-            {/* <Chart /> */}
-            {/* <img src="/assets/pages/boost/chart.svg" alt="" /> */}
             <VaultChart
               label="Boost Apr"
               percent={+item.APR}
@@ -278,16 +271,24 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
             />
           </div>
           <div className="mt-10">
-            <div className="text-[28px]">Withdraw ETH</div>
+            <div className="text-[28px]">Withdraw {item?.tokenSymbol}</div>
             <div className="mt-2 flex w-full items-center justify-between rounded-[12px] border bg-[#FCFAFF] px-2 py-4 dark:border-[#1A1A1A] dark:bg-[#161616]">
-              <input
+              {/* <input
                 type="number"
                 className="font-mona w-full bg-none px-2 focus:outline-none"
                 style={{ backgroundColor: 'transparent' }}
                 value={amount}
                 placeholder="Select amount"
                 onChange={(e) => setAmount(e.target.value)}
+              /> */}
+              <NumericFormat
+                className="font-mona w-full bg-transparent bg-none px-2 focus:outline-none"
+                placeholder="Select amount"
+                value={amount || null}
+                onChange={(e) => setAmount(e.target.value)}
+                decimalScale={5}
               />
+
               <div className="flex items-center gap-2">
                 {[25, 50, 100].map((percent: any, i) => (
                   <button
@@ -305,7 +306,7 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
             <button
               className={
                 `font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]` +
-                ` ${isSubmitLoading && 'cursor-not-allowed opacity-70'}`
+                ` ${isSubmitLoading ? 'cursor-not-allowed opacity-70' : ''}`
               }
               disabled={isSubmitLoading}
               onClick={() => onWithdraw()}
@@ -313,13 +314,19 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
               {isSubmitLoading && <LoadingCircle />}
               {renderSubmitText()}
             </button>
+            <button
+              className={
+                `font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-transparent to-transparent  py-1 text-[14px] uppercase text-[#AA5BFF] transition-all hover:border hover:from-[#AA5BFF] hover:to-[#912BFF] hover:text-white` +
+                ` ${isSubmitLoading ? 'cursor-not-allowed opacity-70' : ''}`
+              }
+              disabled={isSubmitLoading}
+            // onClick={() => onWithdraw()}
+            >
+              Execute
+            </button>
           </div>
         </div>
       </div>
-      <ConnectWalletModal
-        openModal={isOpenConnectWalletModal}
-        handleClose={() => setOpenConnectWalletModal(false)}
-      />
     </>
   )
 }
