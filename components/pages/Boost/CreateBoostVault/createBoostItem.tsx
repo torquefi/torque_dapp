@@ -71,8 +71,6 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
     }
   }
 
-  console.log('totalSupply :>> ', totalSupply)
-
   useEffect(() => {
     handleGetTotalSupply()
   }, [boostReadContract, tokenContract])
@@ -256,16 +254,13 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
         </div>
         <div className="font-mona flex w-full items-center justify-between text-[16px] text-[#959595]">
           <div>Assets routed</div>
-          {/* <div> */}
           <NumericFormat
             prefix="$"
-            value={new BigNumber(totalSupply || 0)
+            value={Number(new BigNumber(totalSupply || 0)
               .multipliedBy(usdPrice?.[item.token] || 0)
-              .toString()}
+              .toString()).toFixed(2)}
             displayType='text'
-            decimalScale={2}
           />
-          {/* </div> */}
         </div>
         <button
           className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
