@@ -1,12 +1,6 @@
 import { useEffect, useState } from 'react'
 import { CreateBoostItem } from './createBoostItem'
-import {
-  boostWbtcContract,
-  wbtcContract,
-  boostWethContract,
-  wethContract,
-  gmxWethContract,
-} from '@/constants/contracts'
+import { boostWbtcContract, boostWethContract, gmxWethContract, wbtcContract, wethContract } from '../constants/contracts'
 
 export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
   const [boostVault, setBoostVault] = useState(BOOST_VAULTS)

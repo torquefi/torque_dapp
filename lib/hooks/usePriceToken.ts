@@ -1,4 +1,5 @@
-import { torqContract, wethContract } from '@/constants/contracts'
+import { wethContract } from '@/components/pages/Boost/constants/contracts'
+import { torqContract } from '@/constants/contracts'
 import { AppStore } from '@/types/store'
 import BigNumber from 'bignumber.js'
 import { useEffect, useMemo, useState } from 'react'
