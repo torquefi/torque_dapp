@@ -1,11 +1,4 @@
 import SkeletonDefault from '@/components/skeleton'
-import {
-  boostWbtcContract,
-  boostWethContract,
-  gmxWethContract,
-  wbtcContract,
-  wethContract,
-} from '@/constants/contracts'
 import { LabelApi } from '@/lib/api/LabelApi'
 import { useEffect, useState } from 'react'
 import { useAccount } from 'wagmi'
@@ -14,6 +7,7 @@ import { IBoostInfo } from '../types'
 import { BoostItem } from './BoostItem'
 import { EmptyBoost } from './EmptyBoost'
 import { ethers } from 'ethers'
+import { boostWbtcContract, boostWethContract, gmxWethContract, wbtcContract, wethContract } from '../constants/contracts'
 
 export function ManageBoostVault({ isFetchBoostData }: any) {
   const { address, isConnected } = useAccount()
