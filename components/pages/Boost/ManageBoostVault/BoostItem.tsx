@@ -1,9 +1,9 @@
 import CurrencySwitch from '@/components/common/CurrencySwitch'
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
-import { VaultChart } from '@/components/common/VaultChart'
 import { LabelApi } from '@/lib/api/LabelApi'
 import { AppStore } from '@/types/store'
 import { useWeb3Modal } from '@web3modal/react'
+import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { AutowidthInput } from 'react-autowidth-input'
@@ -14,7 +14,7 @@ import { toast } from 'sonner'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 import { IBoostInfo } from '../types'
-import BigNumber from 'bignumber.js'
+import { BoostItemChart } from './BoostItemChart'
 
 interface BoostItemProps {
   item: IBoostInfo
@@ -25,6 +25,7 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
   const { open } = useWeb3Modal()
   const { address, isConnected } = useAccount()
   const theme = useSelector((store: AppStore) => store.theme.theme)
+  const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
 
   const refLabelInput = useRef<HTMLInputElement>(null)
 
@@ -282,19 +283,26 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
           </div>
         </div>
         <div
-          className={`grid grid-cols-1 gap-8 overflow-hidden transition-all duration-300 lg:grid-cols-2 ${isOpen
-            ? 'max-h-[1000px] py-[16px] ease-in'
-            : 'max-h-0 py-0 opacity-0 ease-out'
-            }`}
+          className={`grid grid-cols-1 gap-8 overflow-hidden transition-all duration-300 lg:grid-cols-2 ${
+            isOpen
+              ? 'max-h-[1000px] py-[16px] ease-in'
+              : 'max-h-0 py-0 opacity-0 ease-out'
+          }`}
         >
           <div className="flex items-center justify-between gap-4 lg:hidden">
             {summaryInfo()}
           </div>
           <div className="">
-            <VaultChart
-              label="Boost Apr"
-              percent={+item.APR}
-              value={49510000}
+            <BoostItemChart
+              label="Boost Apy"
+              tokenAddress={item?.boostContractInfo.address}
+              tokenDecimals={item?.tokenDecimals}
+              tokenPrice={
+                item?.tokenSymbol === 'WBTC'
+                  ? usdPrice['wbtc']
+                  : usdPrice['weth']
+              }
+              aprPercent={-apr}
             />
           </div>
           <div className="mt-10">
@@ -314,7 +322,9 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
                     key={i}
                     className="font-mona rounded bg-[#F4F4F4] px-2 py-1 text-sm text-[#959595] dark:bg-[#1A1A1A]"
                     onClick={() => {
-                      setAmount(`${(percent * Number(deposited || 0)) / 100.01}`)
+                      setAmount(
+                        `${(percent * Number(deposited || 0)) / 100.01}`
+                      )
                     }}
                   >
                     {percent}%
@@ -339,7 +349,7 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
                 ` ${isSubmitLoading ? 'cursor-not-allowed opacity-70' : ''}`
               }
               disabled={isSubmitLoading}
-            // onClick={() => onWithdraw()}
+              // onClick={() => onWithdraw()}
             >
               Execute
             </button>

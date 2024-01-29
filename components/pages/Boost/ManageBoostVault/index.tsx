@@ -78,6 +78,7 @@ export function ManageBoostVault({ isFetchBoostData }: any) {
     handleUpdateBoostData(true)
   }, [isConnected, address, isFetchBoostData])
 
+  // const boostDisplayed = dataBoost
   const boostDisplayed = dataBoost.filter((item) => Number(item?.deposited) > 0)
 
   console.log('boostDisplayed :>> ', boostDisplayed)
