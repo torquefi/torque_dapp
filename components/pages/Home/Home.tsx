@@ -14,6 +14,10 @@ import {
 } from '../Borrow/constants/contract'
 import { ethers } from 'ethers'
 import { tokenTusdContract } from '../Borrow/constants/contract'
+import {
+  boostWbtcContract,
+  boostWethContract,
+} from '../Boost/constants/contracts'
 
 const RPC = 'https://arb1.arbitrum.io/rpc'
 
@@ -30,6 +34,9 @@ const HomePageFilter = () => {
   const [totalMyBorrowed, setTotalMyBorrowed] = useState('0')
   const [borrowedPercent, setBorrowedPercent] = useState('0')
 
+  const [totalBoostSupply, setTotalBoostSupply] = useState('0')
+  const [totalMyBoostSupply, setTotalMyBoostSupply] = useState('0')
+
   const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
   const wbtcPrice = usdPrice['WBTC'] || 0
   const wethPrice = usdPrice['WETH'] || 0
@@ -40,7 +47,7 @@ const HomePageFilter = () => {
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1000)
   }, [])
-
+  // borrow
   const borrowWBTCContract = useMemo(() => {
     const web3 = new Web3(RPC)
     const contract = new web3.eth.Contract(
@@ -50,15 +57,6 @@ const HomePageFilter = () => {
     return contract
   }, [Web3.givenProvider, borrowBtcContract])
 
-  const tokenWBTCContract = useMemo(() => {
-    const web3 = new Web3(RPC)
-    const contract = new web3.eth.Contract(
-      JSON.parse(tokenBtcContract?.abi),
-      tokenBtcContract?.address
-    )
-    return contract
-  }, [Web3.givenProvider, tokenBtcContract])
-
   const borrowWETHContract = useMemo(() => {
     const web3 = new Web3(RPC)
     const contract = new web3.eth.Contract(
@@ -67,6 +65,35 @@ const HomePageFilter = () => {
     )
     return contract
   }, [Web3.givenProvider, borrowEthContract])
+
+  // boost
+  const boostWBTCContract = useMemo(() => {
+    const web3 = new Web3(RPC)
+    const contract = new web3.eth.Contract(
+      JSON.parse(boostWbtcContract?.abi),
+      boostWbtcContract?.address
+    )
+    return contract
+  }, [Web3.givenProvider, boostWbtcContract])
+
+  const boostWETHContract = useMemo(() => {
+    const web3 = new Web3(RPC)
+    const contract = new web3.eth.Contract(
+      JSON.parse(boostWethContract?.abi),
+      boostWethContract?.address
+    )
+    return contract
+  }, [Web3.givenProvider, boostWethContract])
+
+  // token
+  const tokenWBTCContract = useMemo(() => {
+    const web3 = new Web3(RPC)
+    const contract = new web3.eth.Contract(
+      JSON.parse(tokenBtcContract?.abi),
+      tokenBtcContract?.address
+    )
+    return contract
+  }, [Web3.givenProvider, tokenBtcContract])
 
   const tokenWETHContract = useMemo(() => {
     const web3 = new Web3(RPC)
@@ -86,7 +113,7 @@ const HomePageFilter = () => {
     return contract
   }, [Web3.givenProvider, tokenEthContract])
 
-  const handleGetMyInfo = async () => {
+  const handleGetMyBorrowInfo = async () => {
     try {
       if (
         !borrowWBTCContract ||
@@ -128,10 +155,16 @@ const HomePageFilter = () => {
       const wbtcCollateral = new BigNumber(
         ethers.utils.formatUnits(myDataWbtcBorrow.supplied, wbtcDecimal)
       ).toString()
-      const wbtcCollateralUsd = new BigNumber(wbtcCollateral || '0').multipliedBy(usdPrice['WBTC'] || 0).toString()
-      const wbtcLoanToValue = !wbtcCollateralUsd ? '0' : new BigNumber(myWbtcBorrowedUsd).dividedBy(new BigNumber(wbtcCollateralUsd)).toString()
-      console.log('wbtcLoanToValue :>> ', wbtcLoanToValue);
-      console.log('wbtcCollateral :>> ', wbtcCollateral);
+      const wbtcCollateralUsd = new BigNumber(wbtcCollateral || '0')
+        .multipliedBy(usdPrice['WBTC'] || 0)
+        .toString()
+      const wbtcLoanToValue = !wbtcCollateralUsd
+        ? '0'
+        : new BigNumber(myWbtcBorrowedUsd)
+          .dividedBy(new BigNumber(wbtcCollateralUsd))
+          .toString()
+      console.log('wbtcLoanToValue :>> ', wbtcLoanToValue)
+      console.log('wbtcCollateral :>> ', wbtcCollateral)
       console.log('myWbtcBorrowed :>> ', myWbtcBorrowed)
       console.log('myWbtcBorrowedUsd :>> ', myWbtcBorrowedUsd)
 
@@ -163,22 +196,30 @@ const HomePageFilter = () => {
       const wethCollateral = new BigNumber(
         ethers.utils.formatUnits(myDataWethBorrow.supplied, wethDecimal)
       ).toString()
-      const wethCollateralUsd = new BigNumber(wethCollateral || '0').multipliedBy(usdPrice['WETH'] || 0).toString()
-      const wethLoanToValue = !wethCollateralUsd ? '0' : new BigNumber(myWethBorrowedUsd).dividedBy(new BigNumber(wethCollateralUsd)).toString()
-      console.log('wethLoanToValue :>> ', wethLoanToValue);
+      const wethCollateralUsd = new BigNumber(wethCollateral || '0')
+        .multipliedBy(usdPrice['WETH'] || 0)
+        .toString()
+      const wethLoanToValue = !wethCollateralUsd
+        ? '0'
+        : new BigNumber(myWethBorrowedUsd)
+          .dividedBy(new BigNumber(wethCollateralUsd))
+          .toString()
+      console.log('wethLoanToValue :>> ', wethLoanToValue)
       console.log('myWethBorrowed :>> ', myWethBorrowed)
       console.log('myWethBorrowedUsd :>> ', myWethBorrowedUsd)
 
-      let borrowedPercent = 0;
+      let borrowedPercent = 0
       if (Number(wethLoanToValue) > 0 && Number(wbtcLoanToValue) > 0) {
-        borrowedPercent = 100 - (70 - (Number(wbtcLoanToValue) * 100)) - (78 - Number(wethLoanToValue) * 100)
+        borrowedPercent =
+          100 -
+          (70 - Number(wbtcLoanToValue) * 100) -
+          (78 - Number(wethLoanToValue) * 100)
       } else if (Number(wethLoanToValue) > 0 && !Number(wbtcLoanToValue)) {
         borrowedPercent = 100 - (78 - Number(wethLoanToValue) * 100)
       } else if (!Number(wethLoanToValue) && Number(wbtcLoanToValue) > 0) {
-        borrowedPercent = 100 - (70 - (Number(wbtcLoanToValue) * 100))
+        borrowedPercent = 100 - (70 - Number(wbtcLoanToValue) * 100)
       }
       setBorrowedPercent(borrowedPercent.toString())
-
 
       setTotalMySupplied(
         new BigNumber(myWbtcSuppliedUsd)
@@ -195,7 +236,7 @@ const HomePageFilter = () => {
   }
 
   useEffect(() => {
-    handleGetMyInfo()
+    handleGetMyBorrowInfo()
   }, [
     address,
     borrowWBTCContract,
@@ -208,7 +249,51 @@ const HomePageFilter = () => {
     tusdPrice,
   ])
 
-  const handleGetGeneralInfo = async () => {
+  const handleGetMyBoostInfo = async () => {
+    try {
+      if (
+        !boostWBTCContract ||
+        !boostWETHContract ||
+        !address ||
+        !tokenWBTCContract ||
+        !tokenWETHContract ||
+        !address
+      ) {
+        return
+      }
+      // WBTC
+
+      // WETH
+      const tokenWethDecimal = await tokenWETHContract.methods.decimals().call()
+      const depositedWeth = await boostWETHContract.methods.balanceOf(address).call()
+      const depositedWethUsd = new BigNumber(
+        ethers.utils.formatUnits(depositedWeth, tokenWethDecimal).toString()
+      )
+        .multipliedBy(new BigNumber(wethPrice || 0))
+        .toString()
+      setTotalMyBoostSupply(depositedWethUsd)
+    } catch (error) {
+
+    }
+  }
+
+  useEffect(() => {
+    handleGetMyBoostInfo()
+  }, [
+    address,
+    boostWBTCContract,
+    boostWETHContract,
+    tokenWBTCContract,
+    tokenWETHContract,
+    address,
+    wbtcPrice,
+    wethPrice,
+    tusdPrice,
+  ])
+
+
+
+  const handleGetBorrowGeneralInfo = async () => {
     try {
       if (
         !borrowWBTCContract ||
@@ -303,8 +388,49 @@ const HomePageFilter = () => {
     }
   }
 
+  const handleGetBoostGeneralInfo = async () => {
+    try {
+      if (
+        !boostWbtcContract ||
+        !boostWethContract ||
+        !tokenWBTCContract ||
+        !tokenWETHContract ||
+        !tokenTUSDContract
+      ) {
+        return
+      }
+
+      // WBTC
+      const wbtcDecimal = await tokenWBTCContract.methods.decimals().call()
+
+      // WETH
+      const wethDecimal = await tokenWETHContract.methods.decimals().call()
+      const totalWethSupply = await boostWETHContract.methods.totalSupply().call()
+      const totalWethSupplyUsd = new BigNumber(
+        ethers.utils.formatUnits(totalWethSupply, wethDecimal).toString()
+      )
+        .multipliedBy(new BigNumber(wethPrice || 0))
+        .toString()
+      setTotalBoostSupply(totalWethSupplyUsd)
+    } catch (error) {
+      console.log('handleGetBoostGeneralInfo error :>> ', error);
+    }
+  }
+
   useEffect(() => {
-    handleGetGeneralInfo()
+    handleGetBoostGeneralInfo()
+  }, [
+    boostWbtcContract,
+    boostWethContract,
+    tokenWBTCContract,
+    tokenWETHContract,
+    wbtcPrice,
+    wethPrice,
+    tusdPrice,
+  ])
+
+  useEffect(() => {
+    handleGetBorrowGeneralInfo()
   }, [
     borrowWBTCContract,
     borrowWETHContract,
@@ -320,31 +446,21 @@ const HomePageFilter = () => {
   if (isLoading) {
     return (
       <div className="mt-[80px] md:mt-[0px]">
-        <SkeletonDefault className='h-[500px] md:h-[330px]' width={'100%'} />
+        <SkeletonDefault className="h-[500px] md:h-[330px]" width={'100%'} />
       </div>
     )
   }
 
-  const percent =
-    address && totalBorrow
-      ? new BigNumber(totalMyBorrowed || 0)
-        .dividedBy(new BigNumber(totalBorrow))
-        .multipliedBy(100)
-        .toString()
-      : 0
-
-  console.log('totalMyBorrowed :>> ', totalMyBorrowed)
-
   return (
     <div className="relative mt-[80px] flex w-full flex-wrap items-center justify-center rounded-t-[10px] border-[1px] bg-white from-[#25252566] pt-[80px] md:mt-0 md:pt-0 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br">
       <div className="h-[100px] w-full md:h-[160px] md:w-[50%]">
-        <div className="flex flex-col items-center justify-center w-full h-full space-y-2">
+        <div className="flex h-full w-full flex-col items-center justify-center space-y-2">
           <div className="text-[15px] text-[#959595]">Total Supply</div>
           <NumberFormat
             className="font-larken text-[28px] text-[#404040] dark:text-white"
             displayType="text"
             thousandSeparator
-            value={totalSupplied || 0}
+            value={new BigNumber(totalSupplied || 0).plus(new BigNumber(totalBoostSupply || 0)).toString() || 0}
             decimalScale={2}
             fixedDecimalScale
             prefix={'$'}
@@ -352,7 +468,7 @@ const HomePageFilter = () => {
         </div>
       </div>
       <div className="h-[100px] w-full md:h-[160px] md:w-[50%]">
-        <div className="flex flex-col items-center justify-center w-full h-full space-y-2">
+        <div className="flex h-full w-full flex-col items-center justify-center space-y-2">
           <div className="text-[15px] text-[#959595]">Total Borrow</div>
           <NumberFormat
             className="font-larken text-[28px] text-[#404040] dark:text-white"
@@ -375,13 +491,13 @@ const HomePageFilter = () => {
         }
       ></div>
       <div className="h-[100px] w-full md:h-[160px] md:w-[50%]">
-        <div className="flex flex-col items-center justify-center w-full h-full space-y-2">
+        <div className="flex h-full w-full flex-col items-center justify-center space-y-2">
           <div className="text-[15px] text-[#959595]">Your Supply</div>
           <NumberFormat
             className="font-larken text-[28px] text-[#404040] dark:text-white"
             displayType="text"
             thousandSeparator
-            value={address ? totalMySupplied || '0' : 0}
+            value={address ? new BigNumber(totalMySupplied || '0').plus(new BigNumber(totalMyBoostSupply || 0)).toString() : 0}
             decimalScale={2}
             fixedDecimalScale
             prefix={'$'}
@@ -389,7 +505,7 @@ const HomePageFilter = () => {
         </div>
       </div>
       <div className="h-[100px] w-full md:h-[160px] md:w-[50%]">
-        <div className="flex flex-col items-center justify-center w-full h-full space-y-2">
+        <div className="flex h-full w-full flex-col items-center justify-center space-y-2">
           <div className="text-[15px] text-[#959595]">Your Borrow</div>
           <NumberFormat
             className="font-larken text-[28px] text-[#404040] dark:text-white"
@@ -431,13 +547,15 @@ const HomePageFilter = () => {
       </div>
       <div className="h-[6px] w-full overflow-hidden bg-[#F7F7F7] dark:bg-[#1F1F1F]">
         <div
-          style={{ width: `${address ? Number(borrowedPercent).toFixed(2) : 0}%` }}
+          style={{
+            width: `${address ? Number(borrowedPercent).toFixed(2) : 0}%`,
+          }}
           className="h-full bg-gradient-to-r from-[#C38BFF] to-[#AA5BFF] text-center text-white shadow-none"
         ></div>
       </div>
       <div className="z-100000 absolute top-[-80px] h-[160px] w-[160px] rounded-full border-2 border-[#E6E6E6] bg-white p-2 md:top-auto dark:border-[#25252566] dark:bg-[#1A1A1A]">
         <div className="h-full w-full rounded-full border-4 border-[#C38BFF] dark:bg-[#0D0D0D66]">
-          <div className="flex flex-col items-center justify-center w-full h-full space-y-2">
+          <div className="flex h-full w-full flex-col items-center justify-center space-y-2">
             <div className="text-[14px] text-[#959595]">NET APY</div>
             <NumberFormat
               className="font-larken text-[28px] text-[#404040] dark:text-white"

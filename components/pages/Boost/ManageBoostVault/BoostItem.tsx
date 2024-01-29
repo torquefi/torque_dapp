@@ -75,8 +75,6 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
     try {
       const tokenDecimal = await tokenContract.methods.decimals().call()
       const deposited = await boostContract.methods.balanceOf(address).call()
-      console.log('deposited :>> ', deposited)
-      console.log('deposited :>> ', deposited)
       setDeposited(
         new BigNumber(
           ethers.utils.formatUnits(deposited, tokenDecimal)
