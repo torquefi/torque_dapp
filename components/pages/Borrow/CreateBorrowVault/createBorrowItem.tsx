@@ -402,7 +402,7 @@ export default function CreateBorrowItem({
                 setAmountReceiveRaw(rawValue)
               }}
               onSetShowUsd={setIsUsdBorrowToken}
-              displayType="text"
+            // displayType="text"
             />
           </div>
         </div>
