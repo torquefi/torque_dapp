@@ -13,4 +13,5 @@ export interface IBoostInfo {
   boostContractInfo: IContractInfo
   tokenContract?: Contract
   boostContract?: Contract
+  gmxContractInfo: IContractInfo
 }

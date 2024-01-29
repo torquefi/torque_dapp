@@ -142,7 +142,7 @@ export default function CreateBorrowItem({
         const borrowInfoMap = await borrowContract.methods
           .borrowInfoMap(address)
           .call()
-        console.log('borrow :>> ', borrow);
+        console.log('borrow :>> ', borrow)
 
         const tusdBorrowedAmount = borrowInfoMap?.baseBorrowed
         console.log('tusdBorrowedAmount :>> ', tusdBorrowedAmount)
@@ -280,17 +280,15 @@ export default function CreateBorrowItem({
           new BigNumber(allowance).lte(new BigNumber('0')) ||
           new BigNumber(allowance).lte(tusdBorrowAmount)
         ) {
-          const tx = await tokenContract1
-            .approve(
-              item?.borrowContractInfo?.address,
-              '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
-            )
+          const tx = await tokenContract1.approve(
+            item?.borrowContractInfo?.address,
+            '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+          )
           // .send({
           //   from: address,
           // })
           await tx.wait()
         }
-
 
         const borrowContract2 = new ethers.Contract(
           item?.borrowContractInfo?.address,
@@ -333,7 +331,7 @@ export default function CreateBorrowItem({
   return (
     <>
       <div
-        className="rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pb-5 pt-3 text-[#030303] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white xl:px-[32px]"
+        className="rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pb-5 pt-3 text-[#030303] xl:px-[32px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white"
         key={dataBorrow.depositTokenSymbol}
       >
         <div className="flex w-full items-center justify-between">
@@ -343,7 +341,7 @@ export default function CreateBorrowItem({
               src={dataBorrow.depositTokenIcon}
               alt=""
             />
-            <div className="font-larken text-[18px] leading-tight text-[#030303] dark:text-white md:text-[22px] lg:text-[26px]">
+            <div className="font-larken text-[18px] leading-tight text-[#030303] md:text-[22px] lg:text-[26px] dark:text-white">
               Deposit {dataBorrow.depositTokenSymbol},<br /> Borrow{' '}
               {dataBorrow.borrowTokenSymbol}
             </div>
@@ -369,11 +367,11 @@ export default function CreateBorrowItem({
           </Popover>
         </div>
         <div className="font-larken mb-1 mt-1 grid grid-cols-2 gap-4">
-          <div className="flex w-full items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
+          <div className="flex w-full items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  lg:h-[140px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
             <InputCurrencySwitch
               tokenSymbol={item?.depositTokenSymbol}
               tokenValue={Number(amount)}
-              className="w-full py-4 text-[#030303] dark:text-white lg:py-6"
+              className="w-full py-4 text-[#030303] lg:py-6 dark:text-white"
               subtitle="Collateral"
               usdDefault
               decimalScale={5}
@@ -384,7 +382,7 @@ export default function CreateBorrowItem({
               onSetShowUsd={setIsUsdDepositToken}
             />
           </div>
-          <div className="font-larken flex h-[110px] flex-col items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
+          <div className="font-larken flex h-[110px] flex-col items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0 lg:h-[140px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
             <InputCurrencySwitch
               tokenSymbol="TUSD"
               tokenValue={Number(amountReceive)}

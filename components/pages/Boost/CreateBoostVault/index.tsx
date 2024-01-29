@@ -1,23 +1,16 @@
-import SkeletonDefault from '@/components/skeleton'
 import { useEffect, useState } from 'react'
-import { useMoralis } from 'react-moralis'
 import { CreateBoostItem } from './createBoostItem'
 import {
-  boostBtcContract,
-  btcContract,
-  boostEtherContract,
-  ethContract,
-  // boostTorqContract,
-  // torqContract,
-  // boostCompContract,
-  // compContract,
+  boostWbtcContract,
+  wbtcContract,
+  boostWethContract,
+  wethContract,
+  gmxWethContract,
 } from '@/constants/contracts'
 
-export function CreateBoostVault() {
+export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
   const [boostVault, setBoostVault] = useState(BOOST_VAULTS)
   const [isLoading, setIsLoading] = useState(true)
-
-  const { Moralis, isInitialized } = useMoralis()
 
   // const getAPR = async () => {
   //   try {
@@ -54,8 +47,12 @@ export function CreateBoostVault() {
 
       <div className="grid gap-[20px] md:grid-cols-2">
         {boostVault.map((item, i) => {
-          console.log('item :>> ', item);
-          return <CreateBoostItem item={item} />
+          return (
+            <CreateBoostItem
+              item={item}
+              setIsFetchBoostLoading={setIsFetchBoostLoading}
+            />
+          )
         })}
       </div>
     </div>
@@ -79,8 +76,9 @@ const BOOST_VAULTS = [
     link_yield1: 'https://gmx.io/',
     yield_provider2: '/icons/coin/uni.svg',
     link_yield2: 'https://uniswap.org/',
-    tokenContractInfo: btcContract,
-    boostContractInfo: boostBtcContract,
+    tokenContractInfo: wbtcContract,
+    boostContractInfo: boostWbtcContract,
+    gmxContractInfo: gmxWethContract,
   },
   {
     token: 'WETH',
@@ -98,43 +96,8 @@ const BOOST_VAULTS = [
     link_yield1: 'https://gmx.io/',
     yield_provider2: '/icons/coin/stg.png',
     link_yield2: 'https://stargate.finance/',
-    tokenContractInfo: ethContract,
-    boostContractInfo: boostEtherContract,
+    tokenContractInfo: wethContract,
+    boostContractInfo: boostWethContract,
+    gmxContractInfo: gmxWethContract,
   },
-  // {
-  //   token: 'TORQ',
-  //   bonus_TORQ: 0,
-  //   deposit: 0,
-  //   threeYearValue: 0,
-  //   APR: 0.0,
-  //   rate: 1.14082698313,
-  //   amount: 0,
-  //   boost_contract: 'boost_abi', // boostTorq_abi
-  //   name_ABI_asset: 'torq_abi',
-  //   decimals_asset: 9,
-  //   yield_provider2: '/icons/coin/uni.svg',
-  //   link_yield2: 'https://uniswap.org/',
-  //   yield_provider1: '/icons/coin/torq-yi.svg',
-  //   link_yield1: '#',
-  //   tokenContractInfo: torqContract,
-  //   boostContractInfo: boostTorqContract,
-  // },
-  // {
-  //   token: 'COMP',
-  //   bonus_TORQ: 0,
-  //   deposit: 0,
-  //   threeYearValue: 0,
-  //   APR: 0.0,
-  //   rate: 1.14082698313,
-  //   amount: 0,
-  //   boost_contract: 'boost_abi', // boostComp_abi
-  //   name_ABI_asset: 'comp_abi',
-  //   decimals_asset: 9,
-  //   yield_provider2: '/icons/coin/uni.svg',
-  //   link_yield2: 'https://uniswap.org/',
-  //   yield_provider1: '/icons/coin/sushi.svg',
-  //   link_yield1: 'https://sushi.com/',
-  //   tokenContractInfo: compContract,
-  //   boostContractInfo: boostCompContract,
-  // },
 ]

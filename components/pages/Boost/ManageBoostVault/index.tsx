@@ -1,20 +1,21 @@
 import SkeletonDefault from '@/components/skeleton'
 import {
-  boostBtcContract,
-  boostEtherContract,
-  btcContract,
-  ethContract,
+  boostWbtcContract,
+  boostWethContract,
+  gmxWethContract,
+  wbtcContract,
+  wethContract,
 } from '@/constants/contracts'
 import { LabelApi } from '@/lib/api/LabelApi'
-import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 import { IBoostInfo } from '../types'
 import { BoostItem } from './BoostItem'
 import { EmptyBoost } from './EmptyBoost'
+import { ethers } from 'ethers'
 
-export function ManageBoostVault() {
+export function ManageBoostVault({ isFetchBoostData }: any) {
   const { address, isConnected } = useAccount()
   const [dataBoost, setDataBoost] = useState<IBoostInfo[]>(DATA_BOOST_VAULT)
   const [isSkeletonLoading, setSkeletonLoading] = useState(true)
@@ -35,28 +36,18 @@ export function ManageBoostVault() {
         JSON.parse(item?.boostContractInfo.abi),
         item?.boostContractInfo.address
       )
+      const tokenDecimal = await tokenContract.methods.decimals().call()
+      item.tokenDecimals = Number(tokenDecimal)
 
-      item.tokenDecimals = await tokenContract.methods.decimals().call({
-        from: address,
-      })
-
-      const id = await boostContract.methods
-        .addressToPid(item?.tokenContractInfo.address)
-        .call({
-          from: address,
-        })
-
-      let infoUser = await boostContract.methods.userInfo(address, id).call({
-        from: address,
-      })
-      item.deposited = +ethers.utils
-        .formatUnits(`${infoUser['amount']}`, item.tokenDecimals)
-        .toString()
-      item.earnings = +ethers.utils
-        .formatUnits(`${infoUser['reward']}`, item.tokenDecimals)
-        .toString()
+      if (item.tokenSymbol === 'WBTC') {
+        item.deposited = 0
+      } else {
+        const deposit = await boostContract.methods.balanceOf(address).call()
+        item.deposited = Number(
+          ethers.utils.formatUnits(deposit, tokenDecimal).toString()
+        )
+      }
       console.log('=>>>', item)
-
       return item
     } catch (error) {
       console.log('ManageBoostVault.getBoostData', item?.tokenSymbol, error)
@@ -68,11 +59,8 @@ export function ManageBoostVault() {
     if (loading) {
       setSkeletonLoading(true)
     }
-
     let dataBoost: IBoostInfo[] = []
     try {
-      // console.log('getBoostData', getBoostData)
-
       const labelRes = await LabelApi.getListLabel({
         walletAddress: address,
         position: 'Boost',
@@ -84,9 +72,8 @@ export function ManageBoostVault() {
           labels?.find((label) => label?.tokenSymbol === item?.tokenSymbol)
             ?.name || item?.defaultLabel,
       }))
-
       dataBoost = await Promise.all(dataBoost?.map(getBoostData))
-    } catch (error) {}
+    } catch (error) { }
     setDataBoost(dataBoost)
     if (loading) {
       setSkeletonLoading(false)
@@ -95,11 +82,8 @@ export function ManageBoostVault() {
 
   useEffect(() => {
     handleUpdateBoostData(true)
-  }, [isConnected, address])
+  }, [isConnected, address, isFetchBoostData])
 
-  console.log('dataBoost :>> ', dataBoost)
-
-  // const boostDisplayed = dataBoost
   const boostDisplayed = dataBoost.filter((item) => Number(item?.deposited) > 0)
 
   console.log('boostDisplayed :>> ', boostDisplayed)
@@ -148,8 +132,9 @@ const DATA_BOOST_VAULT: IBoostInfo[] = [
     deposited: 0.0,
     earnings: 0.0,
     APR: 0.0,
-    tokenContractInfo: btcContract,
-    boostContractInfo: boostBtcContract,
+    tokenContractInfo: wbtcContract,
+    boostContractInfo: boostWbtcContract,
+    gmxContractInfo: gmxWethContract,
   },
   {
     tokenSymbol: 'WETH',
@@ -158,7 +143,8 @@ const DATA_BOOST_VAULT: IBoostInfo[] = [
     deposited: 0.0,
     earnings: 0.0,
     APR: 0.0,
-    tokenContractInfo: ethContract,
-    boostContractInfo: boostEtherContract,
+    tokenContractInfo: wethContract,
+    boostContractInfo: boostWethContract,
+    gmxContractInfo: gmxWethContract,
   },
 ]

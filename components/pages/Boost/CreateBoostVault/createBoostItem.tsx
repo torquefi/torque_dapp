@@ -1,119 +1,98 @@
-import CurrencySwitch from '@/components/common/CurrencySwitch'
 import InputCurrencySwitch from '@/components/common/InputCurrencySwitch'
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
 import { ConfirmDepositModal } from '@/components/common/Modal/ConfirmDepositModal'
 import Popover from '@/components/common/Popover'
 import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
-import { updateborrowTime } from '@/lib/redux/slices/borrow'
 import { AppStore } from '@/types/store'
+import { useWeb3Modal } from '@web3modal/react'
+import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
 import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { NumericFormat } from 'react-number-format'
+import { useSelector } from 'react-redux'
 import { toast } from 'sonner'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 
-export function CreateBoostItem({ item }: any) {
-  console.log('item :>> ', item);
+const RPC = 'https://arb1.arbitrum.io/rpc'
+
+export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
+  const { open } = useWeb3Modal()
   const { address, isConnected } = useAccount()
   const [btnLoading, setBtnLoading] = useState(false)
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
   const [isOpenConfirmDepositModal, setOpenConfirmDepositModal] =
     useState(false)
+  const [isUsdDepositToken, setIsUsdDepositToken] = useState(true)
   const [amount, setAmount] = useState<number>(0)
-  const [balance, setBalance] = useState('0')
-
+  const [totalSupply, setTotalSupply] = useState('')
   const theme = useSelector((store: AppStore) => store.theme.theme)
-
-  const dispatch = useDispatch()
-
-  // const tokenContract = useMemo(() => {
-  //   const web3 = new Web3(Web3.givenProvider)
-  //   const contract = new web3.eth.Contract(
-  //     JSON.parse(item?.tokenContractInfo?.abi),
-  //     item?.tokenContractInfo?.address
-  //   )
-  //   return contract
-  // }, [Web3.givenProvider, item?.symbol])
-
-  // const boostContract = useMemo(() => {
-  //   const web3 = new Web3(Web3.givenProvider)
-  //   const contract = new web3.eth.Contract(
-  //     JSON.parse(item?.boostContractInfo?.abi),
-  //     item?.boostContractInfo?.address
-  //   )
-  //   return contract
-  // }, [Web3.givenProvider, item?.symbol])
+  const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
 
   const tokenContract = useMemo(() => {
-    const web3 = new Web3(Web3.givenProvider);
+    const web3 = new Web3(Web3.givenProvider)
     if (!item?.tokenContractInfo?.abi) {
-      console.error('Token contract ABI is undefined');
-      return null;
+      console.error('Token contract ABI is undefined')
+      return null
     }
     return new web3.eth.Contract(
       JSON.parse(item.tokenContractInfo.abi),
       item.tokenContractInfo.address
-    );
-  }, [item]);
+    )
+  }, [Web3.givenProvider, item.tokenContractInfo])
 
-  const boostContract = useMemo(() => {
-    const web3 = new Web3(Web3.givenProvider);
+  const boostReadContract = useMemo(() => {
+    const web3 = new Web3(RPC)
     if (!item?.boostContractInfo?.abi) {
-      console.error('Boost contract ABI is undefined');
-      return null;
+      console.error('Token contract ABI is undefined')
+      return null
     }
     return new web3.eth.Contract(
       JSON.parse(item.boostContractInfo.abi),
       item.boostContractInfo.address
-    );
-  }, [item]);
+    )
+  }, [Web3.givenProvider, item.boostContractInfo])
 
-  const getAllowance = async () => {
-    try {
-      const allowanceToken = await tokenContract.methods
-        .allowance(address, item?.boostContractInfo?.address)
-        .call()
-      const decimals = await tokenContract.methods.decimals().call()
-      const allowance = ethers.utils
-        .formatUnits(allowanceToken, decimals)
-        .toString()
-
-      return allowance
-    } catch (error) {
-      console.log('Staking.DepositModal.handleGetAllowance', error)
-      return 0
-    }
-  }
-
-  const getBalance = async () => {
-    if (tokenContract && address) {
-      try {
-        const balance = await tokenContract.methods.balanceOf(address).call()
-        const decimals = await tokenContract.methods.decimals().call()
-        const tokenAmount = ethers.utils
-          .formatUnits(balance?.toString(), decimals)
-          .toString()
-        setBalance(tokenAmount)
-      } catch (error) {
-        console.log('error :>> ', error)
-        setBalance('0')
-      }
-    }
-  }
-
-  useEffect(() => {
-    getBalance()
-  }, [tokenContract, address])
-
-  const handleConfirmDeposit = () => {
-    if (!isConnected) {
-      setOpenConnectWalletModal(true)
+  const handleGetTotalSupply = async () => {
+    if (!tokenContract || !boostReadContract) {
       return
     }
-    if (!isConnected) {
-      return toast.error('You need connect your wallet first')
+    try {
+      const tokenDecimal = await tokenContract.methods.decimals().call()
+      const totalSupply = await boostReadContract.methods.totalSupply().call()
+      setTotalSupply(
+        new BigNumber(
+          ethers.utils.formatUnits(totalSupply, tokenDecimal)
+        ).toString()
+      )
+    } catch (error) {
+      console.log('handleGetTotalSupply error :>> ', error)
+    }
+  }
+
+  console.log('totalSupply :>> ', totalSupply)
+
+  useEffect(() => {
+    handleGetTotalSupply()
+  }, [boostReadContract, tokenContract])
+
+  const gmxContract = useMemo(() => {
+    const web3 = new Web3(Web3.givenProvider)
+    if (!item?.gmxContractInfo?.abi) {
+      console.error('Token contract ABI is undefined')
+      return null
+    }
+    return new web3.eth.Contract(
+      JSON.parse(item.gmxContractInfo.abi),
+      item.gmxContractInfo.address
+    )
+  }, [Web3.givenProvider, item.gmxContractInfo])
+
+  const handleConfirmDeposit = async () => {
+    if (!isConnected || !address) {
+      await open()
+      return
     }
     if (!+amount) {
       return toast.error('You must input amount to deposit')
@@ -122,48 +101,39 @@ export function CreateBoostItem({ item }: any) {
   }
 
   const onDeposit = async () => {
-    const allowance = await getAllowance()
     try {
-      if (+allowance < +amount) {
-        setBtnLoading(true)
-
-        await tokenContract.methods
-          .approve(
-            item?.boostContractInfo?.address,
-            '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
-          )
-          .send({
-            from: address,
-          })
-      }
-
       setBtnLoading(true)
-
-      const decimals = await tokenContract.methods.decimals().call()
-      const tokenAmount = ethers.utils
-        .parseUnits(amount?.toString(), decimals)
+      const tokenDecimal = await tokenContract.methods.decimals().call()
+      const depositToken = ethers.utils
+        .parseUnits(Number(amount).toFixed(tokenDecimal), tokenDecimal)
         .toString()
+      console.log('depositToken :>> ', depositToken)
 
-      console.log('amount :>> ', amount)
-      console.log(
-        'item?.tokenContractInfo?.address :>> ',
-        item?.tokenContractInfo?.address
+      const executionFee = await gmxContract.methods.executionFee().call()
+
+      const provider = new ethers.providers.Web3Provider(window.ethereum)
+      const signer = provider.getSigner(address)
+      const boostContract2 = new ethers.Contract(
+        item?.boostContractInfo?.address,
+        JSON.parse(item?.boostContractInfo?.abi),
+        signer
       )
-      console.log('tokenAmount :>> ', tokenAmount)
 
-      await boostContract.methods
-        .deposit(item?.tokenContractInfo?.address, tokenAmount)
-        .send({
-          from: address,
-          value: item?.token === 'ETH' ? tokenAmount : 0,
+      if (item.token === 'WETH') {
+        const tx = await boostContract2.depositETH(depositToken, {
+          value: executionFee,
         })
-      toast.success('Boost Successful')
-      dispatch(updateborrowTime(new Date().getTime().toString() as any))
-      setBtnLoading(false)
+        await tx.wait()
+      } else {
+      }
+      toast.success('Boost Successfully')
+      setIsFetchBoostLoading && setIsFetchBoostLoading((prev: any) => !prev)
       setOpenConfirmDepositModal(false)
     } catch (e) {
-      setBtnLoading(false)
       console.log(e)
+      toast.error('Boost Failed')
+    } finally {
+      setBtnLoading(false)
     }
   }
 
@@ -174,22 +144,25 @@ export function CreateBoostItem({ item }: any) {
     return 'Confirm Deposit'
   }
 
+  console.log('usdPrice :>> ', usdPrice);
+  console.log('item :>> ', item);
+
   return (
     <>
       <div
         className={
-          `rounded-[12px] border border-[#E6E6E6] bg-[#ffffff]  px-4 pt-3 pb-5 text-[#030303] dark:border-[#1A1A1A]  dark:text-white lg:px-8 dark:bg-transparent dark:bg-gradient-to-br  from-[#0d0d0d] to-[#0d0d0d]/0` +
+          `rounded-[12px] border border-[#E6E6E6] bg-[#ffffff]  from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pb-5 pt-3  text-[#030303] lg:px-8 dark:border-[#1A1A1A] dark:bg-transparent  dark:bg-gradient-to-br dark:text-white` +
           `  ${theme === 'light' ? ' bg-[#FCFAFF]' : 'bg-overview'}`
         }
       >
-        <div className="flex items-center justify-between w-full">
-          <div className="flex items-center ml-[-12px]">
+        <div className="flex w-full items-center justify-between">
+          <div className="ml-[-12px] flex items-center">
             <img
               src={`/icons/coin/${item.token.toLocaleLowerCase()}.png`}
               alt=""
               className="w-[72px] md:w-24"
             />
-            <div className="font-larken text-[#030303] dark:text-white text-[18px] md:text-[22px] leading-tight lg:text-[26px]">
+            <div className="font-larken text-[18px] leading-tight text-[#030303] md:text-[22px] lg:text-[26px] dark:text-white">
               Deposit {item.token},<br className="" /> Earn {item.token}
             </div>
           </div>
@@ -214,39 +187,31 @@ export function CreateBoostItem({ item }: any) {
             </Link>
           </Popover>
         </div>
-        <div className="grid grid-cols-2 gap-4 mt-1 mb-1 font-larken">
-          <div className="flex w-full items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
+        <div className="font-larken mb-1 mt-1 grid grid-cols-2 gap-4">
+          <div className="flex w-full items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  lg:h-[140px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
             <InputCurrencySwitch
               tokenSymbol={item?.token}
-              tokenValue={+amount}
-              className="w-full py-4 text-[#030303] dark:text-white lg:py-6"
-              decimalScale={2}
-              usdDefault
+              tokenValue={Number(amount)}
+              className="w-full py-4 text-[#030303] lg:py-6 dark:text-white"
               subtitle="Deposit"
-              onChange={(e) => {
-                console.log('e :>> ', e);
-                setAmount(e)
+              usdDefault
+              decimalScale={5}
+              onChange={(tokenValue, rawValue) => {
+                setAmount(tokenValue)
               }}
+              onSetShowUsd={setIsUsdDepositToken}
             />
           </div>
-          <div className="flex h-[110px] w-full flex-col items-center justify-center gap-3 rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A]  dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
-            <CurrencySwitch
+          <div className="flex h-[110px] w-full flex-col items-center justify-center gap-3 rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  lg:h-[140px]  dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
+            <InputCurrencySwitch
               tokenSymbol={item?.token}
               tokenValue={Number(amount || 0) * item?.rate}
+              subtitle="3-Year Value"
               usdDefault
-              className="w-full py-6 text-[#030303] dark:text-white space-y-2"
-              decimalScale={2}
-              render={(value) => {
-                console.log('value :>> ', value);
-                return (
-                  <>
-                    <p className="text-[26px] md:text-[32px] leading-none">{value}</p>
-                    <div className="font-mona text-[16px] text-[#959595]">
-                      3-Year Value
-                    </div>
-                  </>
-                )
-              }}
+              decimalScale={5}
+              className="w-full space-y-2 py-6 text-[#030303] dark:text-white"
+              displayType="text"
+              tokenValueChange={Number(amount) * item?.rate}
             />
           </div>
         </div>
@@ -271,29 +236,39 @@ export function CreateBoostItem({ item }: any) {
         </div>
         <div className="font-mona flex w-full items-center justify-between py-[16px] text-[16px] text-[#959595]">
           <div className="flex items-center justify-center">
-            <div>
-              Safety score
-            </div>
+            <div>Safety score</div>
             <Popover
               trigger="hover"
               placement="bottom-left"
-              className={`font-mona text-[#030303] dark:text-white mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
+              className={`font-mona mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
               content="Factors include raw yield, total value locked, IL, and history"
             >
-              <button className="mt-[7px] ml-[5px]">
-                <img src="/assets/pages/vote/ic-info.svg" alt="risk score system" className="w-[13px]" />
+              <button className="ml-[5px] mt-[7px]">
+                <img
+                  src="/assets/pages/vote/ic-info.svg"
+                  alt="risk score system"
+                  className="w-[13px]"
+                />
               </button>
             </Popover>
           </div>
           <div>9.8/10</div>
-          {/* TODO: dynamic value */}
         </div>
         <div className="font-mona flex w-full items-center justify-between text-[16px] text-[#959595]">
           <div>Assets routed</div>
-          <div>$0.00</div>
+          {/* <div> */}
+          <NumericFormat
+            prefix="$"
+            value={new BigNumber(totalSupply || 0)
+              .multipliedBy(usdPrice?.[item.token] || 0)
+              .toString()}
+            displayType='text'
+            decimalScale={2}
+          />
+          {/* </div> */}
         </div>
         <button
-          className={`font-mona text-[14px] mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
+          className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
           ${btnLoading ? 'cursor-not-allowed text-[#eee]' : 'cursor-pointer '}
         `}
           onClick={handleConfirmDeposit}
@@ -318,12 +293,13 @@ export function CreateBoostItem({ item }: any) {
           amount: amount,
           icon: `/icons/coin/${item.token.toLocaleLowerCase()}.png`,
           symbol: item.token,
+          isUsd: isUsdDepositToken,
         }}
         coinTo={{
           amount: amount,
           icon: `/icons/coin/${item.token.toLocaleLowerCase()}.png`,
-          // symbol: 't' + item.token,
-          symbol: item?.earnToken
+          symbol: item?.earnToken,
+          isUsd: isUsdDepositToken,
         }}
         details={[
           {
