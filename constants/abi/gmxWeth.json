@@ -1,0 +1,202 @@
+[
+  {
+    "inputs": [
+      { "internalType": "address payable", "name": "weth_", "type": "address" },
+      { "internalType": "address", "name": "gmToken_", "type": "address" },
+      { "internalType": "address", "name": "usdcToken_", "type": "address" },
+      { "internalType": "address", "name": "arbToken_", "type": "address" },
+      {
+        "internalType": "address payable",
+        "name": "exchangeRouter_",
+        "type": "address"
+      },
+      { "internalType": "address", "name": "swapRouter_", "type": "address" },
+      { "internalType": "address", "name": "depositVault_", "type": "address" },
+      {
+        "internalType": "address",
+        "name": "withdrawalVault_",
+        "type": "address"
+      },
+      { "internalType": "address", "name": "router_", "type": "address" }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "owner", "type": "address" }
+    ],
+    "name": "OwnableInvalidOwner",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "account", "type": "address" }
+    ],
+    "name": "OwnableUnauthorizedAccount",
+    "type": "error"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "previousOwner",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "OwnershipTransferred",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "arbToken",
+    "outputs": [
+      { "internalType": "contract IERC20", "name": "", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "compound",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_amount", "type": "uint256" }
+    ],
+    "name": "deposit",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "depositedWethAmount",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "exchangeRouter",
+    "outputs": [
+      {
+        "internalType": "contract IGMXExchangeRouter",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "executionFee",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "gmToken",
+    "outputs": [
+      { "internalType": "contract IERC20", "name": "", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "marketAddress",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "renounceOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "swapRouter",
+    "outputs": [
+      { "internalType": "contract ISwapRouter", "name": "", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "newOwner", "type": "address" }
+    ],
+    "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_executionFee", "type": "uint256" }
+    ],
+    "name": "updateExecutionFee",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "usdcToken",
+    "outputs": [
+      { "internalType": "contract IERC20", "name": "", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "weth",
+    "outputs": [
+      { "internalType": "contract IWETH9", "name": "", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_amount", "type": "uint256" }
+    ],
+    "name": "withdraw",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "withdrawETH",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  { "stateMutability": "payable", "type": "receive" }
+]

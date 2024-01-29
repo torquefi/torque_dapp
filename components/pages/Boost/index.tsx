@@ -6,6 +6,7 @@ import Banner from './Banner'
 
 export const BoostPage = () => {
   const [isLoading, setLoading] = useState(true)
+  const [isFetchBoostData, setIsFetchBoostLoading] = useState(false)
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 1000)
@@ -39,8 +40,8 @@ export const BoostPage = () => {
   return (
     <div className="space-y-[36px] px-2 mt-2">
       <Banner />
-      <CreateBoostVault />
-      <ManageBoostVault />
+      <CreateBoostVault setIsFetchBoostLoading={setIsFetchBoostLoading} />
+      <ManageBoostVault isFetchBoostData={isFetchBoostData} />
     </div>
   )
 }

@@ -1,7 +1,7 @@
 import SkeletonDefault from '@/components/skeleton'
 import {
   boostBtcContract,
-  boostEtherContract,
+  boostWethContract,
   btcContract,
   ethContract,
 } from '@/constants/contracts'
@@ -14,7 +14,7 @@ import { IBoostInfo } from '../types'
 import { BoostItem } from './BoostItem'
 import { EmptyBoost } from './EmptyBoost'
 
-export function ManageBoostVault() {
+export function ManageBoostVault({ isFetchBoostData }: any) {
   const { address, isConnected } = useAccount()
   const [dataBoost, setDataBoost] = useState<IBoostInfo[]>(DATA_BOOST_VAULT)
   const [isSkeletonLoading, setSkeletonLoading] = useState(true)
@@ -86,7 +86,7 @@ export function ManageBoostVault() {
       }))
 
       dataBoost = await Promise.all(dataBoost?.map(getBoostData))
-    } catch (error) {}
+    } catch (error) { }
     setDataBoost(dataBoost)
     if (loading) {
       setSkeletonLoading(false)
@@ -95,7 +95,7 @@ export function ManageBoostVault() {
 
   useEffect(() => {
     handleUpdateBoostData(true)
-  }, [isConnected, address])
+  }, [isConnected, address, isFetchBoostData])
 
   console.log('dataBoost :>> ', dataBoost)
 
@@ -159,6 +159,6 @@ const DATA_BOOST_VAULT: IBoostInfo[] = [
     earnings: 0.0,
     APR: 0.0,
     tokenContractInfo: ethContract,
-    boostContractInfo: boostEtherContract,
+    boostContractInfo: boostWethContract,
   },
 ]
