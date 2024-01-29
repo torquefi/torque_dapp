@@ -43,29 +43,11 @@ export function ManageBoostVault({ isFetchBoostData }: any) {
         item.deposited = 0
       } else {
         const deposit = await boostContract.methods.balanceOf(address).call()
-        console.log('deposit :>> ', deposit)
         item.deposited = Number(
           ethers.utils.formatUnits(deposit, tokenDecimal).toString()
         )
       }
-
-      // const id = await boostContract.methods
-      //   .addressToPid(item?.tokenContractInfo.address)
-      //   .call({
-      //     from: address,
-      //   })
-
-      // let infoUser = await boostContract.methods.userInfo(address, id).call({
-      //   from: address,
-      // })
-      // item.deposited = +ethers.utils
-      //   .formatUnits(`${infoUser['amount']}`, item.tokenDecimals)
-      //   .toString()
-      // item.earnings = +ethers.utils
-      //   .formatUnits(`${infoUser['reward']}`, item.tokenDecimals)
-      //   .toString()
       console.log('=>>>', item)
-
       return item
     } catch (error) {
       console.log('ManageBoostVault.getBoostData', item?.tokenSymbol, error)

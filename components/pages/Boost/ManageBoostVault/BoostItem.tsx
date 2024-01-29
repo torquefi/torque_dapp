@@ -22,16 +22,20 @@ interface BoostItemProps {
 }
 
 export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
-  const theme = useSelector((store: AppStore) => store.theme.theme)
   const { open } = useWeb3Modal()
+  const { address, isConnected } = useAccount()
+  const theme = useSelector((store: AppStore) => store.theme.theme)
+
+  const refLabelInput = useRef<HTMLInputElement>(null)
+
   const [isOpen, setOpen] = useState(false)
   const [amount, setAmount] = useState('')
   const [isEdit, setEdit] = useState(false)
   const [isSubmitLoading, setSubmitLoading] = useState(false)
   const [label, setLabel] = useState(item?.defaultLabel)
-
-  const { address, isConnected } = useAccount()
-  const refLabelInput = useRef<HTMLInputElement>(null)
+  const [apr, setApr] = useState('')
+  const [earnings, setEarnings] = useState('')
+  const [deposited, setDeposited] = useState('')
 
   const tokenContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
@@ -62,6 +66,30 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
     )
     return contract
   }, [Web3.givenProvider, item?.tokenSymbol])
+
+  const handleGetBoostData = async () => {
+    if (!boostContract || !address || !tokenContract) {
+      return
+    }
+
+    try {
+      const tokenDecimal = await tokenContract.methods.decimals().call()
+      const deposited = await boostContract.methods.balanceOf(address).call()
+      console.log('deposited :>> ', deposited)
+      console.log('deposited :>> ', deposited)
+      setDeposited(
+        new BigNumber(
+          ethers.utils.formatUnits(deposited, tokenDecimal)
+        ).toString()
+      )
+    } catch (error) {
+      console.log('error get boost data item :>> ', error)
+    }
+  }
+
+  useEffect(() => {
+    handleGetBoostData()
+  }, [boostContract, address, tokenContract])
 
   const onWithdraw = async () => {
     if (!isConnected || !address) {
@@ -97,6 +125,7 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
         JSON.parse(item?.boostContractInfo?.abi),
         signer
       )
+      console.log('withdrawAmount :>> ', withdrawAmount)
       const tx = await boostContract2.withdrawETH(withdrawAmount, {
         value: executionFee,
       })
@@ -143,7 +172,7 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
       <div className="flex w-full items-center justify-between">
         <CurrencySwitch
           tokenSymbol={item?.tokenSymbol}
-          tokenValue={item.deposited}
+          tokenValue={Number(deposited)}
           usdDefault
           className="-my-4 flex h-full min-w-[130px] flex-col items-center justify-center gap-2 py-4"
           render={(value) => (
@@ -273,14 +302,6 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
           <div className="mt-10">
             <div className="text-[28px]">Withdraw {item?.tokenSymbol}</div>
             <div className="mt-2 flex w-full items-center justify-between rounded-[12px] border bg-[#FCFAFF] px-2 py-4 dark:border-[#1A1A1A] dark:bg-[#161616]">
-              {/* <input
-                type="number"
-                className="font-mona w-full bg-none px-2 focus:outline-none"
-                style={{ backgroundColor: 'transparent' }}
-                value={amount}
-                placeholder="Select amount"
-                onChange={(e) => setAmount(e.target.value)}
-              /> */}
               <NumericFormat
                 className="font-mona w-full bg-transparent bg-none px-2 focus:outline-none"
                 placeholder="Select amount"
@@ -295,7 +316,7 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
                     key={i}
                     className="font-mona rounded bg-[#F4F4F4] px-2 py-1 text-sm text-[#959595] dark:bg-[#1A1A1A]"
                     onClick={() => {
-                      setAmount(`${(percent * item.deposited) / 100}`)
+                      setAmount(`${(percent * Number(deposited || 0)) / 100.01}`)
                     }}
                   >
                     {percent}%
