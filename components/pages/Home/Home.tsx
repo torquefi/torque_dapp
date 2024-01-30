@@ -121,6 +121,8 @@ const HomePageFilter = () => {
         !tokenWBTCContract ||
         !tokenWETHContract ||
         !tokenTUSDContract ||
+        !boostWBTCContract ||
+        !boostWETHContract ||
         !address
       ) {
         return
@@ -221,9 +223,22 @@ const HomePageFilter = () => {
       }
       setBorrowedPercent(borrowedPercent.toString())
 
+      // boost
+      // WBTC
+
+      // WETH
+      const tokenWethDecimal = await tokenWETHContract.methods.decimals().call()
+      const depositedWeth = await boostWETHContract.methods.balanceOf(address).call()
+      const depositedWethUsd = new BigNumber(
+        ethers.utils.formatUnits(depositedWeth, tokenWethDecimal).toString()
+      )
+        .multipliedBy(new BigNumber(wethPrice || 0))
+        .toString()
+      setTotalMyBoostSupply(depositedWethUsd)
+
       setTotalMySupplied(
         new BigNumber(myWbtcSuppliedUsd)
-          .plus(new BigNumber(myWethSuppliedUsd))
+          .plus(new BigNumber(myWethSuppliedUsd)).plus(new BigNumber(depositedWethUsd))
           .toString()
       )
 
@@ -244,6 +259,8 @@ const HomePageFilter = () => {
     tokenWBTCContract,
     tokenWETHContract,
     tokenTUSDContract,
+    boostWBTCContract,
+    boostWETHContract,
     wbtcPrice,
     wethPrice,
     tusdPrice,
@@ -300,7 +317,9 @@ const HomePageFilter = () => {
         !borrowWETHContract ||
         !tokenWBTCContract ||
         !tokenWETHContract ||
-        !tokenTUSDContract
+        !tokenTUSDContract ||
+        !boostWBTCContract ||
+        !boostWETHContract
       ) {
         return
       }
@@ -362,10 +381,22 @@ const HomePageFilter = () => {
       console.log('totalWethBorrowed :>> ', totalWethBorrowed)
       console.log('totalWethBorrowedUsd :>> ', totalWethBorrowedUsd)
 
+      // WBTC
+
+      // WETH
+      const tokenWethDecimal = await tokenWETHContract.methods.decimals().call()
+      const depositedWeth = await boostWETHContract.methods.balanceOf(address).call()
+      const depositedWethUsd = new BigNumber(
+        ethers.utils.formatUnits(depositedWeth, tokenWethDecimal).toString()
+      )
+        .multipliedBy(new BigNumber(wethPrice || 0))
+        .toString()
+      setTotalMyBoostSupply(depositedWethUsd)
+
       // total supplied
       setTotalSupplied(
         new BigNumber(totalWbtcSuppliedUsd)
-          .plus(new BigNumber(totalWethSuppliedUsd))
+          .plus(new BigNumber(totalWethSuppliedUsd)).plus(new BigNumber(depositedWethUsd))
           .toString()
       )
 
@@ -388,47 +419,6 @@ const HomePageFilter = () => {
     }
   }
 
-  const handleGetBoostGeneralInfo = async () => {
-    try {
-      if (
-        !boostWbtcContract ||
-        !boostWethContract ||
-        !tokenWBTCContract ||
-        !tokenWETHContract ||
-        !tokenTUSDContract
-      ) {
-        return
-      }
-
-      // WBTC
-      const wbtcDecimal = await tokenWBTCContract.methods.decimals().call()
-
-      // WETH
-      const wethDecimal = await tokenWETHContract.methods.decimals().call()
-      const totalWethSupply = await boostWETHContract.methods.totalSupply().call()
-      const totalWethSupplyUsd = new BigNumber(
-        ethers.utils.formatUnits(totalWethSupply, wethDecimal).toString()
-      )
-        .multipliedBy(new BigNumber(wethPrice || 0))
-        .toString()
-      setTotalBoostSupply(totalWethSupplyUsd)
-    } catch (error) {
-      console.log('handleGetBoostGeneralInfo error :>> ', error);
-    }
-  }
-
-  useEffect(() => {
-    handleGetBoostGeneralInfo()
-  }, [
-    boostWbtcContract,
-    boostWethContract,
-    tokenWBTCContract,
-    tokenWETHContract,
-    wbtcPrice,
-    wethPrice,
-    tusdPrice,
-  ])
-
   useEffect(() => {
     handleGetBorrowGeneralInfo()
   }, [
@@ -437,6 +427,8 @@ const HomePageFilter = () => {
     tokenWBTCContract,
     tokenWETHContract,
     tokenTUSDContract,
+    boostWBTCContract,
+    boostWETHContract,
     address,
     wbtcPrice,
     wethPrice,
@@ -460,7 +452,7 @@ const HomePageFilter = () => {
             className="font-larken text-[28px] text-[#404040] dark:text-white"
             displayType="text"
             thousandSeparator
-            value={new BigNumber(totalSupplied || 0).plus(new BigNumber(totalBoostSupply || 0)).toString() || 0}
+            value={Number(totalSupplied) > 0 ? new BigNumber(totalSupplied || 0).toString() : 0}
             decimalScale={2}
             fixedDecimalScale
             prefix={'$'}
@@ -497,7 +489,7 @@ const HomePageFilter = () => {
             className="font-larken text-[28px] text-[#404040] dark:text-white"
             displayType="text"
             thousandSeparator
-            value={address ? new BigNumber(totalMySupplied || '0').plus(new BigNumber(totalMyBoostSupply || 0)).toString() : 0}
+            value={address ? new BigNumber(totalMySupplied || '0').toString() : 0}
             decimalScale={2}
             fixedDecimalScale
             prefix={'$'}
@@ -537,7 +529,6 @@ const HomePageFilter = () => {
             className="font-larken text-[16px]"
             displayType="text"
             thousandSeparator
-            // value={Number(ltv) * 100}
             value={100}
             decimalScale={2}
             fixedDecimalScale
