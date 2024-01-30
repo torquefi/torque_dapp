@@ -266,50 +266,6 @@ const HomePageFilter = () => {
     tusdPrice,
   ])
 
-  const handleGetMyBoostInfo = async () => {
-    try {
-      if (
-        !boostWBTCContract ||
-        !boostWETHContract ||
-        !address ||
-        !tokenWBTCContract ||
-        !tokenWETHContract ||
-        !address
-      ) {
-        return
-      }
-      // WBTC
-
-      // WETH
-      const tokenWethDecimal = await tokenWETHContract.methods.decimals().call()
-      const depositedWeth = await boostWETHContract.methods.balanceOf(address).call()
-      const depositedWethUsd = new BigNumber(
-        ethers.utils.formatUnits(depositedWeth, tokenWethDecimal).toString()
-      )
-        .multipliedBy(new BigNumber(wethPrice || 0))
-        .toString()
-      setTotalMyBoostSupply(depositedWethUsd)
-    } catch (error) {
-
-    }
-  }
-
-  useEffect(() => {
-    handleGetMyBoostInfo()
-  }, [
-    address,
-    boostWBTCContract,
-    boostWETHContract,
-    tokenWBTCContract,
-    tokenWETHContract,
-    address,
-    wbtcPrice,
-    wethPrice,
-    tusdPrice,
-  ])
-
-
-
   const handleGetBorrowGeneralInfo = async () => {
     try {
       if (
