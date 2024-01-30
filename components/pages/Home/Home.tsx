@@ -341,7 +341,7 @@ const HomePageFilter = () => {
 
       // WETH
       const tokenWethDecimal = await tokenWETHContract.methods.decimals().call()
-      const depositedWeth = await boostWETHContract.methods.balanceOf(address).call()
+      const depositedWeth = await boostWETHContract.methods.totalSupply().call()
       const depositedWethUsd = new BigNumber(
         ethers.utils.formatUnits(depositedWeth, tokenWethDecimal).toString()
       )
