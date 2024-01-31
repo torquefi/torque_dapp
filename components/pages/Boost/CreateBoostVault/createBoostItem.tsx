@@ -26,6 +26,8 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
     useState(false)
   const [isUsdDepositToken, setIsUsdDepositToken] = useState(true)
   const [amount, setAmount] = useState<number>(0)
+  const [amountRaw, setAmountRaw] = useState(0)
+  const [amountReceiveRaw, setAmountReceiveRaw] = useState(0)
   const [totalSupply, setTotalSupply] = useState('')
   const theme = useSelector((store: AppStore) => store.theme.theme)
   const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
@@ -142,14 +144,14 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
     return 'Confirm Deposit'
   }
 
-  console.log('usdPrice :>> ', usdPrice);
-  console.log('item :>> ', item);
+  console.log('usdPrice :>> ', usdPrice)
+  console.log('item :>> ', item)
 
   return (
     <>
       <div
         className={
-          `rounded-[12px] border border-[#E6E6E6] bg-[#ffffff]  from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pb-5 pt-3  text-[#030303] lg:px-8 dark:border-[#1A1A1A] dark:bg-transparent  dark:bg-gradient-to-br dark:text-white` +
+          `rounded-[12px] border border-[#E6E6E6] bg-[#ffffff]  from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pb-5 pt-3  text-[#030303] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br  dark:text-white lg:px-8` +
           `  ${theme === 'light' ? ' bg-[#FCFAFF]' : 'bg-overview'}`
         }
       >
@@ -160,7 +162,7 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
               alt=""
               className="w-[72px] md:w-24"
             />
-            <div className="font-larken text-[18px] leading-tight text-[#030303] md:text-[22px] lg:text-[26px] dark:text-white">
+            <div className="font-larken text-[18px] leading-tight text-[#030303] dark:text-white md:text-[22px] lg:text-[26px]">
               Deposit {item.token},<br className="" /> Earn {item.token}
             </div>
           </div>
@@ -186,30 +188,33 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
           </Popover>
         </div>
         <div className="font-larken mb-1 mt-1 grid grid-cols-2 gap-4">
-          <div className="flex w-full items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  lg:h-[140px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
+          <div className="flex w-full items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
             <InputCurrencySwitch
               tokenSymbol={item?.token}
               tokenValue={Number(amount)}
-              className="w-full py-4 text-[#030303] lg:py-6 dark:text-white"
+              className="w-full py-4 text-[#030303] dark:text-white lg:py-6"
               subtitle="Deposit"
               usdDefault
               decimalScale={5}
               onChange={(tokenValue, rawValue) => {
+                console.log(tokenValue, rawValue)
                 setAmount(tokenValue)
+                setAmountRaw(rawValue)
               }}
               onSetShowUsd={setIsUsdDepositToken}
             />
           </div>
-          <div className="flex h-[110px] w-full flex-col items-center justify-center gap-3 rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  lg:h-[140px]  dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
+          <div className="flex h-[110px] w-full flex-col items-center justify-center gap-3 rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A]  dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
             <InputCurrencySwitch
               tokenSymbol={item?.token}
               tokenValue={Number(amount || 0) * item?.rate}
               subtitle="3-Year Value"
               usdDefault
               decimalScale={5}
-              className="w-full space-y-2 py-6 text-[#030303] dark:text-white"
+              className="w-full py-4 text-[#030303] dark:text-white lg:py-6"
               displayType="text"
               tokenValueChange={Number(amount) * item?.rate}
+              // const
             />
           </div>
         </div>
@@ -256,10 +261,12 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
           <div>Assets routed</div>
           <NumericFormat
             prefix="$"
-            value={Number(new BigNumber(totalSupply || 0)
-              .multipliedBy(usdPrice?.[item.token] || 0)
-              .toString()).toFixed(2)}
-            displayType='text'
+            value={Number(
+              new BigNumber(totalSupply || 0)
+                .multipliedBy(usdPrice?.[item.token] || 0)
+                .toString()
+            ).toFixed(2)}
+            displayType="text"
           />
         </div>
         <button
@@ -285,13 +292,16 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
         onConfirm={() => onDeposit()}
         loading={btnLoading}
         coinFrom={{
-          amount: amount,
+          amount: amountRaw,
           icon: `/icons/coin/${item.token.toLocaleLowerCase()}.png`,
           symbol: item.token,
           isUsd: isUsdDepositToken,
         }}
         coinTo={{
-          amount: amount,
+          amount:
+            +(
+              (isUsdDepositToken ? amount * usdPrice[item?.token] : amount) || 0
+            ) * item?.rate,
           icon: `/icons/coin/${item.token.toLocaleLowerCase()}.png`,
           symbol: item?.earnToken,
           isUsd: isUsdDepositToken,

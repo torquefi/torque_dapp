@@ -5,6 +5,7 @@ import {
   tokenTusdContract,
 } from '@/components/pages/Borrow/constants/contract'
 import { getBalanceByContractToken } from '@/constants/utils'
+import { floorFraction } from '@/lib/helpers/number'
 import { AppStore } from '@/types/store'
 import { useEffect, useState } from 'react'
 import { AiOutlineClose } from 'react-icons/ai'
@@ -54,6 +55,29 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
   const [balanceWallet, setBalanceWallet] = useState<any>(0)
 
   console.log('balanceWallet :>> ', balanceWallet)
+
+  const renderAmount = (coin: DepositCoinDetail) => {
+    let amount = coin?.amount?.toString()
+    // return <p>{amount || '0'}</p>
+    if (coin?.isUsd) {
+      amount = floorFraction(amount, 2)?.toFixed(2)
+    } else {
+      amount = floorFraction(amount, 5)?.toString()
+      if (!/\.\d\d/g.test(amount)) {
+        amount = (+amount)?.toFixed(2)
+      }
+    }
+    return (
+      <NumberFormat
+        displayType="text"
+        value={amount}
+        suffix={!coin?.isUsd ? ` ${coin.symbol}` : ''}
+        prefix={coin?.isUsd ? `$` : ''}
+        thousandSeparator
+        decimalScale={5}
+      />
+    )
+  }
 
   useEffect(() => {
     if (address) {
@@ -114,14 +138,7 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
           <div>
             <span className="text-[16px] text-[#959595]">You deposit</span>
             <div className="font-larken pt-2 text-[23px] text-[#030303] dark:text-white">
-              <NumberFormat
-                displayType="text"
-                value={coinFrom?.amount}
-                suffix={!coinFrom?.isUsd ? ` ${coinFrom.symbol}` : ''}
-                prefix={coinFrom?.isUsd ? `$` : ''}
-                thousandSeparator
-                decimalScale={5}
-              />
+              {renderAmount(coinFrom)}
             </div>
           </div>
           <div>
@@ -132,14 +149,7 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
           <div>
             <span className="text-[16px] text-[#959595]">You receive</span>
             <div className="font-larken pt-2 text-[23px] text-[#030303] dark:text-white">
-              <NumberFormat
-                displayType="text"
-                value={coinTo?.amount}
-                suffix={!coinTo?.isUsd ? ` ${coinTo.symbol}` : ''}
-                prefix={coinTo?.isUsd ? `$` : ''}
-                thousandSeparator
-                decimalScale={5}
-              />
+              {renderAmount(coinTo)}
             </div>
           </div>
           <div className="relative w-16">
