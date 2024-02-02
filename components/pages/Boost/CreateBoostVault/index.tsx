@@ -1,10 +1,19 @@
+import { TokenApr } from '@/lib/api/TokenApr'
 import { useEffect, useState } from 'react'
+import {
+  boostWbtcContract,
+  boostWethContract,
+  gmxWethContract,
+  wbtcContract,
+  wethContract,
+} from '../constants/contracts'
 import { CreateBoostItem } from './createBoostItem'
-import { boostWbtcContract, boostWethContract, gmxWethContract, wbtcContract, wethContract } from '../constants/contracts'
 
 export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
   const [boostVault, setBoostVault] = useState(BOOST_VAULTS)
   const [isLoading, setIsLoading] = useState(true)
+
+  console.log('boostVault', boostVault)
 
   // const getAPR = async () => {
   //   try {
@@ -24,6 +33,37 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
   //     console.log(e)
   //   }
   // }
+
+  const getBoostData = async ({ ...item }: (typeof BOOST_VAULTS)[0]) => {
+    try {
+      // console.log('=>>>', item)
+      return item
+    } catch (error) {
+      console.log('ManageBoostVault.getBoostData', error)
+      return item
+    }
+  }
+
+  const handleUpdateBoostData = async (loading = false) => {
+    let dataBoost: any[] = boostVault
+    try {
+      const aprRes = await TokenApr.getListApr({})
+      const aprs: any[] = aprRes?.data || []
+      dataBoost = dataBoost?.map((item) => ({
+        ...item,
+        APR:
+          aprs?.find(
+            (apr) => apr?.name === (item?.token === 'WBTC' ? 'BTC' : 'ETH')
+          )?.apr || 0,
+      }))
+      dataBoost = await Promise.all(dataBoost?.map(getBoostData))
+    } catch (error) {}
+    setBoostVault(dataBoost)
+  }
+
+  useEffect(() => {
+    handleUpdateBoostData(true)
+  }, [])
 
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1000)
