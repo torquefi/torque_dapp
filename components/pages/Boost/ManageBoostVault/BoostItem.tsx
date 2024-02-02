@@ -260,8 +260,8 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
                   src={`/icons/coin/${item.tokenSymbol.toLowerCase()}.png`}
                   alt=""
                 />
-                {label}
-                <button className="ml-2">
+                <div className='min-w-[81px]'>{label}</div>
+                <button className="">
                   <AiOutlineEdit />
                 </button>
               </div>

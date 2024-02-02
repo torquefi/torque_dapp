@@ -387,8 +387,8 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                     src={`/icons/coin/${item.depositTokenSymbol.toLowerCase()}.png`}
                     alt=""
                   />
-                  {label}
-                  <button className="ml-2">
+                  <div className='min-w-[81px]'>{label}</div>
+                  <button className="">
                     <AiOutlineEdit />
                   </button>
                 </div>
