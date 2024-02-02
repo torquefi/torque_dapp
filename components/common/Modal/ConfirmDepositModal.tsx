@@ -5,7 +5,6 @@ import {
   tokenTusdContract,
 } from '@/components/pages/Borrow/constants/contract'
 import { getBalanceByContractToken } from '@/constants/utils'
-import { floorFraction } from '@/lib/helpers/number'
 import { AppStore } from '@/types/store'
 import { useEffect, useState } from 'react'
 import { AiOutlineClose } from 'react-icons/ai'
@@ -60,13 +59,18 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
     let amount = coin?.amount?.toString()
     // return <p>{amount || '0'}</p>
     if (coin?.isUsd) {
-      amount = floorFraction(amount, 2)?.toFixed(2)
+      amount = (+amount || 0)?.toFixed(2)
     } else {
-      amount = floorFraction(amount, 5)?.toString()
-      if (!/\.\d\d/g.test(amount)) {
-        amount = (+amount)?.toFixed(2)
-      }
+      amount = (+amount || 0).toFixed(5)
     }
+    // if (coin?.isUsd) {
+    //   amount = floorFraction(amount, 2)?.toFixed(2)
+    // } else {
+    //   amount = floorFraction(amount, 5)?.toString()
+    //   if (!/\.\d\d/g.test(amount)) {
+    //     amount = (+amount)?.toFixed(2)
+    //   }
+    // }
     return (
       <NumberFormat
         displayType="text"
