@@ -69,15 +69,15 @@ export default function InputCurrencySwitch({
 
   useEffect(() => {
     if (isShowUsd) {
-      setInputAmount(tokenValueChange * tokenPrice)
+      setInputAmount(floorFraction(tokenValueChange * tokenPrice, 2))
     } else {
-      setInputAmount(tokenValueChange)
+      setInputAmount(floorFraction(tokenValueChange, 5))
     }
   }, [tokenValueChange])
 
   useEffect(() => {
-    if (isShowUsd) setInputAmount(inputAmount * tokenPrice)
-    else setInputAmount(inputAmount / tokenPrice)
+    if (isShowUsd) setInputAmount(floorFraction(inputAmount * tokenPrice, 2))
+    else setInputAmount(floorFraction(inputAmount / tokenPrice, 5))
   }, [isShowUsd])
 
   return (
