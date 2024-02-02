@@ -1,5 +1,4 @@
 import NumberFormat from '@/components/common/NumberFormat'
-import { floorFraction } from '@/lib/helpers/number'
 import { AppStore } from '@/types/store'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
@@ -58,26 +57,23 @@ export default function InputCurrencySwitch({
         const inputAmountTransformed = !!tokenPrice
           ? inputAmount / tokenPrice
           : 0
-        onChange(
-          floorFraction(inputAmountTransformed, 5),
-          floorFraction(inputAmount, 2)
-        )
+        onChange(inputAmountTransformed, inputAmount)
       } else {
-        onChange(floorFraction(inputAmount, 5), floorFraction(inputAmount, 5))
+        onChange(inputAmount, inputAmount)
       }
   }, [inputAmount])
 
   useEffect(() => {
     if (isShowUsd) {
-      setInputAmount(floorFraction(tokenValueChange * tokenPrice, 2))
+      setInputAmount(tokenValueChange * tokenPrice)
     } else {
-      setInputAmount(floorFraction(tokenValueChange, 5))
+      setInputAmount(tokenValueChange)
     }
   }, [tokenValueChange])
 
   useEffect(() => {
-    if (isShowUsd) setInputAmount(floorFraction(inputAmount * tokenPrice, 2))
-    else setInputAmount(floorFraction(inputAmount / tokenPrice, 5))
+    if (isShowUsd) setInputAmount(inputAmount * tokenPrice)
+    else setInputAmount(inputAmount / tokenPrice)
   }, [isShowUsd])
 
   return (
