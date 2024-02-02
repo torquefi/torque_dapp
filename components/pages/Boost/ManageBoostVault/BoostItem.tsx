@@ -37,6 +37,7 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
   const [apr, setApr] = useState('')
   const [earnings, setEarnings] = useState('')
   const [deposited, setDeposited] = useState('')
+  const [isExecuteLoading, setIsExecuteLoading] = useState(false)
 
   const tokenContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
@@ -95,6 +96,33 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
       await open()
       return
     }
+    setIsExecuteLoading(true)
+    try {
+      const provider = new ethers.providers.Web3Provider(window.ethereum)
+      const signer = provider.getSigner(address)
+      const gmxContract2 = new ethers.Contract(
+        item?.gmxContractInfo?.address,
+        JSON.parse(item?.gmxContractInfo?.abi),
+        signer
+      )
+      const slippage = 10
+      const tx = await gmxContract2.withdrawAmount(slippage)
+      await tx.wait()
+      toast.success('Execute Successfully')
+      handleGetBoostData()
+    } catch (error) {
+      console.log('error :>> ', error)
+      toast.error('Execute Failed')
+    } finally {
+      setIsExecuteLoading(false)
+    }
+  }
+
+  const onCreate = async () => {
+    if (!isConnected || !address) {
+      await open()
+      return
+    }
     try {
       setSubmitLoading(true)
       const decimalToken = await tokenContract.methods.decimals().call()
@@ -130,8 +158,9 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
       })
       await tx.wait()
       setAmount('')
-      toast.success('Withdraw Successfully')
+      toast.success('Withdrawal Success')
       onWithdrawSuccess && onWithdrawSuccess()
+      handleGetBoostData()
     } catch (e) {
       toast.error('Withdraw Failed')
       console.log(e)
@@ -213,7 +242,7 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
     if (!address) {
       return 'Connect Wallet'
     }
-    return 'Withdraw'
+    return 'Create'
   }
 
   return (
@@ -283,11 +312,10 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
           </div>
         </div>
         <div
-          className={`grid grid-cols-1 gap-8 overflow-hidden transition-all duration-300 lg:grid-cols-2 ${
-            isOpen
-              ? 'max-h-[1000px] py-[16px] ease-in'
-              : 'max-h-0 py-0 opacity-0 ease-out'
-          }`}
+          className={`grid grid-cols-1 gap-8 overflow-hidden transition-all duration-300 lg:grid-cols-2 ${isOpen
+            ? 'max-h-[1000px] py-[16px] ease-in'
+            : 'max-h-0 py-0 opacity-0 ease-out'
+            }`}
         >
           <div className="flex items-center justify-between gap-4 lg:hidden">
             {summaryInfo()}
@@ -335,10 +363,13 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
             <button
               className={
                 `font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]` +
-                ` ${isSubmitLoading ? 'cursor-not-allowed opacity-70' : ''}`
+                ` ${isSubmitLoading || isExecuteLoading
+                  ? 'cursor-not-allowed opacity-70'
+                  : ''
+                }`
               }
-              disabled={isSubmitLoading}
-              onClick={() => onWithdraw()}
+              disabled={isSubmitLoading || isExecuteLoading}
+              onClick={() => onCreate()}
             >
               {isSubmitLoading && <LoadingCircle />}
               {renderSubmitText()}
@@ -346,11 +377,15 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
             <button
               className={
                 `font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-transparent to-transparent  py-1 text-[14px] uppercase text-[#AA5BFF] transition-all hover:border hover:from-[#AA5BFF] hover:to-[#912BFF] hover:text-white` +
-                ` ${isSubmitLoading ? 'cursor-not-allowed opacity-70' : ''}`
+                ` ${isSubmitLoading || isExecuteLoading
+                  ? 'cursor-not-allowed opacity-70'
+                  : ''
+                }`
               }
-              disabled={isSubmitLoading}
-              // onClick={() => onWithdraw()}
+              disabled={isSubmitLoading || isExecuteLoading}
+              onClick={() => onWithdraw()}
             >
+              {isExecuteLoading && <LoadingCircle />}
               Execute
             </button>
           </div>

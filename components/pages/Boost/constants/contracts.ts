@@ -12,12 +12,12 @@ export const wbtcContract: IContractInfo = {
 }
 
 export const boostWethContract: IContractInfo = {
-  address: '0x59E2AF9F3990E65736dA046bE34680CC7Ac9cC60',
+  address: '0xDE80Cc9724FfAD03C2626379f22718527bB74b68',
   abi: JSON.stringify(boostWethAbi),
 }
 
 export const gmxWethContract: IContractInfo = {
-  address: '0x09584A7f0e092cA59f68f1dEbAa78EDECb8865d9',
+  address: '0x7A62C9192Ef422a2B365164bbF874e2D30F78300',
   abi: JSON.stringify(gmxWethAbi),
 }
 
