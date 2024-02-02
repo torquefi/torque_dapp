@@ -27,7 +27,6 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
   const [isUsdDepositToken, setIsUsdDepositToken] = useState(true)
   const [amount, setAmount] = useState<number>(0)
   const [amountRaw, setAmountRaw] = useState(0)
-  const [amountReceiveRaw, setAmountReceiveRaw] = useState(0)
   const [totalSupply, setTotalSupply] = useState('')
   const theme = useSelector((store: AppStore) => store.theme.theme)
   const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
@@ -128,6 +127,7 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
       }
       toast.success('Boost Successfully')
       setIsFetchBoostLoading && setIsFetchBoostLoading((prev: any) => !prev)
+      handleGetTotalSupply()
       setOpenConfirmDepositModal(false)
     } catch (e) {
       console.log(e)
@@ -143,9 +143,6 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
     }
     return 'Confirm Deposit'
   }
-
-  console.log('usdPrice :>> ', usdPrice)
-  console.log('item :>> ', item)
 
   return (
     <>
@@ -214,7 +211,7 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
               className="w-full py-4 text-[#030303] dark:text-white lg:py-6"
               displayType="text"
               tokenValueChange={Number(amount) * item?.rate}
-              // const
+            // const
             />
           </div>
         </div>
