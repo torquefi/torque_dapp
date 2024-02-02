@@ -1,4 +1,5 @@
 import NumberFormat from '@/components/common/NumberFormat'
+import { floorFraction } from '@/lib/helpers/number'
 import { AppStore } from '@/types/store'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
@@ -92,7 +93,13 @@ export default function InputCurrencySwitch({
         suffix={!isShowUsd ? ' ' + tokenSymbol : ''}
         prefix={isShowUsd ? '$' : ''}
         className={`block max-w-full whitespace-nowrap bg-transparent pb-[3px] text-center text-[26px] leading-tight text-[#030303] placeholder-[#030303] dark:text-[#ffff] dark:placeholder-[#fff] md:text-[32px]`}
-        value={inputAmount || (displayType === 'input' ? null : '0.00')}
+        value={
+          +inputAmount
+            ? floorFraction(inputAmount, isShowUsd ? 2 : 5)
+            : displayType === 'input'
+            ? null
+            : '0.00'
+        }
         onChange={(event: any, value: any) => {
           setInputAmount(value)
         }}
