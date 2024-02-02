@@ -1,3 +1,5 @@
+import BigNumber from 'bignumber.js'
+
 export function toMetricUnits(num: number, fixed: number = 2) {
   const units = ['', 'K', 'M', 'B', 'T', 'Q', 'E', 'Z', 'Y', 'R', 'Q']
   let count = 0
@@ -13,8 +15,15 @@ export function toMetricUnits(num: number, fixed: number = 2) {
 }
 
 export const floorFraction = (number: number, fraction = 0) => {
-  return (
-    Math.floor(+(number || 0) * Math.pow(10, fraction)) / Math.pow(10, fraction)
+  // return (
+  //   Math.floor(+(number || 0) * Math.pow(10, fraction)) / Math.pow(10, fraction)
+  // )
+
+  return Number(
+    new BigNumber(number)
+      .multipliedBy(Math.pow(10, fraction))
+      .dividedBy(Math.pow(10, fraction))
+      .toString()
   )
 }
 
