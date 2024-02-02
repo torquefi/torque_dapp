@@ -18,8 +18,10 @@ import {
   boostWbtcContract,
   boostWethContract,
 } from '../Boost/constants/contracts'
+import { arbitrum } from 'wagmi/chains'
 
-const RPC = 'https://arb1.arbitrum.io/rpc'
+const RPC = arbitrum.rpcUrls.default.http[0]
+console.log('rpc :>> ', RPC)
 
 const HomePageFilter = () => {
   const { address } = useAccount()
@@ -228,7 +230,9 @@ const HomePageFilter = () => {
 
       // WETH
       const tokenWethDecimal = await tokenWETHContract.methods.decimals().call()
-      const depositedWeth = await boostWETHContract.methods.balanceOf(address).call()
+      const depositedWeth = await boostWETHContract.methods
+        .balanceOf(address)
+        .call()
       const depositedWethUsd = new BigNumber(
         ethers.utils.formatUnits(depositedWeth, tokenWethDecimal).toString()
       )
@@ -238,7 +242,8 @@ const HomePageFilter = () => {
 
       setTotalMySupplied(
         new BigNumber(myWbtcSuppliedUsd)
-          .plus(new BigNumber(myWethSuppliedUsd)).plus(new BigNumber(depositedWethUsd))
+          .plus(new BigNumber(myWethSuppliedUsd))
+          .plus(new BigNumber(depositedWethUsd))
           .toString()
       )
 
@@ -352,7 +357,8 @@ const HomePageFilter = () => {
       // total supplied
       setTotalSupplied(
         new BigNumber(totalWbtcSuppliedUsd)
-          .plus(new BigNumber(totalWethSuppliedUsd)).plus(new BigNumber(depositedWethUsd))
+          .plus(new BigNumber(totalWethSuppliedUsd))
+          .plus(new BigNumber(depositedWethUsd))
           .toString()
       )
 
@@ -399,6 +405,8 @@ const HomePageFilter = () => {
     )
   }
 
+  console.log('totalMyBoostSupply :>> ', totalMyBoostSupply)
+
   return (
     <div className="relative mt-[80px] flex w-full flex-wrap items-center justify-center rounded-t-[10px] border-[1px] bg-white from-[#25252566] pt-[80px] md:mt-0 md:pt-0 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br">
       <div className="h-[100px] w-full md:h-[160px] md:w-[50%]">
@@ -408,7 +416,11 @@ const HomePageFilter = () => {
             className="font-larken text-[28px] text-[#404040] dark:text-white"
             displayType="text"
             thousandSeparator
-            value={Number(totalSupplied) > 0 ? new BigNumber(totalSupplied || 0).toString() : 0}
+            value={
+              Number(totalSupplied) > 0
+                ? new BigNumber(totalSupplied || 0).toString()
+                : 0
+            }
             decimalScale={2}
             fixedDecimalScale
             prefix={'$'}
@@ -445,7 +457,9 @@ const HomePageFilter = () => {
             className="font-larken text-[28px] text-[#404040] dark:text-white"
             displayType="text"
             thousandSeparator
-            value={address ? new BigNumber(totalMySupplied || '0').toString() : 0}
+            value={
+              address ? new BigNumber(totalMySupplied || '0').toString() : 0
+            }
             decimalScale={2}
             fixedDecimalScale
             prefix={'$'}
@@ -510,7 +524,9 @@ const HomePageFilter = () => {
               thousandSeparator
               value={
                 address && Number(totalMyBorrowed) > 0
-                  ? -Number(netAPY || 0) * 100
+                  ? Number(totalMyBoostSupply) <= 0
+                    ? -Number(netAPY || 0) * 100
+                    : Number(netAPY || 0) * 100
                   : 0
               }
               decimalScale={2}

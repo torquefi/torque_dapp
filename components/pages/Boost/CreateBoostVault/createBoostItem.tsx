@@ -295,10 +295,11 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
           isUsd: isUsdDepositToken,
         }}
         coinTo={{
-          amount:
-            +(
-              (isUsdDepositToken ? amount * usdPrice[item?.token] : amount) || 0
-            ) * item?.rate,
+          amount: amountRaw,
+          // amount:
+          //   +(
+          //     (isUsdDepositToken ? amount * usdPrice[item?.token] : amount) || 0
+          //   ) * item?.rate,
           icon: `/icons/coin/${item.token.toLocaleLowerCase()}.png`,
           symbol: item?.earnToken,
           isUsd: isUsdDepositToken,
