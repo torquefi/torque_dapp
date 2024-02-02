@@ -43,6 +43,8 @@ export default function InputCurrencySwitch({
 
   const tokenPrice = usdPrice[tokenSymbol.toLocaleLowerCase()] || 0
 
+  console.log('tokenSymbol', inputAmount)
+
   // const valueToShow = isShowUsd
   //   ? tokenValue * (usdPrice?.[tokenSymbol] || 1)
   //   : tokenValue

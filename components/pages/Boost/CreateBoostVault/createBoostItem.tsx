@@ -27,6 +27,7 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
   const [isUsdDepositToken, setIsUsdDepositToken] = useState(true)
   const [amount, setAmount] = useState<number>(0)
   const [amountRaw, setAmountRaw] = useState(0)
+  const [amountReceiveRaw, setAmountReceiveRaw] = useState(0)
   const [totalSupply, setTotalSupply] = useState('')
   const theme = useSelector((store: AppStore) => store.theme.theme)
   const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
@@ -127,7 +128,6 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
       }
       toast.success('Boost Successfully')
       setIsFetchBoostLoading && setIsFetchBoostLoading((prev: any) => !prev)
-      handleGetTotalSupply()
       setOpenConfirmDepositModal(false)
     } catch (e) {
       console.log(e)
@@ -143,6 +143,9 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
     }
     return 'Confirm Deposit'
   }
+
+  console.log('usdPrice :>> ', usdPrice)
+  console.log('item :>> ', item)
 
   return (
     <>
@@ -211,7 +214,7 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
               className="w-full py-4 text-[#030303] dark:text-white lg:py-6"
               displayType="text"
               tokenValueChange={Number(amount) * item?.rate}
-            // const
+              // const
             />
           </div>
         </div>
@@ -232,7 +235,7 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
         </div>
         <div className="font-mona flex w-full items-center justify-between text-[16px] text-[#959595]">
           <div className="font-mona">Variable APY</div>
-          <div className="">0.00%</div>
+          <NumericFormat displayType="text" value={item?.APR} suffix="%" />
         </div>
         <div className="font-mona flex w-full items-center justify-between py-[16px] text-[16px] text-[#959595]">
           <div className="flex items-center justify-center">
@@ -295,11 +298,10 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
           isUsd: isUsdDepositToken,
         }}
         coinTo={{
-          amount: amountRaw,
-          // amount:
-          //   +(
-          //     (isUsdDepositToken ? amount * usdPrice[item?.token] : amount) || 0
-          //   ) * item?.rate,
+          amount:
+            +(
+              (isUsdDepositToken ? amount * usdPrice[item?.token] : amount) || 0
+            ) * item?.rate,
           icon: `/icons/coin/${item.token.toLocaleLowerCase()}.png`,
           symbol: item?.earnToken,
           isUsd: isUsdDepositToken,

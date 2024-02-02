@@ -1,13 +1,20 @@
 import SkeletonDefault from '@/components/skeleton'
 import { LabelApi } from '@/lib/api/LabelApi'
+import { TokenApr } from '@/lib/api/TokenApr'
+import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
+import {
+  boostWbtcContract,
+  boostWethContract,
+  gmxWethContract,
+  wbtcContract,
+  wethContract,
+} from '../constants/contracts'
 import { IBoostInfo } from '../types'
 import { BoostItem } from './BoostItem'
 import { EmptyBoost } from './EmptyBoost'
-import { ethers } from 'ethers'
-import { boostWbtcContract, boostWethContract, gmxWethContract, wbtcContract, wethContract } from '../constants/contracts'
 
 export function ManageBoostVault({ isFetchBoostData }: any) {
   const { address, isConnected } = useAccount()
@@ -55,19 +62,32 @@ export function ManageBoostVault({ isFetchBoostData }: any) {
     }
     let dataBoost: IBoostInfo[] = []
     try {
+      const aprRes = await TokenApr.getListApr({})
       const labelRes = await LabelApi.getListLabel({
         walletAddress: address,
         position: 'Boost',
       })
+      const aprs: any[] = aprRes?.data || []
       const labels: any[] = labelRes?.data || []
       dataBoost = DATA_BOOST_VAULT?.map((item) => ({
         ...item,
         label:
           labels?.find((label) => label?.tokenSymbol === item?.tokenSymbol)
             ?.name || item?.defaultLabel,
+        APR:
+          aprs?.find(
+            (apr) =>
+              apr?.name === (item?.tokenSymbol === 'WBTC' ? 'BTC' : 'ETH')
+          )?.apr || 0,
       }))
+    } catch (error) {
+      console.error('ManageBoostVault.handleUpdateBoostData.1', error)
+    }
+    try {
       dataBoost = await Promise.all(dataBoost?.map(getBoostData))
-    } catch (error) { }
+    } catch (error) {
+      console.error('ManageBoostVault.handleUpdateBoostData.2', error)
+    }
     setDataBoost(dataBoost)
     if (loading) {
       setSkeletonLoading(false)

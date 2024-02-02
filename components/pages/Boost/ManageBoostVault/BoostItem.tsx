@@ -229,7 +229,7 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
           )}
         />
         <div className="flex min-w-[130px] flex-col items-center justify-center gap-2">
-          <div className="text-[22px]">{item.APR}</div>
+          <div className="text-[22px]">{item.APR}%</div>
           <div className="font-mona text-[14px] text-[#959595]">
             Variable APY
           </div>
@@ -330,7 +330,7 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
                   ? usdPrice['wbtc']
                   : usdPrice['weth']
               }
-              aprPercent={-apr}
+              aprPercent={item?.APR}
             />
           </div>
           <div className="mt-10">
