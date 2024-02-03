@@ -197,7 +197,7 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
 
   const summaryInfo = () => {
     return (
-      <div className="flex w-full items-center justify-between">
+      <div className="flex items-center justify-between w-full">
         <CurrencySwitch
           tokenSymbol={item?.tokenSymbol}
           tokenValue={Number(deposited)}
@@ -261,7 +261,7 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
                   alt=""
                 />
                 <div className='min-w-[81px]'>{label}</div>
-                <button className="">
+                <button className="ml-[-8px]">
                   <AiOutlineEdit />
                 </button>
               </div>
@@ -290,7 +290,7 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
             )}
           </div>
           <div className="flex items-center justify-end gap-14">
-            <div className="hidden items-center justify-between gap-14 lg:flex">
+            <div className="items-center justify-between hidden gap-14 lg:flex">
               {summaryInfo()}
             </div>
             <div className="flex flex-col items-center justify-center gap-2">
@@ -337,7 +337,7 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
             <div className="text-[28px]">Withdraw {item?.tokenSymbol}</div>
             <div className="mt-2 flex w-full items-center justify-between rounded-[12px] border bg-[#FCFAFF] px-2 py-4 dark:border-[#1A1A1A] dark:bg-[#161616]">
               <NumericFormat
-                className="font-mona w-full bg-transparent bg-none px-2 focus:outline-none"
+                className="w-full px-2 bg-transparent font-mona bg-none focus:outline-none"
                 placeholder="Select amount"
                 value={amount || null}
                 onChange={(e) => setAmount(e.target.value)}
