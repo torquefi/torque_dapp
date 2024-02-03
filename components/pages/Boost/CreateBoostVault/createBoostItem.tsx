@@ -207,14 +207,14 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
           <div className="flex h-[110px] w-full flex-col items-center justify-center gap-3 rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A]  dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
             <InputCurrencySwitch
               tokenSymbol={item?.token}
-              tokenValue={Number(amount || 0) * item?.rate}
+              tokenValue={Number(amount || 0) * (1 + Number(item?.APR || 0) / 100)}
               subtitle="3-Year Value"
               usdDefault
               decimalScale={5}
               className="w-full py-4 text-[#030303] dark:text-white lg:py-6"
               displayType="text"
-              tokenValueChange={Number(amount) * item?.rate}
-              // const
+              tokenValueChange={Number(amount) * (1 + Number(item?.APR || 0) / 100)}
+            // const
             />
           </div>
         </div>
