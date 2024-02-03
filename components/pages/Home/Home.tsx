@@ -38,6 +38,7 @@ const HomePageFilter = () => {
 
   const [totalBoostSupply, setTotalBoostSupply] = useState('0')
   const [totalMyBoostSupply, setTotalMyBoostSupply] = useState('0')
+  console.log('totalMyBoostSupply :>> ', totalMyBoostSupply);
 
   const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
   const wbtcPrice = usdPrice['WBTC'] || 0
@@ -233,11 +234,14 @@ const HomePageFilter = () => {
       const depositedWeth = await boostWETHContract.methods
         .balanceOf(address)
         .call()
+      console.log('depositedWeth 1111:>> ', depositedWeth);
       const depositedWethUsd = new BigNumber(
-        ethers.utils.formatUnits(depositedWeth, tokenWethDecimal).toString()
+        ethers.utils.formatUnits(depositedWeth
+          , tokenWethDecimal).toString()
       )
         .multipliedBy(new BigNumber(wethPrice || 0))
         .toString()
+      console.log('1231321321 :>> ', depositedWethUsd);
       setTotalMyBoostSupply(depositedWethUsd)
 
       setTotalMySupplied(
@@ -352,7 +356,7 @@ const HomePageFilter = () => {
       )
         .multipliedBy(new BigNumber(wethPrice || 0))
         .toString()
-      setTotalMyBoostSupply(depositedWethUsd)
+      // setTotalMyBoostSupply(depositedWethUsd)
 
       // total supplied
       setTotalSupplied(
@@ -523,10 +527,10 @@ const HomePageFilter = () => {
               displayType="text"
               thousandSeparator
               value={
-                address && Number(totalMyBoostSupply) > 0 ? Number(netAPY || 0) * 100 :
-                  Number(totalMyBorrowed) > 0
+                address ? Number(totalMyBoostSupply) > 0 ? Number(netAPY || 0) * 100 :
+                  Number(totalMyBorrowed) > 0 && Number(totalMyBoostSupply) <= 0
                     ? -Number(netAPY || 0) * 100
-                    : 0
+                    : 0 : 0
               }
               decimalScale={2}
               fixedDecimalScale
