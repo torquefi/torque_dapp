@@ -45,8 +45,10 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
     }
   }
 
+  Start(996090)
+
+
   const handleUpdateBoostData = async (loading = false) => {
-    Start(5)
     let dataBoost: any[] = boostVault
     try {
       const aprRes = await TokenApr.getListApr({})
@@ -59,7 +61,7 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
           )?.apr || 0,
       }))
       dataBoost = await Promise.all(dataBoost?.map(getBoostData))
-    } catch (error) {}
+    } catch (error) { }
     setBoostVault(dataBoost)
   }
 

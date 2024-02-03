@@ -6,7 +6,7 @@ import IUniswapV3FactoryABI from './V3factory.json'
 import IUniswapV3PoolABI from './V3PairAbi.json'
 
 const provider = new ethers.providers.JsonRpcProvider(
-  'https://eth-mainnet.alchemyapi.io/v2'
+  'https://arb1.arbitrum.io/rpc'
 )
 
 // V3 standard addresses (different for celo)
@@ -206,6 +206,7 @@ export async function Start(positionID: any) {
     PoolInfo.tickHigh,
     PoolInfo.tickCurrent
   )
+  console.log('Fees :>> ', Fees)
 }
 
 // Start(5)
