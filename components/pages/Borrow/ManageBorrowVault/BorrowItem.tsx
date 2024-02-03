@@ -407,7 +407,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                     onChange={(e) => setLabel(e.target.value)}
                     onKeyUp={(e) => e.key === 'Enter' && updateBorrowLabel()}
                   />
-                  <button className="">
+                  <button className="ml-[-8px]">
                     <AiOutlineCheck
                       className=""
                       onClick={() => updateBorrowLabel()}

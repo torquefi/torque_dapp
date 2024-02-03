@@ -280,7 +280,7 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
                   onChange={(e) => setLabel(e.target.value)}
                   onKeyUp={(e) => e.key === 'Enter' && updateBoostLabel()}
                 />
-                <button className="">
+                <button className="ml-[-8px]">
                   <AiOutlineCheck
                     className=""
                     onClick={() => updateBoostLabel()}
