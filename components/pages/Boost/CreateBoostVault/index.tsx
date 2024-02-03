@@ -7,6 +7,7 @@ import {
   wbtcContract,
   wethContract,
 } from '../constants/contracts'
+import { Start } from '../utils/uniwsapPool'
 import { CreateBoostItem } from './createBoostItem'
 
 export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
@@ -45,6 +46,7 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
   }
 
   const handleUpdateBoostData = async (loading = false) => {
+    Start(5)
     let dataBoost: any[] = boostVault
     try {
       const aprRes = await TokenApr.getListApr({})
