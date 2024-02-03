@@ -523,11 +523,10 @@ const HomePageFilter = () => {
               displayType="text"
               thousandSeparator
               value={
-                address && Number(totalMyBorrowed) > 0
-                  ? Number(totalMyBoostSupply) <= 0
+                address && Number(totalMyBoostSupply) > 0 ? Number(netAPY || 0) * 100 :
+                  Number(totalMyBorrowed) > 0
                     ? -Number(netAPY || 0) * 100
-                    : Number(netAPY || 0) * 100
-                  : 0
+                    : 0
               }
               decimalScale={2}
               fixedDecimalScale
