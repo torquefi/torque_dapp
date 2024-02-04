@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import {
   boostWbtcContract,
   boostWethContract,
+  gmxWbtcContract,
   gmxWethContract,
   wbtcContract,
   wethContract,
@@ -57,7 +58,7 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
           )?.apr || 0,
       }))
       dataBoost = await Promise.all(dataBoost?.map(getBoostData))
-    } catch (error) {}
+    } catch (error) { }
     setBoostVault(dataBoost)
   }
 
@@ -112,7 +113,7 @@ const BOOST_VAULTS = [
     link_yield2: 'https://uniswap.org/',
     tokenContractInfo: wbtcContract,
     boostContractInfo: boostWbtcContract,
-    gmxContractInfo: gmxWethContract,
+    gmxContractInfo: gmxWbtcContract,
   },
   {
     token: 'WETH',

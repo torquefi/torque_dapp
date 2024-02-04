@@ -3,18 +3,18 @@
     "inputs": [
       { "internalType": "string", "name": "_name", "type": "string" },
       { "internalType": "string", "name": "_symbol", "type": "string" },
-      { "internalType": "address payable", "name": "weth_", "type": "address" },
+      { "internalType": "address", "name": "wBTC", "type": "address" },
       {
         "internalType": "address payable",
-        "name": "gmxV2ETH_",
+        "name": "_gmxV2BtcAddress",
         "type": "address"
       },
       {
-        "internalType": "address payable",
-        "name": "stargateETH_",
+        "internalType": "address",
+        "name": "_uniswapBtcAddress",
         "type": "address"
       },
-      { "internalType": "address", "name": "treasury_", "type": "address" }
+      { "internalType": "address", "name": "_treasury", "type": "address" }
     ],
     "stateMutability": "nonpayable",
     "type": "constructor"
@@ -206,7 +206,7 @@
     "inputs": [
       { "internalType": "uint256", "name": "depositAmount", "type": "uint256" }
     ],
-    "name": "depositETH",
+    "name": "depositBTC",
     "outputs": [],
     "stateMutability": "payable",
     "type": "function"
@@ -220,9 +220,9 @@
   },
   {
     "inputs": [],
-    "name": "gmxV2ETH",
+    "name": "gmxV2Btc",
     "outputs": [
-      { "internalType": "contract GMXV2ETH", "name": "", "type": "address" }
+      { "internalType": "contract GMXV2BTC", "name": "", "type": "address" }
     ],
     "stateMutability": "view",
     "type": "function"
@@ -273,10 +273,14 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_stargateAllocation",
+        "name": "_gmxAllocation",
         "type": "uint256"
       },
-      { "internalType": "uint256", "name": "_gmxAllocation", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "_uniswapAllocation",
+        "type": "uint256"
+      }
     ],
     "name": "setAllocation",
     "outputs": [],
@@ -303,22 +307,6 @@
     "name": "setTreasury",
     "outputs": [],
     "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "stargateAllocation",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "stargateETH",
-    "outputs": [
-      { "internalType": "contract StargateETH", "name": "", "type": "address" }
-    ],
-    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -387,36 +375,26 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address payable",
-        "name": "_address",
-        "type": "address"
-      }
-    ],
-    "name": "updateGMXV2",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address payable",
-        "name": "_address",
-        "type": "address"
-      }
-    ],
-    "name": "updateStargate",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "inputs": [],
+    "name": "uniswapAllocation",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
-    "name": "weth",
+    "name": "uniswapBtc",
     "outputs": [
-      { "internalType": "contract IWETH9", "name": "", "type": "address" }
+      { "internalType": "contract UniswapBTC", "name": "", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "wbtcToken",
+    "outputs": [
+      { "internalType": "contract IERC20", "name": "", "type": "address" }
     ],
     "stateMutability": "view",
     "type": "function"
@@ -425,16 +403,9 @@
     "inputs": [
       { "internalType": "uint256", "name": "sharesAmount", "type": "uint256" }
     ],
-    "name": "withdrawETH",
+    "name": "withdrawBTC",
     "outputs": [],
     "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "withdrawGMXETHFee",
-    "outputs": [],
-    "stateMutability": "nonpayable",
     "type": "function"
   },
   { "stateMutability": "payable", "type": "receive" }
