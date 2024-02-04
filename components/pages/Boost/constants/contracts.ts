@@ -1,14 +1,26 @@
 import { IContractInfo } from '@/constants/contracts'
-import { boostBtcAbi, boostWethAbi, btcAbi, ethAbi, gmxWethAbi } from './abi'
+import {
+  boostBtcAbi,
+  boostWethAbi,
+  btcAbi,
+  ethAbi,
+  gmxWbtcAbi,
+  gmxWethAbi,
+} from './abi'
 
 export const boostWbtcContract: IContractInfo = {
-  address: '0xB3F4c9026f0786b4949fFb456CF9530696359B1e',
+  address: '0xFB2e7fEDdFC156C8574f1C98B09B97A7D4648248',
   abi: JSON.stringify(boostBtcAbi),
 }
 
 export const wbtcContract: IContractInfo = {
   address: '0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f',
   abi: JSON.stringify(btcAbi),
+}
+
+export const gmxWbtcContract: IContractInfo = {
+  address: '0xE5Bd99DdED399D7A40d4749a2B4624ea73d8AE5d',
+  abi: JSON.stringify(gmxWbtcAbi),
 }
 
 export const boostWethContract: IContractInfo = {

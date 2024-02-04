@@ -107,8 +107,6 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
       const depositToken = ethers.utils
         .parseUnits(Number(amount).toFixed(tokenDecimal), tokenDecimal)
         .toString()
-      console.log('depositToken :>> ', depositToken)
-
       const executionFee = await gmxContract.methods.executionFee().call()
 
       const provider = new ethers.providers.Web3Provider(window.ethereum)
@@ -125,12 +123,18 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
         })
         await tx.wait()
       } else {
+        console.log('depositToken wbtc:>> ', depositToken);
+        console.log('fee wbtc:>> ', executionFee);
+        const tx = await boostContract2.depositBTC(depositToken, {
+          value: executionFee,
+        })
+        await tx.wait()
       }
       toast.success('Boost Successfully')
       setIsFetchBoostLoading && setIsFetchBoostLoading((prev: any) => !prev)
       setOpenConfirmDepositModal(false)
     } catch (e) {
-      console.log(e)
+      console.log("11111", e)
       toast.error('Boost Failed')
     } finally {
       setBtnLoading(false)
@@ -143,9 +147,6 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
     }
     return 'Confirm Deposit'
   }
-
-  console.log('usdPrice :>> ', usdPrice)
-  console.log('item :>> ', item)
 
   return (
     <>
@@ -197,7 +198,6 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
               usdDefault
               decimalScale={5}
               onChange={(tokenValue, rawValue) => {
-                console.log(tokenValue, rawValue)
                 setAmount(tokenValue)
                 setAmountRaw(rawValue)
               }}
@@ -298,10 +298,11 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
           isUsd: isUsdDepositToken,
         }}
         coinTo={{
-          amount:
-            +(
-              (isUsdDepositToken ? amount * usdPrice[item?.token] : amount) || 0
-            ) * item?.rate,
+          amount: amountRaw,
+          // amount:
+          //   +(
+          //     (isUsdDepositToken ? amount * usdPrice[item?.token] : amount) || 0
+          //   ) * item?.rate,
           icon: `/icons/coin/${item.token.toLocaleLowerCase()}.png`,
           symbol: item?.earnToken,
           isUsd: isUsdDepositToken,
