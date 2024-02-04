@@ -168,6 +168,7 @@ async function getFees(
     (liquidity * subIn256(fr_t1_0, feeGrowthInsideLast_0)) / Q128
   let uncollectedFees_1 =
     (liquidity * subIn256(fr_t1_1, feeGrowthInsideLast_1)) / Q128
+  console.log('liquidity :>> ', liquidity)
   console.log(
     'Amount fees token 0 in lowest decimal: ' + Math.floor(uncollectedFees_0)
   )
