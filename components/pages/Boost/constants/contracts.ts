@@ -9,7 +9,7 @@ import {
 } from './abi'
 
 export const boostWbtcContract: IContractInfo = {
-  address: '0xFB2e7fEDdFC156C8574f1C98B09B97A7D4648248',
+  address: '0xb73113512AA5B46B7d7c73c5a1582cd4eEc3b2B5',
   abi: JSON.stringify(boostBtcAbi),
 }
 
@@ -19,7 +19,7 @@ export const wbtcContract: IContractInfo = {
 }
 
 export const gmxWbtcContract: IContractInfo = {
-  address: '0xE5Bd99DdED399D7A40d4749a2B4624ea73d8AE5d',
+  address: '0x02eBDE50016fba5d140342E37c7ebe41fDCbc622',
   abi: JSON.stringify(gmxWbtcAbi),
 }
 

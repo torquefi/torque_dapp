@@ -154,6 +154,15 @@
     "type": "function"
   },
   {
+    "inputs": [
+      { "internalType": "address", "name": "_controller", "type": "address" }
+    ],
+    "name": "setController",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "swapRouter",
     "outputs": [
@@ -227,6 +236,13 @@
     "name": "withdraw",
     "outputs": [],
     "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "withdrawAllTempfunction",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
