@@ -451,7 +451,7 @@ export default function CreateBorrowItem({
           <p>
             {!aprBorrow
               ? '-0.00%'
-              : -(Number(aprBorrow) * 100).toFixed(2) + '%'}
+              : (-Number(aprBorrow) * 100).toFixed(2) + '%'}
           </p>
         </div>
         <div className="flex justify-between text-[#959595]">
