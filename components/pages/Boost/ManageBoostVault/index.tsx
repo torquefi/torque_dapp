@@ -8,6 +8,7 @@ import Web3 from 'web3'
 import {
   boostWbtcContract,
   boostWethContract,
+  gmxWbtcContract,
   gmxWethContract,
   wbtcContract,
   wethContract,
@@ -152,7 +153,7 @@ const DATA_BOOST_VAULT: IBoostInfo[] = [
     APR: 0.0,
     tokenContractInfo: wbtcContract,
     boostContractInfo: boostWbtcContract,
-    gmxContractInfo: gmxWethContract,
+    gmxContractInfo: gmxWbtcContract,
   },
   {
     tokenSymbol: 'WETH',
