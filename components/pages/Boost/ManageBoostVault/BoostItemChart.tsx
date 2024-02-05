@@ -128,9 +128,7 @@ export const BoostItemChart: FC<BoostItemChartProps> = (props) => {
 
             const inputs = new ethers.utils.AbiCoder().decode(
               abi
-                ?.find(
-                  (item) => (item?.name === contractAddress) === functionName
-                )
+                ?.find((item) => item?.name === functionName)
                 ?.inputs?.map((item) => item?.type),
               ethers.utils.hexDataSlice(item?.input, 4)
             )

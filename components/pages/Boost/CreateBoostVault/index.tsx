@@ -53,12 +53,15 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
       dataBoost = dataBoost?.map((item) => ({
         ...item,
         APR:
-          aprs?.find(
-            (apr) => apr?.name === (item?.token === 'WBTC' ? 'BTC' : 'ETH')
-          )?.apr || 0,
+          ((aprs?.find(
+            (apr) =>
+              apr?.name === (item?.tokenSymbol === 'WBTC' ? 'BTC' : 'ETH')
+          )?.apr || 0) +
+            5) /
+          2,
       }))
       dataBoost = await Promise.all(dataBoost?.map(getBoostData))
-    } catch (error) { }
+    } catch (error) {}
     setBoostVault(dataBoost)
   }
 

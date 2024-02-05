@@ -79,10 +79,12 @@ export function ManageBoostVault({ isFetchBoostData }: any) {
           labels?.find((label) => label?.tokenSymbol === item?.tokenSymbol)
             ?.name || item?.defaultLabel,
         APR:
-          aprs?.find(
+          ((aprs?.find(
             (apr) =>
               apr?.name === (item?.tokenSymbol === 'WBTC' ? 'BTC' : 'ETH')
-          )?.apr || 0,
+          )?.apr || 0) +
+            5) /
+          2,
       }))
     } catch (error) {
       console.error('ManageBoostVault.handleUpdateBoostData.1', error)
