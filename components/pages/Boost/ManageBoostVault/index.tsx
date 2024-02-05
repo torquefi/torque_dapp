@@ -41,7 +41,10 @@ export function ManageBoostVault({ isFetchBoostData }: any) {
       item.tokenDecimals = Number(tokenDecimal)
 
       if (item.tokenSymbol === 'WBTC') {
-        item.deposited = 0
+        const deposit = await boostContract.methods.balanceOf(address).call()
+        item.deposited = Number(
+          ethers.utils.formatUnits(deposit, tokenDecimal).toString()
+        )
       } else {
         const deposit = await boostContract.methods.balanceOf(address).call()
         item.deposited = Number(
