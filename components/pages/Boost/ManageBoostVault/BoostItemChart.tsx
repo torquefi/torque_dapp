@@ -16,11 +16,11 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from 'recharts'
-import { boostWbtcContract } from '../constants/contracts'
+import { boostWbtcContract, boostWethContract } from '../constants/contracts'
 
 interface BoostItemChartProps {
   label?: string
-  tokenAddress?: string
+  contractAddress?: string
   tokenDecimals?: number
   tokenPrice?: number
   aprPercent?: any
@@ -29,7 +29,7 @@ interface BoostItemChartProps {
 export const BoostItemChart: FC<BoostItemChartProps> = (props) => {
   const {
     label,
-    tokenAddress,
+    contractAddress,
     tokenPrice = 1,
     tokenDecimals,
     aprPercent,
@@ -95,9 +95,13 @@ export const BoostItemChart: FC<BoostItemChartProps> = (props) => {
     const handleGetChartDataTransaction = async () => {
       try {
         const path = '/api/transaction-arbitrum/list-transaction-arbitrum'
+        const functionName =
+          contractAddress === boostWbtcContract?.address
+            ? 'depositBTC'
+            : 'depositETH'
         const res = await axiosInstance.post(path, {
-          address: tokenAddress,
-          functionName: 'depositETH',
+          address: contractAddress,
+          functionName: functionName,
           txreceipt_status: '1',
         })
         const transactions: any[] = res?.data?.data || []
@@ -116,16 +120,26 @@ export const BoostItemChart: FC<BoostItemChartProps> = (props) => {
         transactions?.forEach((item) => {
           const key = dayjs(+item?.timeStamp * 1000).format('YYYY-MM-DD')
           if (chartDataObj[key]) {
-            const abi = JSON.parse(boostWbtcContract.abi)
+            const abi = JSON.parse(
+              contractAddress === boostWbtcContract?.address
+                ? boostWbtcContract.abi
+                : boostWethContract.abi
+            )
 
             const inputs = new ethers.utils.AbiCoder().decode(
               abi
-                ?.find((item) => item?.name === 'depositETH')
+                ?.find(
+                  (item) => (item?.name === contractAddress) === functionName
+                )
                 ?.inputs?.map((item) => item?.type),
               ethers.utils.hexDataSlice(item?.input, 4)
             )
 
+            console.log('inputs', inputs)
+
             const [amount] = inputs?.map((item) => item?.toString())
+
+            console.log('amount', amount)
 
             const tokenAmountFormatted = ethers.utils
               .formatUnits(amount, tokenDecimals)
@@ -147,7 +161,7 @@ export const BoostItemChart: FC<BoostItemChartProps> = (props) => {
         }))
 
         console.log(
-          tokenAddress,
+          contractAddress,
           tokenPrice,
           tokenDecimals,
           aprPercent,
@@ -162,7 +176,7 @@ export const BoostItemChart: FC<BoostItemChartProps> = (props) => {
       }
     }
     handleGetChartDataTransaction()
-  }, [tokenAddress])
+  }, [contractAddress])
 
   return (
     <>

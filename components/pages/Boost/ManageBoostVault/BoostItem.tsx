@@ -329,7 +329,7 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
           <div className="">
             <BoostItemChart
               label="Boost Apy"
-              tokenAddress={item?.boostContractInfo.address}
+              contractAddress={item?.boostContractInfo.address}
               tokenDecimals={item?.tokenDecimals}
               tokenPrice={
                 item?.tokenSymbol === 'WBTC'
