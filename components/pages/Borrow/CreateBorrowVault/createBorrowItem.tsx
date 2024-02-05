@@ -331,7 +331,7 @@ export default function CreateBorrowItem({
   return (
     <>
       <div
-        className="rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pb-5 pt-3 text-[#030303] xl:px-[32px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white"
+        className="rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pb-5 pt-3 text-[#030303] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white xl:px-[32px]"
         key={dataBorrow.depositTokenSymbol}
       >
         <div className="flex w-full items-center justify-between">
@@ -341,7 +341,7 @@ export default function CreateBorrowItem({
               src={dataBorrow.depositTokenIcon}
               alt=""
             />
-            <div className="font-larken text-[18px] leading-tight text-[#030303] md:text-[22px] lg:text-[26px] dark:text-white">
+            <div className="font-larken text-[18px] leading-tight text-[#030303] dark:text-white md:text-[22px] lg:text-[26px]">
               Deposit {dataBorrow.depositTokenSymbol},<br /> Borrow{' '}
               {dataBorrow.borrowTokenSymbol}
             </div>
@@ -367,30 +367,38 @@ export default function CreateBorrowItem({
           </Popover>
         </div>
         <div className="font-larken mb-1 mt-1 grid grid-cols-2 gap-4">
-          <div className="flex w-full items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  lg:h-[140px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
+          <div className="flex w-full items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
             <InputCurrencySwitch
               tokenSymbol={item?.depositTokenSymbol}
               tokenValue={Number(amount)}
-              className="w-full py-4 text-[#030303] lg:py-6 dark:text-white"
+              className="w-full py-4 text-[#030303] dark:text-white lg:py-6"
               subtitle="Collateral"
               usdDefault
               decimalScale={5}
               onChange={(tokenValue, rawValue) => {
                 setAmount(tokenValue)
                 setAmountRaw(rawValue)
+                setAmountReceive(
+                  tokenValue *
+                    usdPrice?.[
+                      `${dataBorrow.depositTokenSymbol.toLowerCase()}`
+                    ] *
+                    (dataBorrow.loanToValue / 140)
+                )
               }}
               onSetShowUsd={setIsUsdDepositToken}
             />
           </div>
-          <div className="font-larken flex h-[110px] flex-col items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0 lg:h-[140px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
+          <div className="font-larken flex h-[110px] flex-col items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
             <InputCurrencySwitch
               tokenSymbol="TUSD"
-              tokenValue={Number(amountReceive)}
-              tokenValueChange={Number(
-                amount *
-                usdPrice?.[`${dataBorrow.depositTokenSymbol.toLowerCase()}`] *
-                (dataBorrow.loanToValue / 140)
-              )}
+              // tokenValue={Number(amountReceive)}
+              tokenValueChange={Number(amountReceive)}
+              // tokenValueChange={Number(
+              //   amountReceive *
+              //   usdPrice?.[`${dataBorrow.depositTokenSymbol.toLowerCase()}`] *
+              //   (dataBorrow.loanToValue / 140)
+              // )}
               usdDefault
               decimalScale={5}
               className="w-full py-4 text-[#030303] dark:text-white"
@@ -400,7 +408,7 @@ export default function CreateBorrowItem({
                 setAmountReceiveRaw(rawValue)
               }}
               onSetShowUsd={setIsUsdBorrowToken}
-            // displayType="text"
+              // displayType="text"
             />
           </div>
         </div>
@@ -453,16 +461,17 @@ export default function CreateBorrowItem({
           </p>
         </div>
         <button
-          className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
-            }`}
+          className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${
+            buttonLoading && 'cursor-not-allowed opacity-50'
+          }`}
           disabled={buttonLoading != ''}
           onClick={() => {
             if (
               amountReceive /
-              (amount *
-                usdPrice?.[
-                `${dataBorrow.depositTokenSymbol.toLowerCase()}`
-                ]) >
+                (amount *
+                  usdPrice?.[
+                    `${dataBorrow.depositTokenSymbol.toLowerCase()}`
+                  ]) >
               item?.loanToValue
             ) {
               toast.error(`Loan-to-value exceeds ${item?.loanToValue}%`)
