@@ -152,11 +152,17 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
         JSON.parse(item?.boostContractInfo?.abi),
         signer
       )
-      console.log('withdrawAmount :>> ', withdrawAmount)
-      const tx = await boostContract2.withdrawETH(withdrawAmount, {
-        value: executionFee,
-      })
-      await tx.wait()
+      if (item.tokenSymbol === 'WETH') {
+        const tx = await boostContract2.withdrawETH(withdrawAmount, {
+          value: executionFee,
+        })
+        await tx.wait()
+      } else {
+        const tx = await boostContract2.withdrawBTC(withdrawAmount, address, {
+          value: '1000000000000000',
+        })
+        await tx.wait()
+      }
       setAmount('')
       toast.success('Withdrawal Success')
       onWithdrawSuccess && onWithdrawSuccess()
@@ -323,7 +329,7 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
           <div className="">
             <BoostItemChart
               label="Boost Apy"
-              tokenAddress={item?.boostContractInfo.address}
+              contractAddress={item?.boostContractInfo.address}
               tokenDecimals={item?.tokenDecimals}
               tokenPrice={
                 item?.tokenSymbol === 'WBTC'

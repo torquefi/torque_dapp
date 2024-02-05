@@ -8,6 +8,7 @@ import Web3 from 'web3'
 import {
   boostWbtcContract,
   boostWethContract,
+  gmxWbtcContract,
   gmxWethContract,
   wbtcContract,
   wethContract,
@@ -41,7 +42,10 @@ export function ManageBoostVault({ isFetchBoostData }: any) {
       item.tokenDecimals = Number(tokenDecimal)
 
       if (item.tokenSymbol === 'WBTC') {
-        item.deposited = 0
+        const deposit = await boostContract.methods.balanceOf(address).call()
+        item.deposited = Number(
+          ethers.utils.formatUnits(deposit, tokenDecimal).toString()
+        )
       } else {
         const deposit = await boostContract.methods.balanceOf(address).call()
         item.deposited = Number(
@@ -149,7 +153,7 @@ const DATA_BOOST_VAULT: IBoostInfo[] = [
     APR: 0.0,
     tokenContractInfo: wbtcContract,
     boostContractInfo: boostWbtcContract,
-    gmxContractInfo: gmxWethContract,
+    gmxContractInfo: gmxWbtcContract,
   },
   {
     tokenSymbol: 'WETH',

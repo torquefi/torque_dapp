@@ -73,6 +73,8 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
     }
   }
 
+  console.log('totalSupply :>> ', totalSupply);
+
   useEffect(() => {
     handleGetTotalSupply()
   }, [boostReadContract, tokenContract])
@@ -126,7 +128,7 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
         console.log('depositToken wbtc:>> ', depositToken);
         console.log('fee wbtc:>> ', executionFee);
         const tx = await boostContract2.depositBTC(depositToken, {
-          value: executionFee,
+          value: '1000000000000000',
         })
         await tx.wait()
       }
