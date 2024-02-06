@@ -159,7 +159,7 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
         await tx.wait()
       } else {
         const tx = await boostContract2.withdrawBTC(withdrawAmount, {
-          value: '1000000000000000',
+          value: executionFee,
         })
         await tx.wait()
       }
@@ -201,9 +201,11 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
     setLabel(item?.label)
   }, [item?.label])
 
+  console.log('deposited :>> ', deposited);
+
   const summaryInfo = () => {
     return (
-      <div className="flex items-center justify-between w-full">
+      <div className="flex w-full items-center justify-between">
         <CurrencySwitch
           tokenSymbol={item?.tokenSymbol}
           tokenValue={Number(deposited)}
@@ -236,7 +238,12 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
         />
         <div className="flex min-w-[130px] flex-col items-center justify-center gap-2">
           <div className="text-[22px]">
-            <NumericFormat displayType="text" value={item?.APR} suffix="%" decimalScale={2} />
+            <NumericFormat
+              displayType="text"
+              value={item?.APR}
+              suffix="%"
+              decimalScale={2}
+            />
           </div>
 
           <div className="font-mona text-[14px] text-[#959595]">
@@ -254,11 +261,13 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
     return 'Create'
   }
 
+  console.log('amount :>> ', amount);
+
   return (
     <>
       <div className="dark-text-[#000] mt-[24px] grid w-full rounded-[12px] border border-[#E6E6E6] bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-[24px] py-[20px] text-[#464646] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white">
         <div className="grid w-full grid-cols-2">
-          <div className="xlg:w-[calc(100%-600px-64px)] font-larken flex w-[calc(100%-64px)] items-center space-x-2 text-[22px] md:w-[calc(100%-400px-64px)] lg:w-[calc(100%-500px-64px)]">
+          <div className="font-larken flex w-[calc(100%-64px)] items-center space-x-2 text-[22px] md:w-[calc(100%-400px-64px)] lg:w-[calc(100%-500px-64px)] xl:w-[calc(100%-600px-64px)]">
             {!isEdit && (
               <div
                 className="flex min-w-max cursor-pointer items-center text-[22px]"
@@ -269,8 +278,8 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
                   src={`/icons/coin/${item.tokenSymbol.toLowerCase()}.png`}
                   alt=""
                 />
-                <div className='min-w-[81px]'>{label}</div>
-                <button className="ml-[-8px]">
+                <div className="">{label}</div>
+                <button className="ml-[8px]">
                   <AiOutlineEdit />
                 </button>
               </div>
@@ -284,12 +293,12 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
                 />
                 <AutowidthInput
                   ref={refLabelInput}
-                  className="min-w-[60px] bg-transparent"
+                  className="bg-transparent"
                   value={label}
                   onChange={(e) => setLabel(e.target.value)}
                   onKeyUp={(e) => e.key === 'Enter' && updateBoostLabel()}
                 />
-                <button className="ml-[-8px]">
+                <button className="ml-[0]">
                   <AiOutlineCheck
                     className=""
                     onClick={() => updateBoostLabel()}
@@ -299,7 +308,7 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
             )}
           </div>
           <div className="flex items-center justify-end gap-14">
-            <div className="items-center justify-between hidden gap-14 lg:flex">
+            <div className="hidden items-center justify-between gap-14 lg:flex">
               {summaryInfo()}
             </div>
             <div className="flex flex-col items-center justify-center gap-2">
@@ -346,7 +355,7 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
             <div className="text-[28px]">Withdraw {item?.tokenSymbol}</div>
             <div className="mt-2 flex w-full items-center justify-between rounded-[12px] border bg-[#FCFAFF] px-2 py-4 dark:border-[#1A1A1A] dark:bg-[#161616]">
               <NumericFormat
-                className="w-full px-2 bg-transparent font-mona bg-none focus:outline-none"
+                className="font-mona w-full bg-transparent bg-none px-2 focus:outline-none"
                 placeholder="Select amount"
                 value={amount || null}
                 onChange={(e) => setAmount(e.target.value)}
