@@ -201,6 +201,8 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
     setLabel(item?.label)
   }, [item?.label])
 
+  console.log('deposited :>> ', deposited);
+
   const summaryInfo = () => {
     return (
       <div className="flex w-full items-center justify-between">
@@ -258,6 +260,8 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
     }
     return 'Create'
   }
+
+  console.log('amount :>> ', amount);
 
   return (
     <>
@@ -326,11 +330,10 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
           </div>
         </div>
         <div
-          className={`grid grid-cols-1 gap-8 overflow-hidden transition-all duration-300 lg:grid-cols-2 ${
-            isOpen
-              ? 'max-h-[1000px] py-[16px] ease-in'
-              : 'max-h-0 py-0 opacity-0 ease-out'
-          }`}
+          className={`grid grid-cols-1 gap-8 overflow-hidden transition-all duration-300 lg:grid-cols-2 ${isOpen
+            ? 'max-h-[1000px] py-[16px] ease-in'
+            : 'max-h-0 py-0 opacity-0 ease-out'
+            }`}
         >
           <div className="flex items-center justify-between gap-4 lg:hidden">
             {summaryInfo()}
@@ -378,10 +381,9 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
             <button
               className={
                 `font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]` +
-                ` ${
-                  isSubmitLoading || isExecuteLoading
-                    ? 'cursor-not-allowed opacity-70'
-                    : ''
+                ` ${isSubmitLoading || isExecuteLoading
+                  ? 'cursor-not-allowed opacity-70'
+                  : ''
                 }`
               }
               disabled={isSubmitLoading || isExecuteLoading}
@@ -393,10 +395,9 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
             <button
               className={
                 `font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-transparent to-transparent  py-1 text-[14px] uppercase text-[#AA5BFF] transition-all hover:border hover:from-[#AA5BFF] hover:to-[#912BFF] hover:text-white` +
-                ` ${
-                  isSubmitLoading || isExecuteLoading
-                    ? 'cursor-not-allowed opacity-70'
-                    : ''
+                ` ${isSubmitLoading || isExecuteLoading
+                  ? 'cursor-not-allowed opacity-70'
+                  : ''
                 }`
               }
               disabled={isSubmitLoading || isExecuteLoading}
