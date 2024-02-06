@@ -203,7 +203,7 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
 
   const summaryInfo = () => {
     return (
-      <div className="flex items-center justify-between w-full">
+      <div className="flex w-full items-center justify-between">
         <CurrencySwitch
           tokenSymbol={item?.tokenSymbol}
           tokenValue={Number(deposited)}
@@ -236,7 +236,12 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
         />
         <div className="flex min-w-[130px] flex-col items-center justify-center gap-2">
           <div className="text-[22px]">
-            <NumericFormat displayType="text" value={item?.APR} suffix="%" decimalScale={2} />
+            <NumericFormat
+              displayType="text"
+              value={item?.APR}
+              suffix="%"
+              decimalScale={2}
+            />
           </div>
 
           <div className="font-mona text-[14px] text-[#959595]">
@@ -258,7 +263,7 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
     <>
       <div className="dark-text-[#000] mt-[24px] grid w-full rounded-[12px] border border-[#E6E6E6] bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-[24px] py-[20px] text-[#464646] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white">
         <div className="grid w-full grid-cols-2">
-          <div className="xlg:w-[calc(100%-600px-64px)] font-larken flex w-[calc(100%-64px)] items-center space-x-2 text-[22px] md:w-[calc(100%-400px-64px)] lg:w-[calc(100%-500px-64px)]">
+          <div className="font-larken flex w-[calc(100%-64px)] items-center space-x-2 text-[22px] md:w-[calc(100%-400px-64px)] lg:w-[calc(100%-500px-64px)] xl:w-[calc(100%-600px-64px)]">
             {!isEdit && (
               <div
                 className="flex min-w-max cursor-pointer items-center text-[22px]"
@@ -269,8 +274,8 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
                   src={`/icons/coin/${item.tokenSymbol.toLowerCase()}.png`}
                   alt=""
                 />
-                <div className='min-w-[81px]'>{label}</div>
-                <button className="ml-[-8px]">
+                <div className="">{label}</div>
+                <button className="ml-[8px]">
                   <AiOutlineEdit />
                 </button>
               </div>
@@ -284,12 +289,12 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
                 />
                 <AutowidthInput
                   ref={refLabelInput}
-                  className="min-w-[60px] bg-transparent"
+                  className="bg-transparent"
                   value={label}
                   onChange={(e) => setLabel(e.target.value)}
                   onKeyUp={(e) => e.key === 'Enter' && updateBoostLabel()}
                 />
-                <button className="ml-[-8px]">
+                <button className="ml-[0]">
                   <AiOutlineCheck
                     className=""
                     onClick={() => updateBoostLabel()}
@@ -299,7 +304,7 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
             )}
           </div>
           <div className="flex items-center justify-end gap-14">
-            <div className="items-center justify-between hidden gap-14 lg:flex">
+            <div className="hidden items-center justify-between gap-14 lg:flex">
               {summaryInfo()}
             </div>
             <div className="flex flex-col items-center justify-center gap-2">
@@ -321,10 +326,11 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
           </div>
         </div>
         <div
-          className={`grid grid-cols-1 gap-8 overflow-hidden transition-all duration-300 lg:grid-cols-2 ${isOpen
-            ? 'max-h-[1000px] py-[16px] ease-in'
-            : 'max-h-0 py-0 opacity-0 ease-out'
-            }`}
+          className={`grid grid-cols-1 gap-8 overflow-hidden transition-all duration-300 lg:grid-cols-2 ${
+            isOpen
+              ? 'max-h-[1000px] py-[16px] ease-in'
+              : 'max-h-0 py-0 opacity-0 ease-out'
+          }`}
         >
           <div className="flex items-center justify-between gap-4 lg:hidden">
             {summaryInfo()}
@@ -346,7 +352,7 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
             <div className="text-[28px]">Withdraw {item?.tokenSymbol}</div>
             <div className="mt-2 flex w-full items-center justify-between rounded-[12px] border bg-[#FCFAFF] px-2 py-4 dark:border-[#1A1A1A] dark:bg-[#161616]">
               <NumericFormat
-                className="w-full px-2 bg-transparent font-mona bg-none focus:outline-none"
+                className="font-mona w-full bg-transparent bg-none px-2 focus:outline-none"
                 placeholder="Select amount"
                 value={amount || null}
                 onChange={(e) => setAmount(e.target.value)}
@@ -372,9 +378,10 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
             <button
               className={
                 `font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]` +
-                ` ${isSubmitLoading || isExecuteLoading
-                  ? 'cursor-not-allowed opacity-70'
-                  : ''
+                ` ${
+                  isSubmitLoading || isExecuteLoading
+                    ? 'cursor-not-allowed opacity-70'
+                    : ''
                 }`
               }
               disabled={isSubmitLoading || isExecuteLoading}
@@ -386,9 +393,10 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
             <button
               className={
                 `font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-transparent to-transparent  py-1 text-[14px] uppercase text-[#AA5BFF] transition-all hover:border hover:from-[#AA5BFF] hover:to-[#912BFF] hover:text-white` +
-                ` ${isSubmitLoading || isExecuteLoading
-                  ? 'cursor-not-allowed opacity-70'
-                  : ''
+                ` ${
+                  isSubmitLoading || isExecuteLoading
+                    ? 'cursor-not-allowed opacity-70'
+                    : ''
                 }`
               }
               disabled={isSubmitLoading || isExecuteLoading}
