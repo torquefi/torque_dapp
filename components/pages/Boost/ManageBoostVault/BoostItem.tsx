@@ -235,7 +235,10 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
           )}
         />
         <div className="flex min-w-[130px] flex-col items-center justify-center gap-2">
-          <div className="text-[22px]">{item.APR}%</div>
+          <div className="text-[22px]">
+            <NumericFormat displayType="text" value={item?.APR} suffix="%" decimalScale={2} />
+          </div>
+
           <div className="font-mona text-[14px] text-[#959595]">
             Variable APY
           </div>

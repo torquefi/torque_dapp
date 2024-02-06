@@ -73,8 +73,6 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
     }
   }
 
-  console.log('totalSupply :>> ', totalSupply);
-
   useEffect(() => {
     handleGetTotalSupply()
   }, [boostReadContract, tokenContract])
@@ -149,6 +147,8 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
     }
     return 'Confirm Deposit'
   }
+
+  console.log('item :>> ', item);
 
   return (
     <>
@@ -237,7 +237,7 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
         </div>
         <div className="font-mona flex w-full items-center justify-between text-[16px] text-[#959595]">
           <div className="font-mona">Variable APY</div>
-          <NumericFormat displayType="text" value={item?.APR} suffix="%" />
+          <NumericFormat displayType="text" value={item?.APR} suffix="%" decimalScale={2} />
         </div>
         <div className="font-mona flex w-full items-center justify-between py-[16px] text-[16px] text-[#959595]">
           <div className="flex items-center justify-center">

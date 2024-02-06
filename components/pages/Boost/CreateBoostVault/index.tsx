@@ -46,23 +46,26 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
   }
 
   const handleUpdateBoostData = async (loading = false) => {
-    let dataBoost: any[] = boostVault
+    let dataBoost: any[] = [...boostVault]
     try {
       const aprRes = await TokenApr.getListApr({})
       const aprs: any[] = aprRes?.data || []
+      console.log('aprs :>> ', aprs);
       dataBoost = dataBoost?.map((item) => ({
         ...item,
         APR:
           ((aprs?.find(
             (apr) =>
-              apr?.name === (item?.tokenSymbol === 'WBTC' ? 'BTC' : 'ETH')
+              apr?.name === (item?.token === 'WBTC' ? 'BTC' : 'ETH')
           )?.apr || 0) +
             5) /
           2,
       }))
-      dataBoost = await Promise.all(dataBoost?.map(getBoostData))
-    } catch (error) {}
-    setBoostVault(dataBoost)
+      console.log('dataBoost :>> ', dataBoost);
+      // dataBoost = await Promise.all(dataBoost?.map(getBoostData))
+      setBoostVault(dataBoost)
+
+    } catch (error) { }
   }
 
   useEffect(() => {
