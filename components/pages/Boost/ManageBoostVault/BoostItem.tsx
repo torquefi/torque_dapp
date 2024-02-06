@@ -159,7 +159,7 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
         await tx.wait()
       } else {
         const tx = await boostContract2.withdrawBTC(withdrawAmount, {
-          value: '1000000000000000',
+          value: executionFee,
         })
         await tx.wait()
       }

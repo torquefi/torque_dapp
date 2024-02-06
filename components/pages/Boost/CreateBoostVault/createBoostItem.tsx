@@ -126,7 +126,7 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
         console.log('depositToken wbtc:>> ', depositToken);
         console.log('fee wbtc:>> ', executionFee);
         const tx = await boostContract2.depositBTC(depositToken, {
-          value: '1000000000000000',
+          value: executionFee,
         })
         await tx.wait()
       }
