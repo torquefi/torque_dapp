@@ -124,13 +124,6 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "executionFee",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
       { "internalType": "uint256", "name": "gmxWithdraw", "type": "uint256" },
       { "internalType": "uint256", "name": "price", "type": "uint256" },
@@ -144,7 +137,7 @@
       { "internalType": "uint256", "name": "", "type": "uint256" },
       { "internalType": "uint256", "name": "", "type": "uint256" }
     ],
-    "stateMutability": "view",
+    "stateMutability": "pure",
     "type": "function"
   },
   {
@@ -178,6 +171,15 @@
     "type": "function"
   },
   {
+    "inputs": [
+      { "internalType": "address", "name": "_controller", "type": "address" }
+    ],
+    "name": "setController",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "swapRouter",
     "outputs": [
@@ -191,15 +193,6 @@
       { "internalType": "address", "name": "newOwner", "type": "address" }
     ],
     "name": "transferOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "uint256", "name": "_executionFee", "type": "uint256" }
-    ],
-    "name": "updateExecutionFee",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
