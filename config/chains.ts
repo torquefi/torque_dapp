@@ -1,7 +1,7 @@
 import { ethers } from 'ethers'
 import { sample } from 'lodash'
 // import { NetworkMetadata } from '@/lib/wallets'
-import { isDevelopment } from './env'
+// import { isDevelopment } from './env'
 
 export type NetworkMetadata = {
   chainId: string
@@ -32,9 +32,9 @@ export const CHAIN_ID = DEFAULT_CHAIN_ID
 
 export const SUPPORTED_CHAIN_IDS = [ARBITRUM, AVALANCHE]
 
-if (isDevelopment()) {
-  SUPPORTED_CHAIN_IDS.push(AVALANCHE_FUJI, ARBITRUM_GOERLI)
-}
+// if (isDevelopment()) {
+//   SUPPORTED_CHAIN_IDS.push(AVALANCHE_FUJI, ARBITRUM_GOERLI)
+// }
 
 export const IS_NETWORK_DISABLED = {
   [ARBITRUM]: false,
@@ -294,14 +294,20 @@ export function getFallbackRpcUrl(chainId: number): string | undefined {
 }
 
 export function getAlchemyHttpUrl() {
-  if (ALCHEMY_WHITELISTED_DOMAINS.includes(window.location.host)) {
+  if (
+    typeof window !== 'undefined' &&
+    ALCHEMY_WHITELISTED_DOMAINS.includes(window.location.host)
+  ) {
     return 'https://arb-mainnet.g.alchemy.com/v2/ha7CFsr1bx5ZItuR6VZBbhKozcKDY4LZ'
   }
   return 'https://arb-mainnet.g.alchemy.com/v2/EmVYwUw0N2tXOuG0SZfe5Z04rzBsCbr2'
 }
 
 export function getAlchemyWsUrl() {
-  if (ALCHEMY_WHITELISTED_DOMAINS.includes(window.location.host)) {
+  if (
+    typeof window !== 'undefined' &&
+    ALCHEMY_WHITELISTED_DOMAINS.includes(window.location.host)
+  ) {
     return 'wss://arb-mainnet.g.alchemy.com/v2/ha7CFsr1bx5ZItuR6VZBbhKozcKDY4LZ'
   }
   return 'wss://arb-mainnet.g.alchemy.com/v2/EmVYwUw0N2tXOuG0SZfe5Z04rzBsCbr2'

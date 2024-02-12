@@ -2,6 +2,7 @@ import InputCurrencySwitch from '@/components/common/InputCurrencySwitch'
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
 import { ConfirmDepositModal } from '@/components/common/Modal/ConfirmDepositModal'
 import Popover from '@/components/common/Popover'
+import { useGasLimits } from '@/domain/synthetics/fees'
 import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
 import { AppStore } from '@/types/store'
 import { useWeb3Modal } from '@web3modal/react'
@@ -13,6 +14,7 @@ import { NumericFormat } from 'react-number-format'
 import { useSelector } from 'react-redux'
 import { toast } from 'sonner'
 import { useAccount } from 'wagmi'
+import { arbitrum } from 'wagmi/dist/chains'
 import Web3 from 'web3'
 
 const RPC = 'https://arb1.arbitrum.io/rpc'
@@ -77,6 +79,10 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
     handleGetTotalSupply()
   }, [boostReadContract, tokenContract])
 
+  const { gasLimits } = useGasLimits(arbitrum.id)
+
+  console.log('gasLimits :>> ', gasLimits);
+
   const gmxContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
     if (!item?.gmxContractInfo?.abi) {
@@ -118,10 +124,10 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
       )
 
       if (item.token === 'WETH') {
-        const tx = await boostContract2.depositETH(depositToken, {
-          value: executionFee,
-        })
-        await tx.wait()
+        // const tx = await boostContract2.depositETH(depositToken, {
+        //   value: executionFee,
+        // })
+        // await tx.wait()
       } else {
         console.log('depositToken wbtc:>> ', depositToken);
         console.log('fee wbtc:>> ', executionFee);
