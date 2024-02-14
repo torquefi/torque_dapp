@@ -18,10 +18,6 @@ type GasLimitsResult = {
 }
 
 export function useGasLimits(chainId: number): GasLimitsResult {
-  console.log({
-    depositSingleToken: depositGasLimitKey(true),
-    depositMultiToken: depositGasLimitKey(false),
-  })
 
   const { data } = useMulticall(chainId, 'useGasLimitsConfig', {
     key: [],

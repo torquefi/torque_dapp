@@ -1,12 +1,11 @@
-import { useWeb3React } from '@web3-react/core'
-import useSWR from 'swr'
-import {
-  CacheKey,
-  MulticallRequestConfig,
-  MulticallResult,
-  SkipKey,
-} from './types'
-import { executeMulticall } from './utils'
+import useSWR, { SWRConfiguration } from "swr";
+import { CacheKey, MulticallRequestConfig, MulticallResult, SkipKey } from "./types";
+import { executeMulticall } from "./utils";
+import { useWalletClient, useSignMessage } from "wagmi";
+import { SWRGCMiddlewareConfig } from "@/lib/swrMiddlewares";
+import { useEthersProvider } from "../hooks/useEthersProvider";
+import { Signer } from "ethers";
+// import useWallet from "@/lib/wallets/useWallet";
 
 /**
  * A hook to fetch data from contracts via multicall.
@@ -18,36 +17,31 @@ import { executeMulticall } from './utils'
  * @param params.request - contract calls config or callback which returns it
  * @param params.parseResponse - optional callback to pre-process and format the response
  */
-export function useMulticall<
-  TConfig extends MulticallRequestConfig<any>,
-  TResult = MulticallResult<TConfig>
->(
+export function useMulticall<TConfig extends MulticallRequestConfig<any>, TResult = MulticallResult<TConfig>>(
   chainId: number,
   name: string,
   params: {
-    key: CacheKey | SkipKey
-    refreshInterval?: number | null
-    requireSuccess?: boolean
-    request: TConfig | ((chainId: number, key: CacheKey) => TConfig)
-    parseResponse?: (
-      result: MulticallResult<TConfig>,
-      chainId: number,
-      key: CacheKey
-    ) => TResult
+    key: CacheKey | SkipKey;
+    refreshInterval?: number | null;
+    clearUnusedKeys?: boolean;
+    keepPreviousData?: boolean;
+    request: TConfig | ((chainId: number, key: CacheKey) => TConfig);
+    parseResponse?: (result: MulticallResult<TConfig>, chainId: number, key: CacheKey) => TResult;
   }
 ) {
-  const { library } = useWeb3React()
+  // const { signer } = useWallet();
+  const signer = useEthersProvider();
 
-  let swrFullKey =
-    Array.isArray(params.key) && chainId && name
-      ? [chainId, name, ...params.key]
-      : null
+  let swrFullKey = Array.isArray(params.key) && chainId && name ? [chainId, name, ...params.key] : null;
 
-  const swrOpts: any = {}
+  const swrOpts: SWRConfiguration & SWRGCMiddlewareConfig & any = {
+    clearUnusedKeys: params.clearUnusedKeys,
+    keepPreviousData: params.keepPreviousData,
+  };
 
   // SWR resets global options if pass undefined explicitly
   if (params.refreshInterval !== undefined) {
-    swrOpts.refreshInterval = params.refreshInterval
+    swrOpts.refreshInterval = params.refreshInterval || undefined;
   }
 
   const { data } = useSWR<TResult | undefined>(swrFullKey, {
@@ -59,43 +53,33 @@ export function useMulticall<
             ? params.request(chainId, params.key as CacheKey) 
             : params.request;
 
-            console.log('params', request)
-
         if (Object.keys(request).length === 0) {
-          throw new Error(`Multicall request is empty`)
+          throw new Error(`Multicall request is empty`);
         }
 
-        const requireSuccess =
-          typeof params.requireSuccess === 'undefined'
-            ? true
-            : params.requireSuccess
+        const response = await executeMulticall(chainId, signer as any, request);
 
-        const response = await executeMulticall(
-          chainId,
-          library,
-          request,
-          requireSuccess
-        )
-
-        console.log('executeMulticall', response)
+        if (!response) {
+          throw new Error(`Multicall response is empty`);
+        }
 
         // prettier-ignore
         const result = typeof params.parseResponse === "function"
             ? params.parseResponse(response, chainId, params.key as CacheKey)
             : response;
 
-        return result as TResult
+        return result as TResult;
       } catch (e) {
         // eslint-disable-next-line no-console
-        console.error(`Multicall request failed: ${name}`, e)
+        console.error(`Multicall request failed: ${name}`, e);
 
-        throw e
+        throw e;
       }
     },
-  })
+  });
 
   return {
     data,
     isLoading: Boolean(swrFullKey) && !data,
-  }
+  };
 }
