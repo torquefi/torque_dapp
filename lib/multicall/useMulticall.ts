@@ -59,6 +59,8 @@ export function useMulticall<
             ? params.request(chainId, params.key as CacheKey) 
             : params.request;
 
+            console.log('params', request)
+
         if (Object.keys(request).length === 0) {
           throw new Error(`Multicall request is empty`)
         }
@@ -74,6 +76,8 @@ export function useMulticall<
           request,
           requireSuccess
         )
+
+        console.log('executeMulticall', response)
 
         // prettier-ignore
         const result = typeof params.parseResponse === "function"

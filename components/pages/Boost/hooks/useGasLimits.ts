@@ -1,16 +1,16 @@
-import { getContract } from '@/config/contracts'
 import DataStore from '@/abis/DataStore.json'
-import { useMulticall } from '@/lib/multicall'
+import { getContract } from '@/config/contracts'
 import {
-  ESTIMATED_GAS_FEE_BASE_AMOUNT,
-  ESTIMATED_GAS_FEE_MULTIPLIER_FACTOR,
   decreaseOrderGasLimitKey,
   depositGasLimitKey,
+  ESTIMATED_GAS_FEE_BASE_AMOUNT,
+  ESTIMATED_GAS_FEE_MULTIPLIER_FACTOR,
   increaseOrderGasLimitKey,
   singleSwapGasLimitKey,
   swapOrderGasLimitKey,
   withdrawalGasLimitKey,
 } from '@/config/dataStore'
+import { useMulticall } from '@/lib/multicall'
 import { GasLimitsConfig } from './types'
 
 type GasLimitsResult = {
@@ -18,6 +18,11 @@ type GasLimitsResult = {
 }
 
 export function useGasLimits(chainId: number): GasLimitsResult {
+  console.log({
+    depositSingleToken: depositGasLimitKey(true),
+    depositMultiToken: depositGasLimitKey(false),
+  })
+
   const { data } = useMulticall(chainId, 'useGasLimitsConfig', {
     key: [],
     request: () => ({

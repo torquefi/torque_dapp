@@ -21,6 +21,8 @@ export async function executeMulticall(
     library ? library.getSigner().provider : undefined
   )
 
+  console.log('Multicall.getInstance', multicall)
+
   return multicall.call(request, requireSucess, MAX_TIMEOUT)
 }
 
@@ -155,6 +157,8 @@ export class Multicall {
         throw e
       })
 
+      console.log('race', response)
+
     const result: MulticallResult<any> = {
       success: true,
       errors: {},
@@ -165,15 +169,35 @@ export class Multicall {
       const { contractKey, callKey, contract, methodName } = originalPayload[i]
 
       if (success) {
-        const values = contract.interface.decodeFunctionResult(methodName, res)
+        // console.log('methodName', methodName)
 
-        result.data[contractKey] = result.data[contractKey] || {}
+        // const values = contract.interface.decodeFunctionResult(methodName, res)
+
+        // console.log('values', values)
+
+        // result.data[contractKey] = result.data[contractKey] || {}
+        // result.data[contractKey][callKey] = {
+        //   contractKey,
+        //   callKey,
+        //   returnValues: values,
+        //   success,
+        // }
+
+        let values: any;
+
+        if (Array.isArray(result) || typeof result === "object") {
+          values = result;
+        } else {
+          values = [result];
+        }
+
+        result.data[contractKey] = result.data[contractKey] || {};
         result.data[contractKey][callKey] = {
           contractKey,
           callKey,
           returnValues: values,
-          success,
-        }
+          success: true,
+        };
       } else {
         result.success = false
 
@@ -190,6 +214,8 @@ export class Multicall {
         }
       }
     })
+
+    console.log('race2', response)
 
     return result
   }
