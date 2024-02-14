@@ -124,7 +124,7 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
             tokenDecimal
           ),
           initialShortTokenAmount: ethers.utils.parseUnits(
-            ((amount / 4) * usdPrice[item.token]).toFixed(tokenDecimal),
+            ((amount / 4) * usdPrice['USDC']).toFixed(tokenDecimal),
             tokenDecimal
           ),
         })

@@ -42,6 +42,8 @@ export function TokenPriceProvider({ children }: any) {
         usdPrice.BTC = btcPrice || usdPrice.BTC || 28000
         usdPrice.tusd = tusdPrice || usdPrice.TUSD || 1
         usdPrice.TUSD = tusdPrice || usdPrice.TUSD || 1
+        usdPrice.usdc = tusdPrice || usdPrice.TUSD || 1
+        usdPrice.USDC = tusdPrice || usdPrice.TUSD || 1
         usdPrice.wbtc = btcPrice || usdPrice.btc || 28000
         usdPrice.WBTC = btcPrice || usdPrice.BTC || 28000
         usdPrice.weth = ethPrice || usdPrice.eth || 1800
