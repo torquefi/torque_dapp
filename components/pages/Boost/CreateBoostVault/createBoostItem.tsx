@@ -3,7 +3,6 @@ import LoadingCircle from '@/components/common/Loading/LoadingCircle'
 import { ConfirmDepositModal } from '@/components/common/Modal/ConfirmDepositModal'
 import Popover from '@/components/common/Popover'
 import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
-import { bigNumberify } from '@/lib/numbers'
 import { AppStore } from '@/types/store'
 import { useWeb3Modal } from '@web3modal/react'
 import BigNumber from 'bignumber.js'
@@ -85,22 +84,6 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
 
   console.log('gasLimits :>> ', gasLimits)
 
-  const estimateExecuteDepositGasLimitValue = estimateExecuteDepositGasLimit(
-    gasLimits,
-    {
-      // longTokenSwapsCount: 1,
-      // shortTokenSwapsCount: 1,
-      initialLongTokenAmount: bigNumberify(amount / 4),
-      initialShortTokenAmount: bigNumberify(
-        (amount / 4) * usdPrice[item.token]
-      ),
-    }
-  )
-  console.log(
-    'estimateExecuteDepositGasLimit',
-    estimateExecuteDepositGasLimitValue?.toString()
-  )
-
   const gmxContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
     if (!item?.gmxContractInfo?.abi) {
@@ -132,14 +115,25 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
         .parseUnits(Number(amount).toFixed(tokenDecimal), tokenDecimal)
         .toString()
 
-      const executionFee = ethers.utils
-        .parseUnits(
-          estimateExecuteDepositGasLimitValue?.toString(),
-          tokenDecimal
-        )
-        ?.toString()
+      const estimateExecuteDepositGasLimitValue =
+        estimateExecuteDepositGasLimit(gasLimits, {
+          // longTokenSwapsCount: 1,
+          // shortTokenSwapsCount: 1,
+          initialLongTokenAmount: ethers.utils.parseUnits(
+            (amount / 4).toFixed(tokenDecimal),
+            tokenDecimal
+          ),
+          initialShortTokenAmount: ethers.utils.parseUnits(
+            ((amount / 4) * usdPrice[item.token]).toFixed(tokenDecimal),
+            tokenDecimal
+          ),
+        })
+      console.log(
+        'estimateExecuteDepositGasLimit',
+        estimateExecuteDepositGasLimitValue?.toString()
+      )
 
-      console.log('executionFee estimateExecuteDepositGasLimitValue', executionFee)
+      const executionFee = estimateExecuteDepositGasLimitValue?.toString()
 
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const signer = provider.getSigner(address)

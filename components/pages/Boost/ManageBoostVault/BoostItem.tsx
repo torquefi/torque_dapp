@@ -160,17 +160,7 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
           .send({ from: address })
       }
       // const executionFee = await gmxContract.methods.executionFee().call()
-      const executionFee = ethers.utils
-        .parseUnits(
-          estimateExecuteWithdrawalGasLimitValue?.toString(),
-          decimalToken
-        )
-        ?.toString()
-
-      console.log(
-        'executionFee estimateExecuteWithdrawalGasLimitValue',
-        executionFee
-      )
+      const executionFee = estimateExecuteWithdrawalGasLimitValue?.toString()
 
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const signer = provider.getSigner(address)
