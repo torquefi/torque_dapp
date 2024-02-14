@@ -18,7 +18,7 @@ import { arbitrum } from 'wagmi/dist/chains'
 import Web3 from 'web3'
 import {
   estimateExecuteDepositGasLimit,
-  estimateExecuteWithdrawalGasLimit,
+  estimateExecuteWithdrawalGasLimit
 } from '../hooks/getExecutionFee'
 import { useGasLimits } from '../hooks/useGasLimits'
 
@@ -101,14 +101,14 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
   )
   console.log(
     'estimateExecuteDepositGasLimit',
-    estimateExecuteDepositGasLimitValue.toString()
+    estimateExecuteDepositGasLimitValue
   )
   const estimateExecuteWithdrawalGasLimitValue =
     estimateExecuteWithdrawalGasLimit(gasLimits, {})
 
   console.log(
     'estimateExecuteWithdrawalGasLimit',
-    estimateExecuteWithdrawalGasLimitValue.toString()
+    estimateExecuteWithdrawalGasLimitValue
   )
 
   const gmxContract = useMemo(() => {
