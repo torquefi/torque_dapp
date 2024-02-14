@@ -90,9 +90,9 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
     {
       // longTokenSwapsCount: 1,
       // shortTokenSwapsCount: 1,
-      initialLongTokenAmount: bigNumberify(amount / 2),
+      initialLongTokenAmount: bigNumberify(amount / 4),
       initialShortTokenAmount: bigNumberify(
-        (amount / 2) * usdPrice[item.token]
+        (amount / 4) * usdPrice[item.token]
       ),
     }
   )
@@ -132,8 +132,14 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
         .parseUnits(Number(amount).toFixed(tokenDecimal), tokenDecimal)
         .toString()
 
-      // const executionFee = await gmxContract.methods.executionFee().call()
-      const executionFee = estimateExecuteDepositGasLimitValue?.toString()
+      const executionFee = ethers.utils
+        .parseUnits(
+          estimateExecuteDepositGasLimitValue?.toString(),
+          tokenDecimal
+        )
+        ?.toString()
+
+      console.log('executionFee estimateExecuteDepositGasLimitValue', executionFee)
 
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const signer = provider.getSigner(address)
