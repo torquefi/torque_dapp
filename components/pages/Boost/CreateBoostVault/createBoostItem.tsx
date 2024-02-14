@@ -16,10 +16,7 @@ import { toast } from 'sonner'
 import { useAccount } from 'wagmi'
 import { arbitrum } from 'wagmi/dist/chains'
 import Web3 from 'web3'
-import {
-  estimateExecuteDepositGasLimit,
-  estimateExecuteWithdrawalGasLimit
-} from '../hooks/getExecutionFee'
+import { estimateExecuteDepositGasLimit } from '../hooks/getExecutionFee'
 import { useGasLimits } from '../hooks/useGasLimits'
 
 const RPC = 'https://arb1.arbitrum.io/rpc'
@@ -91,8 +88,8 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
   const estimateExecuteDepositGasLimitValue = estimateExecuteDepositGasLimit(
     gasLimits,
     {
-      longTokenSwapsCount: 1,
-      shortTokenSwapsCount: 1,
+      // longTokenSwapsCount: 1,
+      // shortTokenSwapsCount: 1,
       initialLongTokenAmount: bigNumberify(amount / 2),
       initialShortTokenAmount: bigNumberify(
         (amount / 2) * usdPrice[item.token]
@@ -101,14 +98,7 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
   )
   console.log(
     'estimateExecuteDepositGasLimit',
-    estimateExecuteDepositGasLimitValue
-  )
-  const estimateExecuteWithdrawalGasLimitValue =
-    estimateExecuteWithdrawalGasLimit(gasLimits, {})
-
-  console.log(
-    'estimateExecuteWithdrawalGasLimit',
-    estimateExecuteWithdrawalGasLimitValue
+    estimateExecuteDepositGasLimitValue?.toString()
   )
 
   const gmxContract = useMemo(() => {
@@ -141,7 +131,9 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
       const depositToken = ethers.utils
         .parseUnits(Number(amount).toFixed(tokenDecimal), tokenDecimal)
         .toString()
-      const executionFee = await gmxContract.methods.executionFee().call()
+
+      // const executionFee = await gmxContract.methods.executionFee().call()
+      const executionFee = estimateExecuteDepositGasLimitValue?.toString()
 
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const signer = provider.getSigner(address)
