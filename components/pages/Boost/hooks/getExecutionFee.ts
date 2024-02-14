@@ -1,28 +1,32 @@
-import { getHighExecutionFee } from '@/config/chains'
 import { NATIVE_TOKEN_ADDRESS } from '@/config/tokens'
+import { getChainName, getHighExecutionFee } from '@/config/chains'
 import {
-  TokensData,
   convertToUsd,
   getTokenData,
+  TokensData,
 } from '@/domain/synthetics/tokens'
-import { BigNumber } from 'ethers'
 import { USD_DECIMALS } from '@/lib/legacy'
-import { applyFactor, expandDecimals } from '@/lib/numbers'
-import { ExecutionFee, GasLimitsConfig } from './types'
+import { applyFactor, bigNumberify, expandDecimals } from '@/lib/numbers'
+import { BigNumber } from 'ethers'
+import { ExecutionFee, GasLimitsConfig } from '../types/fee'
 
 export function getExecutionFee(
   chainId: number,
-  gasLimts: GasLimitsConfig,
+  gasLimits: GasLimitsConfig,
   tokensData: TokensData,
   estimatedGasLimit: BigNumber,
   gasPrice: BigNumber
 ): ExecutionFee | undefined {
+  if (!gasLimits) {
+    return undefined;
+  }
+
   const nativeToken = getTokenData(tokensData, NATIVE_TOKEN_ADDRESS)
 
   if (!nativeToken) return undefined
 
-  const baseGasLimit = gasLimts.estimatedFeeBaseGasLimit
-  const multiplierFactor = gasLimts.estimatedFeeMultiplierFactor
+  const baseGasLimit = gasLimits.estimatedFeeBaseGasLimit
+  const multiplierFactor = gasLimits.estimatedFeeMultiplierFactor
   const adjustedGasLimit = baseGasLimit.add(
     applyFactor(estimatedGasLimit, multiplierFactor)
   )
@@ -40,7 +44,9 @@ export function getExecutionFee(
   )
 
   const warning = isFeeHigh
-    ? `The network cost to send transactions is high at the moment, please check the "Execution Fee" value before proceeding.`
+    ? `The network Fees are very high currently, which may be due to a temporary increase in transactions on the ${getChainName(
+        chainId
+      )} network.`
     : undefined
 
   return {
@@ -54,17 +60,23 @@ export function getExecutionFee(
 export function estimateExecuteDepositGasLimit(
   gasLimits: GasLimitsConfig,
   deposit: {
-    longTokenSwapPath?: string[]
-    shortTokenSwapPath?: string[]
+    longTokenSwapsCount?: number
+    shortTokenSwapsCount?: number
     initialLongTokenAmount?: BigNumber
     initialShortTokenAmount?: BigNumber
     callbackGasLimit?: BigNumber
   }
 ) {
-  const gasPerSwap = gasLimits.singleSwap
+  if (!gasLimits) {
+    return undefined
+  }
+
+  const gasPerSwap = bigNumberify(gasLimits.singleSwap)
+
+  console.log('gasPerSwap', gasPerSwap, gasPerSwap.mul)
+
   const swapsCount =
-    (deposit.longTokenSwapPath?.length || 0) +
-    (deposit.shortTokenSwapPath?.length || 0)
+    (deposit.longTokenSwapsCount || 0) + (deposit.shortTokenSwapsCount || 0)
 
   const gasForSwaps = gasPerSwap.mul(swapsCount)
   const isMultiTokenDeposit =
@@ -75,45 +87,55 @@ export function estimateExecuteDepositGasLimit(
     ? gasLimits.depositMultiToken
     : gasLimits.depositSingleToken
 
-  return depositGasLimit.add(gasForSwaps).add(deposit.callbackGasLimit || 0)
+  return bigNumberify(depositGasLimit).add(gasForSwaps).add(deposit.callbackGasLimit || 0)
 }
 
 export function estimateExecuteWithdrawalGasLimit(
   gasLimits: GasLimitsConfig,
   withdrawal: { callbackGasLimit?: BigNumber }
 ) {
-  return gasLimits.withdrawalMultiToken.add(withdrawal.callbackGasLimit || 0)
+  if (!gasLimits) {
+    return undefined;
+  }
+
+  return bigNumberify(gasLimits.withdrawalMultiToken).add(withdrawal.callbackGasLimit || 0)
 }
 
 export function estimateExecuteIncreaseOrderGasLimit(
   gasLimits: GasLimitsConfig,
-  order: { swapPath?: string[]; callbackGasLimit?: BigNumber }
+  order: { swapsCount?: number; callbackGasLimit?: BigNumber }
 ) {
-  const swapsCount = order.swapPath?.length || 0
+  if (!gasLimits) {
+    return undefined;
+  }
 
   return gasLimits.increaseOrder
-    .add(gasLimits.singleSwap.mul(swapsCount))
+    .add(gasLimits.singleSwap.mul(order.swapsCount || 0))
     .add(order.callbackGasLimit || 0)
 }
 
 export function estimateExecuteDecreaseOrderGasLimit(
   gasLimits: GasLimitsConfig,
-  order: { swapPath?: string[]; callbackGasLimit?: BigNumber }
+  order: { swapsCount?: number; callbackGasLimit?: BigNumber }
 ) {
-  const swapsCount = order.swapPath?.length || 0
+  if (!gasLimits) {
+    return undefined;
+  }
 
   return gasLimits.decreaseOrder
-    .add(gasLimits.singleSwap.mul(swapsCount))
+    .add(gasLimits.singleSwap.mul(order.swapsCount || 0))
     .add(order.callbackGasLimit || 0)
 }
 
 export function estimateExecuteSwapOrderGasLimit(
   gasLimits: GasLimitsConfig,
-  order: { swapPath?: string[]; callbackGasLimit?: BigNumber }
+  order: { swapsCount?: number; callbackGasLimit?: BigNumber }
 ) {
-  const swapsCount = order.swapPath?.length || 0
+  if (!gasLimits) {
+    return undefined;
+  }
 
   return gasLimits.swapOrder
-    .add(gasLimits.singleSwap.mul(swapsCount))
+    .add(gasLimits.singleSwap.mul(order.swapsCount || 0))
     .add(order.callbackGasLimit || 0)
 }

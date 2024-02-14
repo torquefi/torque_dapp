@@ -42,3 +42,7 @@ export function convertToUsd(
 
   return tokenAmount.mul(price).div(expandDecimals(1, tokenDecimals))
 }
+
+export function parseContractPrice(price: BigNumber, tokenDecimals: number) {
+  return price.mul(expandDecimals(1, tokenDecimals));
+}

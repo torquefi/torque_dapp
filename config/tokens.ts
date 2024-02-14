@@ -1,6 +1,8 @@
 import { ethers } from 'ethers'
 
 export const NATIVE_TOKEN_ADDRESS = ethers.constants.AddressZero
+export const V2_TOKENS: { [chainId: number]: Token[] } = {}
+export const WRAPPED_TOKENS_MAP: { [chainId: number]: Token } = {};
 
 export type Token = {
   name: string
@@ -36,6 +38,18 @@ export function getToken(chainId: number, address: string) {
   return TOKENS_MAP[chainId][address]
 }
 
+export function getV2Tokens(chainId: number) {
+  return V2_TOKENS[chainId]
+}
+
 export function getTokensMap(chainId: number) {
   return TOKENS_MAP[chainId]
+}
+
+export function getTokens(chainId: number) {
+  TOKENS_MAP
+}
+
+export function getWrappedToken(chainId: number) {
+  return WRAPPED_TOKENS_MAP[chainId]
 }

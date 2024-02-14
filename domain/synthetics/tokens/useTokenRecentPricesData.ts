@@ -1,97 +1,56 @@
-import { getOracleKeeperUrl } from 'config/oracleKeeper'
-import {
-  getToken,
-  getTokens,
-  getWrappedToken,
-  NATIVE_TOKEN_ADDRESS,
-} from '@/config/tokens'
-import { jsonFetcher } from '@/lib/fetcher'
-import { USD_DECIMALS } from '@/lib/legacy'
-import { expandDecimals } from '@/lib/numbers'
-import useSWR from 'swr'
-import { TokenPricesData } from './types'
-import { parseOraclePrice } from './utils'
-
-type BackendResponse = {
-  minPrice: string
-  maxPrice: string
-  oracleDecimals: number
-  tokenSymbol: string
-  tokenAddress: string
-  updatedAt: number
-}[]
+import { getToken, getWrappedToken, NATIVE_TOKEN_ADDRESS } from "@/config/tokens";
+import { BigNumber } from "ethers";
+import useSWR from "swr";
+import { TokenPricesData } from "./types";
+import { useOracleKeeperFetcher } from "./useOracleKeeperFetcher";
+import { parseContractPrice } from "./utils";
 
 type TokenPricesDataResult = {
-  pricesData?: TokenPricesData
-  updatedAt?: number
-}
+  pricesData?: TokenPricesData;
+  updatedAt?: number;
+};
 
 export function useTokenRecentPrices(chainId: number): TokenPricesDataResult {
-  const url = getOracleKeeperUrl(chainId, '/prices/tickers')
+  const oracleKeeperFetcher = useOracleKeeperFetcher(chainId);
 
-  const { data } = useSWR(url, {
-    fetcher: (...args) =>
-      jsonFetcher(...args).then((priceItems: BackendResponse) => {
-        const result: TokenPricesData = {}
+  const { data } = useSWR([chainId, oracleKeeperFetcher.oracleKeeperUrl, "useTokenRecentPrices"], {
+    fetcher: (chainId) =>
+      oracleKeeperFetcher.fetchTickers().then((priceItems) => {
+        const result: TokenPricesData = {};
 
         priceItems.forEach((priceItem) => {
-          let tokenConfig: any
+          let tokenConfig: any;
 
           try {
-            tokenConfig = getToken(chainId, priceItem.tokenAddress)
+            tokenConfig = getToken(chainId, priceItem.tokenAddress);
           } catch (e) {
             // ignore unknown token errors
 
-            return
+            return;
           }
 
           result[tokenConfig.address] = {
-            minPrice: parseOraclePrice(
-              priceItem.minPrice,
-              tokenConfig.decimals,
-              priceItem.oracleDecimals
-            ),
-            maxPrice: parseOraclePrice(
-              priceItem.maxPrice,
-              tokenConfig.decimals,
-              priceItem.oracleDecimals
-            ),
-          }
-        })
+            minPrice: parseContractPrice(BigNumber.from(priceItem.minPrice), tokenConfig.decimals),
+            maxPrice: parseContractPrice(BigNumber.from(priceItem.maxPrice), tokenConfig.decimals),
+          };
+        });
 
-        const stableTokens = getTokens(chainId).filter(
-          (token) => token.isStable
-        )
-
-        stableTokens.forEach((token) => {
-          if (!result[token.address]) {
-            result[token.address] = {
-              minPrice: expandDecimals(1, USD_DECIMALS),
-              maxPrice: expandDecimals(1, USD_DECIMALS),
-            }
-          }
-        })
-
-        const wrappedToken = getWrappedToken(chainId)
+        const wrappedToken = getWrappedToken(chainId);
 
         if (result[wrappedToken.address] && !result[NATIVE_TOKEN_ADDRESS]) {
-          result[NATIVE_TOKEN_ADDRESS] = result[wrappedToken.address]
+          result[NATIVE_TOKEN_ADDRESS] = result[wrappedToken.address];
         }
-
-        // // TODO: remove this after the oracle keeper is updated
-        // if (result["0xEe01c0CD76354C383B8c7B4e65EA88D00B06f36f"] && !result[NATIVE_TOKEN_ADDRESS]) {
-        //   result[NATIVE_TOKEN_ADDRESS] = result["0xEe01c0CD76354C383B8c7B4e65EA88D00B06f36f"];
-        // }
 
         return {
           pricesData: result,
           updatedAt: Date.now(),
-        }
+        };
       }),
-  })
+    refreshWhenHidden: true,
+  });
 
   return {
     pricesData: data?.pricesData,
     updatedAt: data?.updatedAt,
-  }
+  };
 }

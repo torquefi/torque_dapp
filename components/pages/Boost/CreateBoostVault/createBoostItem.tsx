@@ -3,6 +3,7 @@ import LoadingCircle from '@/components/common/Loading/LoadingCircle'
 import { ConfirmDepositModal } from '@/components/common/Modal/ConfirmDepositModal'
 import Popover from '@/components/common/Popover'
 import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
+import { bigNumberify } from '@/lib/numbers'
 import { AppStore } from '@/types/store'
 import { useWeb3Modal } from '@web3modal/react'
 import BigNumber from 'bignumber.js'
@@ -15,6 +16,10 @@ import { toast } from 'sonner'
 import { useAccount } from 'wagmi'
 import { arbitrum } from 'wagmi/dist/chains'
 import Web3 from 'web3'
+import {
+  estimateExecuteDepositGasLimit,
+  estimateExecuteWithdrawalGasLimit,
+} from '../hooks/getExecutionFee'
 import { useGasLimits } from '../hooks/useGasLimits'
 
 const RPC = 'https://arb1.arbitrum.io/rpc'
@@ -81,7 +86,30 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
 
   const { gasLimits } = useGasLimits(arbitrum.id)
 
-  console.log('gasLimits :>> ', gasLimits);
+  console.log('gasLimits :>> ', gasLimits)
+
+  const estimateExecuteDepositGasLimitValue = estimateExecuteDepositGasLimit(
+    gasLimits,
+    {
+      longTokenSwapsCount: 1,
+      shortTokenSwapsCount: 1,
+      initialLongTokenAmount: bigNumberify(amount / 2),
+      initialShortTokenAmount: bigNumberify(
+        (amount / 2) * usdPrice[item.token]
+      ),
+    }
+  )
+  console.log(
+    'estimateExecuteDepositGasLimit',
+    estimateExecuteDepositGasLimitValue.toString()
+  )
+  const estimateExecuteWithdrawalGasLimitValue =
+    estimateExecuteWithdrawalGasLimit(gasLimits, {})
+
+  console.log(
+    'estimateExecuteWithdrawalGasLimit',
+    estimateExecuteWithdrawalGasLimitValue.toString()
+  )
 
   const gmxContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
@@ -129,8 +157,8 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
         // })
         // await tx.wait()
       } else {
-        console.log('depositToken wbtc:>> ', depositToken);
-        console.log('fee wbtc:>> ', executionFee);
+        console.log('depositToken wbtc:>> ', depositToken)
+        console.log('fee wbtc:>> ', executionFee)
         const tx = await boostContract2.depositBTC(depositToken, {
           value: executionFee,
         })
@@ -140,7 +168,7 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
       setIsFetchBoostLoading && setIsFetchBoostLoading((prev: any) => !prev)
       setOpenConfirmDepositModal(false)
     } catch (e) {
-      console.log("11111", e)
+      console.log('11111', e)
       toast.error('Boost Failed')
     } finally {
       setBtnLoading(false)
@@ -154,7 +182,7 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
     return 'Confirm Deposit'
   }
 
-  console.log('item :>> ', item);
+  console.log('item :>> ', item)
 
   return (
     <>
@@ -215,14 +243,18 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
           <div className="flex h-[110px] w-full flex-col items-center justify-center gap-3 rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A]  dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
             <InputCurrencySwitch
               tokenSymbol={item?.token}
-              tokenValue={Number(amount || 0) * (1 + Number(item?.APR || 0) / 100) * 3}
+              tokenValue={
+                Number(amount || 0) * (1 + Number(item?.APR || 0) / 100) * 3
+              }
               subtitle="3-Year Value"
               usdDefault
               decimalScale={5}
               className="w-full py-4 text-[#030303] dark:text-white lg:py-6"
               displayType="text"
-              tokenValueChange={Number(amount) * (1 + Number(item?.APR || 0) / 100) * 3}
-            // const
+              tokenValueChange={
+                Number(amount) * (1 + Number(item?.APR || 0) / 100) * 3
+              }
+              // const
             />
           </div>
         </div>
@@ -243,7 +275,12 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
         </div>
         <div className="font-mona flex w-full items-center justify-between text-[16px] text-[#959595]">
           <div className="font-mona">Variable APY</div>
-          <NumericFormat displayType="text" value={item?.APR} suffix="%" decimalScale={2} />
+          <NumericFormat
+            displayType="text"
+            value={item?.APR}
+            suffix="%"
+            decimalScale={2}
+          />
         </div>
         <div className="font-mona flex w-full items-center justify-between py-[16px] text-[16px] text-[#959595]">
           <div className="flex items-center justify-center">
