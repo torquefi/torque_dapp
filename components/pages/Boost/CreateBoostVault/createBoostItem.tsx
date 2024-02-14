@@ -115,6 +115,7 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
         .parseUnits(Number(amount).toFixed(tokenDecimal), tokenDecimal)
         .toString()
 
+      const usdcDecimal = 6
       const estimateExecuteDepositGasLimitValue =
         estimateExecuteDepositGasLimit(gasLimits, {
           // longTokenSwapsCount: 1,
@@ -124,8 +125,10 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
             tokenDecimal
           ),
           initialShortTokenAmount: ethers.utils.parseUnits(
-            ((amount / 4) * usdPrice['USDC']).toFixed(tokenDecimal),
-            tokenDecimal
+            (((amount / 4) * usdPrice[item?.token]) / usdPrice['USDC']).toFixed(
+              usdcDecimal
+            ),
+            usdcDecimal
           ),
         })
       console.log(
