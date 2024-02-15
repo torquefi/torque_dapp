@@ -27,7 +27,8 @@ export default function ConnectWalletModal({
       themeVariables: {
         '--w3m-accent-color': '#AA5BFF',
         '--w3m-background-color': '#AA5BFF',
-        "--w3m-z-index": '999'
+        '--w3m-overlay-backdrop-filter': 'blur(4px)',
+        '--w3m-z-index': '999'
       },
     })
   }, [theme])
@@ -55,7 +56,7 @@ export default function ConnectWalletModal({
 
   return (
     <Modal
-      className="w-full max-w-[500px]  bg-[#FCFAFF] p-[12px] dark:bg-[#030303]"
+      className="w-full max-w-[500px] bg-[#FCFAFF] p-[12px] dark:bg-[#030303]"
       open={openModal}
       handleClose={handleClose}
       hideCloseIcon

@@ -37,7 +37,7 @@ export default function Footer() {
       `
         }
       />
-      <footer className="flex w-[1280px] sm:text-[13px] xs:text-[12px] max-w-[1280px] justify-between px-4 pt-6 pb-4 md:pb-[12px] md:pt-4 text-[#959595]">
+      <footer className="flex w-full sm:text-[13px] xs:text-[12px] max-w-[1244px] justify-between px-4 pt-6 pb-4 md:pb-[12px] md:pt-4 text-[#959595]">
         <Link href="https://torque.fi" className="transition-colors duration-100 ease-linear cursor-pointer dark:hover:text-white hover:text-gray-500" target="_blank">
           © 2024 Torque Inc.
         </Link>
