@@ -2,6 +2,7 @@ import InputCurrencySwitch from '@/components/common/InputCurrencySwitch'
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
 import { ConfirmDepositModal } from '@/components/common/Modal/ConfirmDepositModal'
 import Popover from '@/components/common/Popover'
+import { useTokensDataRequest } from '@/domain/synthetics/tokens'
 import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
 import { AppStore } from '@/types/store'
 import { useWeb3Modal } from '@web3modal/react'
@@ -12,17 +13,22 @@ import { useEffect, useMemo, useState } from 'react'
 import { NumericFormat } from 'react-number-format'
 import { useSelector } from 'react-redux'
 import { toast } from 'sonner'
-import { useAccount } from 'wagmi'
+import { useAccount, useChainId } from 'wagmi'
 import { arbitrum } from 'wagmi/dist/chains'
 import Web3 from 'web3'
-import { estimateExecuteDepositGasLimit } from '../hooks/getExecutionFee'
+import {
+  estimateExecuteDepositGasLimit,
+  getExecutionFee,
+} from '../hooks/getExecutionFee'
 import { useGasLimits } from '../hooks/useGasLimits'
+import { useGasPrice } from '../hooks/useGasPrice'
 
 const RPC = 'https://arb1.arbitrum.io/rpc'
 
 export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
   const { open } = useWeb3Modal()
   const { address, isConnected } = useAccount()
+  const chainId = useChainId()
   const [btnLoading, setBtnLoading] = useState(false)
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
   const [isOpenConfirmDepositModal, setOpenConfirmDepositModal] =
@@ -34,6 +40,8 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
   const [totalSupply, setTotalSupply] = useState('')
   const theme = useSelector((store: AppStore) => store.theme.theme)
   const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
+  const { tokensData, pricesUpdatedAt } = useTokensDataRequest(chainId)
+  const { gasPrice } = useGasPrice(chainId)
 
   const tokenContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
@@ -131,12 +139,23 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
             usdcDecimal
           ),
         })
+
       console.log(
-        'estimateExecuteDepositGasLimit',
+        'estimateExecuteDepositGasLimitValue',
         estimateExecuteDepositGasLimitValue?.toString()
       )
 
-      const executionFee = estimateExecuteDepositGasLimitValue?.toString()
+      const executionFee = getExecutionFee(
+        chainId,
+        gasLimits,
+        tokensData,
+        estimateExecuteDepositGasLimitValue,
+        gasPrice
+      )
+
+      console.log('executionFee', executionFee)
+
+      // const executionFee = estimateExecuteDepositGasLimitValue?.toString()
 
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const signer = provider.getSigner(address)

@@ -15,7 +15,7 @@ export function useTokensDataRequest(chainId: number): TokensDataResult {
   const { pricesData, updatedAt: pricesUpdatedAt } = useTokenRecentPrices(chainId);
 
   return useMemo(() => {
-    const tokenAddresses = getV2Tokens(chainId)?.map((token) => token.address);
+    const tokenAddresses = getV2Tokens(chainId).map((token) => token.address);
 
     if (!pricesData) {
       return {

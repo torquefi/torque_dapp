@@ -12,6 +12,7 @@ import { Toaster } from 'sonner'
 import SEO from '../next-seo.config'
 import '../styles/style.scss'
 
+import { SettingsContextProvider } from '@/context/SettingsContext/SettingsContextProvider'
 import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
 import { Web3Modal } from '@web3modal/react'
 import { configureChains, createConfig, WagmiConfig } from 'wagmi'
@@ -62,7 +63,9 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
             {() => (
               <div>
                 <TokenPriceProvider />
-                {getLayout(<Component {...pageProps} />)}
+                <SettingsContextProvider>
+                  {getLayout(<Component {...pageProps} />)}
+                </SettingsContextProvider>
               </div>
             )}
           </PersistGate>

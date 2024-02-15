@@ -18,7 +18,7 @@ export function useTokenBalances(chainId: number, overrideAccount?: string | und
   const { data } = useMulticall(chainId, "useTokenBalances", {
     key: account ? [account] : null,
     request: () =>
-      getV2Tokens(chainId).reduce((acc: any, token) => {
+      getV2Tokens(chainId)?.reduce((acc: any, token) => {
         // Skip synthetic tokens
         if (token.isSynthetic) return acc;
 

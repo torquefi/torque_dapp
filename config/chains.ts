@@ -43,7 +43,7 @@ export const CHAIN_NAMES_MAP: any = {
   [AVALANCHE_FUJI]: "Avalanche Fuji",
 };
 
-export const GAS_PRICE_ADJUSTMENT_MAP = {
+export const GAS_PRICE_ADJUSTMENT_MAP: any = {
   [ARBITRUM]: "0",
   [AVALANCHE]: "3000000000", // 3 gwei
 };
