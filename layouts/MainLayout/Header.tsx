@@ -116,7 +116,7 @@ export const Header = () => {
         <div className="flex h-[24px] items-center justify-center bg-[#aa5bff] text-center text-[9px] font-bold uppercase text-white transition-all">
           Protocol not released yet. Please stay tuned.
         </div>
-        <div className="container relative mx-auto flex h-[66px] max-w-screen-xl items-center justify-between px-4 lg:px-8">
+        <div className="container relative mx-auto flex h-[66px] max-w-[1244px] items-center justify-between px-4 lg:px-8">
           <Link href="/" className="flex items-center">
             <img className="mb-1 h-[32px]" src="/assets/logo.png" alt="" />
             <h2
