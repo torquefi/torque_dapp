@@ -37,11 +37,15 @@ export default function Footer() {
       `
         }
       />
-      <footer className="flex w-full sm:text-[13px] xs:text-[12px] max-w-[1244px] justify-between px-4 pt-6 pb-4 md:pb-[12px] md:pt-4 text-[#959595]">
-        <Link href="https://torque.fi" className="transition-colors duration-100 ease-linear cursor-pointer dark:hover:text-white hover:text-gray-500" target="_blank">
+      <footer className="flex w-full max-w-[1244px] justify-between px-4 pb-4  pt-6 text-[#959595] xs:text-[12px] sm:text-[13px] md:pb-[12px] md:pt-4 lg:px-8">
+        <Link
+          href="https://torque.fi"
+          className="cursor-pointer transition-colors duration-100 ease-linear hover:text-gray-500 dark:hover:text-white"
+          target="_blank"
+        >
           © 2024 Torque Inc.
         </Link>
-        <div className="hidden md:flex space-x-0 md:space-x-8 text-[12px]">
+        <div className="hidden space-x-0 text-[12px] md:flex md:space-x-8">
           {socials.map((item, i) => (
             <Link
               href={item.link}
@@ -63,13 +67,13 @@ export default function Footer() {
             </Link>
           ))}
         </div>
-        <div className="flex sm:ml-12 space-x-2 text-[10px] xs:text-[10px]">
-          <label className="relative inline-flex items-center cursor-pointer">
+        <div className="flex space-x-2 text-[10px] xs:text-[10px] sm:ml-12">
+          <label className="relative inline-flex cursor-pointer items-center">
             <input
               onChange={(e) => handleDarkMode(e)}
               type="checkbox"
               checked={isChecked}
-              className="sr-only peer"
+              className="peer sr-only"
             />
             <div className="h-6 w-16 rounded-full border border-[#F4F4F4] bg-[#F6F6F6] after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-[#fff]  after:transition-all after:content-[''] peer-checked:after:translate-x-[200%] dark:border-[#1D1D1D] after:dark:bg-[#3B3B3B] peer-checked:dark:bg-[#0D0D0D]" />
           </label>
