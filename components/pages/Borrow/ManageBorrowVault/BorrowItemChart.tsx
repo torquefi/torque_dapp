@@ -173,15 +173,15 @@ export const BorrowItemChart: FC<BorrowItemChartProps> = (props) => {
   return (
     <>
       <div id="home-chart-wrapper" ref={chartContainerRef} className="relative">
-        <div className="text-center font-body font-extrabold">
+        <div className="font-extrabold text-center font-body">
           <NumericFormat
             displayType="text"
-            className="text-[14px]"
+            className="text-[16px]"
             value={+aprPercent}
             decimalScale={2}
             suffix="%"
           />
-          <p className="text-[10px] uppercase text-[#959595]">{label}</p>
+          <p className="text-[14px] uppercase text-[#959595]">{label}</p>
         </div>
         <ResponsiveContainer width="100%" height={180}>
           <ComposedChart data={chartData}>

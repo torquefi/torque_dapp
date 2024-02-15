@@ -47,7 +47,7 @@ export function Chart(props: any) {
           dy={13}
           textAnchor="end"
           fill="#959595"
-          fontSize={14}
+          fontSize={16}
           fontFamily="MonaSansRegular"
         >
           {timeDisplay}

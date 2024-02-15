@@ -82,7 +82,7 @@ export const OptionToken = () => {
             className="flex cursor-pointer items-center justify-end gap-[5px]"
           >
             <p className="text-[14px] font-[500] uppercase  leading-[40px] text-[#AA5BFF]">
-              leaders
+              view all
             </p>
             <img src="/assets/pages/vote/genover/next.svg" alt="" className="mb-1" />
           </Link>
