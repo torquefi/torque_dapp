@@ -4,6 +4,7 @@ import { ConfirmDepositModal } from '@/components/common/Modal/ConfirmDepositMod
 import Popover from '@/components/common/Popover'
 import { useTokensDataRequest } from '@/domain/synthetics/tokens'
 import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
+import { bigNumberify } from '@/lib/numbers'
 import { AppStore } from '@/types/store'
 import { useWeb3Modal } from '@web3modal/react'
 import BigNumber from 'bignumber.js'
@@ -126,18 +127,19 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
       const usdcDecimal = 6
       const estimateExecuteDepositGasLimitValue =
         estimateExecuteDepositGasLimit(gasLimits, {
-          // longTokenSwapsCount: 1,
-          // shortTokenSwapsCount: 1,
+          longTokenSwapsCount: 1,
+          shortTokenSwapsCount: 1,
           initialLongTokenAmount: ethers.utils.parseUnits(
-            (amount / 4).toFixed(tokenDecimal),
+            (amount / 2).toFixed(tokenDecimal),
             tokenDecimal
           ),
-          initialShortTokenAmount: ethers.utils.parseUnits(
-            (((amount / 4) * usdPrice[item?.token]) / usdPrice['USDC']).toFixed(
-              usdcDecimal
-            ),
-            usdcDecimal
-          ),
+          // initialShortTokenAmount: ethers.utils.parseUnits(
+          //   (((amount / 2) * usdPrice[item?.token]) / usdPrice['USDC']).toFixed(
+          //     usdcDecimal
+          //   ),
+          //   usdcDecimal
+          // ),
+          initialShortTokenAmount: bigNumberify(0),
         })
 
       console.log(
@@ -153,7 +155,9 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
         gasPrice
       )
 
-      console.log('executionFee', executionFee)
+      const executionFeeAmount = bigNumberify(executionFee?.feeTokenAmount).toString()
+
+      console.log('executionFeeAmount', executionFeeAmount, executionFee)
 
       // const executionFee = estimateExecuteDepositGasLimitValue?.toString()
 
@@ -172,9 +176,9 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
         // await tx.wait()
       } else {
         console.log('depositToken wbtc:>> ', depositToken)
-        console.log('fee wbtc:>> ', executionFee)
+        console.log('fee wbtc:>> ', executionFeeAmount)
         const tx = await boostContract2.depositBTC(depositToken, {
-          value: executionFee,
+          value: executionFeeAmount,
         })
         await tx.wait()
       }

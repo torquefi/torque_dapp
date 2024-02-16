@@ -23,10 +23,12 @@ export function getExecutionFee(
 
   const nativeToken = getTokenData(tokensData, NATIVE_TOKEN_ADDRESS)
 
+  console.log('nativeToken', nativeToken, tokensData)
+
   if (!nativeToken) return undefined
 
-  const baseGasLimit = gasLimits.estimatedFeeBaseGasLimit
-  const multiplierFactor = gasLimits.estimatedFeeMultiplierFactor
+  const baseGasLimit = bigNumberify(gasLimits.estimatedFeeBaseGasLimit)
+  const multiplierFactor = bigNumberify(gasLimits.estimatedFeeMultiplierFactor)
   const adjustedGasLimit = baseGasLimit.add(
     applyFactor(estimatedGasLimit, multiplierFactor)
   )
@@ -73,7 +75,7 @@ export function estimateExecuteDepositGasLimit(
 
   const gasPerSwap = bigNumberify(gasLimits.singleSwap)
 
-  console.log('gasPerSwap', gasPerSwap, gasPerSwap.mul)
+  console.log('gasPerSwap', gasPerSwap)
 
   const swapsCount =
     (deposit.longTokenSwapsCount || 0) + (deposit.shortTokenSwapsCount || 0)
