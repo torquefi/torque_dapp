@@ -170,10 +170,10 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
       )
 
       if (item.token === 'WETH') {
-        // const tx = await boostContract2.depositETH(depositToken, {
-        //   value: executionFee,
-        // })
-        // await tx.wait()
+        const tx = await boostContract2.depositETH(depositToken, {
+          value: executionFeeAmount,
+        })
+        await tx.wait()
       } else {
         console.log('depositToken wbtc:>> ', depositToken)
         console.log('fee wbtc:>> ', executionFeeAmount)
@@ -272,7 +272,7 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
               tokenValueChange={
                 Number(amount) * (1 + Number(item?.APR || 0) / 100) * 3
               }
-              // const
+            // const
             />
           </div>
         </div>
