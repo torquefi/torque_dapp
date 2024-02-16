@@ -120,7 +120,7 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
       hideCloseIcon
     >
       <div className="flex items-center justify-between py-2">
-        <div className="font-larken text-[16px] font-[400] text-[#030303] dark:text-white md:text-[28px]">
+        <div className="font-larken text-[24px] font-[400] text-[#030303] dark:text-white md:text-[28px]">
           Confirm
         </div>
         <AiOutlineClose
@@ -149,7 +149,7 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
             <img className="w-16" src={coinFrom?.icon} alt="" />
           </div>
         </div>
-        <div className="mt-8 flex items-center justify-between">
+        <div className="flex items-center justify-between mt-8">
           <div>
             <span className="text-[16px] text-[#959595]">You receive</span>
             <div className="font-larken pt-2 text-[23px] text-[#030303] dark:text-white">
@@ -159,7 +159,7 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
           <div className="relative w-16">
             <img className="w-16 " src={coinTo?.icon} alt="" />
             <img
-              className="absolute bottom-3 right-3 w-5"
+              className="absolute w-5 bottom-3 right-3"
               src="/assets/t-logo-circle.svg"
               alt=""
             />
