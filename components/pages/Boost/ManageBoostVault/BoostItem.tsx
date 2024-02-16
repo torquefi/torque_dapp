@@ -1,6 +1,8 @@
 import CurrencySwitch from '@/components/common/CurrencySwitch'
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
+import { useTokensDataRequest } from '@/domain/synthetics/tokens'
 import { LabelApi } from '@/lib/api/LabelApi'
+import { bigNumberify } from '@/lib/numbers'
 import { AppStore } from '@/types/store'
 import { useWeb3Modal } from '@web3modal/react'
 import BigNumber from 'bignumber.js'
@@ -11,11 +13,12 @@ import { AiOutlineCheck, AiOutlineEdit } from 'react-icons/ai'
 import { NumericFormat } from 'react-number-format'
 import { useSelector } from 'react-redux'
 import { toast } from 'sonner'
-import { useAccount } from 'wagmi'
+import { useAccount, useChainId } from 'wagmi'
 import { arbitrum } from 'wagmi/dist/chains'
 import Web3 from 'web3'
-import { estimateExecuteWithdrawalGasLimit } from '../hooks/getExecutionFee'
+import { estimateExecuteWithdrawalGasLimit, getExecutionFee } from '../hooks/getExecutionFee'
 import { useGasLimits } from '../hooks/useGasLimits'
+import { useGasPrice } from '../hooks/useGasPrice'
 import { IBoostInfo } from '../types'
 import { BoostItemChart } from './BoostItemChart'
 
@@ -26,6 +29,7 @@ interface BoostItemProps {
 
 export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
   const { open } = useWeb3Modal()
+  const chainId = useChainId()
   const { address, isConnected } = useAccount()
   const theme = useSelector((store: AppStore) => store.theme.theme)
   const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
@@ -41,6 +45,8 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
   const [earnings, setEarnings] = useState('')
   const [deposited, setDeposited] = useState('')
   const [isExecuteLoading, setIsExecuteLoading] = useState(false)
+  const { tokensData, pricesUpdatedAt } = useTokensDataRequest(chainId)
+  const { gasPrice } = useGasPrice(chainId)
 
   const tokenContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
@@ -160,7 +166,18 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
           .send({ from: address })
       }
       // const executionFee = await gmxContract.methods.executionFee().call()
-      const executionFee = estimateExecuteWithdrawalGasLimitValue?.toString()
+
+      const executionFee = getExecutionFee(
+        chainId,
+        gasLimits,
+        tokensData,
+        estimateExecuteWithdrawalGasLimitValue,
+        gasPrice
+      )
+
+      const executionFeeAmount = bigNumberify(executionFee?.feeTokenAmount).toString()
+
+      console.log('executionFeeAmount', executionFeeAmount, executionFee)
 
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const signer = provider.getSigner(address)
@@ -171,12 +188,12 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
       )
       if (item.tokenSymbol === 'WETH') {
         const tx = await boostContract2.withdrawETH(withdrawAmount, {
-          value: executionFee,
+          value: executionFeeAmount,
         })
         await tx.wait()
       } else {
         const tx = await boostContract2.withdrawBTC(withdrawAmount, {
-          value: executionFee,
+          value: executionFeeAmount,
         })
         await tx.wait()
       }
