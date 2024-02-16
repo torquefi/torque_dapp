@@ -2,7 +2,9 @@ import InputCurrencySwitch from '@/components/common/InputCurrencySwitch'
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
 import { ConfirmDepositModal } from '@/components/common/Modal/ConfirmDepositModal'
 import Popover from '@/components/common/Popover'
+import { useTokensDataRequest } from '@/domain/synthetics/tokens'
 import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
+import { bigNumberify } from '@/lib/numbers'
 import { AppStore } from '@/types/store'
 import { useWeb3Modal } from '@web3modal/react'
 import BigNumber from 'bignumber.js'
@@ -12,14 +14,22 @@ import { useEffect, useMemo, useState } from 'react'
 import { NumericFormat } from 'react-number-format'
 import { useSelector } from 'react-redux'
 import { toast } from 'sonner'
-import { useAccount } from 'wagmi'
+import { useAccount, useChainId } from 'wagmi'
+import { arbitrum } from 'wagmi/dist/chains'
 import Web3 from 'web3'
+import {
+  estimateExecuteDepositGasLimit,
+  getExecutionFee,
+} from '../hooks/getExecutionFee'
+import { useGasLimits } from '../hooks/useGasLimits'
+import { useGasPrice } from '../hooks/useGasPrice'
 
 const RPC = 'https://arb1.arbitrum.io/rpc'
 
 export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
   const { open } = useWeb3Modal()
   const { address, isConnected } = useAccount()
+  const chainId = useChainId()
   const [btnLoading, setBtnLoading] = useState(false)
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
   const [isOpenConfirmDepositModal, setOpenConfirmDepositModal] =
@@ -31,6 +41,8 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
   const [totalSupply, setTotalSupply] = useState('')
   const theme = useSelector((store: AppStore) => store.theme.theme)
   const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
+  const { tokensData, pricesUpdatedAt } = useTokensDataRequest(chainId)
+  const { gasPrice } = useGasPrice(chainId)
 
   const tokenContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
@@ -77,6 +89,10 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
     handleGetTotalSupply()
   }, [boostReadContract, tokenContract])
 
+  const { gasLimits } = useGasLimits(arbitrum.id)
+
+  console.log('gasLimits :>> ', gasLimits)
+
   const gmxContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
     if (!item?.gmxContractInfo?.abi) {
@@ -107,7 +123,43 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
       const depositToken = ethers.utils
         .parseUnits(Number(amount).toFixed(tokenDecimal), tokenDecimal)
         .toString()
-      const executionFee = await gmxContract.methods.executionFee().call()
+
+      const usdcDecimal = 6
+      const estimateExecuteDepositGasLimitValue =
+        estimateExecuteDepositGasLimit(gasLimits, {
+          longTokenSwapsCount: 1,
+          shortTokenSwapsCount: 1,
+          initialLongTokenAmount: ethers.utils.parseUnits(
+            (amount / 2).toFixed(tokenDecimal),
+            tokenDecimal
+          ),
+          // initialShortTokenAmount: ethers.utils.parseUnits(
+          //   (((amount / 2) * usdPrice[item?.token]) / usdPrice['USDC']).toFixed(
+          //     usdcDecimal
+          //   ),
+          //   usdcDecimal
+          // ),
+          initialShortTokenAmount: bigNumberify(0),
+        })
+
+      console.log(
+        'estimateExecuteDepositGasLimitValue',
+        estimateExecuteDepositGasLimitValue?.toString()
+      )
+
+      const executionFee = getExecutionFee(
+        chainId,
+        gasLimits,
+        tokensData,
+        estimateExecuteDepositGasLimitValue,
+        gasPrice
+      )
+
+      const executionFeeAmount = bigNumberify(executionFee?.feeTokenAmount).toString()
+
+      console.log('executionFeeAmount', executionFeeAmount, executionFee)
+
+      // const executionFee = estimateExecuteDepositGasLimitValue?.toString()
 
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const signer = provider.getSigner(address)
@@ -119,14 +171,14 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
 
       if (item.token === 'WETH') {
         const tx = await boostContract2.depositETH(depositToken, {
-          value: executionFee,
+          value: executionFeeAmount,
         })
         await tx.wait()
       } else {
-        console.log('depositToken wbtc:>> ', depositToken);
-        console.log('fee wbtc:>> ', executionFee);
+        console.log('depositToken wbtc:>> ', depositToken)
+        console.log('fee wbtc:>> ', executionFeeAmount)
         const tx = await boostContract2.depositBTC(depositToken, {
-          value: executionFee,
+          value: executionFeeAmount,
         })
         await tx.wait()
       }
@@ -134,7 +186,7 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
       setIsFetchBoostLoading && setIsFetchBoostLoading((prev: any) => !prev)
       setOpenConfirmDepositModal(false)
     } catch (e) {
-      console.log("11111", e)
+      console.log('11111', e)
       toast.error('Boost Failed')
     } finally {
       setBtnLoading(false)
@@ -148,7 +200,7 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
     return 'Confirm Deposit'
   }
 
-  console.log('item :>> ', item);
+  console.log('item :>> ', item)
 
   return (
     <>
@@ -209,13 +261,17 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
           <div className="flex h-[110px] w-full flex-col items-center justify-center gap-3 rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A]  dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
             <InputCurrencySwitch
               tokenSymbol={item?.token}
-              tokenValue={Number(amount || 0) * (1 + Number(item?.APR || 0) / 100) * 3}
+              tokenValue={
+                Number(amount || 0) * (1 + Number(item?.APR || 0) / 100) * 3
+              }
               subtitle="3-Year Value"
               usdDefault
               decimalScale={5}
               className="w-full py-4 text-[#030303] dark:text-white lg:py-6"
               displayType="text"
-              tokenValueChange={Number(amount) * (1 + Number(item?.APR || 0) / 100) * 3}
+              tokenValueChange={
+                Number(amount) * (1 + Number(item?.APR || 0) / 100) * 3
+              }
             // const
             />
           </div>
@@ -237,7 +293,12 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
         </div>
         <div className="font-mona flex w-full items-center justify-between text-[16px] text-[#959595]">
           <div className="font-mona">Variable APY</div>
-          <NumericFormat displayType="text" value={item?.APR} suffix="%" decimalScale={2} />
+          <NumericFormat
+            displayType="text"
+            value={item?.APR}
+            suffix="%"
+            decimalScale={2}
+          />
         </div>
         <div className="font-mona flex w-full items-center justify-between py-[16px] text-[16px] text-[#959595]">
           <div className="flex items-center justify-center">

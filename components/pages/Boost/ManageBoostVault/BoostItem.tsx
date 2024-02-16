@@ -1,6 +1,8 @@
 import CurrencySwitch from '@/components/common/CurrencySwitch'
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
+import { useTokensDataRequest } from '@/domain/synthetics/tokens'
 import { LabelApi } from '@/lib/api/LabelApi'
+import { bigNumberify } from '@/lib/numbers'
 import { AppStore } from '@/types/store'
 import { useWeb3Modal } from '@web3modal/react'
 import BigNumber from 'bignumber.js'
@@ -11,8 +13,12 @@ import { AiOutlineCheck, AiOutlineEdit } from 'react-icons/ai'
 import { NumericFormat } from 'react-number-format'
 import { useSelector } from 'react-redux'
 import { toast } from 'sonner'
-import { useAccount } from 'wagmi'
+import { useAccount, useChainId } from 'wagmi'
+import { arbitrum } from 'wagmi/dist/chains'
 import Web3 from 'web3'
+import { estimateExecuteWithdrawalGasLimit, getExecutionFee } from '../hooks/getExecutionFee'
+import { useGasLimits } from '../hooks/useGasLimits'
+import { useGasPrice } from '../hooks/useGasPrice'
 import { IBoostInfo } from '../types'
 import { BoostItemChart } from './BoostItemChart'
 
@@ -23,6 +29,7 @@ interface BoostItemProps {
 
 export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
   const { open } = useWeb3Modal()
+  const chainId = useChainId()
   const { address, isConnected } = useAccount()
   const theme = useSelector((store: AppStore) => store.theme.theme)
   const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
@@ -38,6 +45,8 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
   const [earnings, setEarnings] = useState('')
   const [deposited, setDeposited] = useState('')
   const [isExecuteLoading, setIsExecuteLoading] = useState(false)
+  const { tokensData, pricesUpdatedAt } = useTokensDataRequest(chainId)
+  const { gasPrice } = useGasPrice(chainId)
 
   const tokenContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
@@ -68,6 +77,18 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
     )
     return contract
   }, [Web3.givenProvider, item?.tokenSymbol])
+
+  const { gasLimits } = useGasLimits(arbitrum.id)
+
+  console.log('gasLimits :>> ', gasLimits)
+
+  const estimateExecuteWithdrawalGasLimitValue =
+    estimateExecuteWithdrawalGasLimit(gasLimits, {})
+
+  console.log(
+    'estimateExecuteWithdrawalGasLimit',
+    estimateExecuteWithdrawalGasLimitValue?.toString()
+  )
 
   const handleGetBoostData = async () => {
     if (!boostContract || !address || !tokenContract) {
@@ -144,7 +165,20 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
           )
           .send({ from: address })
       }
-      const executionFee = await gmxContract.methods.executionFee().call()
+      // const executionFee = await gmxContract.methods.executionFee().call()
+
+      const executionFee = getExecutionFee(
+        chainId,
+        gasLimits,
+        tokensData,
+        estimateExecuteWithdrawalGasLimitValue,
+        gasPrice
+      )
+
+      const executionFeeAmount = bigNumberify(executionFee?.feeTokenAmount).toString()
+
+      console.log('executionFeeAmount', executionFeeAmount, executionFee)
+
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const signer = provider.getSigner(address)
       const boostContract2 = new ethers.Contract(
@@ -154,12 +188,12 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
       )
       if (item.tokenSymbol === 'WETH') {
         const tx = await boostContract2.withdrawETH(withdrawAmount, {
-          value: executionFee,
+          value: executionFeeAmount,
         })
         await tx.wait()
       } else {
         const tx = await boostContract2.withdrawBTC(withdrawAmount, {
-          value: executionFee,
+          value: executionFeeAmount,
         })
         await tx.wait()
       }
@@ -201,7 +235,7 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
     setLabel(item?.label)
   }, [item?.label])
 
-  console.log('deposited :>> ', deposited);
+  console.log('deposited :>> ', deposited)
 
   const summaryInfo = () => {
     return (
@@ -261,7 +295,7 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
     return 'Create'
   }
 
-  console.log('amount :>> ', amount);
+  console.log('amount :>> ', amount)
 
   return (
     <>
@@ -330,10 +364,11 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
           </div>
         </div>
         <div
-          className={`grid grid-cols-1 gap-8 overflow-hidden transition-all duration-300 lg:grid-cols-2 ${isOpen
-            ? 'max-h-[1000px] py-[16px] ease-in'
-            : 'max-h-0 py-0 opacity-0 ease-out'
-            }`}
+          className={`grid grid-cols-1 gap-8 overflow-hidden transition-all duration-300 lg:grid-cols-2 ${
+            isOpen
+              ? 'max-h-[1000px] py-[16px] ease-in'
+              : 'max-h-0 py-0 opacity-0 ease-out'
+          }`}
         >
           <div className="flex items-center justify-between gap-4 lg:hidden">
             {summaryInfo()}
@@ -381,9 +416,10 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
             <button
               className={
                 `font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]` +
-                ` ${isSubmitLoading || isExecuteLoading
-                  ? 'cursor-not-allowed opacity-70'
-                  : ''
+                ` ${
+                  isSubmitLoading || isExecuteLoading
+                    ? 'cursor-not-allowed opacity-70'
+                    : ''
                 }`
               }
               disabled={isSubmitLoading || isExecuteLoading}
@@ -395,9 +431,10 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
             <button
               className={
                 `font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-transparent to-transparent  py-1 text-[14px] uppercase text-[#AA5BFF] transition-all hover:border hover:from-[#AA5BFF] hover:to-[#912BFF] hover:text-white` +
-                ` ${isSubmitLoading || isExecuteLoading
-                  ? 'cursor-not-allowed opacity-70'
-                  : ''
+                ` ${
+                  isSubmitLoading || isExecuteLoading
+                    ? 'cursor-not-allowed opacity-70'
+                    : ''
                 }`
               }
               disabled={isSubmitLoading || isExecuteLoading}
