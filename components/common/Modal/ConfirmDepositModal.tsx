@@ -184,7 +184,7 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
               value={balanceWallet}
               suffix={` ${coinFrom.symbol}`}
               thousandSeparator
-              decimalScale={4}
+              decimalScale={6}
             />
           </span>
         </div>
