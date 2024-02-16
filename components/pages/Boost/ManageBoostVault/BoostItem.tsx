@@ -82,13 +82,7 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
 
   console.log('gasLimits :>> ', gasLimits)
 
-  const estimateExecuteWithdrawalGasLimitValue =
-    estimateExecuteWithdrawalGasLimit(gasLimits, {})
 
-  console.log(
-    'estimateExecuteWithdrawalGasLimit',
-    estimateExecuteWithdrawalGasLimitValue?.toString()
-  )
 
   const handleGetBoostData = async () => {
     if (!boostContract || !address || !tokenContract) {
@@ -127,7 +121,7 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
         signer
       )
       const slippage = 10
-      const tx = await gmxContract2.withdrawAmount(slippage)
+      const tx = await gmxContract2.withdrawAmount(slippage, { gasLimit: '50000' })
       await tx.wait()
       toast.success('Execute Successfully')
       handleGetBoostData()
@@ -166,6 +160,14 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
           .send({ from: address })
       }
       // const executionFee = await gmxContract.methods.executionFee().call()
+
+      const estimateExecuteWithdrawalGasLimitValue =
+        estimateExecuteWithdrawalGasLimit(gasLimits, {})
+
+      console.log(
+        'estimateExecuteWithdrawalGasLimit',
+        estimateExecuteWithdrawalGasLimitValue?.toString()
+      )
 
       const executionFee = getExecutionFee(
         chainId,
@@ -364,11 +366,10 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
           </div>
         </div>
         <div
-          className={`grid grid-cols-1 gap-8 overflow-hidden transition-all duration-300 lg:grid-cols-2 ${
-            isOpen
-              ? 'max-h-[1000px] py-[16px] ease-in'
-              : 'max-h-0 py-0 opacity-0 ease-out'
-          }`}
+          className={`grid grid-cols-1 gap-8 overflow-hidden transition-all duration-300 lg:grid-cols-2 ${isOpen
+            ? 'max-h-[1000px] py-[16px] ease-in'
+            : 'max-h-0 py-0 opacity-0 ease-out'
+            }`}
         >
           <div className="flex items-center justify-between gap-4 lg:hidden">
             {summaryInfo()}
@@ -416,10 +417,9 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
             <button
               className={
                 `font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]` +
-                ` ${
-                  isSubmitLoading || isExecuteLoading
-                    ? 'cursor-not-allowed opacity-70'
-                    : ''
+                ` ${isSubmitLoading || isExecuteLoading
+                  ? 'cursor-not-allowed opacity-70'
+                  : ''
                 }`
               }
               disabled={isSubmitLoading || isExecuteLoading}
@@ -431,10 +431,9 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
             <button
               className={
                 `font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-transparent to-transparent  py-1 text-[14px] uppercase text-[#AA5BFF] transition-all hover:border hover:from-[#AA5BFF] hover:to-[#912BFF] hover:text-white` +
-                ` ${
-                  isSubmitLoading || isExecuteLoading
-                    ? 'cursor-not-allowed opacity-70'
-                    : ''
+                ` ${isSubmitLoading || isExecuteLoading
+                  ? 'cursor-not-allowed opacity-70'
+                  : ''
                 }`
               }
               disabled={isSubmitLoading || isExecuteLoading}
