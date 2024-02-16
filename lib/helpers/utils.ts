@@ -1,7 +1,7 @@
 export function shortenAddress(address: string) {
   return (
-    address?.substring(0, 6) +
+    address?.substring(0, 4) +
     '...' +
-    address?.substring(address.length - 5, address.length)
+    address?.substring(address.length - 4, address.length)
   )
 }
