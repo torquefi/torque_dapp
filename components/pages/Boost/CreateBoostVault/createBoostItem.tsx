@@ -161,6 +161,23 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
 
       // const executionFee = estimateExecuteDepositGasLimitValue?.toString()
 
+      const allowance = await tokenContract.methods
+        .allowance(address, item.borrowContractInfo.address)
+        .call()
+      if (
+        new BigNumber(allowance).lte(new BigNumber('0')) ||
+        new BigNumber(allowance).lte(new BigNumber(depositToken))
+      ) {
+        await tokenContract.methods
+          .approve(
+            item?.boostContractInfo?.address,
+            '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+          )
+          .send({
+            from: address,
+          })
+      }
+
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const signer = provider.getSigner(address)
       const boostContract2 = new ethers.Contract(
