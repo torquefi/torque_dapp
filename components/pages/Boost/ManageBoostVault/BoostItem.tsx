@@ -121,8 +121,8 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
         signer
       )
       const slippage = 10
-      const tx = await gmxContract2.withdrawAmount(slippage, { gasLimit: '50000' })
-      await tx.wait()
+      await gmxContract.methods.withdrawAmount(slippage).send({ from: address })
+      // await tx.wait()
       toast.success('Execute Successfully')
       handleGetBoostData()
     } catch (error) {
