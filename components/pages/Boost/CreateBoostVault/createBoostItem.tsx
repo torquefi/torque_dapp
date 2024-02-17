@@ -162,7 +162,7 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
       // const executionFee = estimateExecuteDepositGasLimitValue?.toString()
 
       const allowance = await tokenContract.methods
-        .allowance(address, item.borrowContractInfo.address)
+        .allowance(address, item.boostContractInfo.address)
         .call()
       if (
         new BigNumber(allowance).lte(new BigNumber('0')) ||
