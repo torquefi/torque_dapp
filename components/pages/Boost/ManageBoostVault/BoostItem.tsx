@@ -294,7 +294,7 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
     if (!address) {
       return 'Connect Wallet'
     }
-    return 'Withdraw'
+    return 'Create'
   }
 
   console.log('amount :>> ', amount)
@@ -428,7 +428,7 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
               {isSubmitLoading && <LoadingCircle />}
               {renderSubmitText()}
             </button>
-            {/* <button
+            <button
               className={
                 `font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-transparent to-transparent  py-1 text-[14px] uppercase text-[#AA5BFF] transition-all hover:border hover:from-[#AA5BFF] hover:to-[#912BFF] hover:text-white` +
                 ` ${isSubmitLoading || isExecuteLoading
@@ -441,7 +441,7 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
             >
               {isExecuteLoading && <LoadingCircle />}
               Execute
-            </button> */}
+            </button>
           </div>
         </div>
       </div>
