@@ -152,12 +152,12 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
         new BigNumber(allowanceToken).lte(new BigNumber('0')) ||
         new BigNumber(allowanceToken).lte(withdrawAmount)
       ) {
-        await tokenContract.methods
-          .approve(
-            item?.boostContractInfo?.address,
-            '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
-          )
-          .send({ from: address })
+        // await tokenContract.methods
+        //   .approve(
+        //     item?.boostContractInfo?.address,
+        //     '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+        //   )
+        //   .send({ from: address })
       }
       // const executionFee = await gmxContract.methods.executionFee().call()
 

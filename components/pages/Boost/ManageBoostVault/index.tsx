@@ -64,7 +64,7 @@ export function ManageBoostVault({ isFetchBoostData }: any) {
     if (loading) {
       setSkeletonLoading(true)
     }
-    let dataBoost: IBoostInfo[] = []
+    let dataBoost: IBoostInfo[] = DATA_BOOST_VAULT
     try {
       const aprRes = await TokenApr.getListApr({})
       const labelRes = await LabelApi.getListLabel({
@@ -73,7 +73,7 @@ export function ManageBoostVault({ isFetchBoostData }: any) {
       })
       const aprs: any[] = aprRes?.data || []
       const labels: any[] = labelRes?.data || []
-      dataBoost = DATA_BOOST_VAULT?.map((item) => ({
+      dataBoost = dataBoost?.map((item) => ({
         ...item,
         label:
           labels?.find((label) => label?.tokenSymbol === item?.tokenSymbol)

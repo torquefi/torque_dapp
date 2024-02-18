@@ -14,7 +14,7 @@ import {
   LabelList,
   Line,
   ResponsiveContainer,
-  Tooltip,
+  Tooltip
 } from 'recharts'
 import { boostWbtcContract, boostWethContract } from '../constants/contracts'
 
@@ -46,7 +46,7 @@ export const BoostItemChart: FC<BoostItemChartProps> = (props) => {
 
     if (active && payload && payload.length) {
       return (
-        <div className="z-10 rounded border-2 border-[#1C1C1C] bg-[#0E0E0E] px-4 py-2 text-left">
+        <div className="z-10 rounded border-2 border-[#E6E6E6] dark:border-[#1C1C1C] dark:bg-[#0E0E0E] px-4 py-2 text-left">
           <NumericFormat
             className="text-[20px] font-semibold text-[#AA5BFF]"
             displayType="text"
