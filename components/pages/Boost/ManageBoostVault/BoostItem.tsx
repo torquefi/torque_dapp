@@ -396,7 +396,7 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
                 placeholder="Select amount"
                 value={amount || null}
                 onChange={(e) => setAmount(e.target.value)}
-                decimalScale={5}
+                decimalScale={item.tokenSymbol === 'WBTC' ? 8 : 18}
               />
 
               <div className="flex items-center gap-2">
