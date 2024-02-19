@@ -7,6 +7,7 @@ export interface IBoostInfo {
   defaultLabel: string
   label?: string
   deposited: number
+  depositedBalance: number
   earnings: number
   APR: number
   tokenContractInfo: IContractInfo

@@ -21,7 +21,7 @@ export function ManageBoostVault({ isFetchBoostData }: any) {
   const { address, isConnected } = useAccount()
   const [dataBoost, setDataBoost] = useState<IBoostInfo[]>(DATA_BOOST_VAULT)
   const [isSkeletonLoading, setSkeletonLoading] = useState(true)
-
+  // const address = '0xc67Ba1769fA080261A9E88a9548c3D09431c84D0'
   const getBoostData = async (item: (typeof DATA_BOOST_VAULT)[0]) => {
     if (!isConnected || !address) {
       return item
@@ -38,16 +38,30 @@ export function ManageBoostVault({ isFetchBoostData }: any) {
         JSON.parse(item?.boostContractInfo.abi),
         item?.boostContractInfo.address
       )
+
+      const gmxContract = new web3.eth.Contract(
+        JSON.parse(item?.gmxContractInfo.abi),
+        item?.gmxContractInfo.address
+      )
+
       const tokenDecimal = await tokenContract.methods.decimals().call()
       item.tokenDecimals = Number(tokenDecimal)
 
       if (item.tokenSymbol === 'WBTC') {
-        const deposit = await boostContract.methods.balanceOf(address).call()
+        const deposit = await gmxContract.methods.wbtcAmount(address).call()
+        const depositBalance = await boostContract.methods.balanceOf(address).call()
         item.deposited = Number(
           ethers.utils.formatUnits(deposit, tokenDecimal).toString()
         )
+        item.depositedBalance = Number(
+          ethers.utils.formatUnits(depositBalance, tokenDecimal).toString()
+        )
       } else {
-        const deposit = await boostContract.methods.balanceOf(address).call()
+        const deposit = await gmxContract.methods.wethAmount(address).call()
+        const depositBalance = await boostContract.methods.balanceOf(address).call()
+        item.depositedBalance = Number(
+          ethers.utils.formatUnits(depositBalance, tokenDecimal).toString()
+        )
         item.deposited = Number(
           ethers.utils.formatUnits(deposit, tokenDecimal).toString()
         )
@@ -105,7 +119,7 @@ export function ManageBoostVault({ isFetchBoostData }: any) {
   }, [isConnected, address, isFetchBoostData])
 
   // const boostDisplayed = dataBoost
-  const boostDisplayed = dataBoost.filter((item) => Number(item?.deposited) > 0)
+  const boostDisplayed = dataBoost.filter((item) => Number(item.depositedBalance) > 0 || Number(item?.deposited) > 0)
 
   console.log('boostDisplayed :>> ', boostDisplayed)
 
@@ -156,6 +170,7 @@ const DATA_BOOST_VAULT: IBoostInfo[] = [
     tokenContractInfo: wbtcContract,
     boostContractInfo: boostWbtcContract,
     gmxContractInfo: gmxWbtcContract,
+    depositedBalance: 0.0
   },
   {
     tokenSymbol: 'WETH',
@@ -167,5 +182,6 @@ const DATA_BOOST_VAULT: IBoostInfo[] = [
     tokenContractInfo: wethContract,
     boostContractInfo: boostWethContract,
     gmxContractInfo: gmxWethContract,
+    depositedBalance: 0.0
   },
 ]
