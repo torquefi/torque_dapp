@@ -406,7 +406,7 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
                     className="font-mona rounded bg-[#F4F4F4] px-2 py-1 text-sm text-[#959595] dark:bg-[#1A1A1A]"
                     onClick={() => {
                       setAmount(
-                        `${(percent * Number(deposited || 0)) / 100.01}`
+                        `${(percent * Number(deposited || 0)) / 100}`
                       )
                     }}
                   >
