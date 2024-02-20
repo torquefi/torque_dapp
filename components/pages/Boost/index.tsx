@@ -41,7 +41,7 @@ export const BoostPage = () => {
     <div className="space-y-[36px] mt-2">
       <Banner />
       <CreateBoostVault setIsFetchBoostLoading={setIsFetchBoostLoading} />
-      <ManageBoostVault isFetchBoostData={isFetchBoostData} />
+      <ManageBoostVault isFetchBoostData={isFetchBoostData} setIsFetchBoostLoading={setIsFetchBoostLoading} />
     </div>
   )
 }

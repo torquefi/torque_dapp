@@ -25,9 +25,10 @@ import { BoostItemChart } from './BoostItemChart'
 interface BoostItemProps {
   item: IBoostInfo
   onWithdrawSuccess?: VoidFunction
+  setIsFetchBoostLoading?: any
 }
 
-export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
+export function BoostItem({ item, onWithdrawSuccess, setIsFetchBoostLoading }: BoostItemProps) {
   const { open } = useWeb3Modal()
   const chainId = useChainId()
   const { address, isConnected } = useAccount()
@@ -82,8 +83,6 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
 
   console.log('gasLimits :>> ', gasLimits)
 
-
-
   const handleGetBoostData = async () => {
     if (!boostContract || !address || !tokenContract) {
       return
@@ -125,6 +124,7 @@ export function BoostItem({ item, onWithdrawSuccess }: BoostItemProps) {
       await gmxContract.methods.withdrawAmount(slippage).send({ from: address })
       // await tx.wait()
       toast.success('Execute Successfully')
+      setIsFetchBoostLoading && setIsFetchBoostLoading((prev: any) => !prev)
       handleGetBoostData()
     } catch (error) {
       console.log('error111 :>> ', error)
