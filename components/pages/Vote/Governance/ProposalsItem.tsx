@@ -1,8 +1,12 @@
 import { toMetricUnits } from '@/lib/helpers/number'
 import { NumericFormat } from 'react-number-format'
+import { useSelector } from 'react-redux'
+import { AppStore } from '@/types/store'
 
 export const ProposalsItem = (props: any) => {
   const { menu } = props
+  
+  const theme = useSelector((store: AppStore) => store.theme.theme)
 
   let classnamesState =
     'rounded-[6px] bg-[#ff9c4155] px-[12px] py-[1px] text-[12px] font-[500] uppercase text-[#1EB26B]'
@@ -20,11 +24,11 @@ export const ProposalsItem = (props: any) => {
       'rounded-[6px] bg-[#aa5bff55] px-[12px] py-[1px] text-[12px] font-[500] uppercase text-[#C38BFF]'
   }
   return (
-    <div className="mt-[14px]">
+    <div className="mt-[10px] cursor-pointer hover:opacity-80 duration-100 transition-all ease-linear">
       <div className="items-center justify-between md:flex">
-        <div className="mt-[30px] md:mt-0 md:w-[60%]">
-          <h4 className="font-larken text-[20px] font-[400] leading-[40px]">{menu.title}</h4>
-          <div className="flex items-center gap-[13px]">
+        <div className="sm:mt-[0px] md:mt-0 md:w-[60%]">
+          <h4 className="font-larken text-[#030303] text-[20px] font-[400] leading-[40px]">{menu.title}</h4>
+          <div className="flex items-center gap-[8px]">
             <div className={classnamesState}>{menu.state}</div>
             <p className="text-[14px] font-[500] text-[#959595] md:text-[16px]">
               {menu.tip}
@@ -37,9 +41,9 @@ export const ProposalsItem = (props: any) => {
         </div>
 
         <div className="mt-[10px] md:w-[40%]">
-          <div className="flex w-full items-center justify-end gap-[8px]">
+          <div className="flex w-full items-center justify-start md:justify-end gap-[8px]">
             <p className="text-[14px] font-[500] text-[#F05858]">
-              {toMetricUnits(menu.voteRed, 1).toLocaleLowerCase()}
+              {toMetricUnits(menu.voteRed, 2).toLocaleLowerCase()}
             </p>
             <div className="relative h-[4px] w-full max-w-[160px] rounded-[12px]">
               {menu.voteGreen === 0 && menu.voteRed === 0 ? (
@@ -75,7 +79,7 @@ export const ProposalsItem = (props: any) => {
               {toMetricUnits(menu?.voteGreen).toLocaleLowerCase()}
             </p>
           </div>
-          <p className="text-right font-[500] leading-[24px] text-[#959595]">
+          <p className="text-left md:text-right font-[500] leading-[24px] text-[#959595]">
             <NumericFormat
               displayType="text"
               value={menu.voteGreen + menu.voteRed}
@@ -85,7 +89,9 @@ export const ProposalsItem = (props: any) => {
           </p>
         </div>
       </div>
-      <div className="gradient-border mt-2 hidden h-[1px] w-full md:block"></div>
+      <div className={`mt-3 h-[1px] w-full md:block` +`
+      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'}`
+        }></div>
     </div>
   )
 }
