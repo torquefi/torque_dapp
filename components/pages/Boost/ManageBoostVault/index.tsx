@@ -17,7 +17,7 @@ import { IBoostInfo } from '../types'
 import { BoostItem } from './BoostItem'
 import { EmptyBoost } from './EmptyBoost'
 
-export function ManageBoostVault({ isFetchBoostData }: any) {
+export function ManageBoostVault({ isFetchBoostData, setIsFetchBoostLoading }: any) {
   const { address, isConnected } = useAccount()
   const [dataBoost, setDataBoost] = useState<IBoostInfo[]>(DATA_BOOST_VAULT)
   const [isSkeletonLoading, setSkeletonLoading] = useState(true)
@@ -152,7 +152,7 @@ export function ManageBoostVault({ isFetchBoostData }: any) {
       <div className="text-[24px] dark:text-white">Manage Boost Vehicles</div>
       {boostDisplayed.map((item) => (
         <div className="">
-          <BoostItem item={item} onWithdrawSuccess={handleUpdateBoostData} />
+          <BoostItem item={item} onWithdrawSuccess={handleUpdateBoostData} setIsFetchBoostLoading={setIsFetchBoostLoading} />
         </div>
       ))}
     </div>
