@@ -1,5 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
+import { AppStore } from '@/types/store'
 
 export const Against = () => {
   const theme = useSelector((store: AppStore) => store.theme.theme)

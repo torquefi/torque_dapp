@@ -47,7 +47,7 @@ export const DetailsVotes = () => {
         This is placeholder text for a new proposal title
       </h1>
       <div className="mt-[14px]">
-        <div className="mx-auto flex items-center justify-center gap-[13px]">
+        <div className="mx-auto flex items-center justify-center gap-[8px]">
           <div className="rounded-[6px] bg-[#1eb26b55] px-[12px] py-[2px] text-[12px] font-[500] uppercase text-[#1EB26B]">
             Active
           </div>

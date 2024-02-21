@@ -1,6 +1,7 @@
 import React from 'react'
 import { FaCheck } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
+import { AppStore } from '@/types/store'
 
 export const DetailsAndStages = () => {
   const theme = useSelector((store: AppStore) => store.theme.theme)
