@@ -1,19 +1,27 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
+import { AppStore } from '@/types/store'
 
 export const Against = () => {
+  const theme = useSelector((store: AppStore) => store.theme.theme)
+
   return (
-    <div className="mt-[24px] w-full rounded-[12px] border-[1px] border-solid border-[#1a1a1a] bg-[#0d0d0d] px-[56px] py-[17px] md:mt-0 md:w-[49%]">
+    <div className="mt-[24px] rounded-[12px] border border-[#E6E6E6] bg-[#ffffff]  from-[#0d0d0d] to-[#0d0d0d]/0 text-[#030303] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white px-[56px] py-[17px] md:mt-0 md:w-[49%]">
       <div className="mx-auto w-full py-[58px]">
-        <img
-          src="/assets/pages/vote/genover/noproposal.png"
-          alt=""
-          className="mx-auto w-full max-w-[84px]"
-        />
-        <h3 className="font-larken mt-[12px] text-center text-[24px] font-[400] leading-[34px]">
-          No voting yet
+      <img
+            src={
+              theme === 'light'
+                ? '/assets/pages/vote/genover/noproposal-white.png'
+                : '/assets/pages/vote/genover/noproposal.png'
+            }
+            alt=""
+            className="mx-auto w-full max-w-[84px]"
+          />
+        <h3 className="font-larken text-[#030303] dark:text-white mt-[12px] text-center text-[24px] font-[400] leading-[34px]">
+          Vote hasn't started
         </h3>
-        <p className="mx-auto mt-[6px] w-full text-center text-[16px] font-[500] text-[#959595] max-w-[280px]">
-          Stay tuned for the launch of TORQ, our deflationary governance token.
+        <p className="mx-auto mt-[2px] w-full text-center text-[16px] font-[500] text-[#959595] max-w-[280px]">
+          Against votes will appear here.
         </p>
       </div>
       {/* <div className="flex items-center justify-between">
