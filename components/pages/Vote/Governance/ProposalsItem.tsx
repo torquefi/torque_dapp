@@ -24,10 +24,10 @@ export const ProposalsItem = (props: any) => {
       'rounded-[6px] bg-[#aa5bff55] px-[12px] py-[1px] text-[12px] font-[500] uppercase text-[#C38BFF]'
   }
   return (
-    <div className="mt-[10px] cursor-pointer hover:opacity-80 duration-100 transition-all ease-linear">
+    <div className="mt-[10px] cursor-pointer hover:opacity-70 duration-100 transition-all ease-linear">
       <div className="items-center justify-between md:flex">
         <div className="sm:mt-[0px] md:mt-0 md:w-[60%]">
-          <h4 className="font-larken text-[#030303] text-[20px] font-[400] leading-[40px]">{menu.title}</h4>
+          <h4 className="font-larken text-[#030303] dark:text-white text-[20px] font-[400] leading-[40px]">{menu.title}</h4>
           <div className="flex items-center gap-[8px]">
             <div className={classnamesState}>{menu.state}</div>
             <p className="text-[14px] font-[500] text-[#959595] md:text-[16px]">

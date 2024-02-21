@@ -4,7 +4,7 @@ import { Against } from './Against'
 
 export const InforVotes = () => {
   return (
-    <div className="mt-[41px]">
+    <div className="mt-[32px]">
       <div className="justify-between md:flex">
         <For />
         <Against />

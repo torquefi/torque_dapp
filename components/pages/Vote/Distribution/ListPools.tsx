@@ -151,4 +151,12 @@ const menu = [
     dailySupply: '0.00',
     dailyBorrow: '0.00',
   },
+  {
+    imgMain: '/icons/coin/d-uni.png',
+    imgOld: '/assets/pages/vote/distribution/ic-torq.svg',
+    name: 'Uniswap',
+    ticker: 'TUSD',
+    dailySupply: '0.00',
+    dailyBorrow: '0.00',
+  },
 ]

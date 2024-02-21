@@ -52,10 +52,10 @@ export const LeaderBoard = () => {
             className="mx-auto w-full max-w-[84px]"
           />
           <h3 className="font-larken mt-[12px] text-center text-[24px] font-[400] leading-[34px]">
-            No leaders yet
+            Delegates not listed yet
           </h3>
           <p className="mx-auto mt-[6px] w-full text-center text-[16px] font-[500] max-w-[320px] text-[#959595]">
-            Official releases of Boost, Borrow, and Farm liquidity pools are coming soon.
+            The official release of Torque is coming soon. Follow our socials for updates.
           </p>
         </div>
         {/* <table className="w-full">
