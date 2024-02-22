@@ -287,7 +287,7 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
               className="w-full py-4 text-[#030303] dark:text-white lg:py-6"
               displayType="text"
               tokenValueChange={
-                Number(amount) * (1 + Number(item?.APR || 0) / 100) * 3
+                Number(amount) * Math.pow((1 + Number(item?.APR || 0) / 100), 3)
               }
             // const
             />
