@@ -17,6 +17,7 @@ import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 import { IBorrowInfoManage } from '../types'
 import { BorrowItemChart } from './BorrowItemChart'
+import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
 
 enum Action {
   Borrow = 'Borrow More',
@@ -43,6 +44,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
   const [collateral, setCollateral] = useState('0')
   const [depositedToken, setDepositedToken] = useState('0')
   const [maxMoreMinTable, setMaxMoreMinTable] = useState('0')
+  const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
 
   const tusdPrice = usdPrice['TUSD']
   const usdcPrice = usdPrice['USDC']
@@ -254,7 +256,8 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
 
   const handleAction = async () => {
     if (!isConnected || !address) {
-      await open()
+      // await open()
+      setOpenConnectWalletModal(true)
       return
     }
     if (!inputValue) {
@@ -549,6 +552,11 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
             </div>
           </div>
         </div>
+
+        <ConnectWalletModal
+          openModal={isOpenConnectWalletModal}
+          handleClose={() => setOpenConnectWalletModal(false)}
+        />
       </>
     )
 }

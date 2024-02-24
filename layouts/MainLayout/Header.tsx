@@ -180,7 +180,7 @@ export const Header = () => {
             ) : ( */}
             <div
               className="font-mona cursor-pointer rounded-full border border-[#AA5BFF] px-[18px] py-[6px] text-[14px] uppercase leading-none text-[#AA5BFF] transition-all duration-200 ease-in xs:px-[16px] xs:py-[4px] lg:px-[22px] lg:pt-[8px] lg:pb-[6px]"
-              onClick={open}
+              onClick={() => !address ? setOpenConnectWalletModal(true) : open()}
             >
               {address ? shortenAddress(address) : 'Connect'}
             </div>

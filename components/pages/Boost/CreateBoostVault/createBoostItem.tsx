@@ -107,7 +107,8 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
 
   const handleConfirmDeposit = async () => {
     if (!isConnected || !address) {
-      await open()
+      // await open()
+      setOpenConnectWalletModal(true)
       return
     }
     if (!+amount) {

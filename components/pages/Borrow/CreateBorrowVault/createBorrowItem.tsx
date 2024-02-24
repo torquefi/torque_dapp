@@ -15,6 +15,7 @@ import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 import { borrowBtcContract, borrowEthContract } from '../constants/contract'
 import { IBorrowInfo } from '../types'
+import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
 interface CreateBorrowItemProps {
   item: IBorrowInfo
   setIsFetchBorrowLoading?: any
@@ -40,6 +41,7 @@ export default function CreateBorrowItem({
   const [amountReceiveRaw, setAmountReceiveRaw] = useState(0)
   const [isUsdBorrowToken, setIsUsdBorrowToken] = useState(true)
   const [isUsdDepositToken, setIsUsdDepositToken] = useState(true)
+  const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
 
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1000)
@@ -105,7 +107,8 @@ export default function CreateBorrowItem({
 
   const handleConfirmDeposit = async () => {
     if (!isConnected) {
-      await open()
+      // await open()
+      setOpenConnectWalletModal(true)
       return
     }
     setOpenConfirmDepositModal(true)
@@ -380,10 +383,10 @@ export default function CreateBorrowItem({
                 setAmountRaw(rawValue)
                 setAmountReceive(
                   tokenValue *
-                    usdPrice?.[
-                      `${dataBorrow.depositTokenSymbol.toLowerCase()}`
-                    ] *
-                    (dataBorrow.loanToValue / 140)
+                  usdPrice?.[
+                  `${dataBorrow.depositTokenSymbol.toLowerCase()}`
+                  ] *
+                  (dataBorrow.loanToValue / 140)
                 )
               }}
               onSetShowUsd={setIsUsdDepositToken}
@@ -408,7 +411,7 @@ export default function CreateBorrowItem({
                 setAmountReceiveRaw(rawValue)
               }}
               onSetShowUsd={setIsUsdBorrowToken}
-              // displayType="text"
+            // displayType="text"
             />
           </div>
         </div>
@@ -461,17 +464,16 @@ export default function CreateBorrowItem({
           </p>
         </div>
         <button
-          className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${
-            buttonLoading && 'cursor-not-allowed opacity-50'
-          }`}
+          className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
+            }`}
           disabled={buttonLoading != ''}
           onClick={() => {
             if (
               amountReceive /
-                (amount *
-                  usdPrice?.[
-                    `${dataBorrow.depositTokenSymbol.toLowerCase()}`
-                  ]) >
+              (amount *
+                usdPrice?.[
+                `${dataBorrow.depositTokenSymbol.toLowerCase()}`
+                ]) >
               item?.loanToValue
             ) {
               toast.error(`Loan-to-value exceeds ${item?.loanToValue}%`)
@@ -514,6 +516,11 @@ export default function CreateBorrowItem({
               : -(Number(aprBorrow) * 100).toFixed(2) + '%',
           },
         ]}
+      />
+
+      <ConnectWalletModal
+        openModal={isOpenConnectWalletModal}
+        handleClose={() => setOpenConnectWalletModal(false)}
       />
     </>
   )
