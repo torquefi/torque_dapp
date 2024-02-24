@@ -21,6 +21,7 @@ import { useGasLimits } from '../hooks/useGasLimits'
 import { useGasPrice } from '../hooks/useGasPrice'
 import { IBoostInfo } from '../types'
 import { BoostItemChart } from './BoostItemChart'
+import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
 
 interface BoostItemProps {
   item: IBoostInfo
@@ -47,6 +48,7 @@ export function BoostItem({ item, onWithdrawSuccess, setIsFetchBoostLoading }: B
   const [deposited, setDeposited] = useState('')
   const [isExecuteLoading, setIsExecuteLoading] = useState(false)
   const { tokensData, pricesUpdatedAt } = useTokensDataRequest(chainId)
+  const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
   const { gasPrice } = useGasPrice(chainId)
 
   const tokenContract = useMemo(() => {
@@ -107,7 +109,8 @@ export function BoostItem({ item, onWithdrawSuccess, setIsFetchBoostLoading }: B
 
   const onWithdraw = async () => {
     if (!isConnected || !address) {
-      await open()
+      // await open()
+      setOpenConnectWalletModal(true)
       return
     }
     setIsExecuteLoading(true)
@@ -136,7 +139,8 @@ export function BoostItem({ item, onWithdrawSuccess, setIsFetchBoostLoading }: B
 
   const onCreate = async () => {
     if (!isConnected || !address) {
-      await open()
+      // await open()
+      setOpenConnectWalletModal(true)
       return
     }
     try {
@@ -446,6 +450,11 @@ export function BoostItem({ item, onWithdrawSuccess, setIsFetchBoostLoading }: B
           </div>
         </div>
       </div>
+
+      <ConnectWalletModal
+        openModal={isOpenConnectWalletModal}
+        handleClose={() => setOpenConnectWalletModal(false)}
+      />
     </>
   )
 }
