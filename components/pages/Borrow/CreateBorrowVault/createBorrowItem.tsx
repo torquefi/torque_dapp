@@ -337,7 +337,7 @@ export default function CreateBorrowItem({
         className="rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pb-5 pt-3 text-[#030303] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white xl:px-[32px]"
         key={dataBorrow.depositTokenSymbol}
       >
-        <div className="flex w-full items-center justify-between">
+        <div className="flex items-center justify-between w-full">
           <div className="ml-[-12px] flex items-center">
             <img
               className="w-[72px] md:w-24"
@@ -369,7 +369,7 @@ export default function CreateBorrowItem({
             </Link>
           </Popover>
         </div>
-        <div className="font-larken mb-1 mt-1 grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4 mt-1 mb-1 font-larken">
           <div className="flex w-full items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
             <InputCurrencySwitch
               tokenSymbol={item?.depositTokenSymbol}
@@ -416,7 +416,23 @@ export default function CreateBorrowItem({
           </div>
         </div>
         <div className="flex items-center justify-between py-4 text-[#959595]">
-          <p>Loan providers</p>
+        <div className="flex items-center justify-center">
+            <div>Loan providers</div>
+            <Popover
+              trigger="hover"
+              placement="top-left"
+              className={`font-mona z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+              content="Create a self-service line of credit by depositing collateral."
+            >
+              <button className="ml-[5px] mt-[7px]">
+                <img
+                  src="/assets/pages/vote/ic-info.svg"
+                  alt="risk score system"
+                  className="w-[13px]"
+                />
+              </button>
+            </Popover>
+          </div>
           <div className="flex items-center">
             <Link
               href={'https://compound.finance/'}
@@ -426,7 +442,7 @@ export default function CreateBorrowItem({
               <img
                 src={'/icons/coin/compound.svg'}
                 alt="Compound"
-                className="w-[26px]"
+                className="w-[24px]"
               />
             </Link>
             <Link
@@ -437,20 +453,52 @@ export default function CreateBorrowItem({
               <img
                 src={'/icons/coin/torq-yi.svg'}
                 alt="Torque USD"
-                className="w-[26px]"
+                className="w-[24px]"
               />
             </Link>
           </div>
         </div>
         <div className="flex justify-between text-[#959595]">
-          <p>Loan-to-value</p>
+        <div className="flex items-center justify-center">
+            <div>Loan-to-value</div>
+            <Popover
+              trigger="hover"
+              placement="top-left"
+              className={`font-mona z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+              content="Max value of the loan you can take out against your collateral."
+            >
+              <button className="ml-[5px] mt-[7px]">
+                <img
+                  src="/assets/pages/vote/ic-info.svg"
+                  alt="risk score system"
+                  className="w-[13px]"
+                />
+              </button>
+            </Popover>
+          </div>
           <p>
             {'<'}
             {item?.loanToValue}%
           </p>
         </div>
         <div className="flex justify-between py-[16px] text-[#959595]">
-          <p>Variable APR</p>
+        <div className="flex items-center justify-center">
+            <div>Variable APR</div>
+            <Popover
+              trigger="hover"
+              placement="top-left"
+              className={`font-mona z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+              content="An interest rate determined by supply and demand of the asset."
+            >
+              <button className="ml-[5px] mt-[7px]">
+                <img
+                  src="/assets/pages/vote/ic-info.svg"
+                  alt="risk score system"
+                  className="w-[13px]"
+                />
+              </button>
+            </Popover>
+          </div>
           <p>
             {!aprBorrow
               ? '-0.00%'
@@ -458,7 +506,23 @@ export default function CreateBorrowItem({
           </p>
         </div>
         <div className="flex justify-between text-[#959595]">
-          <p>Liquidity</p>
+        <div className="flex items-center justify-center">
+            <div>Liquidity</div>
+            <Popover
+              trigger="hover"
+              placement="top-left"
+              className={`font-mona z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+              content="Available amount of borrowing power in the market at this time."
+            >
+              <button className="ml-[5px] mt-[7px]">
+                <img
+                  src="/assets/pages/vote/ic-info.svg"
+                  alt="risk score system"
+                  className="w-[13px]"
+                />
+              </button>
+            </Popover>
+          </div>
           <p>
             {!item?.liquidity ? '0.00%' : '$' + toMetricUnits(item?.liquidity)}
           </p>

@@ -26,7 +26,7 @@ import { useGasPrice } from '../hooks/useGasPrice'
 
 const RPC = 'https://arb1.arbitrum.io/rpc'
 
-export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
+export function CreateBoostItem({ item, setIsFetchBoostLoading, earnToken }: any) {
   const { open } = useWeb3Modal()
   const { address, isConnected } = useAccount()
   const chainId = useChainId()
@@ -43,6 +43,7 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
   const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
   const { tokensData, pricesUpdatedAt } = useTokensDataRequest(chainId)
   const { gasPrice } = useGasPrice(chainId)
+  const [deposited, setDeposited] = useState('');
 
   const tokenContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
@@ -56,6 +57,15 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
     )
   }, [Web3.givenProvider, item.tokenContractInfo])
 
+  const boostContract = useMemo(() => {
+    const web3 = new Web3(Web3.givenProvider)
+    const contract = new web3.eth.Contract(
+      JSON.parse(item?.boostContractInfo?.abi),
+      item?.boostContractInfo?.address
+    )
+    return contract
+  }, [Web3.givenProvider, item?.tokenSymbol])
+
   const boostReadContract = useMemo(() => {
     const web3 = new Web3(RPC)
     if (!item?.boostContractInfo?.abi) {
@@ -67,6 +77,28 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
       item.boostContractInfo.address
     )
   }, [Web3.givenProvider, item.boostContractInfo])
+
+  const handleGetBoostData = async () => {
+    if (!boostContract || !address || !tokenContract) {
+      return
+    }
+
+    try {
+      const tokenDecimal = await tokenContract.methods.decimals().call()
+      const deposited = await boostContract.methods.balanceOf(address).call()
+      setDeposited(
+        new BigNumber(
+          ethers.utils.formatUnits(deposited, tokenDecimal)
+        ).toString()
+      )
+    } catch (error) {
+      console.log('error get boost data item :>> ', error)
+    }
+  }
+
+  useEffect(() => {
+    handleGetBoostData()
+  }, [boostContract, address, tokenContract])
 
   const handleGetTotalSupply = async () => {
     if (!tokenContract || !boostReadContract) {
@@ -228,7 +260,7 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
           `  ${theme === 'light' ? ' bg-[#FCFAFF]' : 'bg-overview'}`
         }
       >
-        <div className="flex w-full items-center justify-between">
+        <div className="flex items-center justify-between w-full">
           <div className="ml-[-12px] flex items-center">
             <img
               src={`/icons/coin/${item.token.toLocaleLowerCase()}.png`}
@@ -260,7 +292,7 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
             </Link>
           </Popover>
         </div>
-        <div className="font-larken mb-1 mt-1 grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4 mt-1 mb-1 font-larken">
           <div className="flex w-full items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
             <InputCurrencySwitch
               tokenSymbol={item?.token}
@@ -295,37 +327,13 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
           </div>
         </div>
         <div className="font-mona flex w-full items-center justify-between py-4 text-[16px] text-[#959595]">
-          <div className="font-mona">Yield providers</div>
-          <div className="flex items-center">
-            <Link
-              href={item.link_yield1}
-              className="translate-x-3"
-              target={'_blank'}
-            >
-              <img src={item.yield_provider1} alt="" className="w-[26px]" />
-            </Link>
-            <Link href={item.link_yield2} className="" target={'_blank'}>
-              <img src={item.yield_provider2} alt="" className="w-[26px]" />
-            </Link>
-          </div>
-        </div>
-        <div className="font-mona flex w-full items-center justify-between text-[16px] text-[#959595]">
-          <div className="font-mona">Variable APY</div>
-          <NumericFormat
-            displayType="text"
-            value={item?.APR}
-            suffix="%"
-            decimalScale={2}
-          />
-        </div>
-        <div className="font-mona flex w-full items-center justify-between py-[16px] text-[16px] text-[#959595]">
-          <div className="flex items-center justify-center">
-            <div>Safety score</div>
+        <div className="flex items-center justify-center">
+            <div>Yield providers</div>
             <Popover
               trigger="hover"
-              placement="bottom-left"
-              className={`font-mona mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
-              content="Factors include raw yield, total value locked, IL, and history"
+              placement="top-left"
+              className={`font-mona z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+              content="Capture diversified yield within a single, seamless transaction."
             >
               <button className="ml-[5px] mt-[7px]">
                 <img
@@ -336,10 +344,63 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
               </button>
             </Popover>
           </div>
-          <div>9.8/10</div>
+          <div className="flex items-center">
+            <Link
+              href={item.link_yield1}
+              className="translate-x-3"
+              target={'_blank'}
+            >
+              <img src={item.yield_provider1} alt="" className="w-[24px]" />
+            </Link>
+            <Link href={item.link_yield2} className="" target={'_blank'}>
+              <img src={item.yield_provider2} alt="" className="w-[24px]" />
+            </Link>
+          </div>
         </div>
         <div className="font-mona flex w-full items-center justify-between text-[16px] text-[#959595]">
-          <div>Assets routed</div>
+        <div className="flex items-center justify-center">
+            <div>Variable APY</div>
+            <Popover
+              trigger="hover"
+              placement="top-left"
+              className={`font-mona mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+              content="On-chain estimate based on prevailing market conditions."
+            >
+              <button className="ml-[5px] mt-[7px]">
+                <img
+                  src="/assets/pages/vote/ic-info.svg"
+                  alt="risk score system"
+                  className="w-[13px]"
+                />
+              </button>
+            </Popover>
+          </div>
+          <NumericFormat
+            displayType="text"
+            value={item?.APR}
+            suffix="%"
+            decimalScale={2}
+            fixedDecimalScale={true}
+          />
+        </div>
+        <div className="font-mona flex w-full py-[16px] items-center justify-between text-[16px] text-[#959595]">
+        <div className="flex items-center justify-center">
+            <div>Value routed</div>
+            <Popover
+              trigger="hover"
+              placement="top-left"
+              className={`font-mona mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+              content="The total dollar value of all assets routed through Torque Boost."
+            >
+              <button className="ml-[5px] mt-[7px]">
+                <img
+                  src="/assets/pages/vote/ic-info.svg"
+                  alt="risk score system"
+                  className="w-[13px]"
+                />
+              </button>
+            </Popover>
+          </div>
           <NumericFormat
             prefix="$"
             value={Number(
@@ -349,6 +410,26 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading }: any) {
             ).toFixed(2)}
             displayType="text"
           />
+        </div>
+        <div className="font-mona flex w-full items-center justify-between text-[16px] text-[#959595]">
+          <div className="flex items-center justify-center">
+            <div>{`Your ${earnToken}`}</div>
+            <Popover
+              trigger="hover"
+              placement="top-left"
+              className={`font-mona mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+              content="The current tToken balance of your connected account."
+            >
+              <button className="ml-[5px] mt-[7px]">
+                <img
+                  src="/assets/pages/vote/ic-info.svg"
+                  alt="risk score system"
+                  className="w-[13px]"
+                />
+              </button>
+            </Popover>
+          </div>
+          <div>{parseFloat(deposited || 0).toFixed(2)}</div>
         </div>
         <button
           className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
