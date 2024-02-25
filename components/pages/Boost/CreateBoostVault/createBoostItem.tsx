@@ -429,7 +429,7 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading, earnToken }: any
               </button>
             </Popover>
           </div>
-          <div>{parseFloat(deposited || "0").toFixed(2)}</div>
+          <div>{parseFloat(deposited || "0").toFixed(3)}</div>
         </div>
         <button
           className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
