@@ -92,6 +92,7 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
             <CreateBoostItem
               item={item}
               setIsFetchBoostLoading={setIsFetchBoostLoading}
+              earnToken={item.earnToken}
             />
           )
         })}
