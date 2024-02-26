@@ -383,7 +383,7 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading, earnToken }: any
             fixedDecimalScale={true}
           />
         </div>
-        <div className="font-mona flex w-full py-[16px] items-center justify-between text-[16px] text-[#959595]">
+        <div className="font-mona flex w-full py-[14px] items-center justify-between text-[16px] text-[#959595]">
         <div className="flex items-center justify-center">
             <div>Value routed</div>
             <Popover
