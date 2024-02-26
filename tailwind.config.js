@@ -1,4 +1,14 @@
 const colors = require('tailwindcss/colors')
+// /** @type {import('tailwindcss').Config} */
+// module.exports = {
+//   // ...
+//   plugins: [
+//     require('@tailwindcss/typography'),
+//     require('@tailwindcss/forms'),
+//     require('@tailwindcss/aspect-ratio'),
+//     require('@tailwindcss/container-queries'),
+//   ]
+// }
 
 function getSemanticColors(color) {
   return {
@@ -298,7 +308,7 @@ module.exports = {
       opacity: ['disabled'],
     },
   },
-  plugins: [require('@tailwindcss/aspect-ratio')],
+  plugins: [require('@tailwindcss/aspect-ratio'),require("@tailwindcss/typography")],
 }
 
 function hexToRgb(hex) {

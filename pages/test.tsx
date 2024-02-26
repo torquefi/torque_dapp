@@ -4,7 +4,10 @@ import MyMarkdown from "../test.mdx"
 const TestPage = () => {
     return (
       <div className="post">
-        <MyMarkdown/>
+        <article className='prose lg:prose-xl'>
+            <MyMarkdown/>
+        </article>
+        
       </div>
     )
 }
