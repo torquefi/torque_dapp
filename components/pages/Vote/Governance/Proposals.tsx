@@ -4,10 +4,12 @@ import { CreateModal } from './CreateModal'
 import { useSelector } from 'react-redux'
 import { AppStore } from '@/types/store'
 import Link from 'next/link'
+import { useAppSelector } from '@/lib/redux/store'
 
 export const Proposals = () => {
   const [openCreateModal, setOpenCreateModal] = useState(false)
   const theme = useSelector((store: AppStore) => store.theme.theme)
+  const {tipData} = useAppSelector(state => state.tips)
 
   return (
     <>
@@ -29,7 +31,7 @@ export const Proposals = () => {
         <div className={`mt-2 h-[1px] w-full md:block` + `
       ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'}`
         }></div>
-        {menu.map((item, i) => (
+        {tipData.map((item, i) => (
           <ProposalsItem menu={item} key={item?.id} />
         ))}
         {/* <div className="mx-auto w-full py-[58px]">

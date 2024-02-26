@@ -26,7 +26,7 @@ export const ProposalsItem = (props: any) => {
   }
 
   return (
-    <Link href={`/vote/${menu?.id}`}>
+    <Link href={`/vote/${menu?.title}`}>
       <div className="mt-[10px] cursor-pointer hover:opacity-70 duration-100 transition-all ease-linear">
         <div className="items-center justify-between md:flex">
           <div className="sm:mt-[0px] md:mt-0 md:w-[60%]">
