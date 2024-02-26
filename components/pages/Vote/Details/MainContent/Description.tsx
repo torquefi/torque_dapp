@@ -2,6 +2,8 @@ import React from 'react'
 import { FaCheck } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import { AppStore } from '@/types/store'
+import MyMarkdown from "@/pages/test.mdx"
+
 
 export const Description = () => {
   const theme = useSelector((store: AppStore) => store.theme.theme)
@@ -18,6 +20,9 @@ export const Description = () => {
       ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'}`
       }></div>
       <div className="mt-[12px] text-left">
+
+        <MyMarkdown />
+
         <h4 className="text-[18px] text-[#030303] dark:text-white font-[400] font-larken leading-[24px]">Introduction</h4>
         <p className="mt-[8px] w-full max-w-[720px] font-[500] text-[#959595]">
           Maecenas vitae rutrum diam. Phasellus nibh massa, rutrum eget placerat
