@@ -1,4 +1,12 @@
 const path = require('path')
+const withMDX = require('@next/mdx')()
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  // Configure `pageExtensions` to include MDX files
+  pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
+  // Optionally, add any other Next.js config below
+}
 
 module.exports = {
   reactStrictMode: true,
@@ -10,6 +18,7 @@ module.exports = {
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
   },
+  pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
 }
 
 module.exports = {
@@ -22,3 +31,4 @@ module.exports = {
     ],
   },
 }
+module.exports = withMDX(nextConfig)

@@ -3,6 +3,7 @@ import { InforVotes } from './Infor'
 import { MainContent } from './MainContent'
 import SkeletonDefault from '@/components/skeleton'
 import { useRouter } from 'next/router'
+import Markdown from 'react-markdown'
 
 export const DetailsVotes = () => {
   const [isLoading, setIsLoading] = useState(true)
@@ -62,6 +63,9 @@ export const DetailsVotes = () => {
       <div className='w-full max-w-[815px] m-auto'>
         <InforVotes />
         <MainContent />
+      </div>
+      <div>
+        {/* <Markdown>{markdown}</Markdown> */}
       </div>
     </div>
   )
