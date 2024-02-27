@@ -29,12 +29,16 @@ export const DetailsVotes = () => {
   if (isLoading) {
     return (
       <div className="">
-        <div className="mx-auto h-[84px] w-full rounded-full max-w-[815px]">
-          <SkeletonDefault className="h-[84px]" />
+        <div className="mx-auto w-full rounded-full max-w-[400px]">
+          <SkeletonDefault className="h-[56px]" />
+        </div>
+
+        <div className="mx-auto w-full rounded-full max-w-[400px] mt-[14px]">
+          <SkeletonDefault className="h-[56px]" />
         </div>
 
         <div className="m-auto w-full max-w-[815px]">
-          <div className="mt-[41px] justify-between md:flex">
+          <div className="mt-[32px] justify-between md:flex">
             <div className="w-full rounded-[48px] md:w-[49%]">
               <SkeletonDefault className="h-[350px]" />
             </div>
@@ -44,7 +48,7 @@ export const DetailsVotes = () => {
           </div>
 
           <div className="mt-[26px] w-full rounded-[48px]">
-            <SkeletonDefault className="h-[610px]" />
+            <SkeletonDefault className="h-[400px]" />
           </div>
         </div>
 
