@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { InforVotes } from './Infor'
 import { MainContent } from './MainContent'
 import SkeletonDefault from '@/components/skeleton'
 import { useRouter } from 'next/router'
-import Markdown from 'react-markdown'
 import { useAppSelector } from '@/lib/redux/store'
 
 export const DetailsVotes = () => {
@@ -24,7 +23,7 @@ export const DetailsVotes = () => {
       } else {
       }
     } catch (error) {}
-  },[id,tipData])
+  }, [])
 
   if (isLoading) {
     return (
@@ -57,6 +56,7 @@ export const DetailsVotes = () => {
       </div>
     )
   }
+
   return (
     <div className="mx-auto w-full text-center">
       <h1 className="font-larken mx-auto mt-4 w-full text-[20px] font-[400] leading-[23px] text-[#030303] dark:text-white md:text-[36px] md:leading-[44px]">
@@ -70,7 +70,7 @@ export const DetailsVotes = () => {
             </div>
           )}
           {tipDetails?.stage === 'Pending' && (
-            <div className="rounded-[6px] bg-[#FF9C414D] px-[12px] py-[2px] text-[12px] font-[500] uppercase text-[#FF9C41] shadow-md">
+            <div className="rounded-[6px] bg-[#FF9C414D] px-[12px] py-[2px] text-[12px] font-[500] uppercase text-[#FF9C41] shadow-md ">
               Pending
             </div>
           )}
