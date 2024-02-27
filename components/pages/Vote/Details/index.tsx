@@ -60,7 +60,7 @@ export const DetailsVotes = () => {
   return (
     <div className="mx-auto w-full text-center">
       <h1 className="font-larken mx-auto mt-4 w-full text-[20px] font-[400] leading-[23px] text-[#030303] dark:text-white md:text-[36px] md:leading-[44px]">
-        TIP-{id}: {tipDetails?.title}
+        {tipDetails?.title}
       </h1>
       <div className="mt-[14px]">
         <div className="mx-auto flex items-center justify-center gap-[8px]">
@@ -70,13 +70,13 @@ export const DetailsVotes = () => {
             </div>
           )}
           {tipDetails?.stage === 'Pending' && (
-            <div className="rounded-[6px] bg-[#FF9C414D] px-[12px] py-[2px] text-[12px] font-[500] uppercase text-[#FF9C41] shadow-md ">
+            <div className="rounded-[6px] bg-[#FF9C414D] px-[12px] py-[2px] text-[12px] font-[500] uppercase text-[#FF9C41]">
               Pending
             </div>
           )}
           <p className="font-[500] text-[#959595]">TIP-{id}</p>
           <div className="h-[5px] w-[5px] rounded-full bg-[#959595]"></div>
-          <p className="font-[500] text-[#959595]">4 days, 12 hours left</p>
+          <p className="font-[500] text-[#959595]">Vote hasn't started yet</p>
         </div>
       </div>
       <div className="m-auto w-full max-w-[815px]">

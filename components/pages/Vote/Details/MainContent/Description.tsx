@@ -6,6 +6,7 @@ import MyMarkdown from '../../../../../test.mdx'
 import { useAppSelector } from '@/lib/redux/store'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+
 export const Description = () => {
   const theme = useSelector((store: AppStore) => store.theme.theme)
   const [tipDetails, setTipDetails] = useState(null)
@@ -23,10 +24,10 @@ export const Description = () => {
         setTipDetails(data)
       } else {
       }
-    } catch (error) {}
+    } catch (error) { }
   }, [])
 
-  useEffect(() => {})
+  useEffect(() => { })
 
   return (
     <>
@@ -43,9 +44,8 @@ export const Description = () => {
           className={
             `mt-4 block h-[1px] w-full` +
             `
-      ${
-        theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
-      }`
+      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+            }`
           }
         ></div>
         {/* <div className="mt-[12px] text-left">
@@ -86,9 +86,8 @@ export const Description = () => {
           className={
             `mt-4 block h-[1px] w-full` +
             `
-      ${
-        theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
-      }`
+      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+            }`
           }
         ></div>
         <Link href="https://forum.torque.fi">
