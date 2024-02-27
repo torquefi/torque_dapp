@@ -481,7 +481,7 @@ export default function CreateBorrowItem({
             {item?.loanToValue}%
           </p>
         </div>
-        <div className="flex justify-between py-[16px] text-[#959595]">
+        <div className="flex justify-between py-[14px] text-[#959595]">
         <div className="flex items-center justify-center">
             <div>Variable APR</div>
             <Popover

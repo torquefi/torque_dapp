@@ -6,27 +6,10 @@ export const Against = () => {
   const theme = useSelector((store: AppStore) => store.theme.theme)
 
   return (
-    <div className="font-larken mt-[24px] rounded-xl border border-[#E6E6E6]  bg-[#ffffff] from-[#0d0d0d] to-[#0d0d0d]/0 px-[56px] py-[17px] text-[#030303] md:mt-0 md:w-[49%] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white ">
-      {/* <div className="mx-auto w-full py-[58px]">
-      <img
-            src={
-              theme === 'light'
-                ? '/assets/pages/vote/genover/noproposal-white.png'
-                : '/assets/pages/vote/genover/noproposal.png'
-            }
-            alt=""
-            className="mx-auto w-full max-w-[84px]"
-          />
-        <h3 className="font-larken text-[#030303] dark:text-white mt-[12px] text-center text-[24px] font-[400] leading-[34px]">
-          Vote hasn't started
-        </h3>
-        <p className="mx-auto mt-[2px] w-full text-center text-[16px] font-[500] text-[#959595] max-w-[280px]">
-          Against votes will appear here.
-        </p>
-      </div> */}
+    <div className="font-larken mt-[12px] rounded-xl border border-[#E6E6E6] bg-[#ffffff] from-[#0d0d0d] to-[#0d0d0d]/0 px-[24px] py-[12px] text-[#030303] md:mt-0 md:w-[49%] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white ">
       <div className="flex items-center justify-between">
         <h2 className="text-[24px] font-[400] leading-[60px]">Against</h2>
-        <p className="font-mona font-[500] leading-[24px] text-[#F05858]">
+        <p className="font-mona font-[500] font-medium leading-[24px] text-[#F05858]">
           0.00
         </p>
       </div>
@@ -35,7 +18,7 @@ export const Against = () => {
       </div>
       <div
         className={
-          `mt-[31px] hidden h-[1px] w-full md:block ` +
+          `mt-[24px] hidden h-[1px] w-full md:block ` +
           `${theme === 'light'
             ? 'bg-gradient-divider-light'
             : 'bg-gradient-divider'
@@ -45,10 +28,10 @@ export const Against = () => {
       <table className="w-full">
         <thead>
           <tr className="">
-            <th className="font-mona w-[50%] py-[16px] text-left font-[500] leading-[24px] text-[#959595]">
+            <th className="font-mona w-[50%] py-[12px] text-left font-[500] leading-[24px] text-[#959595]">
               No voters yet
             </th>
-            <th className="font-mona w-[50%] py-[16px] text-right font-[500] leading-[24px] text-[#959595]">
+            <th className="font-mona w-[50%] py-[12px] text-right font-[500] leading-[24px] text-[#959595]">
               Votes
             </th>
           </tr>
@@ -57,8 +40,8 @@ export const Against = () => {
         {menu.map((item, i) => (
           <tbody key={i}>
             <tr className="relative">
-              <td className="py-[16px] text-left">{item.delegates}</td>
-              <td className="py-[16px] text-right">{item.votes}</td>
+              <td className="py-[12px] text-left">{item.delegates}</td>
+              <td className="py-[12px] text-right">{item.votes}</td>
               <div className={`absolute left-0 hidden h-[1px] w-full md:block ` + `${theme === 'light'
                 ? 'bg-gradient-divider-light'
                 : 'bg-gradient-divider'
@@ -67,11 +50,11 @@ export const Against = () => {
           </tbody>
         ))}
       </table>
-      <div className={`mt-[24px] hidden h-[1px] w-full md:block ` + `${theme === 'light'
+      <div className={`mt-[0px] hidden h-[1px] w-full md:block ` + `${theme === 'light'
         ? 'bg-gradient-divider-light'
         : 'bg-gradient-divider'
         }`}></div>
-      <div className="font-mona mt-[18px] cursor-pointer text-center text-[14px] font-[500] uppercase text-[#959595]">
+      <div className="font-mona mt-[12px] cursor-pointer text-center text-[14px] font-[500] uppercase text-[#959595]">
         view all
       </div>
     </div>

@@ -4,7 +4,7 @@ import { DetailsAndStages } from './DetailsAndStages'
 
 export const MainContent = () => {
   return (
-    <div className="mt-[26px] w-full">
+    <div className="mt-[18px] w-full">
       <Description />
       {/* <DetailsAndStages /> */}
     </div>
