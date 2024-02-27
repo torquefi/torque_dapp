@@ -5,7 +5,7 @@ import { AppStore } from '@/types/store'
 import MyMarkdown from '../../../../../test.mdx'
 import { useAppSelector } from '@/lib/redux/store'
 import { useRouter } from 'next/router'
-
+import Link from 'next/link'
 export const Description = () => {
   const theme = useSelector((store: AppStore) => store.theme.theme)
   const [tipDetails, setTipDetails] = useState(null)
@@ -91,9 +91,11 @@ export const Description = () => {
       }`
           }
         ></div>
-      </div>
-      <div className="mt-[12px] cursor-pointer text-center text-[14px] font-[500] uppercase text-[#959595]">
-        view on forum
+        <Link href="https://forum.torque.fi">
+          <div className="mt-[12px] cursor-pointer text-center text-[14px] font-[500] uppercase text-[#959595]">
+            view on forum
+          </div>
+        </Link>
       </div>
     </>
   )
