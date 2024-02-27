@@ -12,9 +12,9 @@ export const DetailsVotes = () => {
   const { id } = router?.query
   const { tipData } = useAppSelector((state) => state.tips)
 
-  // useEffect(() => {
-  //   setTimeout(() => setIsLoading(false), 1000)
-  // }, [])
+  useEffect(() => {
+    setTimeout(() => setIsLoading(false), 1000)
+  }, [])
 
   useEffect(() => {
     try {
