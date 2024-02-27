@@ -6,7 +6,7 @@ export const For = () => {
   const theme = useSelector((store: AppStore) => store.theme.theme)
 
   return (
-    <div className="mt-[24px] rounded-[12px] border border-[#E6E6E6] bg-[#ffffff]  from-[#0d0d0d] to-[#0d0d0d]/0 text-[#030303] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white px-[56px] py-[17px] md:mt-0 md:w-[49%]">
+    <div className="mt-[24px] rounded-[12px] border border-[#E6E6E6] bg-[#ffffff]  from-[#0d0d0d] to-[#0d0d0d]/0 text-[#030303] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white px-[56px] py-[17px] md:mt-0 md:w-[49%] font-larken">
       {/* <div className="mx-auto w-full py-[58px]">
       <img
             src={
@@ -35,10 +35,10 @@ export const For = () => {
       <table className="w-full">
         <thead>
           <tr>
-            <th className="w-[50%] py-[16px] text-left font-[500] leading-[24px] text-[#959595]">
+            <th className="w-[50%] py-[16px] text-left font-[500] leading-[24px] text-[#959595] font-mona">
               No voters yet
             </th>
-            <th className="w-[50%] py-[16px] text-right font-[500] leading-[24px] text-[#959595]">
+            <th className="w-[50%] py-[16px] text-right font-[500] leading-[24px] text-[#959595] font-mona">
               Votes
             </th>
           </tr>
