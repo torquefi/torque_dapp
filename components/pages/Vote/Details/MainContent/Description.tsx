@@ -46,43 +46,14 @@ export const Description = () => {
             }`
           }
         ></div>
-        {/* <div className="mt-[12px] text-left">
-        <h4 className="text-[18px] text-[#030303] dark:text-white font-[400] font-larken leading-[24px]">Introduction</h4>
-        <p className="mt-[8px] w-full max-w-[720px] font-[500] text-[#959595]">
-          Maecenas vitae rutrum diam. Phasellus nibh massa, rutrum eget placerat
-          ut, lacinctus. Proin aliquet et lacus rhoncus blandit. Nullam
-          tristique, diam et laoreet gravida, dolor tortor tincidunt urna, nec
-          congue dolor sapien quis nisi. Proin at nulla turpis. Morbi accumsan
-          leo aem rutrum vestibulum.
-        </p>
-      </div>
-      <div className="mt-[12px] text-left">
-        <h4 className="text-[18px] text-[#030303] dark:text-white font-[400] font-larken leading-[24px]">Motivation</h4>
-        <p className="mt-[8px] w-full max-w-[720px] font-[500] text-[#959595]">
-          Maecenas vitae rutrum diam. Phasellus nibh massa, rutrum eget placerat
-          ut, lacinctus. Proin aliquet et lacus rhoncus blandit. Nullam
-          tristique, diam et laoreet gravida, dolor tortor tincidunt urna, nec
-          congue dolor sapien quis.
-        </p>
-      </div>
-      <div className="mt-[12px] text-left">
-        <h4 className="text-[18px] text-[#030303] dark:text-white font-[400] font-larken leading-[24px]">Specification</h4>
-        <p className="mt-[8px] w-full max-w-[720px] font-[500] text-[#959595]">
-          Maecenas vitae rutrum diam. Phasellus nibh massa, rutrum eget placerat
-          ut, lacinctus. Proin aliquet et lacus rhoncus blandit. Nullam
-          tristique, diam et laoreet gravida, dolor tortor tincidunt urna, nec
-          congue dolor sapien quis.
-        </p>
-      </div> */}
         {tipDetails && tipDetails.description && (
-          <article className="prose mt-10 block max-w-[765px] text-left">
-            {/* {tipDetails.description} */}
+          <article className="prose mt-4 block max-w-[765px] text-left">
             <TipDescription />
           </article>
         )}
         <div
           className={
-            `mt-4 block h-[1px] w-full` +
+            `mt-8 block h-[1px] w-full` +
             `
       ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
             }`
