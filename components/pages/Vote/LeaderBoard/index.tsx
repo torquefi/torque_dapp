@@ -4,10 +4,33 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { AppStore } from '@/types/store'
 import Popover from '@/components/common/Popover'
+import axios from 'axios'
 
 export const LeaderBoard = () => {
   const [isLoading, setIsLoading] = useState(true)
+  const [topHolders, setTopHolders] = useState([])
   const theme = useSelector((store: AppStore) => store.theme.theme)
+
+  const handleGetTopHolders = async () => {
+    const network_id = '42161';
+    const token_addr = '0xb56c29413af8778977093b9b4947efeea7136c36';
+
+    const options = {
+      url: `https://api.chainbase.online/v1/token/top-holders?chain_id=${network_id}&contract_address=${token_addr}&page=1&limit=10`,
+      method: 'GET',
+      headers: {
+        'x-api-key': '2cwhwJRIxoua8s4vfXCYr8lCYYi',
+        'accept': 'application/json'
+      }
+    };
+    axios(options)
+      .then((response: any) => setTopHolders(response?.data?.data || []))
+      .catch((error: any) => console.log(error));
+  }
+
+  useEffect(() => {
+    handleGetTopHolders()
+  }, [])
 
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1000)
@@ -58,7 +81,7 @@ export const LeaderBoard = () => {
             The official release of Torque is coming soon. Follow our socials for updates.
           </p>
         </div>
-        {/* <table className="w-full">
+        <table className="w-full">
           <thead>
             <tr>
               <th className="whitespace-nowrap py-[16px] text-left text-[12px] font-[500] text-[#959595] md:w-[25%] md:text-[16px]">
@@ -101,10 +124,10 @@ export const LeaderBoard = () => {
               </tr>
             </tbody>
           ))}
-        </table> */}
-        {/* <div className="mt-[18px] cursor-pointer text-center text-[14px] font-[500] uppercase text-[#959595]">
+        </table>
+        <div className="mt-[18px] cursor-pointer text-center text-[14px] font-[500] uppercase text-[#959595]">
           view all
-        </div> */}
+        </div>
       </div>
     </div>
   )

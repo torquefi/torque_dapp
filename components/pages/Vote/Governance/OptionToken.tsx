@@ -73,7 +73,7 @@ export const OptionToken = () => {
             Coming Soon
           </h4>
           <p className="font-[500] leading-[24px] text-[#959595]">
-            Global Delegates
+            Global Holders
           </p>
         </div>
         <div className="w-[50%]">
