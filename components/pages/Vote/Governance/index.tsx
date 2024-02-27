@@ -3,29 +3,14 @@ import { OptionToken } from './OptionToken'
 import { Proposals } from './Proposals'
 import { VotingPower } from './VotingPower'
 import SkeletonDefault from '@/components/skeleton'
-import { useAppDispath } from '@/lib/redux/store'
-import { updateTipsData } from '@/lib/redux/slices/tips'
-import { tipsData } from '@/config/vote/content/tips'
 
 export const Governance = () => {
   const [isLoading, setIsLoading] = useState(true)
-  const dispatch = useAppDispath()
-
-  const getTipsData = async () => {
-    // call API
-    try {
-      await new Promise((resolve)=>setTimeout(resolve,1000))
-  
-      dispatch(updateTipsData(tipsData))
-    } catch (error) {
-      
-    } finally {
-      setIsLoading(false)
-    }
-  }
 
   useEffect(() => {
-    getTipsData()
+    setTimeout(() => {
+      setIsLoading(false)
+    }, 1000)
   }, [])
 
   if (isLoading) {
