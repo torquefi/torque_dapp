@@ -29,11 +29,11 @@ export const DetailsVotes = () => {
   if (isLoading) {
     return (
       <div className="">
-        <div className="mx-auto w-full rounded-full max-w-[400px]">
+        <div className="mx-auto w-full rounded-full mb-4 max-w-[340px]">
           <SkeletonDefault className="h-[56px]" />
         </div>
 
-        <div className="mx-auto w-full rounded-full max-w-[400px] mt-[14px]">
+        <div className="mx-auto w-full rounded-full max-w-[340px]">
           <SkeletonDefault className="h-[56px]" />
         </div>
 
