@@ -34,7 +34,7 @@ export default function Page({ title }: { title?: string }) {
   return (
     <>
       <Head>
-        <title> Tip-{id} | Torque</title>
+        <title> TIP-{id} | Torque</title>
       </Head>
       <DetailsVotes />
     </>
