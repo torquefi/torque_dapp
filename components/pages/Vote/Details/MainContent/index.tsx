@@ -4,9 +4,9 @@ import { DetailsAndStages } from './DetailsAndStages'
 
 export const MainContent = () => {
   return (
-    <div className="mt-[26px] justify-between md:flex">
+    <div className="mt-[26px] w-full">
       <Description />
-      <DetailsAndStages />
+      {/* <DetailsAndStages /> */}
     </div>
   )
 }

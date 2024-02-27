@@ -3,6 +3,8 @@ import { persistStore, persistReducer } from 'redux-persist'
 import rootReducer from './rootReducer'
 import storage from 'redux-persist/lib/storage'
 import usdPriceReducer from './slices/usdPrice'
+import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux'
+
 const reducer = combineReducers(rootReducer)
 
 const persistConfig = {
@@ -20,7 +22,10 @@ const store = configureStore({
 })
 
 export type AppState = ReturnType<typeof store.getState>
-
 export type AppDispatch = typeof store.dispatch
+
+export const useAppDispath = () => useDispatch<AppDispatch>()
+export const useAppSelector: TypedUseSelectorHook<AppState> = useSelector
+
 export const persistor = persistStore(store)
 export default store

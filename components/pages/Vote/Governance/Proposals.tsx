@@ -3,10 +3,13 @@ import { ProposalsItem } from './ProposalsItem'
 import { CreateModal } from './CreateModal'
 import { useSelector } from 'react-redux'
 import { AppStore } from '@/types/store'
+import Link from 'next/link'
+import { useAppSelector } from '@/lib/redux/store'
 
 export const Proposals = () => {
   const [openCreateModal, setOpenCreateModal] = useState(false)
   const theme = useSelector((store: AppStore) => store.theme.theme)
+  const { tipData } = useAppSelector(state => state.tips)
 
   return (
     <>
@@ -22,14 +25,14 @@ export const Proposals = () => {
             <p className="text-[14px] font-[500] uppercase text-[#AA5BFF]">
               create
             </p>
-            <img src="/assets/pages/vote/genover/next.svg" alt="" className="mb-1"/>
+            <img src="/assets/pages/vote/genover/next.svg" alt="" className="mb-1" />
           </button>
         </div>
-        <div className={`mt-2 h-[1px] w-full md:block` +`
+        <div className={`mt-2 h-[1px] w-full md:block` + `
       ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'}`
         }></div>
-        {menu.map((item, i) => (
-          <ProposalsItem menu={item} />
+        {tipData.map((item, i) => (
+          <ProposalsItem menu={item} key={item?.id} />
         ))}
         {/* <div className="mx-auto w-full py-[58px]">
           <img
@@ -48,9 +51,13 @@ export const Proposals = () => {
             TORQ token is now live! Stay tuned for our first community proposals.
           </p>
         </div> */}
-        <div className="mt-[18px] cursor-pointer text-center text-[14px] font-[500] uppercase text-[#959595]">
-          view all
-        </div>
+        <Link href="https://forum.torque.fi" legacyBehavior>
+          <a target='_blank'>
+            <div className="mt-[18px] cursor-pointer text-center text-[14px] font-[500] uppercase text-[#959595]">
+              view all
+            </div>
+          </a>
+        </Link>
       </div>
       <CreateModal
         openModal={openCreateModal}
@@ -67,6 +74,7 @@ const menu = [
     timeVote: 'Vote hasn’t started',
     voteRed: 0,
     voteGreen: 0,
+    id: 1
   },
   // {
   //   title: 'Increase rate of distributio..',

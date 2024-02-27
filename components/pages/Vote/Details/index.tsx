@@ -1,13 +1,28 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { InforVotes } from './Infor'
 import { MainContent } from './MainContent'
 import SkeletonDefault from '@/components/skeleton'
+import { useRouter } from 'next/router'
+import { useAppSelector } from '@/lib/redux/store'
 
 export const DetailsVotes = () => {
   const [isLoading, setIsLoading] = useState(true)
+  const [tipDetails, setTipDetails] = useState(null)
+  const router = useRouter()
+  const { id } = router?.query
+  const { tipData } = useAppSelector((state) => state.tips)
 
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1000)
+  }, [])
+  useEffect(() => {
+    try {
+      const data = tipData.find((tip) => tip.id.toString() === id)
+      if (data) {
+        setTipDetails(data)
+      } else {
+      }
+    } catch (error) {}
   }, [])
 
   if (isLoading) {
@@ -18,22 +33,22 @@ export const DetailsVotes = () => {
         </div>
 
         <div className="mt-[41px] justify-between md:flex">
-          <div className="md:w-[49%] rounded-[48px] w-full">
+          <div className="w-full rounded-[48px] md:w-[49%]">
             <SkeletonDefault className="h-[350px]" />
           </div>
-          <div className="md:w-[49%] rounded-[48px] w-full md:mt-[0px] mt-[20px]">
+          <div className="mt-[20px] w-full rounded-[48px] md:mt-[0px] md:w-[49%]">
             <SkeletonDefault className="h-[350px]" />
           </div>
         </div>
         <div className="mt-[26px] justify-between md:flex">
-          <div className="w-full md:w-[55%] rounded-[48px]">
+          <div className="w-full rounded-[48px] md:w-[55%]">
             <SkeletonDefault className="h-[610px]" />
           </div>
-          <div className="w-full md:w-[43%] md:mt-[0px] mt-[20px]">
-            <div className='w-full rounded-[48px]'>
+          <div className="mt-[20px] w-full md:mt-[0px] md:w-[43%]">
+            <div className="w-full rounded-[48px]">
               <SkeletonDefault className="h-[300px]" />
             </div>
-            <div className='mt-[10px] w-full rounded-[48px]'>
+            <div className="mt-[10px] w-full rounded-[48px]">
               <SkeletonDefault className="h-[300px]" />
             </div>
           </div>
@@ -41,23 +56,34 @@ export const DetailsVotes = () => {
       </div>
     )
   }
+
   return (
-    <div className="w-full mx-auto text-center">
-      <h1 className="mt-4 font-larken text-[#030303] dark:text-white mx-auto w-full max-w-[460px] text-[20px] font-[400] leading-[23px] md:text-[36px] md:leading-[44px]">
-        This is placeholder text for a new proposal title
+    <div className="mx-auto w-full text-center">
+      <h1 className="font-larken mx-auto mt-4 w-full text-[20px] font-[400] leading-[23px] text-[#030303] dark:text-white md:text-[36px] md:leading-[44px]">
+        TIP-{id}: {tipDetails?.title}
       </h1>
       <div className="mt-[14px]">
         <div className="mx-auto flex items-center justify-center gap-[8px]">
-          <div className="rounded-[6px] bg-[#1eb26b55] px-[12px] py-[2px] text-[12px] font-[500] uppercase text-[#1EB26B]">
-            Active
-          </div>
-          <p className="font-[500] text-[#959595]">TIP-1</p>
+          {tipDetails?.stage === 'Active' && (
+            <div className="rounded-[6px] bg-[#1eb26b55] px-[12px] py-[2px] text-[12px] font-[500] uppercase text-[#1EB26B]">
+              Active
+            </div>
+          )}
+          {tipDetails?.stage === 'Pending' && (
+            <div className="rounded-[6px] bg-[#FF9C414D] px-[12px] py-[2px] text-[12px] font-[500] uppercase text-[#FF9C41] shadow-md ">
+              Pending
+            </div>
+          )}
+          <p className="font-[500] text-[#959595]">TIP-{id}</p>
           <div className="h-[5px] w-[5px] rounded-full bg-[#959595]"></div>
           <p className="font-[500] text-[#959595]">4 days, 12 hours left</p>
         </div>
       </div>
-      <InforVotes />
-      <MainContent />
+      <div className="m-auto w-full max-w-[815px]">
+        <InforVotes />
+        <MainContent />
+      </div>
+      <div>{/* <Markdown>{markdown}</Markdown> */}</div>
     </div>
   )
 }
