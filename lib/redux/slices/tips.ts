@@ -1,3 +1,4 @@
+import { ComponentType } from 'react'
 import { createSlice } from '@reduxjs/toolkit'
 import { PayloadAction } from '@reduxjs/toolkit'
 
@@ -9,7 +10,7 @@ type TipsData = {
   timeVote?: string
   voteRed?: number
   voteGreen?: number
-  description?: any
+  description: ComponentType
 }
 
 interface ITipsState {
