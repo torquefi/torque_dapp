@@ -4,11 +4,13 @@ import { MainContent } from './MainContent'
 import SkeletonDefault from '@/components/skeleton'
 import { useRouter } from 'next/router'
 import Markdown from 'react-markdown'
+import { useAppSelector } from '@/lib/redux/store'
 
 export const DetailsVotes = () => {
   const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
   const { id } = router?.query
+  const { tipData } = useAppSelector(state => state.tips)
 
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1000)

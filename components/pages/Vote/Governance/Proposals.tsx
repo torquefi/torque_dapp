@@ -9,7 +9,7 @@ import { useAppSelector } from '@/lib/redux/store'
 export const Proposals = () => {
   const [openCreateModal, setOpenCreateModal] = useState(false)
   const theme = useSelector((store: AppStore) => store.theme.theme)
-  const {tipData} = useAppSelector(state => state.tips)
+  const { tipData } = useAppSelector(state => state.tips)
 
   return (
     <>

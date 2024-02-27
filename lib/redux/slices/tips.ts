@@ -4,11 +4,12 @@ import { PayloadAction } from '@reduxjs/toolkit'
 type TipsData = {
   id: number
   title: string
-  state: string
-  tip: string
-  timeVote: string
-  voteRed: number
-  voteGreen: number
+  stage: string
+  tip?: string
+  timeVote?: string
+  voteRed?: number
+  voteGreen?: number
+  description?: any
 }
 
 interface ITipsState {
