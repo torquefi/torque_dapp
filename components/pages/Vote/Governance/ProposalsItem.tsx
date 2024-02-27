@@ -6,35 +6,40 @@ import Link from 'next/link'
 
 export const ProposalsItem = (props: any) => {
   const { menu } = props
+  console.log(menu)
 
   const theme = useSelector((store: AppStore) => store.theme.theme)
 
   let classnamesState =
     'rounded-[6px] bg-[#ff9c4155] px-[12px] py-[1px] text-[12px] font-[500] uppercase text-[#1EB26B]'
-  if (menu.state === 'active') {
+  if (menu.stage === 'Active') {
     classnamesState =
       'rounded-[6px] bg-[#1eb26b55] px-[12px] py-[1px] text-[12px] font-[500] uppercase text-[#1EB26B]'
-  } else if (menu.state === 'pending') {
+  } else if (menu.stage === 'Pending') {
     classnamesState =
       'rounded-[6px] bg-[#ff9c4155] px-[12px] py-[1px] text-[12px] font-[500] uppercase text-[#FF9C41]'
-  } else if (menu.state === 'failed') {
+  } else if (menu.stage === 'Failed') {
     classnamesState =
       'rounded-[6px] bg-[#ff3e3e55] px-[12px] py-[1px] text-[12px] font-[500] uppercase text-[#F05858]'
-  } else if (menu.state === 'passed') {
+  } else if (menu.stage === 'Passed') {
     classnamesState =
       'rounded-[6px] bg-[#aa5bff55] px-[12px] py-[1px] text-[12px] font-[500] uppercase text-[#C38BFF]'
   }
 
   return (
     <Link href={`/vote/${menu?.id}`}>
-      <div className="mt-[10px] cursor-pointer hover:opacity-70 duration-100 transition-all ease-linear">
+      <div className="mt-[10px] cursor-pointer transition-all duration-100 ease-linear hover:opacity-70">
         <div className="items-center justify-between md:flex">
           <div className="sm:mt-[0px] md:mt-0 md:w-[60%]">
-            <h4 className="font-larken text-[#030303] dark:text-white text-[20px] font-[400] leading-[40px]">{menu.title}</h4>
+            <h4 className="font-larken text-[20px] font-[400] leading-[40px] text-[#030303] dark:text-white">
+              {menu.title}
+            </h4>
             <div className="flex items-center gap-[8px]">
-              <div className={classnamesState}>{menu.state}</div>
+              <div className={classnamesState}>
+                {menu.stage}
+              </div>
               <p className="text-[14px] font-[500] text-[#959595] md:text-[16px]">
-                {menu.tip}
+                TIP-{menu.id}
               </p>
               <div className="h-[5px] w-[5px] rounded-full bg-[#959595]"></div>
               <p className="text-[14px] font-[500] text-[#959595] md:text-[16px]">
@@ -44,7 +49,7 @@ export const ProposalsItem = (props: any) => {
           </div>
 
           <div className="mt-[10px] md:w-[40%]">
-            <div className="flex w-full items-center justify-start md:justify-end gap-[8px]">
+            <div className="flex w-full items-center justify-start gap-[8px] md:justify-end">
               <p className="text-[14px] font-[500] text-[#F05858]">
                 {toMetricUnits(menu.voteRed, 2).toLocaleLowerCase()}
               </p>
@@ -61,7 +66,8 @@ export const ProposalsItem = (props: any) => {
                       style={{
                         width:
                           Math.round(
-                            (menu.voteRed / (menu.voteGreen + menu.voteRed)) * 100
+                            (menu.voteRed / (menu.voteGreen + menu.voteRed)) *
+                              100
                           ) + '%',
                       }}
                     ></div>
@@ -71,7 +77,7 @@ export const ProposalsItem = (props: any) => {
                         width:
                           Math.round(
                             (menu.voteGreen / (menu.voteGreen + menu.voteRed)) *
-                            100
+                              100
                           ) + '%',
                       }}
                     ></div>
@@ -82,7 +88,7 @@ export const ProposalsItem = (props: any) => {
                 {toMetricUnits(menu?.voteGreen).toLocaleLowerCase()}
               </p>
             </div>
-            <p className="text-left md:text-right font-[500] leading-[24px] text-[#959595]">
+            <p className="text-left font-[500] leading-[24px] text-[#959595] md:text-right">
               <NumericFormat
                 displayType="text"
                 value={menu.voteGreen + menu.voteRed}
@@ -92,9 +98,15 @@ export const ProposalsItem = (props: any) => {
             </p>
           </div>
         </div>
-        <div className={`mt-3 h-[1px] w-full md:block` + `
-      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'}`
-        }></div>
+        <div
+          className={
+            `mt-3 h-[1px] w-full md:block` +
+            `
+      ${
+        theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+      }`
+          }
+        ></div>
       </div>
     </Link>
   )
