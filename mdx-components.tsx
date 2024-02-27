@@ -14,6 +14,8 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     td:({children})=> <td className='border-[#959595] border-[1px] '>{children}</td>,
     th:({children})=> <th className='dark:text-[#FFFFFF] text-black border-[1px] border-[#959595] '>{children}</th>,
     p:({children})=> <p className='text-[#959595] text-[16px] leading-6'>{children}</p>,
+    h6:({children})=> <h6 className='text-[#959595] text-[16px] leading-6'>{children}</h6>,
+    
     
 
     // img: (props) => (
