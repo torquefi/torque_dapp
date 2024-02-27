@@ -14,6 +14,9 @@ export const DetailsVotes = () => {
   const { tipData } = useAppSelector((state) => state.tips)
 
   useEffect(() => {
+    setTimeout(() => setIsLoading(false), 1000)
+  }, [])
+  useEffect(() => {
     try {
       const data = tipData.find((tip) => tip.id.toString() === id)
       if (data) {
@@ -21,8 +24,7 @@ export const DetailsVotes = () => {
       } else {
       }
     } catch (error) {}
-    setTimeout(() => setIsLoading(false), 1000)
-  }, [])
+  },[id,tipData])
 
   if (isLoading) {
     return (
@@ -56,9 +58,9 @@ export const DetailsVotes = () => {
     )
   }
   return (
-    <div className="w-full mx-auto text-center">
+    <div className="mx-auto w-full text-center">
       <h1 className="font-larken mx-auto mt-4 w-full text-[20px] font-[400] leading-[23px] text-[#030303] dark:text-white md:text-[36px] md:leading-[44px]">
-        TIP-{id}: {tipDetails.title}
+        TIP-{id}: {tipDetails?.title}
       </h1>
       <div className="mt-[14px]">
         <div className="mx-auto flex items-center justify-center gap-[8px]">

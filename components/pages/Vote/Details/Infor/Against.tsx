@@ -6,7 +6,7 @@ export const Against = () => {
   const theme = useSelector((store: AppStore) => store.theme.theme)
 
   return (
-    <div className="mt-[24px] rounded-[12px] border border-[#E6E6E6] bg-[#ffffff]  from-[#0d0d0d] to-[#0d0d0d]/0 px-[56px] py-[17px] text-[#030303] md:mt-0 md:w-[49%] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white font-larken">
+    <div className="mt-[24px] rounded-xl border border-[#E6E6E6] bg-[#ffffff]  from-[#0d0d0d] to-[#0d0d0d]/0 px-[56px] py-[17px] text-[#030303] md:mt-0 md:w-[49%] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white font-larken ">
       {/* <div className="mx-auto w-full py-[58px]">
       <img
             src={
@@ -31,7 +31,7 @@ export const Against = () => {
       <div className="relative h-[4px] w-full bg-[#F058584D]">
         <div className="absolute h-[4px] w-[1%] bg-[#F05858]"></div>
       </div>
-      <div className="gradient-border mt-[31px] hidden h-[1px] w-full md:block"></div>
+      <div className="bg-gradient-divider-light dark:bg-gradient-divider mt-[31px] hidden h-[1px] w-full md:block"></div>
       <table className="w-full">
         <thead>
           <tr className=''>
@@ -49,12 +49,12 @@ export const Against = () => {
             <tr className="relative">
               <td className="py-[16px] text-left">{item.delegates}</td>
               <td className="py-[16px] text-right">{item.votes}</td>
-              <div className="gradient-border absolute left-0 hidden h-[1px] w-full md:block"></div>
+              <div className="bg-gradient-divider-light dark:bg-gradient-divider absolute left-0 hidden h-[1px] w-full md:block"></div>
             </tr>
           </tbody>
         ))}
       </table>
-      <div className="gradient-border mt-[24px] hidden h-[1px] w-full md:block"></div>
+      <div className="bg-gradient-divider-light dark:bg-gradient-divider mt-[24px] hidden h-[1px] w-full md:block"></div>
       <div className="mt-[18px] cursor-pointer text-center text-[14px] font-[500] uppercase text-[#959595] font-mona">
         view all
       </div>
