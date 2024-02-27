@@ -32,7 +32,8 @@ export const For = () => {
       <div className="relative h-[4px] w-full bg-[#1eb26b55]">
         <div className="absolute h-[4px] w-[1%] bg-[#1eb26b]"></div>
       </div>
-      <div className="bg-gradient-divider-light dark:bg-gradient-divider mt-[31px] hidden h-[1px] w-full md:block"></div>
+      <div className={`mt-[31px] hidden h-[1px] w-full md:block ` + `${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+        }`} />
       <table className="w-full">
         <thead>
           <tr>
@@ -50,16 +51,18 @@ export const For = () => {
             <tr className="relative">
               <td className="py-[16px] text-left">{item.delegates}</td>
               <td className="py-[16px] text-right">{item.votes}</td>
-              <div className="bg-gradient-divider-light dark:bg-gradient-divider absolute left-0 hidden h-[1px] w-full md:block"></div>
+              <div className={`absolute left-0 hidden h-[1px] w-full md:block ` + `${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+                }`} />
             </tr>
           </tbody>
         ))}
       </table>
-      <div className="bg-gradient-divider-light dark:bg-gradient-divider mt-[24px] hidden h-[1px] w-full md:block"></div>
+      <div className={`mt-[24px] hidden h-[1px] w-full md:block ` + `${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+        }`}></div>
       <div className="mt-[18px] cursor-pointer text-center text-[14px] font-[500] uppercase text-[#959595] font-mona">
         view all
       </div>
-    </div>
+    </div >
   )
 }
 
