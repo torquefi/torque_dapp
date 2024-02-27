@@ -25,9 +25,7 @@ export const Description = () => {
       } else {
       }
     } catch (error) { }
-  }, [])
-
-  useEffect(() => { })
+  }, [id])
 
   return (
     <>
