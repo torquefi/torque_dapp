@@ -26,7 +26,7 @@ export const For = () => {
       </div> */}
       <div className="flex items-center justify-between">
         <h2 className="text-[24px] font-[400] leading-[60px]">For</h2>
-        <p className="font-[500] leading-[24px] text-[#1EB26B]">0.00</p>
+        <p className="font-[500] leading-[24px] text-[#1EB26B] font-mona">0.00</p>
       </div>
       <div className="relative h-[4px] w-full bg-[#1eb26b55]">
         <div className="absolute h-[4px] w-[1%] bg-[#1eb26b]"></div>
@@ -55,7 +55,7 @@ export const For = () => {
         ))}
       </table>
       <div className="gradient-border mt-[24px] hidden h-[1px] w-full md:block"></div>
-      <div className="mt-[18px] cursor-pointer text-center text-[14px] font-[500] uppercase text-[#959595]">
+      <div className="mt-[18px] cursor-pointer text-center text-[14px] font-[500] uppercase text-[#959595] font-mona">
         view all
       </div>
     </div>
