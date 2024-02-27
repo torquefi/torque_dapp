@@ -8,10 +8,10 @@ export const tipsData = [
     id: 1,
     description: Tip1Md,
   },
-  {
-    title: 'This is the TIP title 2',
-    stage: 'Pending',
-    id: 2,
-    description: Tip2Md,
-  },
+  // {
+  //   title: 'This is the TIP title 2',
+  //   stage: 'Pending',
+  //   id: 2,
+  //   description: Tip2Md,
+  // },
 ]
