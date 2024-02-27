@@ -15,15 +15,16 @@ export const DetailsVotes = () => {
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1000)
   }, [])
+
   useEffect(() => {
     try {
-      const data = tipData.find((tip) => tip.id.toString() === id)
+      const data = tipData.find((tip) => tip?.id.toString() === id)
       if (data) {
         setTipDetails(data)
       } else {
       }
-    } catch (error) {}
-  }, [])
+    } catch (error) { }
+  }, [id, tipData])
 
   if (isLoading) {
     return (
@@ -32,15 +33,23 @@ export const DetailsVotes = () => {
           <SkeletonDefault className="h-[84px]" />
         </div>
 
-        <div className="mt-[41px] justify-between md:flex">
-          <div className="w-full rounded-[48px] md:w-[49%]">
-            <SkeletonDefault className="h-[350px]" />
+        <div className="m-auto w-full max-w-[815px]">
+
+          <div className="mt-[41px] justify-between md:flex">
+            <div className="w-full rounded-[48px] md:w-[49%]">
+              <SkeletonDefault className="h-[350px]" />
+            </div>
+            <div className="mt-[20px] w-full rounded-[48px] md:mt-[0px] md:w-[49%]">
+              <SkeletonDefault className="h-[350px]" />
+            </div>
           </div>
-          <div className="mt-[20px] w-full rounded-[48px] md:mt-[0px] md:w-[49%]">
-            <SkeletonDefault className="h-[350px]" />
+
+          <div className="w-full rounded-[48px]">
+            <SkeletonDefault className="h-[610px]" />
           </div>
         </div>
-        <div className="mt-[26px] justify-between md:flex">
+
+        {/* <div className="mt-[26px] justify-between md:flex">
           <div className="w-full rounded-[48px] md:w-[55%]">
             <SkeletonDefault className="h-[610px]" />
           </div>
@@ -52,10 +61,12 @@ export const DetailsVotes = () => {
               <SkeletonDefault className="h-[300px]" />
             </div>
           </div>
-        </div>
-      </div>
+        </div> */}
+      </div >
     )
   }
+
+  console.log('tipDetails :>> ', tipDetails);
 
   return (
     <div className="mx-auto w-full text-center">
