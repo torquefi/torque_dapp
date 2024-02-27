@@ -31,7 +31,7 @@ export const ProposalsItem = (props: any) => {
       <div className="mt-[10px] cursor-pointer transition-all duration-100 ease-linear hover:opacity-70">
         <div className="items-center justify-between md:flex">
           <div className="sm:mt-[0px] md:mt-0 md:w-[60%]">
-            <h4 className="font-larken text-[20px] font-[400] leading-[40px] text-[#030303] dark:text-white">
+            <h4 className="font-larken text-[20px] truncate ... font-[400] leading-[40px] text-[#030303] dark:text-white">
               {menu.title}
             </h4>
             <div className="flex items-center gap-[8px]">
