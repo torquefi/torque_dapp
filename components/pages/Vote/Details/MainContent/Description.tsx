@@ -88,10 +88,12 @@ export const Description = () => {
             }`
           }
         ></div>
-        <Link href="https://forum.torque.fi">
-          <div className="mt-[12px] cursor-pointer text-center text-[14px] font-[500] uppercase text-[#959595]">
-            view on forum
-          </div>
+        <Link href="https://forum.torque.fi" legacyBehavior>
+          <a target='_blank'>
+            <div className="mt-[12px] cursor-pointer text-center text-[14px] font-[500] uppercase text-[#959595]">
+              view on forum
+            </div>
+          </a>
         </Link>
       </div>
     </>

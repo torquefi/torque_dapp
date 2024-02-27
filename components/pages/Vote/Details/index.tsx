@@ -18,13 +18,13 @@ export const DetailsVotes = () => {
 
   useEffect(() => {
     try {
-      const data = tipData.find((tip) => tip.id.toString() === id)
+      const data = tipData.find((tip) => tip?.id.toString() === id)
       if (data) {
         setTipDetails(data)
       } else {
       }
     } catch (error) { }
-  }, [id])
+  }, [id, tipData])
 
   if (isLoading) {
     return (
@@ -49,7 +49,7 @@ export const DetailsVotes = () => {
           </div>
         </div>
 
-        <div className="mt-[26px] justify-between md:flex">
+        {/* <div className="mt-[26px] justify-between md:flex">
           <div className="w-full rounded-[48px] md:w-[55%]">
             <SkeletonDefault className="h-[610px]" />
           </div>
@@ -61,10 +61,12 @@ export const DetailsVotes = () => {
               <SkeletonDefault className="h-[300px]" />
             </div>
           </div>
-        </div>
+        </div> */}
       </div >
     )
   }
+
+  console.log('tipDetails :>> ', tipDetails);
 
   return (
     <div className="mx-auto w-full text-center">
