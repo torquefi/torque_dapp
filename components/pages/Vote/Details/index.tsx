@@ -12,9 +12,9 @@ export const DetailsVotes = () => {
   const { id } = router?.query
   const { tipData } = useAppSelector((state) => state.tips)
 
-  useEffect(() => {
-    setTimeout(() => setIsLoading(false), 1000)
-  }, [])
+  // useEffect(() => {
+  //   setTimeout(() => setIsLoading(false), 1000)
+  // }, [])
 
   useEffect(() => {
     try {
@@ -29,12 +29,11 @@ export const DetailsVotes = () => {
   if (isLoading) {
     return (
       <div className="">
-        <div className="mx-auto h-[84px] max-w-[400px] rounded-full">
+        <div className="mx-auto h-[84px] w-full rounded-full max-w-[815px]">
           <SkeletonDefault className="h-[84px]" />
         </div>
 
         <div className="m-auto w-full max-w-[815px]">
-
           <div className="mt-[41px] justify-between md:flex">
             <div className="w-full rounded-[48px] md:w-[49%]">
               <SkeletonDefault className="h-[350px]" />
@@ -44,7 +43,7 @@ export const DetailsVotes = () => {
             </div>
           </div>
 
-          <div className="w-full rounded-[48px]">
+          <div className="mt-[26px] w-full rounded-[48px]">
             <SkeletonDefault className="h-[610px]" />
           </div>
         </div>
@@ -69,7 +68,7 @@ export const DetailsVotes = () => {
   console.log('tipDetails :>> ', tipDetails);
 
   return (
-    <div className="mx-auto w-full text-center">
+    <div className="mx-auto w-full text-center max-w-[815px]">
       <h1 className="font-larken mx-auto mt-4 w-full text-[20px] font-[400] leading-[23px] text-[#030303] dark:text-white md:text-[36px] md:leading-[44px]">
         {tipDetails?.title}
       </h1>
