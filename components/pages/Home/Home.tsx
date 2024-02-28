@@ -19,6 +19,7 @@ import {
   boostWethContract,
 } from '../Boost/constants/contracts'
 import { arbitrum } from 'wagmi/chains'
+import { TokenApr } from '@/lib/api/TokenApr'
 
 const RPC = arbitrum.rpcUrls.default.http[0]
 console.log('rpc :>> ', RPC)
@@ -36,14 +37,62 @@ const HomePageFilter = () => {
   const [totalMyBorrowed, setTotalMyBorrowed] = useState('0')
   const [borrowedPercent, setBorrowedPercent] = useState('0')
 
-  const [totalBoostSupply, setTotalBoostSupply] = useState('0')
   const [totalMyBoostSupply, setTotalMyBoostSupply] = useState('0')
+  const [aprWbtcBoost, setAprWbtcBoost] = useState(0)
+  const [aprWethBoost, setAprWethBoost] = useState(0)
+  const [depositedWethUsd, setDepositedWethUsd] = useState('0');
+  const [depositedWbtcUsd, setDepositedWbtcUsd] = useState('0')
   console.log('totalMyBoostSupply :>> ', totalMyBoostSupply);
 
   const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
   const wbtcPrice = usdPrice['WBTC'] || 0
   const wethPrice = usdPrice['WETH'] || 0
   const tusdPrice = usdPrice['TUSD'] || 0
+
+  const handleGetDepositApr = async () => {
+    try {
+      const aprRes = await TokenApr.getListApr({})
+      const aprs: any[] = aprRes?.data || [];
+      const aprWbtcBoost = (((aprs?.find(
+        (apr) =>
+          apr?.name === 'BTC')
+      )?.apr || 0) + 5) / 2
+      setAprWbtcBoost(aprWbtcBoost)
+      const aprWethBoost = (((aprs?.find(
+        (apr) =>
+          apr?.name === 'ETH')
+      )?.apr || 0) + 5) / 2
+      setAprWethBoost(aprWethBoost)
+      console.log('aprs :>> ', aprs);
+    } catch (error) {
+      console.log('error 1111:>> ', error);
+    }
+  }
+
+  console.log('aprWbtcBoost :>> ', aprWbtcBoost);
+  console.log('aprWethBoost :>> ', aprWethBoost);
+  console.log('depositedWethUsd :>> ', depositedWethUsd);
+  console.log('depositedWbtcUsd :>> ', depositedWbtcUsd);
+
+  const aprBoost = useMemo(() => {
+    if (Number(depositedWethUsd) && Number(depositedWbtcUsd)) {
+      return (aprWbtcBoost + aprWethBoost) / 2
+    }
+    else if (!Number(depositedWethUsd) && !Number(depositedWbtcUsd)) {
+      return 0
+    } else if (!Number(depositedWethUsd) && Number(depositedWbtcUsd)) {
+      return aprWbtcBoost
+    } else if (Number(depositedWethUsd) && !Number(depositedWbtcUsd)) {
+      return aprWethBoost
+    }
+    return 0
+  }, [aprWbtcBoost, aprWethBoost, depositedWethUsd, depositedWbtcUsd])
+
+  console.log('aprBoost :>> ', aprBoost);
+
+  useEffect(() => {
+    handleGetDepositApr()
+  }, [])
 
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1000)
@@ -238,7 +287,7 @@ const HomePageFilter = () => {
       )
         .multipliedBy(new BigNumber(wbtcPrice || 0))
         .toString()
-
+      setDepositedWbtcUsd(depositedWbtcUsd)
       // WETH
       const tokenWethDecimal = await tokenWETHContract.methods.decimals().call()
       const depositedWeth = await boostWETHContract.methods
@@ -251,6 +300,7 @@ const HomePageFilter = () => {
       )
         .multipliedBy(new BigNumber(wethPrice || 0))
         .toString()
+      setDepositedWethUsd(depositedWethUsd)
       setTotalMyBoostSupply(new BigNumber(depositedWbtcUsd).plus(new BigNumber(depositedWethUsd)).toString())
 
       setTotalMySupplied(
@@ -545,7 +595,7 @@ const HomePageFilter = () => {
               displayType="text"
               thousandSeparator
               value={
-                address ? Number(totalMyBoostSupply) > 0 ? Number(netAPY || 0) * 100 :
+                address ? Number(totalMyBoostSupply) > 0 ? Number(aprBoost || 0) - Number(netAPY || 0) * 100 :
                   Number(totalMyBorrowed) > 0 && Number(totalMyBoostSupply) <= 0
                     ? -Number(netAPY || 0) * 100
                     : 0 : 0
