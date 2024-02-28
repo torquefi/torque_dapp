@@ -234,6 +234,7 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading, earnToken }: any
       }
       toast.success('Boost Successfully')
       setIsFetchBoostLoading && setIsFetchBoostLoading((prev: any) => !prev)
+      handleGetTotalSupply()
       setOpenConfirmDepositModal(false)
     } catch (e) {
       console.log('11111', e)
@@ -327,7 +328,7 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading, earnToken }: any
           </div>
         </div>
         <div className="font-mona flex w-full items-center justify-between py-4 text-[16px] text-[#959595]">
-        <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center">
             <div>Yield providers</div>
             <Popover
               trigger="hover"
@@ -358,7 +359,7 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading, earnToken }: any
           </div>
         </div>
         <div className="font-mona flex w-full items-center justify-between text-[16px] text-[#959595]">
-        <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center">
             <div>Variable APY</div>
             <Popover
               trigger="hover"
@@ -384,7 +385,7 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading, earnToken }: any
           />
         </div>
         <div className="font-mona flex w-full py-[14px] items-center justify-between text-[16px] text-[#959595]">
-        <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center">
             <div>Value routed</div>
             <Popover
               trigger="hover"
@@ -476,7 +477,7 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading, earnToken }: any
           },
           {
             label: 'Variable APY',
-            value: item?.APR + '%',
+            value: item?.APR?.toFixed(2) + '%',
           },
         ]}
       />
