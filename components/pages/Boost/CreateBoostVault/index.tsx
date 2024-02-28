@@ -16,24 +16,24 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
 
   console.log('boostVault', boostVault)
 
-  // const getAPR = async () => {
-  //   try {
-  //     let data = await Moralis.Cloud.run('getAPR_Stargate')
-  //     console.log('getAPR_Stargate', data)
-  //     const newBoost = boostVault.map((item) => {
-  //       for (var i = 0; i < data.length; i++) {
-  //         if (item.token?.toLowerCase() == data[i].token?.toLowerCase()) {
-  //           item.APR = Number(Number(data[i].apr * 100).toFixed(2))
-  //           break
-  //         }
-  //       }
-  //       return item
-  //     })
-  //     setBoostVault(newBoost)
-  //   } catch (e) {
-  //     console.log(e)
-  //   }
-  // }
+  const getAPR = async () => {
+    try {
+      let data = await Moralis.Cloud.run('getAPR_Stargate')
+      console.log('getAPR_Stargate', data)
+      const newBoost = boostVault.map((item) => {
+        for (var i = 0; i < data.length; i++) {
+          if (item.token?.toLowerCase() == data[i].token?.toLowerCase()) {
+            item.APR = Number(Number(data[i].apr * 100).toFixed(2))
+            break
+          }
+        }
+        return item
+      })
+      setBoostVault(newBoost)
+    } catch (e) {
+      console.log(e)
+    }
+  }
 
   const getBoostData = async ({ ...item }: (typeof BOOST_VAULTS)[0]) => {
     try {
