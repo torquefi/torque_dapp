@@ -4,28 +4,42 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { AppStore } from '@/types/store'
 import Popover from '@/components/common/Popover'
+import axiosInstance from '@/configs/axios.config'
+import { NumericFormat } from 'react-number-format'
+import { shortenAddress } from '@/lib/helpers/utils'
+import Link from 'next/link'
 import axios from 'axios'
+import { toMetricUnits } from '@/lib/helpers/number'
 
 export const LeaderBoard = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [topHolders, setTopHolders] = useState([])
+  const [topHoldersX, setTopHoldersX] = useState([])
   const theme = useSelector((store: AppStore) => store.theme.theme)
 
   const handleGetTopHolders = async () => {
-    const network_id = '42161';
-    const token_addr = '0xb56c29413af8778977093b9b4947efeea7136c36';
+    try {
+      const response = await axiosInstance.get('/api/vote/top-torq-holder')
+      console.log('response :>> ', response);
+      setTopHolders((response?.data?.data || []))
 
-    const options = {
-      url: `https://api.chainbase.online/v1/token/top-holders?chain_id=${network_id}&contract_address=${token_addr}&page=1&limit=10`,
-      method: 'GET',
-      headers: {
-        'x-api-key': '2cwhwJRIxoua8s4vfXCYr8lCYYi',
-        'accept': 'application/json'
-      }
-    };
-    axios(options)
-      .then((response: any) => setTopHolders(response?.data?.data || []))
-      .catch((error: any) => console.log(error));
+      const network_id = '42161';
+      const token_addr = '0xb56c29413af8778977093b9b4947efeea7136c36';
+
+      // const options = {
+      //   url: `https://api.chainbase.online/v1/token/top-holders?chain_id=${network_id}&contract_address=${token_addr}&page=1&limit=13`,
+      //   method: 'GET',
+      //   headers: {
+      //     'x-api-key': '2cwhwJRIxoua8s4vfXCYr8lCYYi',
+      //     'accept': 'application/json'
+      //   }
+      // };
+      // axios(options)
+      //   .then((response: any) => setTopHoldersX((response?.data?.data || [])?.slice(3, 13)))
+      //   .catch((error: any) => console.log(error));
+    } catch (error) {
+      console.log('error :>> ', error);
+    }
   }
 
   useEffect(() => {
@@ -33,6 +47,7 @@ export const LeaderBoard = () => {
   }, [])
 
   console.log('topHolders :>> ', topHolders);
+  console.log('topHoldersX :>> ', topHoldersX);
 
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1000)
@@ -40,13 +55,13 @@ export const LeaderBoard = () => {
 
   if (isLoading) {
     return (
-      <div className="md:px-[24%]">
+      <div className="pt-[20px]">
         <SkeletonDefault className="h-[430px] w-full rounded-xl" />
       </div>
     )
   }
   return (
-    <div className="md:px-[24%]">
+    <div className="pt-[20px] w-full max-w-[821px] m-auto">
       <div className="w-full rounded-[12px] border border-[1px] border-solid border-[#E6E6E6] dark:border-[#1a1a1a] bg-[#ffffff] dark:bg-transparent dark:bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 text-[#030303] dark:text-white text-center px-[24px] py-[24px]">
         <div className="flex items-center justify-between">
           <h2 className="font-larken text-[24px] font-[400]">
@@ -83,7 +98,7 @@ export const LeaderBoard = () => {
             The official release of Torque is coming soon. Follow our socials for updates.
           </p>
         </div> */}
-        <table className="w-full">
+        <table className="w-full max-w-[821px]">
           <thead>
             <tr>
               <th className="whitespace-nowrap py-[16px] text-left text-[12px] font-[500] text-[#959595] md:w-[25%] md:text-[16px]">
@@ -100,36 +115,53 @@ export const LeaderBoard = () => {
               </th>
             </tr>
           </thead>
-          {menu.map((item, i) => (
-            <tbody>
+          {(topHolders || [])?.slice(3, 13).map((item, i) => (
+            <tbody key={i}>
               <tr className="relative">
                 <td className="py-[16px] text-left text-[12px] md:text-[16px]">
-                  {item.position}
+                  #{i + 1}
                 </td>
                 <td className="py-[16px] text-left text-[12px] md:text-[16px]">
                   <div className="flex items-center justify-start gap-[16px]">
-                    <img
+                    {/* <img
                       src={item.imgMain}
                       alt=""
                       className="h-[18px] md:h-[30px]"
-                    />
-                    <p>{item.name}</p>
+                    /> */}
+                    <p>{shortenAddress(item?.walletAddress)}</p>
                   </div>
                 </td>
                 <td className="py-[16px] text-left text-[12px] md:text-[16px]">
-                  {item.dailySupply}
+                  {/* <NumericFormat
+                    displayType='text'
+                    value={item?.amount || 0}
+                    decimalScale={2}
+                    thousandSeparator
+                  /> */}
+                  {toMetricUnits(item?.amount || 0)}
                 </td>
                 <td className="py-[16px] text-left text-[12px] md:text-[16px]">
-                  {item.dailyBorrow}
+                  {/* <NumericFormat
+                    displayType='text'
+                    value={item?.amountUsd || 0}
+                    decimalScale={2}
+                    prefix='$'
+                    thousandSeparator
+                  /> */}
+                  ${toMetricUnits(item?.amountUsd || 0)}
                 </td>
                 <div className="gradient-border absolute left-0 h-[1px] w-full"></div>
               </tr>
             </tbody>
           ))}
         </table>
-        <div className="mt-[18px] cursor-pointer text-center text-[14px] font-[500] uppercase text-[#959595]">
-          view all
-        </div>
+        <Link href='https://arbiscan.io/token/0xb56c29413af8778977093b9b4947efeea7136c36#balances' legacyBehavior>
+          <a target='_blank'>
+            <div className="mt-[18px] cursor-pointer text-center text-[14px] font-[500] uppercase text-[#959595]">
+              view all
+            </div>
+          </a>
+        </Link>
       </div>
     </div>
   )
