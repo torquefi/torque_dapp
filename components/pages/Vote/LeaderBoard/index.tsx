@@ -155,6 +155,14 @@ export const LeaderBoard = () => {
             </tbody>
           ))}
         </table>
+        <div
+          className={
+            `mt-2 hidden h-[1px] w-full md:block` +
+            `
+      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+            }`
+          }
+        ></div>
         <Link href='https://arbiscan.io/token/0xb56c29413af8778977093b9b4947efeea7136c36#balances' legacyBehavior>
           <a target='_blank'>
             <div className="mt-[18px] cursor-pointer text-center text-[14px] font-[500] uppercase text-[#959595]">
