@@ -43,12 +43,12 @@ export default function Page({ title }: { title?: string }) {
 
 Page.getLayout = (page: any) => <MainLayout>{page}</MainLayout>
 
-export async function getServerSideProps(context: any) {
-  const id = context?.query?.id
-  const currentTip = tipsData.find((tip) => tip.id.toString() === id)
-  return {
-    props: {
-      title: currentTip?.title
-    }
-  }
-}
+// export async function getServerSideProps(context: any) {
+//   const id = context?.query?.id
+//   const currentTip = tipsData.find((tip) => tip.id.toString() === id)
+//   return {
+//     props: {
+//       title: currentTip?.title
+//     }
+//   }
+// }
