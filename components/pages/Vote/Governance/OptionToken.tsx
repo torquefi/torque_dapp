@@ -1,6 +1,7 @@
 import axiosInstance from '@/configs/axios.config'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
+import { NumericFormat } from 'react-number-format'
 
 export const OptionToken = () => {
   const [isLoading, setIsLoading] = useState(true)
@@ -78,7 +79,11 @@ export const OptionToken = () => {
       <div className="mt-[20px] flex w-full items-center justify-between rounded-[12px] border-[1px] border-solid  border-[#E6E6E6] dark:border-[#1a1a1a]  bg-white dark:bg-transparent dark:from-[#0d0d0d] dark:to-[#0d0d0d]/0 px-[32px] py-[20px] dark:bg-gradient-to-br md:mt-0 md:w-[32.5%]">
         <div className="w-[50%]">
           <h4 className="font-larken text-[#030303] dark:text-white text-[24px] font-[400] leading-[40px]">
-            {holderAddress}
+            <NumericFormat
+              displayType='text'
+              value={holderAddress}
+              thousandSeparator
+            />
           </h4>
           <p className="font-[500] leading-[24px] text-[#959595]">
             Global Holders

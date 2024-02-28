@@ -55,7 +55,7 @@ export const LeaderBoard = () => {
 
   if (isLoading) {
     return (
-      <div className="pt-[20px]">
+      <div className="pt-[20px] w-full max-w-[821px] m-auto">
         <SkeletonDefault className="h-[430px] w-full rounded-xl" />
       </div>
     )
@@ -150,7 +150,15 @@ export const LeaderBoard = () => {
                   /> */}
                   ${toMetricUnits(item?.amountUsd || 0)}
                 </td>
-                <div className="gradient-border absolute left-0 h-[1px] w-full"></div>
+                <div
+                  className={
+                    `absolute left-0 h-[1px] w-full ` +
+                    `
+      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+                    }`
+                  }
+                ></div>
+                {/* <div className="gradient-border absolute left-0 h-[1px] w-full"></div> */}
               </tr>
             </tbody>
           ))}
