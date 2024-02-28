@@ -32,6 +32,8 @@ export const LeaderBoard = () => {
     handleGetTopHolders()
   }, [])
 
+  console.log('topHolders :>> ', topHolders);
+
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1000)
   }, [])
@@ -64,7 +66,7 @@ export const LeaderBoard = () => {
         <div className={`mt-4 hidden h-[1px] w-full md:block` + `
       ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'}`
         }></div>
-        <div className="mx-auto w-full py-[58px]">
+        {/* <div className="mx-auto w-full py-[58px]">
           <img
             src={
               theme === 'light'
@@ -80,7 +82,7 @@ export const LeaderBoard = () => {
           <p className="mx-auto mt-[6px] w-full text-center text-[16px] font-[500] max-w-[320px] text-[#959595]">
             The official release of Torque is coming soon. Follow our socials for updates.
           </p>
-        </div>
+        </div> */}
         <table className="w-full">
           <thead>
             <tr>
@@ -88,13 +90,13 @@ export const LeaderBoard = () => {
                 Position
               </th>
               <th className="whitespace-nowrap py-[16px] text-left text-[12px] font-[500] text-[#959595] md:w-[30%] md:text-[16px]">
-                Delegate
+                Holder
               </th>
               <th className="whitespace-nowrap py-[16px] text-left text-[12px] font-[500] text-[#959595] md:w-[30%] md:text-[16px]">
-                Vote Power
+                Size
               </th>
               <th className="whitespace-nowrap py-[16px] text-left text-[12px] font-[500] text-[#959595] md:w-[25%] md:text-[16px]">
-                Last Active
+                Value
               </th>
             </tr>
           </thead>
