@@ -75,7 +75,7 @@ export default function Footer() {
               checked={isChecked}
               className="peer sr-only"
             />
-            <div className="h-6 w-16 rounded-full border border-[#F4F4F4] bg-[#F6F6F6] after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-[#fff]  after:transition-all after:content-[''] peer-checked:after:translate-x-[200%] dark:border-[#1D1D1D] after:dark:bg-[#3B3B3B] peer-checked:dark:bg-[#0D0D0D]" />
+            <div className="h-6 w-16 shadow-inner rounded-full border border-[#F4F4F4] bg-[#F6F6F6] after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-[#fff] after:transition-all after:content-[''] peer-checked:after:translate-x-[200%] dark:border-[#1D1D1D] after:dark:bg-[#3B3B3B] peer-checked:dark:bg-[#0D0D0D]" />
           </label>
         </div>
       </footer>
