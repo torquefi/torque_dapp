@@ -378,8 +378,8 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading, earnToken }: any
           </div>
           <NumericFormat
             displayType="text"
-            // value={item?.APR}
-            value="0.00" // hardcoded for now
+            value={item?.APR}
+            // value="0.00" // hardcoded for now
             suffix="%"
             decimalScale={2}
             fixedDecimalScale={true}

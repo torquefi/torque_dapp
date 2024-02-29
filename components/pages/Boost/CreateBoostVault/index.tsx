@@ -65,7 +65,9 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
       // dataBoost = await Promise.all(dataBoost?.map(getBoostData))
       setBoostVault(dataBoost)
 
-    } catch (error) { }
+    } catch (error) {
+      console.log('error :>> ', error);
+    }
   }
 
   useEffect(() => {
