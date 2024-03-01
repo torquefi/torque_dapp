@@ -16,25 +16,6 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
 
   console.log('boostVault', boostVault)
 
-  // const getAPR = async () => {
-  //   try {
-  //     let data = await Moralis.Cloud.run('getAPR_Stargate')
-  //     console.log('getAPR_Stargate', data)
-  //     const newBoost = boostVault.map((item) => {
-  //       for (var i = 0; i < data.length; i++) {
-  //         if (item.token?.toLowerCase() == data[i].token?.toLowerCase()) {
-  //           item.APR = Number(Number(data[i].apr * 100).toFixed(2))
-  //           break
-  //         }
-  //       }
-  //       return item
-  //     })
-  //     setBoostVault(newBoost)
-  //   } catch (e) {
-  //     console.log(e)
-  //   }
-  // }
-
   const getBoostData = async ({ ...item }: (typeof BOOST_VAULTS)[0]) => {
     try {
       // console.log('=>>>', item)
@@ -78,16 +59,21 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
     setTimeout(() => setIsLoading(false), 1000)
   }, [])
 
-  // useEffect(() => {
-  //   getAPR()
-  // }, [isInitialized])
-
   return (
     <div className="space-y-[18px] ">
-      <h3 className="font-larken text-[24px] text-[#404040] dark:text-white">
-        Create Boost Vehicle
-      </h3>
-
+      <div className="flex justify-between items-center">
+        <h3 className="font-larken text-[24px] text-[#404040] dark:text-white">
+          Create Boost Vehicle
+        </h3>
+        {/* <div className="flex justify-center items-center space-x-[8px] bg-transparent">
+          <button id="rowViewButton" className="focus:outline-none" onclick="toggleView('row')">
+            <img src="../icons/rows.svg" alt="Row View" className="w-6 h-6"/>
+          </button>
+          <button id="gridViewButton" className="focus:outline-none" onclick="toggleView('grid')">
+            <img src="../icons/grid.svg" alt="Grid View" className="w-6 h-6"/>
+          </button>
+        </div> */}
+      </div>
       <div className="grid gap-[20px] md:grid-cols-2">
         {boostVault.map((item, i) => {
           return (
