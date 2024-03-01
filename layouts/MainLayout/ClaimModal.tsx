@@ -28,9 +28,9 @@ export default function ClaimModal({
       try {
         const response = await axios.get('https://api.coingecko.com/api/v3/simple/price?ids=torque&vs_currencies=usd');
         const price = parseFloat(response.data.torque.usd);
-        
+
         setTorqPrice(price.toFixed(2));
-        
+
         const marketCap = parseFloat((price * circulatingSupply).toFixed(2));
         const marketCapInMillions = parseFloat((marketCap / 1e6).toFixed(3));
         const trimmedMarketCap = marketCapInMillions.toString();
@@ -79,9 +79,9 @@ export default function ClaimModal({
           onClick={handleClose}
         />
       </div>
-      <div className={`mt-2 hidden h-[1px] w-full md:block` +`
+      <div className={`mt-2 hidden h-[1px] w-full md:block` + `
       ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'}`
-        }></div>
+      }></div>
       <div className="grid h-auto w-full  grid-cols-2 gap-[12px] overflow-y-auto py-[18px]">
         {rewards.map((item) => (
           <div className="rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  border-[#E6E6E6] dark:border-[#1A1A1A]  dark:bg-transparent dark:bg-gradient-to-b flex h-[102px] flex-col items-center justify-center rounded-[8px] border-[1px] border-[#1A1A1A]">
