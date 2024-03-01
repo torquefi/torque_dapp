@@ -148,7 +148,7 @@ export const LeaderBoard = () => {
         </table>
         <div
           className={
-            `mt-2 hidden h-[1px] w-full md:block` +
+            `mt-1 hidden h-[1px] w-full md:block` +
             `
       ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
             }`

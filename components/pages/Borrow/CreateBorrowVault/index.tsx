@@ -152,10 +152,19 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
 
   return (
     <div className="space-y-[18px]">
-      <h3 className="font-larken text-[24px] text-[#404040] dark:text-white">
-        Create Borrow Vault
-      </h3>
-
+      <div className="flex justify-between items-center">
+        <h3 className="font-larken text-[24px] text-[#404040] dark:text-white">
+          Create Borrow Vault
+        </h3>
+        {/* <div className="flex justify-center items-center space-x-[8px] bg-transparent">
+          <button id="rowViewButton" className="focus:outline-none" onclick="toggleView('row')">
+            <img src="../icons/rows.svg" alt="Row View" className="w-6 h-6"/>
+          </button>
+          <button id="gridViewButton" className="focus:outline-none" onclick="toggleView('grid')">
+            <img src="../icons/grid.svg" alt="Grid View" className="w-6 h-6"/>
+          </button>
+        </div> */}
+      </div>
       <div className="grid gap-[20px] md:grid-cols-2">
         {dataBorrow.map((item, i) => (
           <CreateBorrowItem item={item} key={i} setIsFetchBorrowLoading={setIsFetchBorrowLoading} />
