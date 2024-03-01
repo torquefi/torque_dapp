@@ -10,6 +10,7 @@
       { "internalType": "address", "name": "_engine", "type": "address" },
       { "internalType": "address", "name": "_tusd", "type": "address" },
       { "internalType": "address", "name": "_treasury", "type": "address" },
+      { "internalType": "address", "name": "_rewardsUtil", "type": "address" },
       { "internalType": "uint256", "name": "_repaySlippage", "type": "uint256" }
     ],
     "stateMutability": "nonpayable",
@@ -492,6 +493,15 @@
   },
   {
     "inputs": [],
+    "name": "rewardsUtil",
+    "outputs": [
+      { "internalType": "contract RewardsUtil", "name": "", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "totalBorrow",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
@@ -525,6 +535,15 @@
     "name": "tusd",
     "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_rewardsUtil", "type": "address" }
+    ],
+    "name": "updateRewardsUtil",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
