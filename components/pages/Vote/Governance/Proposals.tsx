@@ -50,15 +50,15 @@ export const Proposals = () => {
   )
 }
 const menu = [
-  {
-    title: 'Incentivize DEX Liquidity',
-    state: 'pending',
-    tip: 'TIP-1',
-    timeVote: 'Vote hasn’t started',
-    voteRed: 0,
-    voteGreen: 0,
-    id: 1
-  },
+  // {
+  //   title: 'Incentivize DEX Liquidity',
+  //   state: 'pending',
+  //   tip: 'TIP-1',
+  //   timeVote: 'Vote hasn’t started',
+  //   voteRed: 0,
+  //   voteGreen: 0,
+  //   id: 1
+  // },
   {
     title: 'Hello World [Test Proposal]',
     state: 'pending',
