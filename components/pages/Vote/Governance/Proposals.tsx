@@ -34,7 +34,7 @@ export const Proposals = () => {
         {tipData.map((item, i) => (
           <ProposalsItem menu={item} key={item?.id} />
         ))}
-        <Link href="https://forum.torque.fi" legacyBehavior>
+        <Link href="https://www.tally.xyz/gov/torque/proposals" legacyBehavior>
           <a target='_blank'>
             <div className="mt-[18px] cursor-pointer text-center text-[14px] font-[500] uppercase text-[#959595]">
               view all
@@ -51,12 +51,21 @@ export const Proposals = () => {
 }
 const menu = [
   {
-    title: 'Incentivize Uniswap Liquidity',
+    title: 'Incentivize DEX Liquidity',
     state: 'pending',
     tip: 'TIP-1',
-    timeVote: 'Vote has not started yet',
+    timeVote: 'Vote hasn’t started',
     voteRed: 0,
     voteGreen: 0,
     id: 1
+  },
+  {
+    title: 'Hello World [Test Proposal]',
+    state: 'pending',
+    tip: 'TIP-1',
+    timeVote: 'Vote hasn’t started',
+    voteRed: 0,
+    voteGreen: 0,
+    id: 0
   },
 ]
