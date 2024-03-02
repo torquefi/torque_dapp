@@ -391,7 +391,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                     alt=""
                   />
                   <div className='min-w-[81px]'>{label}</div>
-                  <button className="ml-[-8px]">
+                  <button className="ml-[8px]">
                     <AiOutlineEdit />
                   </button>
                 </div>
