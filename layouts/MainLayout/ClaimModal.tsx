@@ -119,28 +119,6 @@ export default function ClaimModal({
     handleGetTokenInfo()
   }, [])
 
-  // useEffect(() => {
-  //   const fetchTorqData = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         'https://api.coingecko.com/api/v3/simple/price?ids=torque&vs_currencies=usd'
-  //       )
-  //       const price = parseFloat(response.data.torque.usd)
-
-  //       setTorqPrice(price.toFixed(2))
-
-  //       const marketCap = parseFloat((price * circulatingSupply).toFixed(2))
-  //       const marketCapInMillions = parseFloat((marketCap / 1e6).toFixed(3))
-  //       const trimmedMarketCap = marketCapInMillions.toString()
-  //       setTorqMarketCap(`${trimmedMarketCap}m`)
-  //     } catch (error) {
-  //       console.error('Error fetching TORQ data:', error)
-  //     }
-  //   }
-
-  //   fetchTorqData()
-  // }, [])
-
   const handleClaim = async () => {
     if (!address) {
       return
@@ -173,20 +151,10 @@ export default function ClaimModal({
 
   const infos = [
     {
-      // title: (
-      //   <NumericFormat
-      //     displayType="text"
-      //     value={rewards}
-      //     thousandSeparator
-      //     suffix=" TORQ"
-      //     decimalScale={2}
-      //   />
-      // ),
       title: `${toMetricUnits(Number(rewards) || 0)} TORQ`,
       content: 'Claimable',
     },
     {
-      // title: '$0.00',
       title: `$${toMetricUnits(
         Number(
           new BigNumber(rewards || 0)
@@ -208,7 +176,7 @@ export default function ClaimModal({
       content: 'Current price',
     },
     {
-      title: toMetricUnits(currentPair?.fdv || 0),
+      title: `$${toMetricUnits((currentPair?.fdv || 0) / 9.35)}`,
       content: 'Market cap',
     },
   ]
@@ -239,7 +207,7 @@ export default function ClaimModal({
       ></div>
       <div className="grid h-auto w-full  grid-cols-2 gap-[12px] overflow-y-auto py-[18px]">
         {infos.map((item) => (
-          <div className="flex h-[102px] flex-col items-center justify-center  rounded-[8px] rounded-md  border border-[1px] border-[#1A1A1A] border-[#E6E6E6] bg-[#FCFCFC] from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
+          <div className="flex h-[102px] flex-col items-center justify-center rounded-[12px] border border-[1px] border-[#1A1A1A] border-[#E6E6E6] bg-[#FCFCFC] from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
             <div className="font-larken text-[24px] text-[#404040] dark:text-white">
               {item.title}
             </div>
