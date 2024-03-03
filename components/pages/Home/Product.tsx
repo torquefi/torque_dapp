@@ -27,13 +27,14 @@ export default function Product() {
           if (isLoading)
             return (
               <div className="">
-                <SkeletonDefault height={'50vh'} width={'100%'} />
+                <SkeletonDefault height={'50vh'} width={'100%'} key={i} />
               </div>
             )
           else
             return (
               <Link
                 href={item.path}
+                key={i}
                 className={
                   `block overflow-hidden rounded-xl border text-[#404040] transition-opacity duration-300  hover:opacity-80 dark:border-[#1A1A1A]  dark:text-white` +
                   `

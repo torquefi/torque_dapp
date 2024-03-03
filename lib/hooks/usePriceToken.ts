@@ -6,7 +6,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import Web3 from 'web3'
 
-const pairContract = '0x429e563259958c3179d096a078f9571c8a5cd538'
+export const pairContract = '0x429e563259958c3179d096a078f9571c8a5cd538'
 
 const rpc = 'https://arbitrum.llamarpc.com'
 

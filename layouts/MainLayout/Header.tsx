@@ -17,17 +17,19 @@ import Web3 from 'web3'
 import ConnectWalletModal from './ConnectWalletModal'
 import ClaimModal from './ClaimModal'
 import { useWeb3Modal } from '@web3modal/react'
+import { rewardsContract } from '@/constants/contracts'
+import {
+  borrowBtcContract,
+  borrowEthContract,
+  tokenTusdContract,
+} from '@/components/pages/Borrow/constants/contract'
+import {
+  boostWbtcContract,
+  boostWethContract,
+} from '@/components/pages/Boost/constants/contracts'
+import BigNumber from 'bignumber.js'
 
-// const goerliTestnetInfo = {
-//   name: 'Goerli',
-//   symbol: 'ETH',
-//   chainId: 5,
-//   chainName: 'eth',
-//   coinName: 'ETH',
-//   coinSymbol: 'ETH',
-//   rpcUrls: ['https://api.zan.top/node/v1/eth/goerli/public'],
-//   blockchainExplorer: 'https://goerli.etherscan.io/',
-// }
+BigNumber.config({ EXPONENTIAL_AT: 100 })
 
 const arbitrumMainnetInfo = {
   name: 'Arbitrum',
@@ -42,7 +44,7 @@ const arbitrumMainnetInfo = {
 
 export const Header = () => {
   const theme = useSelector((store: AppStore) => store.theme.theme)
-  const { address, isConnected } = useAccount()
+  const { address } = useAccount()
   const { chain, chains } = useNetwork()
   const { open } = useWeb3Modal()
 
@@ -52,17 +54,6 @@ export const Header = () => {
   const [tokenPrice, setTokenPrice] = useState<any>(0)
   const [isOpenClaim, setIsOpenClaim] = useState(false)
   const router = useRouter()
-
-  // const goerliTestnetInfo = {
-  //   name: 'Goerli',
-  //   symbol: 'ETH',
-  //   chainId: 5,
-  //   chainName: 'eth',
-  //   coinName: 'ETH',
-  //   coinSymbol: 'ETH',
-  //   rpcUrls: ['https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161'],
-  //   blockchainExplorer: 'https://goerli.etherscan.io',
-  // }
 
   const currentTabIndex = useMemo(
     () =>
@@ -82,15 +73,6 @@ export const Header = () => {
     }
   }, [router])
 
-  // const tokenContract = useMemo(() => {
-  //   const web3 = new Web3(Web3.givenProvider)
-  //   const contract = new web3.eth.Contract(
-  //     JSON.parse(torqContract.abi),
-  //     torqContract.address
-  //   )
-  //   return contract
-  // }, [Web3.givenProvider, torqContract])
-
   useEffect(() => {
     if (chain?.id) {
       const network = chains?.find((item) => item?.id === chain?.id)
@@ -98,7 +80,7 @@ export const Header = () => {
     }
   }, [chain, chains])
 
-  console.log('address :>> ', address);
+  console.log('address :>> ', address)
 
   return (
     <div>
@@ -179,14 +161,16 @@ export const Header = () => {
               </Popover>
             ) : ( */}
             <div
-              className="font-mona cursor-pointer rounded-full border border-[#AA5BFF] px-[18px] py-[6px] text-[14px] uppercase leading-none text-[#AA5BFF] transition-all duration-200 ease-in xs:px-[16px] xs:py-[4px] lg:px-[22px] lg:pt-[8px] lg:pb-[6px]"
-              onClick={() => !address ? setOpenConnectWalletModal(true) : open()}
+              className="font-mona cursor-pointer rounded-full border border-[#AA5BFF] px-[18px] py-[6px] text-[14px] uppercase leading-none text-[#AA5BFF] transition-all duration-200 ease-in xs:px-[16px] xs:py-[4px] lg:px-[22px] lg:pb-[6px] lg:pt-[8px]"
+              onClick={() =>
+                !address ? setOpenConnectWalletModal(true) : open()
+              }
             >
               {address ? shortenAddress(address) : 'Connect'}
             </div>
             {/* )} */}
           </div>
-          <div className="absolute hidden -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 md:block">
+          <div className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 md:block">
             <HoverIndicator
               activeIndex={activeTabIndex}
               className="w-[320px] lg:w-[400px] xl:w-[480px]"
