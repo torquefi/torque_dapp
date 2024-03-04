@@ -61,26 +61,26 @@ export default function ClaimModal({
   const handleGetRewards = async () => {
     try {
       const borrowWbtcReward = await rewardContract.methods
-        .getRewardConfig(borrowBtcContract.address, address)
+        ._calculateReward(borrowBtcContract.address, address)
         .call()
       console.log('response 1:>> ', borrowWbtcReward)
       const borrowWethReward = await rewardContract.methods
-        .getRewardConfig(borrowEthContract.address, address)
+        ._calculateReward(borrowEthContract.address, address)
         .call()
       console.log('response 2 :>> ', borrowWethReward)
       const boostWbtcReward = await rewardContract.methods
-        .getRewardConfig(boostWbtcContract.address, address)
+        ._calculateReward(boostWbtcContract.address, address)
         .call()
       console.log('response 3 :>> ', boostWbtcReward)
       const boostWethReward = await rewardContract.methods
-        .getRewardConfig(boostWethContract.address, address)
+        ._calculateReward(boostWethContract.address, address)
         .call()
       const tokenDecimal = await tokenContract.methods.decimals().call()
       console.log('response 4 :>> ', boostWethReward)
-      const totalRewards = new BigNumber(borrowWbtcReward?.rewardAmount || 0)
-        .plus(new BigNumber(borrowWethReward?.rewardAmount || 0))
-        .plus(new BigNumber(boostWbtcReward?.rewardAmount || 0))
-        .plus(new BigNumber(boostWethReward?.rewardAmount || 0))
+      const totalRewards = new BigNumber(borrowWbtcReward || 0)
+        .plus(new BigNumber(borrowWethReward || 0))
+        .plus(new BigNumber(boostWbtcReward || 0))
+        .plus(new BigNumber(boostWethReward || 0))
         .toString()
       const rewards = new BigNumber(
         ethers.utils.formatUnits(totalRewards, tokenDecimal)
@@ -91,6 +91,7 @@ export default function ClaimModal({
       console.log('error1111 :>> ', error)
     }
   }
+  console.log('rewards :>> ', rewards)
 
   useEffect(() => {
     if (rewardContract && address) {
@@ -161,7 +162,7 @@ export default function ClaimModal({
         boostWethContract.address,
       ])
       console.log('tx :>> ', tx)
-      await tx.wait();
+      await tx.wait()
       handleClose()
       handleGetRewards()
     } catch (error) {
@@ -182,7 +183,13 @@ export default function ClaimModal({
       //     decimalScale={2}
       //   />
       // ),
-      title: `${toMetricUnits(Number(rewards) || 0)} TORQ`,
+      // title: `${toMetricUnits(Number(rewards) || 0)} TORQ`,
+      title:
+        Number(rewards) >= 1000 ? (
+          `${toMetricUnits(Number(rewards) || 0)} TORQ`
+        ) : (
+          <NumericFormat displayType='text' value={rewards} decimalScale={2} suffix=' TORQ' />
+        ),
       content: 'Claimable',
     },
     {
@@ -251,8 +258,9 @@ export default function ClaimModal({
       </div>
       <button
         className={`font-mona w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
-         ${loading ? ' cursor-not-allowed text-[#eee]' : ' cursor-pointer'} `}
+         ${loading || !Number(rewards) ? ' cursor-not-allowed text-[#eee]' : ' cursor-pointer'} `}
         onClick={handleClaim}
+        disabled={loading || !Number(rewards)}
       >
         {loading && <LoadingCircle />}
         CLAIM TORQ
