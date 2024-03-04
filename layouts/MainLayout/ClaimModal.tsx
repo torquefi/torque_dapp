@@ -24,6 +24,7 @@ import {
 import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
+import { toast } from 'sonner'
 
 interface ClaimModalProps {
   openModal: boolean
@@ -120,28 +121,6 @@ export default function ClaimModal({
     handleGetTokenInfo()
   }, [openModal])
 
-  // useEffect(() => {
-  //   const fetchTorqData = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         'https://api.coingecko.com/api/v3/simple/price?ids=torque&vs_currencies=usd'
-  //       )
-  //       const price = parseFloat(response.data.torque.usd)
-
-  //       setTorqPrice(price.toFixed(2))
-
-  //       const marketCap = parseFloat((price * circulatingSupply).toFixed(2))
-  //       const marketCapInMillions = parseFloat((marketCap / 1e6).toFixed(3))
-  //       const trimmedMarketCap = marketCapInMillions.toString()
-  //       setTorqMarketCap(`${trimmedMarketCap}m`)
-  //     } catch (error) {
-  //       console.error('Error fetching TORQ data:', error)
-  //     }
-  //   }
-
-  //   fetchTorqData()
-  // }, [])
-
   const handleClaim = async () => {
     if (!address) {
       return
@@ -165,8 +144,10 @@ export default function ClaimModal({
       await tx.wait()
       handleClose()
       handleGetRewards()
+      toast.success('Claim Successfully')
     } catch (error) {
       console.log('error handleClaim reward :>> ', error)
+      toast.success('Claim Failed')
     } finally {
       setLoading(false)
     }
