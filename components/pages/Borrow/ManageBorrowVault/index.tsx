@@ -24,7 +24,6 @@ export default function ManageBorrowVault({ isFetchBorrowData }: any) {
 
   const getBorrowData = async (item: IBorrowInfoManage) => {
     try {
-      console.log('1234 :>> ', 1234);
       if (!item.tokenContract) {
         item.tokenContract = new web3.eth.Contract(
           JSON.parse(item.tokenContractInfo?.abi),
@@ -45,7 +44,7 @@ export default function ManageBorrowVault({ isFetchBorrowData }: any) {
         error
       )
     }
-    console.log('1111111111 :>> ', 1111111111);
+
     try {
       if (item.borrowContract) {
         let data = await item.borrowContract.methods
@@ -85,14 +84,12 @@ export default function ManageBorrowVault({ isFetchBorrowData }: any) {
         item.borrowed = Number(
           new BigNumber(data.baseBorrowed).div(10 ** 18).toString()
         )
-        console.log('item.borrowed :>> ', item.borrowed);
         console.log(
           '111',
           Number(new BigNumber(data.baseBorrowed).div(10 ** 18).toString())
         )
       }
     } catch (error) {
-      console.log('22222 :>> ', 22222);
       console.log('ManageStaking.', error)
     }
 
@@ -127,47 +124,40 @@ export default function ManageBorrowVault({ isFetchBorrowData }: any) {
 
   const handleUpdateBorrowData = async () => {
     setSkeletonLoading(true)
-    let newDataBorrow: IBorrowInfoManage[] = []
-    console.log('dataBorrow :>> ', dataBorrow);
+    let dataBorrow: IBorrowInfoManage[] = []
 
     try {
-      console.log('123 :>> ', 123);
-      newDataBorrow = await Promise.all(dataBorrow?.map(getBorrowData))
-      console.log(newDataBorrow)
-    } catch (error) {
-      console.error('handleUpdateBorrowData2', error)
-    }
+      dataBorrow = await Promise.all(dataBorrow?.map(getBorrowData))
 
-    setDataBorrow(newDataBorrow)
-    setSkeletonLoading(false)
-  }
-
-  const handleGetAprBorrow = async () => {
-    try {
       const labelRes = await LabelApi.getListLabel({
         walletAddress: address,
         position: 'Borrow',
       })
       const labels: any[] = labelRes?.data || []
-      const newDataBorrow = dataBorrow?.map((item) => ({
+      dataBorrow = DATA_BORROW?.map((item) => ({
         ...item,
         label:
           labels?.find(
             (label) => label?.tokenSymbol === item?.depositTokenSymbol
           )?.name || item?.label,
       }))
-      setDataBorrow(newDataBorrow)
     } catch (error) {
       console.error('handleUpdateBorrowData1', error)
     }
+
+    try {
+      dataBorrow = await Promise.all(dataBorrow?.map(getBorrowData))
+      console.log(dataBorrow)
+    } catch (error) {
+      console.error('handleUpdateBorrowData2', error)
+    }
+
+    setDataBorrow(dataBorrow)
+    setSkeletonLoading(false)
   }
-
-
 
   useEffect(() => {
     handleUpdateBorrowData()
-    handleGetAprBorrow()
-    console.log('132 :>> ', 132);
   }, [isConnected, address, isFetchBorrowData])
 
   // const borrowDisplayed = dataBorrow

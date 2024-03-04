@@ -114,10 +114,6 @@ export function ManageBoostVault({ isFetchBoostData, setIsFetchBoostLoading }: a
     }
   }
 
-  const handleGetAprBoost = async () => {
-
-  }
-
   useEffect(() => {
     handleUpdateBoostData(true)
   }, [isConnected, address, isFetchBoostData])
