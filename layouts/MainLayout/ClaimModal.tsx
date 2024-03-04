@@ -97,7 +97,7 @@ export default function ClaimModal({
     if (rewardContract && address) {
       handleGetRewards()
     }
-  }, [rewardContract])
+  }, [rewardContract, openModal])
 
   const handleGetTokenInfo = async () => {
     try {
@@ -118,7 +118,7 @@ export default function ClaimModal({
 
   useEffect(() => {
     handleGetTokenInfo()
-  }, [])
+  }, [openModal])
 
   // useEffect(() => {
   //   const fetchTorqData = async () => {
