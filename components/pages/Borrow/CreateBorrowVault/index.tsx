@@ -1,7 +1,7 @@
 import { updateBorrowInfo } from '@/lib/redux/slices/borrow'
 import { AppState } from '@/lib/redux/store'
 import { ethers } from 'ethers'
-import { useEffect, useState, useMemo } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
