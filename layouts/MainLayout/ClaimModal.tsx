@@ -174,7 +174,6 @@ export default function ClaimModal({
       content: 'Claimable',
     },
     {
-      // title: '$0.00',
       title: `$${toMetricUnits(
         Number(
           new BigNumber(rewards || 0)
@@ -196,7 +195,7 @@ export default function ClaimModal({
       content: 'Current price',
     },
     {
-      title: toMetricUnits(currentPair?.fdv || 0),
+      title: `$${toMetricUnits((currentPair?.fdv || 0) / 9.35)}`,
       content: 'Market cap',
     },
   ]
@@ -227,7 +226,7 @@ export default function ClaimModal({
       ></div>
       <div className="grid h-auto w-full  grid-cols-2 gap-[12px] overflow-y-auto py-[18px]">
         {infos.map((item) => (
-          <div className="flex h-[102px] flex-col items-center justify-center  rounded-[8px] rounded-md  border border-[1px] border-[#1A1A1A] border-[#E6E6E6] bg-[#FCFCFC] from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
+          <div className="flex h-[102px] flex-col items-center justify-center rounded-[12px] border border-[1px] border-[#1A1A1A] border-[#E6E6E6] bg-[#FCFCFC] from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
             <div className="font-larken text-[24px] text-[#404040] dark:text-white">
               {item.title}
             </div>
