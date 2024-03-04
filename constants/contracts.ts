@@ -16,6 +16,6 @@ export const torqContract: IContractInfo = {
 }
 
 export const rewardsContract: IContractInfo = {
-  address: '0x02084cF8254BB18Fb5e38D39DCE68b03778f7365',
+  address: '0x1918c959c8a43a845ed08799dc22c1ed7dad1651',
   abi: JSON.stringify(rewardAbi),
 }
