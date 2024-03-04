@@ -80,18 +80,6 @@ export function ManageBoostVault({ isFetchBoostData, setIsFetchBoostLoading }: a
     }
     let dataBoost: IBoostInfo[] = DATA_BOOST_VAULT
     try {
-      dataBoost = await Promise.all(dataBoost?.map(getBoostData))
-    } catch (error) {
-      console.error('ManageBoostVault.handleUpdateBoostData.2', error)
-    }
-    setDataBoost(dataBoost)
-    if (loading) {
-      setSkeletonLoading(false)
-    }
-  }
-
-  const handleGetAprBoost = async () => {
-    try {
       const aprRes = await TokenApr.getListApr({})
       const labelRes = await LabelApi.getListLabel({
         walletAddress: address,
@@ -99,7 +87,7 @@ export function ManageBoostVault({ isFetchBoostData, setIsFetchBoostLoading }: a
       })
       const aprs: any[] = aprRes?.data || []
       const labels: any[] = labelRes?.data || []
-      const newDataBoost = dataBoost?.map((item) => ({
+      dataBoost = dataBoost?.map((item) => ({
         ...item,
         label:
           labels?.find((label) => label?.tokenSymbol === item?.tokenSymbol)
@@ -115,11 +103,23 @@ export function ManageBoostVault({ isFetchBoostData, setIsFetchBoostLoading }: a
     } catch (error) {
       console.error('ManageBoostVault.handleUpdateBoostData.1', error)
     }
+    try {
+      dataBoost = await Promise.all(dataBoost?.map(getBoostData))
+    } catch (error) {
+      console.error('ManageBoostVault.handleUpdateBoostData.2', error)
+    }
+    setDataBoost(dataBoost)
+    if (loading) {
+      setSkeletonLoading(false)
+    }
+  }
+
+  const handleGetAprBoost = async () => {
+
   }
 
   useEffect(() => {
     handleUpdateBoostData(true)
-    handleGetAprBoost()
   }, [isConnected, address, isFetchBoostData])
 
   // const boostDisplayed = dataBoost
