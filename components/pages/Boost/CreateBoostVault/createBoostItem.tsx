@@ -26,7 +26,11 @@ import { useGasPrice } from '../hooks/useGasPrice'
 
 const RPC = 'https://arb1.arbitrum.io/rpc'
 
-export function CreateBoostItem({ item, setIsFetchBoostLoading, earnToken }: any) {
+export function CreateBoostItem({
+  item,
+  setIsFetchBoostLoading,
+  earnToken,
+}: any) {
   const { open } = useWeb3Modal()
   const { address, isConnected } = useAccount()
   const chainId = useChainId()
@@ -43,7 +47,7 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading, earnToken }: any
   const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
   const { tokensData, pricesUpdatedAt } = useTokensDataRequest(chainId)
   const { gasPrice } = useGasPrice(chainId)
-  const [deposited, setDeposited] = useState('');
+  const [deposited, setDeposited] = useState('')
 
   const tokenContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
@@ -125,18 +129,6 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading, earnToken }: any
 
   console.log('gasLimits :>> ', gasLimits)
 
-  const gmxContract = useMemo(() => {
-    const web3 = new Web3(Web3.givenProvider)
-    if (!item?.gmxContractInfo?.abi) {
-      console.error('Token contract ABI is undefined')
-      return null
-    }
-    return new web3.eth.Contract(
-      JSON.parse(item.gmxContractInfo.abi),
-      item.gmxContractInfo.address
-    )
-  }, [Web3.givenProvider, item.gmxContractInfo])
-
   const handleConfirmDeposit = async () => {
     if (!isConnected || !address) {
       // await open()
@@ -152,7 +144,14 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading, earnToken }: any
   const onDeposit = async () => {
     try {
       setBtnLoading(true)
-      const tokenDecimal = await tokenContract.methods.decimals().call()
+      const provider = new ethers.providers.Web3Provider(window.ethereum)
+      const signer = provider.getSigner(address)
+      const tokenContract = new ethers.Contract(
+        item?.tokenContractInfo?.address,
+        JSON.parse(item?.tokenContractInfo?.abi),
+        signer
+      )
+      const tokenDecimal = await tokenContract.decimals()
       const depositToken = ethers.utils
         .parseUnits(Number(amount).toFixed(tokenDecimal), tokenDecimal)
         .toString()
@@ -188,31 +187,30 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading, earnToken }: any
         gasPrice
       )
 
-      const executionFeeAmount = bigNumberify(executionFee?.feeTokenAmount).toString()
+      const executionFeeAmount = bigNumberify(
+        executionFee?.feeTokenAmount
+      ).toString()
 
       console.log('executionFeeAmount', executionFeeAmount, executionFee)
 
       // const executionFee = estimateExecuteDepositGasLimitValue?.toString()
 
-      const allowance = await tokenContract.methods
-        .allowance(address, item.boostContractInfo.address)
-        .call()
+      const allowance = await tokenContract.allowance(
+        address,
+        item.boostContractInfo.address
+      )
       if (
-        new BigNumber(allowance).lte(new BigNumber('0')) ||
-        new BigNumber(allowance).lte(new BigNumber(depositToken))
+        new BigNumber(allowance?.toString()).lte(new BigNumber('0')) ||
+        new BigNumber(allowance?.toString()).lte(new BigNumber(depositToken))
       ) {
-        await tokenContract.methods
-          .approve(
-            item?.boostContractInfo?.address,
-            '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
-          )
-          .send({
-            from: address,
-          })
+        console.log('allowance 11111:>> ', allowance);
+        const tx = await tokenContract.approve(
+          item?.boostContractInfo?.address,
+          '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+        )
+        await tx.wait()
       }
 
-      const provider = new ethers.providers.Web3Provider(window.ethereum)
-      const signer = provider.getSigner(address)
       const boostContract2 = new ethers.Contract(
         item?.boostContractInfo?.address,
         JSON.parse(item?.boostContractInfo?.abi),
@@ -257,18 +255,18 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading, earnToken }: any
     <>
       <div
         className={
-          `rounded-[12px] border border-[#E6E6E6] bg-[#ffffff]  from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pb-5 pt-3  text-[#030303] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br  dark:text-white lg:px-8` +
+          `rounded-[12px] border border-[#E6E6E6] bg-[#ffffff]  from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pb-5 pt-3  text-[#030303] lg:px-8 dark:border-[#1A1A1A] dark:bg-transparent  dark:bg-gradient-to-br dark:text-white` +
           `  ${theme === 'light' ? ' bg-[#FCFAFF]' : 'bg-overview'}`
         }
       >
-        <div className="flex items-center justify-between w-full">
+        <div className="flex w-full items-center justify-between">
           <div className="ml-[-12px] flex items-center">
             <img
               src={`/icons/coin/${item.token.toLocaleLowerCase()}.png`}
               alt=""
               className="w-[72px] md:w-24"
             />
-            <div className="font-larken text-[18px] leading-tight text-[#030303] dark:text-white md:text-[22px] lg:text-[26px]">
+            <div className="font-larken text-[18px] leading-tight text-[#030303] md:text-[22px] lg:text-[26px] dark:text-white">
               Deposit {item.token},<br className="" /> Earn {item.token}
             </div>
           </div>
@@ -293,12 +291,12 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading, earnToken }: any
             </Link>
           </Popover>
         </div>
-        <div className="grid grid-cols-2 gap-4 mt-1 mb-1 font-larken">
-          <div className="flex w-full items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
+        <div className="font-larken mb-1 mt-1 grid grid-cols-2 gap-4">
+          <div className="flex w-full items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  lg:h-[140px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
             <InputCurrencySwitch
               tokenSymbol={item?.token}
               tokenValue={Number(amount)}
-              className="w-full py-4 text-[#030303] dark:text-white lg:py-6"
+              className="w-full py-4 text-[#030303] lg:py-6 dark:text-white"
               subtitle="Deposit"
               usdDefault
               decimalScale={5}
@@ -309,7 +307,7 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading, earnToken }: any
               onSetShowUsd={setIsUsdDepositToken}
             />
           </div>
-          <div className="flex h-[110px] w-full flex-col items-center justify-center gap-3 rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A]  dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
+          <div className="flex h-[110px] w-full flex-col items-center justify-center gap-3 rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  lg:h-[140px]  dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
             <InputCurrencySwitch
               tokenSymbol={item?.token}
               tokenValue={
@@ -318,10 +316,10 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading, earnToken }: any
               subtitle="3-Year Value"
               usdDefault
               decimalScale={5}
-              className="w-full py-4 text-[#030303] dark:text-white lg:py-6"
+              className="w-full py-4 text-[#030303] lg:py-6 dark:text-white"
               displayType="text"
               tokenValueChange={
-                Number(amount) * Math.pow((1 + Number(item?.APR || 0) / 100), 3)
+                Number(amount) * Math.pow(1 + Number(item?.APR || 0) / 100, 3)
               }
             // const
             />
@@ -385,7 +383,7 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading, earnToken }: any
             fixedDecimalScale={true}
           />
         </div>
-        <div className="font-mona flex w-full py-[14px] items-center justify-between text-[16px] text-[#959595]">
+        <div className="font-mona flex w-full items-center justify-between py-[14px] text-[16px] text-[#959595]">
           <div className="flex items-center justify-center">
             <div>Value routed</div>
             <Popover
@@ -431,7 +429,9 @@ export function CreateBoostItem({ item, setIsFetchBoostLoading, earnToken }: any
               </button>
             </Popover>
           </div>
-          <div>{isConnected ? parseFloat(deposited || "0").toFixed(3) : "0.00"}</div>
+          <div>
+            {isConnected ? parseFloat(deposited || '0').toFixed(3) : '0.00'}
+          </div>
         </div>
         <button
           className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
