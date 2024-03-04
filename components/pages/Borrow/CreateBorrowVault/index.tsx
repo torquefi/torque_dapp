@@ -16,8 +16,11 @@ import {
 import { compoundUsdcContract as compoundUsdcContractData } from '../constants/contract';
 import { IBorrowInfo } from '../types'
 import CreateBorrowItem from './createBorrowItem'
+import HoverIndicator from '@/components/common/HoverIndicator'
 
 export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
+  const [activeTabIndex, setActiveTabIndex] = useState(0);
+  const [activeViewIndex, setActiveViewIndex] = useState(1);
   const { address, isConnected } = useAccount()
   const { borrowInfoByDepositSymbol } = useSelector(
     (store: AppState) => store?.borrow
@@ -150,20 +153,55 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
     handleUpdateBorrowData()
   }, [isConnected, address])
 
+  // const tabs = [
+  //   { id: 0, name: 'Crypto', content: 'Content for Crypto' },
+  //   { id: 1, name: 'Redacted', content: 'Content for Redacted' },
+  // ];
+
   return (
     <div className="space-y-[18px]">
       <div className="flex justify-between items-center">
         <h3 className="font-larken text-[24px] text-[#404040] dark:text-white">
           Create Borrow Vault
         </h3>
-        {/* <div className="flex justify-center items-center space-x-[8px] bg-transparent">
-          <button id="rowViewButton" className="focus:outline-none" onclick="toggleView('row')">
-            <img src="../icons/rows.svg" alt="Row View" className="w-6 h-6"/>
-          </button>
-          <button id="gridViewButton" className="focus:outline-none" onclick="toggleView('grid')">
-            <img src="../icons/grid.svg" alt="Grid View" className="w-6 h-6"/>
-          </button>
-        </div> */}
+        {/* <div className="flex space-x-3 items-center justify-center">
+        <div className="flex h-[36px] max-w-[140px] border border-[#efefef] dark:border-[#1a1a1a] rounded-[4px]">
+          <div className="flex px-[3px] py-[3px]">
+            <HoverIndicator activeIndex={activeTabIndex} className="flex w-full justify-between">
+              {tabs.map((tab, index) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTabIndex(index)}
+                  className={`flex justify-center items-center px-[10px] py-[6px] text-sm ${activeTabIndex === index ? 'text-[#030303]' : 'text-[#959595]'} dark:text-white focus:outline-none ${index === 0 ? 'rounded-tl-[4px]' : ''} ${index === tabs.length - 1 ? 'rounded-tr-[4px]' : ''}`}
+                >
+                  {tab.name}
+                </button>
+              ))}
+            </HoverIndicator>
+          </div>
+          <div className="p-4">
+            {tabs[activeTabIndex].content}
+          </div>
+        </div>
+        <div className="flex h-[36px] w-auto justify-center items-center rounded-[4px] bg-transparent border border-[#efefef] dark:border-[#1a1a1a] px-[3px] py-[4px]">
+          <HoverIndicator activeIndex={activeViewIndex} className="flex w-full justify-between">
+            <button
+              id="rowViewButton"
+              className="focus:outline-none"
+              onClick={() => { setActiveViewIndex(0); toggleView('row'); }}
+            >
+              <img src="../icons/rows.svg" alt="Row View" className={`w-6 h-6 ml-[6px] mr-[6px] ${activeViewIndex === 0 ? 'text-[#030303]' : 'text-[#959595]'} dark:text-white`}/>
+            </button>
+            <button
+              id="gridViewButton"
+              className="focus:outline-none"
+              onClick={() => { setActiveViewIndex(1); toggleView('grid'); }}
+            >
+              <img src="../icons/grid.svg" alt="Grid View" className={`w-6 h-6 ml-[6px] mr-[6px] ${activeViewIndex === 1 ? 'text-[#030303]' : 'text-[#959595]'} dark:text-white`}/>
+            </button>
+          </HoverIndicator>
+        </div>
+      </div> */}
       </div>
       <div className="grid gap-[20px] md:grid-cols-2">
         {dataBorrow.map((item, i) => (
