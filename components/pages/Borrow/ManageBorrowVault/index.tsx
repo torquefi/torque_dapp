@@ -128,6 +128,19 @@ export default function ManageBorrowVault({ isFetchBorrowData }: any) {
 
     try {
       dataBorrow = await Promise.all(dataBorrow?.map(getBorrowData))
+
+      const labelRes = await LabelApi.getListLabel({
+        walletAddress: address,
+        position: 'Borrow',
+      })
+      const labels: any[] = labelRes?.data || []
+      dataBorrow = DATA_BORROW?.map((item) => ({
+        ...item,
+        label:
+          labels?.find(
+            (label) => label?.tokenSymbol === item?.depositTokenSymbol
+          )?.name || item?.label,
+      }))
     } catch (error) {
       console.error('handleUpdateBorrowData1', error)
     }
@@ -143,41 +156,12 @@ export default function ManageBorrowVault({ isFetchBorrowData }: any) {
     setSkeletonLoading(false)
   }
 
-  const handleGetApr = async () => {
-    try {
-      const labelRes = await LabelApi.getListLabel({
-        walletAddress: address,
-        position: 'Borrow',
-      })
-      const labels: any[] = labelRes?.data || []
-      const newDataBorrow = dataBorrow?.map((item) => ({
-        ...item,
-        label:
-          labels?.find(
-            (label) => label?.tokenSymbol === item?.depositTokenSymbol
-          )?.name || item?.label,
-      }))
-      setDataBorrow(newDataBorrow)
-    } catch (error) {
-      console.log('error server borrow :>> ', error);
-    }
-  }
-
   useEffect(() => {
     handleUpdateBorrowData()
   }, [isConnected, address, isFetchBorrowData])
 
-  useEffect(() => {
-    if (address && dataBorrow.length > 0) {
-      handleGetApr()
-    }
-  }, [dataBorrow, address])
-
   // const borrowDisplayed = dataBorrow
   const borrowDisplayed = dataBorrow.filter((item) => item?.borrowed > 0)
-
-  console.log('dataBorrow :>> ', dataBorrow);
-  console.log('borrowDisplayed :>> ', borrowDisplayed);
 
   if (!borrowDisplayed?.length) {
     return (
