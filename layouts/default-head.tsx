@@ -14,6 +14,9 @@ export function DefaultHead() {
                         style-src  'self' 'unsafe-inline' *"
       ></meta>
       <meta name="keywords" content="HTML, CSS, JavaScript" />
+      <meta property="og:image" content={`/assets/torque_preview.png`} />
+      <meta name="twitter:image" content={`/assets/torque_preview.png`} />
+      <meta property="telegram:image" content={`/assets/torque_preview.png`} />
       <link rel="icon" type="image/png" href={'/favicon.png'} />
       <link rel="preconnect" href="https://fonts.gstatic.com" />
       <link
