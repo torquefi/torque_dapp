@@ -126,6 +126,8 @@ export default function CreateBorrowItem({
     try {
       setIsLoading(true)
       if (item.depositTokenSymbol == 'WBTC') {
+        const provider = new ethers.providers.Web3Provider(window.ethereum)
+        const signer = provider.getSigner(address)
         const tokenDepositDecimals = await tokenContract.methods
           .decimals()
           .call()
@@ -179,18 +181,25 @@ export default function CreateBorrowItem({
         const allowance = await tokenContract.methods
           .allowance(address, item.borrowContractInfo.address)
           .call()
+        const gasPrice = await provider.getGasPrice();
+        console.log('gasPrice :>> ', gasPrice);
+        const tokenContract1 = new ethers.Contract(
+          item?.tokenContractInfo?.address,
+          item?.tokenContractInfo?.abi,
+          signer
+        )
         if (
           new BigNumber(allowance).lte(new BigNumber('0')) ||
           new BigNumber(allowance).lte(new BigNumber(tusdBorrowAmount))
         ) {
-          await tokenContract.methods
-            .approve(
-              item?.borrowContractInfo?.address,
-              '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
-            )
-            .send({
-              from: address,
-            })
+          const tx = await tokenContract1.approve(
+            item?.borrowContractInfo?.address,
+            '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+          )
+          // .send({
+          //   from: address,
+          // })
+          await tx.wait()
         }
 
         // await borrowContract.methods
@@ -199,8 +208,7 @@ export default function CreateBorrowItem({
         //     from: address,
         //     gasPrice: '5000000000'
         //   })
-        const provider = new ethers.providers.Web3Provider(window.ethereum)
-        const signer = provider.getSigner(address)
+
         const borrowContract2 = new ethers.Contract(
           item?.borrowContractInfo?.address,
           item?.borrowContractInfo?.abi,
@@ -279,6 +287,7 @@ export default function CreateBorrowItem({
         const allowance = await tokenContract.methods
           .allowance(address, item.borrowContractInfo.address)
           .call()
+
         if (
           new BigNumber(allowance).lte(new BigNumber('0')) ||
           new BigNumber(allowance).lte(tusdBorrowAmount)
@@ -416,7 +425,7 @@ export default function CreateBorrowItem({
           </div>
         </div>
         <div className="flex items-center justify-between py-4 text-[#959595]">
-        <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center">
             <div>Loan providers</div>
             <Popover
               trigger="hover"
@@ -459,7 +468,7 @@ export default function CreateBorrowItem({
           </div>
         </div>
         <div className="flex justify-between text-[#959595]">
-        <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center">
             <div>Loan-to-value</div>
             <Popover
               trigger="hover"
@@ -482,7 +491,7 @@ export default function CreateBorrowItem({
           </p>
         </div>
         <div className="flex justify-between py-[14px] text-[#959595]">
-        <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center">
             <div>Variable APR</div>
             <Popover
               trigger="hover"
@@ -506,7 +515,7 @@ export default function CreateBorrowItem({
           </p>
         </div>
         <div className="flex justify-between text-[#959595]">
-        <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center">
             <div>Liquidity</div>
             <Popover
               trigger="hover"
