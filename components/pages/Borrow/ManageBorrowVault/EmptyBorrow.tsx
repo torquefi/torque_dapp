@@ -29,7 +29,7 @@ export const EmptyBorrow = () => {
           No vaults created yet
         </p>
         <p className="mt-[4px] mb-1 max-w-[320px] text-center font-body text-[16px] text-[#959595]">
-          Supply collateral to create a Borrow vault and access your personal lines
+          Supply collateral to create a Borrow vault and access your personal line
           of credit.
         </p>
       </div>
