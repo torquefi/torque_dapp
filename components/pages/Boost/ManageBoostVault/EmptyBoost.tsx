@@ -8,7 +8,7 @@ export const EmptyBoost = () => {
     <div className="bg-transparent mt-[18px] overflow-hidden rounded-[12px] border border-neutral-200 dark:border-[#1a1a1a] dark:bg-[#030303]">
       <div
         className={
-          'flex h-[300px] flex-col items-center justify-center bg-cover bg-top bg-no-repeat' +
+          'flex h-[280px] flex-col items-center justify-center bg-cover bg-top bg-no-repeat' +
           ` ${
             theme === 'light'
               ? 'bg-[url(/images/bg-grid-light.png)]'
@@ -17,7 +17,7 @@ export const EmptyBoost = () => {
         }
       >
         <img
-          className="w-[112px]"
+          className="w-[112px] mt-[-6px]"
           src={
             theme === 'light'
               ? '/images/ic-boost-light.png'
@@ -28,9 +28,9 @@ export const EmptyBoost = () => {
         <p className="font-larken text-[24px] text-[#404040] dark:text-white">
           No vehicles created yet
         </p>
-        <p className="mt-[12px] mb-1 max-w-[400px] text-center font-body text-[16px] text-[#959595]">
-          Deposit assets to create a Boost vehicle & capture passive compound
-          yield via dynamic strategies.
+        <p className="mt-[4px] mb-1 max-w-[320px] text-center font-body text-[16px] text-[#959595]">
+          Supply assets to create a Boost vehicle and capture fully automated compound
+          yield.
         </p>
       </div>
     </div>
