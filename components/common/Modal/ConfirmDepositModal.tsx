@@ -114,12 +114,12 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
 
   return (
     <Modal
-      className="mx-auto w-[90%] max-w-[360px] bg-[#FCFAFF] px-[24px] dark:bg-[#030303]"
+      className="mx-auto w-[90%] max-w-[360px] bg-[#FCFAFF] px-[22px] dark:bg-[#030303]"
       open={open}
       handleClose={handleClose}
       hideCloseIcon
     >
-      <div className="flex items-center justify-between py-2">
+      <div className="flex items-center justify-between py-1">
         <div className="font-larken text-[24px] font-[400] text-[#030303] dark:text-white md:text-[28px]">
           Confirm
         </div>
@@ -140,7 +140,7 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
       <div className=" h-auto w-full   overflow-y-auto py-[18px]">
         <div className="flex items-center justify-between">
           <div>
-            <span className="text-[16px] text-[#959595]">You deposit</span>
+            <span className="text-[16px] text-[#959595]">You supply</span>
             <div className="font-larken pt-2 text-[23px] text-[#030303] dark:text-white">
               {renderAmount(coinFrom)}
             </div>
@@ -175,7 +175,7 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
       }`
         }
       ></div>
-      <div className="my-5 flex flex-wrap gap-3 text-[16px] text-[#959595]">
+      <div className="my-4 flex flex-wrap gap-3 text-[16px] text-[#959595]">
         <div className="flex w-full items-center justify-between text-[15px]">
           <p>Wallet balance</p>
           <span>

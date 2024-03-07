@@ -154,8 +154,8 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
   }, [isConnected, address])
 
   // const tabs = [
-  //   { id: 0, name: 'Crypto', content: 'Content for Crypto' },
-  //   { id: 1, name: 'Redacted', content: 'Content for Redacted' },
+  //   { id: 0, name: 'Native', content: 'Content for Native' },
+  //   { id: 1, name: 'Stable', content: 'Content for Stable' },
   // ];
 
   return (
