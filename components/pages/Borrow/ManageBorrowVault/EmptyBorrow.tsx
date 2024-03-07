@@ -8,7 +8,7 @@ export const EmptyBorrow = () => {
     <div className="bg-transparent mt-[24px] overflow-hidden rounded-[12px] border border-neutral-200 dark:border-[#1a1a1a] dark:bg-[#030303]">
       <div
         className={
-          'flex h-[300px] flex-col items-center justify-center bg-cover bg-top bg-no-repeat' +
+          'flex h-[280px] flex-col items-center justify-center bg-cover bg-top bg-no-repeat' +
           ` ${
             theme === 'light'
               ? 'bg-[url(/images/bg-grid-light.png)]'
@@ -17,7 +17,7 @@ export const EmptyBorrow = () => {
         }
       >
         <img
-          className="w-[112px]"
+          className="w-[112px] mt-[-6px]"
           src={
             theme === 'light'
               ? '/images/ic-borrow-light.png'
@@ -28,9 +28,9 @@ export const EmptyBorrow = () => {
         <p className="font-larken text-[24px] text-[#404040] dark:text-white">
           No vaults created yet
         </p>
-        <p className="mt-[12px] mb-1 max-w-[360px] text-center font-body text-[16px] text-[#959595]">
-          Deposit assets to create a Borrow vault & access a self-service line
-          of credit. Repay as you prefer.
+        <p className="mt-[4px] mb-1 max-w-[320px] text-center font-body text-[16px] text-[#959595]">
+          Supply collateral to create a Borrow vault and access your personal line
+          of credit.
         </p>
       </div>
     </div>
