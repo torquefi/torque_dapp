@@ -116,7 +116,7 @@ export default function CreateBorrowItem({
 
   const onBorrow = async () => {
     if (amount <= 0) {
-      toast.error(`You must deposit ${item.depositTokenSymbol} to borrow`)
+      toast.error(`You must supply ${item.depositTokenSymbol} to borrow`)
       return
     }
     // if (amountReceive <= 0) {
@@ -337,7 +337,7 @@ export default function CreateBorrowItem({
       return 'Connect Wallet'
     }
     // return 'Deposit & Borrow'
-    return 'Confirm Deposit'
+    return 'Confirm Borrow'
   }
 
   return (
@@ -354,7 +354,7 @@ export default function CreateBorrowItem({
               alt=""
             />
             <div className="font-larken text-[18px] leading-tight text-[#030303] dark:text-white md:text-[22px] lg:text-[26px]">
-              Deposit {dataBorrow.depositTokenSymbol},<br /> Borrow{' '}
+              Supply {dataBorrow.depositTokenSymbol},<br /> Borrow{' '}
               {dataBorrow.borrowTokenSymbol}
             </div>
           </div>
@@ -384,7 +384,7 @@ export default function CreateBorrowItem({
               tokenSymbol={item?.depositTokenSymbol}
               tokenValue={Number(amount)}
               className="w-full py-4 text-[#030303] dark:text-white lg:py-6"
-              subtitle="Collateral"
+              subtitle="Your Supply"
               usdDefault
               decimalScale={5}
               onChange={(tokenValue, rawValue) => {
@@ -414,7 +414,7 @@ export default function CreateBorrowItem({
               usdDefault
               decimalScale={5}
               className="w-full py-4 text-[#030303] dark:text-white"
-              subtitle="Borrowing"
+              subtitle="Your Borrow"
               onChange={(tokenValue, rawValue) => {
                 setAmountReceive(tokenValue)
                 setAmountReceiveRaw(rawValue)
@@ -562,7 +562,7 @@ export default function CreateBorrowItem({
       <ConfirmDepositModal
         open={isOpenConfirmDepositModal}
         handleClose={() => setOpenConfirmDepositModal(false)}
-        confirmButtonText="Deposit & Borrow"
+        confirmButtonText="Supply & Borrow"
         onConfirm={() => onBorrow()}
         loading={isLoading}
         coinFrom={{

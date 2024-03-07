@@ -136,7 +136,7 @@ export function CreateBoostItem({
       return
     }
     if (!+amount) {
-      return toast.error('You must input amount to deposit')
+      return toast.error('You must input amount to supply')
     }
     setOpenConfirmDepositModal(true)
   }
@@ -246,7 +246,7 @@ export function CreateBoostItem({
     if (!address) {
       return 'Connect Wallet'
     }
-    return 'Confirm Deposit'
+    return 'Confirm Boost'
   }
 
   console.log('item :>> ', item)
@@ -267,7 +267,7 @@ export function CreateBoostItem({
               className="w-[72px] md:w-24"
             />
             <div className="font-larken text-[18px] leading-tight text-[#030303] md:text-[22px] lg:text-[26px] dark:text-white">
-              Deposit {item.token},<br className="" /> Earn {item.token}
+              Supply {item.token},<br className="" /> Earn {item.token}
             </div>
           </div>
           <Popover
@@ -297,7 +297,7 @@ export function CreateBoostItem({
               tokenSymbol={item?.token}
               tokenValue={Number(amount)}
               className="w-full py-4 text-[#030303] lg:py-6 dark:text-white"
-              subtitle="Deposit"
+              subtitle="Your Supply"
               usdDefault
               decimalScale={5}
               onChange={(tokenValue, rawValue) => {
@@ -452,7 +452,7 @@ export function CreateBoostItem({
       <ConfirmDepositModal
         open={isOpenConfirmDepositModal}
         handleClose={() => setOpenConfirmDepositModal(false)}
-        confirmButtonText="Deposit & Earn"
+        confirmButtonText="Supply & Earn"
         onConfirm={() => onDeposit()}
         loading={btnLoading}
         coinFrom={{
