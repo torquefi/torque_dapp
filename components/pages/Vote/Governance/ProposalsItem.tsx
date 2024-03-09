@@ -98,7 +98,7 @@ export const ProposalsItem = (props: any) => {
 
           <div className="mt-[10px] md:w-[40%]">
             <div className="flex w-full items-center justify-start gap-[8px] md:justify-end">
-              <p className="text-[14px] font-[500] text-[#F05858]">
+              <p className="text-[14px] font-[500] text-[#1EB26B]">
                 {votesInfo?.forVotes
                   ? toMetricUnits(
                     Number(
@@ -112,13 +112,13 @@ export const ProposalsItem = (props: any) => {
               <div className="relative h-[4px] w-full max-w-[160px] rounded-[12px]">
                 {voteForAgainst === 0 && votesFor === 0 ? (
                   <>
-                    <div className="absolute left-0 h-[4px] w-[50%] rounded-[12px] rounded-br-none rounded-tr-none bg-[#F05858]"></div>
-                    <div className="absolute right-0 h-[4px] w-[50%] rounded-[12px] rounded-bl-none rounded-tl-none bg-[#1EB26B]"></div>
+                    <div className="absolute left-0 h-[4px] w-[50%] rounded-[12px] rounded-br-none rounded-tr-none bg-[#1EB26B] "></div>
+                    <div className="absolute right-0 h-[4px] w-[50%] rounded-[12px] rounded-bl-none rounded-tl-none bg-[#F05858]"></div>
                   </>
                 ) : (
                   <>
                     <div
-                      className="absolute left-0 h-[4px] rounded-[12px] bg-[#F05858]"
+                      className="absolute left-0 h-[4px] rounded-[12px] bg-[#1EB26B]"
                       style={{
                         width:
                           (votesFor + voteForAgainst) ? Math.round(
@@ -128,7 +128,7 @@ export const ProposalsItem = (props: any) => {
                       }}
                     ></div>
                     <div
-                      className="absolute right-0 h-[4px] rounded-[12px] bg-[#1EB26B]"
+                      className="absolute right-0 h-[4px] rounded-[12px] bg-[#F05858]"
                       style={{
                         width:
                           (votesFor + voteForAgainst) ? Math.round(
@@ -140,7 +140,7 @@ export const ProposalsItem = (props: any) => {
                   </>
                 )}
               </div>
-              <p className="text-[14px] font-[500] text-[#1EB26B]">
+              <p className="text-[14px] font-[500] text-[#F05858]">
                 {votesInfo?.againstVotes
                   ? toMetricUnits(
                     Number(
