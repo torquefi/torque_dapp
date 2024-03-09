@@ -13,18 +13,21 @@ import {
   tokenTusdContract,
   tokenUsdcContract,
 } from '../constants/contract'
-import { compoundUsdcContract as compoundUsdcContractData } from '../constants/contract';
+import { compoundUsdcContract as compoundUsdcContractData } from '../constants/contract'
 import { IBorrowInfo } from '../types'
 import CreateBorrowItem from './createBorrowItem'
 import HoverIndicator from '@/components/common/HoverIndicator'
+import CreateRowBorrowItem from './createRowBorrowItem'
 
 export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
-  const [activeTabIndex, setActiveTabIndex] = useState(0);
-  const [activeViewIndex, setActiveViewIndex] = useState(1);
+  const [activeTabIndex, setActiveTabIndex] = useState(0)
+  const [activeViewIndex, setActiveViewIndex] = useState(1)
   const { address, isConnected } = useAccount()
   const { borrowInfoByDepositSymbol } = useSelector(
     (store: AppState) => store?.borrow
   )
+  const [view, setView] = useState('grid')
+
   const dispatch = useDispatch()
   const [dataBorrow, setDataBorrow] = useState(
     BORROW_INFOS?.map((item) => {
@@ -97,7 +100,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
       const compoundUsdcContract = new web3.eth.Contract(
         JSON.parse(compoundUsdcContractData?.abi),
         compoundUsdcContractData?.address
-      );
+      )
       if (compoundUsdcContract) {
         const tokenAddress =
           item?.depositTokenSymbol === 'WBTC'
@@ -158,56 +161,95 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
   //   { id: 1, name: 'Stable', content: 'Content for Stable' },
   // ];
 
+
+  console.log('dataBorrow :>> ', dataBorrow);
+
   return (
     <div className="space-y-[18px]">
-      <div className="flex justify-between items-center">
+      <div className="flex items-center justify-between">
         <h3 className="font-larken text-[24px] text-[#404040] dark:text-white">
           Create Borrow Vault
         </h3>
-        {/* <div className="flex space-x-3 items-center justify-center">
-        <div className="flex h-[36px] max-w-[140px] border border-[#efefef] dark:border-[#1a1a1a] rounded-[4px]">
-          <div className="flex px-[3px] py-[3px]">
-            <HoverIndicator activeIndex={activeTabIndex} className="flex w-full justify-between">
-              {tabs.map((tab, index) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTabIndex(index)}
-                  className={`flex justify-center items-center px-[10px] py-[6px] text-sm ${activeTabIndex === index ? 'text-[#030303]' : 'text-[#959595]'} dark:text-white focus:outline-none ${index === 0 ? 'rounded-tl-[4px]' : ''} ${index === tabs.length - 1 ? 'rounded-tr-[4px]' : ''}`}
-                >
-                  {tab.name}
-                </button>
-              ))}
+        <div className="flex items-center justify-center space-x-3">
+          {/* <div className="flex h-[36px] max-w-[140px] border border-[#efefef] dark:border-[#1a1a1a] rounded-[4px]">
+            <div className="flex px-[3px] py-[3px]">
+              <HoverIndicator activeIndex={activeTabIndex} className="flex w-full justify-between">
+                {tabs.map((tab, index) => (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTabIndex(index)}
+                    className={`flex justify-center items-center px-[10px] py-[6px] text-sm ${activeTabIndex === index ? 'text-[#030303]' : 'text-[#959595]'} dark:text-white focus:outline-none ${index === 0 ? 'rounded-tl-[4px]' : ''} ${index === tabs.length - 1 ? 'rounded-tr-[4px]' : ''}`}
+                  >
+                    {tab.name}
+                  </button>
+                ))}
+              </HoverIndicator>
+            </div>
+            <div className="p-4">
+              {tabs[activeTabIndex].content}
+            </div>
+          </div> */}
+          <div className="flex h-[36px] w-auto items-center justify-center rounded-[4px] border border-[#efefef] bg-transparent px-[3px] py-[4px] dark:border-[#1a1a1a]">
+            <HoverIndicator
+              activeIndex={activeViewIndex}
+              className="flex w-full justify-between"
+            >
+              <button
+                id="rowViewButton"
+                className="focus:outline-none"
+                onClick={() => {
+                  setActiveViewIndex(0)
+                  setView('row')
+                }}
+              >
+                <img
+                  src="../icons/rows.svg"
+                  alt="Row View"
+                  className={`ml-[6px] mr-[6px] h-6 w-6 ${activeViewIndex === 0 ? 'text-[#030303]' : 'text-[#959595]'
+                    } dark:text-white`}
+                />
+              </button>
+              <button
+                id="gridViewButton"
+                className="focus:outline-none"
+                onClick={() => {
+                  setActiveViewIndex(1)
+                  setView('grid')
+                }}
+              >
+                <img
+                  src="../icons/grid.svg"
+                  alt="Grid View"
+                  className={`ml-[6px] mr-[6px] h-6 w-6 ${activeViewIndex === 1 ? 'text-[#030303]' : 'text-[#959595]'
+                    } dark:text-white`}
+                />
+              </button>
             </HoverIndicator>
           </div>
-          <div className="p-4">
-            {tabs[activeTabIndex].content}
-          </div>
         </div>
-        <div className="flex h-[36px] w-auto justify-center items-center rounded-[4px] bg-transparent border border-[#efefef] dark:border-[#1a1a1a] px-[3px] py-[4px]">
-          <HoverIndicator activeIndex={activeViewIndex} className="flex w-full justify-between">
-            <button
-              id="rowViewButton"
-              className="focus:outline-none"
-              onClick={() => { setActiveViewIndex(0); toggleView('row'); }}
-            >
-              <img src="../icons/rows.svg" alt="Row View" className={`w-6 h-6 ml-[6px] mr-[6px] ${activeViewIndex === 0 ? 'text-[#030303]' : 'text-[#959595]'} dark:text-white`}/>
-            </button>
-            <button
-              id="gridViewButton"
-              className="focus:outline-none"
-              onClick={() => { setActiveViewIndex(1); toggleView('grid'); }}
-            >
-              <img src="../icons/grid.svg" alt="Grid View" className={`w-6 h-6 ml-[6px] mr-[6px] ${activeViewIndex === 1 ? 'text-[#030303]' : 'text-[#959595]'} dark:text-white`}/>
-            </button>
-          </HoverIndicator>
+      </div>
+      {view === 'grid' && (
+        <div className="grid gap-[20px] md:grid-cols-2">
+          {dataBorrow.map((item, i) => (
+            <CreateBorrowItem
+              item={item}
+              key={i}
+              setIsFetchBorrowLoading={setIsFetchBorrowLoading}
+            />
+          ))}
         </div>
-      </div> */}
-      </div>
-      <div className="grid gap-[20px] md:grid-cols-2">
-        {dataBorrow.map((item, i) => (
-          <CreateBorrowItem item={item} key={i} setIsFetchBorrowLoading={setIsFetchBorrowLoading} />
-        ))}
-      </div>
+      )}
+
+      {view === 'row' &&
+        <div className="">
+          {dataBorrow.map((item, i) => (
+            <CreateRowBorrowItem
+              item={item}
+              key={i}
+              setIsFetchBorrowLoading={setIsFetchBorrowLoading}
+            />
+          ))}
+        </div>}
     </div>
   )
 }
@@ -225,7 +267,8 @@ const BORROW_INFOS: IBorrowInfo[] = [
     borrowRate: 0,
     borrowContractInfo: borrowBtcContract,
     tokenContractInfo: tokenBtcContract,
-    tokenBorrowContractInfo: tokenTusdContract
+    tokenBorrowContractInfo: tokenTusdContract,
+    name: 'Bitcoin'
   },
   {
     depositTokenIcon: '/icons/coin/aeth.png',
@@ -239,6 +282,7 @@ const BORROW_INFOS: IBorrowInfo[] = [
     borrowRate: 0,
     borrowContractInfo: borrowEthContract,
     tokenContractInfo: tokenEthContract,
-    tokenBorrowContractInfo: tokenTusdContract
+    tokenBorrowContractInfo: tokenTusdContract,
+    name: 'Ether'
   },
 ]
