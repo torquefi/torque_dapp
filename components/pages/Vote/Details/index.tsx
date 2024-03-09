@@ -4,6 +4,8 @@ import { MainContent } from './MainContent'
 import SkeletonDefault from '@/components/skeleton'
 import { useRouter } from 'next/router'
 import { useAppSelector } from '@/lib/redux/store'
+import Web3 from 'web3'
+import { hamiltonContractInfo } from '../constants/contracts'
 
 export const DetailsVotes = () => {
   const [isLoading, setIsLoading] = useState(true)
@@ -11,6 +13,7 @@ export const DetailsVotes = () => {
   const router = useRouter()
   const { id } = router?.query
   const { tipData } = useAppSelector((state) => state.tips)
+  const [votesInfo, setVotesInfo] = useState<any>({})
 
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1000)
@@ -25,6 +28,33 @@ export const DetailsVotes = () => {
       }
     } catch (error) { }
   }, [id, tipData])
+
+  const hamiltonContract = useMemo(() => {
+    const web3 = new Web3(Web3.givenProvider)
+    const contract = new web3.eth.Contract(
+      JSON.parse(hamiltonContractInfo?.abi),
+      hamiltonContractInfo?.address
+    )
+    return contract
+  }, [Web3.givenProvider, hamiltonContractInfo])
+
+  const handleGetVotesInfo = async () => {
+    try {
+      const response = await hamiltonContract.methods.proposalVotes(tipDetails?.proposalId).call()
+      setVotesInfo(response)
+      console.log('response :>> ', response);
+    } catch (error) {
+      console.log('handleGetVotesInfo error :>> ', error);
+    }
+  }
+
+  useEffect(() => {
+    if (hamiltonContract && tipDetails?.proposalId) {
+      handleGetVotesInfo()
+    }
+  }, [tipDetails, hamiltonContract])
+
+  console.log('hamiltonContract :>> ', hamiltonContract);
 
   if (isLoading) {
     return (
@@ -94,7 +124,7 @@ export const DetailsVotes = () => {
         </div>
       </div>
       <div className="m-auto w-full max-w-[815px]">
-        <InforVotes />
+        <InforVotes votesInfo={votesInfo} />
         <MainContent />
       </div>
       <div>{/* <Markdown>{markdown}</Markdown> */}</div>

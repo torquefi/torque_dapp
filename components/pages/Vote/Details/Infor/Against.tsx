@@ -1,22 +1,47 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { AppStore } from '@/types/store'
+import { toMetricUnits } from '@/lib/helpers/number'
+import BigNumber from 'bignumber.js'
+import { ethers } from 'ethers'
 
-export const Against = () => {
+export const Against = (props: any) => {
   const theme = useSelector((store: AppStore) => store.theme.theme)
+  const { votesInfo } = props;
+  const votesFor =
+    Number(
+      new BigNumber(
+        ethers.utils.formatUnits(votesInfo?.forVotes || 0, 18)
+      )
+    )
+  const voteForAgainst = Number(
+    new BigNumber(
+      ethers.utils.formatUnits(votesInfo?.againstVotes || 0, 18)
+    )
+  )
+
+  const percentVoteAgainst = (votesFor + voteForAgainst) ? voteForAgainst / (voteForAgainst + votesFor) * 100 : 0
 
   return (
     <div className="font-larken mt-[12px] rounded-xl border border-[#E6E6E6] bg-[#ffffff] from-[#0d0d0d] to-[#0d0d0d]/0 px-[24px] py-[12px] text-[#030303] md:mt-0 md:w-[49%] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white ">
       <div className="flex items-center justify-between">
         <h2 className="text-[24px] font-[400] leading-[60px]">Against</h2>
         <p className="font-mona font-[500] font-medium leading-[24px] text-[#F05858]">
-          0.00
+          {votesInfo?.againstVotes
+            ? toMetricUnits(
+              Number(
+                new BigNumber(
+                  ethers.utils.formatUnits(votesInfo?.againstVotes, 18)
+                )
+              )
+            )
+            : '0.00'}
         </p>
       </div>
       <div className="relative h-[4px] w-full bg-[#F058584D]">
-        <div className="absolute h-[4px] w-[1%] bg-[#F05858]"></div>
+        <div className={`absolute h-[4px] bg-[#F05858] ${percentVoteAgainst ? percentVoteAgainst >= 100 ? 'w-full' : `w-[${percentVoteAgainst}%]` : 'w-[1%]'}`}></div>
       </div>
-      <div
+      {/* <div
         className={
           `mt-[24px] hidden h-[1px] w-full md:block ` +
           `${theme === 'light'
@@ -24,8 +49,8 @@ export const Against = () => {
             : 'bg-gradient-divider'
           }`
         }
-      ></div>
-      <table className="w-full">
+      ></div> */}
+      {/* <table className="w-full">
         <thead>
           <tr className="">
             <th className="font-mona w-[50%] py-[12px] text-left font-[500] leading-[24px] text-[#959595]">
@@ -56,7 +81,7 @@ export const Against = () => {
         }`}></div>
       <div className="font-mona mt-[12px] cursor-pointer text-center text-[14px] font-[500] uppercase text-[#959595]">
         view all
-      </div>
+      </div> */}
     </div>
   )
 }

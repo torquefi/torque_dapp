@@ -3,10 +3,30 @@ import { NumericFormat } from 'react-number-format'
 import { useSelector } from 'react-redux'
 import { AppStore } from '@/types/store'
 import Link from 'next/link'
+import { useEffect, useMemo, useState } from 'react'
+import Web3 from 'web3'
+import { hamiltonContractInfo } from '../constants/contracts'
+import BigNumber from 'bignumber.js'
+import { ethers } from 'ethers'
 
 export const ProposalsItem = (props: any) => {
   const { menu } = props
   console.log(menu)
+  const [votesInfo, setVotesInfo] = useState<any>({})
+
+  const votesFor =
+    Number(
+      new BigNumber(
+        ethers.utils.formatUnits(votesInfo?.forVotes || 0, 18)
+      )
+    )
+  console.log('votesFor :>> ', votesFor);
+  const voteForAgainst = Number(
+    new BigNumber(
+      ethers.utils.formatUnits(votesInfo?.againstVotes || 0, 18)
+    )
+  )
+  console.log('voteForAgainst :>> ', voteForAgainst);
 
   const theme = useSelector((store: AppStore) => store.theme.theme)
 
@@ -25,6 +45,34 @@ export const ProposalsItem = (props: any) => {
     classnamesState =
       'rounded-[6px] bg-[#aa5bff55] px-[12px] py-[1px] text-[12px] font-[500] uppercase text-[#C38BFF]'
   }
+
+  const hamiltonContract = useMemo(() => {
+    const web3 = new Web3(Web3.givenProvider)
+    const contract = new web3.eth.Contract(
+      JSON.parse(hamiltonContractInfo?.abi),
+      hamiltonContractInfo?.address
+    )
+    return contract
+  }, [Web3.givenProvider, hamiltonContractInfo])
+
+  const handleGetVotesInfo = async () => {
+    try {
+      const response = await hamiltonContract.methods.proposalVotes(menu?.proposalId).call()
+      setVotesInfo(response)
+      console.log('response :>> ', response);
+    } catch (error) {
+      console.log('handleGetVotesInfo error :>> ', error);
+    }
+  }
+
+  useEffect(() => {
+    if (hamiltonContract && menu?.proposalId) {
+      handleGetVotesInfo()
+    }
+  }, [menu, hamiltonContract])
+
+  const percentVoteFor = (votesFor + voteForAgainst) ? votesFor / (voteForAgainst + votesFor) * 100 : 0
+  const percentVoteAgainst = (votesFor + voteForAgainst) ? voteForAgainst / (voteForAgainst + votesFor) * 100 : 0
 
   return (
     <Link href={`/vote/${menu?.id}`}>
@@ -51,10 +99,18 @@ export const ProposalsItem = (props: any) => {
           <div className="mt-[10px] md:w-[40%]">
             <div className="flex w-full items-center justify-start gap-[8px] md:justify-end">
               <p className="text-[14px] font-[500] text-[#F05858]">
-                {toMetricUnits(menu.voteRed, 2).toLocaleLowerCase()}
+                {votesInfo?.forVotes
+                  ? toMetricUnits(
+                    Number(
+                      new BigNumber(
+                        ethers.utils.formatUnits(votesInfo?.forVotes, 18)
+                      )
+                    )
+                  )
+                  : '0.00'}
               </p>
               <div className="relative h-[4px] w-full max-w-[160px] rounded-[12px]">
-                {menu.voteGreen === 0 && menu.voteRed === 0 ? (
+                {voteForAgainst === 0 && votesFor === 0 ? (
                   <>
                     <div className="absolute left-0 h-[4px] w-[50%] rounded-[12px] rounded-br-none rounded-tr-none bg-[#F05858]"></div>
                     <div className="absolute right-0 h-[4px] w-[50%] rounded-[12px] rounded-bl-none rounded-tl-none bg-[#1EB26B]"></div>
@@ -65,36 +121,39 @@ export const ProposalsItem = (props: any) => {
                       className="absolute left-0 h-[4px] rounded-[12px] bg-[#F05858]"
                       style={{
                         width:
-                          Math.round(
-                            (menu.voteRed / (menu.voteGreen + menu.voteRed)) *
-                              100
-                          ) + '%',
+                          (votesFor + voteForAgainst) ? Math.round(
+                            (votesFor / (votesFor + voteForAgainst)) *
+                            100
+                          ) + '%' : '0%',
                       }}
                     ></div>
                     <div
                       className="absolute right-0 h-[4px] rounded-[12px] bg-[#1EB26B]"
                       style={{
                         width:
-                          Math.round(
-                            (menu.voteGreen / (menu.voteGreen + menu.voteRed)) *
-                              100
-                          ) + '%',
+                          (votesFor + voteForAgainst) ? Math.round(
+                            (voteForAgainst / (votesFor + voteForAgainst)) *
+                            100
+                          ) + '%' : '0%',
                       }}
                     ></div>
                   </>
                 )}
               </div>
               <p className="text-[14px] font-[500] text-[#1EB26B]">
-                {toMetricUnits(menu?.voteGreen).toLocaleLowerCase()}
+                {votesInfo?.againstVotes
+                  ? toMetricUnits(
+                    Number(
+                      new BigNumber(
+                        ethers.utils.formatUnits(votesInfo?.againstVotes, 18)
+                      )
+                    )
+                  )
+                  : '0.00'}
               </p>
             </div>
             <p className="text-left font-[500] leading-[24px] text-[#959595] md:text-right">
-              <NumericFormat
-                displayType="text"
-                value={menu.voteGreen + menu.voteRed}
-                thousandSeparator
-                suffix=".00 total votes"
-              />
+              {(votesFor + voteForAgainst) > 0 ? toMetricUnits(Number(votesFor + voteForAgainst)) : '0.00'} total votes
             </p>
           </div>
         </div>
@@ -102,9 +161,8 @@ export const ProposalsItem = (props: any) => {
           className={
             `mt-3 h-[1px] w-full md:block` +
             `
-      ${
-        theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
-      }`
+      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+            }`
           }
         ></div>
       </div>

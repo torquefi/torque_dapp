@@ -18,5 +18,7 @@ export const tipsData = [
     timeVote: 'Vote hasn’t started',
     voteRed: 0,
     voteGreen: 0,
+    proposalId:
+      '61585159315013796817495900739898304949954863295228712530970018369725267631503',
   },
 ]
