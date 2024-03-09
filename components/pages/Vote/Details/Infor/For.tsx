@@ -23,6 +23,7 @@ export const For = (props: any) => {
   )
 
   const percentVoteFor = (votesFor + voteForAgainst) ? votesFor / (voteForAgainst + votesFor) * 100 : 0
+
   console.log('percentVoteFor :>> ', percentVoteFor);
   return (
     <div className="font-larken rounded-xl border border-[#E6E6E6] bg-[#ffffff] from-[#0d0d0d] to-[#0d0d0d]/0 pb-4 px-[18px] py-[0px] md:px-[24px] text-[#030303] md:w-[49%] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white">
@@ -41,7 +42,14 @@ export const For = (props: any) => {
         </p>
       </div>
       <div className="relative h-[4px] w-full bg-[#1eb26b55]">
-        <div className={`absolute h-[4px] bg-[#1eb26b] ${percentVoteFor ? percentVoteFor >= 100 ? 'w-full' : `w-[${percentVoteFor}%]` : 'w-[1%]'}`}></div>
+        <div className={`absolute h-[4px] bg-[#1eb26b] ${percentVoteFor ? percentVoteFor >= 100 ? 'w-full' : `w-[${Math.floor(percentVoteFor)}%]` : 'w-[1%]'}`}
+          style={{
+            width:
+              percentVoteFor ? Math.round(
+                percentVoteFor
+              ) + '%' : '0%',
+          }}
+        ></div>
       </div>
       {/* <div className={`mt-[24px] hidden h-[1px] w-full md:block ` + `${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
         }`} /> */}
