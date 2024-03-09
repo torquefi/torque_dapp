@@ -39,7 +39,14 @@ export const Against = (props: any) => {
         </p>
       </div>
       <div className="relative h-[4px] w-full bg-[#F058584D]">
-        <div className={`absolute h-[4px] bg-[#F05858] ${percentVoteAgainst ? percentVoteAgainst >= 100 ? 'w-full' : `w-[${percentVoteAgainst}%]` : 'w-[1%]'}`}></div>
+        <div className={`absolute h-[4px] bg-[#F05858] ${percentVoteAgainst ? percentVoteAgainst >= 100 ? 'w-full' : `w-[${percentVoteAgainst}%]` : 'w-[1%]'}`}
+          style={{
+            width:
+              percentVoteAgainst ? Math.round(
+                percentVoteAgainst
+              ) + '%' : '0%',
+          }}
+        ></div>
       </div>
       {/* <div
         className={
