@@ -23,7 +23,7 @@ export const Against = (props: any) => {
   const percentVoteAgainst = (votesFor + voteForAgainst) ? voteForAgainst / (voteForAgainst + votesFor) * 100 : 0
 
   return (
-    <div className="font-larken mt-[12px] rounded-xl border border-[#E6E6E6] bg-[#ffffff] from-[#0d0d0d] to-[#0d0d0d]/0 px-[24px] py-[12px] text-[#030303] md:mt-0 md:w-[49%] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white ">
+    <div className="font-larken mt-[16px] md:mt-0 rounded-xl border border-[#E6E6E6] bg-[#ffffff] from-[#0d0d0d] to-[#0d0d0d]/0 px-[18px] py-[0px] md:px-[24px] pb-4 text-[#030303] md:w-[49%] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white">
       <div className="flex items-center justify-between">
         <h2 className="text-[24px] font-[400] leading-[60px]">Against</h2>
         <p className="font-mona font-[500] font-medium leading-[24px] text-[#F05858]">
