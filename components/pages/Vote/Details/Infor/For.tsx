@@ -1,22 +1,51 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { AppStore } from '@/types/store'
+import { NumericFormat } from 'react-number-format'
+import { toMetricUnits } from '@/lib/helpers/number'
+import { ethers } from 'ethers'
+import BigNumber from 'bignumber.js'
 
-export const For = () => {
+export const For = (props: any) => {
   const theme = useSelector((store: AppStore) => store.theme.theme)
+  const { votesInfo } = props
 
+  const votesFor =
+    Number(
+      new BigNumber(
+        ethers.utils.formatUnits(votesInfo?.forVotes || 0, 18)
+      )
+    )
+  const voteForAgainst = Number(
+    new BigNumber(
+      ethers.utils.formatUnits(votesInfo?.againstVotes || 0, 18)
+    )
+  )
+
+  const percentVoteFor = (votesFor + voteForAgainst) ? votesFor / (voteForAgainst + votesFor) * 100 : 0
+  console.log('percentVoteFor :>> ', percentVoteFor);
   return (
-    <div className="mt-[12px] rounded-xl border border-[#E6E6E6] bg-[#ffffff] from-[#0d0d0d] to-[#0d0d0d]/0 text-[#030303] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white px-[24px] py-[12px] md:mt-0 md:w-[49%] font-larken">
+    <div className="font-larken mt-[12px] rounded-xl border border-[#E6E6E6] bg-[#ffffff] from-[#0d0d0d] to-[#0d0d0d]/0 px-[24px] py-[12px] text-[#030303] md:mt-0 md:w-[49%] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white">
       <div className="flex items-center justify-between">
         <h2 className="text-[24px] font-[400] leading-[60px]">For</h2>
-        <p className="font-[500] leading-[24px] text-[#1EB26B] font-mona font-medium">0.00</p>
+        <p className="font-mona font-[500] font-medium leading-[24px] text-[#1EB26B]">
+          {votesInfo?.forVotes
+            ? toMetricUnits(
+              Number(
+                new BigNumber(
+                  ethers.utils.formatUnits(votesInfo?.forVotes, 18)
+                )
+              )
+            )
+            : '0.00'}
+        </p>
       </div>
       <div className="relative h-[4px] w-full bg-[#1eb26b55]">
-        <div className="absolute h-[4px] w-[1%] bg-[#1eb26b]"></div>
+        <div className={`absolute h-[4px] bg-[#1eb26b] ${percentVoteFor ? percentVoteFor >= 100 ? 'w-full' : `w-[${percentVoteFor}%]` : 'w-[1%]'}`}></div>
       </div>
-      <div className={`mt-[24px] hidden h-[1px] w-full md:block ` + `${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
-        }`} />
-      <table className="w-full">
+      {/* <div className={`mt-[24px] hidden h-[1px] w-full md:block ` + `${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+        }`} /> */}
+      {/* <table className="w-full">
         <thead>
           <tr>
             <th className="w-[50%] py-[12px] text-left font-[500] leading-[24px] text-[#959595] font-mona">
@@ -38,13 +67,13 @@ export const For = () => {
             </tr>
           </tbody>
         ))}
-      </table>
-      <div className={`mt-[0px] hidden h-[1px] w-full md:block ` + `${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+      </table> */}
+      {/* <div className={`mt-[0px] hidden h-[1px] w-full md:block ` + `${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
         }`}></div>
       <div className="mt-[12px] cursor-pointer text-center text-[14px] font-[500] uppercase text-[#959595] font-mona">
         view all
-      </div>
-    </div >
+      </div> */}
+    </div>
   )
 }
 
