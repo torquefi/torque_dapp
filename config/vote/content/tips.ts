@@ -1,3 +1,4 @@
+import Tip0Md from '../description/tip-0.mdx'
 import Tip1Md from '../description/tip-1.mdx'
 
 export const tipsData = [
@@ -14,7 +15,7 @@ export const tipsData = [
     title: 'Hello World [Test Proposal]',
     stage: 'Pending',
     id: 0,
-    description: Tip1Md,
+    description: Tip0Md,
     timeVote: 'Vote hasn’t started',
     voteRed: 0,
     voteGreen: 0,
