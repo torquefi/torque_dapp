@@ -87,13 +87,13 @@ export const Header = () => {
       <header className="fixed inset-x-0 top-0 z-[100] bg-[#FCFAFF] dark:bg-[#030303] ">
         <div
           className={
-            'flex cursor-pointer items-center justify-center bg-[#FF6969] text-center text-[14px] transition-all' +
-            ` ${!isShowNetworkAlert ? 'h-0 overflow-hidden' : 'h-[44px]'}`
+            'flex cursor-pointer items-center justify-center bg-[#FF6969] text-center text-[9px] uppercase transition-all' +
+            ` ${!isShowNetworkAlert ? 'h-0 overflow-hidden' : 'h-[24px]'}`
           }
           onClick={handleChangeNetwork}
         >
-          Torque is not supported on this network. Please switch to{' '}
-          {arbitrumMainnetInfo.name}.
+          Please switch to{' '}
+          {arbitrumMainnetInfo.name} network.
         </div>
         <div className="flex h-[24px] items-center justify-center bg-[#aa5bff] text-center text-[9px] font-bold uppercase text-white transition-all">
           Protocol not released yet. Please stay tuned.
