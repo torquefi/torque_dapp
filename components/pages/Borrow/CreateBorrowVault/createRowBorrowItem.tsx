@@ -106,7 +106,6 @@ export default function CreateRowBorrowItem({
 
     const handleConfirmDeposit = async () => {
         if (!isConnected) {
-            // await open()
             setOpenConnectWalletModal(true)
             return
         }
@@ -114,7 +113,7 @@ export default function CreateRowBorrowItem({
     }
 
     const onBorrow = async () => {
-        if (Number(amount) <= 0) {
+        if (Number(amountRaw) <= 0) {
             toast.error(`You must supply ${item.depositTokenSymbol} to borrow`)
             return
         }
@@ -224,6 +223,9 @@ export default function CreateRowBorrowItem({
                 setOpenConfirmDepositModal(false)
                 setIsLoading(false)
                 setIsFetchBorrowLoading && setIsFetchBorrowLoading((prev: any) => !prev)
+                setAmountRaw('')
+                setAmountReceiveRaw(0)
+                setOpenSwapModal(false)
             }
             if (item.depositTokenSymbol == 'WETH') {
                 const tokenDepositDecimals = await tokenContract.methods
@@ -331,16 +333,6 @@ export default function CreateRowBorrowItem({
         initContract()
     }, [])
 
-    const renderSubmitText = () => {
-        if (!address) {
-            return 'Connect Wallet'
-        }
-        // return 'Deposit & Borrow'
-        return 'Confirm Borrow'
-    }
-
-    console.log('item :>> ', item)
-
     const handleChangeAmountRow = (value: string) => {
         setAmountRaw(value)
         setAmountReceiveRaw(
@@ -352,7 +344,7 @@ export default function CreateRowBorrowItem({
     return (
         <>
             <div
-                className="cursor-pointer rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pb-5 pt-3 text-[#030303] xl:px-[32px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white mb-3"
+                className="cursor-pointer rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pb-5 pt-3 text-[#030303] xl:px-[32px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white mb-6"
                 key={dataBorrow.depositTokenSymbol}
                 onClick={() => setOpenSwapModal(true)}
             >
@@ -441,8 +433,6 @@ export default function CreateRowBorrowItem({
             <SwapModal
                 open={openSwapModal}
                 handleClose={() => {
-                    // setAmountRaw('')
-                    // setAmountReceiveRaw(0)
                     setOpenSwapModal(false)
                 }}
 
@@ -467,7 +457,9 @@ export default function CreateRowBorrowItem({
 
             <ConfirmDepositModal
                 open={isOpenConfirmDepositModal}
-                handleClose={() => setOpenConfirmDepositModal(false)}
+                handleClose={() => {
+                    setOpenConfirmDepositModal(false)
+                }}
                 confirmButtonText="Supply & Borrow"
                 onConfirm={() => onBorrow()}
                 loading={isLoading}

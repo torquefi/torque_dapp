@@ -308,7 +308,10 @@ module.exports = {
       opacity: ['disabled'],
     },
   },
-  plugins: [require('@tailwindcss/aspect-ratio'),require("@tailwindcss/typography")],
+  plugins: [
+    require('@tailwindcss/aspect-ratio'),
+    require('@tailwindcss/typography'),
+  ],
 }
 
 function hexToRgb(hex) {
