@@ -26,7 +26,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
   const { borrowInfoByDepositSymbol } = useSelector(
     (store: AppState) => store?.borrow
   )
-  const [view, setView] = useState('grid')
+  const [view, setView] = useState('row')
 
   const dispatch = useDispatch()
   const [dataBorrow, setDataBorrow] = useState(

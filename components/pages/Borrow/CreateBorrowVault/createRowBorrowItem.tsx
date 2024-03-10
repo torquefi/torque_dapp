@@ -16,6 +16,7 @@ import Web3 from 'web3'
 import { borrowBtcContract, borrowEthContract } from '../constants/contract'
 import { IBorrowInfo } from '../types'
 import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
+import SwapModal from '@/components/common/Modal/SwapModal'
 interface CreateRowBorrowItemProps {
     item: IBorrowInfo
     setIsFetchBorrowLoading?: any
@@ -26,28 +27,26 @@ export default function CreateRowBorrowItem({
     setIsFetchBorrowLoading,
 }: CreateRowBorrowItemProps) {
     const web3 = new Web3(Web3.givenProvider)
-    const { open } = useWeb3Modal()
-
     const [dataBorrow, setDataBorrow] = useState(item)
     const [isLoading, setIsLoading] = useState(true)
-    const [amount, setAmount] = useState(0)
-    const [amountReceive, setAmountReceive] = useState(0)
+    const [amount, setAmount] = useState('')
+    const [amountReceive, setAmountReceive] = useState('')
     const [buttonLoading, setButtonLoading] = useState('')
     const { address, isConnected } = useAccount()
     const [isOpenConfirmDepositModal, setOpenConfirmDepositModal] =
         useState(false)
+    const [amountRaw, setAmountRaw] = useState('')
     const [aprBorrow, setAprBorrow] = useState('')
-    const [amountRaw, setAmountRaw] = useState(0)
+    const [openSwapModal, setOpenSwapModal] = useState(false)
     const [amountReceiveRaw, setAmountReceiveRaw] = useState(0)
     const [isUsdBorrowToken, setIsUsdBorrowToken] = useState(true)
     const [isUsdDepositToken, setIsUsdDepositToken] = useState(true)
     const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
+    const usdPrice: any = useSelector((store: AppStore) => store.usdPrice?.price)
 
     useEffect(() => {
         setTimeout(() => setIsLoading(false), 1000)
     }, [])
-
-    const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
 
     const initContract = async () => {
         try {
@@ -115,7 +114,7 @@ export default function CreateRowBorrowItem({
     }
 
     const onBorrow = async () => {
-        if (amount <= 0) {
+        if (Number(amount) <= 0) {
             toast.error(`You must supply ${item.depositTokenSymbol} to borrow`)
             return
         }
@@ -342,11 +341,20 @@ export default function CreateRowBorrowItem({
 
     console.log('item :>> ', item)
 
+    const handleChangeAmountRow = (value: string) => {
+        setAmountRaw(value)
+        setAmountReceiveRaw(
+            Number(value || 0) * usdPrice?.[`${dataBorrow.depositTokenSymbol.toLowerCase()}`] *
+            (dataBorrow.loanToValue / 140)
+        )
+    }
+
     return (
         <>
             <div
                 className="cursor-pointer rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pb-5 pt-3 text-[#030303] xl:px-[32px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white mb-3"
                 key={dataBorrow.depositTokenSymbol}
+                onClick={() => setOpenSwapModal(true)}
             >
                 <div className="flex items-center overflow-x-auto">
                     <div className="w-1/4 lg:w-1/6 inline-flex flex-none items-center">
@@ -429,6 +437,30 @@ export default function CreateRowBorrowItem({
                     </div>
                 </div>
             </div>
+
+            <SwapModal
+                open={openSwapModal}
+                handleClose={() => {
+                    setAmountRaw('')
+                    setAmountReceiveRaw(0)
+                    setOpenSwapModal(false)
+                }}
+
+                coinFrom={{
+                    amount: amountRaw,
+                    symbol: item.depositTokenSymbol,
+                    icon: `/icons/coin/${item.depositTokenSymbol.toLocaleLowerCase()}.png`,
+                }}
+                coinTo={{
+                    amount: amountReceiveRaw,
+                    icon: `/icons/coin/${item.borrowTokenSymbol.toLocaleLowerCase()}.png`,
+                    symbol: item.borrowTokenSymbol,
+                }}
+                setAmountRaw={handleChangeAmountRow}
+                setAmountReceiveRaw={setAmountReceiveRaw}
+            />
+
+
             <ConfirmDepositModal
                 open={isOpenConfirmDepositModal}
                 handleClose={() => setOpenConfirmDepositModal(false)}
