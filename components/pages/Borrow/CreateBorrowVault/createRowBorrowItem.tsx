@@ -441,8 +441,8 @@ export default function CreateRowBorrowItem({
             <SwapModal
                 open={openSwapModal}
                 handleClose={() => {
-                    setAmountRaw('')
-                    setAmountReceiveRaw(0)
+                    // setAmountRaw('')
+                    // setAmountReceiveRaw(0)
                     setOpenSwapModal(false)
                 }}
 
@@ -458,6 +458,10 @@ export default function CreateRowBorrowItem({
                 }}
                 setAmountRaw={handleChangeAmountRow}
                 setAmountReceiveRaw={setAmountReceiveRaw}
+                onCreateVault={() => {
+                    handleConfirmDeposit()
+                    setOpenSwapModal(false)
+                }}
             />
 
 
@@ -471,13 +475,11 @@ export default function CreateRowBorrowItem({
                     amount: amountRaw,
                     icon: `/icons/coin/${item.depositTokenSymbol.toLocaleLowerCase()}.png`,
                     symbol: item.depositTokenSymbol,
-                    isUsd: isUsdDepositToken,
                 }}
                 coinTo={{
                     amount: amountReceiveRaw,
                     icon: `/icons/coin/${item.borrowTokenSymbol.toLocaleLowerCase()}.png`,
                     symbol: item.borrowTokenSymbol,
-                    isUsd: isUsdBorrowToken,
                 }}
                 details={[
                     {

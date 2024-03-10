@@ -26,6 +26,7 @@ export interface SwapModalProps {
     handleClose: () => void
     setAmountRaw: any
     setAmountReceiveRaw: any
+    onCreateVault: () => void
 }
 
 export default function SwapModal({
@@ -35,16 +36,15 @@ export default function SwapModal({
     handleClose,
     setAmountRaw,
     setAmountReceiveRaw,
+    onCreateVault
 }: SwapModalProps) {
     const { open: openWalletModal } = useWeb3Modal()
     const { address } = useAccount()
-    console.log('coinTo :>> ', coinTo);
 
     const theme = useSelector((store: AppStore) => store.theme.theme)
     const [balanceCoinTo, setBalanceCoinTo] = useState('0')
     const [balanceCoinFrom, setBalanceCoinFrom] = useState('0')
     const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
-    console.log('usdPrice :>> ', usdPrice);
 
     const usdCoinFromToken = usdPrice?.[coinFrom.symbol]
     const usdCoinToToken = usdPrice?.[coinTo.symbol] || 1;
@@ -203,7 +203,6 @@ export default function SwapModal({
                                 className={`${coinTo?.amount ? 'text-[#030303]' : 'text-[#959595]'
                                     } w-full max-w-[60%] text-[20px] placeholder-[#959595]`}
                                 value={coinTo?.amount || ''}
-                                displayType="text"
                                 thousandSeparator
                                 placeholder="0.00"
                                 decimalScale={6}
@@ -243,6 +242,8 @@ export default function SwapModal({
                         onClick={() => {
                             if (!address) {
                                 openWalletModal()
+                            } else {
+                                onCreateVault()
                             }
                         }}
                         className="font-mona mt-[12px] w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[12px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]"
