@@ -20,6 +20,7 @@ import HoverIndicator from '@/components/common/HoverIndicator'
 import CreateRowBorrowItem from './createRowBorrowItem'
 import Popover from '@/components/common/Popover'
 import RcTooltip from '@/components/common/RcTooltip'
+import { AppStore } from '@/types/store'
 
 export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
   const [hoverTab, setHoverTab] = useState('')
@@ -28,7 +29,8 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
   const { borrowInfoByDepositSymbol } = useSelector(
     (store: AppState) => store?.borrow
   )
-  const [view, setView] = useState('grid')
+  const [view, setView] = useState('row')
+  const theme = useSelector((store: AppStore) => store.theme.theme)
 
   const dispatch = useDispatch()
   const [dataBorrow, setDataBorrow] = useState(
@@ -220,10 +222,18 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
 
       {view === 'row' && (
         <div className="overflow-x-auto">
+          <div
+            className={
+              `mt-2 hidden h-[1px] w-full md:block mb-4` +
+              `
+      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+              }`
+            }
+          ></div>
           <table className="min-w-[1000px] md:min-w-full">
             <thead>
-              <tr className=''>
-                <th className="text-left pb-2" colSpan={1}>
+              <tr className="">
+                <th className="py-[12px] text-left" colSpan={1}>
                   <div className="inline-flex items-center">
                     <span className="text-[20px] font-[500] text-[#959595]">
                       Collateral
@@ -244,7 +254,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     </RcTooltip>
                   </div>
                 </th>
-                <th className="text-left pb-2" colSpan={1}>
+                <th className="py-[12px] text-left" colSpan={1}>
                   <div className="inline-flex items-center">
                     <span className="text-[20px] font-[500] text-[#959595]">
                       Borrowing
@@ -265,7 +275,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     </RcTooltip>
                   </div>
                 </th>
-                <th className="text-left pb-2">
+                <th className="py-[12px] text-left">
                   <div className="inline-flex items-center">
                     <span className="text-[20px] font-[500] text-[#959595]">
                       LTV
@@ -286,7 +296,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     </RcTooltip>
                   </div>
                 </th>
-                <th className="text-left pb-2">
+                <th className="py-[12px] text-left">
                   <div className="inline-flex items-center">
                     <span className="text-[20px] font-[500] text-[#959595]">
                       APR
@@ -307,7 +317,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     </RcTooltip>
                   </div>
                 </th>
-                <th className="text-left pb-2">
+                <th className="py-[12px] text-left">
                   <div className="inline-flex items-center">
                     <span className="text-[20px] font-[500] text-[#959595]">
                       Liquidity
@@ -328,7 +338,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     </RcTooltip>
                   </div>
                 </th>
-                <th className="text-left pb-2">
+                <th className="py-[12px] text-left">
                   <div className="inline-flex items-center">
                     <span className="text-[20px] font-[500] text-[#959595]">
                       Rewards
@@ -349,7 +359,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     </RcTooltip>
                   </div>
                 </th>
-                <th className="text-left pb-2">
+                <th className="py-[12px] text-left">
                   <div className="inline-flex items-center">
                     <span className="text-[20px] font-[500] text-[#959595]">
                       Supplied
@@ -382,6 +392,14 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
               ))}
             </tbody>
           </table>
+          <div
+            className={
+              `mt-1 hidden h-[1px] w-full md:block` +
+              `
+      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+              }`
+            }
+          ></div>
         </div>
       )}
     </div>

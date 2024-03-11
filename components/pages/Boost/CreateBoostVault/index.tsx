@@ -12,12 +12,15 @@ import { CreateBoostItem } from './createBoostItem'
 import HoverIndicator from '@/components/common/HoverIndicator'
 import RcTooltip from '@/components/common/RcTooltip'
 import { CreateRowBoostItem } from './createRowBoostItem'
+import { useSelector } from 'react-redux'
+import { AppStore } from '@/types/store'
 
 export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
   const [boostVault, setBoostVault] = useState(BOOST_VAULTS)
   const [isLoading, setIsLoading] = useState(true)
   const [activeViewIndex, setActiveViewIndex] = useState(1)
   const [view, setView] = useState('grid')
+  const theme = useSelector((store: AppStore) => store.theme.theme)
 
   const handleUpdateBoostData = async (loading = false) => {
     let dataBoost: any[] = [...boostVault]
@@ -115,13 +118,20 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
         </div>
       )}
 
-
       {view === 'row' && (
         <div className="overflow-x-auto">
+          <div
+            className={
+              `mb-4 mt-2 hidden h-[1px] w-full md:block` +
+              `
+      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+              }`
+            }
+          ></div>
           <table className="min-w-[1000px] md:min-w-full">
             <thead>
-              <tr className='pb-2'>
-                <th className="text-left pb-2" colSpan={1}>
+              <tr className="">
+                <th className="py-[12px] text-left" colSpan={1}>
                   <div className="inline-flex items-center">
                     <span className="text-[20px] font-[500] text-[#959595]">
                       Asset
@@ -142,7 +152,7 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
                     </RcTooltip>
                   </div>
                 </th>
-                <th className="text-left" colSpan={1}>
+                <th className="py-[12px] text-left" colSpan={1}>
                   <div className="inline-flex items-center">
                     <span className="text-[20px] font-[500] text-[#959595]">
                       Routes
@@ -163,7 +173,7 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
                     </RcTooltip>
                   </div>
                 </th>
-                <th className="text-left">
+                <th className="py-[12px] text-left">
                   <div className="inline-flex items-center">
                     <span className="text-[20px] font-[500] text-[#959595]">
                       Allocation
@@ -184,7 +194,7 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
                     </RcTooltip>
                   </div>
                 </th>
-                <th className="text-left">
+                <th className="py-[12px] text-left">
                   <div className="inline-flex items-center">
                     <span className="text-[20px] font-[500] text-[#959595]">
                       APY
@@ -205,7 +215,7 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
                     </RcTooltip>
                   </div>
                 </th>
-                <th className="text-left">
+                <th className="py-[12px] text-left">
                   <div className="inline-flex items-center">
                     <span className="text-[20px] font-[500] text-[#959595]">
                       Rewards
@@ -226,7 +236,7 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
                     </RcTooltip>
                   </div>
                 </th>
-                <th className="text-left">
+                <th className="py-[12px] text-left">
                   <div className="inline-flex items-center">
                     <span className="text-[20px] font-[500] text-[#959595]">
                       Supplied
@@ -259,6 +269,14 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
               ))}
             </tbody>
           </table>
+          <div
+            className={
+              `mt-1 hidden h-[1px] w-full md:block` +
+              `
+      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+              }`
+            }
+          ></div>
         </div>
       )}
     </div>
@@ -285,7 +303,7 @@ const BOOST_VAULTS = [
     tokenContractInfo: wbtcContract,
     boostContractInfo: boostWbtcContract,
     gmxContractInfo: gmxWbtcContract,
-    routed: 'GMX/UNI'
+    routed: 'GMX/UNI',
   },
   {
     token: 'WETH',
@@ -306,6 +324,6 @@ const BOOST_VAULTS = [
     tokenContractInfo: wethContract,
     boostContractInfo: boostWethContract,
     gmxContractInfo: gmxWethContract,
-    routed: 'GMX/STG'
+    routed: 'GMX/STG',
   },
 ]

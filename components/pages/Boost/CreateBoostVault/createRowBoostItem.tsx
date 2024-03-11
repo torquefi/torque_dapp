@@ -233,7 +233,6 @@ export function CreateRowBoostItem({
             setIsFetchBoostLoading && setIsFetchBoostLoading((prev: any) => !prev)
             handleGetTotalSupply()
             setOpenConfirmDepositModal(false)
-
         } catch (e) {
             console.log('11111', e)
             toast.error('Boost Failed')
@@ -254,12 +253,12 @@ export function CreateRowBoostItem({
                     setAmountRaw('')
                     setOpenSwapModal(true)
                 }}
-                className={`cursor-pointer ${item.token === tokenHover ? 'bg-[#f6f4f8] dark:bg-[#141414]' : ''
+                className={`relative cursor-pointer ${item.token === tokenHover ? 'bg-[#f6f4f8] dark:bg-[#141414]' : ''
                     }`}
                 onMouseOver={() => setTokenHover(item.token)}
                 onMouseLeave={() => setTokenHover('')}
             >
-                <td className="py-2">
+                <td className="py-[12px]">
                     <div className="inline-flex items-center">
                         <img
                             className="mr-1 h-[32px] w-[32px]"
@@ -273,7 +272,7 @@ export function CreateRowBoostItem({
                         </div>
                     </div>
                 </td>
-                <td className="py-2">
+                <td className="py-[12px]">
                     <div className="flex items-center">
                         <div className="ml-[-0.75rem] flex items-center">
                             <Link
@@ -292,12 +291,12 @@ export function CreateRowBoostItem({
                         </span>
                     </div>
                 </td>
-                <td className="py-2">
+                <td className="py-[12px]">
                     <span className="text-[20px] font-[500] tracking-[0em] text-[#030303] dark:text-white">
                         50:50
                     </span>
                 </td>
-                <td className="py-2">
+                <td className="py-[12px]">
                     <NumericFormat
                         displayType="text"
                         value={item?.APR}
@@ -308,7 +307,7 @@ export function CreateRowBoostItem({
                         className="text-[20px] font-[500] tracking-[0em] text-[#030303] dark:text-white"
                     />
                 </td>
-                <td className="py-2">
+                <td className="py-[12px]">
                     <div className="inline-flex flex-none flex-col items-center gap-[4px]">
                         <div className="flex items-center gap-[6px]">
                             <img
@@ -322,7 +321,7 @@ export function CreateRowBoostItem({
                         </div>
                     </div>
                 </td>
-                <td className="py-2">
+                <td className="py-[12px]">
                     <NumericFormat
                         prefix="$"
                         value={Number(
@@ -334,6 +333,14 @@ export function CreateRowBoostItem({
                         className="text-[20px] font-[500] tracking-[0em] text-[#030303] dark:text-white"
                     />
                 </td>
+                <div
+                    className={
+                        `absolute left-0 h-[1px] w-full ` +
+                        `
+      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+                        }`
+                    }
+                ></div>
             </tr>
             <ConnectWalletModal
                 openModal={isOpenConnectWalletModal}

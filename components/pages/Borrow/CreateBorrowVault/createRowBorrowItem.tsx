@@ -40,6 +40,8 @@ export default function CreateRowBorrowItem({
     const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
     const [tokenHover, setTokenHover] = useState('')
     const usdPrice: any = useSelector((store: AppStore) => store.usdPrice?.price)
+    const theme = useSelector((store: AppStore) => store.theme.theme)
+
 
     useEffect(() => {
         setTimeout(() => setIsLoading(false), 1000)
@@ -376,11 +378,11 @@ export default function CreateRowBorrowItem({
                     setAmountReceiveRaw(0)
                     setOpenSwapModal(true)
                 }}
-                className={`cursor-pointer ${dataBorrow.depositTokenSymbol === tokenHover ? 'bg-[#f6f4f8] dark:bg-[#141414]' : ''}`}
+                className={`cursor-pointer relative ${dataBorrow.depositTokenSymbol === tokenHover ? 'bg-[#f6f4f8] dark:bg-[#141414]' : ''}`}
                 onMouseOver={() => setTokenHover(dataBorrow.depositTokenSymbol)}
                 onMouseLeave={() => setTokenHover('')}
             >
-                <td className='py-2'>
+                <td className='py-[12px]'>
                     <div className="inline-flex items-center">
                         <img
                             className="w-[32px] h-[32px] mr-1"
@@ -394,7 +396,7 @@ export default function CreateRowBorrowItem({
                         </div>
                     </div>
                 </td>
-                <td className='py-2'>
+                <td className='py-[12px]'>
                     <div className="inline-flex items-center">
                         <img
                             className="w-[32px] h-[32px] mr-1"
@@ -406,7 +408,7 @@ export default function CreateRowBorrowItem({
                         </p>
                     </div>
                 </td>
-                <td className='py-2'>
+                <td className='py-[12px]'>
                     <div className="inline-flex flex-none items-center flex-col gap-[4px]">
                         <p className='text-[20px] font-[400] tracking-[0em] text-[#030303] dark:text-white'>
                             {'<'}
@@ -414,7 +416,7 @@ export default function CreateRowBorrowItem({
                         </p>
                     </div>
                 </td>
-                <td className='py-2'>
+                <td className='py-[12px]'>
                     <div className="inline-flex flex-none items-center flex-col gap-[4px]">
                         <p className='text-[20px] font-[400] tracking-[0em] text-[#030303] dark:text-white'>
                             {!aprBorrow
@@ -423,14 +425,14 @@ export default function CreateRowBorrowItem({
                         </p>
                     </div>
                 </td>
-                <td className='py-2'>
+                <td className='py-[12px]'>
                     <div className="inline-flex flex-none items-center flex-col gap-[4px]">
                         <p className='text-[20px] font-[400] tracking-[0em] lowercase text-[#030303] dark:text-white'>
                             {!item?.liquidity ? '0.00%' : '$' + toMetricUnits(item?.liquidity)}
                         </p>
                     </div>
                 </td>
-                <td className='py-2'>
+                <td className='py-[12px]'>
                     <div className="inline-flex flex-none items-center flex-col gap-[4px]">
                         <div className="flex items-center gap-[6px]">
                             <img
@@ -444,12 +446,20 @@ export default function CreateRowBorrowItem({
                         </div>
                     </div>
                 </td>
-                <td className='py-2'>
+                <td className='py-[12px]'>
 
                     <span className='text-[#030303] dark:text-white text-[20px] font-[400] tracking-[0em] pt-[1px'>
                         {!Number(totalSupplied) ? '$0.00' : '$' + toMetricUnits(Number(totalSupplied))}
                     </span>
                 </td>
+                <div
+                    className={
+                        `absolute left-0 h-[1px] w-full ` +
+                        `
+      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+                        }`
+                    }
+                ></div>
             </tr >
 
             <SwapModal
