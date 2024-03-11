@@ -19,6 +19,7 @@ import CreateBorrowItem from './createBorrowItem'
 import HoverIndicator from '@/components/common/HoverIndicator'
 import CreateRowBorrowItem from './createRowBorrowItem'
 import Popover from '@/components/common/Popover'
+import RcTooltip from '@/components/common/RcTooltip'
 
 export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
   const [activeTabIndex, setActiveTabIndex] = useState(0)
@@ -248,9 +249,9 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                 <th className='text-left'>
                   <div className="inline-flex items-center">
                     <span className='text-[#959595] text-[20px] font-[500]'>Collateral</span>
-                    <Popover
+                    <RcTooltip
                       trigger="hover"
-                      placement="top-left"
+                      placement="topLeft"
                       className={`font-mona z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
                       content=""
                     >
@@ -261,15 +262,15 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                           className="w-[13px]"
                         />
                       </button>
-                    </Popover>
+                    </RcTooltip>
                   </div>
                 </th>
                 <th className='text-left'>
                   <div className="inline-flex items-center">
                     <span className='text-[#959595] text-[20px] font-[500]'>Borrowing</span>
-                    <Popover
+                    <RcTooltip
                       trigger="hover"
-                      placement="top-left"
+                      placement="topLeft"
                       className={`font-mona z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
                       content=""
                     >
@@ -280,15 +281,15 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                           className="w-[13px]"
                         />
                       </button>
-                    </Popover>
+                    </RcTooltip>
                   </div>
                 </th>
                 <th className='text-left'>
                   <div className="inline-flex items-center">
                     <span className='text-[#959595] text-[20px] font-[500]'>LTV</span>
-                    <Popover
+                    <RcTooltip
                       trigger="hover"
-                      placement="top-left"
+                      placement="topLeft"
                       className={`font-mona z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
                       content="Max value of the loan you can take out against your collateral."
                     >
@@ -299,15 +300,15 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                           className="w-[13px]"
                         />
                       </button>
-                    </Popover>
+                    </RcTooltip>
                   </div>
                 </th>
                 <th className='text-left'>
                   <div className="inline-flex items-center">
                     <span className='text-[#959595] text-[20px] font-[500]'>APR</span>
-                    <Popover
+                    <RcTooltip
                       trigger="hover"
-                      placement="top-left"
+                      placement="topLeft"
                       className={`font-mona z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
                       content="An interest rate determined by supply and demand of the asset."
                     >
@@ -318,15 +319,15 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                           className="w-[13px]"
                         />
                       </button>
-                    </Popover>
+                    </RcTooltip>
                   </div>
                 </th>
                 <th className='text-left'>
                   <div className="inline-flex items-center">
                     <span className='text-[#959595] text-[20px] font-[500]'>Liquidity</span>
-                    <Popover
+                    <RcTooltip
                       trigger="hover"
-                      placement="top-left"
+                      placement="topLeft"
                       className={`font-mona z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
                       content="Available amount of borrowing power in the market at this time."
                     >
@@ -337,15 +338,15 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                           className="w-[13px]"
                         />
                       </button>
-                    </Popover>
+                    </RcTooltip>
                   </div>
                 </th>
                 <th className='text-left'>
                   <div className="inline-flex items-center">
                     <span className='text-[#959595] text-[20px] font-[500]'>Rewards</span>
-                    <Popover
+                    <RcTooltip
                       trigger="hover"
-                      placement="top-left"
+                      placement="topLeft"
                       className={`font-mona z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
                       content="The projected TORQ rewards after 1 year of $1,000 borrowed"
                     >
@@ -356,15 +357,15 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                           className="w-[13px]"
                         />
                       </button>
-                    </Popover>
+                    </RcTooltip>
                   </div>
                 </th>
                 <th className='text-left'>
                   <div className="inline-flex items-center">
                     <span className='text-[#959595] text-[20px] font-[500]'>Supplied</span>
-                    <Popover
+                    <RcTooltip
                       trigger="hover"
-                      placement="top-left"
+                      placement="topLeft"
                       className={`font-mona z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
                       content=""
                     >
@@ -375,7 +376,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                           className="w-[13px]"
                         />
                       </button>
-                    </Popover>
+                    </RcTooltip>
                   </div>
                 </th>
               </tr>
