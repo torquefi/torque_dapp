@@ -139,13 +139,13 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
-                      className={`font-mona z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
-                      content=""
+                      className={`font-mona text-[#030303] dark:text-white py-1 items-center flex w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
+                      content="Select your preferred tokenized asset to be supplied."
                     >
                       <button className="ml-[5px]">
                         <img
                           src="/assets/pages/vote/ic-info.svg"
-                          alt="risk score system"
+                          alt="info icon"
                           className="w-[13px]"
                         />
                       </button>
@@ -160,13 +160,13 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
-                      className={`font-mona z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
-                      content="The total dollar value of all assets routed through Torque Boost."
+                      className={`font-mona text-[#030303] dark:text-white py-1 items-center flex w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
+                      content="Capture diversified yield within a single, seamless transaction."
                     >
                       <button className="ml-[5px]">
                         <img
                           src="/assets/pages/vote/ic-info.svg"
-                          alt="risk score system"
+                          alt="info icon"
                           className="w-[13px]"
                         />
                       </button>
@@ -181,13 +181,13 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
-                      className={`font-mona z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
-                      content=""
+                      className={`font-mona text-[#030303] dark:text-white py-1 items-center flex w-[210px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
+                      content="Supplied assets are auto-routed to yield providers."
                     >
                       <button className="mt-[ ml-[5px]">
                         <img
                           src="/assets/pages/vote/ic-info.svg"
-                          alt="risk score system"
+                          alt="info icon"
                           className="w-[13px]"
                         />
                       </button>
@@ -202,13 +202,13 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
-                      className={`font-mona z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+                      className={`font-mona text-[#030303] dark:text-white py-1 items-center flex w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
                       content="On-chain estimate based on prevailing market conditions."
                     >
                       <button className="ml-[5px]">
                         <img
                           src="/assets/pages/vote/ic-info.svg"
-                          alt="risk score system"
+                          alt="info icon"
                           className="w-[13px]"
                         />
                       </button>
@@ -223,13 +223,13 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
-                      className={`font-mona z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
-                      content="he current tToken balance of your connected account."
+                      className={`font-mona text-[#030303] dark:text-white py-1 items-center flex w-[220px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
+                      content="Projected TORQ rewards after 1 year of $1,000 supplied."
                     >
                       <button className="ml-[5px]">
                         <img
                           src="/assets/pages/vote/ic-info.svg"
-                          alt="risk score system"
+                          alt="info icon"
                           className="w-[13px]"
                         />
                       </button>
@@ -244,13 +244,13 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
-                      className={`font-mona z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
-                      content="The projected TORQ rewards after 1 year of $1,000 borrowed"
+                      className={`font-mona text-[#030303] dark:text-white py-1 items-center flex w-[220px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
+                      content="The total value of currently supplied tokenized assets."
                     >
                       <button className="ml-[5px]">
                         <img
                           src="/assets/pages/vote/ic-info.svg"
-                          alt="risk score system"
+                          alt="info icon"
                           className="w-[13px]"
                         />
                       </button>
@@ -271,7 +271,7 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
           </table>
           <div
             className={
-              `mt-1 hidden h-[1px] w-full md:block` +
+              `h-[1px] w-full` +
               `
       ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
               }`
