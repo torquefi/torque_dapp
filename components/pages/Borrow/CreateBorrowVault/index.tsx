@@ -241,13 +241,13 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
-                      className={`font-mona z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
-                      content=""
+                      className={`font-mona text-[#030303] dark:text-white py-1 items-center flex w-[220px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
+                      content="Supply collateral assets to receive a TUSD loan."
                     >
                       <button className="ml-[5px]">
                         <img
                           src="/assets/pages/vote/ic-info.svg"
-                          alt="risk score system"
+                          alt="info icon"
                           className="w-[13px]"
                         />
                       </button>
@@ -262,13 +262,13 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
-                      className={`font-mona z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
-                      content=""
+                      className={`font-mona text-[#030303] dark:text-white py-1 items-center flex w-[220px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
+                      content="Borrow Torque USD (TUSD) by supplying collateral assets."
                     >
                       <button className="ml-[5px]">
                         <img
                           src="/assets/pages/vote/ic-info.svg"
-                          alt="risk score system"
+                          alt="info icon"
                           className="w-[13px]"
                         />
                       </button>
@@ -283,13 +283,13 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
-                      className={`font-mona z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+                      className={`font-mona text-[#030303] dark:text-white py-1 items-center flex w-[220px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
                       content="Max value of the loan you can take out against your collateral."
                     >
                       <button className="mt-[ ml-[5px]">
                         <img
                           src="/assets/pages/vote/ic-info.svg"
-                          alt="risk score system"
+                          alt="info icon"
                           className="w-[13px]"
                         />
                       </button>
@@ -304,13 +304,13 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
-                      className={`font-mona z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+                      className={`font-mona text-[#030303] dark:text-white py-1 items-center flex w-[220px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
                       content="An interest rate determined by supply and demand of the asset."
                     >
                       <button className="ml-[5px]">
                         <img
                           src="/assets/pages/vote/ic-info.svg"
-                          alt="risk score system"
+                          alt="info icon"
                           className="w-[13px]"
                         />
                       </button>
@@ -325,13 +325,13 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
-                      className={`font-mona z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+                      className={`font-mona text-[#030303] dark:text-white py-1 items-center flex w-[220px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
                       content="Available amount of borrowing power in the market at this time."
                     >
                       <button className="ml-[5px]">
                         <img
                           src="/assets/pages/vote/ic-info.svg"
-                          alt="risk score system"
+                          alt="info icon"
                           className="w-[13px]"
                         />
                       </button>
@@ -346,13 +346,13 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
-                      className={`font-mona z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
-                      content="The projected TORQ rewards after 1 year of $1,000 borrowed"
+                      className={`font-mona text-[#030303] dark:text-white py-1 items-center flex w-[220px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
+                      content="Projected TORQ rewards after 1 year of $1,000 supplied."
                     >
                       <button className="ml-[5px]">
                         <img
                           src="/assets/pages/vote/ic-info.svg"
-                          alt="risk score system"
+                          alt="info icon"
                           className="w-[13px]"
                         />
                       </button>
@@ -367,13 +367,13 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topRight"
-                      className={`font-mona z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
-                      content=""
+                      className={`font-mona text-[#030303] dark:text-white py-1 items-center flex w-[220px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
+                      content="The total value of currently supplied tokenized assets."
                     >
                       <button className="ml-[5px]">
                         <img
                           src="/assets/pages/vote/ic-info.svg"
-                          alt="risk score system"
+                          alt="info icon"
                           className="w-[13px]"
                         />
                       </button>
@@ -394,7 +394,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
           </table>
           <div
             className={
-              `mt-1 hidden h-[1px] w-full md:block` +
+              `h-[1px] w-full` +
               `
       ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
               }`
