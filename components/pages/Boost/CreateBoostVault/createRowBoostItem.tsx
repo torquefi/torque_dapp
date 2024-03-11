@@ -259,7 +259,7 @@ export function CreateRowBoostItem({
                 onMouseLeave={() => setTokenHover('')}
             >
                 <td className="py-[6px]">
-                    <div className="inline-flex items-center">
+                    <div className="inline-flex items-center mt-1">
                         <img
                             className="mr-[8px] w-[24px]"
                             src={`/icons/coin/${item.token.toLowerCase()}.svg`}
