@@ -123,20 +123,20 @@ export function ManageBoostVault({ isFetchBoostData, setIsFetchBoostLoading }: a
 
   console.log('boostDisplayed :>> ', boostDisplayed)
 
-  if (isSkeletonLoading) {
-    return (
-      <div className="font-larken dark-text-white mt-[36px] text-[#464646]">
-        <div className="">
-          <SkeletonDefault height={'5vh'} width={'20%'} />
-        </div>
-        {DATA_BOOST_VAULT.map((item) => (
-          <div className="mt-[24px]">
-            <SkeletonDefault height={'20vh'} width={'100%'} />
-          </div>
-        ))}
-      </div>
-    )
-  }
+  // if (isSkeletonLoading) {
+  //   return (
+  //     <div className="font-larken dark-text-white mt-[36px] text-[#464646]">
+  //       <div className="">
+  //         <SkeletonDefault height={'5vh'} width={'20%'} />
+  //       </div>
+  //       {DATA_BOOST_VAULT.map((item) => (
+  //         <div className="mt-[24px]">
+  //           <SkeletonDefault height={'20vh'} width={'100%'} />
+  //         </div>
+  //       ))}
+  //     </div>
+  //   )
+  // }
 
   if (!boostDisplayed?.length) {
     return (

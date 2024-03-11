@@ -16,6 +16,8 @@ export interface IBorrowInfo {
   borrowContract?: Contract
   tokenContract?: Contract
   tokenBorrowContractInfo?: IContractInfo
+  name?: string
+  routed?: string
 }
 
 export interface IBorrowInfoManage {
