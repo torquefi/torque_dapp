@@ -39,8 +39,6 @@ export default function CreateRowBorrowItem({
     const [aprBorrow, setAprBorrow] = useState('')
     const [openSwapModal, setOpenSwapModal] = useState(false)
     const [amountReceiveRaw, setAmountReceiveRaw] = useState(0)
-    const [isUsdBorrowToken, setIsUsdBorrowToken] = useState(true)
-    const [isUsdDepositToken, setIsUsdDepositToken] = useState(true)
     const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
     const usdPrice: any = useSelector((store: AppStore) => store.usdPrice?.price)
 
@@ -343,92 +341,78 @@ export default function CreateRowBorrowItem({
 
     return (
         <>
-            <div
-                className="cursor-pointer rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pb-5 pt-3 text-[#030303] xl:px-[32px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white mb-6"
+            <tr
                 key={dataBorrow.depositTokenSymbol}
                 onClick={() => setOpenSwapModal(true)}
             >
-                <div className="flex items-center overflow-x-auto">
-                    <div className="w-1/4 lg:w-1/6 inline-flex flex-none items-center">
+                <td className='py-2'>
+                    <div className="inline-flex items-center">
                         <img
-                            className="w-[54px] mr-2"
+                            className="w-[32px] h-[32px] mr-1"
                             src={`/icons/coin/${item.depositTokenSymbol.toLowerCase()}.png`}
                             alt=""
                         />
                         <div className="inline-flex flex-1 flex-col">
-                            <p className="font-larken text-[28px] font-[400] leading-[34px] tracking-[0em]">
-                                {item?.name}
-                            </p>
-                            <p className="text-[20px] font-[500] tracking-[0em] text-[#959595]">
+                            <p className="text-[20px] font-[500] tracking-[0em] text-[#030303] dark:text-white">
                                 {item?.depositTokenSymbol?.toUpperCase()}
                             </p>
                         </div>
                     </div>
-                    <div className="w-1/4 lg:w-1/6 inline-flex flex-none flex-col items-center gap-[4px]">
-                        <div className="flex items-center">
-                            <Link
-                                href={'https://compound.finance/'}
-                                className="translate-x-3"
-                                target={'_blank'}
-                            >
-                                <img
-                                    src={'/icons/coin/compound.svg'}
-                                    alt="Compound"
-                                    className="w-[24px]"
-                                />
-                            </Link>
-                            <Link
-                                href={'https://tusd.torque.fi/'}
-                                className=""
-                                target={'_blank'}
-                            >
-                                <img
-                                    src={'/icons/coin/torq-yi.svg'}
-                                    alt="Torque USD"
-                                    className="w-[24px]"
-                                />
-                            </Link>
-                        </div>
-                        <div className="text-[20px] font-[500] tracking-[0em] text-[#959595]">
-                            Loan providers
-                        </div>
+                </td>
+                <td className='py-2'>
+                    <div className="inline-flex items-center">
+                        <img
+                            className="w-[32px] h-[32px] mr-1"
+                            src={`/icons/coin/${item.borrowTokenSymbol.toLowerCase()}.png`}
+                            alt=""
+                        />
+                        <p className="text-[20px] font-[500] tracking-[0em] text-[#030303] dark:text-white">
+                            {item?.borrowTokenSymbol?.toUpperCase()}
+                        </p>
                     </div>
-                    <div className="w-1/4 lg:w-1/6 inline-flex flex-none items-center flex-col gap-[4px]">
-                        <p className='font-larken text-[24px] font-[400] tracking-[0em]'>
+                </td>
+                <td className='py-2'>
+                    <div className="inline-flex flex-none items-center flex-col gap-[4px]">
+                        <p className='text-[20px] font-[400] tracking-[0em] text-[#030303] dark:text-white'>
                             {'<'}
                             {item?.loanToValue}%
                         </p>
-                        <div className='text-[20px] font-[500] tracking-[0em] text-[#959595]'>Loan-to-value</div>
                     </div>
-                    <div className="w-1/4 lg:w-1/6 inline-flex flex-none items-center flex-col gap-[4px]">
-                        <p className='font-larken text-[24px] font-[400] tracking-[0em]'>
+                </td>
+                <td className='py-2'>
+                    <div className="inline-flex flex-none items-center flex-col gap-[4px]">
+                        <p className='text-[20px] font-[400] tracking-[0em] text-[#030303] dark:text-white'>
                             {!aprBorrow
                                 ? '-0.00%'
                                 : (-Number(aprBorrow) * 100).toFixed(2) + '%'}
                         </p>
-                        <div className='text-[20px] font-[500] tracking-[0em] text-[#959595]'>Variable APR</div>
                     </div>
-                    <div className="w-1/4 lg:w-1/6 inline-flex flex-none items-center flex-col gap-[4px]">
-                        <p className='font-larken text-[24px] font-[400] tracking-[0em]'>
+                </td>
+                <td className='py-2'>
+                    <div className="inline-flex flex-none items-center flex-col gap-[4px]">
+                        <p className='text-[20px] font-[400] tracking-[0em] lowercase text-[#030303] dark:text-white'>
                             {!item?.liquidity ? '0.00%' : '$' + toMetricUnits(item?.liquidity)}
                         </p>
-                        <div className='text-[20px] font-[500] tracking-[0em] text-[#959595]'>Liquidity</div>
                     </div>
-                    <div className="w-1/4 lg:w-1/6 inline-flex flex-none items-center flex-col gap-[4px]">
+                </td>
+                <td className='py-2'>
+                    <div className="inline-flex flex-none items-center flex-col gap-[4px]">
                         <div className="flex items-center gap-[6px]">
                             <img
                                 src="/assets/t-logo-circle.png"
                                 alt=""
                                 className="w-[24px]"
                             />
-                            <div className="font-larken text-[24px] font-[400] tracking-[0em]">
+                            <div className="text-[20px] font-[400] tracking-[0em] pt-[1px] text-[#030303] dark:text-white">
                                 0.00
                             </div>
                         </div>
-                        <div className='text-[20px] font-[500] tracking-[0em] text-[#959595]'>Rewards</div>
                     </div>
-                </div>
-            </div>
+                </td>
+                <td className='py-2'>
+                    <span className='text-[#030303] dark:text-white text-[20px] font-[400] tracking-[0em] pt-[1px'>$0.00</span>
+                </td>
+            </tr>
 
             <SwapModal
                 open={openSwapModal}

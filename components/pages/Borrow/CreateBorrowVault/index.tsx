@@ -18,6 +18,7 @@ import { IBorrowInfo } from '../types'
 import CreateBorrowItem from './createBorrowItem'
 import HoverIndicator from '@/components/common/HoverIndicator'
 import CreateRowBorrowItem from './createRowBorrowItem'
+import Popover from '@/components/common/Popover'
 
 export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
   const [activeTabIndex, setActiveTabIndex] = useState(0)
@@ -26,7 +27,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
   const { borrowInfoByDepositSymbol } = useSelector(
     (store: AppState) => store?.borrow
   )
-  const [view, setView] = useState('grid')
+  const [view, setView] = useState('row')
 
   const dispatch = useDispatch()
   const [dataBorrow, setDataBorrow] = useState(
@@ -161,8 +162,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
   //   { id: 1, name: 'Stable', content: 'Content for Stable' },
   // ];
 
-
-  console.log('dataBorrow :>> ', dataBorrow);
+  console.log('dataBorrow :>> ', dataBorrow)
 
   return (
     <div className="space-y-[18px]">
@@ -240,16 +240,159 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
         </div>
       )}
 
-      {view === 'row' &&
-        <div className="">
-          {dataBorrow.map((item, i) => (
-            <CreateRowBorrowItem
-              item={item}
-              key={i}
-              setIsFetchBorrowLoading={setIsFetchBorrowLoading}
-            />
-          ))}
-        </div>}
+      {view === 'row' && (
+        <div className="overflow-x-auto">
+          <table className="min-w-full">
+            <thead>
+              <tr>
+                <th className='text-left'>
+                  <div className="inline-flex items-center">
+                    <span className='text-[#959595] text-[20px] font-[500]'>Collateral</span>
+                    <Popover
+                      trigger="hover"
+                      placement="top-left"
+                      className={`font-mona z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+                      content=""
+                    >
+                      <button className="ml-[5px] mt-[7px]">
+                        <img
+                          src="/assets/pages/vote/ic-info.svg"
+                          alt="risk score system"
+                          className="w-[13px]"
+                        />
+                      </button>
+                    </Popover>
+                  </div>
+                </th>
+                <th className='text-left'>
+                  <div className="inline-flex items-center">
+                    <span className='text-[#959595] text-[20px] font-[500]'>Borrowing</span>
+                    <Popover
+                      trigger="hover"
+                      placement="top-left"
+                      className={`font-mona z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+                      content=""
+                    >
+                      <button className="ml-[5px] mt-[7px]">
+                        <img
+                          src="/assets/pages/vote/ic-info.svg"
+                          alt="risk score system"
+                          className="w-[13px]"
+                        />
+                      </button>
+                    </Popover>
+                  </div>
+                </th>
+                <th className='text-left'>
+                  <div className="inline-flex items-center">
+                    <span className='text-[#959595] text-[20px] font-[500]'>LTV</span>
+                    <Popover
+                      trigger="hover"
+                      placement="top-left"
+                      className={`font-mona z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+                      content="Max value of the loan you can take out against your collateral."
+                    >
+                      <button className="ml-[5px] mt-[7px]">
+                        <img
+                          src="/assets/pages/vote/ic-info.svg"
+                          alt="risk score system"
+                          className="w-[13px]"
+                        />
+                      </button>
+                    </Popover>
+                  </div>
+                </th>
+                <th className='text-left'>
+                  <div className="inline-flex items-center">
+                    <span className='text-[#959595] text-[20px] font-[500]'>APR</span>
+                    <Popover
+                      trigger="hover"
+                      placement="top-left"
+                      className={`font-mona z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+                      content="An interest rate determined by supply and demand of the asset."
+                    >
+                      <button className="ml-[5px] mt-[7px]">
+                        <img
+                          src="/assets/pages/vote/ic-info.svg"
+                          alt="risk score system"
+                          className="w-[13px]"
+                        />
+                      </button>
+                    </Popover>
+                  </div>
+                </th>
+                <th className='text-left'>
+                  <div className="inline-flex items-center">
+                    <span className='text-[#959595] text-[20px] font-[500]'>Liquidity</span>
+                    <Popover
+                      trigger="hover"
+                      placement="top-left"
+                      className={`font-mona z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+                      content="Available amount of borrowing power in the market at this time."
+                    >
+                      <button className="ml-[5px] mt-[7px]">
+                        <img
+                          src="/assets/pages/vote/ic-info.svg"
+                          alt="risk score system"
+                          className="w-[13px]"
+                        />
+                      </button>
+                    </Popover>
+                  </div>
+                </th>
+                <th className='text-left'>
+                  <div className="inline-flex items-center">
+                    <span className='text-[#959595] text-[20px] font-[500]'>Rewards</span>
+                    <Popover
+                      trigger="hover"
+                      placement="top-left"
+                      className={`font-mona z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+                      content="The projected TORQ rewards after 1 year of $1,000 borrowed"
+                    >
+                      <button className="ml-[5px] mt-[7px]">
+                        <img
+                          src="/assets/pages/vote/ic-info.svg"
+                          alt="risk score system"
+                          className="w-[13px]"
+                        />
+                      </button>
+                    </Popover>
+                  </div>
+                </th>
+                <th className='text-left'>
+                  <div className="inline-flex items-center">
+                    <span className='text-[#959595] text-[20px] font-[500]'>Supplied</span>
+                    <Popover
+                      trigger="hover"
+                      placement="top-left"
+                      className={`font-mona z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+                      content=""
+                    >
+                      <button className="ml-[5px] mt-[7px]">
+                        <img
+                          src="/assets/pages/vote/ic-info.svg"
+                          alt="risk score system"
+                          className="w-[13px]"
+                        />
+                      </button>
+                    </Popover>
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {dataBorrow.map((item, i) => (
+                <CreateRowBorrowItem
+                  item={item}
+                  key={i}
+                  setIsFetchBorrowLoading={setIsFetchBorrowLoading}
+                />
+              ))}
+            </tbody>
+          </table>
+
+        </div>
+      )}
     </div>
   )
 }
@@ -268,7 +411,7 @@ const BORROW_INFOS: IBorrowInfo[] = [
     borrowContractInfo: borrowBtcContract,
     tokenContractInfo: tokenBtcContract,
     tokenBorrowContractInfo: tokenTusdContract,
-    name: 'Bitcoin'
+    name: 'Bitcoin',
   },
   {
     depositTokenIcon: '/icons/coin/aeth.png',
@@ -283,6 +426,6 @@ const BORROW_INFOS: IBorrowInfo[] = [
     borrowContractInfo: borrowEthContract,
     tokenContractInfo: tokenEthContract,
     tokenBorrowContractInfo: tokenTusdContract,
-    name: 'Ether'
+    name: 'Ether',
   },
 ]
