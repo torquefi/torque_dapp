@@ -61,7 +61,7 @@ const menu = [
   // },
   {
     title: 'Hello World [Test Proposal]',
-    state: 'pending',
+    state: 'active',
     tip: 'TIP-1',
     timeVote: 'Vote hasn’t started',
     voteRed: 0,
