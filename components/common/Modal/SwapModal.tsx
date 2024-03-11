@@ -153,13 +153,13 @@ export default function SwapModal({
 
     return (
         <Modal
-            className="mx-auto w-[90%] max-w-[360px] bg-[#FCFAFF] px-[22px] dark:bg-[#030303]"
+            className="mx-auto w-[90%] max-w-[360px] bg-[#FCFAFF] px-[18px] dark:bg-[#030303]"
             open={open}
             handleClose={handleClose}
             hideCloseIcon
         >
             <div className="flex items-center justify-between py-1">
-                <div className="font-larken text-[24px] font-[400] text-[#030303] md:text-[28px] dark:text-white">
+                <div className="font-larken font-[400] text-[#030303] text-[24px] dark:text-white">
                     {title || 'Create Vault'}
                 </div>
                 <AiOutlineClose
@@ -175,7 +175,7 @@ export default function SwapModal({
                     }`
                 }
             ></div>
-            <div className="mt-[1px] w-full py-[18px]">
+            <div className="mt-[14px] w-full">
                 <div className="relative">
                     <div className="rounded-[8px] border-[1px] border-solid border-[#ececec] bg-[#fff] px-[14px] pl-[12px] pr-[12px] pt-[9px] dark:bg-[linear-gradient(180deg,#0d0d0d_0%,#0e0e0e_100%)] dark:border-[#181818]">
                         <div className="flex items-center justify-between">
@@ -197,11 +197,11 @@ export default function SwapModal({
                                 >
                                     Max
                                 </p>
-                                <div className="flex items-center gap-[6px] text-[#030303] dark:text-[#959595]">
+                                <div className="flex items-center gap-[2px] text-[#030303] dark:text-[#959595]">
                                     <img
                                         src={coinFrom?.icon}
                                         alt=""
-                                        className="h-[18px] rounded-full"
+                                        className="h-[32px] rounded-full"
                                     />
                                     <p>{coinFrom?.symbol}</p>
                                 </div>
@@ -256,8 +256,8 @@ export default function SwapModal({
                                 decimalScale={5}
                                 displayType={disabledOutput ? 'text' : 'input'}
                             />
-                            <div className="flex items-center gap-[6px] text-[#030303] dark:text-[#959595]">
-                                <img src={coinTo?.icon} alt="torque usd" className="h-[18px]" />
+                            <div className="flex items-center gap-[2px] text-[#030303] dark:text-[#959595]">
+                                <img src={coinTo?.icon} alt="torque usd" className="h-[32px]" />
                                 <p>{coinTo?.symbol}</p>
                             </div>
                         </div>

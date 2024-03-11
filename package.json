@@ -8,6 +8,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@adraffy/ens-normalize": "^1.10.1",
     "@ethersproject/providers": "^5.7.2",
     "@headlessui/react": "^1.4.3",
     "@hookform/resolvers": "^3.3.4",
