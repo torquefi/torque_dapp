@@ -382,7 +382,7 @@ export default function CreateRowBorrowItem({
                 onMouseOver={() => setTokenHover(dataBorrow.depositTokenSymbol)}
                 onMouseLeave={() => setTokenHover('')}
             >
-                <td className='py-[12px]'>
+                <td className='py-[6px]'>
                     <div className="inline-flex items-center">
                         <img
                             className="w-[32px] h-[32px] mr-1"
@@ -390,49 +390,49 @@ export default function CreateRowBorrowItem({
                             alt=""
                         />
                         <div className="inline-flex flex-1 flex-col">
-                            <p className="text-[20px] font-[500] tracking-[0em] text-[#030303] dark:text-white">
+                            <p className="text-[16px] font-[500] tracking-[0em] text-[#030303] dark:text-white">
                                 {item?.depositTokenSymbol?.toUpperCase()}
                             </p>
                         </div>
                     </div>
                 </td>
-                <td className='py-[12px]'>
+                <td className='py-[6px]'>
                     <div className="inline-flex items-center">
                         <img
                             className="w-[32px] h-[32px] mr-1"
                             src={`/icons/coin/${item.borrowTokenSymbol.toLowerCase()}.png`}
                             alt=""
                         />
-                        <p className="text-[20px] font-[500] tracking-[0em] text-[#030303] dark:text-white">
+                        <p className="text-[16px] font-[500] tracking-[0em] text-[#030303] dark:text-white">
                             {item?.borrowTokenSymbol?.toUpperCase()}
                         </p>
                     </div>
                 </td>
-                <td className='py-[12px]'>
+                <td className='py-[6px]'>
                     <div className="inline-flex flex-none items-center flex-col gap-[4px]">
-                        <p className='text-[20px] font-[400] tracking-[0em] text-[#030303] dark:text-white'>
+                        <p className='text-[16px] font-[400] tracking-[0em] text-[#030303] dark:text-white'>
                             {'<'}
                             {item?.loanToValue}%
                         </p>
                     </div>
                 </td>
-                <td className='py-[12px]'>
+                <td className='py-[6px]'>
                     <div className="inline-flex flex-none items-center flex-col gap-[4px]">
-                        <p className='text-[20px] font-[400] tracking-[0em] text-[#030303] dark:text-white'>
+                        <p className='text-[16px] font-[400] tracking-[0em] text-[#030303] dark:text-white'>
                             {!aprBorrow
                                 ? '-0.00%'
                                 : (-Number(aprBorrow) * 100).toFixed(2) + '%'}
                         </p>
                     </div>
                 </td>
-                <td className='py-[12px]'>
+                <td className='py-[6px]'>
                     <div className="inline-flex flex-none items-center flex-col gap-[4px]">
-                        <p className='text-[20px] font-[400] tracking-[0em] lowercase text-[#030303] dark:text-white'>
+                        <p className='text-[16px] font-[400] tracking-[0em] lowercase text-[#030303] dark:text-white'>
                             {!item?.liquidity ? '0.00%' : '$' + toMetricUnits(item?.liquidity)}
                         </p>
                     </div>
                 </td>
-                <td className='py-[12px]'>
+                <td className='py-[6px]'>
                     <div className="inline-flex flex-none items-center flex-col gap-[4px]">
                         <div className="flex items-center gap-[6px]">
                             <img
@@ -440,15 +440,15 @@ export default function CreateRowBorrowItem({
                                 alt=""
                                 className="w-[24px]"
                             />
-                            <div className="text-[20px] font-[400] tracking-[0em] pt-[1px] text-[#030303] dark:text-white">
+                            <div className="text-[16px] font-[400] tracking-[0em] pt-[1px] text-[#030303] dark:text-white">
                                 0.00
                             </div>
                         </div>
                     </div>
                 </td>
-                <td className='py-[12px]'>
+                <td className='py-[6px]'>
 
-                    <span className='text-[#030303] dark:text-white text-[20px] font-[400] tracking-[0em] pt-[1px'>
+                    <span className='text-[#030303] dark:text-white text-[16px] font-[400] tracking-[0em] pt-[1px'>
                         {!Number(totalSupplied) ? '$0.00' : '$' + toMetricUnits(Number(totalSupplied))}
                     </span>
                 </td>

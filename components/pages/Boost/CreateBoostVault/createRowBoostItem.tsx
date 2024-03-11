@@ -229,7 +229,7 @@ export function CreateRowBoostItem({
                 })
                 await tx.wait()
             }
-            toast.success('Boost Successfully')
+            toast.success('Boost Successful')
             setIsFetchBoostLoading && setIsFetchBoostLoading((prev: any) => !prev)
             handleGetTotalSupply()
             setOpenConfirmDepositModal(false)
@@ -258,7 +258,7 @@ export function CreateRowBoostItem({
                 onMouseOver={() => setTokenHover(item.token)}
                 onMouseLeave={() => setTokenHover('')}
             >
-                <td className="py-[12px]">
+                <td className="py-[6px]">
                     <div className="inline-flex items-center">
                         <img
                             className="mr-1 h-[32px] w-[32px]"
@@ -266,13 +266,13 @@ export function CreateRowBoostItem({
                             alt=""
                         />
                         <div className="inline-flex flex-1 flex-col">
-                            <p className="text-[20px] font-[500] tracking-[0em] text-[#030303] dark:text-white">
+                            <p className="text-[16px] font-[500] tracking-[0em] text-[#030303] dark:text-white">
                                 {item?.token?.toUpperCase()}
                             </p>
                         </div>
                     </div>
                 </td>
-                <td className="py-[12px]">
+                <td className="py-[6px]">
                     <div className="flex items-center">
                         <div className="ml-[-0.75rem] flex items-center">
                             <Link
@@ -286,17 +286,17 @@ export function CreateRowBoostItem({
                                 <img src={item.yield_provider2} alt="" className="w-[24px]" />
                             </Link>
                         </div>
-                        <span className="ml-2 text-[20px] font-[500] tracking-[0em] text-[#030303] dark:text-white">
+                        <span className="ml-2 text-[16px] font-[500] tracking-[0em] text-[#030303] dark:text-white">
                             {item.routed}
                         </span>
                     </div>
                 </td>
-                <td className="py-[12px]">
-                    <span className="text-[20px] font-[500] tracking-[0em] text-[#030303] dark:text-white">
+                <td className="py-[6px]">
+                    <span className="text-[16px] font-[500] tracking-[0em] text-[#030303] dark:text-white">
                         50:50
                     </span>
                 </td>
-                <td className="py-[12px]">
+                <td className="py-[6px]">
                     <NumericFormat
                         displayType="text"
                         value={item?.APR}
@@ -304,10 +304,10 @@ export function CreateRowBoostItem({
                         suffix="%"
                         decimalScale={2}
                         fixedDecimalScale={true}
-                        className="text-[20px] font-[500] tracking-[0em] text-[#030303] dark:text-white"
+                        className="text-[16px] font-[500] tracking-[0em] text-[#030303] dark:text-white"
                     />
                 </td>
-                <td className="py-[12px]">
+                <td className="py-[6px]">
                     <div className="inline-flex flex-none flex-col items-center gap-[4px]">
                         <div className="flex items-center gap-[6px]">
                             <img
@@ -315,13 +315,13 @@ export function CreateRowBoostItem({
                                 alt=""
                                 className="w-[24px]"
                             />
-                            <div className="pt-[1px] text-[20px] font-[500] tracking-[0em] text-[#030303] dark:text-white">
+                            <div className="pt-[1px] text-[16px] font-[500] tracking-[0em] text-[#030303] dark:text-white">
                                 0.00
                             </div>
                         </div>
                     </div>
                 </td>
-                <td className="py-[12px]">
+                <td className="py-[6px]">
                     <NumericFormat
                         prefix="$"
                         value={Number(
@@ -330,7 +330,7 @@ export function CreateRowBoostItem({
                                 .toString()
                         ).toFixed(2)}
                         displayType="text"
-                        className="text-[20px] font-[500] tracking-[0em] text-[#030303] dark:text-white"
+                        className="text-[16px] font-[500] tracking-[0em] text-[#030303] dark:text-white"
                     />
                 </td>
                 <div
