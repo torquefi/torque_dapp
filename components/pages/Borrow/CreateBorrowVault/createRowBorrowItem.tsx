@@ -383,11 +383,11 @@ export default function CreateRowBorrowItem({
                 onMouseLeave={() => setTokenHover('')}
             >
                 <td className='py-[6px]'>
-                    <div className="inline-flex items-center">
+                    <div className="inline-flex items-center mt-1">
                         <img
-                            className="w-[32px] h-[32px] mr-1"
-                            src={`/icons/coin/${item.depositTokenSymbol.toLowerCase()}.png`}
-                            alt=""
+                            className="w-[24px] mr-[8px]"
+                            src={`/icons/coin/${item.depositTokenSymbol.toLowerCase()}.svg`}
+                            alt="Asset icon"
                         />
                         <div className="inline-flex flex-1 flex-col">
                             <p className="text-[16px] font-[500] tracking-[0em] text-[#030303] dark:text-white">
@@ -397,11 +397,11 @@ export default function CreateRowBorrowItem({
                     </div>
                 </td>
                 <td className='py-[6px]'>
-                    <div className="inline-flex items-center">
+                    <div className="inline-flex items-center mt-1">
                         <img
-                            className="w-[32px] h-[32px] mr-1"
-                            src={`/icons/coin/${item.borrowTokenSymbol.toLowerCase()}.png`}
-                            alt=""
+                            className="w-[24px] mr-[6px]"
+                            src={`/icons/coin/${item.borrowTokenSymbol.toLowerCase()}.svg`}
+                            alt="TUSD icon"
                         />
                         <p className="text-[16px] font-[500] tracking-[0em] text-[#030303] dark:text-white">
                             {item?.borrowTokenSymbol?.toUpperCase()}
@@ -437,8 +437,8 @@ export default function CreateRowBorrowItem({
                         <div className="flex items-center gap-[6px]">
                             <img
                                 src="/assets/t-logo-circle.png"
-                                alt=""
-                                className="w-[24px]"
+                                alt="TORQ icon"
+                                className="w-[18px]"
                             />
                             <div className="text-[16px] font-[400] tracking-[0em] pt-[1px] text-[#030303] dark:text-white">
                                 0.00
