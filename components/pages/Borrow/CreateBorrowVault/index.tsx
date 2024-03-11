@@ -22,7 +22,7 @@ import Popover from '@/components/common/Popover'
 import RcTooltip from '@/components/common/RcTooltip'
 
 export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
-  const [activeTabIndex, setActiveTabIndex] = useState(0)
+  const [hoverTab, setHoverTab] = useState('')
   const [activeViewIndex, setActiveViewIndex] = useState(1)
   const { address, isConnected } = useAccount()
   const { borrowInfoByDepositSymbol } = useSelector(
@@ -158,11 +158,6 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
     handleUpdateBorrowData()
   }, [isConnected, address])
 
-  // const tabs = [
-  //   { id: 0, name: 'Native', content: 'Content for Native' },
-  //   { id: 1, name: 'Stable', content: 'Content for Stable' },
-  // ];
-
   console.log('dataBorrow :>> ', dataBorrow)
 
   return (
@@ -172,24 +167,6 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
           Create Borrow Vault
         </h3>
         <div className="flex items-center justify-center space-x-3">
-          {/* <div className="flex h-[36px] max-w-[140px] border border-[#efefef] dark:border-[#1a1a1a] rounded-[4px]">
-            <div className="flex px-[3px] py-[3px]">
-              <HoverIndicator activeIndex={activeTabIndex} className="flex w-full justify-between">
-                {tabs.map((tab, index) => (
-                  <button
-                    key={tab.id}
-                    onClick={() => setActiveTabIndex(index)}
-                    className={`flex justify-center items-center px-[10px] py-[6px] text-sm ${activeTabIndex === index ? 'text-[#030303]' : 'text-[#959595]'} dark:text-white focus:outline-none ${index === 0 ? 'rounded-tl-[4px]' : ''} ${index === tabs.length - 1 ? 'rounded-tr-[4px]' : ''}`}
-                  >
-                    {tab.name}
-                  </button>
-                ))}
-              </HoverIndicator>
-            </div>
-            <div className="p-4">
-              {tabs[activeTabIndex].content}
-            </div>
-          </div> */}
           <div className="flex h-[36px] w-auto items-center justify-center rounded-[4px] border border-[#efefef] bg-transparent px-[3px] py-[4px] dark:border-[#1a1a1a]">
             <HoverIndicator
               activeIndex={activeViewIndex}
@@ -243,19 +220,21 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
 
       {view === 'row' && (
         <div className="overflow-x-auto">
-          <table className="min-w-full">
+          <table className="min-w-[1000px] md:min-w-full">
             <thead>
-              <tr>
-                <th className='text-left'>
+              <tr className='pb-2'>
+                <th className="text-left pb-2" colSpan={1}>
                   <div className="inline-flex items-center">
-                    <span className='text-[#959595] text-[20px] font-[500]'>Collateral</span>
+                    <span className="text-[20px] font-[500] text-[#959595]">
+                      Collateral
+                    </span>
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
                       className={`font-mona z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
                       content=""
                     >
-                      <button className="ml-[5px] mt-[7px]">
+                      <button className="ml-[5px]">
                         <img
                           src="/assets/pages/vote/ic-info.svg"
                           alt="risk score system"
@@ -265,16 +244,18 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     </RcTooltip>
                   </div>
                 </th>
-                <th className='text-left'>
+                <th className="text-left" colSpan={1}>
                   <div className="inline-flex items-center">
-                    <span className='text-[#959595] text-[20px] font-[500]'>Borrowing</span>
+                    <span className="text-[20px] font-[500] text-[#959595]">
+                      Borrowing
+                    </span>
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
                       className={`font-mona z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
                       content=""
                     >
-                      <button className="ml-[5px] mt-[7px]">
+                      <button className="ml-[5px]">
                         <img
                           src="/assets/pages/vote/ic-info.svg"
                           alt="risk score system"
@@ -284,16 +265,18 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     </RcTooltip>
                   </div>
                 </th>
-                <th className='text-left'>
+                <th className="text-left">
                   <div className="inline-flex items-center">
-                    <span className='text-[#959595] text-[20px] font-[500]'>LTV</span>
+                    <span className="text-[20px] font-[500] text-[#959595]">
+                      LTV
+                    </span>
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
                       className={`font-mona z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
                       content="Max value of the loan you can take out against your collateral."
                     >
-                      <button className="ml-[5px] mt-[7px]">
+                      <button className="mt-[ ml-[5px]">
                         <img
                           src="/assets/pages/vote/ic-info.svg"
                           alt="risk score system"
@@ -303,16 +286,18 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     </RcTooltip>
                   </div>
                 </th>
-                <th className='text-left'>
+                <th className="text-left">
                   <div className="inline-flex items-center">
-                    <span className='text-[#959595] text-[20px] font-[500]'>APR</span>
+                    <span className="text-[20px] font-[500] text-[#959595]">
+                      APR
+                    </span>
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
                       className={`font-mona z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
                       content="An interest rate determined by supply and demand of the asset."
                     >
-                      <button className="ml-[5px] mt-[7px]">
+                      <button className="ml-[5px]">
                         <img
                           src="/assets/pages/vote/ic-info.svg"
                           alt="risk score system"
@@ -322,16 +307,18 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     </RcTooltip>
                   </div>
                 </th>
-                <th className='text-left'>
+                <th className="text-left">
                   <div className="inline-flex items-center">
-                    <span className='text-[#959595] text-[20px] font-[500]'>Liquidity</span>
+                    <span className="text-[20px] font-[500] text-[#959595]">
+                      Liquidity
+                    </span>
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
                       className={`font-mona z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
                       content="Available amount of borrowing power in the market at this time."
                     >
-                      <button className="ml-[5px] mt-[7px]">
+                      <button className="ml-[5px]">
                         <img
                           src="/assets/pages/vote/ic-info.svg"
                           alt="risk score system"
@@ -341,16 +328,18 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     </RcTooltip>
                   </div>
                 </th>
-                <th className='text-left'>
+                <th className="text-left">
                   <div className="inline-flex items-center">
-                    <span className='text-[#959595] text-[20px] font-[500]'>Rewards</span>
+                    <span className="text-[20px] font-[500] text-[#959595]">
+                      Rewards
+                    </span>
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
                       className={`font-mona z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
                       content="The projected TORQ rewards after 1 year of $1,000 borrowed"
                     >
-                      <button className="ml-[5px] mt-[7px]">
+                      <button className="ml-[5px]">
                         <img
                           src="/assets/pages/vote/ic-info.svg"
                           alt="risk score system"
@@ -360,16 +349,18 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     </RcTooltip>
                   </div>
                 </th>
-                <th className='text-left'>
+                <th className="text-left">
                   <div className="inline-flex items-center">
-                    <span className='text-[#959595] text-[20px] font-[500]'>Supplied</span>
+                    <span className="text-[20px] font-[500] text-[#959595]">
+                      Supplied
+                    </span>
                     <RcTooltip
                       trigger="hover"
-                      placement="topLeft"
+                      placement="topRight"
                       className={`font-mona z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
                       content=""
                     >
-                      <button className="ml-[5px] mt-[7px]">
+                      <button className="ml-[5px]">
                         <img
                           src="/assets/pages/vote/ic-info.svg"
                           alt="risk score system"
@@ -391,7 +382,6 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
               ))}
             </tbody>
           </table>
-
         </div>
       )}
     </div>

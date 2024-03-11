@@ -31,7 +31,6 @@ export default function CreateRowBorrowItem({
     const [isLoading, setIsLoading] = useState(true)
     const [amount, setAmount] = useState('')
     const [amountReceive, setAmountReceive] = useState('')
-    const [buttonLoading, setButtonLoading] = useState('')
     const { address, isConnected } = useAccount()
     const [isOpenConfirmDepositModal, setOpenConfirmDepositModal] =
         useState(false)
@@ -39,7 +38,9 @@ export default function CreateRowBorrowItem({
     const [aprBorrow, setAprBorrow] = useState('')
     const [openSwapModal, setOpenSwapModal] = useState(false)
     const [amountReceiveRaw, setAmountReceiveRaw] = useState(0)
+    const [totalSupplied, setTotalSupplied] = useState('')
     const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
+    const [tokenHover, setTokenHover] = useState('')
     const usdPrice: any = useSelector((store: AppStore) => store.usdPrice?.price)
 
     useEffect(() => {
@@ -101,6 +102,34 @@ export default function CreateRowBorrowItem({
         )
         return contract
     }, [Web3.givenProvider, item.borrowContractInfo])
+
+    const handleGetTotalSupply = async () => {
+        if (!borrowContract || !tokenContract) {
+            return;
+        }
+        try {
+            const totalSupply = await borrowContract.methods
+                .totalSupplied()
+                .call()
+            const tokenDecimal = await tokenContract.methods
+                .decimals()
+                .call()
+
+            const totalSupplied = new BigNumber(
+                ethers.utils.formatUnits(totalSupply, tokenDecimal).toString()
+            )
+                .multipliedBy(new BigNumber(usdPrice?.[`${dataBorrow.depositTokenSymbol.toLowerCase()}`] || 0))
+                .toString()
+            setTotalSupplied(totalSupplied)
+            console.log('totalSupplied :>> ', totalSupplied);
+        } catch (error) {
+            console.log('handleGetTotalSupply error :>> ', error);
+        }
+    }
+
+    useEffect(() => {
+        handleGetTotalSupply()
+    }, [borrowContract, tokenContract, usdPrice])
 
     const handleConfirmDeposit = async () => {
         if (!isConnected) {
@@ -344,6 +373,9 @@ export default function CreateRowBorrowItem({
             <tr
                 key={dataBorrow.depositTokenSymbol}
                 onClick={() => setOpenSwapModal(true)}
+                className={`cursor-pointer ${dataBorrow.depositTokenSymbol === tokenHover ? 'bg-[#f6f4f8] dark:bg-[#141414]' : ''}`}
+                onMouseOver={() => setTokenHover(dataBorrow.depositTokenSymbol)}
+                onMouseLeave={() => setTokenHover('')}
             >
                 <td className='py-2'>
                     <div className="inline-flex items-center">
@@ -410,9 +442,12 @@ export default function CreateRowBorrowItem({
                     </div>
                 </td>
                 <td className='py-2'>
-                    <span className='text-[#030303] dark:text-white text-[20px] font-[400] tracking-[0em] pt-[1px'>$0.00</span>
+
+                    <span className='text-[#030303] dark:text-white text-[20px] font-[400] tracking-[0em] pt-[1px'>
+                        {!Number(totalSupplied) ? '$0.00' : '$' + toMetricUnits(Number(totalSupplied))}
+                    </span>
                 </td>
-            </tr>
+            </tr >
 
             <SwapModal
                 open={openSwapModal}
