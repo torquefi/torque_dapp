@@ -339,7 +339,7 @@ export function CreateBoostItem({
               <button className="ml-[5px] mt-[7px]">
                 <img
                   src="/assets/pages/vote/ic-info.svg"
-                  alt="risk score system"
+                  alt="info icon"
                   className="w-[13px]"
                 />
               </button>
@@ -370,7 +370,7 @@ export function CreateBoostItem({
               <button className="ml-[5px] mt-[7px]">
                 <img
                   src="/assets/pages/vote/ic-info.svg"
-                  alt="risk score system"
+                  alt="info icon"
                   className="w-[13px]"
                 />
               </button>
@@ -397,7 +397,7 @@ export function CreateBoostItem({
               <button className="ml-[5px] mt-[7px]">
                 <img
                   src="/assets/pages/vote/ic-info.svg"
-                  alt="risk score system"
+                  alt="info icon"
                   className="w-[13px]"
                 />
               </button>
@@ -425,7 +425,7 @@ export function CreateBoostItem({
               <button className="ml-[5px] mt-[7px]">
                 <img
                   src="/assets/pages/vote/ic-info.svg"
-                  alt="risk score system"
+                  alt="info icon"
                   className="w-[13px]"
                 />
               </button>

@@ -261,9 +261,9 @@ export function CreateRowBoostItem({
                 <td className="py-[6px]">
                     <div className="inline-flex items-center">
                         <img
-                            className="mr-1 h-[32px] w-[32px]"
-                            src={`/icons/coin/${item.token.toLowerCase()}.png`}
-                            alt=""
+                            className="mr-[8px] w-[24px]"
+                            src={`/icons/coin/${item.token.toLowerCase()}.svg`}
+                            alt="Asset icon"
                         />
                         <div className="inline-flex flex-1 flex-col">
                             <p className="text-[16px] font-[500] tracking-[0em] text-[#030303] dark:text-white">
@@ -312,8 +312,8 @@ export function CreateRowBoostItem({
                         <div className="flex items-center gap-[6px]">
                             <img
                                 src="/assets/t-logo-circle.png"
-                                alt=""
-                                className="w-[24px]"
+                                alt="TORQ icon"
+                                className="w-[18px]"
                             />
                             <div className="pt-[1px] text-[16px] font-[500] tracking-[0em] text-[#030303] dark:text-white">
                                 0.00
