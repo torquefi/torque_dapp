@@ -230,7 +230,7 @@ export function CreateBoostItem({
         })
         await tx.wait()
       }
-      toast.success('Boost Successfully')
+      toast.success('Boost Successful')
       setIsFetchBoostLoading && setIsFetchBoostLoading((prev: any) => !prev)
       handleGetTotalSupply()
       setOpenConfirmDepositModal(false)

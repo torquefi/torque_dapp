@@ -126,7 +126,7 @@ export function BoostItem({ item, onWithdrawSuccess, setIsFetchBoostLoading }: B
       // const tx = gmxContract2.withdrawAmount(slippage)
       await gmxContract.methods.withdrawAmount(slippage).send({ from: address })
       // await tx.wait()
-      toast.success('Execute Successfully')
+      toast.success('Execute Successful')
       setIsFetchBoostLoading && setIsFetchBoostLoading((prev: any) => !prev)
       handleGetBoostData()
     } catch (error) {
@@ -225,7 +225,7 @@ export function BoostItem({ item, onWithdrawSuccess, setIsFetchBoostLoading }: B
         position: 'Boost',
         name: label,
       })
-      toast.success('Update name successfully')
+      toast.success('Update name successful')
     } catch (error) {
       toast.error('Update name failed')
       console.error('updateBoostLabel', error)

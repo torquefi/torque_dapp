@@ -183,7 +183,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       console.log('params :>> ', amountRepay, withdraw)
       const tx = await borrowContract2.repay(amountRepay, withdraw)
       await tx.wait()
-      toast.success('Repay Successfully')
+      toast.success('Repay Successful')
       handleGetBorrowData()
       setInputValue('')
     } catch (e) {
@@ -217,7 +217,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         ethers.utils.parseUnits(inputValue, depositTokenDecimal).toString()
       )
       await tx.wait()
-      toast.success('Withdraw Successfully')
+      toast.success('Withdraw Successful')
     } catch (e) {
       console.log(e)
       toast.error('Withdraw Failed')
@@ -243,7 +243,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       console.log('tusdBorrowAmount :>> ', tusdBorrowAmount)
       const tx = await borrowContract2.mintTUSD(tusdBorrowAmount)
       await tx.wait()
-      toast.success('Borrow Successfully')
+      toast.success('Borrow Successful')
       handleGetBorrowData()
       setIsLoading(false)
     } catch (e) {

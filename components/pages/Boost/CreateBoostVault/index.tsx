@@ -122,7 +122,7 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
         <div className="overflow-x-auto">
           <div
             className={
-              `mb-4 mt-2 hidden h-[1px] w-full md:block` +
+              `h-[1px] w-full` +
               `
       ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
               }`
@@ -131,9 +131,9 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
           <table className="min-w-[1000px] md:min-w-full">
             <thead>
               <tr className="">
-                <th className="py-[12px] text-left" colSpan={1}>
+                <th className="py-[6px] text-left" colSpan={1}>
                   <div className="inline-flex items-center">
-                    <span className="text-[20px] font-[500] text-[#959595]">
+                    <span className="text-[16px] font-[500] text-[#959595]">
                       Asset
                     </span>
                     <RcTooltip
@@ -152,9 +152,9 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
                     </RcTooltip>
                   </div>
                 </th>
-                <th className="py-[12px] text-left" colSpan={1}>
+                <th className="py-[6px] text-left" colSpan={1}>
                   <div className="inline-flex items-center">
-                    <span className="text-[20px] font-[500] text-[#959595]">
+                    <span className="text-[16px] font-[500] text-[#959595]">
                       Routes
                     </span>
                     <RcTooltip
@@ -173,9 +173,9 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
                     </RcTooltip>
                   </div>
                 </th>
-                <th className="py-[12px] text-left">
+                <th className="py-[6px] text-left">
                   <div className="inline-flex items-center">
-                    <span className="text-[20px] font-[500] text-[#959595]">
+                    <span className="text-[16px] font-[500] text-[#959595]">
                       Allocation
                     </span>
                     <RcTooltip
@@ -194,9 +194,9 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
                     </RcTooltip>
                   </div>
                 </th>
-                <th className="py-[12px] text-left">
+                <th className="py-[6px] text-left">
                   <div className="inline-flex items-center">
-                    <span className="text-[20px] font-[500] text-[#959595]">
+                    <span className="text-[16px] font-[500] text-[#959595]">
                       APY
                     </span>
                     <RcTooltip
@@ -215,9 +215,9 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
                     </RcTooltip>
                   </div>
                 </th>
-                <th className="py-[12px] text-left">
+                <th className="py-[6px] text-left">
                   <div className="inline-flex items-center">
-                    <span className="text-[20px] font-[500] text-[#959595]">
+                    <span className="text-[16px] font-[500] text-[#959595]">
                       Rewards
                     </span>
                     <RcTooltip
@@ -236,9 +236,9 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
                     </RcTooltip>
                   </div>
                 </th>
-                <th className="py-[12px] text-left">
+                <th className="py-[6px] text-left">
                   <div className="inline-flex items-center">
-                    <span className="text-[20px] font-[500] text-[#959595]">
+                    <span className="text-[16px] font-[500] text-[#959595]">
                       Supplied
                     </span>
                     <RcTooltip
