@@ -120,7 +120,8 @@ export const DetailsVotes = () => {
           )}
           <p className="font-[500] text-[#959595]">TIP-{id}</p>
           <div className="h-[5px] w-[5px] rounded-full bg-[#959595]"></div>
-          <p className="font-[500] text-[#959595]">Vote hasn't started yet</p>
+          <p className="font-[500] text-[#959595]">Vote has started</p> 
+          {/* <p className="font-[500] text-[#959595]">Vote has started</p> needs dynamic state */}
         </div>
       </div>
       <div className="m-auto w-full max-w-[815px]">

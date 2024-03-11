@@ -13,10 +13,10 @@ export const tipsData = [
   // },
   {
     title: 'Hello World [Test Proposal]',
-    stage: 'Pending',
+    stage: 'Active',
     id: 0,
     description: Tip0Md,
-    timeVote: 'Vote hasn’t started',
+    timeVote: 'Vote has started',
     voteRed: 0,
     voteGreen: 0,
     proposalId:
