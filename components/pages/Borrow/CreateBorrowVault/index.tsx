@@ -28,7 +28,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
   const { borrowInfoByDepositSymbol } = useSelector(
     (store: AppState) => store?.borrow
   )
-  const [view, setView] = useState('row')
+  const [view, setView] = useState('grid')
 
   const dispatch = useDispatch()
   const [dataBorrow, setDataBorrow] = useState(
@@ -222,7 +222,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
         <div className="overflow-x-auto">
           <table className="min-w-[1000px] md:min-w-full">
             <thead>
-              <tr className='pb-2'>
+              <tr className=''>
                 <th className="text-left pb-2" colSpan={1}>
                   <div className="inline-flex items-center">
                     <span className="text-[20px] font-[500] text-[#959595]">
@@ -244,7 +244,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     </RcTooltip>
                   </div>
                 </th>
-                <th className="text-left" colSpan={1}>
+                <th className="text-left pb-2" colSpan={1}>
                   <div className="inline-flex items-center">
                     <span className="text-[20px] font-[500] text-[#959595]">
                       Borrowing
@@ -265,7 +265,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     </RcTooltip>
                   </div>
                 </th>
-                <th className="text-left">
+                <th className="text-left pb-2">
                   <div className="inline-flex items-center">
                     <span className="text-[20px] font-[500] text-[#959595]">
                       LTV
@@ -286,7 +286,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     </RcTooltip>
                   </div>
                 </th>
-                <th className="text-left">
+                <th className="text-left pb-2">
                   <div className="inline-flex items-center">
                     <span className="text-[20px] font-[500] text-[#959595]">
                       APR
@@ -307,7 +307,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     </RcTooltip>
                   </div>
                 </th>
-                <th className="text-left">
+                <th className="text-left pb-2">
                   <div className="inline-flex items-center">
                     <span className="text-[20px] font-[500] text-[#959595]">
                       Liquidity
@@ -328,7 +328,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     </RcTooltip>
                   </div>
                 </th>
-                <th className="text-left">
+                <th className="text-left pb-2">
                   <div className="inline-flex items-center">
                     <span className="text-[20px] font-[500] text-[#959595]">
                       Rewards
@@ -349,7 +349,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     </RcTooltip>
                   </div>
                 </th>
-                <th className="text-left">
+                <th className="text-left pb-2">
                   <div className="inline-flex items-center">
                     <span className="text-[20px] font-[500] text-[#959595]">
                       Supplied

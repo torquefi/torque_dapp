@@ -12,6 +12,8 @@ import {
     tokenTusdContract,
 } from '@/components/pages/Borrow/constants/contract'
 import { getBalanceByContractToken } from '@/constants/utils'
+import BigNumber from 'bignumber.js'
+import { ethers } from 'ethers'
 
 interface DepositCoinDetail {
     amount: any
@@ -27,6 +29,12 @@ export interface SwapModalProps {
     setAmountRaw: any
     setAmountReceiveRaw: any
     onCreateVault: () => void
+    disabledOutput?: boolean
+    usdTokenOutPrice?: number
+    title?: string
+    createButtonText?: string
+    tokenContract?: any
+    boostContract?: any
 }
 
 export default function SwapModal({
@@ -36,7 +44,12 @@ export default function SwapModal({
     handleClose,
     setAmountRaw,
     setAmountReceiveRaw,
-    onCreateVault
+    onCreateVault,
+    disabledOutput,
+    usdTokenOutPrice,
+    title,
+    createButtonText,
+    tokenContract, boostContract
 }: SwapModalProps) {
     const { open: openWalletModal } = useWeb3Modal()
     const { address } = useAccount()
@@ -78,6 +91,8 @@ export default function SwapModal({
         }
     }, [coinFrom.symbol, address, open])
 
+
+
     useEffect(() => {
         if (address && open) {
             ; (async () => {
@@ -88,10 +103,42 @@ export default function SwapModal({
                         address
                     )
                     setBalanceCoinTo(amount?.toString())
+                } else if (coinTo.symbol === 'tBTC') {
+                    if (tokenContract && boostContract) {
+                        try {
+                            const tokenDecimal = await tokenContract.methods.decimals().call()
+                            const deposited = await boostContract.methods.balanceOf(address).call()
+                            setBalanceCoinTo(
+                                new BigNumber(
+                                    ethers.utils.formatUnits(deposited, tokenDecimal)
+                                ).toString()
+                            )
+                        } catch (error) {
+                            console.log('balance token to error :>> ', error);
+                        }
+
+                    }
+                } else if (coinTo.symbol === 'tETH') {
+                    if (tokenContract && boostContract) {
+                        try {
+                            const tokenDecimal = await tokenContract.methods.decimals().call()
+                            const deposited = await boostContract.methods.balanceOf(address).call()
+                            setBalanceCoinTo(
+                                new BigNumber(
+                                    ethers.utils.formatUnits(deposited, tokenDecimal)
+                                ).toString()
+                            )
+                        } catch (error) {
+                            console.log('balance token to error :>> ', error);
+                        }
+
+                    }
                 }
             })()
         }
-    }, [coinFrom.symbol, address, open])
+    }, [coinTo.symbol, address, open, tokenContract, boostContract])
+
+    console.log('balanceCoinTo :>> ', balanceCoinTo);
 
     const handleChangeMax = () => {
         setAmountRaw(balanceCoinFrom)
@@ -101,7 +148,7 @@ export default function SwapModal({
         if (!address) {
             return 'Connect Wallet'
         }
-        return 'Create Vault'
+        return createButtonText ? createButtonText : 'Create Vault'
     }
 
     return (
@@ -113,7 +160,7 @@ export default function SwapModal({
         >
             <div className="flex items-center justify-between py-1">
                 <div className="font-larken text-[24px] font-[400] text-[#030303] md:text-[28px] dark:text-white">
-                    Create Vault
+                    {title || 'Create Vault'}
                 </div>
                 <AiOutlineClose
                     className="cursor-pointer text-[#030303] dark:text-[#ffff]"
@@ -174,7 +221,7 @@ export default function SwapModal({
                                     }}
                                     displayType='text'
                                     thousandSeparator
-                                    decimalScale={5}
+                                    decimalScale={2}
                                     prefix="$"
                                 />
                             </div>
@@ -186,7 +233,7 @@ export default function SwapModal({
                                     }
                                     displayType="text"
                                     thousandSeparator
-                                    decimalScale={6}
+                                    decimalScale={5}
                                 />
                             </div>
                         </div>
@@ -203,10 +250,11 @@ export default function SwapModal({
                             <NumericFormat
                                 className={`${coinTo?.amount ? 'text-[#030303] dark:text-[#fff]' : 'text-[#959595]'
                                     } w-full max-w-[60%] text-[20px] placeholder-[#959595] dark:bg-transparent`}
-                                value={coinTo?.amount || ''}
+                                value={coinTo?.amount || Number('0').toFixed(2)}
                                 thousandSeparator
                                 placeholder="0.00"
-                                decimalScale={6}
+                                decimalScale={5}
+                                displayType={disabledOutput ? 'text' : 'input'}
                             />
                             <div className="flex items-center gap-[6px] text-[#030303] dark:text-[#959595]">
                                 <img src={coinTo?.icon} alt="torque usd" className="h-[18px]" />
@@ -219,12 +267,12 @@ export default function SwapModal({
                                     value={
                                         coinTo?.amount
                                             ? Number(coinTo?.amount || 0) *
-                                            Number(usdCoinToToken || 0)
+                                            Number(usdTokenOutPrice || usdCoinToToken || 0)
                                             : Number('0').toFixed(2)
                                     }
                                     displayType="text"
                                     thousandSeparator
-                                    decimalScale={4}
+                                    decimalScale={2}
                                     prefix="$"
                                 />
                             </div>
@@ -234,7 +282,7 @@ export default function SwapModal({
                                     value={address && Number(balanceCoinTo) ? balanceCoinTo : 0}
                                     displayType="text"
                                     thousandSeparator
-                                    decimalScale={4}
+                                    decimalScale={5}
                                 />
                             </div>
                         </div>

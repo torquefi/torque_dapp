@@ -301,6 +301,8 @@ export function CreateBoostItem({
               usdDefault
               decimalScale={5}
               onChange={(tokenValue, rawValue) => {
+                console.log('tokenValue :>> ', tokenValue);
+                console.log('rawValue :>> ', rawValue);
                 setAmount(tokenValue)
                 setAmountRaw(rawValue)
               }}

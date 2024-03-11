@@ -29,8 +29,6 @@ export default function CreateRowBorrowItem({
     const web3 = new Web3(Web3.givenProvider)
     const [dataBorrow, setDataBorrow] = useState(item)
     const [isLoading, setIsLoading] = useState(true)
-    const [amount, setAmount] = useState('')
-    const [amountReceive, setAmountReceive] = useState('')
     const { address, isConnected } = useAccount()
     const [isOpenConfirmDepositModal, setOpenConfirmDepositModal] =
         useState(false)
@@ -157,7 +155,7 @@ export default function CreateRowBorrowItem({
                     .decimals()
                     .call()
                 const borrow = Number(
-                    new BigNumber(Number(amount).toFixed(tokenDepositDecimals))
+                    new BigNumber(Number(amountRaw).toFixed(tokenDepositDecimals))
                         .multipliedBy(10 ** tokenDepositDecimals)
                         .toString()
                 )
@@ -176,7 +174,6 @@ export default function CreateRowBorrowItem({
 
                 const tusdBorrowedAmount = borrowInfoMap?.baseBorrowed
                 console.log('tusdBorrowedAmount :>> ', tusdBorrowedAmount)
-                console.log('amountReceive :>> ', amountReceive)
 
                 let tusdBorrowAmount = await borrowContract.methods
                     .getMintableToken(newUsdcBorrowAmount, tusdBorrowedAmount, 0)
@@ -186,11 +183,11 @@ export default function CreateRowBorrowItem({
                     .decimals()
                     .call()
                 console.log('tokenDecimal :>> ', tokenBorrowDecimal)
-                console.log('amountReceive :>> ', amountReceive)
-                if (amountReceive) {
+                console.log('amountReceiveRaw :>> ', amountReceiveRaw)
+                if (amountReceiveRaw) {
                     tusdBorrowAmount = ethers.utils
                         .parseUnits(
-                            Number(amountReceive).toFixed(tokenBorrowDecimal).toString(),
+                            Number(amountReceiveRaw).toFixed(tokenBorrowDecimal).toString(),
                             tokenBorrowDecimal
                         )
                         .toString()
@@ -259,7 +256,7 @@ export default function CreateRowBorrowItem({
                     .decimals()
                     .call()
                 const borrow = Number(
-                    new BigNumber(Number(amount).toFixed(tokenDepositDecimals))
+                    new BigNumber(Number(amountRaw).toFixed(tokenDepositDecimals))
                         .multipliedBy(10 ** tokenDepositDecimals)
                         .toString()
                 )
@@ -287,10 +284,10 @@ export default function CreateRowBorrowItem({
 
                 console.log('tokenDecimal :>> ', tokenBorrowDecimal)
 
-                if (amountReceive) {
+                if (amountReceiveRaw) {
                     tusdBorrowAmount = ethers.utils
                         .parseUnits(
-                            Number(amountReceive).toFixed(tokenBorrowDecimal).toString(),
+                            Number(amountReceiveRaw).toFixed(tokenBorrowDecimal).toString(),
                             tokenBorrowDecimal
                         )
                         .toString()
@@ -346,6 +343,8 @@ export default function CreateRowBorrowItem({
                 setOpenConfirmDepositModal(false)
                 setIsLoading(false)
                 setIsFetchBorrowLoading && setIsFetchBorrowLoading((prev: any) => !prev)
+                setAmountRaw('')
+                setAmountReceiveRaw(0)
             }
             // dispatch(updateborrowTime(new Date().getTime() as any))
         } catch (e) {
@@ -372,7 +371,11 @@ export default function CreateRowBorrowItem({
         <>
             <tr
                 key={dataBorrow.depositTokenSymbol}
-                onClick={() => setOpenSwapModal(true)}
+                onClick={() => {
+                    setAmountRaw('')
+                    setAmountReceiveRaw(0)
+                    setOpenSwapModal(true)
+                }}
                 className={`cursor-pointer ${dataBorrow.depositTokenSymbol === tokenHover ? 'bg-[#f6f4f8] dark:bg-[#141414]' : ''}`}
                 onMouseOver={() => setTokenHover(dataBorrow.depositTokenSymbol)}
                 onMouseLeave={() => setTokenHover('')}
@@ -454,7 +457,6 @@ export default function CreateRowBorrowItem({
                 handleClose={() => {
                     setOpenSwapModal(false)
                 }}
-
                 coinFrom={{
                     amount: amountRaw,
                     symbol: item.depositTokenSymbol,
