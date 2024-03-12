@@ -21,6 +21,7 @@ import CreateRowBorrowItem from './createRowBorrowItem'
 import Popover from '@/components/common/Popover'
 import RcTooltip from '@/components/common/RcTooltip'
 import { AppStore } from '@/types/store'
+import { updateLayoutBorrow } from '@/lib/redux/slices/layout'
 
 export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
   const [hoverTab, setHoverTab] = useState('')
@@ -29,8 +30,8 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
   const { borrowInfoByDepositSymbol } = useSelector(
     (store: AppState) => store?.borrow
   )
-  const [view, setView] = useState('grid')
   const theme = useSelector((store: AppStore) => store.theme.theme)
+  const layoutBorrow = useSelector((store: AppStore) => store.layout.layoutBorrow)
 
   const dispatch = useDispatch()
   const [dataBorrow, setDataBorrow] = useState(
@@ -160,8 +161,6 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
     handleUpdateBorrowData()
   }, [isConnected, address])
 
-  console.log('dataBorrow :>> ', dataBorrow)
-
   return (
     <div className="space-y-[18px]">
       <div className="flex items-center justify-between">
@@ -171,15 +170,14 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
         <div className="flex items-center justify-center space-x-3">
           <div className="flex h-[36px] w-auto items-center justify-center rounded-[4px] border border-[#efefef] bg-transparent px-[3px] py-[4px] dark:border-[#1a1a1a]">
             <HoverIndicator
-              activeIndex={activeViewIndex}
+              activeIndex={layoutBorrow === 'row' ? 0 : 1}
               className="flex w-full justify-between"
             >
               <button
                 id="rowViewButton"
                 className="focus:outline-none"
                 onClick={() => {
-                  setActiveViewIndex(0)
-                  setView('row')
+                  dispatch(updateLayoutBorrow('row' as any))
                 }}
               >
                 <img
@@ -193,8 +191,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                 id="gridViewButton"
                 className="focus:outline-none"
                 onClick={() => {
-                  setActiveViewIndex(1)
-                  setView('grid')
+                  dispatch(updateLayoutBorrow('grid' as any))
                 }}
               >
                 <img
@@ -208,7 +205,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
           </div>
         </div>
       </div>
-      {view === 'grid' && (
+      {layoutBorrow === 'grid' && (
         <div className="grid gap-[20px] md:grid-cols-2">
           {dataBorrow.map((item, i) => (
             <CreateBorrowItem
@@ -220,7 +217,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
         </div>
       )}
 
-      {view === 'row' && (
+      {layoutBorrow === 'row' && (
         <div className="overflow-x-auto">
           <div
             className={
@@ -233,7 +230,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
           <table className="min-w-[1000px] md:min-w-full">
             <thead>
               <tr className="">
-                <th className="py-[6px] text-left" colSpan={1}>
+                <th className="py-[6px] text-left">
                   <div className="inline-flex items-center">
                     <span className="text-[16px] font-[500] text-[#959595]">
                       Collateral
@@ -254,7 +251,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     </RcTooltip>
                   </div>
                 </th>
-                <th className="py-[6px] text-left" colSpan={1}>
+                <th className="py-[6px] text-left">
                   <div className="inline-flex items-center">
                     <span className="text-[16px] font-[500] text-[#959595]">
                       Borrowing

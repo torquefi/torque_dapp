@@ -12,8 +12,9 @@ import { CreateBoostItem } from './createBoostItem'
 import HoverIndicator from '@/components/common/HoverIndicator'
 import RcTooltip from '@/components/common/RcTooltip'
 import { CreateRowBoostItem } from './createRowBoostItem'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { AppStore } from '@/types/store'
+import { updateLayoutBoost } from '@/lib/redux/slices/layout'
 
 export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
   const [boostVault, setBoostVault] = useState(BOOST_VAULTS)
@@ -21,6 +22,8 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
   const [activeViewIndex, setActiveViewIndex] = useState(1)
   const [view, setView] = useState('grid')
   const theme = useSelector((store: AppStore) => store.theme.theme)
+  const layoutBoost = useSelector((store: AppStore) => store.layout.layoutBoost)
+  const dispatch = useDispatch()
 
   const handleUpdateBoostData = async (loading = false) => {
     let dataBoost: any[] = [...boostVault]
@@ -66,15 +69,14 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
         <div className="flex items-center justify-center space-x-3">
           <div className="flex h-[36px] w-auto items-center justify-center rounded-[4px] border border-[#efefef] bg-transparent px-[3px] py-[4px] dark:border-[#1a1a1a]">
             <HoverIndicator
-              activeIndex={activeViewIndex}
+              activeIndex={layoutBoost === 'row' ? 0 : 1}
               className="flex w-full justify-between"
             >
               <button
                 id="rowViewButton"
                 className="focus:outline-none"
                 onClick={() => {
-                  setActiveViewIndex(0)
-                  setView('row')
+                  dispatch(updateLayoutBoost('row' as any))
                 }}
               >
                 <img
@@ -88,8 +90,7 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
                 id="gridViewButton"
                 className="focus:outline-none"
                 onClick={() => {
-                  setActiveViewIndex(1)
-                  setView('grid')
+                  dispatch(updateLayoutBoost('grid' as any))
                 }}
               >
                 <img
@@ -104,7 +105,7 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
         </div>
       </div>
 
-      {view === 'grid' && (
+      {layoutBoost === 'grid' && (
         <div className="grid gap-[20px] md:grid-cols-2">
           {boostVault.map((item, i) => {
             return (
@@ -118,7 +119,7 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
         </div>
       )}
 
-      {view === 'row' && (
+      {layoutBoost === 'row' && (
         <div className="overflow-x-auto">
           <div
             className={

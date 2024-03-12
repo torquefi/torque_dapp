@@ -41,7 +41,7 @@ export function CreateRowBoostItem({
         useState(false)
     const [isUsdDepositToken, setIsUsdDepositToken] = useState(true)
     const [amountRaw, setAmountRaw] = useState('')
-    const [amountReceiveRaw, setAmountReceiveRaw] = useState(0)
+    const [amountReceiveRaw, setAmountReceiveRaw] = useState('')
     const [totalSupply, setTotalSupply] = useState('')
     const theme = useSelector((store: AppStore) => store.theme.theme)
     const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
@@ -258,7 +258,7 @@ export function CreateRowBoostItem({
                 onMouseOver={() => setTokenHover(item.token)}
                 onMouseLeave={() => setTokenHover('')}
             >
-                <td className="py-[6px]">
+                <td className="py-[6px] w-[17%]">
                     <div className="inline-flex items-center mt-1">
                         <img
                             className="mr-[8px] w-[24px]"
@@ -272,7 +272,7 @@ export function CreateRowBoostItem({
                         </div>
                     </div>
                 </td>
-                <td className="py-[6px]">
+                <td className="py-[6px] w-[17%]">
                     <div className="flex items-center">
                         <div className="ml-[-0.75rem] flex items-center">
                             <Link
@@ -291,12 +291,12 @@ export function CreateRowBoostItem({
                         </span>
                     </div>
                 </td>
-                <td className="py-[6px]">
+                <td className="py-[6px] w-[16%]">
                     <span className="text-[16px] font-[500] tracking-[0em] text-[#030303] dark:text-white">
                         50:50
                     </span>
                 </td>
-                <td className="py-[6px]">
+                <td className="py-[6px] w-[16%]">
                     <NumericFormat
                         displayType="text"
                         value={item?.APR}
@@ -307,7 +307,7 @@ export function CreateRowBoostItem({
                         className="text-[16px] font-[500] tracking-[0em] text-[#030303] dark:text-white"
                     />
                 </td>
-                <td className="py-[6px]">
+                <td className="py-[6px] w-[16%]">
                     <div className="inline-flex flex-none flex-col items-center gap-[4px]">
                         <div className="flex items-center gap-[6px]">
                             <img
@@ -321,7 +321,7 @@ export function CreateRowBoostItem({
                         </div>
                     </div>
                 </td>
-                <td className="py-[6px]">
+                <td className="py-[6px] w-[18%]">
                     <NumericFormat
                         prefix="$"
                         value={Number(
@@ -351,6 +351,8 @@ export function CreateRowBoostItem({
                 open={openSwapModal}
                 handleClose={() => {
                     setOpenSwapModal(false)
+                    setAmountRaw('')
+                    setAmountReceiveRaw('')
                 }}
                 title="Create Vehicle"
                 createButtonText="Create Vehicle"
@@ -367,16 +369,17 @@ export function CreateRowBoostItem({
                 setAmountRaw={handleChangeAmountRow}
                 setAmountReceiveRaw={setAmountReceiveRaw}
                 onCreateVault={() => {
-                    handleConfirmDeposit()
-                    setOpenSwapModal(false)
+                    onDeposit()
+                    // setOpenSwapModal(false)
                 }}
                 disabledOutput
                 usdTokenOutPrice={usdPrice?.[item.token] || 0}
                 tokenContract={tokenContract}
                 boostContract={boostContract}
+                loading={btnLoading}
             />
 
-            <ConfirmDepositModal
+            {/* <ConfirmDepositModal
                 open={isOpenConfirmDepositModal}
                 handleClose={() => setOpenConfirmDepositModal(false)}
                 confirmButtonText="Supply & Earn"
@@ -402,7 +405,7 @@ export function CreateRowBoostItem({
                         value: item?.APR?.toFixed(2) + '%',
                     },
                 ]}
-            />
+            /> */}
         </>
     )
 }

@@ -3,14 +3,14 @@ import { persistStore, persistReducer } from 'redux-persist'
 import rootReducer from './rootReducer'
 import storage from 'redux-persist/lib/storage'
 import usdPriceReducer from './slices/usdPrice'
-import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux'
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 
 const reducer = combineReducers(rootReducer)
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['auth', 'borrow', 'theme', 'home'],
+  whitelist: ['auth', 'borrow', 'theme', 'home', 'layout'],
   blacklist: [usdPriceReducer.name],
 }
 
