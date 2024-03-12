@@ -175,7 +175,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
             <img
               src={visibilityBorrowBanner ? "/icons/visibility-off.svg" : "/icons/visibility-off.svg"}
               alt="visibility icon"
-              className='w-[24px] h-[24px] text-[#959595]'
+              className='w-[22px] text-[#959595]'
               onClick={() => dispatch(updateVisibilityBorrowBanner(!visibilityBorrowBanner as any))}
             />
           </button>

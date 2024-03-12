@@ -379,34 +379,6 @@ export function CreateRowBoostItem({
                 boostContract={boostContract}
                 loading={btnLoading}
             />
-
-            {/* <ConfirmDepositModal
-                open={isOpenConfirmDepositModal}
-                handleClose={() => setOpenConfirmDepositModal(false)}
-                confirmButtonText="Supply & Earn"
-                onConfirm={() => onDeposit()}
-                loading={btnLoading}
-                coinFrom={{
-                    amount: amountRaw,
-                    icon: `/icons/coin/${item.token.toLocaleLowerCase()}.png`,
-                    symbol: item.token,
-                }}
-                coinTo={{
-                    amount: amountRaw,
-                    icon: `/icons/coin/${item.token.toLocaleLowerCase()}.png`,
-                    symbol: item?.earnToken,
-                }}
-                details={[
-                    {
-                        label: 'Exchange rate',
-                        value: `1 ${item?.token} = 1 ${item?.earnToken}`,
-                    },
-                    {
-                        label: 'Variable APY',
-                        value: item?.APR?.toFixed(2) + '%',
-                    },
-                ]}
-            /> */}
         </>
     )
 }

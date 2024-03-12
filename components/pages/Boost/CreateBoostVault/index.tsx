@@ -75,7 +75,7 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
             <img
               src={visibilityBoostBanner ? "/icons/visibility-off.svg" : "/icons/visibility-off.svg"}
               alt="visibility icon"
-              className='w-[24px] h-[24px] text-[#959595]'
+              className='w-[22px] text-[#959595]'
               onClick={() => dispatch(updateVisibilityBoostBanner(!visibilityBoostBanner as any))}
             />
           </button>
