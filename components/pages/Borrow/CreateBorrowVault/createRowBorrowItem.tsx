@@ -382,7 +382,7 @@ export default function CreateRowBorrowItem({
                 onMouseOver={() => setTokenHover(dataBorrow.depositTokenSymbol)}
                 onMouseLeave={() => setTokenHover('')}
             >
-                <td className='py-[6px]'>
+                <td className='py-[6px] w-[16%]'>
                     <div className="inline-flex items-center mt-1">
                         <img
                             className="w-[24px] mr-[8px]"
@@ -396,7 +396,7 @@ export default function CreateRowBorrowItem({
                         </div>
                     </div>
                 </td>
-                <td className='py-[6px]'>
+                <td className='py-[6px] w-[16%]'>
                     <div className="inline-flex items-center mt-1">
                         <img
                             className="w-[24px] mr-[6px]"
@@ -408,7 +408,7 @@ export default function CreateRowBorrowItem({
                         </p>
                     </div>
                 </td>
-                <td className='py-[6px]'>
+                <td className='py-[6px] w-[13%]'>
                     <div className="inline-flex flex-none items-center flex-col gap-[4px]">
                         <p className='text-[16px] font-[400] tracking-[0em] text-[#030303] dark:text-white'>
                             {'<'}
@@ -416,7 +416,7 @@ export default function CreateRowBorrowItem({
                         </p>
                     </div>
                 </td>
-                <td className='py-[6px]'>
+                <td className='py-[6px] w-[13%]'>
                     <div className="inline-flex flex-none items-center flex-col gap-[4px]">
                         <p className='text-[16px] font-[400] tracking-[0em] text-[#030303] dark:text-white'>
                             {!aprBorrow
@@ -425,14 +425,14 @@ export default function CreateRowBorrowItem({
                         </p>
                     </div>
                 </td>
-                <td className='py-[6px]'>
+                <td className='py-[6px] w-[14%]'>
                     <div className="inline-flex flex-none items-center flex-col gap-[4px]">
                         <p className='text-[16px] font-[400] tracking-[0em] lowercase text-[#030303] dark:text-white'>
                             {!item?.liquidity ? '0.00%' : '$' + toMetricUnits(item?.liquidity)}
                         </p>
                     </div>
                 </td>
-                <td className='py-[6px]'>
+                <td className='py-[6px] w-[14%]'>
                     <div className="inline-flex flex-none items-center flex-col gap-[4px]">
                         <div className="flex items-center gap-[6px]">
                             <img
@@ -446,7 +446,7 @@ export default function CreateRowBorrowItem({
                         </div>
                     </div>
                 </td>
-                <td className='py-[6px]'>
+                <td className='py-[6px] w-[14%]'>
 
                     <span className='text-[#030303] dark:text-white text-[16px] font-[400] tracking-[0em] pt-[1px'>
                         {!Number(totalSupplied) ? '$0.00' : '$' + toMetricUnits(Number(totalSupplied))}

@@ -230,7 +230,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
           <table className="min-w-[1000px] md:min-w-full">
             <thead>
               <tr className="">
-                <th className="py-[6px] text-left" colSpan={1}>
+                <th className="py-[6px] text-left">
                   <div className="inline-flex items-center">
                     <span className="text-[16px] font-[500] text-[#959595]">
                       Collateral
@@ -251,7 +251,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     </RcTooltip>
                   </div>
                 </th>
-                <th className="py-[6px] text-left" colSpan={1}>
+                <th className="py-[6px] text-left">
                   <div className="inline-flex items-center">
                     <span className="text-[16px] font-[500] text-[#959595]">
                       Borrowing
