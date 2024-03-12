@@ -14,7 +14,7 @@ import RcTooltip from '@/components/common/RcTooltip'
 import { CreateRowBoostItem } from './createRowBoostItem'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppStore } from '@/types/store'
-import { updateLayoutBoost } from '@/lib/redux/slices/layout'
+import { updateLayoutBoost, updateVisibilityBoostBanner } from '@/lib/redux/slices/layout'
 
 export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
   const [boostVault, setBoostVault] = useState(BOOST_VAULTS)
@@ -23,6 +23,9 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
   const [view, setView] = useState('grid')
   const theme = useSelector((store: AppStore) => store.theme.theme)
   const layoutBoost = useSelector((store: AppStore) => store.layout.layoutBoost)
+  const visibilityBoostBanner = useSelector(
+    (store: AppStore) => store.layout.visibilityBoostBanner
+  )
   const dispatch = useDispatch()
 
   const handleUpdateBoostData = async (loading = false) => {
@@ -67,6 +70,16 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
           Create Boost Vehicle
         </h3>
         <div className="flex items-center justify-center space-x-3">
+          <button
+            className='focus:outline-none h-[34px] w-[34px] rounded-[4px] border-[1px] border-[solid] border-[#E6E6E6] dark:border-[#1a1a1a] inline-flex items-center justify-center cursor-pointer'>
+            <img
+              src={visibilityBoostBanner ? "/icons/visibility-off.svg" : "/icons/visibility.svg"}
+              alt="visibility icon"
+              className='w-[24px] h-[24px] text-[#959595]'
+              onClick={() => dispatch(updateVisibilityBoostBanner(!visibilityBoostBanner as any))}
+            />
+          </button>
+
           <div className="flex h-[36px] w-auto items-center justify-center rounded-[4px] border border-[#efefef] bg-transparent px-[3px] py-[4px] dark:border-[#1a1a1a]">
             <HoverIndicator
               activeIndex={layoutBoost === 'row' ? 0 : 1}
@@ -82,7 +95,7 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
                 <img
                   src="../icons/rows.svg"
                   alt="Row View"
-                  className={`ml-[6px] mr-[6px] h-6 w-6 ${activeViewIndex === 0 ? 'text-[#030303]' : 'text-[#959595]'
+                  className={`ml-[6px] mr-[6px] h-6 w-6 ${layoutBoost === 'row' ? 'text-[#030303]' : 'text-[#959595]'
                     } dark:text-white`}
                 />
               </button>
@@ -96,7 +109,7 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
                 <img
                   src="../icons/grid.svg"
                   alt="Grid View"
-                  className={`ml-[6px] mr-[6px] h-6 w-6 ${activeViewIndex === 1 ? 'text-[#030303]' : 'text-[#959595]'
+                  className={`ml-[6px] mr-[6px] h-6 w-6 ${layoutBoost === 'grid' ? 'text-[#030303]' : 'text-[#959595]'
                     } dark:text-white`}
                 />
               </button>
