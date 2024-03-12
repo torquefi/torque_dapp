@@ -30,9 +30,9 @@ export const Description = () => {
 
   return (
     <>
-      <div className="h-full rounded-[12px] border border-[#E6E6E6]  bg-[#ffffff] from-[#0d0d0d] to-[#0d0d0d]/0 px-[18px] py-[12px] text-[#030303] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white md:px-[24px]">
+      <div className="h-full rounded-[12px] border border-[#E6E6E6] bg-[#ffffff] from-[#0d0d0d] to-[#0d0d0d]/0 px-[24px] pt-[18px] pb-[12px] text-[#030303] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white md:px-[24px]">
         <div className="flex items-center justify-between">
-          <h1 className="font-larken mt-2 text-[24px] font-[400] text-[#030303] dark:text-white">
+          <h1 className="font-larken text-[24px] font-[400] text-[#030303] dark:text-white">
             Description
           </h1>
           <Popover
@@ -67,10 +67,10 @@ export const Description = () => {
             }`
           }
         ></div>
-        <Link href="https://forum.torque.fi" legacyBehavior>
+        <Link href="https://www.tally.xyz/gov/torque/proposal/18585899958307960143826306669985715364177831864776206135796033016575588118082?chart=bubble" legacyBehavior>
           <a target='_blank'>
             <div className="mt-[12px] cursor-pointer text-center text-[13px] font-[500] uppercase text-[#959595]">
-              view on forum
+              View on Tally
             </div>
           </a>
         </Link>
