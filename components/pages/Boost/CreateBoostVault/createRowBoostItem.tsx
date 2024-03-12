@@ -258,7 +258,7 @@ export function CreateRowBoostItem({
                 onMouseOver={() => setTokenHover(item.token)}
                 onMouseLeave={() => setTokenHover('')}
             >
-                <td className="py-[12px]">
+                <td className="py-[6px]">
                     <div className="inline-flex items-center mt-1">
                         <img
                             className="mr-[8px] w-[24px]"
@@ -272,7 +272,7 @@ export function CreateRowBoostItem({
                         </div>
                     </div>
                 </td>
-                <td className="py-[12px]">
+                <td className="py-[6px]">
                     <div className="flex items-center">
                         <div className="ml-[-0.75rem] flex items-center">
                             <Link
@@ -291,12 +291,12 @@ export function CreateRowBoostItem({
                         </span>
                     </div>
                 </td>
-                <td className="py-[12px]">
+                <td className="py-[6px]">
                     <span className="text-[16px] font-[500] tracking-[0em] text-[#030303] dark:text-white">
                         50:50
                     </span>
                 </td>
-                <td className="py-[12px]">
+                <td className="py-[6px]">
                     <NumericFormat
                         displayType="text"
                         value={item?.APR}
@@ -307,7 +307,7 @@ export function CreateRowBoostItem({
                         className="text-[16px] font-[500] tracking-[0em] text-[#030303] dark:text-white"
                     />
                 </td>
-                <td className="py-[12px]">
+                <td className="py-[6px]">
                     <div className="inline-flex flex-none flex-col items-center gap-[4px]">
                         <div className="flex items-center gap-[6px]">
                             <img
@@ -321,7 +321,7 @@ export function CreateRowBoostItem({
                         </div>
                     </div>
                 </td>
-                <td className="py-[12px]">
+                <td className="py-[6px]">
                     <NumericFormat
                         prefix="$"
                         value={Number(
