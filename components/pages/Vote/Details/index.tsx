@@ -69,11 +69,11 @@ export const DetailsVotes = () => {
 
         <div className="m-auto w-full max-w-[815px]">
           <div className="mt-[32px] justify-between md:flex">
-            <div className="w-full rounded-[48px] md:w-[49%]">
-              <SkeletonDefault className="h-[350px]" />
+            <div className="w-full rounded-[24px] md:w-[49%]">
+              <SkeletonDefault className="h-[90px]" />
             </div>
-            <div className="mt-[20px] w-full rounded-[48px] md:mt-[0px] md:w-[49%]">
-              <SkeletonDefault className="h-[350px]" />
+            <div className="mt-[20px] w-full rounded-[24px] md:mt-[0px] md:w-[49%]">
+              <SkeletonDefault className="h-[90px]" />
             </div>
           </div>
 
@@ -81,20 +81,6 @@ export const DetailsVotes = () => {
             <SkeletonDefault className="h-[400px]" />
           </div>
         </div>
-
-        {/* <div className="mt-[26px] justify-between md:flex">
-          <div className="w-full rounded-[48px] md:w-[55%]">
-            <SkeletonDefault className="h-[610px]" />
-          </div>
-          <div className="mt-[20px] w-full md:mt-[0px] md:w-[43%]">
-            <div className="w-full rounded-[48px]">
-              <SkeletonDefault className="h-[300px]" />
-            </div>
-            <div className="mt-[10px] w-full rounded-[48px]">
-              <SkeletonDefault className="h-[300px]" />
-            </div>
-          </div>
-        </div> */}
       </div >
     )
   }
@@ -102,7 +88,7 @@ export const DetailsVotes = () => {
   console.log('tipDetails :>> ', tipDetails);
 
   return (
-    <div className="mx-auto w-full text-center max-w-[815px]">
+    <div className="mx-auto w-full text-center max-w-[740px]">
       <h1 className="font-larken mx-auto mt-4 w-full text-[24px] font-[400] leading-[23px] text-[#030303] dark:text-white md:text-[36px] md:leading-[44px]">
         {tipDetails?.title}
       </h1>
@@ -120,11 +106,10 @@ export const DetailsVotes = () => {
           )}
           <p className="font-[500] text-[#959595]">TIP-{id}</p>
           <div className="h-[5px] w-[5px] rounded-full bg-[#959595]"></div>
-          <p className="font-[500] text-[#959595]">Vote has started</p> 
-          {/* <p className="font-[500] text-[#959595]">Vote has started</p> needs dynamic state */}
+          <p className="font-[500] text-[#959595]">{tipDetails?.timeVote}</p> 
         </div>
       </div>
-      <div className="m-auto w-full max-w-[815px]">
+      <div className="m-auto w-full max-w-[740px]">
         <InforVotes votesInfo={votesInfo} />
         <MainContent />
       </div>

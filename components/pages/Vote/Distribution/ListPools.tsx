@@ -159,4 +159,20 @@ const menu = [
     dailySupply: '0.00',
     dailyBorrow: '0.00',
   },
+  {
+    imgMain: '/icons/coin/ajna-sm.svg',
+    imgOld: '/assets/pages/vote/distribution/ic-torq.svg',
+    name: 'Ajna',
+    ticker: 'TUSD',
+    dailySupply: '0.00',
+    dailyBorrow: '0.00',
+  },
+  {
+    imgMain: '/icons/coin/ajna-sm.svg',
+    imgOld: '/assets/pages/vote/distribution/ic-torq.svg',
+    name: 'Ajna',
+    ticker: 'USDC',
+    dailySupply: '0.00',
+    dailyBorrow: '0.00',
+  },
 ]

@@ -2,15 +2,17 @@ import Tip0Md from '../description/tip-0.mdx'
 import Tip1Md from '../description/tip-1.mdx'
 
 export const tipsData = [
-  // {
-  //   title: 'Incentivize DEX Liquidity',
-  //   stage: 'Pending',
-  //   id: 1,
-  //   description: Tip1Md,
-  //   timeVote: 'Vote hasn’t started',
-  //   voteRed: 0,
-  //   voteGreen: 0,
-  // },
+  {
+    title: 'Initialize LP Program',
+    stage: 'Pending',
+    id: 1,
+    description: Tip1Md,
+    timeVote: 'Vote hasn’t started',
+    voteRed: 0,
+    voteGreen: 0,
+    proposalId:
+    '18585899958307960143826306669985715364177831864776206135796033016575588118082',
+  },
   {
     title: 'Hello World [Test Proposal]',
     stage: 'Active',
