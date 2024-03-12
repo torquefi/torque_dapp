@@ -3,10 +3,15 @@ import SkeletonDefault from '@/components/skeleton'
 import CreateBorrowVault from './CreateBorrowVault'
 import ManageBorrowVault from './ManageBorrowVault'
 import Banner from './Banner'
+import { useSelector } from 'react-redux'
+import { AppStore } from '@/types/store'
 
 export const BorrowPage = () => {
   const [isLoading, setLoading] = useState(true)
   const [isFetchBorrowData, setIsFetchBorrowLoading] = useState(false)
+  const layoutBorrow = useSelector(
+    (store: AppStore) => store.layout.layoutBorrow
+  )
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 1000)
@@ -21,13 +26,23 @@ export const BorrowPage = () => {
         <div className=" lg:hidden">
           <SkeletonDefault height={'15vh'} />
         </div>
-        <div className="mt-[36px]">
-          <SkeletonDefault height={40} className="w-full max-w-[200px]" />
-          <div className="mt-[24px] grid gap-4 md:grid-cols-2">
-            <SkeletonDefault height={'50vh'} width={'100%'} />
-            <SkeletonDefault height={'50vh'} width={'100%'} />
+        {layoutBorrow === 'grid' && (
+          <div className="mt-[36px]">
+            <SkeletonDefault height={40} className="w-full max-w-[200px]" />
+            <div className="mt-[24px] grid gap-4 md:grid-cols-2">
+              <SkeletonDefault height={'50vh'} width={'100%'} />
+              <SkeletonDefault height={'50vh'} width={'100%'} />
+            </div>
           </div>
-        </div>
+        )}
+        {layoutBorrow === 'row' && (
+          <div className="mt-[36px]">
+            <SkeletonDefault height={40} className="w-full max-w-[200px]" />
+            <div className="mt-[24px]">
+              <SkeletonDefault height={120} width={'100%'} />
+            </div>
+          </div>
+        )}
         <div className="mt-[36px]">
           <SkeletonDefault height={40} className="w-full max-w-[200px]" />
           <SkeletonDefault height={160} className="mt-[24px]" />
@@ -38,7 +53,7 @@ export const BorrowPage = () => {
   }
 
   return (
-    <div className="space-y-[36px] mt-2">
+    <div className="mt-2 space-y-[36px]">
       <Banner />
       <CreateBorrowVault setIsFetchBorrowLoading={setIsFetchBorrowLoading} />
       <ManageBorrowVault isFetchBorrowData={isFetchBorrowData} />

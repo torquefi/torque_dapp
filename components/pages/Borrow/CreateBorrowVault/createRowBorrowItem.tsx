@@ -382,7 +382,7 @@ export default function CreateRowBorrowItem({
                 onMouseOver={() => setTokenHover(dataBorrow.depositTokenSymbol)}
                 onMouseLeave={() => setTokenHover('')}
             >
-                <td className='py-[6px]'>
+                <td className='py-[12px]'>
                     <div className="inline-flex items-center mt-1">
                         <img
                             className="w-[24px] mr-[8px]"
@@ -396,7 +396,7 @@ export default function CreateRowBorrowItem({
                         </div>
                     </div>
                 </td>
-                <td className='py-[6px]'>
+                <td className='py-[12px]'>
                     <div className="inline-flex items-center mt-1">
                         <img
                             className="w-[24px] mr-[6px]"
@@ -408,7 +408,7 @@ export default function CreateRowBorrowItem({
                         </p>
                     </div>
                 </td>
-                <td className='py-[6px]'>
+                <td className='py-[12px]'>
                     <div className="inline-flex flex-none items-center flex-col gap-[4px]">
                         <p className='text-[16px] font-[400] tracking-[0em] text-[#030303] dark:text-white'>
                             {'<'}
@@ -416,7 +416,7 @@ export default function CreateRowBorrowItem({
                         </p>
                     </div>
                 </td>
-                <td className='py-[6px]'>
+                <td className='py-[12px]'>
                     <div className="inline-flex flex-none items-center flex-col gap-[4px]">
                         <p className='text-[16px] font-[400] tracking-[0em] text-[#030303] dark:text-white'>
                             {!aprBorrow
@@ -425,14 +425,14 @@ export default function CreateRowBorrowItem({
                         </p>
                     </div>
                 </td>
-                <td className='py-[6px]'>
+                <td className='py-[12px]'>
                     <div className="inline-flex flex-none items-center flex-col gap-[4px]">
                         <p className='text-[16px] font-[400] tracking-[0em] lowercase text-[#030303] dark:text-white'>
                             {!item?.liquidity ? '0.00%' : '$' + toMetricUnits(item?.liquidity)}
                         </p>
                     </div>
                 </td>
-                <td className='py-[6px]'>
+                <td className='py-[12px]'>
                     <div className="inline-flex flex-none items-center flex-col gap-[4px]">
                         <div className="flex items-center gap-[6px]">
                             <img
@@ -446,7 +446,7 @@ export default function CreateRowBorrowItem({
                         </div>
                     </div>
                 </td>
-                <td className='py-[6px]'>
+                <td className='py-[12px]'>
 
                     <span className='text-[#030303] dark:text-white text-[16px] font-[400] tracking-[0em] pt-[1px'>
                         {!Number(totalSupplied) ? '$0.00' : '$' + toMetricUnits(Number(totalSupplied))}
@@ -466,6 +466,8 @@ export default function CreateRowBorrowItem({
                 open={openSwapModal}
                 handleClose={() => {
                     setOpenSwapModal(false)
+                    setAmountRaw('')
+                    setAmountReceiveRaw(0)
                 }}
                 coinFrom={{
                     amount: amountRaw,
@@ -480,13 +482,13 @@ export default function CreateRowBorrowItem({
                 setAmountRaw={handleChangeAmountRow}
                 setAmountReceiveRaw={setAmountReceiveRaw}
                 onCreateVault={() => {
-                    handleConfirmDeposit()
-                    setOpenSwapModal(false)
+                    onBorrow()
                 }}
+                loading={isLoading}
             />
 
 
-            <ConfirmDepositModal
+            {/* <ConfirmDepositModal
                 open={isOpenConfirmDepositModal}
                 handleClose={() => {
                     setOpenConfirmDepositModal(false)
@@ -516,7 +518,7 @@ export default function CreateRowBorrowItem({
                             : -(Number(aprBorrow) * 100).toFixed(2) + '%',
                     },
                 ]}
-            />
+            /> */}
 
             <ConnectWalletModal
                 openModal={isOpenConnectWalletModal}

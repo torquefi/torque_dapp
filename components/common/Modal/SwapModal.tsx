@@ -14,6 +14,7 @@ import {
 import { getBalanceByContractToken } from '@/constants/utils'
 import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
+import LoadingCircle from '../Loading/LoadingCircle'
 
 interface DepositCoinDetail {
     amount: any
@@ -35,6 +36,7 @@ export interface SwapModalProps {
     createButtonText?: string
     tokenContract?: any
     boostContract?: any
+    loading?: boolean
 }
 
 export default function SwapModal({
@@ -49,7 +51,9 @@ export default function SwapModal({
     usdTokenOutPrice,
     title,
     createButtonText,
-    tokenContract, boostContract
+    tokenContract,
+    boostContract,
+    loading,
 }: SwapModalProps) {
     const { open: openWalletModal } = useWeb3Modal()
     const { address } = useAccount()
@@ -60,7 +64,7 @@ export default function SwapModal({
     const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
 
     const usdCoinFromToken = usdPrice?.[coinFrom.symbol]
-    const usdCoinToToken = usdPrice?.[coinTo.symbol] || 1;
+    const usdCoinToToken = usdPrice?.[coinTo.symbol] || 1
 
     useEffect(() => {
         if (address && open) {
@@ -91,8 +95,6 @@ export default function SwapModal({
         }
     }, [coinFrom.symbol, address, open])
 
-
-
     useEffect(() => {
         if (address && open) {
             ; (async () => {
@@ -107,38 +109,40 @@ export default function SwapModal({
                     if (tokenContract && boostContract) {
                         try {
                             const tokenDecimal = await tokenContract.methods.decimals().call()
-                            const deposited = await boostContract.methods.balanceOf(address).call()
+                            const deposited = await boostContract.methods
+                                .balanceOf(address)
+                                .call()
                             setBalanceCoinTo(
                                 new BigNumber(
                                     ethers.utils.formatUnits(deposited, tokenDecimal)
                                 ).toString()
                             )
                         } catch (error) {
-                            console.log('balance token to error :>> ', error);
+                            console.log('balance token to error :>> ', error)
                         }
-
                     }
                 } else if (coinTo.symbol === 'tETH') {
                     if (tokenContract && boostContract) {
                         try {
                             const tokenDecimal = await tokenContract.methods.decimals().call()
-                            const deposited = await boostContract.methods.balanceOf(address).call()
+                            const deposited = await boostContract.methods
+                                .balanceOf(address)
+                                .call()
                             setBalanceCoinTo(
                                 new BigNumber(
                                     ethers.utils.formatUnits(deposited, tokenDecimal)
                                 ).toString()
                             )
                         } catch (error) {
-                            console.log('balance token to error :>> ', error);
+                            console.log('balance token to error :>> ', error)
                         }
-
                     }
                 }
             })()
         }
     }, [coinTo.symbol, address, open, tokenContract, boostContract])
 
-    console.log('balanceCoinTo :>> ', balanceCoinTo);
+    console.log('balanceCoinTo :>> ', balanceCoinTo)
 
     const handleChangeMax = () => {
         setAmountRaw(balanceCoinFrom)
@@ -159,7 +163,7 @@ export default function SwapModal({
             hideCloseIcon
         >
             <div className="flex items-center justify-between py-1">
-                <div className="font-larken font-[400] text-[#030303] text-[24px] dark:text-white">
+                <div className="font-larken text-[24px] font-[400] text-[#030303] dark:text-white">
                     {title || 'Create Vault'}
                 </div>
                 <AiOutlineClose
@@ -177,14 +181,16 @@ export default function SwapModal({
             ></div>
             <div className="mt-[14px] w-full">
                 <div className="relative">
-                    <div className="rounded-[8px] border-[1px] border-solid border-[#ececec] bg-[#fff] px-[14px] pl-[12px] pr-[12px] pt-[9px] dark:bg-[linear-gradient(180deg,#0d0d0d_0%,#0e0e0e_100%)] dark:border-[#181818]">
+                    <div className="rounded-[8px] border-[1px] border-solid border-[#ececec] bg-[#fff] px-[14px] pl-[12px] pr-[12px] pt-[9px] dark:border-[#181818] dark:bg-[linear-gradient(180deg,#0d0d0d_0%,#0e0e0e_100%)]">
                         <div className="flex items-center justify-between">
                             <NumericFormat
-                                className={`${coinFrom?.amount ? 'text-[#030303] dark:text-[#fff]' : 'text-[#959595]'
-                                    } w-full max-w-[60%] text-[20px] placeholder-[#959595] dark:placeholder-[#959595] dark:bg-transparent`}
+                                className={`${coinFrom?.amount
+                                    ? 'text-[#030303] dark:text-[#fff]'
+                                    : 'text-[#959595]'
+                                    } w-full max-w-[60%] text-[20px] placeholder-[#959595] dark:bg-transparent dark:placeholder-[#959595]`}
                                 value={coinFrom?.amount}
                                 onChange={(event: any) => {
-                                    setAmountRaw(event.target.value);
+                                    setAmountRaw(event.target.value)
                                 }}
                                 thousandSeparator
                                 placeholder="0.00"
@@ -217,9 +223,9 @@ export default function SwapModal({
                                             : Number('0').toFixed(2)
                                     }
                                     onChange={(event: any) => {
-                                        setAmountReceiveRaw(event.target.value)
+                                        setAmountRaw(event.target.value)
                                     }}
-                                    displayType='text'
+                                    displayType="text"
                                     thousandSeparator
                                     decimalScale={2}
                                     prefix="$"
@@ -238,23 +244,32 @@ export default function SwapModal({
                             </div>
                         </div>
                     </div>
-                    <button className="absolute left-1/2 top-[31%] w-full max-w-[26px] translate-x-[-50%] cursor-pointer rounded-md border-[1px] border-solid border-[#ececec] bg-[#fff] dark:bg-[linear-gradient(180deg,#0d0d0d_0%,#0e0e0e_100%)] dark:border-[#181818] px-[5px] py-[4px] shadow-xl">
+                    <button className="absolute left-1/2 top-[31%] w-full max-w-[26px] translate-x-[-50%] cursor-pointer rounded-md border-[1px] border-solid border-[#ececec] bg-[#fff] px-[5px] py-[4px] shadow-xl dark:border-[#181818] dark:bg-[linear-gradient(180deg,#0d0d0d_0%,#0e0e0e_100%)]">
                         <img
-                            src={theme === 'light' ? "/assets/wallet/arrow-down.svg" : '/assets/wallet/arrow-down-dark.svg'}
+                            src={
+                                theme === 'light'
+                                    ? '/assets/wallet/arrow-down.svg'
+                                    : '/assets/wallet/arrow-down-dark.svg'
+                            }
                             alt=""
-                            className={theme === "light" ? 'invert' : ''}
+                            className={theme === 'light' ? 'invert' : ''}
                         />
                     </button>
-                    <div className="mt-[5px] rounded-[8px] border-[1px] border-solid border-[#ececec] bg-[#fff] px-[14px] pl-[12px] pr-[12px] pt-[9px] dark:bg-[linear-gradient(180deg,#0d0d0d_0%,#0e0e0e_100%)] dark:border-[#181818]">
+                    <div className="mt-[5px] rounded-[8px] border-[1px] border-solid border-[#ececec] bg-[#fff] px-[14px] pl-[12px] pr-[12px] pt-[9px] dark:border-[#181818] dark:bg-[linear-gradient(180deg,#0d0d0d_0%,#0e0e0e_100%)]">
                         <div className="flex items-center justify-between">
                             <NumericFormat
-                                className={`${coinTo?.amount ? 'text-[#030303] dark:text-[#fff]' : 'text-[#959595]'
+                                className={`${coinTo?.amount
+                                    ? 'text-[#030303] dark:text-[#fff]'
+                                    : 'text-[#959595]'
                                     } w-full max-w-[60%] text-[20px] placeholder-[#959595] dark:bg-transparent`}
-                                value={coinTo?.amount || Number('0').toFixed(2)}
+                                value={coinTo?.amount}
                                 thousandSeparator
                                 placeholder="0.00"
                                 decimalScale={5}
                                 displayType={disabledOutput ? 'text' : 'input'}
+                                onChange={(event: any) => {
+                                    setAmountReceiveRaw(event.target.value)
+                                }}
                             />
                             <div className="flex items-center gap-[2px] text-[#030303] dark:text-[#959595]">
                                 <img src={coinTo?.icon} alt="torque usd" className="h-[32px]" />
@@ -297,6 +312,7 @@ export default function SwapModal({
                         }}
                         className="font-mona mt-[12px] w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[12px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]"
                     >
+                        {loading && <LoadingCircle />}
                         {renderSubmitText()}
                     </button>
                 </div>
