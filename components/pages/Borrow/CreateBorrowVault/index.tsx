@@ -18,14 +18,11 @@ import { IBorrowInfo } from '../types'
 import CreateBorrowItem from './createBorrowItem'
 import HoverIndicator from '@/components/common/HoverIndicator'
 import CreateRowBorrowItem from './createRowBorrowItem'
-import Popover from '@/components/common/Popover'
 import RcTooltip from '@/components/common/RcTooltip'
 import { AppStore } from '@/types/store'
-import { updateLayoutBorrow } from '@/lib/redux/slices/layout'
+import { updateLayoutBorrow, updateVisibilityBorrowBanner } from '@/lib/redux/slices/layout'
 
 export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
-  const [hoverTab, setHoverTab] = useState('')
-  const [activeViewIndex, setActiveViewIndex] = useState(1)
   const { address, isConnected } = useAccount()
   const { borrowInfoByDepositSymbol } = useSelector(
     (store: AppState) => store?.borrow
@@ -33,6 +30,9 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
   const theme = useSelector((store: AppStore) => store.theme.theme)
   const layoutBorrow = useSelector(
     (store: AppStore) => store.layout.layoutBorrow
+  )
+  const visibilityBorrowBanner = useSelector(
+    (store: AppStore) => store.layout.visibilityBorrowBanner
   )
 
   const dispatch = useDispatch()
@@ -170,9 +170,16 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
           Create Borrow Vault
         </h3>
         <div className="flex items-center justify-center space-x-3">
+          <button
+            className='focus:outline-none h-[34px] w-[34px] rounded-[4px] border-[1px] border-[solid] border-[#E6E6E6] dark:border-[#1a1a1a] inline-flex items-center justify-center cursor-pointer'>
+            <img
+              src={visibilityBorrowBanner ? "/icons/visibility-off.svg" : "/icons/visibility-off.svg"}
+              alt="visibility icon"
+              className='w-[24px] h-[24px] text-[#959595]'
+              onClick={() => dispatch(updateVisibilityBorrowBanner(!visibilityBorrowBanner as any))}
+            />
+          </button>
           <div className="flex h-[36px] w-auto items-center justify-center rounded-[4px] border border-[#efefef] bg-transparent px-[3px] py-[4px] dark:border-[#1a1a1a]">
-
-
             <HoverIndicator
               activeIndex={layoutBorrow === 'row' ? 0 : 1}
               className="flex w-full justify-between"
@@ -187,7 +194,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                 <img
                   src="../icons/rows.svg"
                   alt="Row View"
-                  className={`ml-[6px] mr-[6px] h-6 w-6 ${activeViewIndex === 0 ? 'text-[#030303]' : 'text-[#959595]'
+                  className={`ml-[6px] mr-[6px] h-6 w-6 ${layoutBorrow === 'row' ? 'text-[#030303]' : 'text-[#959595]'
                     } dark:text-white`}
                 />
               </button>
@@ -201,7 +208,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                 <img
                   src="../icons/grid.svg"
                   alt="Grid View"
-                  className={`ml-[6px] mr-[6px] h-6 w-6 ${activeViewIndex === 1 ? 'text-[#030303]' : 'text-[#959595]'
+                  className={`ml-[6px] mr-[6px] h-6 w-6 ${layoutBorrow === 'grid' ? 'text-[#030303]' : 'text-[#959595]'
                     } dark:text-white`}
                 />
               </button>

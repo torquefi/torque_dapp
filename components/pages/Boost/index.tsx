@@ -12,6 +12,9 @@ export const BoostPage = () => {
   const layoutBoost = useSelector(
     (store: AppStore) => store.layout.layoutBoost
   )
+  const visibilityBoostBanner = useSelector(
+    (store: AppStore) => store.layout.visibilityBoostBanner
+  )
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 1000)
@@ -20,12 +23,17 @@ export const BoostPage = () => {
   if (isLoading) {
     return (
       <div className="mt-2">
-        <div className="hidden lg:block">
-          <SkeletonDefault height={'48vh'} />
-        </div>
-        <div className=" lg:hidden">
-          <SkeletonDefault height={'15vh'} />
-        </div>
+        {visibilityBoostBanner && (
+          <>
+            <div className="hidden lg:block">
+              <SkeletonDefault height={'48vh'} />
+            </div>
+            <div className="lg:hidden">
+              <SkeletonDefault height={'15vh'} />
+            </div>
+          </>
+        )}
+
         {layoutBoost === 'grid' && (
           <div className="mt-[36px]">
             <SkeletonDefault height={40} className="w-full max-w-[200px]" />
@@ -56,7 +64,7 @@ export const BoostPage = () => {
 
   return (
     <div className="mt-2 space-y-[36px]">
-      <Banner />
+      {visibilityBoostBanner && <Banner />}
       <CreateBoostVault setIsFetchBoostLoading={setIsFetchBoostLoading} />
       <ManageBoostVault
         isFetchBoostData={isFetchBoostData}

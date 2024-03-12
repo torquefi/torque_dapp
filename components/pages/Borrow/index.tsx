@@ -12,6 +12,9 @@ export const BorrowPage = () => {
   const layoutBorrow = useSelector(
     (store: AppStore) => store.layout.layoutBorrow
   )
+  const visibilityBorrowBanner = useSelector(
+    (store: AppStore) => store.layout.visibilityBorrowBanner
+  )
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 1000)
@@ -20,12 +23,16 @@ export const BorrowPage = () => {
   if (isLoading) {
     return (
       <div className="mt-2">
-        <div className="hidden lg:block">
-          <SkeletonDefault height={'48vh'} />
-        </div>
-        <div className=" lg:hidden">
-          <SkeletonDefault height={'15vh'} />
-        </div>
+        {visibilityBorrowBanner && (
+          <>
+            <div className="hidden lg:block">
+              <SkeletonDefault height={'48vh'} />
+            </div>
+            <div className="lg:hidden">
+              <SkeletonDefault height={'15vh'} />
+            </div>
+          </>
+        )}
         {layoutBorrow === 'grid' && (
           <div className="mt-[36px]">
             <SkeletonDefault height={40} className="w-full max-w-[200px]" />
@@ -54,7 +61,7 @@ export const BorrowPage = () => {
 
   return (
     <div className="mt-2 space-y-[36px]">
-      <Banner />
+      {visibilityBorrowBanner && <Banner />}
       <CreateBorrowVault setIsFetchBorrowLoading={setIsFetchBorrowLoading} />
       <ManageBorrowVault isFetchBorrowData={isFetchBorrowData} />
     </div>
