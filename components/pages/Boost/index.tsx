@@ -10,7 +10,7 @@ export const BoostPage = () => {
   const [isLoading, setLoading] = useState(true)
   const [isFetchBoostData, setIsFetchBoostLoading] = useState(false)
   const layoutBoost = useSelector(
-    (store: AppStore) => store.layout.layoutBorrow
+    (store: AppStore) => store.layout.layoutBoost
   )
 
   useEffect(() => {
@@ -26,18 +26,13 @@ export const BoostPage = () => {
         <div className=" lg:hidden">
           <SkeletonDefault height={'15vh'} />
         </div>
-        <div className="mt-[36px]">
-          <SkeletonDefault height={40} className="w-full max-w-[200px]" />
-          <div className="mt-[24px] grid gap-4 md:grid-cols-2">
-            <SkeletonDefault height={'50vh'} width={'100%'} />
-            <SkeletonDefault height={'50vh'} width={'100%'} />
-          </div>
-        </div>
         {layoutBoost === 'grid' && (
           <div className="mt-[36px]">
             <SkeletonDefault height={40} className="w-full max-w-[200px]" />
-            <SkeletonDefault height={160} className="mt-[24px]" />
-            <SkeletonDefault height={160} className="mt-[24px]" />
+            <div className="mt-[24px] grid gap-4 md:grid-cols-2">
+              <SkeletonDefault height={'50vh'} width={'100%'} />
+              <SkeletonDefault height={'50vh'} width={'100%'} />
+            </div>
           </div>
         )}
         {layoutBoost === 'row' && (
@@ -48,6 +43,13 @@ export const BoostPage = () => {
             </div>
           </div>
         )}
+
+        <div className="mt-[36px]">
+          <SkeletonDefault height={40} className="w-full max-w-[200px]" />
+          <div className="mt-[24px]">
+            <SkeletonDefault height={120} width={'100%'} />
+          </div>
+        </div>
       </div>
     )
   }
