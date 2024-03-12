@@ -233,6 +233,7 @@ export function CreateRowBoostItem({
             setIsFetchBoostLoading && setIsFetchBoostLoading((prev: any) => !prev)
             handleGetTotalSupply()
             setOpenConfirmDepositModal(false)
+            setOpenSwapModal(false)
         } catch (e) {
             console.log('11111', e)
             toast.error('Boost Failed')
