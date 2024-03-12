@@ -10,7 +10,7 @@ export default function Banner() {
         className="rounded-xl"
         src={
           theme === 'light'
-            ? '/assets/banners/boost-light-large.png'
+            ? '/assets/banners/boost-light-compressed.png'
             : '/assets/banners/boost-compressed.png'
         }
         alt="Torque Boost"
