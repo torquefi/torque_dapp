@@ -19,7 +19,7 @@ export default function UniSwapModal({ open, handleClose }: UniSwapModalProps) {
         >
             <iframe
                 src={`https://app.uniswap.org/#/swap?outputCurrency=0xb56c29413af8778977093b9b4947efeea7136c36&theme=${theme === 'light' ? 'light' : 'dark'}`}
-                height="660px"
+                height="360px"
                 width="100%"
             />
         </Modal>
