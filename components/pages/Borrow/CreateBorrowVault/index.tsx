@@ -31,7 +31,9 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
     (store: AppState) => store?.borrow
   )
   const theme = useSelector((store: AppStore) => store.theme.theme)
-  const layoutBorrow = useSelector((store: AppStore) => store.layout.layoutBorrow)
+  const layoutBorrow = useSelector(
+    (store: AppStore) => store.layout.layoutBorrow
+  )
 
   const dispatch = useDispatch()
   const [dataBorrow, setDataBorrow] = useState(
@@ -169,6 +171,8 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
         </h3>
         <div className="flex items-center justify-center space-x-3">
           <div className="flex h-[36px] w-auto items-center justify-center rounded-[4px] border border-[#efefef] bg-transparent px-[3px] py-[4px] dark:border-[#1a1a1a]">
+
+
             <HoverIndicator
               activeIndex={layoutBorrow === 'row' ? 0 : 1}
               className="flex w-full justify-between"
@@ -238,7 +242,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
-                      className={`font-mona text-[#030303] dark:text-white py-1 items-center flex w-[220px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
+                      className={`font-mona flex w-[220px] items-center border border-[#e5e7eb] bg-[#fff] py-1 text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
                       content="Supply collateral assets to receive a TUSD loan."
                     >
                       <button className="ml-[5px]">
@@ -259,7 +263,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
-                      className={`font-mona text-[#030303] dark:text-white py-1 items-center flex w-[220px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
+                      className={`font-mona flex w-[220px] items-center border border-[#e5e7eb] bg-[#fff] py-1 text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
                       content="Borrow Torque USD (TUSD) by supplying collateral assets."
                     >
                       <button className="ml-[5px]">
@@ -280,7 +284,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
-                      className={`font-mona text-[#030303] dark:text-white py-1 items-center flex w-[220px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
+                      className={`font-mona flex w-[220px] items-center border border-[#e5e7eb] bg-[#fff] py-1 text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
                       content="Max value of the loan you can take out against your collateral."
                     >
                       <button className="mt-[ ml-[5px]">
@@ -301,7 +305,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
-                      className={`font-mona text-[#030303] dark:text-white py-1 items-center flex w-[220px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
+                      className={`font-mona flex w-[220px] items-center border border-[#e5e7eb] bg-[#fff] py-1 text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
                       content="An interest rate determined by supply and demand of the asset."
                     >
                       <button className="ml-[5px]">
@@ -322,7 +326,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
-                      className={`font-mona text-[#030303] dark:text-white py-1 items-center flex w-[220px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
+                      className={`font-mona flex w-[220px] items-center border border-[#e5e7eb] bg-[#fff] py-1 text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
                       content="Available amount of borrowing power in the market at this time."
                     >
                       <button className="ml-[5px]">
@@ -343,7 +347,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
-                      className={`font-mona text-[#030303] dark:text-white py-1 items-center flex w-[220px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
+                      className={`font-mona flex w-[220px] items-center border border-[#e5e7eb] bg-[#fff] py-1 text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
                       content="Projected TORQ rewards after 1 year of $1,000 supplied."
                     >
                       <button className="ml-[5px]">
@@ -364,7 +368,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topRight"
-                      className={`font-mona text-[#030303] dark:text-white py-1 items-center flex w-[220px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
+                      className={`font-mona flex w-[220px] items-center border border-[#e5e7eb] bg-[#fff] py-1 text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
                       content="The total value of currently supplied tokenized assets."
                     >
                       <button className="ml-[5px]">
