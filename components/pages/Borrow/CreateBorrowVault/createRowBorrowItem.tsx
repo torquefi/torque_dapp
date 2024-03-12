@@ -341,7 +341,9 @@ export default function CreateRowBorrowItem({
                 setIsFetchBorrowLoading && setIsFetchBorrowLoading((prev: any) => !prev)
                 setAmountRaw('')
                 setAmountReceiveRaw('')
+                setOpenSwapModal(false)
             }
+            
             // dispatch(updateborrowTime(new Date().getTime() as any))
         } catch (e) {
             console.log('CreateBorrowItem.onBorrow', e)
