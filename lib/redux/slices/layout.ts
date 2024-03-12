@@ -10,8 +10,8 @@ export interface ILayoutType {
 const initialState: ILayoutType = {
   layoutBorrow: 'grid',
   layoutBoost: 'grid',
-  visibilityBorrowBanner: false,
-  visibilityBoostBanner: false,
+  visibilityBorrowBanner: true,
+  visibilityBoostBanner: true,
 }
 
 export const LayoutSlice = createSlice({
@@ -45,6 +45,11 @@ export const LayoutSlice = createSlice({
   },
 })
 
-export const { updateLayoutBorrow, updateLayoutBoost, updateVisibilityBorrowBanner, updateVisibilityBoostBanner } = LayoutSlice.actions
+export const {
+  updateLayoutBorrow,
+  updateLayoutBoost,
+  updateVisibilityBorrowBanner,
+  updateVisibilityBoostBanner,
+} = LayoutSlice.actions
 
 export default LayoutSlice.reducer
