@@ -1,13 +1,7 @@
-import InputCurrencySwitch from '@/components/common/InputCurrencySwitch'
-import LoadingCircle from '@/components/common/Loading/LoadingCircle'
-import { ConfirmDepositModal } from '@/components/common/Modal/ConfirmDepositModal'
-import Popover from '@/components/common/Popover'
 import { toMetricUnits } from '@/lib/helpers/number'
 import { AppStore } from '@/types/store'
-import { useWeb3Modal } from '@web3modal/react'
 import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
-import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { toast } from 'sonner'
@@ -35,7 +29,7 @@ export default function CreateRowBorrowItem({
     const [amountRaw, setAmountRaw] = useState('')
     const [aprBorrow, setAprBorrow] = useState('')
     const [openSwapModal, setOpenSwapModal] = useState(false)
-    const [amountReceiveRaw, setAmountReceiveRaw] = useState(0)
+    const [amountReceiveRaw, setAmountReceiveRaw] = useState('')
     const [totalSupplied, setTotalSupplied] = useState('')
     const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
     const [tokenHover, setTokenHover] = useState('')
@@ -250,7 +244,7 @@ export default function CreateRowBorrowItem({
                 setIsLoading(false)
                 setIsFetchBorrowLoading && setIsFetchBorrowLoading((prev: any) => !prev)
                 setAmountRaw('')
-                setAmountReceiveRaw(0)
+                setAmountReceiveRaw('')
                 setOpenSwapModal(false)
             }
             if (item.depositTokenSymbol == 'WETH') {
@@ -346,7 +340,7 @@ export default function CreateRowBorrowItem({
                 setIsLoading(false)
                 setIsFetchBorrowLoading && setIsFetchBorrowLoading((prev: any) => !prev)
                 setAmountRaw('')
-                setAmountReceiveRaw(0)
+                setAmountReceiveRaw('')
             }
             // dispatch(updateborrowTime(new Date().getTime() as any))
         } catch (e) {
@@ -364,8 +358,8 @@ export default function CreateRowBorrowItem({
     const handleChangeAmountRow = (value: string) => {
         setAmountRaw(value)
         setAmountReceiveRaw(
-            Number(value || 0) * usdPrice?.[`${dataBorrow.depositTokenSymbol.toLowerCase()}`] *
-            (dataBorrow.loanToValue / 140)
+            (Number(value || 0) * usdPrice?.[`${dataBorrow.depositTokenSymbol.toLowerCase()}`] *
+                (dataBorrow.loanToValue / 140))?.toString()
         )
     }
 
@@ -375,7 +369,7 @@ export default function CreateRowBorrowItem({
                 key={dataBorrow.depositTokenSymbol}
                 onClick={() => {
                     setAmountRaw('')
-                    setAmountReceiveRaw(0)
+                    setAmountReceiveRaw('')
                     setOpenSwapModal(true)
                 }}
                 className={`cursor-pointer relative ${dataBorrow.depositTokenSymbol === tokenHover ? 'bg-[#f6f4f8] dark:bg-[#141414]' : ''}`}
@@ -467,7 +461,7 @@ export default function CreateRowBorrowItem({
                 handleClose={() => {
                     setOpenSwapModal(false)
                     setAmountRaw('')
-                    setAmountReceiveRaw(0)
+                    setAmountReceiveRaw('')
                 }}
                 coinFrom={{
                     amount: amountRaw,
@@ -486,39 +480,6 @@ export default function CreateRowBorrowItem({
                 }}
                 loading={isLoading}
             />
-
-
-            {/* <ConfirmDepositModal
-                open={isOpenConfirmDepositModal}
-                handleClose={() => {
-                    setOpenConfirmDepositModal(false)
-                }}
-                confirmButtonText="Supply & Borrow"
-                onConfirm={() => onBorrow()}
-                loading={isLoading}
-                coinFrom={{
-                    amount: amountRaw,
-                    icon: `/icons/coin/${item.depositTokenSymbol.toLocaleLowerCase()}.png`,
-                    symbol: item.depositTokenSymbol,
-                }}
-                coinTo={{
-                    amount: amountReceiveRaw,
-                    icon: `/icons/coin/${item.borrowTokenSymbol.toLocaleLowerCase()}.png`,
-                    symbol: item.borrowTokenSymbol,
-                }}
-                details={[
-                    {
-                        label: 'Loan-to-value',
-                        value: `<${item?.loanToValue}%`,
-                    },
-                    {
-                        label: 'Variable APR',
-                        value: !aprBorrow
-                            ? '-0.00%'
-                            : -(Number(aprBorrow) * 100).toFixed(2) + '%',
-                    },
-                ]}
-            /> */}
 
             <ConnectWalletModal
                 openModal={isOpenConnectWalletModal}

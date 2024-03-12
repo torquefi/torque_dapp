@@ -257,20 +257,24 @@ export default function SwapModal({
                     </button>
                     <div className="mt-[5px] rounded-[8px] border-[1px] border-solid border-[#ececec] bg-[#fff] px-[14px] pl-[12px] pr-[12px] pt-[9px] dark:border-[#181818] dark:bg-[linear-gradient(180deg,#0d0d0d_0%,#0e0e0e_100%)]">
                         <div className="flex items-center justify-between">
-                            <NumericFormat
-                                className={`${coinTo?.amount
-                                    ? 'text-[#030303] dark:text-[#fff]'
-                                    : 'text-[#959595]'
-                                    } w-full max-w-[60%] text-[20px] placeholder-[#959595] dark:bg-transparent`}
-                                value={coinTo?.amount}
-                                thousandSeparator
-                                placeholder="0.00"
-                                decimalScale={5}
-                                displayType={disabledOutput ? 'text' : 'input'}
-                                onChange={(event: any) => {
-                                    setAmountReceiveRaw(event.target.value)
-                                }}
-                            />
+                            {!coinTo?.amount && disabledOutput ? (
+                                <span className="text-[#959595] text-[20px]">0.00</span>
+                            ) : (
+                                <NumericFormat
+                                    className={`${coinTo?.amount
+                                        ? 'text-[#030303] dark:text-[#fff]'
+                                        : 'text-[#959595]'
+                                        } w-full max-w-[60%] text-[20px] placeholder-[#959595] dark:bg-transparent`}
+                                    value={coinTo?.amount}
+                                    thousandSeparator
+                                    placeholder="0.00"
+                                    decimalScale={5}
+                                    displayType={disabledOutput ? 'text' : 'input'}
+                                    onChange={(event: any) => {
+                                        setAmountReceiveRaw(event.target.value)
+                                    }}
+                                />
+                            )}
                             <div className="flex items-center gap-[2px] text-[#030303] dark:text-[#959595]">
                                 <img src={coinTo?.icon} alt="torque usd" className="h-[32px]" />
                                 <p>{coinTo?.symbol}</p>

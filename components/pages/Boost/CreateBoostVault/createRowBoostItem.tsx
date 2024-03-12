@@ -41,7 +41,7 @@ export function CreateRowBoostItem({
         useState(false)
     const [isUsdDepositToken, setIsUsdDepositToken] = useState(true)
     const [amountRaw, setAmountRaw] = useState('')
-    const [amountReceiveRaw, setAmountReceiveRaw] = useState(0)
+    const [amountReceiveRaw, setAmountReceiveRaw] = useState('')
     const [totalSupply, setTotalSupply] = useState('')
     const theme = useSelector((store: AppStore) => store.theme.theme)
     const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
@@ -352,7 +352,7 @@ export function CreateRowBoostItem({
                 handleClose={() => {
                     setOpenSwapModal(false)
                     setAmountRaw('')
-                    setAmountReceiveRaw(0)
+                    setAmountReceiveRaw('')
                 }}
                 title="Create Vehicle"
                 createButtonText="Create Vehicle"
