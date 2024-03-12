@@ -20,7 +20,11 @@ import HoverIndicator from '@/components/common/HoverIndicator'
 import CreateRowBorrowItem from './createRowBorrowItem'
 import RcTooltip from '@/components/common/RcTooltip'
 import { AppStore } from '@/types/store'
-import { updateLayoutBorrow, updateVisibilityBorrowBanner } from '@/lib/redux/slices/layout'
+import {
+  updateLayoutBorrow,
+  updateVisibilityBorrowBanner,
+} from '@/lib/redux/slices/layout'
+import UniSwapModal from '@/components/common/Modal/UniswapModal'
 
 export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
   const { address, isConnected } = useAccount()
@@ -34,6 +38,8 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
   const visibilityBorrowBanner = useSelector(
     (store: AppStore) => store.layout.visibilityBorrowBanner
   )
+
+  const [openUniSwapModal, setOpenUniSwapModal] = useState(false)
 
   const dispatch = useDispatch()
   const [dataBorrow, setDataBorrow] = useState(
@@ -171,12 +177,32 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
         </h3>
         <div className="flex items-center justify-center space-x-3">
           <button
-            className='focus:outline-none h-[34px] w-[34px] rounded-[4px] border-[1px] border-[solid] border-[#E6E6E6] dark:border-[#1a1a1a] inline-flex items-center justify-center cursor-pointer'>
+            onClick={() => setOpenUniSwapModal(true)}
+            className="inline-flex h-[34px] w-[34px] cursor-pointer items-center justify-center rounded-[4px] border-[1px] border-[#E6E6E6] border-[solid] focus:outline-none dark:border-[#1a1a1a]"
+          >
             <img
-              src={visibilityBorrowBanner ? "/icons/visibility-off.svg" : "/icons/visibility-off.svg"}
+              src="/icons/swap.svg"
+              alt="swap icon"
+              className="w-[22px] text-[#959595]"
+            />
+          </button>
+
+          <button
+            onClick={() =>
+              dispatch(
+                updateVisibilityBorrowBanner(!visibilityBorrowBanner as any)
+              )
+            }
+            className="inline-flex h-[34px] w-[34px] cursor-pointer items-center justify-center rounded-[4px] border-[1px] border-[#E6E6E6] border-[solid] focus:outline-none dark:border-[#1a1a1a]"
+          >
+            <img
+              src={
+                visibilityBorrowBanner
+                  ? '/icons/visibility-off.svg'
+                  : '/icons/visibility-off.svg'
+              }
               alt="visibility icon"
-              className='w-[22px] text-[#959595]'
-              onClick={() => dispatch(updateVisibilityBorrowBanner(!visibilityBorrowBanner as any))}
+              className="w-[22px] text-[#959595]"
             />
           </button>
           <div className="flex h-[36px] w-auto items-center justify-center rounded-[4px] border border-[#efefef] bg-transparent px-[3px] py-[4px] dark:border-[#1a1a1a]">
@@ -208,7 +234,9 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                 <img
                   src="../icons/grid.svg"
                   alt="Grid View"
-                  className={`ml-[6px] mr-[6px] h-6 w-6 ${layoutBorrow === 'grid' ? 'text-[#030303]' : 'text-[#959595]'
+                  className={`ml-[6px] mr-[6px] h-6 w-6 ${layoutBorrow === 'grid'
+                    ? 'text-[#030303]'
+                    : 'text-[#959595]'
                     } dark:text-white`}
                 />
               </button>
@@ -410,6 +438,11 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
           ></div>
         </div>
       )}
+
+      <UniSwapModal
+        open={openUniSwapModal}
+        handleClose={() => setOpenUniSwapModal(false)}
+      />
     </div>
   )
 }

@@ -15,6 +15,7 @@ import { CreateRowBoostItem } from './createRowBoostItem'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppStore } from '@/types/store'
 import { updateLayoutBoost, updateVisibilityBoostBanner } from '@/lib/redux/slices/layout'
+import UniSwapModal from '@/components/common/Modal/UniswapModal'
 
 export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
   const [boostVault, setBoostVault] = useState(BOOST_VAULTS)
@@ -26,6 +27,7 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
   const visibilityBoostBanner = useSelector(
     (store: AppStore) => store.layout.visibilityBoostBanner
   )
+  const [openUniSwapModal, setOpenUniSwapModal] = useState(false)
   const dispatch = useDispatch()
 
   const handleUpdateBoostData = async (loading = false) => {
@@ -70,6 +72,17 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
           Create Boost Vehicle
         </h3>
         <div className="flex items-center justify-center space-x-3">
+          <button
+            onClick={() => setOpenUniSwapModal(true)}
+            className="inline-flex h-[34px] w-[34px] cursor-pointer items-center justify-center rounded-[4px] border-[1px] border-[#E6E6E6] border-[solid] focus:outline-none dark:border-[#1a1a1a]"
+          >
+            <img
+              src="/icons/swap.svg"
+              alt="swap icon"
+              className="w-[22px] text-[#959595]"
+            />
+          </button>
+
           <button
             className='focus:outline-none h-[34px] w-[34px] rounded-[4px] border-[1px] border-[solid] border-[#E6E6E6] dark:border-[#1a1a1a] inline-flex items-center justify-center cursor-pointer'>
             <img
@@ -292,7 +305,14 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
             }
           ></div>
         </div>
+
+
       )}
+
+      <UniSwapModal
+        open={openUniSwapModal}
+        handleClose={() => setOpenUniSwapModal(false)}
+      />
     </div>
   )
 }
