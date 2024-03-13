@@ -75,7 +75,7 @@ export const Header = () => {
 
   useEffect(() => {
     if (chain?.id) {
-      const network = chains?.find((item) => item?.id === chain?.id)
+      const network = chains?.find((item: any) => item?.id === chain?.id)
       setIsShowNetworkAlert(!network)
     }
   }, [chain, chains])
