@@ -10,7 +10,7 @@ export default function Banner() {
         className="rounded-xl"
         src={
           theme === 'light'
-            ? '/assets/banners/borrow-light-large.png'
+            ? '/assets/banners/borrow-light-compressed.png'
             : '/assets/banners/borrow-compressed.png'
         }
         alt="Torque Borrow"
