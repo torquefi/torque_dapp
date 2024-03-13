@@ -30,17 +30,15 @@ const Modal = ({
     <div
       className={
         ` fixed top-0 left-0 z-500 h-screen w-full overflow-y-auto bg-[#030303] bg-opacity-40 transition-all ` +
-        `${
-          open ? `opacity-1 backdrop-blur-sm` : `pointer-events-none opacity-0 `
+        `${open ? `opacity-1 backdrop-blur-sm` : `pointer-events-none opacity-0 `
         }`
       }
       onClick={() => handleClose()}
     >
       <div className="flex min-h-screen items-center justify-center py-[10px] px-[8px]">
         <div
-          className={`relative mx-auto w-[90%] rounded-[24px] border dark:border-[#1D1D1D] bg-[#030303] p-[16px] transition-all ${className} ${
-            open ? `scale-100` : `scale-[0.9]`
-          }`}
+          className={`${className} relative mx-auto w-[90%] rounded-[24px] border dark:border-[#1D1D1D] bg-[#030303] p-[16px] transition-all  ${open ? `scale-100` : `scale-[0.9]`
+            }`}
           onClick={(e) => e.stopPropagation()}
         >
           {title && (
