@@ -176,7 +176,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
           Create Borrow Vault
         </h3>
         <div className="flex items-center justify-center space-x-2">
-          <button
+          {/* <button
             onClick={() => setOpenUniSwapModal(true)}
             className="inline-flex h-[34px] w-[34px] cursor-pointer items-center justify-center rounded-[4px] border-[1px] border-[#E6E6E6] border-[solid] focus:outline-none dark:border-[#1a1a1a]"
           >
@@ -185,7 +185,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
               alt="swap icon"
               className="w-[22px] text-[#959595]"
             />
-          </button>
+          </button> */}
 
           <button
             onClick={() =>
