@@ -3672,7 +3672,7 @@
     "@web3auth/base-evm-adapter" "^2.1.3"
     "@web3auth/ethereum-provider" "^2.1.3"
 
-"@web3auth/web3auth@^2.1.3":
+"@web3auth/web3auth@2.1.3":
   version "2.1.3"
   resolved "https://registry.yarnpkg.com/@web3auth/web3auth/-/web3auth-2.1.3.tgz#ca52fef665d05a6b97eed671c74cb62bc7fc055a"
   integrity sha512-i3+jqOdgZruz+ouYCHg4Pi6RjpJMiSzABb16KmfxzMlMJnQYyaFKS13i0GCgq57jsUkKe6FWzYNkhIIDs5G5RA==
@@ -3687,32 +3687,32 @@
     "@web3auth/ui" "^2.1.3"
     "@web3auth/wallet-connect-v1-adapter" "^2.1.3"
 
-"@web3modal/core@2.7.1":
-  version "2.7.1"
-  resolved "https://registry.yarnpkg.com/@web3modal/core/-/core-2.7.1.tgz#257534d45f7b5d6bddbc667f787c094eb91dd281"
-  integrity sha512-eFWR1tK1qN4FguhaZq2VW0AVr8DC/Fox2eJnK1eTfk32hxSgUtl8wr5fVM8EoLeoapQ7Zcc0SNg/QLuLQ9t2tA==
+"@web3modal/core@2.7.0":
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/@web3modal/core/-/core-2.7.0.tgz#ca791cc07f02affc2598edf0f55d4f967464a0e0"
+  integrity sha512-8P4gNHrUjLBelLiAGCrfxYv4Cgg2+1WBSbdi7yT/8KJzI8t8U2A1eQYz049I2FV6GxJVMXWV1Uy0OAH4zH5XKg==
   dependencies:
-    valtio "1.11.0"
+    valtio "1.10.7"
 
-"@web3modal/ethereum@^2.7.1":
+"@web3modal/ethereum@2.7.1":
   version "2.7.1"
   resolved "https://registry.yarnpkg.com/@web3modal/ethereum/-/ethereum-2.7.1.tgz#464dbc1d00d075c16961b77e9a353b1966538653"
   integrity sha512-1x3qhYh9qgtvw1MDQD4VeDf2ZOsVANKRPtUty4lF+N4L8xnAIwvNKUAMA4j6T5xSsjqUfq5Tdy5mYsNxLmsWMA==
 
-"@web3modal/react@^2.7.0":
-  version "2.7.1"
-  resolved "https://registry.yarnpkg.com/@web3modal/react/-/react-2.7.1.tgz#c768aae41bfe15abe379f8b6489d69d153fc7a46"
-  integrity sha512-+zvP5Q7Q3ozW2hyA1NvS8giVDeZWA6PWgVhKA6656dCnOutonPUpWYuFPJahsFBYCrhLO8ApPmomgb6Dx/mh5A==
+"@web3modal/react@2.7.0":
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/@web3modal/react/-/react-2.7.0.tgz#fd9adf669fbed68e68e8bba81703425d7f619a31"
+  integrity sha512-hzDikURdSxpOz1L6O9BZpq/9yiR92/j/K8PVpgs2+bmxiAwrukjyoKtIVHIi0thZsFL+b3N607wEw3JoA2LRcg==
   dependencies:
-    "@web3modal/core" "2.7.1"
-    "@web3modal/ui" "2.7.1"
+    "@web3modal/core" "2.7.0"
+    "@web3modal/ui" "2.7.0"
 
-"@web3modal/ui@2.7.1":
-  version "2.7.1"
-  resolved "https://registry.yarnpkg.com/@web3modal/ui/-/ui-2.7.1.tgz#9c2cb0f66623fcf41084f50e63acff33f26b0635"
-  integrity sha512-JpGJbLAl/Wmuyyn+JwuwtlPD8mUW2HV/gsSxKWZoElgjbfDY4vjHo9PH2G++2HhugISfzjawp43r8lP/hWgWOQ==
+"@web3modal/ui@2.7.0":
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/@web3modal/ui/-/ui-2.7.0.tgz#3c5372a7b554cd7447043321c7badee5b498f9cc"
+  integrity sha512-Cn0Ddidcl9vJpV7WQP5chcH91+wtLhf9gy10gsN+CzDz97a6B1JoEZZ3ZuT4NqCrS/fC06pC0E2DvAiG446dRA==
   dependencies:
-    "@web3modal/core" "2.7.1"
+    "@web3modal/core" "2.7.0"
     lit "2.7.6"
     motion "10.16.2"
     qrcode "1.5.3"
@@ -12136,10 +12136,10 @@ valtio@1.10.6:
     proxy-compare "2.5.1"
     use-sync-external-store "1.2.0"
 
-valtio@1.11.0:
-  version "1.11.0"
-  resolved "https://registry.yarnpkg.com/valtio/-/valtio-1.11.0.tgz#c029dcd17a0f99d2fbec933721fe64cfd32a31ed"
-  integrity sha512-65Yd0yU5qs86b5lN1eu/nzcTgQ9/6YnD6iO+DDaDbQLn1Zv2w12Gwk43WkPlUBxk5wL/6cD5YMFf7kj6HZ1Kpg==
+valtio@1.10.7:
+  version "1.10.7"
+  resolved "https://registry.yarnpkg.com/valtio/-/valtio-1.10.7.tgz#0843b8bc8382060b3e6a0d31be645c3ef9a7f7dc"
+  integrity sha512-XUwXJ9twXqwfVhXlcbYlCcRUUSOmp8RcJODVAxPrUZc2jh3com13B49MOL/cbgcTOX+5yf7wdMqbFGR7ba2sPg==
   dependencies:
     proxy-compare "2.5.1"
     use-sync-external-store "1.2.0"
