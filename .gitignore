@@ -39,10 +39,6 @@ yarn-error.log*
 
 .yarn/*
 
-yarn.lock
-# .env
 
 .vscode
-package-lock.json
-
 .env
