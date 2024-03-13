@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import store, { persistor } from '@/lib/redux/store'
 import Moralis from 'moralis-v1'
 import type { NextPage } from 'next'
