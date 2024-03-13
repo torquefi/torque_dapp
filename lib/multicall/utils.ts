@@ -1,20 +1,27 @@
-import CustomErrors from "@/abis/CustomErrors.json";
-import { ARBITRUM, ARBITRUM_GOERLI, AVALANCHE, AVALANCHE_FUJI, getFallbackRpcUrl, getRpcUrl } from "@/config/chains";
-import { PublicClient, createPublicClient, http } from "viem";
-import { arbitrum, arbitrumGoerli, avalanche, avalancheFuji } from "viem/chains";
-import { MulticallRequestConfig, MulticallResult } from "./types";
+import CustomErrors from '@/abis/CustomErrors.json'
+import {
+  ARBITRUM,
+  ARBITRUM_GOERLI,
+  AVALANCHE,
+  AVALANCHE_FUJI,
+  getFallbackRpcUrl,
+  getRpcUrl,
+} from '@/config/chains'
+import { PublicClient, createPublicClient, http } from 'viem'
+import { arbitrum, arbitrumGoerli, avalanche, avalancheFuji } from 'viem/chains'
+import { MulticallRequestConfig, MulticallResult } from './types'
 
-import { sleep } from "@/lib/sleep";
-import { Signer } from "ethers";
+import { sleep } from '@/lib/sleep'
+import { Signer } from 'ethers'
 
-export const MAX_TIMEOUT = 20000;
+export const MAX_TIMEOUT = 20000
 
 const CHAIN_BY_CHAIN_ID = {
   [AVALANCHE_FUJI]: avalancheFuji,
   [ARBITRUM_GOERLI]: arbitrumGoerli,
   [ARBITRUM]: arbitrum,
   [AVALANCHE]: avalanche,
-};
+}
 
 const BATCH_CONFIGS = {
   [ARBITRUM]: {
@@ -65,39 +72,39 @@ const BATCH_CONFIGS = {
       },
     },
   },
-};
+}
 
 export async function executeMulticall(
   chainId: number,
   signer: Signer | undefined,
   request: MulticallRequestConfig<any>
 ) {
-  const multicall = await Multicall.getInstance(chainId);
+  const multicall = await Multicall.getInstance(chainId)
 
-  return multicall?.call(request, MAX_TIMEOUT);
+  return multicall?.call(request, MAX_TIMEOUT)
 }
 
 export class Multicall {
   static instances: {
-    [chainId: number]: Multicall | undefined;
-  } = {};
+    [chainId: number]: Multicall | undefined
+  } = {}
 
   static async getInstance(chainId: number) {
-    let instance = Multicall.instances[chainId];
+    let instance = Multicall.instances[chainId]
 
     if (!instance || instance.chainId !== chainId) {
-      const rpcUrl = getRpcUrl(chainId);
+      const rpcUrl = getRpcUrl(chainId)
 
       if (!rpcUrl) {
-        return undefined;
+        return undefined
       }
 
-      instance = new Multicall(chainId, rpcUrl);
+      instance = new Multicall(chainId, rpcUrl)
 
-      Multicall.instances[chainId] = instance;
+      Multicall.instances[chainId] = instance
     }
 
-    return instance;
+    return instance
   }
 
   static getViemClient(chainId: number, rpcUrl: string) {
@@ -111,142 +118,155 @@ export class Multicall {
       pollingInterval: undefined,
       batch: BATCH_CONFIGS[chainId as keyof typeof BATCH_CONFIGS].client,
       chain: CHAIN_BY_CHAIN_ID[chainId as keyof typeof CHAIN_BY_CHAIN_ID],
-    });
+    })
   }
 
-  viemClient: PublicClient;
+  viemClient: PublicClient
 
   constructor(public chainId: number, public rpcUrl: string) {
-    this.viemClient = Multicall.getViemClient(chainId, rpcUrl);
+    this.viemClient = Multicall.getViemClient(chainId, rpcUrl)
   }
 
   async call(request: MulticallRequestConfig<any>, maxTimeout: number) {
     const originalKeys: {
-      contractKey: string;
-      callKey: string;
-    }[] = [];
+      contractKey: string
+      callKey: string
+    }[] = []
 
-    const abis: any = {};
+    const abis: any = {}
 
-    const encodedPayload: { address: string; abi: any; functionName: string; args: any }[] = [];
+    const encodedPayload: {
+      address: string
+      abi: any
+      functionName: string
+      args: any
+    }[] = []
 
-    const contractKeys = Object.keys(request);
+    const contractKeys = Object.keys(request)
 
     contractKeys.forEach((contractKey) => {
-      const contractCallConfig = request[contractKey];
+      const contractCallConfig = request[contractKey]
 
       if (!contractCallConfig) {
-        return;
+        return
       }
 
       Object.keys(contractCallConfig.calls).forEach((callKey) => {
-        const call = contractCallConfig.calls[callKey];
+        const call = contractCallConfig.calls[callKey]
 
         if (!call) {
-          return;
+          return
         }
 
         // Add Errors ABI to each contract ABI to correctly parse errors
         abis[contractCallConfig.contractAddress] =
-          abis[contractCallConfig.contractAddress] || contractCallConfig.abi.concat(CustomErrors.abi);
+          abis[contractCallConfig.contractAddress] ||
+          contractCallConfig.abi.concat(CustomErrors.abi)
 
-        const abi = abis[contractCallConfig.contractAddress];
+        const abi = abis[contractCallConfig.contractAddress]
 
         originalKeys.push({
           contractKey,
           callKey,
-        });
+        })
 
         encodedPayload.push({
           address: contractCallConfig.contractAddress,
           functionName: call.methodName,
           abi,
           args: call.params,
-        });
-      });
-    });
+        })
+      })
+    })
 
-    const response: any[] = await Promise.race([
+    const response: any = await Promise.race([
       this.viemClient.multicall({ contracts: encodedPayload as any }),
-      sleep(maxTimeout).then(() => Promise.reject(new Error("multicall timeout"))),
+      sleep(maxTimeout).then(() =>
+        Promise.reject(new Error('multicall timeout'))
+      ),
     ]).catch((_viemError) => {
-      const e = new Error(_viemError.message.slice(0, 150));
+      const e = new Error(_viemError.message.slice(0, 150))
 
       // eslint-disable-next-line no-console
-      console.groupCollapsed("multicall error:");
+      console.groupCollapsed('multicall error:')
       // eslint-disable-next-line no-console
-      console.error(e);
+      console.error(e)
       // eslint-disable-next-line no-console
-      console.groupEnd();
+      console.groupEnd()
 
-      const rpcUrl = getFallbackRpcUrl(this.chainId);
+      const rpcUrl = getFallbackRpcUrl(this.chainId)
 
       if (!rpcUrl) {
-        throw e;
+        throw e
       }
 
-      const fallbackClient = Multicall.getViemClient(this.chainId, rpcUrl);
+      const fallbackClient = Multicall.getViemClient(this.chainId, rpcUrl)
 
       // eslint-disable-next-line no-console
-      console.log(`using multicall fallback for chain ${this.chainId}`);
+      console.log(`using multicall fallback for chain ${this.chainId}`)
 
-      return fallbackClient.multicall({ contracts: encodedPayload as any }).catch((_viemError) => {
-        const e = new Error(_viemError.message.slice(0, 150));
-        // eslint-disable-next-line no-console
-        console.groupCollapsed("multicall fallback error:");
-        // eslint-disable-next-line no-console
-        console.error(e);
-        // eslint-disable-next-line no-console
-        console.groupEnd();
+      return fallbackClient
+        .multicall({ contracts: encodedPayload as any })
+        .catch((_viemError) => {
+          const e = new Error(_viemError.message.slice(0, 150))
+          // eslint-disable-next-line no-console
+          console.groupCollapsed('multicall fallback error:')
+          // eslint-disable-next-line no-console
+          console.error(e)
+          // eslint-disable-next-line no-console
+          console.groupEnd()
 
-        throw e;
-      });
-    });
+          throw e
+        })
+    })
 
     const multicallResult: MulticallResult<any> = {
       success: true,
       errors: {},
       data: {},
-    };
+    }
 
     response.forEach(({ result, status, error }, i) => {
-      const { contractKey, callKey } = originalKeys[i];
+      const { contractKey, callKey } = originalKeys[i]
 
       // console.log('result', result, status, error, originalKeys[i])
 
-      if (status === "success") {
-        let values: any;
+      if (status === 'success') {
+        let values: any
 
-        if (Array.isArray(result) || typeof result === "object") {
-          values = result;
+        if (Array.isArray(result) || typeof result === 'object') {
+          values = result
         } else {
-          values = [result];
+          values = [result]
         }
 
-        multicallResult.data[contractKey] = multicallResult.data[contractKey] || {};
+        multicallResult.data[contractKey] =
+          multicallResult.data[contractKey] || {}
         multicallResult.data[contractKey][callKey] = {
           contractKey,
           callKey,
           returnValues: values,
           success: true,
-        };
+        }
       } else {
-        multicallResult.success = false;
+        multicallResult.success = false
 
-        multicallResult.errors[contractKey] = multicallResult.errors[contractKey] || {};
-        multicallResult.errors[contractKey][callKey] = error;
+        multicallResult.errors[contractKey] =
+          multicallResult.errors[contractKey] || {}
+        multicallResult.errors[contractKey][callKey] = error
 
-        multicallResult.data[contractKey] = multicallResult.data[contractKey] || {};
+        multicallResult.data[contractKey] =
+          multicallResult.data[contractKey] || {}
         multicallResult.data[contractKey][callKey] = {
           contractKey,
           callKey,
           returnValues: [],
           success: false,
           error: error,
-        };
+        }
       }
-    });
+    })
 
-    return multicallResult;
+    return multicallResult
   }
 }
