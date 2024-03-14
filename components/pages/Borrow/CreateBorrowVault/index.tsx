@@ -462,6 +462,7 @@ const BORROW_INFOS: IBorrowInfo[] = [
     tokenContractInfo: tokenBtcContract,
     tokenBorrowContractInfo: tokenTusdContract,
     name: 'Bitcoin',
+    bonus: 365000,
   },
   {
     depositTokenIcon: '/icons/coin/aeth.png',
@@ -477,5 +478,6 @@ const BORROW_INFOS: IBorrowInfo[] = [
     tokenContractInfo: tokenEthContract,
     tokenBorrowContractInfo: tokenTusdContract,
     name: 'Ether',
+    bonus: 365000,
   },
 ]

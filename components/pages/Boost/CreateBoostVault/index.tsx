@@ -321,7 +321,7 @@ const BOOST_VAULTS = [
   {
     token: 'WBTC',
     earnToken: 'tBTC',
-    bonus_TORQ: 0,
+    bonus: 255000,
     deposit: 0,
     threeYearValue: 0,
     APR: 0.0,
@@ -342,7 +342,7 @@ const BOOST_VAULTS = [
   {
     token: 'WETH',
     earnToken: 'tETH',
-    bonus_TORQ: 0,
+    bonus: 292000,
     deposit: 0,
     threeYearValue: 0,
     APR: 0.0,
