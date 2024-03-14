@@ -206,6 +206,7 @@ const DATA_BORROW: IBorrowInfoManage[] = [
     tokenContractInfo: tokenTusdContract,
     depositContractInfo: tokenBtcContract,
     borrowMax: 0.0,
+    bonus: 0,
   },
   {
     depositTokenSymbol: 'WETH',
@@ -224,6 +225,7 @@ const DATA_BORROW: IBorrowInfoManage[] = [
     tokenContractInfo: tokenTusdContract,
     depositContractInfo: tokenEthContract,
     borrowMax: 0.0,
+    bonus: 0,
   },
 ]
 

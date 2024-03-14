@@ -170,7 +170,8 @@ const DATA_BOOST_VAULT: IBoostInfo[] = [
     tokenContractInfo: wbtcContract,
     boostContractInfo: boostWbtcContract,
     gmxContractInfo: gmxWbtcContract,
-    depositedBalance: 0.0
+    depositedBalance: 0.0,
+    bonus: 0,
   },
   {
     tokenSymbol: 'WETH',
@@ -182,6 +183,7 @@ const DATA_BOOST_VAULT: IBoostInfo[] = [
     tokenContractInfo: wethContract,
     boostContractInfo: boostWethContract,
     gmxContractInfo: gmxWethContract,
-    depositedBalance: 0.0
+    depositedBalance: 0.0,
+    bonus: 0,
   },
 ]
