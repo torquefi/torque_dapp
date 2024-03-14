@@ -17,6 +17,7 @@ export function DefaultHead() {
       <meta property="og:image" content={`/assets/torque_preview.png`} />
       <meta name="twitter:image" content={`/assets/torque_preview.png`} />
       <meta property="telegram:image" content={`/assets/torque_preview.png`} />
+      <link rel="shortcut icon" href="https://app.torque.fi/assets/logo.png" />
       <link rel="icon" type="image/png" href={'/favicon.png'} />
       <link rel="preconnect" href="https://fonts.gstatic.com" />
       <link
