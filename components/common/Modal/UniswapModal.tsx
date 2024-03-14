@@ -8,6 +8,9 @@ import LoadingCircle from '../Loading/LoadingCircle'
 import { useAccount } from 'wagmi'
 import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
 import { listSwapCoin } from './constants'
+import { getBalanceByContractToken } from '@/constants/utils'
+import Popover from '../Popover'
+import HoverIndicator from '../HoverIndicator'
 
 export interface UniSwapModalProps {
     open: boolean
@@ -31,6 +34,35 @@ export default function UniSwapModal({
     const [coinFrom, setCoinFrom] = useState<any>(listSwapCoin[0])
     const [balanceFrom, setBalanceFrom] = useState('')
     const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
+    const [listBalances, setListBalances] = useState<any>([])
+
+    const handleGetBalanceToken = async (item: any) => {
+        try {
+            const amount = await getBalanceByContractToken(
+                item.tokenContractInfo.abi,
+                item.tokenContractInfo.address,
+                address
+            )
+            return amount
+        } catch (error) {
+
+        }
+    }
+
+    const handleGetListBalances = async () => {
+        try {
+            const listBalances = await Promise.all(listSwapCoin.map(handleGetBalanceToken))
+            console.log('listBalances :>> ', listBalances);
+        } catch (error) {
+
+        }
+    }
+
+    useEffect(() => {
+        if (address) {
+            handleGetListBalances()
+        }
+    }, [address]);
 
     const renderSubmitText = () => {
         if (!address) {
@@ -100,7 +132,7 @@ export default function UniSwapModal({
                                         alt=""
                                         className="h-[32px] rounded-full"
                                     />
-                                    <p>{coinFrom?.symbol}</p>
+                                    <p className='cursor-pointer'>{coinFrom?.symbol}</p>
                                 </div>
                             </div>
                         </div>
@@ -160,14 +192,31 @@ export default function UniSwapModal({
                                 // }}
                                 />
                             )}
-                            <div className="flex items-center gap-[2px] text-[#030303] dark:text-[#959595]">
-                                <img
-                                    src={`/icons/coin/${coinTo.symbol.toLocaleLowerCase()}.png`}
-                                    alt="torque usd"
-                                    className="h-[32px]"
-                                />
-                                <p>{coinTo?.symbol}</p>
-                            </div>
+
+                            <Popover
+                                placement="bottom-right"
+                                className={`mt-[12px] w-[200px] leading-none`}
+                                content={
+                                    <HoverIndicator
+                                        divider
+                                        direction="vertical"
+                                        indicatorClassName="rounded-[6px]"
+                                    >
+
+                                    </HoverIndicator>
+                                }
+                            >
+                                <div className="flex items-center gap-[2px] text-[#030303] dark:text-[#959595] cursor-pointer">
+                                    <img
+                                        src={`/icons/coin/${coinTo.symbol.toLocaleLowerCase()}.png`}
+                                        alt="torque usd"
+                                        className="h-[32px]"
+                                    />
+                                    <p>{coinTo?.symbol}</p>
+                                </div>
+                            </Popover>
+
+
                         </div>
                         <div className="mt-1 flex items-center justify-between">
                             <div className="text-[12px] text-[#959595]">
