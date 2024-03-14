@@ -274,7 +274,7 @@ export function CreateBoostItem({
             trigger="hover"
             placement="bottom-right"
             className={`font-mona mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
-            content="The projected TORQ rewards after 1 year of $1,000 supplied"
+            content="The projected TORQ rewards after 1 year of $1,000 supplied."
           >
             <Link href="#" className="" target={'_blank'}>
               <div className="flex items-center rounded-full bg-[#AA5BFF] bg-opacity-20 p-1  text-[12px] xs:text-[14px]">

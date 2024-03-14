@@ -362,7 +362,7 @@ export default function CreateBorrowItem({
             trigger="hover"
             placement="bottom-right"
             className={`mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#161616]`}
-            content="The projected TORQ rewards after 1 year of $1,000 borrowed"
+            content="The projected TORQ rewards after 1 year of $1,000 borrowed."
           >
             <Link href="#" className="" target={'_blank'}>
               <div className="flex items-center rounded-full bg-[#AA5BFF] bg-opacity-20 p-1  text-[12px] xs:text-[14px]">

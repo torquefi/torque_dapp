@@ -383,7 +383,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                       trigger="hover"
                       placement="topLeft"
                       className={`font-mona flex w-[220px] items-center border border-[#e5e7eb] bg-[#fff] py-1 text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
-                      content="Projected TORQ rewards after 1 year of $1,000 supplied."
+                      content="The projected TORQ rewards after 1 year of $1,000 supplied."
                     >
                       <button className="ml-[5px]">
                         <img
