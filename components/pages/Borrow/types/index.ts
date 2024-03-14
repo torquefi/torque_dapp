@@ -40,4 +40,5 @@ export interface IBorrowInfoManage {
   tokenContract?: Contract
   depositContractInfo?: IContractInfo
   borrowMax?: number
+  bonus?: number
 }
