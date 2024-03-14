@@ -15,5 +15,5 @@ export interface IBoostInfo {
   tokenContract?: Contract
   boostContract?: Contract
   gmxContractInfo: IContractInfo
-  bonus: number
+  bonus?: number
 }
