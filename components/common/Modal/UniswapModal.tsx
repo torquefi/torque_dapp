@@ -7,6 +7,7 @@ import { NumericFormat } from 'react-number-format'
 import LoadingCircle from '../Loading/LoadingCircle'
 import { useAccount } from 'wagmi'
 import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
+import { listSwapCoin } from './constants'
 
 export interface UniSwapModalProps {
     open: boolean
@@ -25,20 +26,22 @@ export default function UniSwapModal({
     const theme = useSelector((store: AppStore) => store.theme.theme)
 
     const [loading, setLoading] = useState(false)
-    const [coinFrom, setCoinFrom] = useState<any>({})
-    const [coinTo, setCoinTo] = useState<any>({})
+    const [coinTo, setCoinTo] = useState<any>(listSwapCoin[1])
+    const [balanceTo, setBalanceTo] = useState('')
+    const [coinFrom, setCoinFrom] = useState<any>(listSwapCoin[0])
+    const [balanceFrom, setBalanceFrom] = useState('')
     const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
 
     const renderSubmitText = () => {
         if (!address) {
             return 'Connect Wallet'
         }
-        return createButtonText ? createButtonText : 'Create Vault'
+        return createButtonText ? createButtonText : 'Begin Swap'
     }
 
     return (
         <Modal
-            className="mx-auto w-[90%] max-w-[440px] bg-[#FCFAFF] px-[0px] py-[1px] dark:bg-[#030303]"
+            className="mx-auto w-[90%] max-w-[360px] bg-[#FCFAFF] px-[18px] dark:bg-[#030303]"
             open={open}
             handleClose={handleClose}
             hideCloseIcon
@@ -52,7 +55,7 @@ export default function UniSwapModal({
 
             <div className="flex items-center justify-between py-1">
                 <div className="font-larken text-[24px] font-[400] text-[#030303] dark:text-white">
-                    {title || 'Create Vault'}
+                    {title || 'Swap'}
                 </div>
                 <AiOutlineClose
                     className="cursor-pointer text-[#030303] dark:text-[#ffff]"
@@ -93,7 +96,7 @@ export default function UniSwapModal({
                                 </p>
                                 <div className="flex items-center gap-[2px] text-[#030303] dark:text-[#959595]">
                                     <img
-                                        src={coinFrom?.icon}
+                                        src={`/icons/coin/${coinFrom.symbol.toLocaleLowerCase()}.png`}
                                         alt=""
                                         className="h-[32px] rounded-full"
                                     />
@@ -158,7 +161,11 @@ export default function UniSwapModal({
                                 />
                             )}
                             <div className="flex items-center gap-[2px] text-[#030303] dark:text-[#959595]">
-                                <img src={coinTo?.icon} alt="torque usd" className="h-[32px]" />
+                                <img
+                                    src={`/icons/coin/${coinTo.symbol.toLocaleLowerCase()}.png`}
+                                    alt="torque usd"
+                                    className="h-[32px]"
+                                />
                                 <p>{coinTo?.symbol}</p>
                             </div>
                         </div>
