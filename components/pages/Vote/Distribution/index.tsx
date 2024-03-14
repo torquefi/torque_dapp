@@ -20,7 +20,7 @@ export const Distribution = () => {
         <div className='mx-auto w-[300px] rounded-full'>
           <SkeletonDefault className="h-[40px]" />
         </div>
-        <div className="mt-[42px] flex items-center justify-between flex-col md:flex-row">
+        {/* <div className="mt-[42px] flex items-center justify-between flex-col md:flex-row">
           <div className='md:w-[32%] rounded-[32px] w-full mb-[20px] md:mb-[0px]'>
             <SkeletonDefault className="h-[110px]" />
           </div>
@@ -30,7 +30,7 @@ export const Distribution = () => {
           <div className='md:w-[32%] rounded-[32px] w-full md:mb-[0px]'>
             <SkeletonDefault className="h-[110px]" />
           </div>
-        </div>
+        </div> */}
         <div className="mt-[24px] w-full rounded-[48px]">
           <SkeletonDefault className="h-[400px]" />
         </div>
@@ -48,7 +48,7 @@ export const Distribution = () => {
           liquidity.
         </p>
       </div>
-      <InforTORQ />
+      {/* <InforTORQ /> */}
       <ListPools />
     </div>
   )

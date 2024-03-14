@@ -15,7 +15,7 @@ export const ListPools = () => {
             trigger="hover"
             placement="bottom-right"
             className={`font-mona text-[#030303] dark:text-white mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
-            content="Earn Torque (TORQ) by providing liquidity to Torque pools."
+            content="Earn Torque (TORQ) by providing liquidity across Torque pools."
           >
           <button>
             <img src="/assets/pages/vote/ic-info.svg" alt="" />
@@ -116,7 +116,7 @@ const menu = [
     imgOld: '/assets/pages/vote/distribution/ic-torq.svg',
     name: 'Boost',
     ticker: 'tBTC',
-    dailySupply: '0.00',
+    dailySupply: '700',
     dailyBorrow: '0.00',
   },
   {
@@ -124,7 +124,7 @@ const menu = [
     imgOld: '/assets/pages/vote/distribution/ic-torq.svg',
     name: 'Boost',
     ticker: 'tETH',
-    dailySupply: '0.00',
+    dailySupply: '800',
     dailyBorrow: '0.00',
   },
   {
@@ -132,23 +132,23 @@ const menu = [
     imgOld: '/assets/pages/vote/distribution/ic-torq.svg',
     name: 'Borrow',
     ticker: 'TUSD',
-    dailySupply: '0.00',
-    dailyBorrow: '0.00',
+    dailySupply: '1,000',
+    dailyBorrow: '1,000',
   },
   {
     imgMain: '/icons/coin/aeth.png',
     imgOld: '/assets/pages/vote/distribution/ic-torq.svg',
     name: 'Borrow',
     ticker: 'TUSD',
-    dailySupply: '0.00',
-    dailyBorrow: '0.00',
+    dailySupply: '1,000',
+    dailyBorrow: '1,000',
   },
   {
     imgMain: '/icons/coin/d-uni.png',
     imgOld: '/assets/pages/vote/distribution/ic-torq.svg',
     name: 'Uniswap',
     ticker: 'TORQ',
-    dailySupply: '0.00',
+    dailySupply: '1,200',
     dailyBorrow: '0.00',
   },
   {
@@ -156,7 +156,7 @@ const menu = [
     imgOld: '/assets/pages/vote/distribution/ic-torq.svg',
     name: 'Uniswap',
     ticker: 'TUSD',
-    dailySupply: '0.00',
+    dailySupply: '1,200',
     dailyBorrow: '0.00',
   },
   {
@@ -164,7 +164,7 @@ const menu = [
     imgOld: '/assets/pages/vote/distribution/ic-torq.svg',
     name: 'Ajna',
     ticker: 'TUSD',
-    dailySupply: '0.00',
+    dailySupply: '800',
     dailyBorrow: '0.00',
   },
   {
@@ -172,7 +172,7 @@ const menu = [
     imgOld: '/assets/pages/vote/distribution/ic-torq.svg',
     name: 'Ajna',
     ticker: 'USDC',
-    dailySupply: '0.00',
+    dailySupply: '800',
     dailyBorrow: '0.00',
   },
 ]
