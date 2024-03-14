@@ -18,6 +18,7 @@ export interface IBorrowInfo {
   tokenBorrowContractInfo?: IContractInfo
   name?: string
   routed?: string
+  bonus?: number
 }
 
 export interface IBorrowInfoManage {
@@ -39,4 +40,5 @@ export interface IBorrowInfoManage {
   tokenContract?: Contract
   depositContractInfo?: IContractInfo
   borrowMax?: number
+  bonus?: number
 }

@@ -372,7 +372,7 @@ export default function CreateBorrowItem({
                   className="w-[24px]"
                 />
                 <div className="font-mona mx-1 uppercase text-[#AA5BFF] xs:mx-2">
-                  +0.00 TORQ
+                  +{Number(item.bonus).toLocaleString()} TORQ
                 </div>
               </div>
             </Link>

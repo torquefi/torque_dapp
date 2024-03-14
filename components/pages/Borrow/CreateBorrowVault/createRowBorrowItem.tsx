@@ -437,7 +437,7 @@ export default function CreateRowBorrowItem({
                                 className="w-[18px]"
                             />
                             <div className="text-[16px] font-[400] tracking-[0em] pt-[1px] text-[#030303] dark:text-white">
-                                0.00
+                            {Number(item.bonus).toLocaleString()}
                             </div>
                         </div>
                     </div>
