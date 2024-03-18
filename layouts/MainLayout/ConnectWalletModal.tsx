@@ -1,10 +1,12 @@
 import HoverIndicator from '@/components/common/HoverIndicator'
 import Modal from '@/components/common/Modal'
+import { requestSwitchNetwork } from '@/lib/helpers/network'
 import { AppStore } from '@/types/store'
 import { useWeb3Modal, useWeb3ModalTheme } from '@web3modal/react'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useConnect } from 'wagmi'
+import { arbitrumMainnetInfo } from './Header'
 
 interface ConnectWalletModalProps {
   openModal: boolean
@@ -18,6 +20,7 @@ export default function ConnectWalletModal({
   const { setTheme } = useWeb3ModalTheme()
   const { open } = useWeb3Modal()
   const { connect, connectors } = useConnect()
+
 
   const theme = useSelector((store: AppStore) => store.theme.theme)
 
@@ -82,11 +85,10 @@ export default function ConnectWalletModal({
                 className={
                   ` absolute bottom-0 left-0 h-[1px] w-full` +
                   `
-              ${
-                theme === 'light'
-                  ? 'bg-gradient-divider-light'
-                  : 'bg-gradient-divider'
-              }
+              ${theme === 'light'
+                    ? 'bg-gradient-divider-light'
+                    : 'bg-gradient-divider'
+                  }
                `
                 }
               />

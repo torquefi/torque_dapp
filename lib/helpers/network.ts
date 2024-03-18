@@ -1,6 +1,9 @@
 import Web3 from 'web3'
 
-export const requestSwitchNetwork = async (network: any): Promise<boolean> =>
+export const requestSwitchNetwork = async (
+  network: any,
+  recall?: boolean
+): Promise<boolean> =>
   new Promise(async (resolve, reject) => {
     const web3 = new Web3(Web3.givenProvider)
     const chainId =

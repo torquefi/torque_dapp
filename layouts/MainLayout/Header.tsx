@@ -31,7 +31,7 @@ import BigNumber from 'bignumber.js'
 
 BigNumber.config({ EXPONENTIAL_AT: 100 })
 
-const arbitrumMainnetInfo = {
+export const arbitrumMainnetInfo = {
   name: 'Arbitrum',
   symbol: 'ETH',
   chainId: 42161,
@@ -39,6 +39,7 @@ const arbitrumMainnetInfo = {
   coinName: 'ETH',
   coinSymbol: 'ETH',
   rpcUrls: ['https://arbitrum-mainnet.infura.io'],
+  image: 'https://app.torque.fi/assets/logo.png',
   blockchainExplorer: 'https://explorer.arbitrum.io',
 }
 
