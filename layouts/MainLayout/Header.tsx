@@ -111,14 +111,14 @@ export const Header = () => {
           <div className="flex items-center">
             <div
               onClick={() => setIsOpenClaim(true)}
-              className="mr-[12px] hidden cursor-pointer items-center xs:flex md:mr-[18px]"
+              className="mr-[12px] hidden cursor-pointer items-center xs:flex"
             >
               <img
-                className="h-[20px] lg:h-[22px]"
+                className="h-[20px]"
                 src="/assets/t-logo-circle.svg"
                 alt=""
               />
-              <p className="font-larken ml-[6px] text-[16px] text-[#404040] lg:text-[18px] dark:text-white">
+              <p className="font-larken ml-[6px] text-[16px] text-[#404040] dark:text-white">
                 $
                 <NumberFormat
                   displayType="text"
@@ -161,7 +161,7 @@ export const Header = () => {
               </Popover>
             ) : ( */}
             <div
-              className="font-mona cursor-pointer rounded-full border border-[#AA5BFF] px-[18px] py-[6px] text-[14px] uppercase leading-none text-[#AA5BFF] transition-all duration-200 ease-in xs:px-[16px] xs:py-[4px] lg:px-[22px] lg:pb-[6px] lg:pt-[8px]"
+              className="font-mona cursor-pointer rounded-full border border-[#AA5BFF] px-[18px] py-[6px] text-[13px] uppercase leading-none text-[#AA5BFF] transition-all duration-200 ease-in xs:px-[16px] xs:py-[4px] lg:px-[22px] lg:pb-[6px] lg:pt-[8px]"
               onClick={() =>
                 !address ? setOpenConnectWalletModal(true) : open()
               }
