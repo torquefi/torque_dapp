@@ -224,9 +224,9 @@ export default function ClaimModal({
           }`
         }
       ></div>
-      <div className="grid h-auto w-full  grid-cols-2 gap-[12px] overflow-y-auto py-[18px]">
+      <div className="grid h-auto w-full grid-cols-2 gap-[12px] overflow-y-auto py-[18px]">
         {infos.map((item, i) => (
-          <div key={i} className="flex h-[102px] flex-col items-center justify-center rounded-[12px] border border-[1px] border-[#1A1A1A] border-[#E6E6E6] bg-[#FCFCFC] from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
+          <div key={i} className="flex h-[98px] pt-[6px] flex-col items-center justify-center rounded-[12px] border border-[1px] border-[#1A1A1A] border-[#E6E6E6] bg-[#FCFCFC] from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
             <div className="font-larken text-[24px] text-[#404040] dark:text-white">
               {item.title}
             </div>
@@ -237,7 +237,7 @@ export default function ClaimModal({
         ))}
       </div>
       <button
-        className={`font-mona w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
+        className={`font-mona w-full text-[14px] rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
          ${loading || !Number(rewards) ? ' cursor-not-allowed text-[#eee]' : ' cursor-pointer'} `}
         onClick={handleClaim}
         disabled={loading || !Number(rewards)}
