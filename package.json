@@ -1,5 +1,5 @@
 {
-  "name": "doraemon",
+  "name": "torque",
   "private": true,
   "scripts": {
     "dev": "next dev -p 3888",
