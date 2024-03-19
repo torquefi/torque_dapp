@@ -21,7 +21,8 @@ interface PopoverProps {
   content?: any
   placement?: Placement
   children?: any
-  trigger?: Trigger
+  trigger?: Trigger,
+  externalOpen?: boolean
 }
 
 const Popover = ({
@@ -30,6 +31,7 @@ const Popover = ({
   placement = 'bottom-right',
   children,
   trigger = 'click',
+  externalOpen
 }: PopoverProps) => {
   const [isOpen, setOpen] = useState(false)
 
@@ -61,6 +63,10 @@ const Popover = ({
     [isTriggerClick]
   )
 
+  useEffect(() => {
+    setOpen(false)
+  }, [externalOpen])
+
   return (
     <div
       ref={popoverContainerRef}
@@ -72,30 +78,25 @@ const Popover = ({
       {children}
       <div
         className={
-          `absolute transition-all` +
-          ` ${
-            isOpen
-              ? 'scale-100 opacity-100'
-              : 'pointer-events-none scale-90 opacity-0'
+          `absolute transition-all z-[10]` +
+          ` ${isOpen
+            ? 'scale-100 opacity-100'
+            : 'pointer-events-none scale-90 opacity-0'
           }` +
           ` ${placement === 'top-left' ? 'bottom-full left-0' : ''}` +
-          ` ${
-            placement === 'top' ? 'bottom-full left-1/2 -translate-x-1/2' : ''
+          ` ${placement === 'top' ? 'bottom-full left-1/2 -translate-x-1/2' : ''
           }` +
           ` ${placement === 'top-right' ? 'bottom-full right-0' : ''}` +
           ` ${placement === 'bottom-left' ? 'top-full left-0' : ''}` +
-          ` ${
-            placement === 'bottom' ? 'top-full left-1/2 -translate-x-1/2' : ''
+          ` ${placement === 'bottom' ? 'top-full left-1/2 -translate-x-1/2' : ''
           }` +
           ` ${placement === 'bottom-right' ? 'top-full right-0' : ''}` +
           ` ${placement === 'left-top' ? 'right-full top-0' : ''}` +
-          ` ${
-            placement === 'left' ? 'right-full top-1/2 -translate-y-1/2' : ''
+          ` ${placement === 'left' ? 'right-full top-1/2 -translate-y-1/2' : ''
           }` +
           ` ${placement === 'left-bottom' ? 'right-full bottom-0' : ''}` +
           ` ${placement === 'right-top' ? 'left-full top-0' : ''}` +
-          ` ${
-            placement === 'right' ? 'left-full top-1/2 -translate-y-1/2' : ''
+          ` ${placement === 'right' ? 'left-full top-1/2 -translate-y-1/2' : ''
           }` +
           ` ${placement === 'right-bottom' ? 'left-full bottom-0' : ''}`
         }
