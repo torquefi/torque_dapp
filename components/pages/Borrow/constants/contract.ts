@@ -24,7 +24,7 @@ export const compoundUsdcContract: IContractInfo = {
 }
 
 export const engineTusdContract: IContractInfo = {
-  address: '0x3c716812B02aC5Ea432b153B134770e7f78E6542',
+  address: '0xfdf7b4486f5de843838EcFd254711E06aF1f0641',
   abi: JSON.stringify(engineTusd),
 }
 
