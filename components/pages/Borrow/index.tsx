@@ -22,7 +22,7 @@ export const BorrowPage = () => {
 
   if (isLoading) {
     return (
-      <div className="mt-2">
+      <div className="mt-0 md:mt-[-16px]">
         {visibilityBorrowBanner && (
           <>
             <div className="hidden lg:block">
@@ -60,7 +60,7 @@ export const BorrowPage = () => {
   }
 
   return (
-    <div className="mt-2 space-y-[36px]">
+    <div className="space-y-[36px] mt-0 md:mt-[-16px]">
       {visibilityBorrowBanner && <Banner />}
       <CreateBorrowVault setIsFetchBorrowLoading={setIsFetchBorrowLoading} />
       <ManageBorrowVault isFetchBorrowData={isFetchBorrowData} />
