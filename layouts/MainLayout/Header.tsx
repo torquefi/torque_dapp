@@ -96,7 +96,7 @@ export const Header = () => {
           {arbitrumMainnetInfo.name} network.
         </div>
         <div className="flex h-[24px] items-center justify-center bg-[#aa5bff] text-center text-[9px] font-bold uppercase text-white transition-all">
-          Protocol not released yet. Please stay tuned.
+          Protocol has released. Enjoy!
         </div>
         <div className="container relative mx-auto flex h-[66px] max-w-[1244px] items-center justify-between px-4 lg:px-8">
           <Link href="/" className="flex items-center">
