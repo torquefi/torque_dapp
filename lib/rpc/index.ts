@@ -1,27 +1,17 @@
 import { useEffect, useState } from 'react'
 import {
-  ARBITRUM,
-  ARBITRUM_GOERLI,
-  AVALANCHE,
   AVALANCHE_FUJI,
   FALLBACK_PROVIDERS,
-  getAlchemyWsUrl,
   getFallbackRpcUrl,
   getRpcUrl,
 } from '@/config/chains'
 import { ethers } from 'ethers'
 import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers'
 
-const arbWsProvider = new ethers.providers.WebSocketProvider(getAlchemyWsUrl())
-
 const avaxWsProvider = new ethers.providers.JsonRpcProvider(
   'https://api.avax.network/ext/bc/C/rpc'
 )
 avaxWsProvider.pollingInterval = 2000
-
-const goerliWsProvider = new ethers.providers.WebSocketProvider(
-  'wss://arb-goerli.g.alchemy.com/v2/cZfd99JyN42V9Clbs_gOvA3GSBZH1-1j'
-)
 
 const fujiWsProvider = new ethers.providers.JsonRpcProvider(
   getRpcUrl(AVALANCHE_FUJI)
@@ -81,25 +71,4 @@ export function useJsonRpcProvider(chainId: number) {
   }, [chainId])
 
   return { provider }
-}
-
-export function getWsProvider(active: boolean, chainId: number) {
-  if (!active) {
-    return
-  }
-  if (chainId === ARBITRUM) {
-    return arbWsProvider
-  }
-
-  if (chainId === AVALANCHE) {
-    return avaxWsProvider
-  }
-
-  if (chainId === ARBITRUM_GOERLI) {
-    return goerliWsProvider
-  }
-
-  if (chainId === AVALANCHE_FUJI) {
-    return fujiWsProvider
-  }
 }
