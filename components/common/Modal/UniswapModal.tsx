@@ -32,8 +32,8 @@ export default function UniSwapModal({
     const [openPopover, setOpenPopover] = useState(false)
 
     const [loading, setLoading] = useState(false)
-    const [coinTo, setCoinTo] = useState<any>(listSwapCoin[1])
-    const [coinFrom, setCoinFrom] = useState<any>(listSwapCoin[2])
+    const [coinFrom, setCoinFrom] = useState<any>(listSwapCoin[0])
+    const [coinTo, setCoinTo] = useState<any>(listSwapCoin[2])
     const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
     const [listBalances, setListBalances] = useState<any>({})
     const [amountFrom, setAmountFrom] = useState('')
@@ -253,9 +253,17 @@ export default function UniSwapModal({
                         <button
                             onClick={() => {
                                 setCoinFrom(coinTo)
-                                setCoinTo(coinTo)
-                                setAmountFrom('')
-                                setAmountTo('')
+                                setCoinTo(coinFrom)
+                                setAmountFrom(amountTo)
+                                const convertRate =
+                                    Number(usdPrice[coinTo?.symbol]) / Number(usdPrice[coinFrom?.symbol] || 1)
+                                setAmountTo(
+                                    amountTo
+                                        ? new BigNumber(amountTo)
+                                            .multipliedBy(convertRate)
+                                            .toString()
+                                        : ''
+                                )
                             }}
                             className="absolute left-1/2 top-[31%] w-full max-w-[26px] translate-x-[-50%] cursor-pointer rounded-md border-[1px] border-solid border-[#ececec] bg-[#fff] px-[5px] py-[4px] shadow-xl dark:border-[#181818] dark:bg-[linear-gradient(180deg,#0d0d0d_0%,#0e0e0e_100%)]"
                         >
