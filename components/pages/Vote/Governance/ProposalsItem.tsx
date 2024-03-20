@@ -38,7 +38,7 @@ export const ProposalsItem = (props: any) => {
   } else if (menu.stage === 'Pending') {
     classnamesState =
       'rounded-[6px] bg-[#ff9c4155] px-[12px] py-[1px] text-[12px] font-[500] uppercase text-[#FF9C41]'
-  } else if (menu.stage === 'Failed') {
+  } else if (menu.stage === 'Complete') {
     classnamesState =
       'rounded-[6px] bg-[#ff3e3e55] px-[12px] py-[1px] text-[12px] font-[500] uppercase text-[#F05858]'
   } else if (menu.stage === 'Passed') {

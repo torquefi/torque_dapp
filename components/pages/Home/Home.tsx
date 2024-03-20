@@ -483,7 +483,7 @@ const HomePageFilter = () => {
 
   if (isLoading) {
     return (
-      <div className="mt-[80px] md:mt-[0px]">
+      <div className="mt-[80px] md:mt-[-16px]">
         <SkeletonDefault className="h-[500px] md:h-[330px]" width={'100%'} />
       </div>
     )
@@ -492,7 +492,7 @@ const HomePageFilter = () => {
   console.log('totalMyBoostSupply :>> ', totalMyBoostSupply)
 
   return (
-    <div className="relative mt-[80px] flex w-full flex-wrap items-center justify-center rounded-t-[10px] border-[1px] bg-white from-[#25252566] pt-[80px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br md:mt-0 md:pt-0">
+    <div className="relative mt-[80px] flex w-full flex-wrap items-center justify-center rounded-t-[10px] border-[1px] bg-white from-[#25252566] pt-[80px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br md:mt-[-16px] md:pt-0">
       <div className="h-[100px] w-full md:h-[160px] md:w-[50%]">
         <div className="flex h-full w-full flex-col items-center justify-center space-y-2">
           <div className="text-[15px] text-[#959595]">Total Supply</div>

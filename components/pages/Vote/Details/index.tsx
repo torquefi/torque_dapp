@@ -58,7 +58,7 @@ export const DetailsVotes = () => {
 
   if (isLoading) {
     return (
-      <div className="">
+      <div className="mt-0 md:mt-[-16px]">
         <div className="mx-auto w-full rounded-full mb-4 max-w-[340px]">
           <SkeletonDefault className="h-[56px]" />
         </div>
@@ -88,7 +88,7 @@ export const DetailsVotes = () => {
   console.log('tipDetails :>> ', tipDetails);
 
   return (
-    <div className="mx-auto w-full text-center max-w-[740px]">
+    <div className="mx-auto mt-0 md:mt-[-16px] w-full text-center max-w-[740px]">
       <h1 className="font-larken mx-auto mt-4 w-full text-[24px] font-[400] leading-[23px] text-[#030303] dark:text-white md:text-[36px] md:leading-[44px]">
         {tipDetails?.title}
       </h1>

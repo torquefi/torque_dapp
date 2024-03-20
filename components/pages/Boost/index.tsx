@@ -22,7 +22,7 @@ export const BoostPage = () => {
 
   if (isLoading) {
     return (
-      <div className="mt-2">
+      <div className="mt-0 md:mt-[-16px]">
         {visibilityBoostBanner && (
           <>
             <div className="hidden lg:block">
@@ -63,7 +63,7 @@ export const BoostPage = () => {
   }
 
   return (
-    <div className="mt-2 space-y-[36px]">
+    <div className="space-y-[36px] mt-0 md:mt-[-16px]">
       {visibilityBoostBanner && <Banner />}
       <CreateBoostVault setIsFetchBoostLoading={setIsFetchBoostLoading} />
       <ManageBoostVault
