@@ -94,9 +94,10 @@ const HomePageFilter = () => {
     handleGetDepositApr()
   }, [])
 
-  useEffect(() => {
-    setTimeout(() => setIsLoading(false), 1000)
-  }, [])
+  // useEffect(() => {
+  //   setTimeout(() => setIsLoading(false), 1000)
+  // }, [])
+
   // borrow
   const borrowWBTCContract = useMemo(() => {
     const web3 = new Web3(RPC)
@@ -213,8 +214,8 @@ const HomePageFilter = () => {
       const wbtcLoanToValue = !wbtcCollateralUsd
         ? '0'
         : new BigNumber(myWbtcBorrowedUsd)
-            .dividedBy(new BigNumber(wbtcCollateralUsd))
-            .toString()
+          .dividedBy(new BigNumber(wbtcCollateralUsd))
+          .toString()
       console.log('wbtcLoanToValue :>> ', wbtcLoanToValue)
       console.log('wbtcCollateral :>> ', wbtcCollateral)
       console.log('myWbtcBorrowed :>> ', myWbtcBorrowed)
@@ -254,8 +255,8 @@ const HomePageFilter = () => {
       const wethLoanToValue = !wethCollateralUsd
         ? '0'
         : new BigNumber(myWethBorrowedUsd)
-            .dividedBy(new BigNumber(wethCollateralUsd))
-            .toString()
+          .dividedBy(new BigNumber(wethCollateralUsd))
+          .toString()
       console.log('wethLoanToValue :>> ', wethLoanToValue)
       console.log('myWethBorrowed :>> ', myWethBorrowed)
       console.log('myWethBorrowedUsd :>> ', myWethBorrowedUsd)
@@ -323,7 +324,7 @@ const HomePageFilter = () => {
           yourBorrow: yourBorrow,
         })
       )
-    } catch (error) {}
+    } catch (error) { }
   }
 
   useEffect(() => {
@@ -483,8 +484,13 @@ const HomePageFilter = () => {
 
   if (isLoading) {
     return (
-      <div className="mt-[80px] md:mt-[-16px]">
-        <SkeletonDefault className="h-[500px] md:h-[330px]" width={'100%'} />
+      <div className="">
+        <div className='rounded-full h-[160px] w-[160px] m-auto block md:hidden' >
+          <SkeletonDefault className="w-full h-full !rounded-full" width={'100%'} />
+        </div>
+        <div className='mt-[-80px] md:mt-0'>
+          <SkeletonDefault className="h-[500px] md:h-[330px]" width={'100%'} />
+        </div>
       </div>
     )
   }
@@ -528,10 +534,9 @@ const HomePageFilter = () => {
       <div
         className={
           `hidden h-[1px] w-full md:block ` +
-          `${
-            theme === 'light'
-              ? `bg-gradient-divider-light`
-              : `bg-gradient-divider`
+          `${theme === 'light'
+            ? `bg-gradient-divider-light`
+            : `bg-gradient-divider`
           }`
         }
       ></div>
@@ -613,8 +618,8 @@ const HomePageFilter = () => {
                     ? Number(aprBoost || 0) - Number(netAPY || 0) * 100
                     : Number(home?.yourBorrow) > 0 &&
                       Number(totalMyBoostSupply) <= 0
-                    ? -Number(netAPY || 0) * 100
-                    : 0
+                      ? -Number(netAPY || 0) * 100
+                      : 0
                   : 0
               }
               decimalScale={2}

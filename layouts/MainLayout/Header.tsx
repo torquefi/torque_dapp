@@ -47,6 +47,7 @@ export const Header = () => {
   const { address } = useAccount()
   const { chain, chains } = useNetwork()
   const { open } = useWeb3Modal()
+  const { disconnect } = useDisconnect()
 
   const [isShowNetworkAlert, setIsShowNetworkAlert] = useState(false)
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
@@ -81,6 +82,10 @@ export const Header = () => {
   }, [chain, chains])
 
   console.log('address :>> ', address)
+
+  const handleDisconnect = () => {
+    disconnect()
+  }
 
   return (
     <div>
@@ -129,7 +134,7 @@ export const Header = () => {
                 />
               </p>
             </div>
-            {/* {isConnected && address ? (
+            {address ? (
               <Popover
                 placement="bottom-right"
                 className={`mt-[12px] w-[200px] leading-none`}
@@ -159,16 +164,15 @@ export const Header = () => {
                   {shortenAddress(address)}
                 </div>
               </Popover>
-            ) : ( */}
-            <div
-              className="font-mona cursor-pointer rounded-full border border-[#AA5BFF] px-[18px] py-[6px] text-[13px] uppercase leading-none text-[#AA5BFF] transition-all duration-200 ease-in xs:px-[16px] xs:py-[4px] lg:px-[22px] lg:pb-[6px] lg:pt-[8px]"
-              onClick={() =>
-                !address ? setOpenConnectWalletModal(true) : open()
-              }
-            >
-              {address ? shortenAddress(address) : 'Connect'}
-            </div>
-            {/* )} */}
+            ) : (
+              <div
+                className="font-mona cursor-pointer rounded-full border border-[#AA5BFF] px-[18px] py-[6px] text-[13px] uppercase leading-none text-[#AA5BFF] transition-all duration-200 ease-in xs:px-[16px] xs:py-[4px] lg:px-[22px] lg:pb-[6px] lg:pt-[8px]"
+                onClick={() =>
+                  !address ? setOpenConnectWalletModal(true) : open()
+                }
+              >
+                {address ? shortenAddress(address) : 'Connect'}
+              </div>)}
           </div>
           <div className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 md:block">
             <HoverIndicator
