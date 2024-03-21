@@ -47,6 +47,7 @@ export const Header = () => {
   const { address } = useAccount()
   const { chain, chains } = useNetwork()
   const { open } = useWeb3Modal()
+  const { disconnect } = useDisconnect()
 
   const [isShowNetworkAlert, setIsShowNetworkAlert] = useState(false)
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
@@ -82,6 +83,10 @@ export const Header = () => {
 
   console.log('address :>> ', address)
 
+  const handleDisconnect = () => {
+    disconnect()
+  }
+
   return (
     <div>
       <header className="fixed inset-x-0 top-0 z-[100] bg-[#FCFAFF] dark:bg-[#030303] ">
@@ -95,9 +100,9 @@ export const Header = () => {
           Please switch to{' '}
           {arbitrumMainnetInfo.name} network.
         </div>
-        <div className="flex h-[24px] items-center justify-center bg-[#aa5bff] text-center text-[9px] font-bold uppercase text-white transition-all">
-          Protocol not released yet. Please stay tuned.
-        </div>
+        {/* <div className="flex h-[24px] items-center justify-center bg-[#aa5bff] text-center text-[9px] font-bold uppercase text-white transition-all">
+          Protocol has released. Enjoy!
+        </div> */}
         <div className="container relative mx-auto flex h-[66px] max-w-[1244px] items-center justify-between px-4 lg:px-8">
           <Link href="/" className="flex items-center">
             <img className="mb-1 h-[32px]" src="/assets/logo.png" alt="" />
@@ -129,7 +134,7 @@ export const Header = () => {
                 />
               </p>
             </div>
-            {/* {isConnected && address ? (
+            {address ? (
               <Popover
                 placement="bottom-right"
                 className={`mt-[12px] w-[200px] leading-none`}
@@ -155,20 +160,19 @@ export const Header = () => {
                   </HoverIndicator>
                 }
               >
-                <div className="cursor-pointer rounded-full border border-primary px-[18px] py-[6px] text-[14px] uppercase leading-none text-primary transition-all duration-200 ease-in hover:scale-x-[102%] xs:px-[16px] xs:py-[4px] lg:px-[32px] lg:py-[6px] lg:text-[16px]">
+                <div className="font-mona cursor-pointer rounded-full border border-[#AA5BFF] px-[18px] py-[6px] text-[13px] uppercase leading-none text-[#AA5BFF] transition-all duration-200 ease-in xs:px-[16px] xs:py-[4px] lg:px-[22px] lg:pb-[6px] lg:pt-[8px]">
                   {shortenAddress(address)}
                 </div>
               </Popover>
-            ) : ( */}
-            <div
-              className="font-mona cursor-pointer rounded-full border border-[#AA5BFF] px-[18px] py-[6px] text-[13px] uppercase leading-none text-[#AA5BFF] transition-all duration-200 ease-in xs:px-[16px] xs:py-[4px] lg:px-[22px] lg:pb-[6px] lg:pt-[8px]"
-              onClick={() =>
-                !address ? setOpenConnectWalletModal(true) : open()
-              }
-            >
-              {address ? shortenAddress(address) : 'Connect'}
-            </div>
-            {/* )} */}
+            ) : (
+              <div
+                className="font-mona cursor-pointer rounded-full border border-[#AA5BFF] px-[18px] py-[6px] text-[13px] uppercase leading-none text-[#AA5BFF] transition-all duration-200 ease-in xs:px-[16px] xs:py-[4px] lg:px-[22px] lg:pb-[6px] lg:pt-[8px]"
+                onClick={() =>
+                  !address ? setOpenConnectWalletModal(true) : open()
+                }
+              >
+                {address ? shortenAddress(address) : 'Connect'}
+              </div>)}
           </div>
           <div className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 md:block">
             <HoverIndicator
