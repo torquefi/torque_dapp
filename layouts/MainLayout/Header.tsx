@@ -137,7 +137,7 @@ export const Header = () => {
             {address ? (
               <Popover
                 placement="bottom-right"
-                className={`mt-[12px] w-[200px] leading-none`}
+                className={`mt-[12px] px-[4px] py-[4px] w-[180px] leading-none`}
                 content={
                   <HoverIndicator
                     divider
@@ -146,13 +146,13 @@ export const Header = () => {
                   >
                     <Link
                       href={`https://arbiscan.io/address/${address}`}
-                      className="flex justify-between p-[12px]"
+                      className="flex text-[14px] justify-between p-[10px]"
                       target="_blank"
                     >
                       Explorer <HiOutlineExternalLink />
                     </Link>
                     <div
-                      className="flex cursor-pointer justify-between p-[12px]"
+                      className="flex text-[14px] cursor-pointer justify-between p-[10px]"
                       onClick={handleDisconnect}
                     >
                       Disconnect <FiLogOut />
