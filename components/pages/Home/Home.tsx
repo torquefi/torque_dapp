@@ -94,9 +94,9 @@ const HomePageFilter = () => {
     handleGetDepositApr()
   }, [])
 
-  // useEffect(() => {
-  //   setTimeout(() => setIsLoading(false), 1000)
-  // }, [])
+  useEffect(() => {
+    setTimeout(() => setIsLoading(false), 1000)
+  }, [])
 
   // borrow
   const borrowWBTCContract = useMemo(() => {

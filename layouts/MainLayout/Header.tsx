@@ -160,7 +160,7 @@ export const Header = () => {
                   </HoverIndicator>
                 }
               >
-                <div className="cursor-pointer rounded-full border border-primary px-[18px] py-[6px] text-[14px] uppercase leading-none text-primary transition-all duration-200 ease-in hover:scale-x-[102%] xs:px-[16px] xs:py-[4px] lg:px-[32px] lg:py-[6px] lg:text-[16px]">
+                <div className="font-mona cursor-pointer rounded-full border border-[#AA5BFF] px-[18px] py-[6px] text-[13px] uppercase leading-none text-[#AA5BFF] transition-all duration-200 ease-in xs:px-[16px] xs:py-[4px] lg:px-[22px] lg:pb-[6px] lg:pt-[8px]">
                   {shortenAddress(address)}
                 </div>
               </Popover>
