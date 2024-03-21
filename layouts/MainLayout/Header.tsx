@@ -160,13 +160,13 @@ export const Header = () => {
                   </HoverIndicator>
                 }
               >
-                <div className="font-mona cursor-pointer rounded-full border border-[#AA5BFF] px-[18px] py-[6px] text-[13px] uppercase leading-none text-[#AA5BFF] transition-all duration-200 ease-in xs:px-[16px] xs:py-[4px] lg:px-[22px] lg:pb-[6px] lg:pt-[8px]">
+                <div className="font-mona cursor-pointer rounded-full border border-[#AA5BFF] px-[18px] py-[6px] text-[13px] uppercase leading-none text-[#AA5BFF] transition-all duration-200 ease-in xs:px-[16px] xs:py-[4px] pt-[8px] lg:px-[22px] lg:pb-[6px] lg:pt-[8px]">
                   {shortenAddress(address)}
                 </div>
               </Popover>
             ) : (
               <div
-                className="font-mona cursor-pointer rounded-full border border-[#AA5BFF] px-[18px] py-[6px] text-[13px] uppercase leading-none text-[#AA5BFF] transition-all duration-200 ease-in xs:px-[16px] xs:py-[4px] lg:px-[22px] lg:pb-[6px] lg:pt-[8px]"
+                className="font-mona cursor-pointer rounded-full border border-[#AA5BFF] px-[18px] py-[6px] text-[13px] uppercase leading-none text-[#AA5BFF] transition-all duration-200 ease-in xs:px-[16px] xs:py-[4px] pt-[8px] lg:px-[22px] lg:pb-[6px] lg:pt-[8px]"
                 onClick={() =>
                   !address ? setOpenConnectWalletModal(true) : open()
                 }
