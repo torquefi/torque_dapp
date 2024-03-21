@@ -24,9 +24,9 @@ axiosInstance.interceptors.response.use(
     return response
   },
   (error: any) => {
-    if (axios.isCancel(error)) {
-      console.log('Request canceled', error.message)
-    }
+    // if (axios.isCancel(error)) {
+    //   console.log('Request canceled', error.message)
+    // }
     if (error?.response?.data) {
       throw error?.response?.data
     }
