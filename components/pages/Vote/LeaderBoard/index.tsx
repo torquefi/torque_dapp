@@ -98,7 +98,7 @@ export const LeaderBoard = () => {
               </th>
             </tr>
           </thead>
-          {(topHolders || [])?.slice(3, 13).map((item, i) => (
+          {(topHolders || [])?.slice(4, 14).map((item, i) => (
             <tbody key={i}>
               <tr className="relative">
                 <td className="py-[12px] text-left text-[12px] md:text-[16px]">
