@@ -485,8 +485,8 @@ const HomePageFilter = () => {
   if (isLoading) {
     return (
       <div className="">
-        <div className='rounded-full h-[160px] w-[160px] m-auto block md:hidden' >
-          <SkeletonDefault className="w-full h-full !rounded-full" width={'100%'} />
+        <div className='rounded-full h-[160px] w-[160px] m-auto block md:hidden z-10' >
+          <SkeletonDefault className="w-full h-full !rounded-full z-10" width={'100%'} />
         </div>
         <div className='mt-[-80px] md:mt-0'>
           <SkeletonDefault className="h-[500px] md:h-[330px]" width={'100%'} />
