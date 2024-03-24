@@ -67,7 +67,7 @@ export const DetailsVotes = () => {
           <SkeletonDefault className="h-[56px]" />
         </div>
 
-        <div className="mx-auto w-full max-w-[815px]">
+        <div className="mx-auto w-full max-w-[740px]">
           <div className="mt-[32px] justify-between md:flex">
             <div className="w-full rounded-[24px] md:w-[49%]">
               <SkeletonDefault className="h-[90px]" />
@@ -85,11 +85,9 @@ export const DetailsVotes = () => {
     )
   }
 
-  console.log('tipDetails :>> ', tipDetails);
-
   return (
     <div className="mx-auto mt-0 md:mt-[-16px] w-full text-center max-w-[740px]">
-      <h1 className="font-larken mx-auto mt-4 w-full text-[24px] font-[400] leading-[23px] text-[#030303] dark:text-white md:text-[36px] md:leading-[44px]">
+      <h1 className="font-larken mx-auto mt-4 w-full text-[28px] font-[400] leading-[23px] text-[#030303] dark:text-white md:text-[36px] md:leading-[44px]">
         {tipDetails?.title}
       </h1>
       <div className="mt-[14px]">
