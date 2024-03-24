@@ -67,7 +67,7 @@ export const DetailsVotes = () => {
           <SkeletonDefault className="h-[56px]" />
         </div>
 
-        <div className="m-auto w-full max-w-[815px]">
+        <div className="mx-auto w-full max-w-[815px]">
           <div className="mt-[32px] justify-between md:flex">
             <div className="w-full rounded-[24px] md:w-[49%]">
               <SkeletonDefault className="h-[90px]" />
@@ -109,11 +109,10 @@ export const DetailsVotes = () => {
           <p className="font-[500] text-[#959595]">{tipDetails?.timeVote}</p> 
         </div>
       </div>
-      <div className="m-auto w-full max-w-[740px]">
+      <div className="mx-auto w-full max-w-[740px]">
         <InforVotes votesInfo={votesInfo} />
         <MainContent />
       </div>
-      <div>{/* <Markdown>{markdown}</Markdown> */}</div>
     </div>
   )
 }
