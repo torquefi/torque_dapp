@@ -4,10 +4,10 @@ import Tip1Md from '../description/tip-1.mdx'
 export const tipsData = [
   {
     title: 'Initialize LP Program',
-    stage: 'Active',
+    stage: 'Passed',
     id: 1,
     description: Tip1Md,
-    timeVote: 'Vote has started',
+    timeVote: 'Vote has finished',
     voteRed: 0,
     voteGreen: 0,
     proposalId:
