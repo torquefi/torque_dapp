@@ -7,9 +7,9 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     // h2: ({ children }) => <h2 style={{ fontSize: '18px', color:"#FFFFFF"}}>{children}</h2>,
     h2: ({ children }) => <h2 className='text-black dark:text-white text-[18px] font-larken mt-0 mb-[10px]'>{children}</h2>,
     // table:({children})=> <table style={{ border:"1px solid black", padding:"5px", textAlign:"center"}}>{children}</table>,
-    table: ({ children }) => 
+    table: ({ children }) =>
       <div className='w-full overflow-auto'>
-        <table className='border-[1px] border-[#959595] dark:border-[#1a1a1a] text-center dark:text-[#959595]'>
+        <table className='border-[1px] border-[#959595] dark:border-[#1a1a1a] text-center dark:text-[#959595] mt-[0px]'>
           {children}
         </table>
       </div>,
