@@ -73,7 +73,7 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
         </h3>
         <div className="flex items-center justify-center space-x-2">
           <button
-            // onClick={() => setOpenUniSwapModal(true)}
+            onClick={() => setOpenUniSwapModal(true)}
             className="inline-flex h-[34px] w-[34px] cursor-pointer items-center justify-center rounded-[4px] border-[1px] border-[#E6E6E6] border-[solid] focus:outline-none dark:border-[#1a1a1a]"
           >
             <img

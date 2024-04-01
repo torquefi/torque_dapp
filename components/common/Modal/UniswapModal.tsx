@@ -18,6 +18,17 @@ import { bigNumberify } from '@/lib/numbers'
 import { swapContract } from '@/constants/contracts'
 import { toast } from 'sonner'
 
+export const swapFee: any = {
+  ['WBTC-WETH']: 500,
+  ['WETH-WBTC']: 500,
+  ['USDC-WETH']: 500,
+  ['WETH-USDC']: 500,
+  ['USDC-TUSD']: 500,
+  ['TUSD-USDC']: 500,
+  ['TORQ-WETH']: 300,
+  ['WETH-TORQ']: 300
+}
+
 export interface UniSwapModalProps {
   open: boolean
   handleClose: () => void
@@ -129,20 +140,38 @@ export default function UniSwapModal({
         coinTo.tokenContractInfo.address
       )
 
+      const fromSymbol = coinFrom.tokenContractInfo.symbol;
+      const toSymbol = coinTo.tokenContractInfo.symbol;
+      const fee = swapFee?.[`${fromSymbol}-${toSymbol}`] || 500;
+      console.log('fee :>> ', fee);
+
       const tx = await swapContract1.swapExactInputSingleHop(
         amountParsed,
         0,
-        100,
+        500,
         coinFrom.tokenContractInfo.address,
         coinTo.tokenContractInfo.address
       )
       await tx.wait()
+      toast.success('Successful Swap')
+      handleGetListBalances()
+      handleClose()
     } catch (error) {
       console.error(error)
       toast.error('Swap Failed')
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }
+
+  useEffect(() => {
+    if (!open) {
+      setCoinFrom(listSwapCoin[0])
+      setCoinTo(listSwapCoin[2])
+      setAmountFrom('')
+      setAmountTo('')
+    }
+  }, [open]);
 
   useEffect(() => {
     if (address) {
