@@ -5,6 +5,7 @@ import themeReducer from './slices/theme'
 import tipsReducer from './slices/tips'
 import usdPriceReducer from './slices/usdPrice'
 import layoutReducer from './slices/layout'
+import boostReducer from './slices/boost'
 
 const rootReducer = {
   usdPrice: usdPriceReducer,
@@ -14,6 +15,7 @@ const rootReducer = {
   tips: tipsReducer,
   home: homeReducer,
   layout: layoutReducer,
+  boost: boostReducer
 }
 
 export default rootReducer
