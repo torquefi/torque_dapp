@@ -38,7 +38,7 @@ export default function ConnectWalletModal({
       name: 'MetaMask',
       icon: '/assets/wallet/metamask.svg',
       action: async () => {
-        connect({ connector: connectors[1] })
+        await connect({ connector: connectors[1] })
         handleClose()
       },
       message: 'Connect to your MetaMask wallet',
@@ -82,11 +82,10 @@ export default function ConnectWalletModal({
                 className={
                   ` absolute bottom-0 left-0 h-[1px] w-full` +
                   `
-              ${
-                theme === 'light'
-                  ? 'bg-gradient-divider-light'
-                  : 'bg-gradient-divider'
-              }
+              ${theme === 'light'
+                    ? 'bg-gradient-divider-light'
+                    : 'bg-gradient-divider'
+                  }
                `
                 }
               />

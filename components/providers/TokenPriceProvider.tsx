@@ -1,6 +1,8 @@
+import { torqContract } from '@/constants/contracts'
+import { pairContract } from '@/lib/hooks/usePriceToken'
 import { updateAllUsdPrice } from '@/lib/redux/slices/usdPrice'
 import axios from 'axios'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 
 export const getPriceToken = async (symbol: string) => {
@@ -17,10 +19,27 @@ export const getPriceToken = async (symbol: string) => {
 export function TokenPriceProvider({ children }: any) {
   const dispatch = useDispatch()
 
+
   useEffect(() => {
     const handleGetUsdPrice = async () => {
+      let usdPrice: any = {}
+
       try {
-        let usdPrice: any = {}
+        const response = await axios.get(
+          `https://api.dexscreener.com/latest/dex/tokens/${torqContract?.address}`
+        )
+        const pairs = response?.data?.pairs || []
+        const currentPair = pairs.find(
+          (pair: any) =>
+            pair.pairAddress?.toLowerCase() === pairContract?.toLowerCase()
+        )
+        usdPrice.torq = currentPair?.priceUsd || 0;
+        usdPrice.TORQ = currentPair?.priceUsd || 0;
+      } catch (error) {
+        console.error('LiquidityPool.getLiquidityPoolInfo.getPairData', error)
+      }
+
+      try {
         // let url =
         //   'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd'
         // const response = await fetch(url)
@@ -32,6 +51,9 @@ export function TokenPriceProvider({ children }: any) {
         //   }
         //   return acc
         // }, {})
+
+
+
         const ethPrice = await getPriceToken('ETH')
         const btcPrice = await getPriceToken('BTC')
         const tusdPrice = await getPriceToken('USDC')
@@ -55,7 +77,9 @@ export function TokenPriceProvider({ children }: any) {
       }
     }
     handleGetUsdPrice()
-    const interval = setInterval(handleGetUsdPrice, 10 * 1000)
+    const interval = setInterval(() => {
+      handleGetUsdPrice()
+    }, 10 * 1000)
 
     return () => {
       clearInterval(interval)

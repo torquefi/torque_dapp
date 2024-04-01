@@ -21,7 +21,8 @@ interface PopoverProps {
   content?: any
   placement?: Placement
   children?: any
-  trigger?: Trigger
+  trigger?: Trigger,
+  externalOpen?: boolean
 }
 
 const Popover = ({
@@ -30,6 +31,7 @@ const Popover = ({
   placement = 'bottom-right',
   children,
   trigger = 'click',
+  externalOpen
 }: PopoverProps) => {
   const [isOpen, setOpen] = useState(false)
 
@@ -60,6 +62,10 @@ const Popover = ({
     },
     [isTriggerClick]
   )
+
+  useEffect(() => {
+    setOpen(false)
+  }, [externalOpen])
 
   return (
     <div
