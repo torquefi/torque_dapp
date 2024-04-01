@@ -193,7 +193,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                 updateVisibilityBorrowBanner(!visibilityBorrowBanner as any)
               )
             }
-            className="inline-flex h-[34px] w-[34px] cursor-pointer items-center justify-center rounded-[4px] border-[1px] border-[#E6E6E6] border-[solid] focus:outline-none dark:border-[#1a1a1a]"
+            className="hidden md:inline-flex h-[34px] w-[34px] cursor-pointer items-center justify-center rounded-[4px] border-[1px] border-[#E6E6E6] border-[solid] focus:outline-none dark:border-[#1a1a1a]"
           >
             <img
               src={
