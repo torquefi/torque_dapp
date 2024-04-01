@@ -39,7 +39,7 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
         <Headroom>
           <Header />
         </Headroom>
-        <div className="container  mx-auto min-h-[calc(100vh-140px)] max-w-[1244px] p-4 lg:p-8">
+        <div className="container mx-auto min-h-[calc(100vh-140px)] max-w-[1244px] p-4 lg:p-8">
           {children}
         </div>
         <Footer />

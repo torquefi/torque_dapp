@@ -4,14 +4,14 @@ import Tip1Md from '../description/tip-1.mdx'
 export const tipsData = [
   {
     title: 'Initialize LP Program',
-    stage: 'Active',
+    stage: 'Passed',
     id: 1,
     description: Tip1Md,
-    timeVote: 'Vote has started',
+    timeVote: 'Vote has finished',
     voteRed: 0,
     voteGreen: 0,
     proposalId:
-    '18585899958307960143826306669985715364177831864776206135796033016575588118082',
+      '18585899958307960143826306669985715364177831864776206135796033016575588118082',
   },
   // {
   //   title: 'Hello World [Test Proposal]',

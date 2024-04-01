@@ -78,9 +78,9 @@ const Popover = ({
       {children}
       <div
         className={
-          `absolute transition-all z-[10]` +
+          `absolute transition-all` +
           ` ${isOpen
-            ? 'scale-100 opacity-100'
+            ? 'scale-100 opacity-100 z-[10]'
             : 'pointer-events-none scale-90 opacity-0'
           }` +
           ` ${placement === 'top-left' ? 'bottom-full left-0' : ''}` +
