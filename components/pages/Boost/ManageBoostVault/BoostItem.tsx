@@ -11,7 +11,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { AutowidthInput } from 'react-autowidth-input'
 import { AiOutlineCheck, AiOutlineEdit } from 'react-icons/ai'
 import { NumericFormat } from 'react-number-format'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'sonner'
 import { useAccount, useChainId } from 'wagmi'
 import { arbitrum } from 'wagmi/dist/chains'
@@ -22,6 +22,8 @@ import { useGasPrice } from '../hooks/useGasPrice'
 import { IBoostInfo } from '../types'
 import { BoostItemChart } from './BoostItemChart'
 import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
+import { AppState } from '@/lib/redux/store'
+import { updateCreatedWbtc, updateCreatedWeth } from '@/lib/redux/slices/boost'
 
 interface BoostItemProps {
   item: IBoostInfo
@@ -32,6 +34,7 @@ interface BoostItemProps {
 export function BoostItem({ item, onWithdrawSuccess, setIsFetchBoostLoading }: BoostItemProps) {
   const { open } = useWeb3Modal()
   const chainId = useChainId()
+  const dispatch = useDispatch()
   const { address, isConnected } = useAccount()
   const theme = useSelector((store: AppStore) => store.theme.theme)
   const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
@@ -50,6 +53,7 @@ export function BoostItem({ item, onWithdrawSuccess, setIsFetchBoostLoading }: B
   const { tokensData, pricesUpdatedAt } = useTokensDataRequest(chainId)
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
   const { gasPrice } = useGasPrice(chainId)
+  const { createdWbtc, createdWeth } = useSelector((state: AppState) => state.boost)
 
   const tokenContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
@@ -208,6 +212,12 @@ export function BoostItem({ item, onWithdrawSuccess, setIsFetchBoostLoading }: B
       toast.success('Withdrawal Success')
       onWithdrawSuccess && onWithdrawSuccess()
       handleGetBoostData()
+      if (item.tokenSymbol === 'WBTC') {
+        dispatch(updateCreatedWbtc(true as any))
+      }
+      if (item.tokenSymbol === 'WETH') {
+        dispatch(updateCreatedWeth(true as any))
+      }
     } catch (e) {
       toast.error('Withdraw Failed')
       console.log(e)
@@ -303,6 +313,8 @@ export function BoostItem({ item, onWithdrawSuccess, setIsFetchBoostLoading }: B
   }
 
   console.log('amount :>> ', amount)
+
+  const isUnFirstCreated = item.tokenSymbol === 'WBTC' && !createdWbtc || item.tokenSymbol === 'WETH' && !createdWeth
 
   return (
     <>
@@ -436,12 +448,12 @@ export function BoostItem({ item, onWithdrawSuccess, setIsFetchBoostLoading }: B
             <button
               className={
                 `font-mona mt-2 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-transparent to-transparent  py-1 text-[14px] uppercase text-[#AA5BFF] transition-all hover:border hover:from-[#AA5BFF] hover:to-[#912BFF] hover:text-white` +
-                ` ${isSubmitLoading || isExecuteLoading
+                ` ${isUnFirstCreated || isSubmitLoading || isExecuteLoading
                   ? 'cursor-not-allowed opacity-70'
                   : ''
                 }`
               }
-              disabled={isSubmitLoading || isExecuteLoading}
+              disabled={isUnFirstCreated || isSubmitLoading || isExecuteLoading}
               onClick={() => onWithdraw()}
             >
               {isExecuteLoading && <LoadingCircle />}
