@@ -2,13 +2,16 @@ import {
   wbtcContract,
   wethContract,
 } from '@/components/pages/Boost/constants/contracts'
-import { tokenUsdcContract } from '@/components/pages/Borrow/constants/contract'
+import {
+  tokenTusdContract,
+  tokenUsdcContract,
+} from '@/components/pages/Borrow/constants/contract'
 import { torqContract, tusdContract } from '@/constants/contracts'
 
 export const listSwapCoin = [
   {
     symbol: 'TUSD',
-    tokenContractInfo: tusdContract,
+    tokenContractInfo: tokenTusdContract,
   },
   {
     symbol: 'USDC',

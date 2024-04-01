@@ -23,8 +23,8 @@ export const swapFee: any = {
   ['WETH-WBTC']: 500,
   ['USDC-WETH']: 3000,
   ['WETH-USDC']: 3000,
-  ['USDC-TUSD']: 500,
-  ['TUSD-USDC']: 500,
+  ['USDC-TUSD']: 100,
+  ['TUSD-USDC']: 100,
   ['TORQ-WETH']: 3000,
   ['WETH-TORQ']: 3000
 }
