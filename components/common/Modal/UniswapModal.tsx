@@ -425,6 +425,17 @@ export default function UniSwapModal({
                             if (coin?.symbol === coinFrom?.symbol) {
                               setCoinFrom(coinTo)
                               setAmountFrom(amountTo)
+                            } else {
+                              const convertRate =
+                                Number(usdPrice[coinFrom?.symbol]) /
+                                Number(usdPrice[coin?.symbol] || 1)
+                              setAmountTo(
+                                amountFrom
+                                  ? new BigNumber(amountFrom)
+                                    .multipliedBy(convertRate)
+                                    .toString()
+                                  : ''
+                              )
                             }
                           }}
                         >
