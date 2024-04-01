@@ -21,12 +21,12 @@ import { toast } from 'sonner'
 export const swapFee: any = {
   ['WBTC-WETH']: 500,
   ['WETH-WBTC']: 500,
-  ['USDC-WETH']: 500,
-  ['WETH-USDC']: 500,
+  ['USDC-WETH']: 3000,
+  ['WETH-USDC']: 3000,
   ['USDC-TUSD']: 500,
   ['TUSD-USDC']: 500,
-  ['TORQ-WETH']: 300,
-  ['WETH-TORQ']: 300
+  ['TORQ-WETH']: 3000,
+  ['WETH-TORQ']: 3000
 }
 
 export interface UniSwapModalProps {
@@ -131,24 +131,26 @@ export default function UniSwapModal({
         signer
       )
 
+
+
+      const fromSymbol = coinFrom.symbol;
+      const toSymbol = coinTo.symbol;
+      const fee = swapFee?.[`${fromSymbol}-${toSymbol}`] || 500;
+      console.log('fee :>> ', fee);
+
       console.log(
         'params ',
         amountParsed,
         0,
-        100,
+        fee,
         coinFrom.tokenContractInfo.address,
         coinTo.tokenContractInfo.address
       )
 
-      const fromSymbol = coinFrom.tokenContractInfo.symbol;
-      const toSymbol = coinTo.tokenContractInfo.symbol;
-      const fee = swapFee?.[`${fromSymbol}-${toSymbol}`] || 500;
-      console.log('fee :>> ', fee);
-
       const tx = await swapContract1.swapExactInputSingleHop(
         amountParsed,
         0,
-        500,
+        fee,
         coinFrom.tokenContractInfo.address,
         coinTo.tokenContractInfo.address
       )
@@ -157,7 +159,7 @@ export default function UniSwapModal({
       handleGetListBalances()
       handleClose()
     } catch (error) {
-      console.error(error)
+      console.error("swap error", error)
       toast.error('Swap Failed')
     } finally {
       setLoading(false)
