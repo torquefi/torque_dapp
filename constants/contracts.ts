@@ -1,4 +1,4 @@
-import { torqAbi, tusdAbi, rewardAbi } from './abi'
+import { torqAbi, tusdAbi, rewardAbi, swapAbi } from './abi'
 export interface IContractInfo {
   name?: string
   address: string
@@ -18,4 +18,9 @@ export const torqContract: IContractInfo = {
 export const rewardsContract: IContractInfo = {
   address: '0x36A04745c615722f369b2Fd2B3F719f1a611F7cA',
   abi: JSON.stringify(rewardAbi),
+}
+
+export const swapContract: IContractInfo = {
+  address: '0x6e38a9f0150C83d9A2db441F92F2A0B892C3464A',
+  abi: JSON.stringify(swapAbi),
 }

@@ -14,3 +14,4 @@ export { default as btcBorrowAbi } from './btcBorrow.json'
 export { default as ethBorrowAbi } from './ethBorrow.json'
 
 export { default as usdc } from './usdc.json'
+export { default as swapAbi } from './swap.json'
