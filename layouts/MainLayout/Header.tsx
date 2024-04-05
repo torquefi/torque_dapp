@@ -5,7 +5,8 @@ import Popover from '@/components/common/Popover'
 import { requestSwitchNetwork } from '@/lib/helpers/network'
 import { shortenAddress } from '@/lib/helpers/utils'
 import { AppStore } from '@/types/store'
-import { ethers } from 'ethers'
+import { useWeb3Modal } from '@web3modal/react'
+import BigNumber from 'bignumber.js'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
@@ -13,21 +14,8 @@ import { FiLogOut } from 'react-icons/fi'
 import { HiOutlineExternalLink } from 'react-icons/hi'
 import { useSelector } from 'react-redux'
 import { useAccount, useDisconnect, useNetwork } from 'wagmi'
-import Web3 from 'web3'
-import ConnectWalletModal from './ConnectWalletModal'
 import ClaimModal from './ClaimModal'
-import { useWeb3Modal } from '@web3modal/react'
-import { rewardsContract } from '@/constants/contracts'
-import {
-  borrowBtcContract,
-  borrowEthContract,
-  tokenTusdContract,
-} from '@/components/pages/Borrow/constants/contract'
-import {
-  boostWbtcContract,
-  boostWethContract,
-} from '@/components/pages/Boost/constants/contracts'
-import BigNumber from 'bignumber.js'
+import ConnectWalletModal from './ConnectWalletModal'
 
 BigNumber.config({ EXPONENTIAL_AT: 100 })
 

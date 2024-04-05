@@ -21,6 +21,6 @@ export const rewardsContract: IContractInfo = {
 }
 
 export const swapContract: IContractInfo = {
-  address: '0x6e38a9f0150C83d9A2db441F92F2A0B892C3464A',
+  address: '0xce0c0e633086e4bd3b2b4298d16b504490534411',
   abi: JSON.stringify(swapAbi),
 }

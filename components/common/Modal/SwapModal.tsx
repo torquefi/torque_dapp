@@ -144,8 +144,6 @@ export default function SwapModal({
         }
     }, [coinTo.symbol, address, open, tokenContract, boostContract])
 
-    console.log('balanceCoinTo :>> ', balanceCoinTo)
-
     const handleChangeMax = () => {
         setAmountRaw(balanceCoinFrom)
     }

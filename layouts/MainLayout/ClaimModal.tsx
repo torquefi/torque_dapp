@@ -64,20 +64,16 @@ export default function ClaimModal({
       const borrowWbtcReward = await rewardContract.methods
         ._calculateReward(borrowBtcContract.address, address)
         .call()
-      console.log('response 1:>> ', borrowWbtcReward)
       const borrowWethReward = await rewardContract.methods
         ._calculateReward(borrowEthContract.address, address)
         .call()
-      console.log('response 2 :>> ', borrowWethReward)
       const boostWbtcReward = await rewardContract.methods
         ._calculateReward(boostWbtcContract.address, address)
         .call()
-      console.log('response 3 :>> ', boostWbtcReward)
       const boostWethReward = await rewardContract.methods
         ._calculateReward(boostWethContract.address, address)
         .call()
       const tokenDecimal = await tokenContract.methods.decimals().call()
-      console.log('response 4 :>> ', boostWethReward)
       const totalRewards = new BigNumber(borrowWbtcReward || 0)
         .plus(new BigNumber(borrowWethReward || 0))
         .plus(new BigNumber(boostWbtcReward || 0))
@@ -86,13 +82,11 @@ export default function ClaimModal({
       const rewards = new BigNumber(
         ethers.utils.formatUnits(totalRewards, tokenDecimal)
       ).toString()
-      console.log('rewards :>> ', rewards)
       setRewards(rewards)
     } catch (error) {
       console.log('error1111 :>> ', error)
     }
   }
-  console.log('rewards :>> ', rewards)
 
   useEffect(() => {
     if (rewardContract && address) {
@@ -111,7 +105,6 @@ export default function ClaimModal({
           pair.pairAddress?.toLowerCase() === pairContract?.toLowerCase()
       )
       setCurrentPair(currentPair)
-      console.log('currentPair :>> ', currentPair)
     } catch (error) {
       console.error('LiquidityPool.getLiquidityPoolInfo.getPairData', error)
     }

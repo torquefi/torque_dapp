@@ -314,8 +314,6 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
     Number(collateral || 0) * (usdPrice[item?.depositTokenSymbol] || 0)
   )?.toFixed(5)
 
-  console.log('max :>> ', maxMoreMinTable);
-
   const summaryInfo = (
     <div className="flex w-full text-center md:w-[500px] lg:w-[600px] xl:w-[700px]">
       <CurrencySwitch

@@ -23,7 +23,6 @@ import {
 } from '../Borrow/constants/contract'
 
 const RPC = arbitrum.rpcUrls.default.http[0]
-console.log('rpc :>> ', RPC)
 
 const HomePageFilter = () => {
   const { address } = useAccount()
@@ -32,8 +31,6 @@ const HomePageFilter = () => {
   const theme = useSelector((store: AppStore) => store.theme.theme)
   const [netAPY, setNetAPY] = useState('0')
   const home = useSelector((store: AppStore) => store.home)
-
-  console.log(home)
 
   // new
   // const [totalBorrow, setTotalBorrow] = useState('0')
@@ -70,11 +67,6 @@ const HomePageFilter = () => {
     }
   }
 
-  console.log('aprWbtcBoost :>> ', aprWbtcBoost)
-  console.log('aprWethBoost :>> ', aprWethBoost)
-  console.log('depositedWethUsd :>> ', depositedWethUsd)
-  console.log('depositedWbtcUsd :>> ', depositedWbtcUsd)
-
   const aprBoost = useMemo(() => {
     if (Number(depositedWethUsd) && Number(depositedWbtcUsd)) {
       return (aprWbtcBoost + aprWethBoost) / 2
@@ -87,8 +79,6 @@ const HomePageFilter = () => {
     }
     return 0
   }, [aprWbtcBoost, aprWethBoost, depositedWethUsd, depositedWbtcUsd])
-
-  console.log('aprBoost :>> ', aprBoost)
 
   useEffect(() => {
     handleGetDepositApr()
