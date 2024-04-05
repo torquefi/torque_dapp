@@ -67,6 +67,11 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
 
   return (
     <div className="space-y-[18px]">
+      <UniSwapModal
+        open={openUniSwapModal}
+        handleClose={() => setOpenUniSwapModal(false)}
+      />
+
       <div className="flex items-center justify-between">
         <h3 className="font-larken text-[24px] text-[#404040] dark:text-white">
           Create Boost Vehicle
@@ -309,10 +314,7 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
 
       )}
 
-      <UniSwapModal
-        open={openUniSwapModal}
-        handleClose={() => setOpenUniSwapModal(false)}
-      />
+
     </div>
   )
 }
