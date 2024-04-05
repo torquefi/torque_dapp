@@ -54,8 +54,6 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
   const theme = useSelector((store: AppStore) => store.theme.theme)
   const [balanceWallet, setBalanceWallet] = useState<any>(0)
 
-  console.log('balanceWallet :>> ', balanceWallet)
-
   const renderAmount = (coin: DepositCoinDetail) => {
     let amount = coin?.amount?.toString()
     // if (coin?.isUsd) {
@@ -85,7 +83,7 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
 
   useEffect(() => {
     if (address) {
-      ;(async () => {
+      ; (async () => {
         if (coinFrom.symbol === 'WBTC') {
           const amount = await getBalanceByContractToken(
             tokenBtcContract.abi,
@@ -132,9 +130,8 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
         className={
           `mt-2 hidden h-[1px] w-full md:block` +
           `
-      ${
-        theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
-      }`
+      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+          }`
         }
       ></div>
       <div className=" h-auto w-full   overflow-y-auto py-[18px]">
@@ -170,9 +167,8 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
         className={
           `mt-2 hidden h-[1px] w-full md:block` +
           `
-      ${
-        theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
-      }`
+      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+          }`
         }
       ></div>
       <div className="my-4 flex flex-wrap gap-3 text-[16px] text-[#959595]">

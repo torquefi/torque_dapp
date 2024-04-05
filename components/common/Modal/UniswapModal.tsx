@@ -1,22 +1,26 @@
-import { useSelector } from 'react-redux'
-import Modal from '.'
+import {
+  tokenEthContract,
+  tokenUsdcContract,
+} from '@/components/pages/Borrow/constants/contract'
+import { swapContract } from '@/constants/contracts'
+import { getBalanceByContractToken } from '@/constants/utils'
+import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
+import { bigNumberify } from '@/lib/numbers'
 import { AppStore } from '@/types/store'
+import BigNumber from 'bignumber.js'
+import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import { AiOutlineClose } from 'react-icons/ai'
 import { NumericFormat } from 'react-number-format'
-import LoadingCircle from '../Loading/LoadingCircle'
-import { useAccount } from 'wagmi'
-import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
-import { listSwapCoin } from './constants'
-import { getBalanceByContractToken } from '@/constants/utils'
-import Popover from '../Popover'
-import HoverIndicator from '../HoverIndicator'
-import NumberFormat from '../NumberFormat'
-import BigNumber from 'bignumber.js'
-import { ethers } from 'ethers'
-import { bigNumberify } from '@/lib/numbers'
-import { swapContract } from '@/constants/contracts'
+import { useSelector } from 'react-redux'
 import { toast } from 'sonner'
+import { useAccount } from 'wagmi'
+import Modal from '.'
+import HoverIndicator from '../HoverIndicator'
+import LoadingCircle from '../Loading/LoadingCircle'
+import NumberFormat from '../NumberFormat'
+import Popover from '../Popover'
+import { listSwapCoin } from './constants'
 
 export const swapFee: any = {
   ['WBTC-WETH']: 500,
@@ -26,7 +30,90 @@ export const swapFee: any = {
   ['USDC-TUSD']: 100,
   ['TUSD-USDC']: 100,
   ['TORQ-WETH']: 3000,
-  ['WETH-TORQ']: 3000
+  ['WETH-TORQ']: 3000,
+}
+
+export const swapHop: any = {
+  ['TUSD-WBTC']: {
+    type: 'multi',
+    tokenIntermediate: tokenUsdcContract.address,
+    fee1: 100,
+    fee2: 500,
+  },
+  ['TUSD-USDC']: { type: 'single' },
+  ['TUSD-WETH']: {
+    type: 'multi',
+    tokenIntermediate: tokenUsdcContract.address,
+    fee1: 100,
+    fee2: 500,
+  },
+  ['TUSD-TORQ']: { type: 'not-allowed' },
+  ['USDC-TUSD']: {
+    type: 'single',
+  },
+  ['USDC-WBTC']: {
+    type: 'single',
+  },
+  ['USDC-WETH']: {
+    type: 'single',
+  },
+  ['USDC-TORQ']: {
+    type: 'multi',
+    tokenIntermediate: tokenEthContract.address,
+    fee1: 500,
+    fee2: 3000,
+  },
+  ['WBTC-TUSD']: {
+    type: 'multi',
+    tokenIntermediate: tokenUsdcContract.address,
+    fee1: 500,
+    fee2: 100,
+  },
+  ['WBTC-USDC']: {
+    type: 'single',
+  },
+  ['WBTC-WETH']: {
+    type: 'single',
+  },
+  ['WBTC-TORQ']: {
+    type: 'multi',
+    tokenIntermediate: tokenEthContract.address,
+    fee1: 500,
+    fee2: 3000,
+  },
+  ['WETH-TUSD']: {
+    type: 'multi',
+    tokenIntermediate: tokenUsdcContract.address,
+    fee1: 500,
+    fee2: 100,
+  },
+  ['WETH-USDC']: {
+    type: 'single',
+  },
+  ['WETH-WBTC']: {
+    type: 'single',
+  },
+  ['WETH-TORQ']: {
+    type: 'single',
+  },
+  ['TORQ-TUSD']: {
+    type: 'not-allowed',
+  },
+  ['TORQ-USDC']: {
+    type: 'multi',
+    tokenIntermediate: tokenEthContract.address,
+    fee1: 3000,
+    fee2: 3000,
+  },
+  ['TORQ-WBTC']: {
+    type: 'multi',
+    tokenIntermediate: tokenEthContract.address,
+    fee1: 3000,
+    fee2: 500,
+  },
+  ['TORQ-WETH']: {
+    type: 'single',
+  },
 }
 
 export interface UniSwapModalProps {
@@ -131,35 +218,57 @@ export default function UniSwapModal({
         signer
       )
 
+      const fromSymbol = coinFrom.symbol
+      const toSymbol = coinTo.symbol
+      const combineSymbol = `${fromSymbol}-${toSymbol}`
+      const swapType = swapHop?.[`${fromSymbol}-${toSymbol}`]
+      if (swapType?.type === 'not-allowed') {
+        return toast.error('Swap Failed: Not Allowing')
+      } else if (swapType?.type === 'single') {
+        console.log('typeSwap :>> ', swapType)
+        const fee = swapFee?.[`${fromSymbol}-${toSymbol}`] || 500
+        console.log('fee :>> ', fee)
 
+        console.log(
+          'params ',
+          amountParsed,
+          0,
+          fee,
+          coinFrom.tokenContractInfo.address,
+          coinTo.tokenContractInfo.address
+        )
 
-      const fromSymbol = coinFrom.symbol;
-      const toSymbol = coinTo.symbol;
-      const fee = swapFee?.[`${fromSymbol}-${toSymbol}`] || 500;
-      console.log('fee :>> ', fee);
+        const tx = await swapContract1.swapExactInputSingleHop(
+          amountParsed,
+          0,
+          fee,
+          coinFrom.tokenContractInfo.address,
+          coinTo.tokenContractInfo.address
+        )
+        await tx.wait()
+      } else if (swapType?.type === 'multi') {
+        const path = await swapContract1.encoderPath(
+          coinFrom.tokenContractInfo.address,
+          swapType?.fee1,
+          swapType?.tokenIntermediate,
+          swapType?.fee2,
+          coinTo.tokenContractInfo.address
+        )
+        const tx = await swapContract1.swapExactInputMultiHop(
+          amountParsed,
+          0,
+          path,
+          coinFrom.tokenContractInfo.address
+        )
+        await tx.wait()
+        console.log('path :>> ', path)
+      }
 
-      console.log(
-        'params ',
-        amountParsed,
-        0,
-        fee,
-        coinFrom.tokenContractInfo.address,
-        coinTo.tokenContractInfo.address
-      )
-
-      const tx = await swapContract1.swapExactInputSingleHop(
-        amountParsed,
-        0,
-        fee,
-        coinFrom.tokenContractInfo.address,
-        coinTo.tokenContractInfo.address
-      )
-      await tx.wait()
       toast.success('Successful Swap')
       handleGetListBalances()
       handleClose()
     } catch (error) {
-      console.error("swap error", error)
+      console.error('swap error', error)
       toast.error('Swap Failed')
     } finally {
       setLoading(false)
@@ -173,7 +282,7 @@ export default function UniSwapModal({
       setAmountFrom('')
       setAmountTo('')
     }
-  }, [open]);
+  }, [open])
 
   useEffect(() => {
     if (address) {
@@ -196,13 +305,6 @@ export default function UniSwapModal({
         handleClose={handleClose}
         hideCloseIcon
       >
-        {/* <iframe
-                src={`https://app.uniswap.org/#/swap?inputCurrency=0x82aF49447D8a07e3bd95BD0d56f35241523fBab1&outputCurrency=0xb56c29413af8778977093b9b4947efeea7136c36&theme=${theme === 'light' ? 'light' : 'dark'}`}
-                height="420px"
-                width="100%"
-                style={{ borderRadius: '24px', overflow: 'auto' }}
-            /> */}
-
         <div className="flex items-center justify-between py-1">
           <div className="font-larken text-[24px] font-[400] text-[#030303] dark:text-white">
             {title || 'Swap'}

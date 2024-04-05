@@ -171,6 +171,11 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
 
   return (
     <div className="space-y-[18px]">
+      <UniSwapModal
+        open={openUniSwapModal}
+        handleClose={() => setOpenUniSwapModal(false)}
+      />
+
       <div className="flex items-center justify-between">
         <h3 className="font-larken text-[24px] text-[#404040] dark:text-white">
           Create Borrow Vault
@@ -439,10 +444,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
         </div>
       )}
 
-      <UniSwapModal
-        open={openUniSwapModal}
-        handleClose={() => setOpenUniSwapModal(false)}
-      />
+
     </div>
   )
 }

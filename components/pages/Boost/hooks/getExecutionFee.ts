@@ -18,12 +18,10 @@ export function getExecutionFee(
   gasPrice: BigNumber
 ): ExecutionFee | undefined {
   if (!gasLimits) {
-    return undefined;
+    return undefined
   }
 
   const nativeToken = getTokenData(tokensData, NATIVE_TOKEN_ADDRESS)
-
-  console.log('nativeToken', nativeToken, tokensData)
 
   if (!nativeToken) return undefined
 
@@ -75,8 +73,6 @@ export function estimateExecuteDepositGasLimit(
 
   const gasPerSwap = bigNumberify(gasLimits.singleSwap)
 
-  console.log('gasPerSwap', gasPerSwap)
-
   const swapsCount =
     (deposit.longTokenSwapsCount || 0) + (deposit.shortTokenSwapsCount || 0)
 
@@ -89,7 +85,9 @@ export function estimateExecuteDepositGasLimit(
     ? gasLimits.depositMultiToken
     : gasLimits.depositSingleToken
 
-  return bigNumberify(depositGasLimit).add(gasForSwaps).add(deposit.callbackGasLimit || 0)
+  return bigNumberify(depositGasLimit)
+    .add(gasForSwaps)
+    .add(deposit.callbackGasLimit || 0)
 }
 
 export function estimateExecuteWithdrawalGasLimit(
@@ -97,10 +95,12 @@ export function estimateExecuteWithdrawalGasLimit(
   withdrawal: { callbackGasLimit?: BigNumber }
 ) {
   if (!gasLimits) {
-    return undefined;
+    return undefined
   }
 
-  return bigNumberify(gasLimits.withdrawalMultiToken).add(withdrawal.callbackGasLimit || 0)
+  return bigNumberify(gasLimits.withdrawalMultiToken).add(
+    withdrawal.callbackGasLimit || 0
+  )
 }
 
 export function estimateExecuteIncreaseOrderGasLimit(
@@ -108,7 +108,7 @@ export function estimateExecuteIncreaseOrderGasLimit(
   order: { swapsCount?: number; callbackGasLimit?: BigNumber }
 ) {
   if (!gasLimits) {
-    return undefined;
+    return undefined
   }
 
   return gasLimits.increaseOrder
@@ -121,7 +121,7 @@ export function estimateExecuteDecreaseOrderGasLimit(
   order: { swapsCount?: number; callbackGasLimit?: BigNumber }
 ) {
   if (!gasLimits) {
-    return undefined;
+    return undefined
   }
 
   return gasLimits.decreaseOrder
@@ -134,7 +134,7 @@ export function estimateExecuteSwapOrderGasLimit(
   order: { swapsCount?: number; callbackGasLimit?: BigNumber }
 ) {
   if (!gasLimits) {
-    return undefined;
+    return undefined
   }
 
   return gasLimits.swapOrder

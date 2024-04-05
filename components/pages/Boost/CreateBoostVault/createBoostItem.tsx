@@ -127,8 +127,6 @@ export function CreateBoostItem({
 
   const { gasLimits } = useGasLimits(arbitrum.id)
 
-  console.log('gasLimits :>> ', gasLimits)
-
   const handleConfirmDeposit = async () => {
     if (!isConnected || !address) {
       // await open()
@@ -249,8 +247,6 @@ export function CreateBoostItem({
     return 'Confirm Boost'
   }
 
-  console.log('item :>> ', item)
-
   return (
     <>
       <div
@@ -285,7 +281,7 @@ export function CreateBoostItem({
                 />
 
                 <div className="font-mona mx-1 uppercase text-[#AA5BFF] xs:mx-2">
-                +{Number(item.bonus).toLocaleString()} TORQ
+                  +{Number(item.bonus).toLocaleString()} TORQ
                 </div>
               </div>
             </Link>

@@ -43,8 +43,6 @@ export default function InputCurrencySwitch({
 
   const tokenPrice = usdPrice[tokenSymbol.toLocaleLowerCase()] || 0
 
-  console.log('tokenSymbol', inputAmount)
-
   // const valueToShow = isShowUsd
   //   ? tokenValue * (usdPrice?.[tokenSymbol] || 1)
   //   : tokenValue
@@ -99,8 +97,8 @@ export default function InputCurrencySwitch({
           +inputAmount
             ? floorFraction(inputAmount, isShowUsd ? 2 : 5)
             : displayType === 'input'
-            ? null
-            : '0.00'
+              ? null
+              : '0.00'
         }
         onChange={(event: any, value: any) => {
           setInputAmount(value)

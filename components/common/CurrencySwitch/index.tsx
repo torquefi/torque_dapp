@@ -23,7 +23,6 @@ export default function CurrencySwitch({
 }: CurrencySwitchProps) {
   const [isShowUsd, setShowUsd] = useState(usdDefault)
   const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
-  console.log('tokenValue :>> ', tokenValue);
 
   const valueToShow = isShowUsd
     ? tokenValue * (usdPrice?.[tokenSymbol] || 1)

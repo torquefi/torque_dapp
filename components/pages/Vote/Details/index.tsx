@@ -54,8 +54,6 @@ export const DetailsVotes = () => {
     }
   }, [tipDetails, hamiltonContract])
 
-  console.log('hamiltonContract :>> ', hamiltonContract);
-
   if (isLoading) {
     return (
       <div className="mt-0 md:mt-[-16px]">
@@ -104,7 +102,7 @@ export const DetailsVotes = () => {
           )}
           <p className="font-[500] text-[#959595]">TIP-{id}</p>
           <div className="h-[5px] w-[5px] rounded-full bg-[#959595]"></div>
-          <p className="font-[500] text-[#959595]">{tipDetails?.timeVote}</p> 
+          <p className="font-[500] text-[#959595]">{tipDetails?.timeVote}</p>
         </div>
       </div>
       <div className="mx-auto w-full max-w-[740px]">
