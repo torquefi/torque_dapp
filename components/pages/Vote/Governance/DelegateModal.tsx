@@ -82,9 +82,9 @@ export const DelegateModal = (props: any) => {
         ></div>
         <div className="mt-[18px]">
           <input
-            className="w-full rounded-[12px] border-[1px] border-solid border-[#E6E6E6] bg-transparent px-[21px] py-[12px] text-[14px] font-[500] text-[#959595] dark:border-[#1a1a1a]"
+            className="w-full rounded-[12px] border-[1px] border-solid border-[#E6E6E6] bg-white dark:bg-transparent px-[21px] py-[12px] text-[14px] font-[500] text-[#959595] dark:border-[#1a1a1a]"
             type="text"
-            placeholder="Address*"
+            placeholder="Address"
             value={addressInput}
             onChange={(event: any) => setAddressInput(event.target.value)}
           />
