@@ -11,6 +11,7 @@ import { rewardsContract, torqContract } from '@/constants/contracts'
 import { pairContract } from '@/lib/hooks/usePriceToken'
 import { NumericFormat } from 'react-number-format'
 import { toMetricUnits } from '@/lib/helpers/number'
+import Link from 'next/link'
 import Web3 from 'web3'
 import {
   borrowBtcContract,
@@ -195,13 +196,13 @@ export default function ClaimModal({
 
   return (
     <Modal
-      className="w-full max-w-[420px]  bg-[#FCFAFF] p-[10px] dark:bg-[#030303]"
+      className="w-full max-w-[420px] bg-[#FCFAFF] p-[10px] dark:bg-[#030303]"
       open={openModal}
       handleClose={handleClose}
       hideCloseIcon
     >
       <div className="flex items-center justify-between">
-        <div className="font-larken text-[18px] text-[22px] text-[#030303] dark:text-white">
+        <div className="font-larken text-[24px] font-[400] text-[#030303] dark:text-white">
           Rewards
         </div>
         <AiOutlineClose
@@ -238,6 +239,12 @@ export default function ClaimModal({
         {loading && <LoadingCircle />}
         CLAIM TORQ
       </button>
+      {/* <button
+          className="font-mona hover:shadow-lg mt-2 w-full rounded-full border border-[#AA5BFF] bg-transparent py-1 text-center text-[14px] uppercase text-[#AA5BFF] transition-all"
+          onClick={() => window.open('https://bit.ly/torque-uniswap', '_blank', 'noopener,noreferrer')}
+          >
+            acquire torq
+      </button> */}
     </Modal>
   )
 }

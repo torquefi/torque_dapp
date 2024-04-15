@@ -64,7 +64,7 @@ export const DelegateModal = (props: any) => {
         hideCloseIcon
       >
         <div className="flex items-center justify-between py-2">
-          <div className="font-larken text-[16px] font-[400] text-[#030303] dark:text-white md:text-[28px]">
+          <div className="font-larken font-[400] text-[#030303] dark:text-white text-[24px]">
             Delegate
           </div>
           <AiOutlineClose
