@@ -108,7 +108,7 @@ const BridgeAssets: React.FC = () => {
         <button
         type="button"
         className="absolute mr-2 inset-y-0 right-0 m-auto dark:text-white text-[11px] px-2 rounded-[8px] text-[#aa5bff] uppercase focus:outline-none bg-[#f8f8f8] dark:bg-[#1E1E1E] max-h-[24px]"
-        onClick={() => setAmount( /* Logic to set max amount */ )}
+        // onClick={() => setAmount( /* Logic to set max amount */ )}
         >
         MAX
         </button>
