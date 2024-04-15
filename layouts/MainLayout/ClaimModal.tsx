@@ -196,13 +196,13 @@ export default function ClaimModal({
 
   return (
     <Modal
-      className="w-full max-w-[420px]  bg-[#FCFAFF] p-[10px] dark:bg-[#030303]"
+      className="w-full max-w-[420px] bg-[#FCFAFF] p-[10px] dark:bg-[#030303]"
       open={openModal}
       handleClose={handleClose}
       hideCloseIcon
     >
       <div className="flex items-center justify-between">
-        <div className="font-larken text-[18px] text-[22px] text-[#030303] dark:text-white">
+        <div className="font-larken text-[24px] font-[400] text-[#030303] dark:text-white">
           Rewards
         </div>
         <AiOutlineClose
