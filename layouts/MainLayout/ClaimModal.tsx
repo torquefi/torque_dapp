@@ -11,6 +11,7 @@ import { rewardsContract, torqContract } from '@/constants/contracts'
 import { pairContract } from '@/lib/hooks/usePriceToken'
 import { NumericFormat } from 'react-number-format'
 import { toMetricUnits } from '@/lib/helpers/number'
+import Link from 'next/link'
 import Web3 from 'web3'
 import {
   borrowBtcContract,
@@ -238,6 +239,12 @@ export default function ClaimModal({
         {loading && <LoadingCircle />}
         CLAIM TORQ
       </button>
+      {/* <button
+          className="font-mona hover:shadow-lg mt-2 w-full rounded-full border border-[#AA5BFF] bg-transparent py-1 text-center text-[14px] uppercase text-[#AA5BFF] transition-all"
+          onClick={() => window.open('https://bit.ly/torque-uniswap', '_blank', 'noopener,noreferrer')}
+          >
+            acquire torq
+      </button> */}
     </Modal>
   )
 }

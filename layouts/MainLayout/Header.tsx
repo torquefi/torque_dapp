@@ -16,6 +16,8 @@ import { useSelector } from 'react-redux'
 import { useAccount, useDisconnect, useNetwork } from 'wagmi'
 import ClaimModal from './ClaimModal'
 import ConnectWalletModal from './ConnectWalletModal'
+import UniSwapModal from '@/components/common/Modal/UniswapModal'
+import { DelegateModal } from '@/components/pages/Vote/Governance/DelegateModal'
 
 BigNumber.config({ EXPONENTIAL_AT: 100 })
 
@@ -42,7 +44,12 @@ export const Header = () => {
   const [activeTabIndex, setActiveTabIndex] = useState(0)
   const [tokenPrice, setTokenPrice] = useState<any>(0)
   const [isOpenClaim, setIsOpenClaim] = useState(false)
+  const [openDelegateModal, setOpenDelegateModal] = useState(false)
   const router = useRouter()
+
+  const [openUniSwapModal, setOpenUniSwapModal] = useState(false)
+
+  const [torqueBalance, setTorqueBalance] = useState('1')
 
   const currentTabIndex = useMemo(
     () =>
@@ -102,16 +109,66 @@ export const Header = () => {
             </h2>
           </Link>
           <div className="flex items-center">
+          <UniSwapModal
+          open={openUniSwapModal}
+          handleClose={() => setOpenUniSwapModal(false)}
+          />
+          <DelegateModal
+            openModal={openDelegateModal}
+            handleClose={() => setOpenDelegateModal(false)}
+            balance={torqueBalance}
+          />
+          <Popover
+              trigger="hover"
+              placement="bottom-right"
+              className={`font-mona z-100 mt-[8px] w-[210px] h-auto border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+              content={(
+                <div className="grid grid-cols-2 gap-4 p-3">
+                    <div className="cursor-pointer flex flex-col items-center">
+                    <a href="#" className="mt-2 text-[#959595] hover:text-[#030303] dark:hover:text-white">
+                        <div className="bg-gray-200 dark:bg-[#1E1E1E] w-10 h-10 mb-2 rounded-full flex items-center justify-center">
+                        </div>
+                        Pools
+                        </a>
+                    </div>
+                    <div className="cursor-pointer flex flex-col items-center">
+                    <a className="mt-2 text-[#959595] hover:text-[#030303] dark:hover:text-white"
+                        onClick={() => setOpenUniSwapModal(true)}>
+                        <div className="bg-gray-200 dark:bg-[#1E1E1E] w-10 h-10 mb-2 rounded-full flex items-center justify-center">
+                        </div>
+                        Swap
+                        </a>
+                    </div>
+                    <div className="flex flex-col items-center">
+                    <div onClick={() => setOpenDelegateModal(true)}
+                    className="cursor-pointer mt-2 text-[#959595] hover:text-[#030303] dark:hover:text-white flex flex-col items-center">
+                        <div className="bg-gray-200 dark:bg-[#1E1E1E] w-10 h-10 mb-2 rounded-full flex items-center justify-center">
+                        </div>
+                       Delegate
+                      </div>
+                    </div>
+                    <div className="flex flex-col items-center">
+                    <div 
+                    onClick={() => setIsOpenClaim(true)}
+                    className="cursor-pointer mt-2 text-[#959595] hover:text-[#030303] dark:hover:text-white flex flex-col items-center">
+                        <div className="bg-gray-200 dark:bg-[#1E1E1E] w-10 h-10 mb-2 rounded-full flex items-center justify-center">
+                        </div>
+                       Rewards
+                      </div>
+                    </div>
+                </div>
+            )}
+        >
             <div
-              onClick={() => setIsOpenClaim(true)}
+              // onClick={() => setIsOpenClaim(true)}
               className="mr-[12px] hidden cursor-pointer items-center xs:flex"
             >
               <img
-                className="h-[20px]"
-                src="/assets/t-logo-circle.svg"
+                className="h-[25px]"
+                src="/assets/dots.svg"
                 alt=""
               />
-              <p className="font-larken ml-[6px] text-[16px] text-[#404040] dark:text-white">
+              {/* <p className="font-larken ml-[6px] text-[16px] text-[#404040] dark:text-white">
                 $
                 <NumberFormat
                   displayType="text"
@@ -120,8 +177,9 @@ export const Header = () => {
                   decimalScale={2}
                   fixedDecimalScale
                 />
-              </p>
+              </p> */}
             </div>
+            </Popover>
             {address ? (
               <Popover
                 placement="bottom-right"
@@ -254,8 +312,8 @@ const menu = [
     iconLight: '/assets/main-layout/link-active.png',
   },
   {
-    label: 'Vote',
-    path: '/vote',
+    label: 'Bridge',
+    path: '/bridge',
     icon: '/assets/main-layout/network.svg',
     iconActive: '/assets/main-layout/network-active.svg',
     iconLight: '/assets/main-layout/network-active.png',
