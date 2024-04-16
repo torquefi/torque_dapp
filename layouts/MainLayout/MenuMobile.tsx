@@ -60,7 +60,7 @@ export const MenuMobile = () => {
             </div>
           </div>
           <div className="flex h-full w-full items-center bg-white bg-opacity-80 dark:bg-[#030303] backdrop-blur-lg">
-            {menu.map((item, i) =>
+            {menu.map((item:any, i) =>
               !item.isExternalLink ? (
                 <Link
                   onClick={
@@ -126,10 +126,10 @@ const menu = [
     path: '/borrow',
     icon: '/assets/main-layout/graph-1.png',
   },
-  {
-    label: 'Vote',
-    path: '/vote',
-    icon: '/assets/main-layout/lock-1.png',
-    isExternalLink: false,
-  },
+  // {
+  //   label: 'Vote',
+  //   path: '/vote',
+  //   icon: '/assets/main-layout/lock-1.png',
+  //   isExternalLink: false,
+  // },
 ]

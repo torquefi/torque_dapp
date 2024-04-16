@@ -76,8 +76,6 @@ export const Header = () => {
     }
   }, [chain, chains])
 
-  console.log('address :>> ', address)
-
   const handleDisconnect = () => {
     disconnect()
   }
@@ -92,8 +90,7 @@ export const Header = () => {
           }
           onClick={handleChangeNetwork}
         >
-          Please switch to{' '}
-          {arbitrumMainnetInfo.name} network.
+          Please switch to {arbitrumMainnetInfo.name} network.
         </div>
         {/* <div className="flex h-[24px] items-center justify-center bg-[#aa5bff] text-center text-[9px] font-bold uppercase text-white transition-all">
           Protocol has released. Enjoy!
@@ -109,66 +106,70 @@ export const Header = () => {
             </h2>
           </Link>
           <div className="flex items-center">
-          <UniSwapModal
-          open={openUniSwapModal}
-          handleClose={() => setOpenUniSwapModal(false)}
-          />
-          <DelegateModal
-            openModal={openDelegateModal}
-            handleClose={() => setOpenDelegateModal(false)}
-            balance={torqueBalance}
-          />
-          <Popover
+            <UniSwapModal
+              open={openUniSwapModal}
+              handleClose={() => setOpenUniSwapModal(false)}
+            />
+            <DelegateModal
+              openModal={openDelegateModal}
+              handleClose={() => setOpenDelegateModal(false)}
+              balance={torqueBalance}
+            />
+            <Popover
               trigger="hover"
               placement="bottom-right"
-              className={`font-mona z-100 mt-[8px] w-[210px] h-auto border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
-              content={(
+              className={`font-mona z-100 mt-[8px] h-auto w-[210px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+              content={
                 <div className="grid grid-cols-2 gap-4 p-3">
-                    <div className="cursor-pointer flex flex-col items-center">
-                    <a href="#" className="mt-2 text-[#959595] hover:text-[#030303] dark:hover:text-white">
-                        <div className="bg-gray-200 dark:bg-[#1E1E1E] w-10 h-10 mb-2 rounded-full flex items-center justify-center">
-                        </div>
-                        Pools
-                        </a>
+                  <div className="flex cursor-pointer flex-col items-center">
+                    <a
+                      href="#"
+                      className="mt-2 text-[#959595] hover:text-[#030303] dark:hover:text-white"
+                    >
+                      <img src="/icons/pools.svg" className='w-10 h-10' />
+                      {/* <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 dark:bg-[#1E1E1E]"></div> */}
+                      Pools
+                    </a>
+                  </div>
+                  <div className="flex cursor-pointer flex-col items-center">
+                    <a
+                      className="mt-2 text-[#959595] hover:text-[#030303] dark:hover:text-white"
+                      onClick={() => setOpenUniSwapModal(true)}
+                    >
+                      <img src="/icons/swap.svg" className='w-10 h-10' />
+                      {/* <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 dark:bg-[#1E1E1E]"></div> */}
+                      Swap
+                    </a>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <div
+                      onClick={() => setOpenDelegateModal(true)}
+                      className="mt-2 flex cursor-pointer flex-col items-center text-[#959595] hover:text-[#030303] dark:hover:text-white"
+                    >
+                      <img src="/icons/delegate.svg" className='w-10 h-10' />
+                      {/* <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 dark:bg-[#1E1E1E]"></div> */}
+                      Delegate
                     </div>
-                    <div className="cursor-pointer flex flex-col items-center">
-                    <a className="mt-2 text-[#959595] hover:text-[#030303] dark:hover:text-white"
-                        onClick={() => setOpenUniSwapModal(true)}>
-                        <div className="bg-gray-200 dark:bg-[#1E1E1E] w-10 h-10 mb-2 rounded-full flex items-center justify-center">
-                        </div>
-                        Swap
-                        </a>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <div
+                      onClick={() => setIsOpenClaim(true)}
+                      className="mt-2 flex cursor-pointer flex-col items-center text-[#959595] hover:text-[#030303] dark:hover:text-white"
+                    >
+                      <img src="/icons/rewards.svg" className='w-10 h-10' />
+                      {/* <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 dark:bg-[#1E1E1E]"></div> */}
+                      Rewards
                     </div>
-                    <div className="flex flex-col items-center">
-                    <div onClick={() => setOpenDelegateModal(true)}
-                    className="cursor-pointer mt-2 text-[#959595] hover:text-[#030303] dark:hover:text-white flex flex-col items-center">
-                        <div className="bg-gray-200 dark:bg-[#1E1E1E] w-10 h-10 mb-2 rounded-full flex items-center justify-center">
-                        </div>
-                       Delegate
-                      </div>
-                    </div>
-                    <div className="flex flex-col items-center">
-                    <div 
-                    onClick={() => setIsOpenClaim(true)}
-                    className="cursor-pointer mt-2 text-[#959595] hover:text-[#030303] dark:hover:text-white flex flex-col items-center">
-                        <div className="bg-gray-200 dark:bg-[#1E1E1E] w-10 h-10 mb-2 rounded-full flex items-center justify-center">
-                        </div>
-                       Rewards
-                      </div>
-                    </div>
+                  </div>
                 </div>
-            )}
-        >
-            <div
-              // onClick={() => setIsOpenClaim(true)}
-              className="mr-[12px] hidden cursor-pointer items-center xs:flex"
+              }
             >
-              <img
-                className="h-[25px]"
-                src="/assets/dots.svg"
-                alt=""
-              />
-              {/* <p className="font-larken ml-[6px] text-[16px] text-[#404040] dark:text-white">
+              <div
+                // onClick={() => setIsOpenClaim(true)}
+                className="mr-[12px] hidden cursor-pointer items-center xs:flex"
+              >
+                <img className="h-[25px]" src="/assets/dots.svg" alt="" />
+                {/* <p className="font-larken ml-[6px] text-[16px] text-[#404040] dark:text-white">
                 $
                 <NumberFormat
                   displayType="text"
@@ -178,12 +179,12 @@ export const Header = () => {
                   fixedDecimalScale
                 />
               </p> */}
-            </div>
+              </div>
             </Popover>
             {address ? (
               <Popover
                 placement="bottom-right"
-                className={`mt-[12px] px-[4px] py-[4px] w-[180px] leading-none`}
+                className={`mt-[12px] w-[180px] px-[4px] py-[4px] leading-none`}
                 content={
                   <HoverIndicator
                     divider
@@ -192,13 +193,13 @@ export const Header = () => {
                   >
                     <Link
                       href={`https://arbiscan.io/address/${address}`}
-                      className="flex text-[14px] justify-between p-[10px]"
+                      className="flex justify-between p-[10px] text-[14px]"
                       target="_blank"
                     >
                       Explorer <HiOutlineExternalLink />
                     </Link>
                     <div
-                      className="flex text-[14px] cursor-pointer justify-between p-[10px]"
+                      className="flex cursor-pointer justify-between p-[10px] text-[14px]"
                       onClick={handleDisconnect}
                     >
                       Disconnect <FiLogOut />
@@ -206,19 +207,20 @@ export const Header = () => {
                   </HoverIndicator>
                 }
               >
-                <div className="font-mona cursor-pointer rounded-full border border-[#AA5BFF] px-[18px] py-[6px] text-[13px] uppercase leading-none text-[#AA5BFF] transition-all duration-200 ease-in xs:px-[16px] xs:py-[4px] pt-[8px] lg:px-[22px] lg:pb-[6px] lg:pt-[8px]">
+                <div className="font-mona cursor-pointer rounded-full border border-[#AA5BFF] px-[18px] py-[6px] pt-[8px] text-[13px] uppercase leading-none text-[#AA5BFF] transition-all duration-200 ease-in xs:px-[16px] xs:py-[4px] lg:px-[22px] lg:pb-[6px] lg:pt-[8px]">
                   {shortenAddress(address)}
                 </div>
               </Popover>
             ) : (
               <div
-                className="font-mona cursor-pointer rounded-full border border-[#AA5BFF] px-[18px] py-[6px] text-[13px] uppercase leading-none text-[#AA5BFF] transition-all duration-200 ease-in xs:px-[16px] xs:py-[4px] pt-[8px] lg:px-[22px] lg:pb-[6px] lg:pt-[8px]"
+                className="font-mona cursor-pointer rounded-full border border-[#AA5BFF] px-[18px] py-[6px] pt-[8px] text-[13px] uppercase leading-none text-[#AA5BFF] transition-all duration-200 ease-in xs:px-[16px] xs:py-[4px] lg:px-[22px] lg:pb-[6px] lg:pt-[8px]"
                 onClick={() =>
                   !address ? setOpenConnectWalletModal(true) : open()
                 }
               >
                 {address ? shortenAddress(address) : 'Connect'}
-              </div>)}
+              </div>
+            )}
           </div>
           <div className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 md:block">
             <HoverIndicator
@@ -231,16 +233,17 @@ export const Header = () => {
                   key={i}
                   className={
                     'font-mona relative flex h-[35px]  items-center justify-center pr-[4px] transition-all duration-200 ease-in' +
-                    ` ${activeTabIndex === i
-                      ? 'text-[#404040] dark:text-white '
-                      : 'text-[#959595]'
+                    ` ${
+                      activeTabIndex === i
+                        ? 'text-[#404040] dark:text-white '
+                        : 'text-[#959595]'
                     }`
                   }
                   onMouseEnter={() => {
                     setActiveTabIndex(i)
                   }}
                   onMouseLeave={() => setActiveTabIndex(currentTabIndex)}
-                // target={item.isExternal ? '_blank' : '_self'}
+                  // target={item.isExternal ? '_blank' : '_self'}
                 >
                   {theme === 'light' ? (
                     <img
@@ -266,9 +269,10 @@ export const Header = () => {
             className={
               ` absolute bottom-0 left-0 h-[1px] w-full` +
               `
-              ${theme === 'light'
-                ? 'bg-gradient-divider-light'
-                : 'bg-gradient-divider'
+              ${
+                theme === 'light'
+                  ? 'bg-gradient-divider-light'
+                  : 'bg-gradient-divider'
               }
                `
             }
