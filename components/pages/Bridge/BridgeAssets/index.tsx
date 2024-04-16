@@ -105,7 +105,7 @@ const BridgeAssets: React.FC = () => {
             From
           </label>
           <div className="flex items-center">
-            <div className="w-[60%] hover:opacity-70 duration-100 transition-ease ease-linear rounded-[10px] rounded-r-none border-[1px] border-solid border-[#ececec] dark:border-[#181818]">
+            <div className="w-[60%] duration-100 transition-ease ease-linear rounded-[10px] rounded-r-none border-[1px] border-solid border-[#ececec] dark:border-[#181818]">
               <p className="ml-2 pt-[2px] pb-[2px] text-[12px] text-[#959595]">Token</p>
               <Popover
                 placement="bottom-left"
@@ -164,7 +164,7 @@ const BridgeAssets: React.FC = () => {
                 </div>
               </Popover>
             </div>
-            <div className="w-[40%] hover:opacity-70 duration-100 transition-ease ease-linear rounded-[10px] rounded-l-none border-[1px] border-l-0 border-solid border-[#ececec] dark:border-[#181818]">
+            <div className="w-[40%] rounded-[10px] rounded-l-none border-[1px] border-l-0 border-solid border-[#ececec] dark:border-[#181818]">
               <p className="ml-2 pt-[2px] pb-[2px] text-[12px] text-[#959595]">Network</p>
               <Popover
                 placement="bottom-right"
@@ -252,7 +252,7 @@ const BridgeAssets: React.FC = () => {
             To
           </label>
           <div className="flex">
-            <div className="w-[60%] hover:opacity-70 duration-100 transition-ease ease-linear rounded-[10px] rounded-r-none border-[1px] border-solid border-[#ececec] dark:border-[#181818]">
+            <div className="w-[60%] rounded-[10px] rounded-r-none border-[1px] border-solid border-[#ececec] dark:border-[#181818]">
               <p className="ml-2 pt-[2px] pb-[2px] text-[12px] text-[#959595]">Token</p>
               <Popover
                 placement="bottom-left"
@@ -311,7 +311,7 @@ const BridgeAssets: React.FC = () => {
                 </div>
               </Popover>
             </div>
-            <div className="w-[40%] hover:opacity-70 duration-100 transition-ease ease-linear rounded-[10px] rounded-l-none border-[1px] border-l-0 border-solid border-[#ececec] dark:border-[#181818]">
+            <div className="w-[40%] rounded-[10px] rounded-l-none border-[1px] border-l-0 border-solid border-[#ececec] dark:border-[#181818]">
               <p className="text-ellipsis ml-2 pt-[2px] pb-[2px] text-[12px] text-[#959595]">
                 Network
               </p>
@@ -382,7 +382,7 @@ const BridgeAssets: React.FC = () => {
           <div className="relative flex">
             <input
               type="number"
-              className="transition-ease block w-full rounded-[8px] border border-[#efefef] bg-white pb-2 pl-[10px] pt-2 shadow-sm duration-200 ease-linear hover:ring-2 hover:ring-purple-500 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b dark:from-[#161616] dark:via-[#161616]/40 dark:to-[#0e0e0e]"
+              className="transition-ease block w-full rounded-[8px] border border-[#efefef] bg-white pb-2 pl-[10px] pt-2 shadow-sm duration-100 ease-linear hover:ring-2 hover:ring-purple-500 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b dark:from-[#161616] dark:via-[#161616]/40 dark:to-[#0e0e0e]"
               value={amount}
               onChange={(e) => setAmount(parseFloat(e.target.value))}
               placeholder="0.00"
