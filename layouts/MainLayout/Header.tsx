@@ -117,7 +117,7 @@ export const Header = () => {
               balance={torqueBalance}
             />
             <Popover
-              trigger="click"
+              trigger="hover"
               placement="bottom-right"
               className={`font-mona z-100 mt-[8px] h-auto w-[210px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
               content={
