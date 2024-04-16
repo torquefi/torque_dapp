@@ -89,15 +89,17 @@ export default function HoverIndicator({
         ` ${className}`
       }
     >
-      <div
-        className={
-          'pointer-events-none absolute w-full rounded-[6px] bg-[#f6f4f8] transition-transform duration-300 dark:bg-[#141414]' +
-          ` ${direction === 'horizontal' ? 'inset-y-0' : ''}` +
-          ` ${direction === 'vertical' ? 'inset-x-0' : ''}` +
-          ` ${indicatorClassName}`
-        }
-        ref={indicator}
-      />
+      {activeIndex >= 0 && (
+        <div
+          className={
+            'pointer-events-none absolute w-full rounded-[6px] bg-[#f6f4f8] transition-transform duration-300 dark:bg-[#141414]' +
+            ` ${direction === 'horizontal' ? 'inset-y-0' : ''}` +
+            ` ${direction === 'vertical' ? 'inset-x-0' : ''}` +
+            ` ${indicatorClassName}`
+          }
+          ref={indicator}
+        />
+      )}
       {childrenArr.map((item, i) => (
         <div
           className="relative w-full"
