@@ -18,6 +18,7 @@ import ClaimModal from './ClaimModal'
 import ConnectWalletModal from './ConnectWalletModal'
 import UniSwapModal from '@/components/common/Modal/UniswapModal'
 import { DelegateModal } from '@/components/pages/Vote/Governance/DelegateModal'
+import HoverIndicatorGrid from '@/components/common/HoverIndicator/Grid'
 
 BigNumber.config({ EXPONENTIAL_AT: 100 })
 
@@ -120,48 +121,50 @@ export const Header = () => {
               placement="bottom-right"
               className={`font-mona z-100 mt-[8px] h-auto w-[210px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
               content={
-                <div className="grid grid-cols-2 gap-4 p-3">
-                  <div className="flex cursor-pointer flex-col items-center">
-                    <a
-                      href="#"
-                      className="mt-2 text-[#959595] hover:text-[#030303] dark:hover:text-white"
-                    >
-                      <img src="/icons/pools.svg" className='w-10 h-10' />
-                      {/* <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 dark:bg-[#1E1E1E]"></div> */}
-                      Pools
-                    </a>
-                  </div>
-                  <div className="flex cursor-pointer flex-col items-center">
-                    <a
-                      className="mt-2 text-[#959595] hover:text-[#030303] dark:hover:text-white"
-                      onClick={() => setOpenUniSwapModal(true)}
-                    >
-                      <img src="/icons/swap.svg" className='w-10 h-10' />
-                      {/* <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 dark:bg-[#1E1E1E]"></div> */}
-                      Swap
-                    </a>
-                  </div>
-                  <div className="flex flex-col items-center">
-                    <div
-                      onClick={() => setOpenDelegateModal(true)}
-                      className="mt-2 flex cursor-pointer flex-col items-center text-[#959595] hover:text-[#030303] dark:hover:text-white"
-                    >
-                      <img src="/icons/delegate.svg" className='w-10 h-10' />
-                      {/* <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 dark:bg-[#1E1E1E]"></div> */}
-                      Delegate
+                <HoverIndicatorGrid rows={2} cols={2}>
+                  <div className="grid grid-cols-2 gap-4 p-3">
+                    <div className="flex cursor-pointer flex-col items-center">
+                      <a
+                        href="#"
+                        className="mt-2 text-[#959595] hover:text-[#030303] dark:hover:text-white"
+                      >
+                        <img src="/icons/pools.svg" className="h-10 w-10" />
+                        {/* <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 dark:bg-[#1E1E1E]"></div> */}
+                        Pools
+                      </a>
+                    </div>
+                    <div className="flex cursor-pointer flex-col items-center">
+                      <a
+                        className="mt-2 text-[#959595] hover:text-[#030303] dark:hover:text-white"
+                        onClick={() => setOpenUniSwapModal(true)}
+                      >
+                        <img src="/icons/swap.svg" className="h-10 w-10" />
+                        {/* <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 dark:bg-[#1E1E1E]"></div> */}
+                        Swap
+                      </a>
+                    </div>
+                    <div className="flex flex-col items-center">
+                      <div
+                        onClick={() => setOpenDelegateModal(true)}
+                        className="mt-2 flex cursor-pointer flex-col items-center text-[#959595] hover:text-[#030303] dark:hover:text-white"
+                      >
+                        <img src="/icons/delegate.svg" className="h-10 w-10" />
+                        {/* <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 dark:bg-[#1E1E1E]"></div> */}
+                        Delegate
+                      </div>
+                    </div>
+                    <div className="flex flex-col items-center">
+                      <div
+                        onClick={() => setIsOpenClaim(true)}
+                        className="mt-2 flex cursor-pointer flex-col items-center text-[#959595] hover:text-[#030303] dark:hover:text-white"
+                      >
+                        <img src="/icons/rewards.svg" className="h-10 w-10" />
+                        {/* <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 dark:bg-[#1E1E1E]"></div> */}
+                        Rewards
+                      </div>
                     </div>
                   </div>
-                  <div className="flex flex-col items-center">
-                    <div
-                      onClick={() => setIsOpenClaim(true)}
-                      className="mt-2 flex cursor-pointer flex-col items-center text-[#959595] hover:text-[#030303] dark:hover:text-white"
-                    >
-                      <img src="/icons/rewards.svg" className='w-10 h-10' />
-                      {/* <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 dark:bg-[#1E1E1E]"></div> */}
-                      Rewards
-                    </div>
-                  </div>
-                </div>
+                </HoverIndicatorGrid>
               }
             >
               <div
