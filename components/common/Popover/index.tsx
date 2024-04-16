@@ -21,8 +21,9 @@ interface PopoverProps {
   content?: any
   placement?: Placement
   children?: any
-  trigger?: Trigger,
+  trigger?: Trigger
   externalOpen?: boolean
+  wrapperClassName?: string
 }
 
 const Popover = ({
@@ -31,7 +32,8 @@ const Popover = ({
   placement = 'bottom-right',
   children,
   trigger = 'click',
-  externalOpen
+  externalOpen,
+  wrapperClassName,
 }: PopoverProps) => {
   const [isOpen, setOpen] = useState(false)
 
@@ -78,33 +80,38 @@ const Popover = ({
       {children}
       <div
         className={
-          `absolute transition-all` +
-          ` ${isOpen
-            ? 'scale-100 opacity-100 z-[10]'
-            : 'pointer-events-none scale-90 opacity-0'
+          `${wrapperClassName} absolute transition-all` +
+          ` ${
+            isOpen
+              ? 'z-[10] scale-100 opacity-100'
+              : 'pointer-events-none scale-90 opacity-0'
           }` +
           ` ${placement === 'top-left' ? 'bottom-full left-0' : ''}` +
-          ` ${placement === 'top' ? 'bottom-full left-1/2 -translate-x-1/2' : ''
+          ` ${
+            placement === 'top' ? 'bottom-full left-1/2 -translate-x-1/2' : ''
           }` +
           ` ${placement === 'top-right' ? 'bottom-full right-0' : ''}` +
-          ` ${placement === 'bottom-left' ? 'top-full left-0' : ''}` +
-          ` ${placement === 'bottom' ? 'top-full left-1/2 -translate-x-1/2' : ''
+          ` ${placement === 'bottom-left' ? 'left-0 top-full' : ''}` +
+          ` ${
+            placement === 'bottom' ? 'left-1/2 top-full -translate-x-1/2' : ''
           }` +
-          ` ${placement === 'bottom-right' ? 'top-full right-0' : ''}` +
+          ` ${placement === 'bottom-right' ? 'right-0 top-full' : ''}` +
           ` ${placement === 'left-top' ? 'right-full top-0' : ''}` +
-          ` ${placement === 'left' ? 'right-full top-1/2 -translate-y-1/2' : ''
+          ` ${
+            placement === 'left' ? 'right-full top-1/2 -translate-y-1/2' : ''
           }` +
-          ` ${placement === 'left-bottom' ? 'right-full bottom-0' : ''}` +
+          ` ${placement === 'left-bottom' ? 'bottom-0 right-full' : ''}` +
           ` ${placement === 'right-top' ? 'left-full top-0' : ''}` +
-          ` ${placement === 'right' ? 'left-full top-1/2 -translate-y-1/2' : ''
+          ` ${
+            placement === 'right' ? 'left-full top-1/2 -translate-y-1/2' : ''
           }` +
-          ` ${placement === 'right-bottom' ? 'left-full bottom-0' : ''}`
+          ` ${placement === 'right-bottom' ? 'bottom-0 left-full' : ''}`
         }
         onClick={(e) => e.stopPropagation()}
       >
         <div
           className={
-            'rounded-[8px] text-[#030303] dark:text-white border border-[#EAEAEA] dark:border-[#1D1D1D] bg-[#FCFAFF] dark:bg-[#030303] p-[6px]' +
+            'rounded-[8px] border border-[#EAEAEA] bg-[#FCFAFF] p-[6px] text-[#030303] dark:border-[#1D1D1D] dark:bg-[#030303] dark:text-white' +
             ` ${className}`
           }
         >
