@@ -109,7 +109,7 @@ const BridgeAssets: React.FC = () => {
                 placement="bottom-left"
                 trigger="click"
                 wrapperClassName="w-full"
-                className={`z-[10] mt-[12px] w-full leading-none bg-white`}
+                className={`z-[10] mt-[12px] w-full bg-white leading-none`}
                 externalOpen={openPopover}
                 content={
                   <HoverIndicator
@@ -118,10 +118,12 @@ const BridgeAssets: React.FC = () => {
                     indicatorClassName="rounded-[6px] w-full"
                     className="w-full "
                   >
-                    {tokens?.map((token) => (
+                    {tokens?.map((token, index) => (
                       <div
                         key={token?.symbol}
-                        className="flex w-full cursor-pointer items-center gap-[4px] p-[8px] text-[#030303] dark:text-[#959595]"
+                        className={`flex w-full cursor-pointer items-center gap-[4px] px-[8px] py-[12px] text-[#030303] dark:text-[#959595] ${
+                          index === 0 ? 'pt-[4px]' : ''
+                        } ${index === tokens.length - 1 ? 'pb-[4px]' : ''}`}
                         onClick={() => {
                           setOpenPopover((openPopover) => !openPopover)
                           setFromToken(token)
@@ -138,7 +140,7 @@ const BridgeAssets: React.FC = () => {
                   </HoverIndicator>
                 }
               >
-                <div className="flex w-full items-center justify-between px-[8px] pb-[8px] text-[#030303] dark:text-[#959595]">
+                <div className="flex w-full cursor-pointer items-center justify-between px-[8px] pb-[8px] text-[#030303] dark:text-[#959595]">
                   <div className="inline-flex items-center gap-[4px]">
                     {fromToken ? (
                       <>
@@ -151,7 +153,7 @@ const BridgeAssets: React.FC = () => {
                       </>
                     ) : (
                       <>
-                        <div className="h-[18px] w-[18px] rounded-full bg-[#959595]" />
+                        <div className="h-[18px] w-[18px] rounded-full bg-[#E0E0E0] dark:bg-[#282828]" />
                         <p className="cursor-pointer text-[#959595]">Select</p>
                       </>
                     )}
@@ -165,7 +167,7 @@ const BridgeAssets: React.FC = () => {
               <Popover
                 placement="bottom-right"
                 trigger="click"
-                className={`z-[10] mt-[12px] w-full leading-none bg-white`}
+                className={`z-[10] mt-[12px] w-full bg-white leading-none`}
                 wrapperClassName="w-full"
                 externalOpen={openPopover}
                 content={
@@ -174,10 +176,12 @@ const BridgeAssets: React.FC = () => {
                     direction="vertical"
                     indicatorClassName="rounded-[6px]"
                   >
-                    {networks?.map((network) => (
+                    {networks?.map((network, index) => (
                       <div
                         key={network.chainId}
-                        className="flex w-full cursor-pointer items-center gap-[4px] rounded-[6px] p-[8px] text-[#030303] dark:text-[#959595]"
+                        className={`flex w-full cursor-pointer items-center gap-[4px] px-[8px] py-[12px] text-[#030303] dark:text-[#959595] ${
+                          index === 0 ? 'pt-[4px]' : ''
+                        } ${index === networks.length - 1 ? 'pb-[4px]' : ''}`}
                         onClick={() => {
                           setFromNetwork(network)
                           setOpenPopover((openPopover) => !openPopover)
@@ -194,7 +198,7 @@ const BridgeAssets: React.FC = () => {
                   </HoverIndicator>
                 }
               >
-                <div className="flex w-full items-center justify-between px-[8px] pb-[8px] text-[#030303] dark:text-[#959595]">
+                <div className="flex w-full cursor-pointer items-center justify-between px-[8px] pb-[8px] text-[#030303] dark:text-[#959595]">
                   <div className="inline-flex flex-1 items-center gap-[4px]">
                     {fromNetwork ? (
                       <>
@@ -209,7 +213,7 @@ const BridgeAssets: React.FC = () => {
                       </>
                     ) : (
                       <>
-                        <div className="h-[18px] w-[18px] rounded-[6px] bg-[#959595]" />
+                        <div className="h-[18px] w-[18px] rounded-[6px] bg-[#E0E0E0] dark:bg-[#282828]" />
                         <p className="cursor-pointer text-[#959595]">Select</p>
                       </>
                     )}
@@ -252,7 +256,7 @@ const BridgeAssets: React.FC = () => {
                 placement="bottom-left"
                 trigger="click"
                 wrapperClassName="w-full"
-                className={`z-[10] mt-[12px] w-full leading-none bg-white`}
+                className={`z-[10] mt-[12px] w-full bg-white leading-none`}
                 externalOpen={openPopover}
                 content={
                   <HoverIndicator
@@ -261,10 +265,12 @@ const BridgeAssets: React.FC = () => {
                     indicatorClassName="rounded-[6px] w-full"
                     className="w-full"
                   >
-                    {tokens?.map((token) => (
+                    {tokens?.map((token, index) => (
                       <div
                         key={token?.symbol}
-                        className="flex w-full cursor-pointer items-center gap-[4px] p-[8px]  text-[#030303] dark:text-[#959595]"
+                        className={`flex w-full cursor-pointer items-center gap-[4px] px-[8px] py-[12px] text-[#030303] dark:text-[#959595] ${
+                          index === 0 ? 'pt-[4px]' : ''
+                        } ${index === tokens.length - 1 ? 'pb-[4px]' : ''}`}
                         onClick={() => {
                           setToToken(token)
                           setOpenPopover((openPopover) => !openPopover)
@@ -281,8 +287,8 @@ const BridgeAssets: React.FC = () => {
                   </HoverIndicator>
                 }
               >
-                <div className="flex w-full items-center justify-between px-[8px] pb-[8px] text-[#030303] dark:text-[#959595]">
-                  <div className="inline-flex items-center gap-[4px]">
+                <div className="flex w-full cursor-pointer items-center justify-between px-[8px] pb-[8px] text-[#030303] dark:text-[#959595]">
+                  <div className="inline-flex flex-1 items-center gap-[4px]">
                     {toToken ? (
                       <>
                         <img
@@ -294,7 +300,7 @@ const BridgeAssets: React.FC = () => {
                       </>
                     ) : (
                       <>
-                        <div className="h-[18px] w-[18px] rounded-full bg-[#959595]" />
+                        <div className="h-[18px] w-[18px] rounded-full bg-[#E0E0E0] dark:bg-[#282828]" />
                         <p className="cursor-pointer text-[#959595]">Select</p>
                       </>
                     )}
@@ -310,7 +316,7 @@ const BridgeAssets: React.FC = () => {
               <Popover
                 placement="bottom-right"
                 trigger="click"
-                className={`z-[10] mt-[12px] w-full leading-none bg-white`}
+                className={`z-[10] mt-[12px] w-full bg-white leading-none`}
                 wrapperClassName="w-full"
                 externalOpen={openPopover}
                 content={
@@ -319,10 +325,12 @@ const BridgeAssets: React.FC = () => {
                     direction="vertical"
                     indicatorClassName="rounded-[6px]"
                   >
-                    {networks?.map((network) => (
+                    {networks?.map((network, index) => (
                       <div
                         key={network.chainId}
-                        className="flex w-full cursor-pointer items-center gap-[4px] p-[8px] text-[#030303] dark:text-[#959595]"
+                        className={`flex w-full cursor-pointer items-center gap-[4px] px-[8px] py-[12px] text-[#030303] dark:text-[#959595] ${
+                          index === 0 ? 'pt-[4px]' : ''
+                        } ${index === networks.length - 1 ? 'pb-[4px]' : ''}`}
                         onClick={() => {
                           setToNetwork(network)
                           setOpenPopover((openPopover) => !openPopover)
@@ -339,7 +347,7 @@ const BridgeAssets: React.FC = () => {
                   </HoverIndicator>
                 }
               >
-                <div className="flex w-full items-center justify-between px-[8px] pb-[8px] text-[#030303] dark:text-[#959595]">
+                <div className="flex w-full cursor-pointer items-center justify-between px-[8px] pb-[8px] text-[#030303] dark:text-[#959595]">
                   <div className="inline-flex items-center gap-[4px]">
                     {toNetwork ? (
                       <>
@@ -354,7 +362,7 @@ const BridgeAssets: React.FC = () => {
                       </>
                     ) : (
                       <>
-                        <div className="h-[18px] w-[18px] rounded-[6px] bg-[#959595]" />
+                        <div className="h-[18px] w-[18px] rounded-[6px] bg-[#E0E0E0] dark:bg-[#282828]" />
                         <p className="cursor-pointer text-[#959595]">Select</p>
                       </>
                     )}
