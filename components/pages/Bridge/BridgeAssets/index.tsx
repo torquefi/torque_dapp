@@ -111,7 +111,7 @@ const BridgeAssets: React.FC = () => {
                 placement="bottom-left"
                 trigger="click"
                 wrapperClassName="w-full"
-                className={`z-[10] mt-[12px] w-full bg-white dark:bg-[#030303]/70 backdrop-blur-xl leading-none`}
+                className={`z-[10] mt-[12px] w-full bg-white dark:bg-[#030303] leading-none`}
                 externalOpen={openPopover}
                 content={
                   <HoverIndicator
@@ -169,7 +169,7 @@ const BridgeAssets: React.FC = () => {
               <Popover
                 placement="bottom-right"
                 trigger="click"
-                className={`z-[10] mt-[12px] w-full bg-white dark:bg-[#030303]/70 backdrop-blur-xl leading-none`}
+                className={`z-[10] mt-[12px] w-full bg-white dark:bg-[#030303] leading-none`}
                 wrapperClassName="w-full"
                 externalOpen={openPopover}
                 content={
@@ -258,7 +258,7 @@ const BridgeAssets: React.FC = () => {
                 placement="bottom-left"
                 trigger="click"
                 wrapperClassName="w-full"
-                className={`z-[10] mt-[12px] w-full bg-white dark:bg-[#030303]/70 backdrop-blur-xl leading-none`}
+                className={`z-[10] mt-[12px] w-full bg-white dark:bg-[#030303] leading-none`}
                 externalOpen={openPopover}
                 content={
                   <HoverIndicator
@@ -318,7 +318,7 @@ const BridgeAssets: React.FC = () => {
               <Popover
                 placement="bottom-right"
                 trigger="click"
-                className={`z-[10] mt-[12px] w-full bg-white dark:bg-[#030303]/70 backdrop-blur-xl leading-none`}
+                className={`z-[10] mt-[12px] w-full bg-white dark:bg-[#030303] leading-none`}
                 wrapperClassName="w-full"
                 externalOpen={openPopover}
                 content={
