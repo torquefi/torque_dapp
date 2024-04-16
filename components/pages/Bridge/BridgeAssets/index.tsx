@@ -73,28 +73,6 @@ const BridgeAssets: React.FC = () => {
     )
   }
 
-  // if (isLoading) {
-  //   return (
-  //     <div className="m-auto w-full max-w-[360px] rounded-[12px]">
-  //       <div className="mb-3">
-  //         <SkeletonDefault className="mb-2 h-[30px] w-[60px]" />
-  //         <SkeletonDefault className="h-[100px] w-full" />
-  //       </div>
-  //       <div className="mb-3">
-  //         <SkeletonDefault className="mb-2 h-[30px] w-[60px]" />
-  //         <SkeletonDefault className="h-[100px] w-full" />
-  //       </div>
-  //       <div className="relative mb-4">
-  //         <SkeletonDefault className="mb-2 h-[30px] w-[100px]" />
-  //         <SkeletonDefault className="h-[60px] w-full" />
-  //       </div>
-  //       <div className="relative">
-  //         <SkeletonDefault className="h-[40px] w-full" />
-  //       </div>
-  //     </div>
-  //   )
-  // }
-
   return (
     <>
       <div className="m-auto w-full max-w-[360px] rounded-[12px] border border-[#E6E6E6] bg-[#ffffff] from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pb-4 pt-3 text-[#030303] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white">
@@ -109,7 +87,7 @@ const BridgeAssets: React.FC = () => {
                 placement="bottom-left"
                 trigger="click"
                 wrapperClassName="w-full"
-                className={`z-[10] mt-[12px] w-full bg-white leading-none`}
+                className={`z-[10] mt-[12px] w-full bg-[#fcfaff] leading-none`}
                 externalOpen={openPopover}
                 content={
                   <HoverIndicator
@@ -122,8 +100,8 @@ const BridgeAssets: React.FC = () => {
                       <div
                         key={token?.symbol}
                         className={`flex w-full cursor-pointer items-center gap-[4px] px-[8px] py-[12px] text-[#030303] dark:text-[#959595] ${
-                          index === 0 ? 'pt-[4px]' : ''
-                        } ${index === tokens.length - 1 ? 'pb-[4px]' : ''}`}
+                          index === 0 ? 'pt-[8px]' : ''
+                        } ${index === tokens.length - 1 ? 'pb-[8px]' : ''}`}
                         onClick={() => {
                           setOpenPopover((openPopover) => !openPopover)
                           setFromToken(token)
@@ -167,7 +145,7 @@ const BridgeAssets: React.FC = () => {
               <Popover
                 placement="bottom-right"
                 trigger="click"
-                className={`z-[10] mt-[12px] w-full bg-white leading-none`}
+                className={`z-[10] mt-[12px] w-full bg-[#fcfaff] leading-none`}
                 wrapperClassName="w-full"
                 externalOpen={openPopover}
                 content={
@@ -180,8 +158,8 @@ const BridgeAssets: React.FC = () => {
                       <div
                         key={network.chainId}
                         className={`flex w-full cursor-pointer items-center gap-[4px] px-[8px] py-[12px] text-[#030303] dark:text-[#959595] ${
-                          index === 0 ? 'pt-[4px]' : ''
-                        } ${index === networks.length - 1 ? 'pb-[4px]' : ''}`}
+                          index === 0 ? 'pt-[8px]' : ''
+                        } ${index === networks.length - 1 ? 'pb-[8px]' : ''}`}
                         onClick={() => {
                           setFromNetwork(network)
                           setOpenPopover((openPopover) => !openPopover)
@@ -256,7 +234,7 @@ const BridgeAssets: React.FC = () => {
                 placement="bottom-left"
                 trigger="click"
                 wrapperClassName="w-full"
-                className={`z-[10] mt-[12px] w-full bg-white leading-none`}
+                className={`z-[10] mt-[12px] w-full bg-[#fcfaff] leading-none`}
                 externalOpen={openPopover}
                 content={
                   <HoverIndicator
@@ -269,8 +247,8 @@ const BridgeAssets: React.FC = () => {
                       <div
                         key={token?.symbol}
                         className={`flex w-full cursor-pointer items-center gap-[4px] px-[8px] py-[12px] text-[#030303] dark:text-[#959595] ${
-                          index === 0 ? 'pt-[4px]' : ''
-                        } ${index === tokens.length - 1 ? 'pb-[4px]' : ''}`}
+                          index === 0 ? 'pt-[8px]' : ''
+                        } ${index === tokens.length - 1 ? 'pb-[8px]' : ''}`}
                         onClick={() => {
                           setToToken(token)
                           setOpenPopover((openPopover) => !openPopover)
@@ -316,7 +294,7 @@ const BridgeAssets: React.FC = () => {
               <Popover
                 placement="bottom-right"
                 trigger="click"
-                className={`z-[10] mt-[12px] w-full bg-white leading-none`}
+                className={`z-[10] mt-[12px] w-full bg-[#fcfaff] leading-none`}
                 wrapperClassName="w-full"
                 externalOpen={openPopover}
                 content={
@@ -329,8 +307,8 @@ const BridgeAssets: React.FC = () => {
                       <div
                         key={network.chainId}
                         className={`flex w-full cursor-pointer items-center gap-[4px] px-[8px] py-[12px] text-[#030303] dark:text-[#959595] ${
-                          index === 0 ? 'pt-[4px]' : ''
-                        } ${index === networks.length - 1 ? 'pb-[4px]' : ''}`}
+                          index === 0 ? 'pt-[8px]' : ''
+                        } ${index === networks.length - 1 ? 'pb-[8px]' : ''}`}
                         onClick={() => {
                           setToNetwork(network)
                           setOpenPopover((openPopover) => !openPopover)
