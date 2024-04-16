@@ -6,9 +6,7 @@ export default function Page() {
   return (
     <>
       <Head>
-        <title>
-          Bridge | Torque
-        </title>
+        <title>Bridge | Torque</title>
       </Head>
       <BridgePage />
     </>
