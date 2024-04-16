@@ -76,18 +76,42 @@ const BridgeAssets: React.FC = () => {
   return (
     <>
       <div className="m-auto w-full max-w-[360px] rounded-[12px] border border-[#E6E6E6] bg-[#ffffff] from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pb-4 pt-3 text-[#030303] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white">
+        <div className="flex justify-between items-center">
+          <p className="mt-2 mb-3 text-[24px] font-larken text-[#030303] dark:text-white">
+            Bridge
+          </p>
+          <div className="flex justify-between items-center">
+          <button className="mt-[0px]">
+                <img
+                  src="/icons/wallet.svg"
+                  alt="wallet icon"
+                  className="w-[15px] mr-[14px]"
+                />
+          </button>
+          <button className="mt-[0px]">
+                <img
+                  src="/icons/slider.svg"
+                  alt="slider icon"
+                  className="w-[20px]"
+                />
+          </button>
+          </div>
+        </div>
+        <div className={`mt-[4px] mb-2 h-[1px] w-full md:block` + `
+      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'}`
+        }></div>
         <div className="mb-3">
-          <label className="mb-2 block text-[14px] font-medium text-[#959595]">
+          <label className="mb-1 block text-[14px] font-medium text-[#959595]">
             From
           </label>
           <div className="flex items-center">
-            <div className="w-[60%] rounded-[10px] rounded-r-none border-[1px] border-solid border-[#ececec] dark:border-[#181818]">
-              <p className="p-[8px] text-[12px] text-[#959595]">Token</p>
+            <div className="w-[60%] hover:opacity-70 duration-100 transition-ease ease-linear rounded-[10px] rounded-r-none border-[1px] border-solid border-[#ececec] dark:border-[#181818]">
+              <p className="ml-2 pt-[2px] pb-[2px] text-[12px] text-[#959595]">Token</p>
               <Popover
                 placement="bottom-left"
                 trigger="click"
                 wrapperClassName="w-full"
-                className={`z-[10] mt-[12px] w-full bg-[#fcfaff] leading-none`}
+                className={`z-[10] mt-[12px] w-full bg-white dark:bg-[#030303]/70 backdrop-blur-xl leading-none`}
                 externalOpen={openPopover}
                 content={
                   <HoverIndicator
@@ -140,12 +164,12 @@ const BridgeAssets: React.FC = () => {
                 </div>
               </Popover>
             </div>
-            <div className="w-[40%] rounded-[10px] rounded-l-none border-[1px] border-l-0 border-solid border-[#ececec] dark:border-[#181818]">
-              <p className="p-[8px] text-[12px] text-[#959595]">Network</p>
+            <div className="w-[40%] hover:opacity-70 duration-100 transition-ease ease-linear rounded-[10px] rounded-l-none border-[1px] border-l-0 border-solid border-[#ececec] dark:border-[#181818]">
+              <p className="ml-2 pt-[2px] pb-[2px] text-[12px] text-[#959595]">Network</p>
               <Popover
                 placement="bottom-right"
                 trigger="click"
-                className={`z-[10] mt-[12px] w-full bg-[#fcfaff] leading-none`}
+                className={`z-[10] mt-[12px] w-full bg-white dark:bg-[#030303]/70 backdrop-blur-xl leading-none`}
                 wrapperClassName="w-full"
                 externalOpen={openPopover}
                 content={
@@ -224,17 +248,17 @@ const BridgeAssets: React.FC = () => {
           </button>
         </div> */}
         <div className="mb-3">
-          <label className="mb-2 block text-[14px] font-medium text-[#959595]">
+          <label className="mb-1 block text-[14px] font-medium text-[#959595]">
             To
           </label>
           <div className="flex">
-            <div className="w-[60%] rounded-[10px] rounded-r-none border-[1px] border-solid border-[#ececec] dark:border-[#181818]">
-              <p className="p-[8px] text-[12px] text-[#959595]">Token</p>
+            <div className="w-[60%] hover:opacity-70 duration-100 transition-ease ease-linear rounded-[10px] rounded-r-none border-[1px] border-solid border-[#ececec] dark:border-[#181818]">
+              <p className="ml-2 pt-[2px] pb-[2px] text-[12px] text-[#959595]">Token</p>
               <Popover
                 placement="bottom-left"
                 trigger="click"
                 wrapperClassName="w-full"
-                className={`z-[10] mt-[12px] w-full bg-[#fcfaff] leading-none`}
+                className={`z-[10] mt-[12px] w-full bg-white dark:bg-[#030303]/70 backdrop-blur-xl leading-none`}
                 externalOpen={openPopover}
                 content={
                   <HoverIndicator
@@ -287,14 +311,14 @@ const BridgeAssets: React.FC = () => {
                 </div>
               </Popover>
             </div>
-            <div className="w-[40%] rounded-[10px] rounded-l-none border-[1px] border-l-0 border-solid border-[#ececec] dark:border-[#181818]">
-              <p className="text-ellipsis p-[8px] text-[12px] text-[#959595]">
+            <div className="w-[40%] hover:opacity-70 duration-100 transition-ease ease-linear rounded-[10px] rounded-l-none border-[1px] border-l-0 border-solid border-[#ececec] dark:border-[#181818]">
+              <p className="text-ellipsis ml-2 pt-[2px] pb-[2px] text-[12px] text-[#959595]">
                 Network
               </p>
               <Popover
                 placement="bottom-right"
                 trigger="click"
-                className={`z-[10] mt-[12px] w-full bg-[#fcfaff] leading-none`}
+                className={`z-[10] mt-[12px] w-full bg-white dark:bg-[#030303]/70 backdrop-blur-xl leading-none`}
                 wrapperClassName="w-full"
                 externalOpen={openPopover}
                 content={
