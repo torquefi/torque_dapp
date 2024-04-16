@@ -117,16 +117,16 @@ export const Header = () => {
               balance={torqueBalance}
             />
             <Popover
-              trigger="hover"
+              trigger="click"
               placement="bottom-right"
               className={`font-mona z-100 mt-[8px] h-auto w-[210px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
               content={
                 <HoverIndicatorGrid rows={2} cols={2}>
                   <div className="grid grid-cols-2 gap-4 p-3">
-                    <div className="flex cursor-pointer flex-col items-center">
+                    <div className="flex cursor-pointer flex-col items-center justify-center">
                       <a
                         href="#"
-                        className="mt-2 text-[#959595] hover:text-[#030303] dark:hover:text-white"
+                        className="text-[#959595] hover:text-[#030303] dark:hover:text-white"
                       >
                         <img src="/icons/pools.svg" className="h-10 w-10" />
                         {/* <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 dark:bg-[#1E1E1E]"></div> */}
@@ -135,7 +135,7 @@ export const Header = () => {
                     </div>
                     <div className="flex cursor-pointer flex-col items-center">
                       <a
-                        className="mt-2 text-[#959595] hover:text-[#030303] dark:hover:text-white"
+                        className="text-[#959595] hover:text-[#030303] dark:hover:text-white"
                         onClick={() => setOpenUniSwapModal(true)}
                       >
                         <img src="/icons/swap.svg" className="h-10 w-10" />
@@ -146,7 +146,7 @@ export const Header = () => {
                     <div className="flex flex-col items-center">
                       <div
                         onClick={() => setOpenDelegateModal(true)}
-                        className="mt-2 flex cursor-pointer flex-col items-center text-[#959595] hover:text-[#030303] dark:hover:text-white"
+                        className="flex cursor-pointer flex-col items-center text-[#959595] hover:text-[#030303] dark:hover:text-white"
                       >
                         <img src="/icons/delegate.svg" className="h-10 w-10" />
                         {/* <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 dark:bg-[#1E1E1E]"></div> */}
@@ -156,7 +156,7 @@ export const Header = () => {
                     <div className="flex flex-col items-center">
                       <div
                         onClick={() => setIsOpenClaim(true)}
-                        className="mt-2 flex cursor-pointer flex-col items-center text-[#959595] hover:text-[#030303] dark:hover:text-white"
+                        className="flex cursor-pointer flex-col items-center text-[#959595] hover:text-[#030303] dark:hover:text-white"
                       >
                         <img src="/icons/rewards.svg" className="h-10 w-10" />
                         {/* <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 dark:bg-[#1E1E1E]"></div> */}
