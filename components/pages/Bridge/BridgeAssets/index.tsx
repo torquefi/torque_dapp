@@ -7,6 +7,9 @@ import { AppStore } from '@/types/store'
 import SkeletonDefault from '@/components/skeleton'
 import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
 import { useAccount } from 'wagmi'
+import { NumericFormat } from 'react-number-format'
+import { toast } from 'sonner'
+import Link from 'next/link'
 
 interface Token {
   symbol: string
@@ -37,22 +40,68 @@ const networks: Network[] = [
 const BridgeAssets: React.FC = () => {
   const theme = useSelector((store: AppStore) => store.theme.theme)
   const { address } = useAccount()
+  const [progressToNetwork, setProgressToNetwork] = useState(0)
+  const [progressFromNetwork, setProgressFromNetwork] = useState(0)
+  const [progressTransaction, setSetProgressTransaction] = useState(0)
+  const [completedTransaction, setCompletedTransaction] = useState(false)
 
   const [fromToken, setFromToken] = useState<Token>()
   const [toToken, setToToken] = useState<Token>()
   const [fromNetwork, setFromNetwork] = useState<Network>()
   const [toNetwork, setToNetwork] = useState<Network>()
-  const [amount, setAmount] = useState<number>(0)
+  const [amount, setAmount] = useState('')
   const [btnLoading, setBtnLoading] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [openPopover, setOpenPopover] = useState(false)
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
+
+  useEffect(() => {
+    if (progressFromNetwork > 0) {
+      setTimeout(() => {
+        setSetProgressTransaction(10000)
+      }, 500)
+    }
+  }, [progressFromNetwork])
+
+  useEffect(() => {
+    if (progressTransaction > 0) {
+      setTimeout(() => {
+        setProgressToNetwork(500)
+      }, 10000)
+    }
+  }, [progressTransaction])
+
+  useEffect(() => {
+    if (progressToNetwork > 0) {
+      setTimeout(() => {
+        setCompletedTransaction(true)
+      }, 500)
+    }
+  }, [progressToNetwork])
+
+  const handleResetProgress = () => {
+    setProgressToNetwork(0)
+    setProgressFromNetwork(0)
+    setSetProgressTransaction(0)
+    setCompletedTransaction(false)
+  }
 
   const handleSwap = () => {
     if (!address) {
       setOpenConnectWalletModal(true)
       return
     }
+    if (!amount) {
+      return toast.error('Please enter amount')
+    }
+    if (!toNetwork || !fromNetwork || !toToken || !fromToken) {
+      return toast.error('Please fill full information')
+    }
+
+    if (fromNetwork && toNetwork && fromNetwork.chainId === toNetwork.chainId) {
+      return toast.error('Please select different network')
+    }
+    setProgressFromNetwork(500)
     // Logic to initiate the swap transaction
     console.log(
       `Swapping ${amount} of ${fromToken.symbol} on ${fromNetwork.name} to ${toToken.symbol} on ${toNetwork.name}`
@@ -68,6 +117,7 @@ const BridgeAssets: React.FC = () => {
   if (isLoading) {
     return (
       <div className="m-auto w-full max-w-[360px] rounded-[12px]">
+        <SkeletonDefault className="mb-[40px] h-[60px] w-full" />
         <SkeletonDefault className="h-[300px] w-full" />
       </div>
     )
@@ -75,43 +125,155 @@ const BridgeAssets: React.FC = () => {
 
   return (
     <>
-      <div className="m-auto w-full max-w-[360px] rounded-[12px] border border-[#E6E6E6] bg-[#ffffff] from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pb-4 pt-3 text-[#030303] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white">
-        <div className="flex justify-between items-center">
-          <p className="mt-2 mb-3 text-[24px] font-larken text-[#030303] dark:text-white">
-            Bridge
-          </p>
-          <div className="flex justify-between items-center">
-          <button className="mt-[0px]">
-                <img
-                  src="/icons/wallet.svg"
-                  alt="wallet icon"
-                  className="w-[15px] mr-[14px]"
-                />
-          </button>
-          <button className="mt-[0px]">
-                <img
-                  src="/icons/slider.svg"
-                  alt="slider icon"
-                  className="w-[20px]"
-                />
-          </button>
+      {/* progress */}
+      <div className="font-inter m-auto mb-[40px] flex w-full max-w-[360px] items-center justify-between">
+        <div
+          className={`${
+            progressFromNetwork > 0
+              ? 'box !duration-[500ms]'
+              : 'h-[48px] w-[48px] rounded-[8px] border-[2px] border-solid border-[#DEDEDE]'
+          } inline-flex items-center justify-center`}
+        >
+          {fromNetwork ? (
+            <img
+              src={`/icons/coin/${fromNetwork.name.toLocaleLowerCase()}.png`}
+              className="h-[40px] w-[40px] rounded-[8px]"
+            />
+          ) : (
+            <div className="h-[40px] w-[40px] rounded-[8px] bg-[#DEDEDE]" />
+          )}
+        </div>
+        <div className="inline-flex flex-1 flex-col items-center justify-center text-[#959595]">
+          <div className="inline-flex w-full items-center px-2">
+            <p className="min-w-[20%] text-[12px] font-[500] leading-[21px]">
+              From
+            </p>
+            <p className="flex-1 text-center text-[12px] font-[500] leading-[21px] text-[#AA5BFF]">
+              {progressFromNetwork > 0 &&
+                (!completedTransaction ? '10 seconds' : 'Completed')}
+            </p>
+            <p className="min-w-[20%] text-right text-[12px] font-[500] leading-[21px]">
+              To
+            </p>
+          </div>
+          <div className="relative h-[4px] w-full bg-[#D9D9D9]">
+            <div
+              className={`${
+                progressTransaction > 0 ? 'box-1 !duration-[10000ms]' : ''
+              } h-[4px] w-full`}
+            />
+          </div>
+          <div className="inline-flex w-full items-center justify-between px-2">
+            {progressFromNetwork > 0 ? (
+              <Link href="/" target="blank">
+                <div className="inline-flex min-w-[20%] cursor-pointer items-center justify-start text-[12px] font-[500] leading-[21px]">
+                  <span>View</span>
+                  <img
+                    src="/icons/redirect.svg"
+                    className="h-[18px] w-[18px]"
+                  />
+                </div>
+              </Link>
+            ) : (
+              <div className="inline-flex min-w-[20%]  items-center justify-start text-[12px] font-[500] leading-[21px]">
+                <span>View</span>
+                <img src="/icons/redirect.svg" className="h-[18px] w-[18px]" />
+              </div>
+            )}
+
+            {amount && fromToken && (
+              <p className="flex-1 text-center text-[12px] font-[500] leading-[21px] text-[#959595]">
+                <NumericFormat
+                  value={amount}
+                  thousandSeparator
+                  displayType="text"
+                  decimalScale={2}
+                />{' '}
+                {fromToken.symbol}
+              </p>
+            )}
+            {completedTransaction ? (
+              <Link target="_blank" href="/">
+                <div className="inline-flex min-w-[20%] cursor-pointer items-center justify-end text-[12px] font-[500] leading-[21px]">
+                  <span>View</span>
+                  <img
+                    src="/icons/redirect.svg"
+                    className="h-[18px] w-[18px]"
+                  />
+                </div>
+              </Link>
+            ) : (
+              <div className="inline-flex min-w-[20%] items-center justify-end text-[12px] font-[500] leading-[21px] opacity-80">
+                <span>View</span>
+                <img src="/icons/redirect.svg" className="h-[18px] w-[18px]" />
+              </div>
+            )}
           </div>
         </div>
-        <div className={`mt-[4px] mb-2 h-[1px] w-full md:block` + `
-      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'}`
-        }></div>
+        <div
+          className={`${
+            progressToNetwork > 0
+              ? 'box !duration-[500ms]'
+              : 'h-[48px] w-[48px] rounded-[8px] border-[2px] border-solid border-[#DEDEDE]'
+          } inline-flex items-center justify-center`}
+        >
+          {toNetwork ? (
+            <img
+              src={`/icons/coin/${toNetwork.name.toLocaleLowerCase()}.png`}
+              className="h-[40px] w-[40px] rounded-[8px]"
+            />
+          ) : (
+            <div className="h-[40px] w-[40px] rounded-[8px] bg-[#DEDEDE]" />
+          )}
+        </div>
+      </div>
+
+      {/* bridge */}
+      <div className="m-auto w-full max-w-[360px] rounded-[12px] border border-[#E6E6E6] bg-[#ffffff] from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pb-4 pt-3 text-[#030303] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white">
+        <div className="flex items-center justify-between">
+          <p className="font-larken mb-3 mt-2 text-[24px] text-[#030303] dark:text-white">
+            Bridge
+          </p>
+          <div className="flex items-center justify-between">
+            <button className="mt-[0px]">
+              <img
+                src="/icons/wallet.svg"
+                alt="wallet icon"
+                className="mr-[14px] w-[15px]"
+              />
+            </button>
+            <button className="mt-[0px]">
+              <img
+                src="/icons/slider.svg"
+                alt="slider icon"
+                className="w-[20px]"
+              />
+            </button>
+          </div>
+        </div>
+        <div
+          className={
+            `mb-2 mt-[4px] h-[1px] w-full md:block` +
+            `
+      ${
+        theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+      }`
+          }
+        ></div>
         <div className="mb-3">
           <label className="mb-1 block text-[14px] font-medium text-[#959595]">
             From
           </label>
           <div className="flex items-center">
-            <div className="w-[60%] duration-100 transition-ease ease-linear rounded-[10px] rounded-r-none border-[1px] border-solid border-[#ececec] dark:border-[#181818]">
-              <p className="ml-2 pt-[2px] pb-[2px] text-[12px] text-[#959595]">Token</p>
+            <div className="transition-ease w-[60%] rounded-[10px] rounded-r-none border-[1px] border-solid border-[#ececec] duration-100 ease-linear dark:border-[#181818]">
+              <p className="ml-2 pb-[2px] pt-[2px] text-[12px] text-[#959595]">
+                Token
+              </p>
               <Popover
                 placement="bottom-left"
                 trigger="click"
                 wrapperClassName="w-full"
-                className={`z-[10] mt-[12px] w-full bg-white dark:bg-[#030303] leading-none`}
+                className={`z-[10] mt-[12px] w-full bg-white leading-none dark:bg-[#030303]`}
                 externalOpen={openPopover}
                 content={
                   <HoverIndicator
@@ -129,6 +291,7 @@ const BridgeAssets: React.FC = () => {
                         onClick={() => {
                           setOpenPopover((openPopover) => !openPopover)
                           setFromToken(token)
+                          handleResetProgress()
                         }}
                       >
                         <img
@@ -165,11 +328,13 @@ const BridgeAssets: React.FC = () => {
               </Popover>
             </div>
             <div className="w-[40%] rounded-[10px] rounded-l-none border-[1px] border-l-0 border-solid border-[#ececec] dark:border-[#181818]">
-              <p className="ml-2 pt-[2px] pb-[2px] text-[12px] text-[#959595]">Network</p>
+              <p className="ml-2 pb-[2px] pt-[2px] text-[12px] text-[#959595]">
+                Network
+              </p>
               <Popover
                 placement="bottom-right"
                 trigger="click"
-                className={`z-[10] mt-[12px] w-full bg-white dark:bg-[#030303] leading-none`}
+                className={`z-[10] mt-[12px] w-full bg-white leading-none dark:bg-[#030303]`}
                 wrapperClassName="w-full"
                 externalOpen={openPopover}
                 content={
@@ -187,6 +352,7 @@ const BridgeAssets: React.FC = () => {
                         onClick={() => {
                           setFromNetwork(network)
                           setOpenPopover((openPopover) => !openPopover)
+                          handleResetProgress()
                         }}
                       >
                         <img
@@ -226,39 +392,20 @@ const BridgeAssets: React.FC = () => {
             </div>
           </div>
         </div>
-        {/* <div className="flex items-center justify-center">
-          <button
-            onClick={() => {
-              setToNetwork(fromNetwork)
-              setFromNetwork(toNetwork)
-              setFromToken(toToken)
-              setToToken(fromToken)
-            }}
-            className="w-[26px] cursor-pointer rounded-md border-[1px] border-solid border-[#ececec] bg-[#fff] px-[5px] py-[4px] shadow-xl dark:border-[#181818] dark:bg-[linear-gradient(180deg,#0d0d0d_0%,#0e0e0e_100%)]"
-          >
-            <img
-              src={
-                theme === 'light'
-                  ? '/assets/wallet/arrow-down.svg'
-                  : '/assets/wallet/arrow-down-dark.svg'
-              }
-              alt=""
-              className={theme === 'light' ? 'invert' : ''}
-            />
-          </button>
-        </div> */}
         <div className="mb-3">
           <label className="mb-1 block text-[14px] font-medium text-[#959595]">
             To
           </label>
           <div className="flex">
             <div className="w-[60%] rounded-[10px] rounded-r-none border-[1px] border-solid border-[#ececec] dark:border-[#181818]">
-              <p className="ml-2 pt-[2px] pb-[2px] text-[12px] text-[#959595]">Token</p>
+              <p className="ml-2 pb-[2px] pt-[2px] text-[12px] text-[#959595]">
+                Token
+              </p>
               <Popover
                 placement="bottom-left"
                 trigger="click"
                 wrapperClassName="w-full"
-                className={`z-[10] mt-[12px] w-full bg-white dark:bg-[#030303] leading-none`}
+                className={`z-[10] mt-[12px] w-full bg-white leading-none dark:bg-[#030303]`}
                 externalOpen={openPopover}
                 content={
                   <HoverIndicator
@@ -276,6 +423,7 @@ const BridgeAssets: React.FC = () => {
                         onClick={() => {
                           setToToken(token)
                           setOpenPopover((openPopover) => !openPopover)
+                          handleResetProgress()
                         }}
                       >
                         <img
@@ -312,13 +460,13 @@ const BridgeAssets: React.FC = () => {
               </Popover>
             </div>
             <div className="w-[40%] rounded-[10px] rounded-l-none border-[1px] border-l-0 border-solid border-[#ececec] dark:border-[#181818]">
-              <p className="text-ellipsis ml-2 pt-[2px] pb-[2px] text-[12px] text-[#959595]">
+              <p className="ml-2 text-ellipsis pb-[2px] pt-[2px] text-[12px] text-[#959595]">
                 Network
               </p>
               <Popover
                 placement="bottom-right"
                 trigger="click"
-                className={`z-[10] mt-[12px] w-full bg-white dark:bg-[#030303] leading-none`}
+                className={`z-[10] mt-[12px] w-full bg-white leading-none dark:bg-[#030303]`}
                 wrapperClassName="w-full"
                 externalOpen={openPopover}
                 content={
@@ -336,6 +484,7 @@ const BridgeAssets: React.FC = () => {
                         onClick={() => {
                           setToNetwork(network)
                           setOpenPopover((openPopover) => !openPopover)
+                          handleResetProgress()
                         }}
                       >
                         <img
@@ -380,13 +529,23 @@ const BridgeAssets: React.FC = () => {
             Total Amount
           </label>
           <div className="relative flex">
-            <input
+            <NumericFormat
+              className="transition-ease block w-full rounded-[8px] border border-[#efefef] bg-white pb-2 pl-[10px] pt-2 shadow-sm duration-100 ease-linear hover:ring-2 hover:ring-purple-500 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b dark:from-[#161616] dark:via-[#161616]/40 dark:to-[#0e0e0e]"
+              value={amount}
+              thousandSeparator
+              onChange={(e) => {
+                setAmount(e.target.value)
+                handleResetProgress()
+              }}
+              placeholder="0.00"
+            />
+            {/* <input
               type="number"
               className="transition-ease block w-full rounded-[8px] border border-[#efefef] bg-white pb-2 pl-[10px] pt-2 shadow-sm duration-100 ease-linear hover:ring-2 hover:ring-purple-500 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b dark:from-[#161616] dark:via-[#161616]/40 dark:to-[#0e0e0e]"
               value={amount}
               onChange={(e) => setAmount(parseFloat(e.target.value))}
               placeholder="0.00"
-            />
+            /> */}
             <button
               type="button"
               className="absolute inset-y-0 right-0 m-auto mr-2 max-h-[24px] rounded-[8px] bg-[#f8f8f8] px-2 text-[11px] uppercase text-[#aa5bff] focus:outline-none dark:bg-[#1E1E1E] dark:text-white"
