@@ -3,7 +3,7 @@
 }
 
 .bg-gradient-secondary {
-  @apply bg-gradient-to-tl from-[#101010] to-[#1c1c1c]
+  @apply bg-gradient-to-tl from-[#101010] to-[#1c1c1c];
 }
 
 .bg-gradient-divider {
@@ -27,12 +27,15 @@
     #eaeaea 50%,
     #eaeaea 70%,
     #fff 100%
-
   );
 }
 
-.bg-overview{
-  background: linear-gradient(180deg, rgba(13, 13, 13, 0.4) 0%, rgba(37, 37, 37, 0.4) 100%);
+.bg-overview {
+  background: linear-gradient(
+    180deg,
+    rgba(13, 13, 13, 0.4) 0%,
+    rgba(37, 37, 37, 0.4) 100%
+  );
 }
 
 .gradient-border {
@@ -45,7 +48,7 @@
     rgba(40, 40, 40, 0) 100%
   );
   background-position: bottom;
-  background-size: 100% 1px; 
+  background-size: 100% 1px;
   background-repeat: no-repeat;
   background-position: center bottom;
 }
@@ -53,13 +56,69 @@
   background: linear-gradient(
     90deg,
     #fff 0%,
-    #E1E1E1 30%,
-    #E0E0E0 50%,
-    #E1E1E1 70%,
+    #e1e1e1 30%,
+    #e0e0e0 50%,
+    #e1e1e1 70%,
     #fff 100%
   );
   background-position: bottom;
-  background-size: 100% 1px; 
+  background-size: 100% 1px;
   background-repeat: no-repeat;
   background-position: center bottom;
 }
+
+.box {
+  width: 48px;
+  height: 48px;
+  z-index: 0;
+  position: relative;
+  border-radius: 8px;
+}
+.box:before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 2px solid #aa5bff;
+  border-radius: 8px;
+  clip-path: polygon(0 0, 0 0, 0 0, 0 0, 50% 50%, 0 0);
+  animation: change 0.5s linear forwards;
+}
+
+@keyframes change {
+  25% {
+    clip-path: polygon(50% 50%, 0 0, 0 100%, 0 100%, 0 100%, 0 100%);
+  }
+  50% {
+    clip-path: polygon(50% 50%, 0 0, 0 100%, 100% 100%, 100% 100%, 100% 100%);
+  }
+  75% {
+    clip-path: polygon(50% 50%, 0 0, 0 100%, 100% 100%, 100% 0, 100% 0);
+  }
+  100% {
+    clip-path: polygon(50% 50%, 0 0, 0 100%, 100% 100%, 100% 0, 0% 0%);
+  }
+}
+
+.box-1 {
+  width: 100%;
+  height: 4px;
+  display: inline-block;
+  position: absolute;
+  background-size: 200% 100%;
+  background-image: linear-gradient(to left, #AA5BFF 50%, #D9D9D9 50%);
+  animation: progressbar 10s ease forwards;
+}
+
+@keyframes progressbar {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+
