@@ -117,7 +117,7 @@ const BridgeAssets: React.FC = () => {
   if (isLoading) {
     return (
       <div className="m-auto w-full max-w-[360px] rounded-[12px]">
-        <SkeletonDefault className="mb-[40px] h-[60px] w-full" />
+        {/* <SkeletonDefault className="mb-[40px] h-[60px] w-full" /> */}
         <SkeletonDefault className="h-[300px] w-full" />
       </div>
     )
@@ -126,7 +126,7 @@ const BridgeAssets: React.FC = () => {
   return (
     <>
       {/* progress */}
-      <div className="font-inter m-auto mb-[40px] flex w-full max-w-[360px] items-center justify-between">
+      {/* <div className="font-inter m-auto mb-[40px] flex w-full max-w-[360px] items-center justify-between">
         <div
           className={`${
             progressFromNetwork > 0
@@ -226,7 +226,7 @@ const BridgeAssets: React.FC = () => {
             <div className="h-[40px] w-[40px] rounded-[8px] bg-[#DEDEDE]" />
           )}
         </div>
-      </div>
+      </div> */}
 
       {/* bridge */}
       <div className="m-auto w-full max-w-[360px] rounded-[12px] border border-[#E6E6E6] bg-[#ffffff] from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pb-4 pt-3 text-[#030303] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white">
