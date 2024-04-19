@@ -19,6 +19,9 @@ import ConnectWalletModal from './ConnectWalletModal'
 import UniSwapModal from '@/components/common/Modal/UniswapModal'
 import { DelegateModal } from '@/components/pages/Vote/Governance/DelegateModal'
 import HoverIndicatorGrid from '@/components/common/HoverIndicator/Grid'
+import Web3 from 'web3'
+import { torqContract } from '@/constants/contracts'
+import { ethers } from 'ethers'
 
 BigNumber.config({ EXPONENTIAL_AT: 100 })
 
@@ -50,7 +53,7 @@ export const Header = () => {
 
   const [openUniSwapModal, setOpenUniSwapModal] = useState(false)
 
-  const [torqueBalance, setTorqueBalance] = useState('1')
+  const [torqueBalance, setTorqueBalance] = useState('0')
 
   const currentTabIndex = useMemo(
     () =>
@@ -80,6 +83,34 @@ export const Header = () => {
   const handleDisconnect = () => {
     disconnect()
   }
+
+  const tokenContract = useMemo(() => {
+    const web3 = new Web3(Web3.givenProvider)
+    const contract = new web3.eth.Contract(
+      JSON.parse(torqContract.abi),
+      torqContract.address
+    )
+    return contract
+  }, [Web3.givenProvider, torqContract])
+
+  const handleGetTorqueBalance = async () => {
+    if (!tokenContract || !address) {
+      return
+    }
+    try {
+      const balance = await tokenContract.methods.balanceOf(address).call()
+      const decimals = await tokenContract.methods.decimals().call()
+      setTorqueBalance(ethers.utils.formatUnits(balance, decimals).toString())
+    } catch (error) {
+      console.log('error get usdc balance:>> ', error)
+    }
+  }
+
+
+  console.log('balance 1111:>> ', torqueBalance);
+  useEffect(() => {
+    handleGetTorqueBalance()
+  }, [address, tokenContract])
 
   return (
     <div>
