@@ -18,7 +18,7 @@ export const VotingPower = () => {
   const { torquePrice } = useGetPriceTorqueToken()
 
   const theme = useSelector((store: AppStore) => store.theme.theme)
-  const [torqueBalance, setTorqueBalance] = useState('1')
+  const [torqueBalance, setTorqueBalance] = useState('0')
 
   const tokenContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
@@ -42,6 +42,8 @@ export const VotingPower = () => {
     }
   }
 
+
+  console.log('balance 1111:>> ', torqueBalance);
   useEffect(() => {
     handleGetTorqueBalance()
   }, [address, tokenContract])
