@@ -378,38 +378,38 @@ export default function UniSwapModal({
                         direction="vertical"
                         indicatorClassName="rounded-[6px]"
                       >
-                        {listSwapCoin?.map((coin) => (
-                          <div
-                            key={coin?.symbol}
-                            onClick={() => {
-                              let newCoinTo = coinTo
-                              if (coin?.symbol === coinTo?.symbol) {
-                                newCoinTo = coinFrom
-                                setCoinTo(coinFrom)
-                              }
-                              setCoinFrom(coin)
-                              const convertRate =
-                                Number(usdPrice[coin?.symbol]) /
-                                Number(usdPrice[newCoinTo?.symbol] || 1)
-                              setAmountTo(
-                                amountFrom
-                                  ? new BigNumber(amountFrom)
-                                    .multipliedBy(convertRate)
-                                    .toString()
-                                  : ''
-                              )
-                              setOpenPopover((openPopover) => !openPopover)
-                            }}
-                            className="flex cursor-pointer items-center gap-[2px] text-[#030303] dark:text-[#959595]"
-                          >
-                            <img
-                              src={`/icons/coin/${coin.symbol.toLocaleLowerCase()}.png`}
-                              alt="torque usd"
-                              className="h-[32px]"
-                            />
-                            <p>{coin?.symbol}</p>
-                          </div>
-                        ))}
+                    {listSwapCoin?.map((coin) => (
+                      <div
+                        key={coin?.symbol}
+                        onClick={() => {
+                          let newCoinTo = coinTo
+                          if (coin?.symbol === coinTo?.symbol) {
+                            newCoinTo = coinFrom
+                            setCoinTo(coinFrom)
+                          }
+                          setCoinFrom(coin)
+                          const convertRate =
+                            Number(usdPrice[coin?.symbol]) /
+                            Number(usdPrice[newCoinTo?.symbol] || 1)
+                          setAmountTo(
+                            amountFrom
+                              ? new BigNumber(amountFrom)
+                                .multipliedBy(convertRate)
+                                .toString()
+                              : ''
+                          )
+                          setOpenPopover((openPopover) => !openPopover)
+                        }}
+                        className="flex py-1 pb-0 cursor-pointer items-center gap-[2px] text-[#030303] dark:text-[#959595]"
+                      >
+                        <img
+                          src={coin.symbol === 'USDC' ? `/icons/coin/${coin.symbol.toLocaleLowerCase()}.svg` : `/icons/coin/${coin.symbol.toLocaleLowerCase()}.png`}
+                          alt={`${coin.symbol} logo`}
+                          className="h-[32px]"
+                        />
+                        <p>{coin?.symbol}</p>
+                      </div>
+                    ))}
                       </HoverIndicator>
                     }
                   >
