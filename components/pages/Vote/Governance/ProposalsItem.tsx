@@ -77,8 +77,8 @@ export const ProposalsItem = (props: any) => {
   return (
     <Link href={`/vote/${menu?.id}`}>
       <div className="mt-[10px] cursor-pointer transition-all duration-100 ease-linear hover:opacity-70">
-        <div className="items-center justify-between md:flex">
-          <div className="sm:mt-[0px] md:mt-0 md:w-[60%]">
+        <div className="items-center justify-between lg:flex">
+          <div className="sm:mt-[0px] md:mt-0 lg:w-[60%]">
             <h4 className="font-larken text-[20px] truncate ... font-[400] leading-[40px] text-[#030303] dark:text-white">
               {menu.title}
             </h4>
@@ -86,18 +86,18 @@ export const ProposalsItem = (props: any) => {
               <div className={classnamesState}>
                 {menu.stage}
               </div>
-              <p className="text-[14px] font-[500] text-[#959595] md:text-[16px]">
+              <p className="text-[14px] font-[500] text-[#959595] md:text-[16px] whitespace-nowrap">
                 TIP-{menu.id}
               </p>
               <div className="h-[5px] w-[5px] rounded-full bg-[#959595]"></div>
-              <p className="text-[14px] font-[500] text-[#959595] md:text-[16px]">
+              <p className="text-[14px] font-[500] text-[#959595] md:text-[16px] whitespace-nowrap">
                 {menu.timeVote}
               </p>
             </div>
           </div>
 
-          <div className="mt-[10px] md:w-[40%]">
-            <div className="flex w-full items-center justify-start gap-[8px] md:justify-end">
+          <div className="mt-[10px] lg:w-[40%]">
+            <div className="flex w-full items-center justify-start gap-[8px] lg:justify-end">
               <p className="text-[14px] font-[500] text-[#1EB26B]">
                 {votesInfo?.forVotes
                   ? toMetricUnits(
@@ -152,7 +152,7 @@ export const ProposalsItem = (props: any) => {
                   : '0.00'}
               </p>
             </div>
-            <p className="text-left font-[500] leading-[24px] text-[#959595] md:text-right">
+            <p className="text-left font-[500] leading-[24px] text-[#959595] lg:text-right">
               {(votesFor + voteForAgainst) > 0 ? toMetricUnits(Number(votesFor + voteForAgainst)) : '0.00'} total votes
             </p>
           </div>
