@@ -95,6 +95,26 @@ export const BoostItemChart: FC<BoostItemChartProps> = (props) => {
     const handleGetChartDataTransaction = async () => {
       try {
         const path = '/api/transaction-arbitrum/list-transaction-arbitrum'
+
+        const newPath = '/api/chart/get-data-by-address'
+
+        const newRes = await axiosInstance.get(newPath, {
+          params: {
+            address: contractAddress,
+          },
+        })
+        console.log('newRes :>> ', newRes)
+        const transactions1 = newRes.data || []
+
+        const convertTransactions = transactions1.reduce((acc, item) => {
+          acc[item?.date] = item;
+          return acc;
+        }, {})
+
+        let chartDataObj: any = {}
+
+        // console.log('convertTransactions :>> ', convertTransactions);
+
         const functionName =
           contractAddress === boostWbtcContract?.address
             ? 'depositBTC'
@@ -106,56 +126,58 @@ export const BoostItemChart: FC<BoostItemChartProps> = (props) => {
         })
         const transactions: any[] = res?.data?.data || []
 
-        let chartDataObj: any = {}
+        // let chartDataObj: any = {}
 
         for (let i = -14; i <= 0; i++) {
           const key = dayjs().add(i, 'd').format('YYYY-MM-DD')
           chartDataObj[key] = {
             time: key,
-            valueBar: 0,
+            valueBar: convertTransactions[key]?.value || 0,
           }
         }
 
+        console.log('chartDataObj :>> ', chartDataObj);
+
         let lineValue = 50
-        transactions?.forEach((item) => {
-          const key = dayjs(+item?.timeStamp * 1000).format('YYYY-MM-DD')
-          if (chartDataObj[key]) {
-            const abi = JSON.parse(
-              contractAddress === boostWbtcContract?.address
-                ? boostWbtcContract.abi
-                : boostWethContract.abi
-            )
+        // transactions?.forEach((item) => {
+        //   const key = dayjs(+item?.timeStamp * 1000).format('YYYY-MM-DD')
+        //   if (chartDataObj[key]) {
+        //     const abi = JSON.parse(
+        //       contractAddress === boostWbtcContract?.address
+        //         ? boostWbtcContract.abi
+        //         : boostWethContract.abi
+        //     )
 
-            const inputs = new ethers.utils.AbiCoder().decode(
-              abi
-                ?.find((item) => item?.name === functionName)
-                ?.inputs?.map((item) => item?.type),
-              ethers.utils.hexDataSlice(item?.input, 4)
-            )
+        //     const inputs = new ethers.utils.AbiCoder().decode(
+        //       abi
+        //         ?.find((item) => item?.name === functionName)
+        //         ?.inputs?.map((item) => item?.type),
+        //       ethers.utils.hexDataSlice(item?.input, 4)
+        //     )
 
-            console.log('inputs', inputs)
+        //     console.log('inputs', inputs)
 
-            const [amount] = inputs?.map((item) => item?.toString())
+        //     const [amount] = inputs?.map((item) => item?.toString())
 
-            console.log('amount', amount)
+        //     console.log('amount', amount)
 
-            const tokenAmountFormatted = ethers.utils
-              .formatUnits(amount, tokenDecimals)
-              .toString()
+        //     const tokenAmountFormatted = ethers.utils
+        //       .formatUnits(amount, tokenDecimals)
+        //       .toString()
 
-            const tokenAmount = +tokenAmountFormatted
+        //     const tokenAmount = +tokenAmountFormatted
 
-            const value = +tokenAmount
-            chartDataObj[key].valueBar += value
-            lineValue = Math.max(lineValue, value)
-          }
-        })
+        //     const value = +tokenAmount
+        //     chartDataObj[key].valueBar += value
+        //     lineValue = Math.max(lineValue, value)
+        //   }
+        // })
 
         let chartData = Object.values(chartDataObj)?.map((item, i) => ({
           ...item,
-          value: item?.valueBar * tokenPrice,
-          valueBar: 1 + item?.valueBar * tokenPrice,
-          valueLine: lineValue * 1.5,
+          value: item?.valueBar,
+          valueBar: 1 + item?.valueBar,
+          valueLine: lineValue * 2.5,
         }))
 
         console.log(

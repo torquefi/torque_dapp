@@ -118,11 +118,6 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         .formatUnits(borrowInfoMap.supplied, depositTokenDecimal)
         .toString()
       setDepositedToken(deposit)
-      console.log('deposit :>> ', deposit)
-      console.log('borrowed :>> ', borrowed)
-      console.log('tokenDecimal :>> ', tokenDecimal)
-      console.log('collateral :>> ', collateral)
-      console.log('borrowInfoMap :>> ', borrowInfoMap)
     } catch (error) {
       console.log('handleGetBorrowData :>> ', error)
     }
