@@ -87,8 +87,6 @@ export function BoostItem({ item, onWithdrawSuccess, setIsFetchBoostLoading }: B
 
   const { gasLimits } = useGasLimits(arbitrum.id)
 
-  console.log('gasLimits :>> ', gasLimits)
-
   const handleGetBoostData = async () => {
     if (!boostContract || !address || !tokenContract) {
       return
@@ -251,8 +249,6 @@ export function BoostItem({ item, onWithdrawSuccess, setIsFetchBoostLoading }: B
   useEffect(() => {
     setLabel(item?.label)
   }, [item?.label])
-
-  console.log('deposited :>> ', deposited)
 
   const summaryInfo = () => {
     return (

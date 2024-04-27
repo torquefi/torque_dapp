@@ -95,6 +95,17 @@ export const BorrowItemChart: FC<BorrowItemChartProps> = (props) => {
     const handleGetChartDataTransaction = async () => {
       try {
         const path = '/api/transaction-arbitrum/list-transaction-arbitrum'
+
+        const newPath = '/api/chart/get-data-by-address'
+
+        const newRes = await axiosInstance.get(newPath, {
+          params: {
+            address: tokenAddress,
+          },
+        })
+        console.log('newRes :>> ', newRes)
+        const transactions1 = newRes.data || []
+
         const res = await axiosInstance.post(path, {
           address: tokenAddress,
           functionName: 'borrow',
@@ -102,63 +113,72 @@ export const BorrowItemChart: FC<BorrowItemChartProps> = (props) => {
         })
         const transactions: any[] = res?.data?.data || []
 
+        const convertTransactions = transactions1.reduce((acc, item) => {
+          acc[item?.date] = item;
+          return acc;
+        }, {})
+
         let chartDataObj: any = {}
+
+        console.log('convertTransactions :>> ', convertTransactions);
 
         for (let i = -14; i <= 0; i++) {
           const key = dayjs().add(i, 'd').format('YYYY-MM-DD')
           chartDataObj[key] = {
             time: key,
-            valueBar: 0,
+            valueBar: convertTransactions[key]?.value || 0,
           }
         }
 
+        console.log('chartDataObj :>> ', chartDataObj);
+
         let lineValue = 50
-        transactions?.forEach((item) => {
-          const key = dayjs(+item?.timeStamp * 1000).format('YYYY-MM-DD')
-          if (chartDataObj[key]) {
-            const abi = JSON.parse(borrowBtcContract.abi)
+        // transactions?.forEach((item) => {
+        //   const key = dayjs(+item?.timeStamp * 1000).format('YYYY-MM-DD')
+        //   if (chartDataObj[key]) {
+        //     const abi = JSON.parse(borrowBtcContract.abi)
 
-            const inputs = new ethers.utils.AbiCoder().decode(
-              abi
-                ?.find((item) => item?.name === 'borrow')
-                ?.inputs?.map((item) => item?.type),
-              ethers.utils.hexDataSlice(item?.input, 4)
-            )
+        //     const inputs = new ethers.utils.AbiCoder().decode(
+        //       abi
+        //         ?.find((item) => item?.name === 'borrow')
+        //         ?.inputs?.map((item) => item?.type),
+        //       ethers.utils.hexDataSlice(item?.input, 4)
+        //     )
 
-            const [param1, param2, tusdAmount] = inputs?.map((item) =>
-              item?.toString()
-            )
+        //     const [param1, param2, tusdAmount] = inputs?.map((item) =>
+        //       item?.toString()
+        //     )
 
-            const tusdDecimals = 18
-            const tusdAmountFormatted = ethers.utils
-              .formatUnits(tusdAmount, tusdDecimals)
-              .toString()
+        //     const tusdDecimals = 18
+        //     const tusdAmountFormatted = ethers.utils
+        //       .formatUnits(tusdAmount, tusdDecimals)
+        //       .toString()
 
-            const tusdDollar = +tusdAmountFormatted
+        //     const tusdDollar = +tusdAmountFormatted
 
-            console.log(tusdAmount, tusdDollar)
+        //     console.log(tusdAmount, tusdDollar)
 
-            // const value = +ethers.utils.formatUnits(item?.value, tokenDecimals)
-            const value = +tusdDollar
-            chartDataObj[key].valueBar += value
-            lineValue = Math.max(lineValue, value)
-          }
-        })
+        //     // const value = +ethers.utils.formatUnits(item?.value, tokenDecimals)
+        //     const value = +tusdDollar
+        //     chartDataObj[key].valueBar += value
+        //     lineValue = Math.max(lineValue, value)
+        //   }
+        // })
 
-        let chartData = Object.values(chartDataObj)?.map((item, i) => ({
+        const chartData = Object.values(chartDataObj)?.map((item, i) => ({
           ...item,
-          value: item?.valueBar * tusdPrice,
+          value: item?.valueBar,
           valueBar: 1 + item?.valueBar * tusdPrice,
-          valueLine: lineValue * 1.5,
+          valueLine: lineValue * 3,
         }))
 
-        console.log(
-          tokenAddress,
-          tusdPrice,
-          tokenDecimals,
-          aprPercent,
-          chartData
-        )
+        // console.log(
+        //   tokenAddress,
+        //   tusdPrice,
+        //   tokenDecimals,
+        //   aprPercent,
+        //   chartData
+        // )
         setChartData(chartData)
       } catch (error) {
         console.log(
