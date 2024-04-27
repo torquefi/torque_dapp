@@ -181,7 +181,8 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       )
 
       console.log('params :>> ', amountRepay, withdraw)
-      const tx = await borrowContract2.repay(amountRepay, withdraw)
+      // const tx = await borrowContract2.repay(amountRepay, withdraw)
+      const tx = await borrowContract2.repay(amountRepay, 0)
       await tx.wait()
       toast.success('Repay Successful')
       handleGetBorrowData()
