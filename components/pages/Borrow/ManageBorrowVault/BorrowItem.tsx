@@ -130,17 +130,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
   const onRepay = async () => {
     setButtonLoading(true)
     try {
-      const allowance = await tokenContract.methods
-        .allowance(address, item.borrowContractInfo.address)
-        .call()
-      console.log('allowance :>> ', allowance)
-      if (new BigNumber(allowance).lte(new BigNumber('0'))) {
-        await tokenContract.methods
-          .approve(item?.borrowContractInfo?.address, MAX_UINT256)
-          .send({
-            from: address,
-          })
-      }
+      
       const balanceOfToken = await tokenContract.methods
         .balanceOf(address)
         .call()
@@ -167,6 +157,19 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
           .getWETHWithdraw(amountRepay, address)
           .call()
       }
+
+      const allowance = await tokenContract.methods
+        .allowance(address, item.borrowContractInfo.address)
+        .call()
+      console.log('allowance :>> ', allowance)
+      if (new BigNumber(allowance).lte(new BigNumber('0')) || new BigNumber(allowance).lte(withdraw)) {
+        await tokenContract.methods
+          .approve(item?.borrowContractInfo?.address, MAX_UINT256)
+          .send({
+            from: address,
+          })
+      }
+
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const signer = provider.getSigner(address)
       const borrowContract2 = new ethers.Contract(
