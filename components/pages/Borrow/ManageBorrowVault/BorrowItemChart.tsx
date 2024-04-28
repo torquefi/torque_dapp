@@ -78,8 +78,8 @@ export const BorrowItemChart: FC<BorrowItemChartProps> = (props) => {
     return (
       <g>
         <text
-          x={x + width / 2}
-          y={y - 30}
+          // x={x + width / 2}
+          // y={y - 30}
           fill="#fff"
           textAnchor="middle"
           dominantBaseline="middle"
@@ -114,13 +114,13 @@ export const BorrowItemChart: FC<BorrowItemChartProps> = (props) => {
         const transactions: any[] = res?.data?.data || []
 
         const convertTransactions = transactions1.reduce((acc, item) => {
-          acc[item?.date] = item;
-          return acc;
+          acc[item?.date] = item
+          return acc
         }, {})
 
         let chartDataObj: any = {}
 
-        console.log('convertTransactions :>> ', convertTransactions);
+        console.log('convertTransactions :>> ', convertTransactions)
 
         for (let i = -14; i <= 0; i++) {
           const key = dayjs().add(i, 'd').format('YYYY-MM-DD')
@@ -130,7 +130,7 @@ export const BorrowItemChart: FC<BorrowItemChartProps> = (props) => {
           }
         }
 
-        console.log('chartDataObj :>> ', chartDataObj);
+        console.log('chartDataObj :>> ', chartDataObj)
 
         let lineValue = 50
         // transactions?.forEach((item) => {
@@ -168,8 +168,11 @@ export const BorrowItemChart: FC<BorrowItemChartProps> = (props) => {
         const chartData = Object.values(chartDataObj)?.map((item, i) => ({
           ...item,
           value: item?.valueBar,
-          valueBar: 1 + item?.valueBar * tusdPrice,
-          valueLine: lineValue * 3,
+          valueBar:
+            (1 + item?.valueBar * tusdPrice) > 100
+              ? (1 + item?.valueBar * tusdPrice) / 4
+              : 1 + item?.valueBar * tusdPrice,
+          valueLine: lineValue * 2,
         }))
 
         // console.log(
