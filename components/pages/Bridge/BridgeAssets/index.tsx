@@ -10,6 +10,7 @@ import { useAccount } from 'wagmi'
 import { NumericFormat } from 'react-number-format'
 import { toast } from 'sonner'
 import Link from 'next/link'
+import { motion } from 'framer-motion';
 
 interface Token {
   symbol: string
@@ -54,6 +55,7 @@ const BridgeAssets: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [openPopover, setOpenPopover] = useState(false)
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
+  const [showDestinationAddress, setShowDestinationAddress] = useState(false);
 
   useEffect(() => {
     if (progressFromNetwork > 0) {
@@ -108,6 +110,12 @@ const BridgeAssets: React.FC = () => {
     )
   }
 
+    // Motion variants for the animation
+    const variants = {
+      open: { opacity: 1, height: "auto" },
+      collapsed: { opacity: 0, height: 0 }
+    };
+
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false)
@@ -126,21 +134,21 @@ const BridgeAssets: React.FC = () => {
   return (
     <>
       {/* progress */}
-      {/* <div className="font-inter m-auto mb-[40px] flex w-full max-w-[360px] items-center justify-between">
+      {/* <div className="font-inter m-auto mb-[24px] flex w-full max-w-[360px] items-center justify-between">
         <div
           className={`${
             progressFromNetwork > 0
               ? 'box !duration-[500ms]'
-              : 'h-[48px] w-[48px] rounded-[8px] border-[2px] border-solid border-[#DEDEDE]'
+              : 'h-[32px] w-[32px] rounded-[8px] border-[2px] border-solid border-[#DEDEDE]'
           } inline-flex items-center justify-center`}
         >
           {fromNetwork ? (
             <img
               src={`/icons/coin/${fromNetwork.name.toLocaleLowerCase()}.png`}
-              className="h-[40px] w-[40px] rounded-[8px]"
+              className="h-[24px] w-[24px] rounded-[6px]"
             />
           ) : (
-            <div className="h-[40px] w-[40px] rounded-[8px] bg-[#DEDEDE]" />
+            <div className="h-[24px] w-[24px] rounded-[8px] bg-[#DEDEDE]" />
           )}
         </div>
         <div className="inline-flex flex-1 flex-col items-center justify-center text-[#959595]">
@@ -214,16 +222,16 @@ const BridgeAssets: React.FC = () => {
           className={`${
             progressToNetwork > 0
               ? 'box !duration-[500ms]'
-              : 'h-[48px] w-[48px] rounded-[8px] border-[2px] border-solid border-[#DEDEDE]'
+              : 'h-[32px] w-[32px] rounded-[8px] border-[2px] border-solid border-[#DEDEDE]'
           } inline-flex items-center justify-center`}
         >
           {toNetwork ? (
             <img
               src={`/icons/coin/${toNetwork.name.toLocaleLowerCase()}.png`}
-              className="h-[40px] w-[40px] rounded-[8px]"
+              className="h-[24px] w-[24px] rounded-[6px]"
             />
           ) : (
-            <div className="h-[40px] w-[40px] rounded-[8px] bg-[#DEDEDE]" />
+            <div className="h-[24px] w-[24px] rounded-[8px] bg-[#DEDEDE]" />
           )}
         </div>
       </div> */}
@@ -235,7 +243,9 @@ const BridgeAssets: React.FC = () => {
             Bridge
           </p>
           <div className="flex items-center justify-between">
-            <button className="mt-[0px]">
+            <button 
+            className="mt-[0px]"
+            onClick={() => setShowDestinationAddress(!showDestinationAddress)}>
               <img
                 src="/icons/wallet.svg"
                 alt="wallet icon"
@@ -525,12 +535,12 @@ const BridgeAssets: React.FC = () => {
           </div>
         </div>
         <div className="relative mb-4">
-          <label className="mb-[6px] block text-[14px] font-medium text-[#959595]">
-            Total Amount
+          <label className="mb-[4px] block text-[14px] font-medium text-[#959595]">
+            Amount
           </label>
           <div className="relative flex">
             <NumericFormat
-              className="transition-ease block w-full rounded-[8px] border border-[#efefef] bg-white pb-2 pl-[10px] pt-2 shadow-sm duration-100 ease-linear hover:ring-2 hover:ring-purple-500 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b dark:from-[#161616] dark:via-[#161616]/40 dark:to-[#0e0e0e]"
+              className="transition-ease placeholder:text-[#959595] block w-full rounded-[8px] border border-[#efefef] bg-white pb-2 pl-[10px] pt-2 shadow-sm duration-100 ease-linear hover:ring-2 hover:ring-purple-500 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b dark:from-[#161616] dark:via-[#161616]/40 dark:to-[#0e0e0e]"
               value={amount}
               thousandSeparator
               onChange={(e) => {
@@ -555,6 +565,25 @@ const BridgeAssets: React.FC = () => {
             </button>
           </div>
         </div>
+        {showDestinationAddress && (
+          <motion.div
+          initial="collapsed"
+          animate="open"
+          exit="collapsed"
+          variants={variants}
+          transition={{ duration: 0.2 }}
+          className="mb-4"
+        >
+            <label className="mb-[4px] block text-[14px] font-medium text-[#959595]">
+              Destination
+            </label>
+            <input
+              type="text"
+              className="block w-full truncate placeholder:text-[#959595] rounded-[8px] border border-[#efefef] bg-white pb-2 pl-[10px] pt-2 shadow-sm duration-100 ease-linear hover:ring-2 hover:ring-purple-500 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b dark:from-[#161616] dark:via-[#161616]/40 dark:to-[#0e0e0e]"
+              placeholder="0x123.."
+            />
+          </motion.div>
+        )}
         <div className="flex justify-end">
           <button
             className={`font-mona mt-1 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
