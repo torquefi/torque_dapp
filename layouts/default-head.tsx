@@ -14,9 +14,9 @@ export function DefaultHead() {
                         style-src  'self' 'unsafe-inline' *"
       ></meta>
       <meta name="keywords" content="HTML, CSS, JavaScript" />
-      <meta property="og:image" content={`/assets/torque_preview.png`} />
-      <meta name="twitter:image" content={`/assets/torque_preview.png`} />
-      <meta property="telegram:image" content={`/assets/torque_preview.png`} />
+      <meta property="og:image" content={`https://uploads-ssl.webflow.com/6556f6be06fc2abb8a8da998/65f7c8b013bde20c05c81a06_torque-finance.png`} />
+      <meta name="twitter:image" content={`https://uploads-ssl.webflow.com/6556f6be06fc2abb8a8da998/65f7c8b013bde20c05c81a06_torque-finance.png`} />
+      <meta property="telegram:image" content={`https://uploads-ssl.webflow.com/6556f6be06fc2abb8a8da998/65f7c8b013bde20c05c81a06_torque-finance.png`} />
       <link rel="shortcut icon" href="https://app.torque.fi/assets/logo.png" />
       <link rel="icon" type="image/png" href={'/favicon.png'} />
       <link rel="preconnect" href="https://fonts.gstatic.com" />

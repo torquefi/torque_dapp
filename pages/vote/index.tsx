@@ -5,6 +5,7 @@ import Head from 'next/head'
 import { useDispatch } from 'react-redux'
 import { tipsData } from '@/config/vote/content/tips'
 import { useEffect } from 'react'
+import AppSeo from '@/components/common/App-Seo'
 export default function Page() {
   const dispatch = useDispatch()
 
@@ -24,9 +25,7 @@ export default function Page() {
 
   return (
     <>
-      <Head>
-        <title>Vote | Torque</title>
-      </Head>
+      <AppSeo title="Vote | Torque" />
       <VotePage />
     </>
   )

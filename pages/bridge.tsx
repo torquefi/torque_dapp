@@ -1,3 +1,4 @@
+import AppSeo from '@/components/common/App-Seo'
 import { BridgePage } from '@/components/pages/Bridge'
 import { MainLayout } from '@/layouts/MainLayout'
 import Head from 'next/head'
@@ -5,9 +6,7 @@ import Head from 'next/head'
 export default function Page() {
   return (
     <>
-      <Head>
-        <title>Bridge | Torque</title>
-      </Head>
+      <AppSeo title="Bridge | Torque" />
       <BridgePage />
     </>
   )

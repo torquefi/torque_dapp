@@ -9,6 +9,7 @@ import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { tipsData } from '@/config/vote/content/tips'
 import { GetServerSideProps } from 'next'
+import AppSeo from '@/components/common/App-Seo'
 
 
 export default function Page({ title }: { title?: string }) {
@@ -33,9 +34,7 @@ export default function Page({ title }: { title?: string }) {
 
   return (
     <>
-      <Head>
-        <title> TIP-{id} | Torque</title>
-      </Head>
+      <AppSeo title={`TIP-${id} | Torque`} />
       <DetailsVotes />
     </>
   )
