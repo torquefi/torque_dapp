@@ -6,7 +6,12 @@ import Head from 'next/head'
 export default function Page() {
   return (
     <>
-      <AppSeo title="Boost | Torque" />
+      {/* <AppSeo title="Boost | Torque" /> */}
+      <Head>
+        <title>
+          Boost | Torque
+        </title>
+      </Head>
       <BoostPage />
     </>
   )

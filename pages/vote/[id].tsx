@@ -34,7 +34,11 @@ export default function Page({ title }: { title?: string }) {
 
   return (
     <>
-      <AppSeo title={`TIP-${id} | Torque`} />
+      {/* <AppSeo title={`TIP-${id} | Torque`} /> */}
+
+      <Head>
+        <title> TIP-{id} | Torque</title>
+      </Head>
       <DetailsVotes />
     </>
   )

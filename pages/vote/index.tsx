@@ -25,7 +25,11 @@ export default function Page() {
 
   return (
     <>
-      <AppSeo title="Vote | Torque" />
+      {/* <AppSeo title="Vote | Torque" /> */}
+
+      <Head>
+        <title>Vote | Torque</title>
+      </Head>
       <VotePage />
     </>
   )
