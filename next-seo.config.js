@@ -1,7 +1,7 @@
 export default {
   title: 'Torque',
   titleTemplate: '%s',
-  canonical: 'https://torque.fi',
+  // canonical: 'https://torque.fi',
   description:
     'Torque is a crypto wealth management platform that aggregates yield and loans from leading blockchain protocols while enabling one-click borrowing through non-custodial PBLOCs (portfolio-backed lines of credit). Torque utilizes smart contract automation to enable self-driving money. Our Vaults-as-a-Service model helps investors, institutions, and DAOs earn passive income and access crypto loans while retaining full custody.',
   additionalMetaTags: [
