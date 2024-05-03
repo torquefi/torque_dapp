@@ -1,4 +1,3 @@
-import AppSeo from '@/components/common/App-Seo'
 import { LeaderBoard } from '@/components/pages/Vote/LeaderBoard'
 import { MainLayout } from '@/layouts/MainLayout'
 import Head from 'next/head'
@@ -6,7 +5,11 @@ import Head from 'next/head'
 export default function Page() {
   return (
     <>
-      <AppSeo title="Leaderboard | Torque" />
+      {/* <AppSeo title="Leaderboard | Torque" /> */}
+
+      <Head>
+        <title>Leaderboard | Torque</title>
+      </Head>
       <LeaderBoard />
     </>
   )

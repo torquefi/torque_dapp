@@ -6,7 +6,10 @@ import Head from 'next/head'
 export default function Page() {
   return (
     <>
-      <AppSeo title="Home | Torque" />
+    {/* <AppSeo title='Home | Torque'/> */}
+      <Head>
+        <title>Home | Torque</title>
+      </Head>
       <HomePage />
     </>
   )
