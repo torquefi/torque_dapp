@@ -57,7 +57,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   return (
     <Provider store={store}>
       <MoralisProvider appId={appId} serverUrl={serverUrl}>
-        <DefaultSeo {...SEO} />
+        {/* <DefaultSeo {...SEO} /> */}
         <WagmiConfig config={wagmiConfig}>
           <PersistGate persistor={persistor}>
             {() => (

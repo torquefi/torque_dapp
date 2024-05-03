@@ -1,3 +1,4 @@
+import AppSeo from '@/components/common/App-Seo'
 import { HomePage } from '@/components/pages/Home'
 import { MainLayout } from '@/layouts/MainLayout'
 import Head from 'next/head'
@@ -5,9 +6,7 @@ import Head from 'next/head'
 export default function Page() {
   return (
     <>
-      <Head>
-        <title>Home | Torque</title>
-      </Head>
+      <AppSeo title="Home | Torque" />
       <HomePage />
     </>
   )
