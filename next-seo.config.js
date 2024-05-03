@@ -18,7 +18,7 @@ export default {
     site_name: 'Torque',
     images: [
       {
-        url: '/assets/torque_preview.png',
+        url: 'https://uploads-ssl.webflow.com/6556f6be06fc2abb8a8da998/65f7c8b013bde20c05c81a06_torque-finance.png',
         width: 1200,
         height: 630,
         alt: 'Torque',
