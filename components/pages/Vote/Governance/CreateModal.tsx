@@ -95,7 +95,7 @@ export const CreateModal = (props: any) => {
       <Modal
         open={openModal}
         handleClose={handleCLose}
-        className="no-scrollbar mx-auto max-h-[420px] w-[90%] max-w-[380px] overflow-hidden bg-[#FCFAFF] px-[24px] hover:overflow-y-auto dark:bg-[#030303]"
+        className="no-scrollbar mx-auto max-h-[420px] w-[90%] max-w-[380px] overflow-hidden bg-[#FFFFFF] px-[24px] hover:overflow-y-auto dark:bg-[#030303]"
         hideCloseIcon
       >
         <div className="flex items-center justify-between py-2">
@@ -166,7 +166,7 @@ export const CreateModal = (props: any) => {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items className="absolute bottom-[108%] right-0 mt-2 w-full origin-bottom-right rounded-md border bg-[#FCFAFF] p-[6px] py-[8px] shadow-sm dark:border-[#1D1D1D] dark:bg-[#090909]">
+                    <Menu.Items className="absolute bottom-[108%] right-0 mt-2 w-full origin-bottom-right rounded-md border bg-[#FFFFFF] p-[6px] py-[8px] shadow-sm dark:border-[#1D1D1D] dark:bg-[#090909]">
                       <HoverIndicator
                         direction="vertical"
                         activeIndex={optionIndex}
