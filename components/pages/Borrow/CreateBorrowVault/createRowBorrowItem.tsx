@@ -374,7 +374,7 @@ export default function CreateRowBorrowItem({
                     setAmountReceiveRaw('')
                     setOpenSwapModal(true)
                 }}
-                className={`cursor-pointer relative ${dataBorrow.depositTokenSymbol === tokenHover ? 'bg-[#f6f4f8] dark:bg-[#141414]' : ''}`}
+                className={`cursor-pointer relative ${dataBorrow.depositTokenSymbol === tokenHover ? 'bg-[#f9f9f9] dark:bg-[#141414]' : ''}`}
                 onMouseOver={() => setTokenHover(dataBorrow.depositTokenSymbol)}
                 onMouseLeave={() => setTokenHover('')}
             >

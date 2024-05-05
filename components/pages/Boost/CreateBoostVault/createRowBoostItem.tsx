@@ -254,7 +254,7 @@ export function CreateRowBoostItem({
                     setAmountRaw('')
                     setOpenSwapModal(true)
                 }}
-                className={`relative cursor-pointer ${item.token === tokenHover ? 'bg-[#f6f4f8] dark:bg-[#141414]' : ''
+                className={`relative cursor-pointer ${item.token === tokenHover ? 'bg-[#f9f9f9] dark:bg-[#141414]' : ''
                     }`}
                 onMouseOver={() => setTokenHover(item.token)}
                 onMouseLeave={() => setTokenHover('')}
