@@ -129,10 +129,10 @@ export const Header = () => {
         </div> */}
         <div className="container relative mx-auto flex h-[66px] max-w-[1244px] items-center justify-between px-4 lg:px-8">
           <Link href="/" className="flex items-center">
-            <img className="h-[28px]" src="/assets/logo.png" alt="" />
+            <img className="h-[26px]" src="/assets/logo.png" alt="" />
             <h2
               // style={{ fontFamily: 'Larken-Bold' }}
-              className="font-rogan ml-[8px] text-[25px] text-[#404040] dark:text-white"
+              className="font-rogan ml-[8px] text-[26px] text-[#404040] dark:text-white"
             >
               Torque
             </h2>
