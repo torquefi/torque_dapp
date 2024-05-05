@@ -85,7 +85,7 @@ export const DetailsVotes = () => {
 
   return (
     <div className="mx-auto mt-0 md:mt-[-16px] w-full text-center max-w-[740px]">
-      <h1 className="font-larken mx-auto mt-4 w-full text-[28px] font-[400] leading-[23px] text-[#030303] dark:text-white md:text-[36px] md:leading-[44px]">
+      <h1 className="font-rogan mx-auto mt-4 w-full text-[28px] font-[400] leading-[23px] text-[#030303] dark:text-white md:text-[36px] md:leading-[44px]">
         {tipDetails?.title}
       </h1>
       <div className="mt-[14px]">

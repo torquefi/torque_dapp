@@ -118,7 +118,7 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
       hideCloseIcon
     >
       <div className="flex items-center justify-between py-1">
-        <div className="font-larken text-[24px] font-[400] text-[#030303] dark:text-white md:text-[28px]">
+        <div className="font-rogan text-[24px] font-[400] text-[#030303] dark:text-white md:text-[28px]">
           Confirm
         </div>
         <AiOutlineClose
@@ -138,7 +138,7 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
         <div className="flex items-center justify-between">
           <div>
             <span className="text-[16px] text-[#959595]">You supply</span>
-            <div className="font-larken pt-2 text-[23px] text-[#030303] dark:text-white">
+            <div className="font-rogan pt-2 text-[23px] text-[#030303] dark:text-white">
               {renderAmount(coinFrom)}
             </div>
           </div>
@@ -149,7 +149,7 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
         <div className="flex items-center justify-between mt-8">
           <div>
             <span className="text-[16px] text-[#959595]">You receive</span>
-            <div className="font-larken pt-2 text-[23px] text-[#030303] dark:text-white">
+            <div className="font-rogan pt-2 text-[23px] text-[#030303] dark:text-white">
               {renderAmount(coinTo)}
             </div>
           </div>
@@ -197,7 +197,7 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
       <button
         onClick={onConfirm}
         disabled={loading}
-        className={`font-mona w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
+        className={`font-rogan-regular w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
         ${loading ? ' cursor-not-allowed text-[#eee]' : ' cursor-pointer'}
         `}
       >

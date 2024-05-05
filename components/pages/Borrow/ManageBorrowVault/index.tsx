@@ -166,7 +166,7 @@ export default function ManageBorrowVault({ isFetchBorrowData }: any) {
   if (!borrowDisplayed?.length) {
     return (
       <div className="space-y-[18px]">
-        <h3 className="font-larken text-[24px] text-[#404040] dark:text-white">
+        <h3 className="font-rogan text-[24px] text-[#404040] dark:text-white">
           Manage Borrow Vaults
         </h3>
 
@@ -177,7 +177,7 @@ export default function ManageBorrowVault({ isFetchBorrowData }: any) {
 
   return (
     <div className="space-y-[18px]">
-      <h3 className="font-larken text-[24px] text-[#404040] dark:text-white">
+      <h3 className="font-rogan text-[24px] text-[#404040] dark:text-white">
         Manage Borrow Vaults
       </h3>
 

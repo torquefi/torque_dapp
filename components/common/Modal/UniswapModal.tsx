@@ -306,7 +306,7 @@ export default function UniSwapModal({
         hideCloseIcon
       >
         <div className="flex items-center justify-between py-1">
-          <div className="font-larken text-[24px] font-[400] text-[#030303] dark:text-white">
+          <div className="font-rogan text-[24px] font-[400] text-[#030303] dark:text-white">
             {title || 'Swap'}
           </div>
           <AiOutlineClose
@@ -602,7 +602,7 @@ export default function UniSwapModal({
                   handleSwap()
                 }
               }}
-              className="font-mona mt-[12px] w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[12px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]"
+              className="font-rogan-regular mt-[12px] w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[12px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]"
             >
               {loading && <LoadingCircle />}
               {renderSubmitText()}

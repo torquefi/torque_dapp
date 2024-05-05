@@ -25,10 +25,10 @@ export const For = (props: any) => {
   const percentVoteFor = (votesFor + voteForAgainst) ? votesFor / (voteForAgainst + votesFor) * 100 : 0
 
   return (
-    <div className="font-larken rounded-xl border border-[#E6E6E6] bg-[#ffffff] from-[#0d0d0d] to-[#0d0d0d]/0 pb-4 px-[18px] py-[0px] md:px-[24px] text-[#030303] md:w-[49%] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white">
+    <div className="font-rogan rounded-xl border border-[#E6E6E6] bg-[#ffffff] from-[#0d0d0d] to-[#0d0d0d]/0 pb-4 px-[18px] py-[0px] md:px-[24px] text-[#030303] md:w-[49%] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white">
       <div className="flex items-center justify-between">
         <h2 className="text-[24px] font-[400] leading-[60px]">For</h2>
-        <p className="font-mona font-[500] font-medium leading-[24px] text-[#1EB26B]">
+        <p className="font-rogan-regular font-[500] font-medium leading-[24px] text-[#1EB26B]">
           {votesInfo?.forVotes
             ? toMetricUnits(
               Number(
@@ -55,10 +55,10 @@ export const For = (props: any) => {
       {/* <table className="w-full">
         <thead>
           <tr>
-            <th className="w-[50%] py-[12px] text-left font-[500] leading-[24px] text-[#959595] font-mona">
+            <th className="w-[50%] py-[12px] text-left font-[500] leading-[24px] text-[#959595] font-rogan-regular">
               No voters yet
             </th>
-            <th className="w-[50%] py-[12px] text-right font-[500] leading-[24px] text-[#959595] font-mona">
+            <th className="w-[50%] py-[12px] text-right font-[500] leading-[24px] text-[#959595] font-rogan-regular">
               Votes
             </th>
           </tr>
@@ -77,7 +77,7 @@ export const For = (props: any) => {
       </table> */}
       {/* <div className={`mt-[0px] hidden h-[1px] w-full md:block ` + `${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
         }`}></div>
-      <div className="mt-[12px] cursor-pointer text-center text-[14px] font-[500] uppercase text-[#959595] font-mona">
+      <div className="mt-[12px] cursor-pointer text-center text-[14px] font-[500] uppercase text-[#959595] font-rogan-regular">
         view all
       </div> */}
     </div>

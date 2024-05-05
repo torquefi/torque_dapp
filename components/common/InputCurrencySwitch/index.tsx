@@ -115,7 +115,7 @@ export default function InputCurrencySwitch({
         }}
       />
       {subtitle && (
-        <div className="font-mona pb-2 text-[16px] text-[#959595]">
+        <div className="font-rogan-regular pb-2 text-[16px] text-[#959595]">
           {subtitle}
         </div>
       )}

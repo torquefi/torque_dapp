@@ -73,7 +73,7 @@ export default function ConnectWalletModal({
             onClick={item.action}
           >
             <img className="w-[64px]" src={item.icon} alt="" />
-            <p className="font-larken  text-[20px]">{item.name}</p>
+            <p className="font-rogan  text-[20px]">{item.name}</p>
             <p className="text-[12px] text-[#959595] xs:text-[14px] sm:text-[16px]">
               {item.message}
             </p>

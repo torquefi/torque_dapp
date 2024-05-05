@@ -69,7 +69,7 @@ export const MenuMobile = () => {
                   href={item.path}
                   key={i}
                   className={
-                    'font-mona flex h-[32px] w-1/5 items-center justify-center transition-all' +
+                    'font-rogan-regular flex h-[32px] w-1/5 items-center justify-center transition-all' +
                     ` ${item.path === '/home' ? 'origin-bottom scale-[1.6]' : ''
                     }`
                   }
@@ -82,7 +82,7 @@ export const MenuMobile = () => {
                   key={i}
                   legacyBehavior
                   className={
-                    'font-mona flex h-[32px] w-1/5 items-center justify-center transition-all' +
+                    'font-rogan-regular flex h-[32px] w-1/5 items-center justify-center transition-all' +
                     ` ${activeTabIndex === i ? ' origin-bottom scale-[1.2]' : ''
                     }`
                   }

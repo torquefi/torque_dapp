@@ -125,7 +125,7 @@ export function ManageBoostVault({ isFetchBoostData, setIsFetchBoostLoading }: a
 
   // if (isSkeletonLoading) {
   //   return (
-  //     <div className="font-larken dark-text-white mt-[36px] text-[#464646]">
+  //     <div className="font-rogan dark-text-white mt-[36px] text-[#464646]">
   //       <div className="">
   //         <SkeletonDefault height={'5vh'} width={'20%'} />
   //       </div>
@@ -140,7 +140,7 @@ export function ManageBoostVault({ isFetchBoostData, setIsFetchBoostLoading }: a
 
   if (!boostDisplayed?.length) {
     return (
-      <div className="font-larken dark-text-white mt-[36px] text-[#404040]">
+      <div className="font-rogan dark-text-white mt-[36px] text-[#404040]">
         <div className="text-[24px] dark:text-white">Manage Boost Vehicles</div>
         <EmptyBoost />
       </div>
@@ -148,7 +148,7 @@ export function ManageBoostVault({ isFetchBoostData, setIsFetchBoostLoading }: a
   }
 
   return (
-    <div className="font-larken dark-text-white mt-[36px] text-[#464646]">
+    <div className="font-rogan dark-text-white mt-[36px] text-[#464646]">
       <div className="text-[24px] dark:text-white">Manage Boost Vehicles</div>
       {boostDisplayed.map((item) => (
         <div className="">

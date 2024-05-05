@@ -25,10 +25,10 @@ export const EmptyBorrow = () => {
           }
           alt=""
         />
-        <p className="font-larken text-[24px] text-[#404040] dark:text-white">
+        <p className="font-rogan text-[24px] text-[#404040] dark:text-white">
           No vaults created yet
         </p>
-        <p className="font-mona mt-[6px] mb-1 max-w-[320px] text-center font-body text-[15.4px] text-[#959595]">
+        <p className="font-rogan-regular mt-[6px] mb-1 max-w-[320px] text-center font-body text-[15.4px] text-[#959595]">
           Supply collateral to create a Borrow vault and access your personal line
           of credit.
         </p>

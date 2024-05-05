@@ -132,7 +132,7 @@ export const Header = () => {
             <img className="mb-1 h-[32px]" src="/assets/logo.png" alt="" />
             <h2
               // style={{ fontFamily: 'Larken-Bold' }}
-              className="font-larken ml-[10px] text-[24px] text-[#404040] dark:text-white"
+              className="font-rogan ml-[10px] text-[24px] text-[#404040] dark:text-white"
             >
               Torque
             </h2>
@@ -150,7 +150,7 @@ export const Header = () => {
             <Popover
               trigger="hover"
               placement="bottom-right"
-              className={`font-mona z-100 mt-[8px] h-auto w-[210px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+              className={`font-rogan-regular z-100 mt-[8px] h-auto w-[210px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
               content={
                 <HoverIndicatorGrid rows={2} cols={2}>
                   <div className="grid grid-cols-2 gap-4 p-3">
@@ -203,7 +203,7 @@ export const Header = () => {
                 className="mr-[12px] hidden cursor-pointer items-center xs:flex"
               >
                 <img className="h-[25px]" src="/assets/dots.svg" alt="" />
-                {/* <p className="font-larken ml-[6px] text-[16px] text-[#404040] dark:text-white">
+                {/* <p className="font-rogan ml-[6px] text-[16px] text-[#404040] dark:text-white">
                 $
                 <NumberFormat
                   displayType="text"
@@ -241,13 +241,13 @@ export const Header = () => {
                   </HoverIndicator>
                 }
               >
-                <div className="font-mona cursor-pointer rounded-full border border-[#AA5BFF] px-[18px] py-[6px] pt-[8px] text-[13px] uppercase leading-none text-[#AA5BFF] transition-all duration-200 ease-in xs:px-[16px] xs:py-[4px] lg:px-[22px] lg:pb-[6px] lg:pt-[8px]">
+                <div className="font-rogan-regular cursor-pointer rounded-full border border-[#AA5BFF] px-[18px] py-[6px] pt-[8px] text-[13px] uppercase leading-none text-[#AA5BFF] transition-all duration-200 ease-in xs:px-[16px] xs:py-[4px] lg:px-[22px] lg:pb-[6px] lg:pt-[8px]">
                   {shortenAddress(address)}
                 </div>
               </Popover>
             ) : (
               <div
-                className="font-mona cursor-pointer rounded-full border border-[#AA5BFF] px-[18px] py-[6px] pt-[8px] text-[13px] uppercase leading-none text-[#AA5BFF] transition-all duration-200 ease-in xs:px-[16px] xs:py-[4px] lg:px-[22px] lg:pb-[6px] lg:pt-[8px]"
+                className="font-rogan-regular cursor-pointer rounded-full border border-[#AA5BFF] px-[18px] py-[6px] pt-[8px] text-[13px] uppercase leading-none text-[#AA5BFF] transition-all duration-200 ease-in xs:px-[16px] xs:py-[4px] lg:px-[22px] lg:pb-[6px] lg:pt-[8px]"
                 onClick={() =>
                   !address ? setOpenConnectWalletModal(true) : open()
                 }
@@ -266,7 +266,7 @@ export const Header = () => {
                   href={item.path}
                   key={i}
                   className={
-                    'font-mona relative flex h-[35px]  items-center justify-center pr-[4px] transition-all duration-200 ease-in' +
+                    'font-rogan-regular relative flex h-[35px]  items-center justify-center pr-[4px] transition-all duration-200 ease-in' +
                     ` ${
                       activeTabIndex === i
                         ? 'text-[#404040] dark:text-white '

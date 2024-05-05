@@ -24,7 +24,7 @@ export default function NetApy() {
             />
           </div>
           <div className="space-y-2">
-            <p className="font-larken text-[28px] text-[#404040] dark:text-white">
+            <p className="font-rogan text-[28px] text-[#404040] dark:text-white">
               {isLoading ? (
                 <div className="">
                   <SkeletonDefault height={'4vh'} width={'10vw'} />
@@ -36,7 +36,7 @@ export default function NetApy() {
             <p className="text-[#959595]">Net APR</p>
           </div>
           <button
-            className="bg-gradient-primary font-mona w-[140px] rounded-full py-[6px] uppercase transition-all duration-200 ease-linear hover:w-[154px]"
+            className="bg-gradient-primary font-rogan-regular w-[140px] rounded-full py-[6px] uppercase transition-all duration-200 ease-linear hover:w-[154px]"
             onClick={() => toast.message('Coming soon')}
           >
             Manage
@@ -65,17 +65,17 @@ export default function NetApy() {
               tokenSymbol="TORQ"
               tokenValue={0}
               usdDefault
-              className="font-larken w-full space-y-2 text-center text-[28px] text-[#404040] dark:text-white"
+              className="font-rogan w-full space-y-2 text-center text-[28px] text-[#404040] dark:text-white"
               render={(value) => (
                 <div className="space-y-2">
                   <p>{value}</p>
-                  <p className="font-mona text-16 text-[#959595]">Rewards</p>
+                  <p className="font-rogan-regular text-16 text-[#959595]">Rewards</p>
                 </div>
               )}
             />
           )}
           <button
-            className="bg-gradient-primary font-mona w-[140px] rounded-full py-[6px] uppercase transition-all duration-200 ease-linear hover:w-[154px]"
+            className="bg-gradient-primary font-rogan-regular w-[140px] rounded-full py-[6px] uppercase transition-all duration-200 ease-linear hover:w-[154px]"
             onClick={() => toast.message('Coming soon')}
           >
             Claim

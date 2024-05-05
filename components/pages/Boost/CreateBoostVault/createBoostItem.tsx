@@ -262,14 +262,14 @@ export function CreateBoostItem({
               alt=""
               className="w-[72px] md:w-24"
             />
-            <div className="font-larken text-[18px] leading-tight text-[#030303] md:text-[22px] lg:text-[26px] dark:text-white">
+            <div className="font-rogan text-[18px] leading-tight text-[#030303] md:text-[22px] lg:text-[26px] dark:text-white">
               Supply {item.token},<br className="" /> Earn {item.token}
             </div>
           </div>
           <Popover
             trigger="hover"
             placement="bottom-right"
-            className={`font-mona mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
+            className={`font-rogan-regular mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
             content="The projected TORQ rewards after 1 year of $1,000 supplied."
           >
             <Link href="#" className="" target={'_blank'}>
@@ -280,14 +280,14 @@ export function CreateBoostItem({
                   className="w-[24px]"
                 />
 
-                <div className="font-mona mx-1 uppercase text-[#AA5BFF] xs:mx-2">
+                <div className="font-rogan-regular mx-1 uppercase text-[#AA5BFF] xs:mx-2">
                   +{Number(item.bonus).toLocaleString()} TORQ
                 </div>
               </div>
             </Link>
           </Popover>
         </div>
-        <div className="font-larken mb-1 mt-1 grid grid-cols-2 gap-4">
+        <div className="font-rogan mb-1 mt-1 grid grid-cols-2 gap-4">
           <div className="flex w-full items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  lg:h-[140px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
             <InputCurrencySwitch
               tokenSymbol={item?.token}
@@ -323,13 +323,13 @@ export function CreateBoostItem({
             />
           </div>
         </div>
-        <div className="font-mona flex w-full items-center justify-between py-4 text-[16px] text-[#959595]">
+        <div className="font-rogan-regular flex w-full items-center justify-between py-4 text-[16px] text-[#959595]">
           <div className="flex items-center justify-center">
             <div>Yield providers</div>
             <Popover
               trigger="hover"
               placement="top-left"
-              className={`font-mona z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+              className={`font-rogan-regular z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
               content="Capture diversified yield within a single, seamless transaction."
             >
               <button className="ml-[5px] mt-[7px]">
@@ -354,13 +354,13 @@ export function CreateBoostItem({
             </Link>
           </div>
         </div>
-        <div className="font-mona flex w-full items-center justify-between text-[16px] text-[#959595]">
+        <div className="font-rogan-regular flex w-full items-center justify-between text-[16px] text-[#959595]">
           <div className="flex items-center justify-center">
             <div>Variable APY</div>
             <Popover
               trigger="hover"
               placement="top-left"
-              className={`font-mona mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+              className={`font-rogan-regular mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
               content="On-chain estimate based on prevailing market conditions."
             >
               <button className="ml-[5px] mt-[7px]">
@@ -381,13 +381,13 @@ export function CreateBoostItem({
             fixedDecimalScale={true}
           />
         </div>
-        <div className="font-mona flex w-full items-center justify-between py-[14px] text-[16px] text-[#959595]">
+        <div className="font-rogan-regular flex w-full items-center justify-between py-[14px] text-[16px] text-[#959595]">
           <div className="flex items-center justify-center">
             <div>Value routed</div>
             <Popover
               trigger="hover"
               placement="top-left"
-              className={`font-mona mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+              className={`font-rogan-regular mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
               content="The total dollar value of all assets routed through Torque Boost."
             >
               <button className="ml-[5px] mt-[7px]">
@@ -409,13 +409,13 @@ export function CreateBoostItem({
             displayType="text"
           />
         </div>
-        <div className="font-mona flex w-full items-center justify-between text-[16px] text-[#959595]">
+        <div className="font-rogan-regular flex w-full items-center justify-between text-[16px] text-[#959595]">
           <div className="flex items-center justify-center">
             <div>{`Your ${earnToken}`}</div>
             <Popover
               trigger="hover"
               placement="top-left"
-              className={`font-mona mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+              className={`font-rogan-regular mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
               content="The current tToken balance of your connected account."
             >
               <button className="ml-[5px] mt-[7px]">
@@ -432,7 +432,7 @@ export function CreateBoostItem({
           </div>
         </div>
         <button
-          className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
+          className={`font-rogan-regular mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
           ${btnLoading ? 'cursor-not-allowed text-[#eee]' : 'cursor-pointer '}
         `}
           onClick={handleConfirmDeposit}

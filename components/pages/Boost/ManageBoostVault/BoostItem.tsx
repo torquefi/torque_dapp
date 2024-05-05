@@ -261,7 +261,7 @@ export function BoostItem({ item, onWithdrawSuccess, setIsFetchBoostLoading }: B
           render={(value) => (
             <div className="flex min-w-[130px] flex-col items-center justify-center gap-2">
               <p className="text-[22px]">{value}</p>
-              <div className="font-mona text-[14px] text-[#959595]">
+              <div className="font-rogan-regular text-[14px] text-[#959595]">
                 Deposited
               </div>
             </div>
@@ -277,7 +277,7 @@ export function BoostItem({ item, onWithdrawSuccess, setIsFetchBoostLoading }: B
           render={(value) => (
             <div className="flex min-w-[130px] flex-col items-center justify-center gap-2">
               <p className="text-[22px]">{value}</p>
-              <div className="font-mona text-[14px] text-[#959595]">
+              <div className="font-rogan-regular text-[14px] text-[#959595]">
                 Earnings
               </div>
             </div>
@@ -293,7 +293,7 @@ export function BoostItem({ item, onWithdrawSuccess, setIsFetchBoostLoading }: B
             />
           </div>
 
-          <div className="font-mona text-[14px] text-[#959595]">
+          <div className="font-rogan-regular text-[14px] text-[#959595]">
             Variable APY
           </div>
         </div>
@@ -316,7 +316,7 @@ export function BoostItem({ item, onWithdrawSuccess, setIsFetchBoostLoading }: B
     <>
       <div className="dark-text-[#000] mt-[24px] grid w-full rounded-[12px] border border-[#E6E6E6] bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-[24px] py-[20px] text-[#464646] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white">
         <div className="grid w-full grid-cols-2">
-          <div className="font-larken flex w-[calc(100%-64px)] items-center space-x-2 text-[22px] md:w-[calc(100%-400px-64px)] lg:w-[calc(100%-500px-64px)] xl:w-[calc(100%-600px-64px)]">
+          <div className="font-rogan flex w-[calc(100%-64px)] items-center space-x-2 text-[22px] md:w-[calc(100%-400px-64px)] lg:w-[calc(100%-500px-64px)] xl:w-[calc(100%-600px-64px)]">
             {!isEdit && (
               <div
                 className="flex min-w-max cursor-pointer items-center text-[22px]"
@@ -404,7 +404,7 @@ export function BoostItem({ item, onWithdrawSuccess, setIsFetchBoostLoading }: B
             <div className="text-[28px]">Withdraw {item?.tokenSymbol}</div>
             <div className="mt-2 flex w-full items-center justify-between rounded-[12px] border bg-[#FCFAFF] px-2 py-4 dark:border-[#1A1A1A] dark:bg-[#161616]">
               <NumericFormat
-                className="w-full px-2 bg-transparent font-mona bg-none focus:outline-none"
+                className="w-full px-2 bg-transparent font-rogan-regular bg-none focus:outline-none"
                 placeholder="Select amount"
                 value={amount || null}
                 onChange={(e) => setAmount(e.target.value)}
@@ -415,7 +415,7 @@ export function BoostItem({ item, onWithdrawSuccess, setIsFetchBoostLoading }: B
                 {[25, 50, 100].map((percent: any, i) => (
                   <button
                     key={i}
-                    className="font-mona rounded bg-[#F4F4F4] px-2 py-1 text-sm text-[#959595] dark:bg-[#1A1A1A]"
+                    className="font-rogan-regular rounded bg-[#F4F4F4] px-2 py-1 text-sm text-[#959595] dark:bg-[#1A1A1A]"
                     onClick={() => {
                       setAmount(
                         `${(percent * Number(deposited || 0)) / 100}`
@@ -429,7 +429,7 @@ export function BoostItem({ item, onWithdrawSuccess, setIsFetchBoostLoading }: B
             </div>
             <button
               className={
-                `font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]` +
+                `font-rogan-regular mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]` +
                 ` ${isSubmitLoading || isExecuteLoading
                   ? 'cursor-not-allowed opacity-70'
                   : ''
@@ -443,7 +443,7 @@ export function BoostItem({ item, onWithdrawSuccess, setIsFetchBoostLoading }: B
             </button>
             <button
               className={
-                `font-mona mt-2 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-transparent to-transparent py-1 text-[14px] uppercase text-[#AA5BFF] transition-all hover:border hover:from-[#AA5BFF] hover:to-[#912BFF] hover:text-white` +
+                `font-rogan-regular mt-2 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-transparent to-transparent py-1 text-[14px] uppercase text-[#AA5BFF] transition-all hover:border hover:from-[#AA5BFF] hover:to-[#912BFF] hover:text-white` +
                 ` ${isUnFirstCreated || isSubmitLoading || isExecuteLoading
                   ? 'cursor-not-allowed opacity-70'
                   : ''
