@@ -112,7 +112,7 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
 
   return (
     <Modal
-      className="mx-auto w-[90%] max-w-[360px] bg-[#FCFAFF] px-[22px] dark:bg-[#030303]"
+      className="mx-auto w-[90%] max-w-[360px] bg-[#FFFFFF] px-[22px] dark:bg-[#030303]"
       open={open}
       handleClose={handleClose}
       hideCloseIcon

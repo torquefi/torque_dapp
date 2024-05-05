@@ -158,7 +158,7 @@ export default function SwapModal({
     return (
         <>
             <Modal
-                className="mx-auto w-[90%] max-w-[360px] bg-[#FCFAFF] px-[18px] dark:bg-[#030303]"
+                className="mx-auto w-[90%] max-w-[360px] bg-[#FFFFFF] px-[18px] dark:bg-[#030303]"
                 open={open}
                 handleClose={handleClose}
                 hideCloseIcon
