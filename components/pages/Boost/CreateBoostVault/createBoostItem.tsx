@@ -252,7 +252,7 @@ export function CreateBoostItem({
       <div
         className={
           `rounded-[12px] border border-[#E6E6E6] bg-[#ffffff]  from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pb-5 pt-3  text-[#030303] lg:px-8 dark:border-[#1A1A1A] dark:bg-transparent  dark:bg-gradient-to-br dark:text-white` +
-          `  ${theme === 'light' ? ' bg-[#FCFAFF]' : 'bg-overview'}`
+          `  ${theme === 'light' ? ' bg-[#FFFFFF]' : 'bg-overview'}`
         }
       >
         <div className="flex w-full items-center justify-between">
