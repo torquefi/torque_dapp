@@ -36,7 +36,7 @@ export const Proposals = () => {
         ))}
         <Link href="https://www.tally.xyz/gov/torque/proposals" legacyBehavior>
           <a target='_blank'>
-            <div className="mt-[18px] cursor-pointer text-center text-[14px] font-[500] uppercase text-[#959595]">
+            <div className="mt-[12px] cursor-pointer text-center text-[14px] font-[500] uppercase text-[#959595]">
               view all
             </div>
           </a>
