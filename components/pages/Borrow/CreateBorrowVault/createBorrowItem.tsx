@@ -354,7 +354,7 @@ export default function CreateBorrowItem({
               src={dataBorrow.depositTokenIcon}
               alt=""
             />
-            <div className="font-rogan text-[18px] leading-tight text-[#030303] dark:text-white md:text-[22px] lg:text-[26px]">
+            <div className="ml-[-4px] mt-[-4px] font-rogan text-[20px] leading-tight text-[#030303] dark:text-white md:text-[22px] lg:text-[26px]">
               Supply {dataBorrow.depositTokenSymbol},<br /> Borrow{' '}
               {dataBorrow.borrowTokenSymbol}
             </div>
