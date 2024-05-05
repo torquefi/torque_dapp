@@ -35,7 +35,7 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
 
   if (theme)
     return (
-      <div className="font-mona min-h-screen bg-[#FCFAFF] text-white dark:bg-[#030303]">
+      <div className="font-rogan-regular min-h-screen bg-[#FCFAFF] text-white dark:bg-[#030303]">
         <Headroom>
           <Header />
         </Headroom>

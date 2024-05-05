@@ -177,7 +177,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
       />
 
       <div className="flex items-center justify-between">
-        <h3 className="font-larken text-[24px] text-[#404040] dark:text-white">
+        <h3 className="font-rogan text-[24px] text-[#404040] dark:text-white">
           Create Borrow Vault
         </h3>
         <div className="flex items-center justify-center space-x-2">
@@ -282,7 +282,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
-                      className={`font-mona flex w-[220px] items-center border border-[#e5e7eb] bg-[#fff] py-1 text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+                      className={`font-rogan-regular flex w-[220px] items-center border border-[#e5e7eb] bg-[#fff] py-1 text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
                       content="Supply collateral assets to receive a TUSD loan."
                     >
                       <button className="ml-[5px]">
@@ -303,7 +303,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
-                      className={`font-mona flex w-[220px] items-center border border-[#e5e7eb] bg-[#fff] py-1 text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+                      className={`font-rogan-regular flex w-[220px] items-center border border-[#e5e7eb] bg-[#fff] py-1 text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
                       content="Borrow Torque USD (TUSD) by supplying collateral assets."
                     >
                       <button className="ml-[5px]">
@@ -324,7 +324,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
-                      className={`font-mona flex w-[220px] items-center border border-[#e5e7eb] bg-[#fff] py-1 text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+                      className={`font-rogan-regular flex w-[220px] items-center border border-[#e5e7eb] bg-[#fff] py-1 text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
                       content="Max value of the loan you can take out against your collateral."
                     >
                       <button className="mt-[ ml-[5px]">
@@ -345,7 +345,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
-                      className={`font-mona flex w-[220px] items-center border border-[#e5e7eb] bg-[#fff] py-1 text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+                      className={`font-rogan-regular flex w-[220px] items-center border border-[#e5e7eb] bg-[#fff] py-1 text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
                       content="An interest rate determined by supply and demand of the asset."
                     >
                       <button className="ml-[5px]">
@@ -366,7 +366,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
-                      className={`font-mona flex w-[220px] items-center border border-[#e5e7eb] bg-[#fff] py-1 text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+                      className={`font-rogan-regular flex w-[220px] items-center border border-[#e5e7eb] bg-[#fff] py-1 text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
                       content="Available amount of borrowing power in the market at this time."
                     >
                       <button className="ml-[5px]">
@@ -387,7 +387,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
-                      className={`font-mona flex w-[220px] items-center border border-[#e5e7eb] bg-[#fff] py-1 text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+                      className={`font-rogan-regular flex w-[220px] items-center border border-[#e5e7eb] bg-[#fff] py-1 text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
                       content="The projected TORQ rewards after 1 year of $1,000 supplied."
                     >
                       <button className="ml-[5px]">
@@ -408,7 +408,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topRight"
-                      className={`font-mona flex w-[220px] items-center border border-[#e5e7eb] bg-[#fff] py-1 text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+                      className={`font-rogan-regular flex w-[220px] items-center border border-[#e5e7eb] bg-[#fff] py-1 text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
                       content="The total value of currently supplied tokenized assets."
                     >
                       <button className="ml-[5px]">
@@ -484,38 +484,38 @@ const BORROW_INFOS: IBorrowInfo[] = [
     name: 'Ether',
     bonus: 365000,
   },
-  {
-    depositTokenIcon: '/icons/coin/wbtc.png',
-    borrowTokenIcon: '/icons/coin/usdc.png',
-    depositTokenSymbol: 'WBTC',
-    depositTokenDecimal: 8,
-    borrowTokenSymbol: 'USDC',
-    borrowTokenDecimal: 6,
-    liquidity: 0,
-    loanToValue: 70,
-    getTORQ: 28,
-    borrowRate: 0,
-    borrowContractInfo: borrowBtcContract,
-    tokenContractInfo: tokenBtcContract,
-    tokenBorrowContractInfo: tokenUsdcContract,
-    name: 'Bitcoin',
-    bonus: 365000,
-  },
-  {
-    depositTokenIcon: '/icons/coin/aeth.png',
-    borrowTokenIcon: '/icons/coin/usdc.png',
-    depositTokenSymbol: 'WETH',
-    depositTokenDecimal: 18,
-    borrowTokenSymbol: 'USDC',
-    borrowTokenDecimal: 6,
-    liquidity: 0,
-    loanToValue: 78,
-    getTORQ: 32,
-    borrowRate: 0,
-    borrowContractInfo: borrowEthContract,
-    tokenContractInfo: tokenEthContract,
-    tokenBorrowContractInfo: tokenUsdcContract,
-    name: 'Ether',
-    bonus: 365000,
-  },
+  // {
+  //   depositTokenIcon: '/icons/coin/wbtc.png',
+  //   borrowTokenIcon: '/icons/coin/usdc.png',
+  //   depositTokenSymbol: 'WBTC',
+  //   depositTokenDecimal: 8,
+  //   borrowTokenSymbol: 'USDC',
+  //   borrowTokenDecimal: 6,
+  //   liquidity: 0,
+  //   loanToValue: 70,
+  //   getTORQ: 28,
+  //   borrowRate: 0,
+  //   borrowContractInfo: borrowBtcContract,
+  //   tokenContractInfo: tokenBtcContract,
+  //   tokenBorrowContractInfo: tokenUsdcContract,
+  //   name: 'Bitcoin',
+  //   bonus: 365000,
+  // },
+  // {
+  //   depositTokenIcon: '/icons/coin/aeth.png',
+  //   borrowTokenIcon: '/icons/coin/usdc.png',
+  //   depositTokenSymbol: 'WETH',
+  //   depositTokenDecimal: 18,
+  //   borrowTokenSymbol: 'USDC',
+  //   borrowTokenDecimal: 6,
+  //   liquidity: 0,
+  //   loanToValue: 78,
+  //   getTORQ: 32,
+  //   borrowRate: 0,
+  //   borrowContractInfo: borrowEthContract,
+  //   tokenContractInfo: tokenEthContract,
+  //   tokenBorrowContractInfo: tokenUsdcContract,
+  //   name: 'Ether',
+  //   bonus: 365000,
+  // },
 ]

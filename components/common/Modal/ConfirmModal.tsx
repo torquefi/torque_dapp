@@ -17,7 +17,7 @@ export default function ConfirmModal({
 }: ConfirmModalProps) {
   return (
     <Modal
-      className="max-w-[460px] font-mona"
+      className="max-w-[460px] font-rogan-regular"
       open={open}
       handleClose={handleClose}
       title={title}
@@ -28,7 +28,7 @@ export default function ConfirmModal({
           Close
         </button>
         <button
-          className="rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] px-[12px] py-1 font-mona text-[14px] uppercase transition-all duration-300 ease-linear hover:bg-gradient-to-t"
+          className="rounded-full bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] px-[12px] py-1 font-rogan-regular text-[14px] uppercase transition-all duration-300 ease-linear hover:bg-gradient-to-t"
           onClick={onConfirm}
         >
           Confirm

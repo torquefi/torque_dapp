@@ -32,13 +32,13 @@ export const Description = () => {
     <>
       <div className="h-full rounded-[12px] border border-[#E6E6E6] bg-[#ffffff] from-[#0d0d0d] to-[#0d0d0d]/0 px-[24px] pt-[18px] pb-[12px] text-[#030303] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white md:px-[24px]">
         <div className="flex items-center justify-between">
-          <h1 className="font-larken text-[24px] font-[400] text-[#030303] dark:text-white">
+          <h1 className="font-rogan text-[24px] font-[400] text-[#030303] dark:text-white">
             Description
           </h1>
           <Popover
             trigger="hover"
             placement="bottom-right"
-            className={`font-mona mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+            className={`font-rogan-regular mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
             content="Community-driven proposals guide the future of Torque."
           >
             <button>

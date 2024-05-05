@@ -10,11 +10,11 @@ export const ListPools = () => {
     <div className="mt-[20px]">
       <div className="w-full rounded-[12px] border border-[1px] border-solid border-[#E6E6E6] dark:border-[#1a1a1a] bg-[#ffffff] dark:bg-transparent dark:bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 text-[#404040] dark:text-white text-center px-[24px] pt-[12px] pb-[6px]">
         <div className="flex items-center justify-between mt-1">
-          <h2 className="font-larken text-[24px]">Pools</h2>
+          <h2 className="font-rogan text-[24px]">Pools</h2>
           <Popover
             trigger="hover"
             placement="bottom-right"
-            className={`font-mona text-[#030303] dark:text-white mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
+            className={`font-rogan-regular text-[#030303] dark:text-white mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
             content="Earn Torque (TORQ) by providing liquidity across Torque pools."
           >
           <button>
@@ -35,7 +35,7 @@ export const ListPools = () => {
             alt=""
             className="mx-auto w-full max-w-[84px]"
           />
-          <h3 className="font-larken mt-[12px] text-center text-[24px] font-[400] leading-[34px]">
+          <h3 className="font-rogan mt-[12px] text-center text-[24px] font-[400] leading-[34px]">
             No pools yet
           </h3>
           <p className="mx-auto mt-[6px] w-full text-center text-[16px] font-[500] text-[#959595] max-w-[300px]">
@@ -45,10 +45,10 @@ export const ListPools = () => {
         <table className="w-full">
           <thead>
             <tr>
-              <th className="font-mona w-[25%] pt-2 whitespace-nowrap text-left text-[12px] md:text-[16px] text-[#959595]">
+              <th className="font-rogan-regular w-[25%] pt-2 whitespace-nowrap text-left text-[12px] md:text-[16px] text-[#959595]">
                 Name
               </th>
-              <th className="font-mona w-[25%] pt-2 whitespace-nowrap text-left text-[12px] md:text-[16px] text-[#959595]">
+              <th className="font-rogan-regular w-[25%] pt-2 whitespace-nowrap text-left text-[12px] md:text-[16px] text-[#959595]">
                 Ticker
               </th>
               <th className="w-[25%] whitespace-nowrap pt-2 text-left text-[12px] md:text-[16px] text-[#959595]">
@@ -86,16 +86,16 @@ export const ListPools = () => {
                         className="absolute right-0 top-0 h-[16px] translate-x-[0%] translate-y-[95%]"
                       />
                     </div>
-                    <p className="pt-2 ml-[-6px] text-[12px] md:text-[18px] font-larken">{item.name}</p>
+                    <p className="pt-2 ml-[-6px] text-[12px] md:text-[18px] font-rogan">{item.name}</p>
                   </div>
                 </td>
-                <td className="font-larken text-left pt-2 text-[12px] md:text-[18px]">
+                <td className="font-rogan text-left pt-2 text-[12px] md:text-[18px]">
                   {item.ticker}
                 </td>
-                <td className="font-larken text-left pt-2 text-[12px] md:text-[18px]">
+                <td className="font-rogan text-left pt-2 text-[12px] md:text-[18px]">
                   {item.dailySupply}
                 </td>
-                <td className="font-larken text-left pt-2 text-[12px] md:text-[18px]">
+                <td className="font-rogan text-left pt-2 text-[12px] md:text-[18px]">
                   {item.dailyBorrow}
                 </td>
                 <div className={`absolute left-0 mt-[4px] hidden h-[1px] w-full md:block` +`

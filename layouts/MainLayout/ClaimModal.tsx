@@ -202,7 +202,7 @@ export default function ClaimModal({
       hideCloseIcon
     >
       <div className="flex items-center justify-between">
-        <div className="font-larken text-[24px] font-[400] text-[#030303] dark:text-white">
+        <div className="font-rogan text-[24px] font-[400] text-[#030303] dark:text-white">
           Rewards
         </div>
         <AiOutlineClose
@@ -221,7 +221,7 @@ export default function ClaimModal({
       <div className="grid h-auto w-full grid-cols-2 gap-[12px] overflow-y-auto py-[18px]">
         {infos.map((item, i) => (
           <div key={i} className="flex h-[98px] pt-[6px] flex-col items-center justify-center rounded-[12px] border border-[1px] border-[#1A1A1A] border-[#E6E6E6] bg-[#FCFCFC] from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
-            <div className="font-larken text-[24px] text-[#404040] dark:text-white">
+            <div className="font-rogan text-[24px] text-[#404040] dark:text-white">
               {item.title}
             </div>
             <div className="mt-1 text-[15px] text-[#959595]">
@@ -231,7 +231,7 @@ export default function ClaimModal({
         ))}
       </div>
       <button
-        className={`font-mona w-full text-[14px] rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
+        className={`font-rogan-regular w-full text-[14px] rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
          ${loading || !Number(rewards) ? ' cursor-not-allowed text-[#eee]' : ' cursor-pointer'} `}
         onClick={handleClaim}
         disabled={loading || !Number(rewards)}
@@ -240,7 +240,7 @@ export default function ClaimModal({
         CLAIM TORQ
       </button>
       {/* <button
-          className="font-mona hover:shadow-lg mt-2 w-full rounded-full border border-[#AA5BFF] bg-transparent py-1 text-center text-[14px] uppercase text-[#AA5BFF] transition-all"
+          className="font-rogan-regular hover:shadow-lg mt-2 w-full rounded-full border border-[#AA5BFF] bg-transparent py-1 text-center text-[14px] uppercase text-[#AA5BFF] transition-all"
           onClick={() => window.open('https://bit.ly/torque-uniswap', '_blank', 'noopener,noreferrer')}
           >
             acquire torq

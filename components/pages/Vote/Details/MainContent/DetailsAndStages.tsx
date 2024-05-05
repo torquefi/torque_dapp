@@ -10,7 +10,7 @@ export const DetailsAndStages = () => {
     <div className="mt-[24px] w-full md:mt-0 md:w-[43%]">
       <div className="rounded-[12px] border border-[#E6E6E6] bg-[#ffffff]  from-[#0d0d0d] to-[#0d0d0d]/0 text-[#030303] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white px-[10px] pt-[9px] pb-[14px] md:px-[24px]">
         <div className="flex items-center justify-between">
-          <h2 className="text-[24px] text-[#030303] dark:text-white font-larken font-[400] mt-2">Details</h2>
+          <h2 className="text-[24px] text-[#030303] dark:text-white font-rogan font-[400] mt-2">Details</h2>
           <button>
             <img src="/assets/pages/vote/ic-info.svg" alt="" />
           </button>
@@ -50,12 +50,12 @@ export const DetailsAndStages = () => {
         }></div>
         <div className="mt-[12px] flex justify-between">
           <p className="font-[500] text-[#959595]">Proposer</p>
-          <p className="font-mona text-[#959595]">0x123..4567</p>
+          <p className="font-rogan-regular text-[#959595]">0x123..4567</p>
         </div>
       </div>
       <div className="mt-[24px] rounded-[12px] border border-[#E6E6E6] bg-[#ffffff]  from-[#0d0d0d] to-[#0d0d0d]/0 text-[#030303] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white pt-[9px] pb-[16px] px-[24px]">
         <div className="flex items-center justify-between">
-          <h2 className="text-[24px] text-[#030303] dark:text-white font-larken font-[400] mt-2">Stages</h2>
+          <h2 className="text-[24px] text-[#030303] dark:text-white font-rogan font-[400] mt-2">Stages</h2>
           <button>
             <img src="/assets/pages/vote/ic-info.svg" alt="" />
           </button>
@@ -71,7 +71,7 @@ export const DetailsAndStages = () => {
               <FaCheck />
             </div>
             <div className="flex flex-col">
-            <h3 className="text-left font-larken text-[#030303] dark:text-white text-[18px] font-[400]">Pending</h3>
+            <h3 className="text-left font-rogan text-[#030303] dark:text-white text-[18px] font-[400]">Pending</h3>
             <p className="text-left text-[#959595] text-[14px]">Date</p>
             </div>
             </div>
@@ -88,7 +88,7 @@ export const DetailsAndStages = () => {
               <FaCheck />
             </div>
             <div className="flex flex-col">
-            <h3 className="text-left font-larken text-[#030303] dark:text-white text-[18px] font-[400]">Active</h3>
+            <h3 className="text-left font-rogan text-[#030303] dark:text-white text-[18px] font-[400]">Active</h3>
             <p className="text-left text-[#959595] text-[14px]">Date</p>
             </div>
             </div>
@@ -105,7 +105,7 @@ export const DetailsAndStages = () => {
               <FaCheck />
             </div>
             <div className="flex flex-col">
-            <h3 className="text-left font-larken text-[#030303] dark:text-white text-[18px] font-[400]">Executed</h3>
+            <h3 className="text-left font-rogan text-[#030303] dark:text-white text-[18px] font-[400]">Executed</h3>
             <p className="text-left text-[#959595] text-[14px]">Date</p>
             </div>
             </div>

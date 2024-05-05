@@ -318,12 +318,12 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       <CurrencySwitch
         tokenSymbol={item.depositTokenSymbol}
         tokenValue={collateral ? Number(collateral) : 0}
-        className="w-1/4 py-4 -my-4 space-y-1 font-larken"
+        className="w-1/4 py-4 -my-4 space-y-1 font-rogan"
         decimalScale={5}
         render={(value) => (
           <div>
             <p className="mb-[12px] whitespace-nowrap text-[22px]">{value}</p>
-            <p className="font-mona text-[14px] text-[#959595]">Collateral</p>
+            <p className="font-rogan-regular text-[14px] text-[#959595]">Collateral</p>
           </div>
         )}
         usdDefault
@@ -332,17 +332,17 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         tokenSymbol="TUSD"
         tokenValue={borrowed ? Number(borrowed) : 0}
         usdDefault
-        className="w-1/4 py-4 -my-4 space-y-1 font-larken"
+        className="w-1/4 py-4 -my-4 space-y-1 font-rogan"
         decimalScale={5}
         render={(value) => (
           <div>
             <p className="mb-[12px] text-[22px] leading-none">{value}</p>
-            <p className="font-mona text-[14px] text-[#959595]">Borrowed</p>
+            <p className="font-rogan-regular text-[14px] text-[#959595]">Borrowed</p>
           </div>
         )}
       />
       <div className="w-1/4 space-y-1">
-        <p className="font-larken whitespace-nowrap text-[22px]">
+        <p className="font-rogan whitespace-nowrap text-[22px]">
           {!Number(collateralUsd)
             ? 0
             : +((Number(borrowed || 0) / Number(collateralUsd)) * 100).toFixed(
@@ -355,7 +355,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         </p>
       </div>
       <div className="w-1/4 space-y-1">
-        <p className="font-larken whitespace-nowrap text-[22px]">
+        <p className="font-rogan whitespace-nowrap text-[22px]">
           {borrowAPR ? -borrowAPR.toFixed(2) : 0}%
         </p>
         <p className="whitespace-nowrap text-[14px] text-[#959595]">
@@ -376,7 +376,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       <>
         <div className="rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 text-[#404040] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white">
           <div className="flex items-center px-[24px] py-[16px]">
-            <div className="xlg:w-[calc(100%-600px-64px)] font-larken flex w-[calc(100%-64px)] items-center space-x-2 text-[22px] md:w-[calc(100%-400px-64px)] lg:w-[calc(100%-500px-64px)]">
+            <div className="xlg:w-[calc(100%-600px-64px)] font-rogan flex w-[calc(100%-64px)] items-center space-x-2 text-[22px] md:w-[calc(100%-400px-64px)] lg:w-[calc(100%-500px-64px)]">
               {!isEdit && (
                 <div
                   className="flex min-w-max cursor-pointer items-center text-[22px]"
@@ -463,7 +463,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
             </div>
             <div className="w-full space-y-6 md:w-[60%] md:pl-[36px] lg:w-[50%] xl:w-[45%]">
               <div className="flex items-center justify-between">
-                <p className="font-larken text-[24px]">
+                <p className="font-rogan text-[24px]">
                   {action}{' '}
                   {action == Action.Repay || action === Action.Borrow
                     ? 'TUSD'
@@ -538,7 +538,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                 </div>
               </div>
               <button
-                className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
+                className={`font-rogan-regular mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
                   }`}
                 disabled={buttonLoading}
                 onClick={handleAction}

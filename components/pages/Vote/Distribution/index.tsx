@@ -40,7 +40,7 @@ export const Distribution = () => {
   return (
     <div className="md:px-[15%]">
       <div className="w-full mx-auto text-center">
-        <h1 className="font-larken text-[#030303] dark:text-white text-[38px] font-[400] leading-[60px] md:text-[52px]">
+        <h1 className="font-rogan text-[#030303] dark:text-white text-[38px] font-[400] leading-[60px] md:text-[52px]">
           Distribution
         </h1>
         <p className="mx-auto w-full max-w-[360px] font-[500] leading-[24px] text-[#959595]">
