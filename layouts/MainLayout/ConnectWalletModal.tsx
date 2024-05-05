@@ -56,7 +56,7 @@ export default function ConnectWalletModal({
 
   return (
     <Modal
-      className="w-full max-w-[500px] bg-[#FCFAFF] p-[12px] dark:bg-[#030303]"
+      className="w-full max-w-[500px] bg-[#FFFFFF] p-[12px] dark:bg-[#030303]"
       open={openModal}
       handleClose={handleClose}
       hideCloseIcon

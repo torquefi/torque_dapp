@@ -114,7 +114,7 @@ export const Header = () => {
 
   return (
     <div>
-      <header className="fixed inset-x-0 top-0 z-[100] bg-[#FCFAFF] dark:bg-[#030303] ">
+      <header className="fixed inset-x-0 top-0 z-[100] bg-[#FFFFFF] dark:bg-[#030303] ">
         <div
           className={
             'flex cursor-pointer items-center justify-center bg-[#FF6969] text-center text-[9px] uppercase transition-all' +

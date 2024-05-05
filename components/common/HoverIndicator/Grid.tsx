@@ -67,7 +67,7 @@ export default function HoverIndicatorGrid({
     >
       <div
         className={
-          'pointer-events-none absolute w-0 rounded-[6px] bg-[#f6f4f8] opacity-0 transition-all duration-300 dark:bg-[#141414]' +
+          'pointer-events-none absolute w-0 rounded-[6px] bg-[#f9f9f9] opacity-0 transition-all duration-200 dark:bg-[#141414]' +
           ` ${indicatorClassName}`
         }
         ref={indicator}

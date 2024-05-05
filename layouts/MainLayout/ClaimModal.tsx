@@ -196,7 +196,7 @@ export default function ClaimModal({
 
   return (
     <Modal
-      className="w-full max-w-[420px] bg-[#FCFAFF] p-[10px] dark:bg-[#030303]"
+      className="w-full max-w-[420px] bg-[#FFFFFF] p-[10px] dark:bg-[#030303]"
       open={openModal}
       handleClose={handleClose}
       hideCloseIcon
