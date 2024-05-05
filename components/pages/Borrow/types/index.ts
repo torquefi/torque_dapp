@@ -3,6 +3,7 @@ import { Contract } from 'web3-eth-contract'
 
 export interface IBorrowInfo {
   depositTokenIcon: string
+  borrowTokenIcon: string
   depositTokenSymbol: string
   depositTokenDecimal: number
   borrowTokenSymbol: string

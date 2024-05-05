@@ -28,6 +28,16 @@ export const engineTusdContract: IContractInfo = {
   abi: JSON.stringify(engineTusd),
 }
 
+export const tokenBtcContract: IContractInfo = {
+  address: '0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f',
+  abi: JSON.stringify(tokenBtc),
+}
+
+export const tokenEthContract: IContractInfo = {
+  address: '0x82aF49447D8a07e3bd95BD0d56f35241523fBab1',
+  abi: JSON.stringify(tokenEth),
+}
+
 // ======================================================================
 
 export const borrowBtcContract: IContractInfo = {
@@ -40,12 +50,8 @@ export const borrowEthContract: IContractInfo = {
   abi: JSON.stringify(borrowEth),
 }
 
-export const tokenBtcContract: IContractInfo = {
-  address: '0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f',
-  abi: JSON.stringify(tokenBtc),
-}
+// ======================================================================
 
-export const tokenEthContract: IContractInfo = {
-  address: '0x82aF49447D8a07e3bd95BD0d56f35241523fBab1',
-  abi: JSON.stringify(tokenEth),
-}
+
+
+
