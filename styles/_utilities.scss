@@ -311,7 +311,7 @@
 }
 
 .swiper-button-prev {
-  @apply -left-2 h-8 w-8 rounded-full bg-[#FCFAFF] bg-center bg-no-repeat shadow;
+  @apply -left-2 h-8 w-8 rounded-full bg-[#FFFFFF] bg-center bg-no-repeat shadow;
   background-size: 84%;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg%3E%3Cpath fill='none' d='M0 0h24v24H0z'/%3E%3Cpath fill='%23444' d='M10.828 12l4.95 4.95-1.414 1.414L8 12l6.364-6.364 1.414 1.414z'/%3E%3C/g%3E%3C/svg%3E%0A");
   &::after {
@@ -322,7 +322,7 @@
   }
 }
 .swiper-button-next {
-  @apply -right-2 h-8 w-8 rounded-full bg-[#FCFAFF] bg-center bg-no-repeat shadow;
+  @apply -right-2 h-8 w-8 rounded-full bg-[#FFFFFF] bg-center bg-no-repeat shadow;
   background-size: 84%;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg%3E%3Cpath fill='none' d='M0 0h24v24H0z'/%3E%3Cpath fill='%23444' d='M13.172 12l-4.95-4.95 1.414-1.414L16 12l-6.364 6.364-1.414-1.414z'/%3E%3C/g%3E%3C/svg%3E%0A");
   &::after {
