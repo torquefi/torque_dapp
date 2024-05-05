@@ -25,6 +25,7 @@ export default function CreateBorrowItem({
   item,
   setIsFetchBorrowLoading,
 }: CreateBorrowItemProps) {
+  console.log('item :>> ', item)
   const web3 = new Web3(Web3.givenProvider)
   const { open } = useWeb3Modal()
 
@@ -181,8 +182,8 @@ export default function CreateBorrowItem({
         const allowance = await tokenContract.methods
           .allowance(address, item.borrowContractInfo.address)
           .call()
-        const gasPrice = await provider.getGasPrice();
-        console.log('gasPrice :>> ', gasPrice);
+        const gasPrice = await provider.getGasPrice()
+        console.log('gasPrice :>> ', gasPrice)
         const tokenContract1 = new ethers.Contract(
           item?.tokenContractInfo?.address,
           item?.tokenContractInfo?.abi,
@@ -346,7 +347,7 @@ export default function CreateBorrowItem({
         className="rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pb-5 pt-3 text-[#030303] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white xl:px-[32px]"
         key={dataBorrow.depositTokenSymbol}
       >
-        <div className="flex items-center justify-between w-full">
+        <div className="flex w-full items-center justify-between">
           <div className="ml-[-12px] flex items-center">
             <img
               className="w-[72px] md:w-24"
@@ -378,7 +379,7 @@ export default function CreateBorrowItem({
             </Link>
           </Popover>
         </div>
-        <div className="grid grid-cols-2 gap-4 mt-1 mb-1 font-larken">
+        <div className="font-larken mb-1 mt-1 grid grid-cols-2 gap-4">
           <div className="flex w-full items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
             <InputCurrencySwitch
               tokenSymbol={item?.depositTokenSymbol}
@@ -392,10 +393,10 @@ export default function CreateBorrowItem({
                 setAmountRaw(rawValue)
                 setAmountReceive(
                   tokenValue *
-                  usdPrice?.[
-                  `${dataBorrow.depositTokenSymbol.toLowerCase()}`
-                  ] *
-                  (dataBorrow.loanToValue / 140)
+                    usdPrice?.[
+                      `${dataBorrow.depositTokenSymbol.toLowerCase()}`
+                    ] *
+                    (dataBorrow.loanToValue / 140)
                 )
               }}
               onSetShowUsd={setIsUsdDepositToken}
@@ -403,7 +404,7 @@ export default function CreateBorrowItem({
           </div>
           <div className="font-larken flex h-[110px] flex-col items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
             <InputCurrencySwitch
-              tokenSymbol="TUSD"
+              tokenSymbol={item.borrowTokenSymbol}
               // tokenValue={Number(amountReceive)}
               tokenValueChange={Number(amountReceive)}
               // tokenValueChange={Number(
@@ -420,7 +421,7 @@ export default function CreateBorrowItem({
                 setAmountReceiveRaw(rawValue)
               }}
               onSetShowUsd={setIsUsdBorrowToken}
-            // displayType="text"
+              // displayType="text"
             />
           </div>
         </div>
@@ -454,17 +455,17 @@ export default function CreateBorrowItem({
                 className="w-[24px]"
               />
             </Link>
-            <Link
+            {/* <Link
               href={'https://tusd.torque.fi/'}
               className=""
               target={'_blank'}
-            >
-              <img
-                src={'/icons/coin/torq-yi.svg'}
-                alt="Torque USD"
-                className="w-[24px]"
-              />
-            </Link>
+            > */}
+            <img
+              src={item.borrowTokenIcon}
+              alt={item.borrowTokenSymbol}
+              className="w-[24px]"
+            />
+            {/* </Link> */}
           </div>
         </div>
         <div className="flex justify-between text-[#959595]">
@@ -537,16 +538,17 @@ export default function CreateBorrowItem({
           </p>
         </div>
         <button
-          className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
-            }`}
+          className={`font-mona mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${
+            buttonLoading && 'cursor-not-allowed opacity-50'
+          }`}
           disabled={buttonLoading != ''}
           onClick={() => {
             if (
               amountReceive /
-              (amount *
-                usdPrice?.[
-                `${dataBorrow.depositTokenSymbol.toLowerCase()}`
-                ]) >
+                (amount *
+                  usdPrice?.[
+                    `${dataBorrow.depositTokenSymbol.toLowerCase()}`
+                  ]) >
               item?.loanToValue
             ) {
               toast.error(`Loan-to-value exceeds ${item?.loanToValue}%`)
@@ -573,7 +575,10 @@ export default function CreateBorrowItem({
         }}
         coinTo={{
           amount: amountReceiveRaw,
-          icon: `/icons/coin/${item.borrowTokenSymbol.toLocaleLowerCase()}.png`,
+          icon:
+            item.borrowTokenSymbol === 'TUSD'
+              ? `/icons/coin/${item.borrowTokenSymbol.toLocaleLowerCase()}.png`
+              : `/icons/coin/${item.borrowTokenSymbol.toLocaleLowerCase()}.svg`,
           symbol: item.borrowTokenSymbol,
           isUsd: isUsdBorrowToken,
         }}
