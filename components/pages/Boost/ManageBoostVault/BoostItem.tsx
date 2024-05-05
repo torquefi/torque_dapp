@@ -402,7 +402,7 @@ export function BoostItem({ item, onWithdrawSuccess, setIsFetchBoostLoading }: B
           </div>
           <div className="mt-10">
             <div className="text-[28px]">Withdraw {item?.tokenSymbol}</div>
-            <div className="mt-2 flex w-full items-center justify-between rounded-[12px] border bg-[#FCFAFF] px-2 py-4 dark:border-[#1A1A1A] dark:bg-[#161616]">
+            <div className="mt-2 flex w-full items-center justify-between rounded-[12px] border bg-[#FFFFFF] px-2 py-4 dark:border-[#1A1A1A] dark:bg-[#161616]">
               <NumericFormat
                 className="w-full px-2 bg-transparent font-rogan-regular bg-none focus:outline-none"
                 placeholder="Select amount"

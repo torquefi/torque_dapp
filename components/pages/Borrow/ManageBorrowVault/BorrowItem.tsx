@@ -492,7 +492,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                   )}
                 </div>
               </div>
-              <div className="flex justify-between rounded-xl border bg-[#FCFAFF] from-[#161616] via-[#161616]/40 to-[#0e0e0e] p-[12px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
+              <div className="flex justify-between rounded-xl border bg-[#FFFFFF] from-[#161616] via-[#161616]/40 to-[#0e0e0e] p-[12px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
                 <NumericFormat
                   className="w-[200px] bg-transparent"
                   placeholder="Select amount"

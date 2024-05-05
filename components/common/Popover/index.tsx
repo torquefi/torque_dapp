@@ -111,7 +111,7 @@ const Popover = ({
       >
         <div
           className={
-            'rounded-[8px] border border-[#EAEAEA] bg-[#FCFAFF] p-[6px] text-[#030303] dark:border-[#1D1D1D] dark:bg-[#030303] dark:text-white' +
+            'rounded-[8px] border border-[#EAEAEA] bg-[#FFFFFF] p-[6px] text-[#030303] dark:border-[#1D1D1D] dark:bg-[#030303] dark:text-white' +
             ` ${className}`
           }
         >
