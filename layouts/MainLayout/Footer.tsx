@@ -37,7 +37,7 @@ export default function Footer() {
       `
         }
       />
-      <footer className="flex w-full max-w-[1244px] justify-between px-4 pb-4  pt-6 text-[#959595] xs:text-[12px] sm:text-[13px] md:pb-[12px] md:pt-4 lg:px-8">
+      <footer className="flex w-full max-w-[1244px] justify-between px-4 pb-4 pt-6 text-[#959595] xs:text-[14px] sm:text-[14px] md:pb-[12px] md:pt-4 lg:px-8">
         <Link
           href="https://torque.fi"
           className="cursor-pointer transition-colors duration-100 ease-linear hover:text-gray-500 dark:hover:text-white"
@@ -45,7 +45,7 @@ export default function Footer() {
         >
           © 2024 Torque Inc.
         </Link>
-        <div className="hidden space-x-0 text-[12px] md:flex md:space-x-8">
+        <div className="hidden space-x-0 text-[14px] md:flex md:space-x-8">
           {socials.map((item, i) => (
             <Link
               href={item.link}

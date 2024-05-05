@@ -129,10 +129,10 @@ export const Header = () => {
         </div> */}
         <div className="container relative mx-auto flex h-[66px] max-w-[1244px] items-center justify-between px-4 lg:px-8">
           <Link href="/" className="flex items-center">
-            <img className="mb-1 h-[32px]" src="/assets/logo.png" alt="" />
+            <img className="h-[28px]" src="/assets/logo.png" alt="" />
             <h2
               // style={{ fontFamily: 'Larken-Bold' }}
-              className="font-rogan ml-[10px] text-[24px] text-[#404040] dark:text-white"
+              className="font-rogan ml-[8px] text-[25px] text-[#404040] dark:text-white"
             >
               Torque
             </h2>
@@ -247,7 +247,7 @@ export const Header = () => {
               </Popover>
             ) : (
               <div
-                className="font-rogan-regular cursor-pointer rounded-full border border-[#AA5BFF] px-[18px] py-[6px] pt-[8px] text-[13px] uppercase leading-none text-[#AA5BFF] transition-all duration-200 ease-in xs:px-[16px] xs:py-[4px] lg:px-[22px] lg:pb-[6px] lg:pt-[8px]"
+                className="font-rogan-regular cursor-pointer rounded-full border border-[#AA5BFF] px-[18px] py-[6px] pt-[8px] text-[13px] uppercase leading-none text-[#AA5BFF] transition-all duration-200 ease-in xs:px-[16px] xs:py-[4px] lg:px-[22px] lg:pb-[6px] lg:pt-[6px]"
                 onClick={() =>
                   !address ? setOpenConnectWalletModal(true) : open()
                 }

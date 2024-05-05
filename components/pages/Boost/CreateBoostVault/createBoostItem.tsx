@@ -262,7 +262,7 @@ export function CreateBoostItem({
               alt=""
               className="w-[72px] md:w-24"
             />
-            <div className="font-rogan text-[18px] leading-tight text-[#030303] md:text-[22px] lg:text-[26px] dark:text-white">
+            <div className="ml-[-4px] mt-[-4px] font-rogan text-[20px] leading-tight text-[#030303] md:text-[22px] lg:text-[26px] dark:text-white">
               Supply {item.token},<br className="" /> Earn {item.token}
             </div>
           </div>

@@ -49,14 +49,14 @@ export default function Product() {
                 />
                 <div className="space-y-[18px] p-[24px] xs:pl-[28px] xs:pt-[32px]">
                   <div className="flex items-center justify-start">
-                    <div className="flex h-[65px] w-[65px] items-center justify-center rounded-full border from-[#232323] to-[#232323]/0 dark:border-[#1A1A1A] dark:bg-gradient-to-b">
-                      <img className="w-[30px]" src={item.icon} alt="" />
+                    <div className="flex w-auto h-auto py-4 px-4 items-center justify-center rounded-full border from-[#232323] to-[#232323]/0 dark:border-[#1A1A1A] dark:bg-gradient-to-b">
+                      <img className="w-[26px]" src={item.icon} alt="" />
                     </div>
-                    <p className="font-rogan ml-[18px] text-[26px]">
+                    <p className="font-rogan ml-[10px] text-[28px]">
                       {item.name}
                     </p>
                   </div>
-                  <p className="max-w-[360px] text-[#959595]">
+                  <p className="max-w-[360px] text-[#959595] text-[18px]">
                     {item.description}
                   </p>
                 </div>

@@ -24,7 +24,7 @@ export default function NetApy() {
             />
           </div>
           <div className="space-y-2">
-            <p className="font-rogan text-[28px] text-[#404040] dark:text-white">
+            <p className="font-rogan text-[32px] text-[#404040] dark:text-white">
               {isLoading ? (
                 <div className="">
                   <SkeletonDefault height={'4vh'} width={'10vw'} />
@@ -65,7 +65,7 @@ export default function NetApy() {
               tokenSymbol="TORQ"
               tokenValue={0}
               usdDefault
-              className="font-rogan w-full space-y-2 text-center text-[28px] text-[#404040] dark:text-white"
+              className="font-rogan w-full space-y-2 text-center text-[32px] text-[#404040] dark:text-white"
               render={(value) => (
                 <div className="space-y-2">
                   <p>{value}</p>

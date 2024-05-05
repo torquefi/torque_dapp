@@ -189,7 +189,7 @@ export default function ClaimModal({
       content: 'Current price',
     },
     {
-      title: `$${toMetricUnits((currentPair?.fdv || 0) / 9.35)}`,
+      title: `$${toMetricUnits((currentPair?.fdv || 0) / 0.98)}`,
       content: 'Market cap',
     },
   ]
@@ -240,7 +240,7 @@ export default function ClaimModal({
         CLAIM TORQ
       </button>
       {/* <button
-          className="font-rogan-regular hover:shadow-lg mt-2 w-full rounded-full border border-[#AA5BFF] bg-transparent py-1 text-center text-[14px] uppercase text-[#AA5BFF] transition-all"
+          className="font-rogan-regular hover:shadow-lg mt-2 w-full rounded-full border border-[#AA5BFF] bg-transparent py-1 text-center text-[16px] uppercase text-[#AA5BFF] transition-all"
           onClick={() => window.open('https://bit.ly/torque-uniswap', '_blank', 'noopener,noreferrer')}
           >
             acquire torq

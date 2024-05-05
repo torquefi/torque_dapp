@@ -239,7 +239,7 @@ const BridgeAssets: React.FC = () => {
       {/* bridge */}
       <div className="m-auto w-full max-w-[360px] rounded-[12px] border border-[#E6E6E6] bg-[#ffffff] from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pb-4 pt-3 text-[#030303] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white">
         <div className="flex items-center justify-between">
-          <p className="font-rogan mb-3 mt-2 text-[24px] text-[#030303] dark:text-white">
+          <p className="font-rogan mb-3 mt-2 text-[28px] text-[#030303] dark:text-white">
             Bridge
           </p>
           <div className="flex items-center justify-between">
