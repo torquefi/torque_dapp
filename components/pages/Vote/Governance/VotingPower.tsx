@@ -115,7 +115,7 @@ export const VotingPower = () => {
             Delegate votes
           </button>
           <Link
-            href="https://bit.ly/torq-uniswap"
+            href="https://app.uniswap.org/swap?inputCurrency=ETH&outputCurrency=0xb56c29413af8778977093b9b4947efeea7136c36&chain=arbitrum"
             target="_blank"
             className="font-rogan-regular mt-2 w-full rounded-full border border-[#AA5BFF] bg-transparent py-1 text-center text-[14px] uppercase text-[#AA5BFF] transition-all"
           >
