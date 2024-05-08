@@ -43,7 +43,7 @@ const RcTooltip = ({
         <div
           className={
             'rounded-[8px] text-[#030303] dark:text-white border border-[#EAEAEA] dark:border-[#1D1D1D] bg-[#FFFFFF] dark:bg-[#030303] p-[6px]' +
-            `${className}`
+            ` ${className}`
           }
         >
           {content}
