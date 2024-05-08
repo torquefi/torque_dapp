@@ -294,7 +294,7 @@ export function CreateRowBoostItem({
                 </td>
                 <td className="py-[6px] w-[16%]">
                     <span className="text-[16px] font-[500] tracking-[0em] text-[#030303] dark:text-white">
-                        50:50
+                        100:0
                     </span>
                 </td>
                 <td className="py-[6px] w-[16%]">

@@ -269,7 +269,7 @@ export function CreateBoostItem({
           <Popover
             trigger="hover"
             placement="bottom-right"
-            className={`font-rogan-regular mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
+            className={`font-rogan-regular mt-[8px] w-[210px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
             content="The projected TORQ rewards after 1 year of $1,000 supplied."
           >
             <Link href="#" className="" target={'_blank'}>
@@ -409,7 +409,7 @@ export function CreateBoostItem({
             displayType="text"
           />
         </div>
-        <div className="font-rogan-regular flex w-full items-center justify-between text-[16px] text-[#959595]">
+        {/* <div className="font-rogan-regular flex w-full items-center justify-between text-[16px] text-[#959595]">
           <div className="flex items-center justify-center">
             <div>{`Your ${earnToken}`}</div>
             <Popover
@@ -429,6 +429,28 @@ export function CreateBoostItem({
           </div>
           <div>
             {isConnected ? parseFloat(deposited || '0').toFixed(3) : '0.00'}
+          </div>
+        </div> */}
+        <div className="font-rogan-regular flex w-full items-center justify-between text-[16px] text-[#959595]">
+          <div className="flex items-center justify-center">
+            <div>Allocation</div>
+            <Popover
+              trigger="hover"
+              placement="top-left"
+              className={`font-rogan-regular mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+              content="The current tToken balance of your connected account."
+            >
+              <button className="ml-[5px] mt-[7px]">
+                <img
+                  src="/assets/pages/vote/ic-info.svg"
+                  alt="info icon"
+                  className="w-[13px]"
+                />
+              </button>
+            </Popover>
+          </div>
+          <div>
+            100:0
           </div>
         </div>
         <button
