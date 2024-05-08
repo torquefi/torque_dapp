@@ -40,7 +40,8 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
         APR: (aprs?.find(
           (apr) => apr?.name === (item?.token === 'WBTC' ? 'BTC' : 'ETH')
         )?.apr || 0)
-      }))
+      })
+    )
       console.log('dataBoost :>> ', dataBoost)
       // dataBoost = await Promise.all(dataBoost?.map(getBoostData))
       setBoostVault(dataBoost)
