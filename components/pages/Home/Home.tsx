@@ -173,11 +173,11 @@ const HomePageFilter = () => {
       // WBTC
       const wbtcDecimal = await tokenWBTCContract.methods.decimals().call()
       const myDataWbtcBorrow = await borrowWBTCContract.methods
-        .getUserDetails(address)
+        .borrowInfoMap(address)
         .call()
 
       // my supplied wbtc
-      const myWbtcSupply = myDataWbtcBorrow?.['0']
+      const myWbtcSupply = myDataWbtcBorrow.supplied
       const myWbtcSuppliedUsd = new BigNumber(
         ethers.utils.formatUnits(myWbtcSupply, wbtcDecimal)
       )
@@ -188,7 +188,7 @@ const HomePageFilter = () => {
       console.log('myWbtcSuppliedUsd :>> ', myWbtcSuppliedUsd)
 
       // my borrow wbtc
-      const myWbtcBorrowed = myDataWbtcBorrow?.['2']
+      const myWbtcBorrowed = myDataWbtcBorrow.baseBorrowed
       const myWbtcBorrowedUsd = new BigNumber(
         ethers.utils.formatUnits(myWbtcBorrowed, tusdDecimal).toString()
       )
@@ -214,11 +214,11 @@ const HomePageFilter = () => {
       // WETH
       const wethDecimal = await tokenWETHContract.methods.decimals().call()
       const myDataWethBorrow = await borrowWETHContract.methods
-        .getUserDetails(address)
+        .borrowInfoMap(address)
         .call()
 
       // my supplied weth
-      const myWethSupply = myDataWethBorrow?.['0']
+      const myWethSupply = myDataWethBorrow.supplied
       const myWethSuppliedUsd = new BigNumber(
         ethers.utils.formatUnits(myWethSupply, wethDecimal)
       )
@@ -230,7 +230,7 @@ const HomePageFilter = () => {
       console.log('myWethSuppliedUsd :>> ', myWethSuppliedUsd)
 
       // my borrow weth
-      const myWethBorrowed = myDataWethBorrow?.['2']
+      const myWethBorrowed = myDataWethBorrow.baseBorrowed
       const myWethBorrowedUsd = new BigNumber(
         ethers.utils.formatUnits(myWethBorrowed, tusdDecimal).toString()
       )
