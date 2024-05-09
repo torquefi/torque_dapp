@@ -66,14 +66,18 @@
         "internalType": "uint256",
         "name": "borrowAmountUSDC",
         "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "tUSDBorrowAmount",
-        "type": "uint256"
       }
     ],
     "name": "callBorrow",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "borrowUSDC", "type": "uint256" }
+    ],
+    "name": "callBorrowMore",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -89,20 +93,7 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_amountToMint", "type": "uint256" }
-    ],
-    "name": "callMintTUSD",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "tusdRepayAmount",
-        "type": "uint256"
-      },
+      { "internalType": "uint256", "name": "borrowUSDC", "type": "uint256" },
       { "internalType": "uint256", "name": "WbtcWithdraw", "type": "uint256" }
     ],
     "name": "callRepay",
@@ -148,7 +139,6 @@
     "name": "getUserDetails",
     "outputs": [
       { "internalType": "uint256", "name": "", "type": "uint256" },
-      { "internalType": "uint256", "name": "", "type": "uint256" },
       { "internalType": "uint256", "name": "", "type": "uint256" }
     ],
     "stateMutability": "view",
@@ -157,47 +147,10 @@
   {
     "inputs": [
       { "internalType": "address", "name": "_address", "type": "address" },
-      {
-        "internalType": "uint256",
-        "name": "tusdRepayAmount",
-        "type": "uint256"
-      }
-    ],
-    "name": "getWbtcWithdraw",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "address", "name": "_address", "type": "address" },
-      {
-        "internalType": "uint256",
-        "name": "tusdRepayAmount",
-        "type": "uint256"
-      },
+      { "internalType": "uint256", "name": "usdcRepay", "type": "uint256" },
       { "internalType": "uint256", "name": "_repaySlippage", "type": "uint256" }
     ],
     "name": "getWbtcWithdrawWithSlippage",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "address", "name": "_address", "type": "address" }
-    ],
-    "name": "maxMoreMintable",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "address", "name": "_address", "type": "address" },
-      { "internalType": "uint256", "name": "supplyAmount", "type": "uint256" }
-    ],
-    "name": "mintableTUSD",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
