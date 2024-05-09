@@ -8,12 +8,16 @@ import Web3 from 'web3'
 import {
   borrowBtcContract,
   borrowEthContract,
+  borrowOldBtcContract,
+  borrowOldEthContract,
   simpleBorrowBtcContract,
   simpleBorrowEthContract,
   tokenBtcContract,
   tokenEthContract,
   tokenTusdContract,
   tokenUsdcContract,
+  userBorrowAddressBtcContract,
+  userBorrowAddressEthContract,
 } from '../constants/contract'
 import { compoundUsdcContract as compoundUsdcContractData } from '../constants/contract'
 import { IBorrowInfo } from '../types'
@@ -72,9 +76,6 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
           JSON.parse(item.borrowContractInfo?.abi),
           item.borrowContractInfo?.address
         )
-        let addressBaseAsset = await item.borrowContract.methods
-          .baseAsset()
-          .call()
       }
     } catch (error) {
       console.log(
@@ -466,6 +467,8 @@ const BORROW_INFOS: IBorrowInfo[] = [
     borrowContractInfo: borrowBtcContract,
     tokenContractInfo: tokenBtcContract,
     tokenBorrowContractInfo: tokenTusdContract,
+    userAddressContractInfo: userBorrowAddressBtcContract,
+    oldBorrowContractInfo: borrowOldBtcContract,
     name: 'Bitcoin',
     bonus: 365000,
     multiLoan: true,
@@ -484,13 +487,14 @@ const BORROW_INFOS: IBorrowInfo[] = [
     borrowContractInfo: borrowEthContract,
     tokenContractInfo: tokenEthContract,
     tokenBorrowContractInfo: tokenTusdContract,
+    userAddressContractInfo: userBorrowAddressEthContract,
+    oldBorrowContractInfo: borrowOldEthContract,
     name: 'Ether',
     bonus: 365000,
     multiLoan: true,
   },
   {
     depositTokenIcon: '/icons/coin/wbtc.png',
-    // borrowTokenIcon: '/icons/coin/usdc-11.svg',
     depositTokenSymbol: 'WBTC',
     depositTokenDecimal: 8,
     borrowTokenSymbol: 'USDC',
@@ -502,12 +506,12 @@ const BORROW_INFOS: IBorrowInfo[] = [
     borrowContractInfo: simpleBorrowBtcContract,
     tokenContractInfo: tokenBtcContract,
     tokenBorrowContractInfo: tokenUsdcContract,
+    userAddressContractInfo: userBorrowAddressBtcContract,
     name: 'Bitcoin',
     bonus: 365000,
   },
   {
     depositTokenIcon: '/icons/coin/aeth.png',
-    // borrowTokenIcon: '/icons/coin/usdc-11.svg',
     depositTokenSymbol: 'WETH',
     depositTokenDecimal: 18,
     borrowTokenSymbol: 'USDC',
@@ -519,6 +523,7 @@ const BORROW_INFOS: IBorrowInfo[] = [
     borrowContractInfo: simpleBorrowEthContract,
     tokenContractInfo: tokenEthContract,
     tokenBorrowContractInfo: tokenUsdcContract,
+    userAddressContractInfo: userBorrowAddressEthContract,
     name: 'Ether',
     bonus: 365000,
   },
