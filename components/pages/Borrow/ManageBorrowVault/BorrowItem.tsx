@@ -88,37 +88,34 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
     if (!borrowContract || !address || !tokenContract) {
       return
     }
+
     try {
-      const userDetails = await borrowContract.methods
-        .getUserDetails(address)
+
+      const borrowInfoMap = await borrowContract.methods
+        .borrowInfoMap(address)
         .call()
       const depositTokenDecimal = await depositContract.methods
         .decimals()
         .call()
       const collateral = new BigNumber(
-        ethers.utils.formatUnits(userDetails?.['0'], depositTokenDecimal)
-      ).toString()
+        ethers.utils.formatUnits(borrowInfoMap.supplied, depositTokenDecimal)
+      )
+        .toString()
       setCollateral(collateral)
 
       const tokenDecimal = await tokenContract.methods.decimals().call()
-      const maxMoreMinTable = await borrowContract.methods
-        .maxMoreMintable(address)
-        .call()
-      setMaxMoreMinTable(
-        new BigNumber(
-          ethers.utils.formatUnits(maxMoreMinTable, tokenDecimal)
-        ).toString()
-      )
+      const maxMoreMinTable = await borrowContract.methods.maxMoreMintable(address).call();
+      setMaxMoreMinTable(new BigNumber(ethers.utils.formatUnits(maxMoreMinTable, tokenDecimal)).toString())
 
       const borrowed = new BigNumber(tusdPrice || 0)
         .multipliedBy(
-          ethers.utils.formatUnits(userDetails?.['2'], tokenDecimal)
+          ethers.utils.formatUnits(borrowInfoMap.baseBorrowed, tokenDecimal)
         )
         .toString()
       setBorrowed(borrowed)
 
       const deposit = ethers.utils
-        .formatUnits(userDetails?.['0'], depositTokenDecimal)
+        .formatUnits(borrowInfoMap.supplied, depositTokenDecimal)
         .toString()
       setDepositedToken(deposit)
     } catch (error) {
@@ -133,6 +130,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
   const onRepay = async () => {
     setButtonLoading(true)
     try {
+      
       const balanceOfToken = await tokenContract.methods
         .balanceOf(address)
         .call()
@@ -147,34 +145,26 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       const amountRepay = ethers.utils
         .parseUnits(Number(inputValue).toFixed(tokenDecimal), tokenDecimal)
         .toString()
+      console.log('amountRepay :>> ', amountRepay)
 
       let withdraw = 0
       if (item.depositTokenSymbol === 'WBTC') {
         withdraw = await borrowContract.methods
-          .getWbtcWithdraw(address, amountRepay)
+          .getWbtcWithdraw(amountRepay, address)
           .call()
       } else {
         withdraw = await borrowContract.methods
-          .getWethWithdraw(address, amountRepay)
+          .getWETHWithdraw(amountRepay, address)
           .call()
       }
 
-      const userAddressContract = await borrowContract.methods
-        .userContract(address)
-        .call()
-      // const allowance = await tokenContract.methods
-      // .allowance(address, item.borrowContractInfo.address)
-      // .call()
       const allowance = await tokenContract.methods
-        .allowance(address, userAddressContract)
+        .allowance(address, item.borrowContractInfo.address)
         .call()
       console.log('allowance :>> ', allowance)
-      if (
-        new BigNumber(allowance).lte(new BigNumber('0')) ||
-        new BigNumber(allowance).lte(withdraw)
-      ) {
+      if (new BigNumber(allowance).lte(new BigNumber('0')) || new BigNumber(allowance).lte(withdraw)) {
         await tokenContract.methods
-          .approve(userAddressContract, MAX_UINT256)
+          .approve(item?.borrowContractInfo?.address, MAX_UINT256)
           .send({
             from: address,
           })
@@ -190,7 +180,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
 
       console.log('params :>> ', amountRepay, withdraw)
       // const tx = await borrowContract2.repay(amountRepay, withdraw)
-      const tx = await borrowContract2.callRepay(amountRepay, withdraw)
+      const tx = await borrowContract2.repay(amountRepay, 0)
       await tx.wait()
       toast.success('Repay Successful')
       handleGetBorrowData()
@@ -206,6 +196,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
   const onWithdraw = async () => {
     setButtonLoading(true)
     try {
+      console.log('inputValue :>> ', inputValue)
       const depositTokenDecimal = await depositContract.methods
         .decimals()
         .call()
@@ -217,24 +208,12 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         item?.borrowContractInfo?.abi,
         signer
       )
-      console.log('inputValue :>> ', inputValue)
-      console.log('depositTokenDecimal :>> ', depositTokenDecimal)
       console.log(
         'params :>> ',
-        ethers.utils
-          .parseUnits(
-            Number(inputValue).toFixed(depositTokenDecimal).toString(),
-            depositTokenDecimal
-          )
-          .toString()
+        ethers.utils.parseUnits(inputValue, depositTokenDecimal).toString()
       )
-      const tx = await borrowContract2.callWithdraw(
-        ethers.utils
-          .parseUnits(
-            Number(inputValue).toFixed(depositTokenDecimal).toString(),
-            depositTokenDecimal
-          )
-          .toString()
+      const tx = await borrowContract2.withdraw(
+        ethers.utils.parseUnits(inputValue, depositTokenDecimal).toString()
       )
       await tx.wait()
       toast.success('Withdraw Successful')
@@ -261,7 +240,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         signer
       )
       console.log('tusdBorrowAmount :>> ', tusdBorrowAmount)
-      const tx = await borrowContract2.callMintTUSD(tusdBorrowAmount)
+      const tx = await borrowContract2.mintTUSD(tusdBorrowAmount)
       await tx.wait()
       toast.success('Borrow Successful')
       handleGetBorrowData()
@@ -276,6 +255,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
 
   const handleAction = async () => {
     if (!isConnected || !address) {
+      // await open()
       setOpenConnectWalletModal(true)
       return
     }
@@ -338,14 +318,12 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       <CurrencySwitch
         tokenSymbol={item.depositTokenSymbol}
         tokenValue={collateral ? Number(collateral) : 0}
-        className="font-rogan -my-4 w-1/4 space-y-1 py-4"
+        className="w-1/4 py-4 -my-4 space-y-1 font-rogan"
         decimalScale={5}
         render={(value) => (
           <div>
             <p className="mb-[12px] whitespace-nowrap text-[22px]">{value}</p>
-            <p className="font-rogan-regular text-[14px] text-[#959595]">
-              Collateral
-            </p>
+            <p className="font-rogan-regular text-[14px] text-[#959595]">Collateral</p>
           </div>
         )}
         usdDefault
@@ -354,14 +332,12 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         tokenSymbol="TUSD"
         tokenValue={borrowed ? Number(borrowed) : 0}
         usdDefault
-        className="font-rogan -my-4 w-1/4 space-y-1 py-4"
+        className="w-1/4 py-4 -my-4 space-y-1 font-rogan"
         decimalScale={5}
         render={(value) => (
           <div>
             <p className="mb-[12px] text-[22px] leading-none">{value}</p>
-            <p className="font-rogan-regular text-[14px] text-[#959595]">
-              Borrowed
-            </p>
+            <p className="font-rogan-regular text-[14px] text-[#959595]">Borrowed</p>
           </div>
         )}
       />
@@ -370,8 +346,8 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
           {!Number(collateralUsd)
             ? 0
             : +((Number(borrowed || 0) / Number(collateralUsd)) * 100).toFixed(
-                2
-              ) || 0}
+              2
+            ) || 0}
           %
         </p>
         <p className="whitespace-nowrap text-[14px] text-[#959595]">
@@ -411,7 +387,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                     src={`/icons/coin/${item.depositTokenSymbol.toLowerCase()}.png`}
                     alt=""
                   />
-                  <div className="min-w-[81px]">{label}</div>
+                  <div className='min-w-[81px]'>{label}</div>
                   <button className="ml-[8px]">
                     <AiOutlineEdit />
                   </button>
@@ -465,10 +441,9 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
           <div
             className={
               'flex flex-wrap overflow-hidden px-[16px] transition-all duration-300 sm:px-[24px]' +
-              ` ${
-                isExpand
-                  ? 'max-h-[1000px] py-[16px] ease-in'
-                  : 'max-h-0 py-0 ease-out'
+              ` ${isExpand
+                ? 'max-h-[1000px] py-[16px] ease-in'
+                : 'max-h-0 py-0 ease-out'
               }`
             }
           >
@@ -501,10 +476,9 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                         key={i}
                         className={
                           'w-[52px]  py-[8px] text-[10px] leading-none xs:w-[80px] xs:text-[12px]' +
-                          ` ${
-                            action === item
-                              ? 'rounded-md bg-[#F4F4F4] dark:bg-[#171717]'
-                              : 'text-[#959595]'
+                          ` ${action === item
+                            ? 'rounded-md bg-[#F4F4F4] dark:bg-[#171717]'
+                            : 'text-[#959595]'
                           }`
                         }
                         onClick={() => {
@@ -531,7 +505,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                 <div className="flex select-none justify-between space-x-1 text-[12px] text-[#959595] sm:text-[14px]">
                   {[25, 50, 100].map((percent, i) => (
                     <div
-                      className="cursor-pointer rounded-md bg-[#F4F4F4]  px-[6px] py-[2px] transition active:scale-95 dark:bg-[#171717] xs:px-[8px] xs:py-[4px]"
+                      className="cursor-pointer rounded-md bg-[#F4F4F4]  px-[6px] py-[2px] transition active:scale-95 xs:px-[8px] xs:py-[4px] dark:bg-[#171717]"
                       onClick={() => {
                         if (action == Action.Withdraw) {
                           setInputValue(
@@ -564,9 +538,8 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                 </div>
               </div>
               <button
-                className={`font-rogan-regular mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${
-                  buttonLoading && 'cursor-not-allowed opacity-50'
-                }`}
+                className={`font-rogan-regular mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
+                  }`}
                 disabled={buttonLoading}
                 onClick={handleAction}
               >
