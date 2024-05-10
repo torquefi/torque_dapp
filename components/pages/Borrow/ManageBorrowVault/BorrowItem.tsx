@@ -354,6 +354,8 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
   const collateralUsd = (
     Number(collateral || 0) * (usdPrice[item?.depositTokenSymbol] || 0)
   )?.toFixed(5)
+  console.log('collateralUsd :>> ', collateralUsd);
+  console.log('borrowed :>> ', borrowed);
 
   const summaryInfo = (
     <div className="flex w-full text-center md:w-[500px] lg:w-[600px] xl:w-[700px]">
