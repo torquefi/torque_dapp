@@ -122,13 +122,11 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         setBorrowed(borrowed)
       }
       if (item.borrowTokenSymbol === 'USDC') {
-        console.log('1111 :>> ', 1111)
         const borrowed = new BigNumber(tusdPrice || 0)
           .multipliedBy(
             ethers.utils.formatUnits(userDetails?.['1'], tokenDecimal)
           )
           .toString()
-        console.log('borrowed :>> ', borrowed)
         setBorrowed(borrowed)
       }
 
@@ -156,7 +154,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         ethers.utils.formatUnits(balanceOfToken, tokenDecimal).toString()
       )
       if (new BigNumber(inputValue).gt(new BigNumber(balanceToken))) {
-        toast.error('Not enough TUSD to repay')
+        toast.error(`Not enough ${item.borrowTokenSymbol} to repay`)
         return
       }
       const amountRepay = ethers.utils
@@ -164,26 +162,36 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         .toString()
 
       let withdraw = 0
-      if (item.depositTokenSymbol === 'WBTC') {
-        withdraw = await borrowContract.methods
-          .getWbtcWithdraw(address, amountRepay)
-          .call()
-      } else {
-        withdraw = await borrowContract.methods
-          .getWethWithdraw(address, amountRepay)
-          .call()
+      if (item.borrowTokenSymbol === 'TUSD') {
+        if (item.depositTokenSymbol === 'WBTC') {
+          withdraw = await borrowContract.methods
+            .getWbtcWithdraw(address, amountRepay)
+            .call()
+        } else {
+          withdraw = await borrowContract.methods
+            .getWethWithdraw(address, amountRepay)
+            .call()
+        }
+      }
+
+      if (item.borrowTokenSymbol === 'USDC') {
+        if (item.depositTokenSymbol === 'WBTC') {
+          withdraw = await borrowContract.methods
+            .getWbtcWithdrawWithSlippage(address, amountRepay, 0)
+            .call()
+        } else {
+          withdraw = await borrowContract.methods
+            .getWethWithdrawWithSlippage(address, amountRepay, 0)
+            .call()
+        }
       }
 
       const userAddressContract = await borrowContract.methods
         .userContract(address)
         .call()
-      // const allowance = await tokenContract.methods
-      // .allowance(address, item.borrowContractInfo.address)
-      // .call()
       const allowance = await tokenContract.methods
         .allowance(address, userAddressContract)
         .call()
-      console.log('allowance :>> ', allowance)
       if (
         new BigNumber(allowance).lte(new BigNumber('0')) ||
         new BigNumber(allowance).lte(withdraw)
@@ -204,7 +212,6 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       )
 
       console.log('params :>> ', amountRepay, withdraw)
-      // const tx = await borrowContract2.repay(amountRepay, withdraw)
       const tx = await borrowContract2.callRepay(amountRepay, withdraw)
       await tx.wait()
       toast.success('Repay Successful')
@@ -315,6 +322,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         tokenSymbol: item?.depositTokenSymbol,
         position: 'Borrow',
         name: label,
+        symbol: item.borrowTokenSymbol,
       })
       toast.success('Update name successful')
     } catch (error) {
@@ -506,7 +514,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                 <p className="font-rogan text-[24px]">
                   {action}{' '}
                   {action == Action.Repay || action === Action.Borrow
-                    ? 'TUSD'
+                    ? item.borrowTokenSymbol
                     : item.depositTokenSymbol}
                 </p>
                 <div className="rounded-md border from-[#161616] via-[#161616]/40 to-[#0e0e0e] dark:border-[#1A1A1A] dark:bg-gradient-to-b">
