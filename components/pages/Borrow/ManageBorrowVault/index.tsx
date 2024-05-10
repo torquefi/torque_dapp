@@ -46,47 +46,35 @@ export default function ManageBorrowVault({ isFetchBorrowData }: any) {
     }
 
     try {
-      if (item.borrowContract) {
-        let data = await item.borrowContract.methods
-          .borrowInfoMap(address)
-          .call()
-        item.supplied = +ethers.utils
-          .formatUnits(data.supplied, item.borrowTokenDecimal)
-          .toString()
-        item.borrowed = +ethers.utils
-          .formatUnits(data.borrowed, item.borrowTokenDecimal)
-          .toString()
-      }
+      // if (item.borrowContract) {
+      //   const data = await item.borrowContract.methods
+      //     .getUserDetails(address)
+      //     .call()
+      //   item.supplied = +ethers.utils
+      //     .formatUnits(data.supplied, item.borrowTokenDecimal)
+      //     .toString()
+      //   item.borrowed = +ethers.utils
+      //     .formatUnits(data.borrowed, item.borrowTokenDecimal)
+      //     .toString()
+      // }
       const web3 = new Web3(Web3.givenProvider)
       const contract = new web3.eth.Contract(
         JSON.parse(item?.borrowContractInfo.abi),
         item?.borrowContractInfo?.address
       )
       if (contract) {
-        let data = await contract.methods.borrowInfoMap(address).call()
-        // const withdrawableAmount = await contract.methods
-        //   .getWithdrawableAmount(address)
-        //   .call({
-        //     from: address,
-        //   })
-        // console.log('withdrawableAmount', withdrawableAmount)
-        // item.borrowMax = Number(
-        //   new BigNumber(withdrawableAmount[0])
-        //     .div(10 ** item.depositTokenDecimal)
-        //     .multipliedBy(0.99)
-        //     .toString()
-        // )
+        const data = await contract.methods.getUserDetails(address).call()
         item.supplied = Number(
-          new BigNumber(data.supplied)
+          new BigNumber(data?.['0'])
             .div(10 ** item.depositTokenDecimal)
             .toString()
         )
         item.borrowed = Number(
-          new BigNumber(data.baseBorrowed).div(10 ** 18).toString()
+          new BigNumber(data?.['2'] || 0).div(10 ** 18).toString()
         )
         console.log(
           '111',
-          Number(new BigNumber(data.baseBorrowed).div(10 ** 18).toString())
+          Number(new BigNumber(data?.['2'] || 0).div(10 ** 18).toString())
         )
       }
     } catch (error) {
@@ -128,7 +116,6 @@ export default function ManageBorrowVault({ isFetchBorrowData }: any) {
 
     try {
       dataBorrow = await Promise.all(dataBorrow?.map(getBorrowData))
-
       const labelRes = await LabelApi.getListLabel({
         walletAddress: address,
         position: 'Borrow',

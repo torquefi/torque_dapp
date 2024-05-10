@@ -70,7 +70,6 @@ export function TokenPriceProvider({ children }: any) {
         usdPrice.WBTC = btcPrice || usdPrice.BTC || 28000
         usdPrice.weth = ethPrice || usdPrice.eth || 1800
         usdPrice.WETH = ethPrice || usdPrice.eth || 1800
-        console.log('usdPrice', usdPrice)
         dispatch(updateAllUsdPrice(usdPrice))
       } catch (error) {
         console.log('TokenPriceProvider.handleGetUsdPrice', error)

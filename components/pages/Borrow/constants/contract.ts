@@ -7,6 +7,10 @@ import tokenBtc from './abi/tokenBtc.json'
 import tokenEth from './abi/tokenEth.json'
 import tokenUsdc from './abi/tokenUsdc.json'
 import tokenTusd from './abi/tokenTusd.json'
+import simpleBorrowBtc from './abi/simpleBorrowBtc.json'
+import simpleBorrowEth from './abi/simpleBorrowEth.json'
+import userAddressBtc from './abi/userAddressBtc.json'
+import userAddressEth from './abi/userAddressEth.json'
 
 export const tokenTusdContract: IContractInfo = {
   address: '0xf7F6718Cf69967203740cCb431F6bDBff1E0FB68',
@@ -52,6 +56,33 @@ export const borrowEthContract: IContractInfo = {
 
 // ======================================================================
 
+export const simpleBorrowBtcContract: IContractInfo = {
+  address: '0x19eD57D5f832FD6dF939b3f0F1e42B2C615EbF1A',
+  abi: JSON.stringify(simpleBorrowBtc),
+}
 
+export const simpleBorrowEthContract: IContractInfo = {
+  address: '0xeF956Eb33135E635bcF8389f1D4a10A4e66eB8e7',
+  abi: JSON.stringify(simpleBorrowEth),
+}
 
+export const userBorrowAddressBtcContract: IContractInfo = {
+  address: '0x23c41D470BB42bb33eb5CbE7Aa5b07920B4fCEC7',
+  abi: JSON.stringify(userAddressBtc),
+}
+
+export const userBorrowAddressEthContract: IContractInfo = {
+  address: '0x6e4182e2B8fC845220582172A5F40BE8cd50B116',
+  abi: JSON.stringify(userAddressEth),
+}
+
+export const borrowOldBtcContract: IContractInfo = {
+  address: '0x9eD7f8115B3fA401cd7DdE5E59a8056a3Ec8cEB3',
+  abi: JSON.stringify(userAddressBtc),
+}
+
+export const borrowOldEthContract: IContractInfo = {
+  address: '0x3B7cEF8320F0F3aF601eD33D0cC39a68b2fB37cA',
+  abi: JSON.stringify(userAddressEth),
+}
 
