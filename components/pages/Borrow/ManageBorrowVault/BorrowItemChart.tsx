@@ -119,7 +119,6 @@ export const BorrowItemChart: FC<BorrowItemChartProps> = (props) => {
 
         let chartDataObj: any = {}
 
-        console.log('convertTransactions :>> ', convertTransactions)
 
         for (let i = -14; i <= 0; i++) {
           const key = dayjs().add(i, 'd').format('YYYY-MM-DD')
@@ -129,7 +128,6 @@ export const BorrowItemChart: FC<BorrowItemChartProps> = (props) => {
           }
         }
 
-        console.log('chartDataObj :>> ', chartDataObj)
 
         let lineValue = 50
         // transactions?.forEach((item) => {

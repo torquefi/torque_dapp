@@ -92,6 +92,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       const userDetails = await borrowContract.methods
         .getUserDetails(address)
         .call()
+      console.log('userDetails :>> ', userDetails)
       const depositTokenDecimal = await depositContract.methods
         .decimals()
         .call()
@@ -101,21 +102,35 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       setCollateral(collateral)
 
       const tokenDecimal = await tokenContract.methods.decimals().call()
-      const maxMoreMinTable = await borrowContract.methods
-        .maxMoreMintable(address)
-        .call()
-      setMaxMoreMinTable(
-        new BigNumber(
-          ethers.utils.formatUnits(maxMoreMinTable, tokenDecimal)
-        ).toString()
-      )
-
-      const borrowed = new BigNumber(tusdPrice || 0)
-        .multipliedBy(
-          ethers.utils.formatUnits(userDetails?.['2'], tokenDecimal)
+      if (item.borrowTokenSymbol === 'TUSD') {
+        const maxMoreMinTable = await borrowContract.methods
+          .maxMoreMintable(address)
+          .call()
+        setMaxMoreMinTable(
+          new BigNumber(
+            ethers.utils.formatUnits(maxMoreMinTable, tokenDecimal)
+          ).toString()
         )
-        .toString()
-      setBorrowed(borrowed)
+      }
+
+      if (item.borrowTokenSymbol === 'TUSD') {
+        const borrowed = new BigNumber(tusdPrice || 0)
+          .multipliedBy(
+            ethers.utils.formatUnits(userDetails?.['2'], tokenDecimal)
+          )
+          .toString()
+        setBorrowed(borrowed)
+      }
+      if (item.borrowTokenSymbol === 'USDC') {
+        console.log('1111 :>> ', 1111)
+        const borrowed = new BigNumber(tusdPrice || 0)
+          .multipliedBy(
+            ethers.utils.formatUnits(userDetails?.['1'], tokenDecimal)
+          )
+          .toString()
+        console.log('borrowed :>> ', borrowed)
+        setBorrowed(borrowed)
+      }
 
       const deposit = ethers.utils
         .formatUnits(userDetails?.['0'], depositTokenDecimal)
@@ -351,7 +366,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         usdDefault
       />
       <CurrencySwitch
-        tokenSymbol="TUSD"
+        tokenSymbol={item.borrowTokenSymbol}
         tokenValue={borrowed ? Number(borrowed) : 0}
         usdDefault
         className="font-rogan -my-4 w-1/4 space-y-1 py-4"

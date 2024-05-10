@@ -12,7 +12,6 @@ import { useSelector } from 'react-redux'
 import { toast } from 'sonner'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
-import { borrowBtcContract, borrowEthContract } from '../constants/contract'
 import { IBorrowInfo } from '../types'
 import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
 interface CreateBorrowItemProps {
@@ -187,6 +186,7 @@ export default function CreateBorrowItem({
             const allowanceUserContract = await tokenContract.methods
               .allowance(address, userAddressContract)
               .call()
+            console.log('allowanceUserContract :>> ', allowanceUserContract)
             if (
               new BigNumber(allowanceUserContract).lte(new BigNumber('0')) ||
               new BigNumber(allowanceUserContract).lte(
@@ -337,6 +337,194 @@ export default function CreateBorrowItem({
           setIsFetchBorrowLoading &&
             setIsFetchBorrowLoading((prev: any) => !prev)
         }
+      } else {
+        if (item.depositTokenSymbol == 'WBTC') {
+          const provider = new ethers.providers.Web3Provider(window.ethereum)
+          const signer = provider.getSigner(address)
+          const tokenDepositDecimals = await tokenContract.methods
+            .decimals()
+            .call()
+          const borrow = Number(
+            new BigNumber(Number(amount).toFixed(tokenDepositDecimals))
+              .multipliedBy(10 ** tokenDepositDecimals)
+              .toString()
+          )
+
+          const tokenBorrowDecimal = await tokenBorrowContract.methods
+            .decimals()
+            .call()
+          console.log('tokenDecimal :>> ', tokenBorrowDecimal)
+          console.log('amountReceive :>> ', amountReceive)
+
+          let usdcBorrowAmount = '0'
+          if (amountReceive) {
+            usdcBorrowAmount = ethers.utils
+              .parseUnits(
+                Number(amountReceive).toFixed(tokenBorrowDecimal).toString(),
+                tokenBorrowDecimal
+              )
+              .toString()
+          }
+
+          const tokenContract1 = new ethers.Contract(
+            item?.tokenContractInfo?.address,
+            item?.tokenContractInfo?.abi,
+            signer
+          )
+
+          const userAddressContract = await borrowContract.methods
+            .userContract(address)
+            .call()
+          if (
+            userAddressContract === '0x0000000000000000000000000000000000000000'
+          ) {
+            const allowance = await tokenContract.methods
+              .allowance(address, item.borrowContractInfo.address)
+              .call()
+            console.log('allowance :>> ', allowance)
+
+            if (
+              new BigNumber(allowance).lte(new BigNumber('0')) ||
+              new BigNumber(allowance).lte(new BigNumber(usdcBorrowAmount))
+            ) {
+              const tx = await tokenContract1.approve(
+                item?.borrowContractInfo?.address,
+                '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+              )
+              await tx.wait()
+            }
+          } else {
+            const allowanceUserContract = await tokenContract.methods
+              .allowance(address, userAddressContract)
+              .call()
+            console.log('allowanceUserContract :>> ', allowanceUserContract)
+            if (
+              new BigNumber(allowanceUserContract).lte(new BigNumber('0')) ||
+              new BigNumber(allowanceUserContract).lte(
+                new BigNumber(usdcBorrowAmount)
+              )
+            ) {
+              const tx = await tokenContract1.approve(
+                userAddressContract,
+                '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+              )
+              await tx.wait()
+            }
+          }
+
+          const borrowContract2 = new ethers.Contract(
+            item?.borrowContractInfo?.address,
+            item?.borrowContractInfo?.abi,
+            signer
+          )
+
+          console.log('params borrow:>> ', borrow.toString(), usdcBorrowAmount)
+
+          const tx = await borrowContract2.callBorrow(
+            borrow.toString(),
+            usdcBorrowAmount
+          )
+          await tx.wait()
+          toast.success('Borrow Successful')
+          setOpenConfirmDepositModal(false)
+          setIsLoading(false)
+          setIsFetchBorrowLoading &&
+            setIsFetchBorrowLoading((prev: any) => !prev)
+        }
+
+        if (item.depositTokenSymbol == 'WETH') {
+          const provider = new ethers.providers.Web3Provider(window.ethereum)
+          const signer = provider.getSigner(address)
+          const tokenDepositDecimals = await tokenContract.methods
+            .decimals()
+            .call()
+          const borrow = Number(
+            new BigNumber(Number(amount).toFixed(tokenDepositDecimals))
+              .multipliedBy(10 ** tokenDepositDecimals)
+              .toString()
+          )
+
+          const tokenBorrowDecimal = await tokenBorrowContract.methods
+            .decimals()
+            .call()
+          console.log('tokenDecimal :>> ', tokenBorrowDecimal)
+          console.log('amountReceive :>> ', amountReceive)
+
+          let usdcBorrowAmount = '0'
+          if (amountReceive) {
+            usdcBorrowAmount = ethers.utils
+              .parseUnits(
+                Number(amountReceive).toFixed(tokenBorrowDecimal).toString(),
+                tokenBorrowDecimal
+              )
+              .toString()
+          }
+
+          const tokenContract1 = new ethers.Contract(
+            item?.tokenContractInfo?.address,
+            item?.tokenContractInfo?.abi,
+            signer
+          )
+
+          const userAddressContract = await borrowContract.methods
+            .userContract(address)
+            .call()
+          if (
+            userAddressContract === '0x0000000000000000000000000000000000000000'
+          ) {
+            const allowance = await tokenContract.methods
+              .allowance(address, item.borrowContractInfo.address)
+              .call()
+            console.log('allowance :>> ', allowance)
+
+            if (
+              new BigNumber(allowance).lte(new BigNumber('0')) ||
+              new BigNumber(allowance).lte(new BigNumber(usdcBorrowAmount))
+            ) {
+              const tx = await tokenContract1.approve(
+                item?.borrowContractInfo?.address,
+                '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+              )
+              await tx.wait()
+            }
+          } else {
+            const allowanceUserContract = await tokenContract.methods
+              .allowance(address, userAddressContract)
+              .call()
+            console.log('allowanceUserContract :>> ', allowanceUserContract)
+            if (
+              new BigNumber(allowanceUserContract).lte(new BigNumber('0')) ||
+              new BigNumber(allowanceUserContract).lte(
+                new BigNumber(usdcBorrowAmount)
+              )
+            ) {
+              const tx = await tokenContract1.approve(
+                userAddressContract,
+                '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+              )
+              await tx.wait()
+            }
+          }
+
+          const borrowContract2 = new ethers.Contract(
+            item?.borrowContractInfo?.address,
+            item?.borrowContractInfo?.abi,
+            signer
+          )
+
+          console.log('params borrow:>> ', borrow.toString(), usdcBorrowAmount)
+
+          const tx = await borrowContract2.callBorrow(
+            borrow.toString(),
+            usdcBorrowAmount
+          )
+          await tx.wait()
+          toast.success('Borrow Successful')
+          setOpenConfirmDepositModal(false)
+          setIsLoading(false)
+          setIsFetchBorrowLoading &&
+            setIsFetchBorrowLoading((prev: any) => !prev)
+        }
       }
       // dispatch(updateborrowTime(new Date().getTime() as any))
     } catch (e) {
@@ -460,7 +648,7 @@ export default function CreateBorrowItem({
           <div className="flex items-center">
             <Link
               href={'https://compound.finance/'}
-              className={item.borrowTokenIcon ? "translate-x-3" : ''}
+              className={item.borrowTokenIcon ? 'translate-x-3' : ''}
               target={'_blank'}
             >
               <img

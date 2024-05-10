@@ -8,9 +8,12 @@ import {
   borrowBtcContract,
   borrowEthContract,
   compoundUsdcContract as compoundUsdcContractData,
+  simpleBorrowBtcContract,
+  simpleBorrowEthContract,
   tokenBtcContract,
   tokenEthContract,
   tokenTusdContract,
+  tokenUsdcContract,
 } from '../constants/contract'
 import { IBorrowInfoManage } from '../types'
 import BorrowItem from './BorrowItem'
@@ -24,39 +27,6 @@ export default function ManageBorrowVault({ isFetchBorrowData }: any) {
 
   const getBorrowData = async (item: IBorrowInfoManage) => {
     try {
-      if (!item.tokenContract) {
-        item.tokenContract = new web3.eth.Contract(
-          JSON.parse(item.tokenContractInfo?.abi),
-          item.tokenContractInfo?.address
-        )
-      }
-
-      if (!item.borrowContract) {
-        item.borrowContract = new web3.eth.Contract(
-          JSON.parse(item.borrowContractInfo?.abi),
-          item.borrowContractInfo?.address
-        )
-      }
-    } catch (error) {
-      console.log(
-        'CreateBorrowVault.getBorrowData',
-        item?.depositTokenSymbol,
-        error
-      )
-    }
-
-    try {
-      // if (item.borrowContract) {
-      //   const data = await item.borrowContract.methods
-      //     .getUserDetails(address)
-      //     .call()
-      //   item.supplied = +ethers.utils
-      //     .formatUnits(data.supplied, item.borrowTokenDecimal)
-      //     .toString()
-      //   item.borrowed = +ethers.utils
-      //     .formatUnits(data.borrowed, item.borrowTokenDecimal)
-      //     .toString()
-      // }
       const web3 = new Web3(Web3.givenProvider)
       const contract = new web3.eth.Contract(
         JSON.parse(item?.borrowContractInfo.abi),
@@ -69,12 +39,28 @@ export default function ManageBorrowVault({ isFetchBorrowData }: any) {
             .div(10 ** item.depositTokenDecimal)
             .toString()
         )
-        item.borrowed = Number(
-          new BigNumber(data?.['2'] || 0).div(10 ** 18).toString()
-        )
+        if (item.borrowTokenSymbol === 'TUSD') {
+          item.borrowed = Number(
+            new BigNumber(data?.['2'] || 0)
+              .div(10 ** item.borrowTokenDecimal)
+              .toString()
+          )
+        }
+        if (item.borrowTokenSymbol === 'USDC') {
+          item.borrowed = Number(
+            new BigNumber(data?.['1'] || 0)
+              .div(10 ** item.borrowTokenDecimal)
+              .toString()
+          )
+        }
+        console.log('item.borrowed :>> ', item.borrowed)
         console.log(
           '111',
-          Number(new BigNumber(data?.['2'] || 0).div(10 ** 18).toString())
+          Number(
+            new BigNumber(data?.['2'] || 0)
+              .div(10 ** item.borrowTokenDecimal)
+              .toString()
+          )
         )
       }
     } catch (error) {
@@ -180,7 +166,7 @@ const DATA_BORROW: IBorrowInfoManage[] = [
     depositTokenSymbol: 'WBTC',
     depositTokenDecimal: 8,
     borrowTokenSymbol: 'TUSD',
-    borrowTokenDecimal: 6,
+    borrowTokenDecimal: 18,
     label: 'Vault #1',
     labelKey: 'name_borrow_vault_2',
     collateral: 0.0,
@@ -199,7 +185,7 @@ const DATA_BORROW: IBorrowInfoManage[] = [
     depositTokenSymbol: 'WETH',
     depositTokenDecimal: 18,
     borrowTokenSymbol: 'TUSD',
-    borrowTokenDecimal: 6,
+    borrowTokenDecimal: 18,
     label: 'Vault #2',
     labelKey: 'name_borrow_vault_1',
     collateral: 0.0,
@@ -214,35 +200,42 @@ const DATA_BORROW: IBorrowInfoManage[] = [
     borrowMax: 0.0,
     bonus: 0,
   },
+  // {
+  //   depositTokenSymbol: 'WBTC',
+  //   depositTokenDecimal: 18,
+  //   borrowTokenSymbol: 'USDC',
+  //   borrowTokenDecimal: 6,
+  //   label: 'Vault #3',
+  //   labelKey: 'name_borrow_vault_3',
+  //   collateral: 0.0,
+  //   supplied: 0.0,
+  //   borrowed: 0.0,
+  //   ltv: 0.0,
+  //   apy: 0.0,
+  //   borrowRate: 1359200263,
+  //   borrowContractInfo: simpleBorrowBtcContract,
+  //   tokenContractInfo: tokenUsdcContract,
+  //   depositContractInfo: tokenBtcContract,
+  //   borrowMax: 0.0,
+  //   bonus: 0,
+  // },
+  // {
+  //   depositTokenSymbol: 'WETH',
+  //   depositTokenDecimal: 18,
+  //   borrowTokenSymbol: 'USDC',
+  //   borrowTokenDecimal: 6,
+  //   label: 'Vault #3',
+  //   labelKey: 'name_borrow_vault_3',
+  //   collateral: 0.0,
+  //   supplied: 0.0,
+  //   borrowed: 0.0,
+  //   ltv: 0.0,
+  //   apy: 0.0,
+  //   borrowRate: 1359200263,
+  //   borrowContractInfo: simpleBorrowEthContract,
+  //   tokenContractInfo: tokenUsdcContract,
+  //   depositContractInfo: tokenEthContract,
+  //   borrowMax: 0.0,
+  //   bonus: 0,
+  // },
 ]
-
-// const DATA_BORROW = [
-//   {
-//     token: 'BTC',
-//     label: 'House',
-//     collateral: 0.0,
-//     borrowed: 0.0,
-//     ltv: 0.0,
-//     apy: 0.0,
-//     data_key: 'name_borrow_vault_1',
-//     address_asset: '0x07865c6E87B9F70255377e024ace6630C1Eaa37F',
-//     name_ABI_asset: 'usdc_abi',
-//     decimals_usdc: 6,
-//     decimals_asset: 8,
-//     name_ABI_borrow: 'borrow_wbtc_abi',
-//   },
-//   {
-//     token: 'ETH',
-//     label: 'Lambo',
-//     collateral: 0.0,
-//     borrowed: 0.0,
-//     ltv: 0.0,
-//     apy: 0.0,
-//     data_key: 'name_borrow_vault_2',
-//     address_asset: '0x2B9960680D91d7791e9a24aCFb03CE0d234cC708',
-//     name_ABI_asset: 'usg_abi',
-//     decimals_usdc: 6,
-//     decimals_asset: 18,
-//     name_ABI_borrow: 'borrow_eth_abi',
-//   },
-// ]
