@@ -171,7 +171,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       console.log('allowance :>> ', allowance)
       if (
         new BigNumber(allowance).lte(new BigNumber('0')) ||
-        new BigNumber(allowance).lte(amountRepay)
+        new BigNumber(allowance).lte(withdraw)
       ) {
         await tokenContract.methods
           .approve(userAddressContract, MAX_UINT256)
