@@ -323,7 +323,7 @@ export function BoostItem({ item, onWithdrawSuccess, setIsFetchBoostLoading }: B
                 onClick={() => setEdit(!isEdit)}
               >
                 <img
-                  className="mr-2 w-[54px]"
+                  className="mr-1 w-[54px]"
                   src={`/icons/coin/${item.tokenSymbol.toLowerCase()}.png`}
                   alt=""
                 />
@@ -336,7 +336,7 @@ export function BoostItem({ item, onWithdrawSuccess, setIsFetchBoostLoading }: B
             {isEdit && (
               <div className="flex cursor-pointer items-center text-[22px]">
                 <img
-                  className="mr-2 w-[54px]"
+                  className="mr-1 w-[54px]"
                   src={`/icons/coin/${item.tokenSymbol.toLowerCase()}.png`}
                   alt=""
                 />
