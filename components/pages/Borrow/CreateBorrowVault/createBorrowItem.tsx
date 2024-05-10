@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux'
 import { toast } from 'sonner'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
+import { borrowBtcContract, borrowEthContract } from '../constants/contract'
 import { IBorrowInfo } from '../types'
 import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
 interface CreateBorrowItemProps {
@@ -111,10 +112,6 @@ export default function CreateBorrowItem({
       toast.error(`You must supply ${item.depositTokenSymbol} to borrow`)
       return
     }
-    // if (amountReceive <= 0) {
-    //   toast.error('Can not borrow less than 0 TUSD')
-    //   return
-    // }
     try {
       setIsLoading(true)
       if (!isUsdcBorrowed) {
@@ -222,9 +219,6 @@ export default function CreateBorrowItem({
             newUsdcBorrowAmount,
             tusdBorrowAmount
           )
-          // .send({
-          //   from: address,
-          // })
           await tx.wait()
           toast.success('Borrow Successful')
           setOpenConfirmDepositModal(false)
@@ -374,7 +368,7 @@ export default function CreateBorrowItem({
               src={dataBorrow.depositTokenIcon}
               alt=""
             />
-            <div className="ml-[-4px] mt-[-4px] font-rogan text-[20px] leading-tight text-[#030303] dark:text-white md:text-[22px] lg:text-[26px]">
+            <div className="font-rogan ml-[-4px] mt-[-4px] text-[20px] leading-tight text-[#030303] dark:text-white md:text-[22px] lg:text-[26px]">
               Supply {dataBorrow.depositTokenSymbol},<br /> Borrow{' '}
               {dataBorrow.borrowTokenSymbol}
             </div>
@@ -399,7 +393,7 @@ export default function CreateBorrowItem({
             </Link>
           </Popover>
         </div>
-        <div className="grid grid-cols-2 gap-4 mt-1 mb-1 font-rogan">
+        <div className="font-rogan mb-1 mt-1 grid grid-cols-2 gap-4">
           <div className="flex w-full items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
             <InputCurrencySwitch
               tokenSymbol={item?.depositTokenSymbol}
@@ -447,7 +441,7 @@ export default function CreateBorrowItem({
         </div>
         <div className="flex items-center justify-between py-4 text-[#959595]">
           <div className="flex items-center justify-center">
-            <div>Loan providers</div>
+            <div>{item.multiLoan ? 'Loan providers' : 'Loan provider'}</div>
             <Popover
               trigger="hover"
               placement="top-left"
@@ -475,17 +469,19 @@ export default function CreateBorrowItem({
                 className="w-[24px]"
               />
             </Link>
-            {/* <Link
-              href={'https://tusd.torque.fi/'}
-              className=""
-              target={'_blank'}
-            > */}
-            <img
-              src={item.borrowTokenIcon}
-              alt={item.borrowTokenSymbol}
-              className="w-[24px]"
-            />
-            {/* </Link> */}
+            {item.borrowTokenIcon && (
+              <Link
+                href={'https://tusd.torque.fi/'}
+                className=""
+                target={'_blank'}
+              >
+                <img
+                  src={item.borrowTokenIcon}
+                  alt={item.borrowTokenSymbol}
+                  className="w-[24px]"
+                />
+              </Link>
+            )}
           </div>
         </div>
         <div className="flex justify-between text-[#959595]">
@@ -558,8 +554,9 @@ export default function CreateBorrowItem({
           </p>
         </div>
         <button
-          className={`font-rogan-regular mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
-            }`}
+          className={`font-rogan-regular mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${
+            buttonLoading && 'cursor-not-allowed opacity-50'
+          }`}
           disabled={buttonLoading != ''}
           onClick={() => {
             if (
