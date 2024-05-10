@@ -162,7 +162,10 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         .allowance(address, item.borrowContractInfo.address)
         .call()
       console.log('allowance :>> ', allowance)
-      if (new BigNumber(allowance).lte(new BigNumber('0')) || new BigNumber(allowance).lte(withdraw)) {
+      if (
+        new BigNumber(allowance).lte(new BigNumber('0')) ||
+        new BigNumber(allowance).lte(amountRepay)
+      ) {
         await tokenContract.methods
           .approve(item?.borrowContractInfo?.address, MAX_UINT256)
           .send({
@@ -180,7 +183,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
 
       console.log('params :>> ', amountRepay, withdraw)
       // const tx = await borrowContract2.repay(amountRepay, withdraw)
-      const tx = await borrowContract2.repay(amountRepay, 0)
+      const tx = await borrowContract2.repay(amountRepay, withdraw)
       await tx.wait()
       toast.success('Repay Successful')
       handleGetBorrowData()
