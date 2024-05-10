@@ -17,10 +17,12 @@ export interface IBorrowInfo {
   borrowContract?: Contract
   tokenContract?: Contract
   tokenBorrowContractInfo?: IContractInfo
+  userAddressContractInfo?: IContractInfo
   name?: string
   routed?: string
   bonus?: number
   multiLoan?: boolean
+  oldBorrowContractInfo?: IContractInfo
 }
 
 export interface IBorrowInfoManage {
