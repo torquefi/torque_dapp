@@ -103,7 +103,6 @@ export const BorrowItemChart: FC<BorrowItemChartProps> = (props) => {
             address: tokenAddress,
           },
         })
-        console.log('newRes :>> ', newRes)
         const transactions1 = newRes.data || []
 
         const res = await axiosInstance.post(path, {

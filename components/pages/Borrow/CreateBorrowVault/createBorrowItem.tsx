@@ -460,7 +460,7 @@ export default function CreateBorrowItem({
           <div className="flex items-center">
             <Link
               href={'https://compound.finance/'}
-              className="translate-x-3"
+              className={item.borrowTokenIcon ? "translate-x-3" : ''}
               target={'_blank'}
             >
               <img
