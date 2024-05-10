@@ -471,7 +471,6 @@ const BORROW_INFOS: IBorrowInfo[] = [
     oldBorrowContractInfo: borrowOldBtcContract,
     name: 'Bitcoin',
     bonus: 365000,
-    multiLoan: true,
   },
   {
     depositTokenIcon: '/icons/coin/aeth.png',

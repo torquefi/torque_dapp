@@ -103,7 +103,6 @@ export const BoostItemChart: FC<BoostItemChartProps> = (props) => {
             address: contractAddress,
           },
         })
-        console.log('newRes :>> ', newRes)
         const transactions1 = newRes.data || []
 
         const convertTransactions = transactions1.reduce((acc, item) => {
