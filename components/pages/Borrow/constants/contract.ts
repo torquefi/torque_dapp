@@ -45,12 +45,12 @@ export const tokenEthContract: IContractInfo = {
 // ======================================================================
 
 export const borrowBtcContract: IContractInfo = {
-  address: '0x9eD7f8115B3fA401cd7DdE5E59a8056a3Ec8cEB3',
+  address: '0xE307f7E20d86c26065466E1928362CB0f8Deb186',
   abi: JSON.stringify(borrowBtc),
 }
 
 export const borrowEthContract: IContractInfo = {
-  address: '0x3B7cEF8320F0F3aF601eD33D0cC39a68b2fB37cA',
+  address: '0x6421E770A7a23649feF3bB572EA3Df71aBce824A',
   abi: JSON.stringify(borrowEth),
 }
 
@@ -85,4 +85,3 @@ export const borrowOldEthContract: IContractInfo = {
   address: '0x3B7cEF8320F0F3aF601eD33D0cC39a68b2fB37cA',
   abi: JSON.stringify(userAddressEth),
 }
-
