@@ -92,7 +92,6 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       const userDetails = await borrowContract.methods
         .getUserDetails(address)
         .call()
-      console.log('userDetails :>> ', userDetails)
       const depositTokenDecimal = await depositContract.methods
         .decimals()
         .call()

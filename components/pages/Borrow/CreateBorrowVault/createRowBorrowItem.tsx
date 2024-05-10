@@ -110,7 +110,6 @@ export default function CreateRowBorrowItem({
         )
         .toString()
       setTotalSupplied(totalSupplied)
-      console.log('totalSupplied :>> ', totalSupplied)
     } catch (error) {
       console.log('handleGetTotalSupply error :>> ', error)
     }
