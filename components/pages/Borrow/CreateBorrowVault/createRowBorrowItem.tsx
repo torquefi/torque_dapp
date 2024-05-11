@@ -595,7 +595,7 @@ export default function CreateRowBorrowItem({
             <img
               className="mr-[6px] w-[24px]"
               src={item.borrowRowTokenIcon}
-              alt="TUSD icon"
+              alt=""
             />
             <p className="text-[16px] font-[500] tracking-[0em] text-[#030303] dark:text-white">
               {item?.borrowTokenSymbol?.toUpperCase()}

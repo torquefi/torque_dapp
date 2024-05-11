@@ -633,7 +633,7 @@ export default function CreateBorrowItem({
             <Popover
               trigger="hover"
               placement="top-left"
-              className={`font-rogan-regular z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+              className={`font-rogan-regular z-100 mt-[8px] w-[200px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
               content="Create a self-service line of credit by depositing collateral."
             >
               <button className="ml-[5px] mt-[7px]">
@@ -678,7 +678,7 @@ export default function CreateBorrowItem({
             <Popover
               trigger="hover"
               placement="top-left"
-              className={`font-rogan-regular z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+              className={`font-rogan-regular z-100 mt-[8px] w-[210px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
               content="Max value of the loan you can take out against your collateral."
             >
               <button className="ml-[5px] mt-[7px]">
@@ -701,7 +701,7 @@ export default function CreateBorrowItem({
             <Popover
               trigger="hover"
               placement="top-left"
-              className={`font-rogan-regular z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+              className={`font-rogan-regular z-100 mt-[8px] w-[210px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
               content="An interest rate determined by supply and demand of the asset."
             >
               <button className="ml-[5px] mt-[7px]">
@@ -725,7 +725,7 @@ export default function CreateBorrowItem({
             <Popover
               trigger="hover"
               placement="top-left"
-              className={`font-rogan-regular z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+              className={`font-rogan-regular z-100 mt-[8px] w-[210px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
               content="Available amount of borrowing power in the market at this time."
             >
               <button className="ml-[5px] mt-[7px]">
