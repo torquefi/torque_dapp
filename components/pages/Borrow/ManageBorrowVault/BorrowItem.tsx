@@ -431,7 +431,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                   onClick={() => setEdit(!isEdit)}
                 >
                   <img
-                    className="mr-2 w-[54px]"
+                    className="mr-1 w-[54px]"
                     src={`/icons/coin/${item.depositTokenSymbol.toLowerCase()}.png`}
                     alt=""
                   />
@@ -444,7 +444,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
               {isEdit && (
                 <div className="flex cursor-pointer items-center text-[22px]">
                   <img
-                    className="mr-2 w-[54px]"
+                    className="mr-1 w-[54px]"
                     src={`/icons/coin/${item.depositTokenSymbol.toLowerCase()}.png`}
                     alt=""
                   />
