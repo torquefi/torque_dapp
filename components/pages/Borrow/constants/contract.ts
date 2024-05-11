@@ -57,12 +57,12 @@ export const borrowEthContract: IContractInfo = {
 // ======================================================================
 
 export const simpleBorrowBtcContract: IContractInfo = {
-  address: '0x19eD57D5f832FD6dF939b3f0F1e42B2C615EbF1A',
+  address: '0x0eD2CF32cBf676Ad8D1202937aEE40FB3397d7bd',
   abi: JSON.stringify(simpleBorrowBtc),
 }
 
 export const simpleBorrowEthContract: IContractInfo = {
-  address: '0xeF956Eb33135E635bcF8389f1D4a10A4e66eB8e7',
+  address: '0x8e9b8E64a448a09cB1476f835771E6A064e780b3',
   abi: JSON.stringify(simpleBorrowEth),
 }
 

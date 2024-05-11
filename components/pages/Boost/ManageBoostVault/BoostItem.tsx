@@ -16,7 +16,10 @@ import { toast } from 'sonner'
 import { useAccount, useChainId } from 'wagmi'
 import { arbitrum } from 'wagmi/dist/chains'
 import Web3 from 'web3'
-import { estimateExecuteWithdrawalGasLimit, getExecutionFee } from '../hooks/getExecutionFee'
+import {
+  estimateExecuteWithdrawalGasLimit,
+  getExecutionFee,
+} from '../hooks/getExecutionFee'
 import { useGasLimits } from '../hooks/useGasLimits'
 import { useGasPrice } from '../hooks/useGasPrice'
 import { IBoostInfo } from '../types'
@@ -31,7 +34,11 @@ interface BoostItemProps {
   setIsFetchBoostLoading?: any
 }
 
-export function BoostItem({ item, onWithdrawSuccess, setIsFetchBoostLoading }: BoostItemProps) {
+export function BoostItem({
+  item,
+  onWithdrawSuccess,
+  setIsFetchBoostLoading,
+}: BoostItemProps) {
   const { open } = useWeb3Modal()
   const chainId = useChainId()
   const dispatch = useDispatch()
@@ -53,7 +60,9 @@ export function BoostItem({ item, onWithdrawSuccess, setIsFetchBoostLoading }: B
   const { tokensData, pricesUpdatedAt } = useTokensDataRequest(chainId)
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
   const { gasPrice } = useGasPrice(chainId)
-  const { createdWbtc, createdWeth } = useSelector((state: AppState) => state.boost)
+  const { createdWbtc, createdWeth } = useSelector(
+    (state: AppState) => state.boost
+  )
 
   const tokenContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
@@ -95,6 +104,7 @@ export function BoostItem({ item, onWithdrawSuccess, setIsFetchBoostLoading }: B
     try {
       const tokenDecimal = await tokenContract.methods.decimals().call()
       const deposited = await boostContract.methods.balanceOf(address).call()
+      console.log('deposited :>> ', deposited)
       setDeposited(
         new BigNumber(
           ethers.utils.formatUnits(deposited, tokenDecimal)
@@ -104,6 +114,8 @@ export function BoostItem({ item, onWithdrawSuccess, setIsFetchBoostLoading }: B
       console.log('error get boost data item :>> ', error)
     }
   }
+
+  console.log('deposited :>> ', deposited)
 
   useEffect(() => {
     handleGetBoostData()
@@ -124,10 +136,10 @@ export function BoostItem({ item, onWithdrawSuccess, setIsFetchBoostLoading }: B
         JSON.parse(item?.gmxContractInfo?.abi),
         signer
       )
-      const slippage = 10
-      // const tx = gmxContract2.withdrawAmount(slippage)
-      await gmxContract.methods.withdrawAmount(slippage).send({ from: address })
-      // await tx.wait()
+      const slippage = 20
+      const tx = await gmxContract2.withdrawAmount(slippage)
+      // await gmxContract.methods.withdrawAmount(slippage).send({ from: address })
+      await tx.wait()
       toast.success('Execute Successful')
       setIsFetchBoostLoading && setIsFetchBoostLoading((prev: any) => !prev)
       handleGetBoostData()
@@ -184,7 +196,9 @@ export function BoostItem({ item, onWithdrawSuccess, setIsFetchBoostLoading }: B
         gasPrice
       )
 
-      const executionFeeAmount = bigNumberify(executionFee?.feeTokenAmount).toString()
+      const executionFeeAmount = bigNumberify(
+        executionFee?.feeTokenAmount
+      ).toString()
 
       console.log('executionFeeAmount', executionFeeAmount, executionFee)
 
@@ -252,7 +266,7 @@ export function BoostItem({ item, onWithdrawSuccess, setIsFetchBoostLoading }: B
 
   const summaryInfo = () => {
     return (
-      <div className="flex items-center justify-between w-full">
+      <div className="flex w-full items-center justify-between">
         <CurrencySwitch
           tokenSymbol={item?.tokenSymbol}
           tokenValue={Number(deposited)}
@@ -310,7 +324,9 @@ export function BoostItem({ item, onWithdrawSuccess, setIsFetchBoostLoading }: B
 
   console.log('amount :>> ', amount)
 
-  const isUnFirstCreated = item.tokenSymbol === 'WBTC' && !createdWbtc || item.tokenSymbol === 'WETH' && !createdWeth
+  const isUnFirstCreated =
+    (item.tokenSymbol === 'WBTC' && !createdWbtc) ||
+    (item.tokenSymbol === 'WETH' && !createdWeth)
 
   return (
     <>
@@ -357,7 +373,7 @@ export function BoostItem({ item, onWithdrawSuccess, setIsFetchBoostLoading }: B
             )}
           </div>
           <div className="flex items-center justify-end gap-14">
-            <div className="items-center justify-between hidden gap-14 lg:flex">
+            <div className="hidden items-center justify-between gap-14 lg:flex">
               {summaryInfo()}
             </div>
             <div className="flex flex-col items-center justify-center gap-2">
@@ -379,10 +395,11 @@ export function BoostItem({ item, onWithdrawSuccess, setIsFetchBoostLoading }: B
           </div>
         </div>
         <div
-          className={`grid grid-cols-1 gap-8 overflow-hidden transition-all duration-300 lg:grid-cols-2 ${isOpen
-            ? 'max-h-[1000px] py-[16px] ease-in'
-            : 'max-h-0 py-0 opacity-0 ease-out'
-            }`}
+          className={`grid grid-cols-1 gap-8 overflow-hidden transition-all duration-300 lg:grid-cols-2 ${
+            isOpen
+              ? 'max-h-[1000px] py-[16px] ease-in'
+              : 'max-h-0 py-0 opacity-0 ease-out'
+          }`}
         >
           <div className="flex items-center justify-between gap-4 lg:hidden">
             {summaryInfo()}
@@ -404,7 +421,7 @@ export function BoostItem({ item, onWithdrawSuccess, setIsFetchBoostLoading }: B
             <div className="text-[28px]">Withdraw {item?.tokenSymbol}</div>
             <div className="mt-2 flex w-full items-center justify-between rounded-[12px] border bg-[#FFFFFF] px-2 py-4 dark:border-[#1A1A1A] dark:bg-[#161616]">
               <NumericFormat
-                className="w-full px-2 bg-transparent font-rogan-regular bg-none focus:outline-none"
+                className="font-rogan-regular w-full bg-transparent bg-none px-2 focus:outline-none"
                 placeholder="Select amount"
                 value={amount || null}
                 onChange={(e) => setAmount(e.target.value)}
@@ -417,8 +434,18 @@ export function BoostItem({ item, onWithdrawSuccess, setIsFetchBoostLoading }: B
                     key={i}
                     className="font-rogan-regular rounded bg-[#F4F4F4] px-2 py-1 text-sm text-[#959595] dark:bg-[#1A1A1A]"
                     onClick={() => {
+                      console.log(
+                        'object :>> ',
+                        new BigNumber(percent)
+                          .multipliedBy(new BigNumber(deposited || 0))
+                          .dividedBy(100)
+                          .toString()
+                      )
                       setAmount(
-                        `${(percent * Number(deposited || 0)) / 100}`
+                        new BigNumber(percent)
+                          .multipliedBy(new BigNumber(deposited || 0))
+                          .dividedBy(100)
+                          .toString()
                       )
                     }}
                   >
@@ -430,9 +457,10 @@ export function BoostItem({ item, onWithdrawSuccess, setIsFetchBoostLoading }: B
             <button
               className={
                 `font-rogan-regular mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]` +
-                ` ${isSubmitLoading || isExecuteLoading
-                  ? 'cursor-not-allowed opacity-70'
-                  : ''
+                ` ${
+                  isSubmitLoading || isExecuteLoading
+                    ? 'cursor-not-allowed opacity-70'
+                    : ''
                 }`
               }
               disabled={isSubmitLoading || isExecuteLoading}
@@ -444,9 +472,10 @@ export function BoostItem({ item, onWithdrawSuccess, setIsFetchBoostLoading }: B
             <button
               className={
                 `font-rogan-regular mt-2 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-transparent to-transparent py-1 text-[14px] uppercase text-[#AA5BFF] transition-all hover:border hover:from-[#AA5BFF] hover:to-[#912BFF] hover:text-white` +
-                ` ${isUnFirstCreated || isSubmitLoading || isExecuteLoading
-                  ? 'cursor-not-allowed opacity-70'
-                  : ''
+                ` ${
+                  isUnFirstCreated || isSubmitLoading || isExecuteLoading
+                    ? 'cursor-not-allowed opacity-70'
+                    : ''
                 }`
               }
               // disabled={isUnFirstCreated || isSubmitLoading || isExecuteLoading}
