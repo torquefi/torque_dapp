@@ -459,6 +459,7 @@ const BORROW_INFOS: IBorrowInfo[] = [
     depositTokenSymbol: 'WBTC',
     depositTokenDecimal: 8,
     borrowTokenSymbol: 'TUSD',
+    borrowRowTokenIcon: '/icons/coin/tusd.svg',
     borrowTokenDecimal: 6,
     liquidity: 0,
     loanToValue: 70,
@@ -492,6 +493,7 @@ const BORROW_INFOS: IBorrowInfo[] = [
     name: 'Ether',
     bonus: 365000,
     multiLoan: true,
+    borrowRowTokenIcon: '/icons/coin/tusd.svg',
   },
   {
     depositTokenIcon: '/icons/coin/wbtc.png',
@@ -509,6 +511,7 @@ const BORROW_INFOS: IBorrowInfo[] = [
     userAddressContractInfo: userBorrowAddressBtcContract,
     name: 'Bitcoin',
     bonus: 365000,
+    borrowRowTokenIcon: '/icons/coin/usdc.png',
   },
   {
     depositTokenIcon: '/icons/coin/aeth.png',
@@ -526,5 +529,6 @@ const BORROW_INFOS: IBorrowInfo[] = [
     userAddressContractInfo: userBorrowAddressEthContract,
     name: 'Ether',
     bonus: 365000,
+    borrowRowTokenIcon: '/icons/coin/usdc.png',
   },
 ]
