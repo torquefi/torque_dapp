@@ -156,13 +156,13 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
           </div>
           <div className="relative w-16">
             <img className="w-16 " src={coinTo?.icon} alt="" />
-            {coinTo.symbol === 'TUSD' && (
+            {/* {coinTo.symbol === 'TUSD' && ( */}
               <img
                 className="absolute bottom-3 right-3 w-5"
                 src="/assets/t-logo-circle.svg"
                 alt=""
               />
-            )}
+            {/* )} */}
           </div>
         </div>
       </div>
