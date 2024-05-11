@@ -642,10 +642,6 @@ const HomePageFilter = () => {
     )
   }
 
-  console.log('totalMyBoostSupply :>> ', totalMyBoostSupply)
-  console.log('aprBoost :>> ', aprBoost);
-  console.log('netAPY :>> ', netAPY);
-
   return (
     <div className="relative mt-[80px] flex w-full flex-wrap items-center justify-center rounded-t-[10px] border-[1px] bg-white from-[#25252566] pt-[80px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br md:mt-[-16px] md:pt-0">
       <div className="h-[100px] w-full md:h-[160px] md:w-[50%]">

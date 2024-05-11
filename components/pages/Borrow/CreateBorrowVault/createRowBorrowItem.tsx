@@ -594,7 +594,7 @@ export default function CreateRowBorrowItem({
           <div className="mt-1 inline-flex items-center">
             <img
               className="mr-[6px] w-[24px]"
-              src={`/icons/coin/${item.borrowTokenSymbol.toLowerCase()}.svg`}
+              src={item.borrowRowTokenIcon}
               alt="TUSD icon"
             />
             <p className="text-[16px] font-[500] tracking-[0em] text-[#030303] dark:text-white">
