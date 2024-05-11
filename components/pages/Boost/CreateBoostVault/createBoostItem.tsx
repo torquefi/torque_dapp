@@ -329,7 +329,7 @@ export function CreateBoostItem({
             <Popover
               trigger="hover"
               placement="top-left"
-              className={`font-rogan-regular z-100 mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+              className={`font-rogan-regular z-100 mt-[8px] w-[210px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
               content="Capture diversified yield within a single, seamless transaction."
             >
               <button className="ml-[5px] mt-[7px]">
@@ -356,11 +356,11 @@ export function CreateBoostItem({
         </div>
         <div className="font-rogan-regular flex w-full items-center justify-between text-[16px] text-[#959595]">
           <div className="flex items-center justify-center">
-            <div>Variable APY</div>
+            <div>Variable APR</div>
             <Popover
               trigger="hover"
               placement="top-left"
-              className={`font-rogan-regular mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+              className={`font-rogan-regular mt-[8px] w-[200px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
               content="On-chain estimate based on prevailing market conditions."
             >
               <button className="ml-[5px] mt-[7px]">
@@ -383,11 +383,33 @@ export function CreateBoostItem({
         </div>
         <div className="font-rogan-regular flex w-full items-center justify-between py-[14px] text-[16px] text-[#959595]">
           <div className="flex items-center justify-center">
-            <div>Value routed</div>
+            <div>Allocation</div>
             <Popover
               trigger="hover"
               placement="top-left"
-              className={`font-rogan-regular mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+              className={`font-rogan-regular mt-[8px] w-[200px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+              content="The current tToken balance of your connected account."
+            >
+              <button className="ml-[5px] mt-[7px]">
+                <img
+                  src="/assets/pages/vote/ic-info.svg"
+                  alt="info icon"
+                  className="w-[13px]"
+                />
+              </button>
+            </Popover>
+          </div>
+          <div>
+            100:0
+          </div>
+        </div>
+        <div className="font-rogan-regular flex w-full items-center justify-between text-[16px] text-[#959595]">
+          <div className="flex items-center justify-center">
+            <div>Routed</div>
+            <Popover
+              trigger="hover"
+              placement="top-left"
+              className={`font-rogan-regular mt-[8px] w-[210px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
               content="The total dollar value of all assets routed through Torque Boost."
             >
               <button className="ml-[5px] mt-[7px]">
@@ -431,28 +453,6 @@ export function CreateBoostItem({
             {isConnected ? parseFloat(deposited || '0').toFixed(3) : '0.00'}
           </div>
         </div> */}
-        <div className="font-rogan-regular flex w-full items-center justify-between text-[16px] text-[#959595]">
-          <div className="flex items-center justify-center">
-            <div>Allocation</div>
-            <Popover
-              trigger="hover"
-              placement="top-left"
-              className={`font-rogan-regular mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
-              content="The current tToken balance of your connected account."
-            >
-              <button className="ml-[5px] mt-[7px]">
-                <img
-                  src="/assets/pages/vote/ic-info.svg"
-                  alt="info icon"
-                  className="w-[13px]"
-                />
-              </button>
-            </Popover>
-          </div>
-          <div>
-            100:0
-          </div>
-        </div>
         <button
           className={`font-rogan-regular mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
           ${btnLoading ? 'cursor-not-allowed text-[#eee]' : 'cursor-pointer '}
