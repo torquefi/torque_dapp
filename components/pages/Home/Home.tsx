@@ -17,6 +17,7 @@ import {
 import {
   borrowBtcContract,
   borrowEthContract,
+  borrowOldBtcContract,
   tokenBtcContract,
   tokenEthContract,
   tokenTusdContract,
@@ -44,7 +45,6 @@ const HomePageFilter = () => {
   const [aprWethBoost, setAprWethBoost] = useState(0)
   const [depositedWethUsd, setDepositedWethUsd] = useState('0')
   const [depositedWbtcUsd, setDepositedWbtcUsd] = useState('0')
-  console.log('totalMyBoostSupply :>> ', totalMyBoostSupply)
 
   const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
   const wbtcPrice = usdPrice['WBTC'] || 0
@@ -97,6 +97,15 @@ const HomePageFilter = () => {
     )
     return contract
   }, [Web3.givenProvider, borrowBtcContract])
+
+  const oldBorrowContract = useMemo(() => {
+    const web3 = new Web3(RPC)
+    const contract = new web3.eth.Contract(
+      JSON.parse(borrowOldBtcContract?.abi),
+      borrowOldBtcContract?.address
+    )
+    return contract
+  }, [Web3.givenProvider, borrowOldBtcContract])
 
   const borrowWETHContract = useMemo(() => {
     const web3 = new Web3(RPC)
@@ -204,8 +213,8 @@ const HomePageFilter = () => {
       const wbtcLoanToValue = !wbtcCollateralUsd
         ? '0'
         : new BigNumber(myWbtcBorrowedUsd)
-          .dividedBy(new BigNumber(wbtcCollateralUsd))
-          .toString()
+            .dividedBy(new BigNumber(wbtcCollateralUsd))
+            .toString()
       console.log('wbtcLoanToValue :>> ', wbtcLoanToValue)
       console.log('wbtcCollateral :>> ', wbtcCollateral)
       console.log('myWbtcBorrowed :>> ', myWbtcBorrowed)
@@ -245,8 +254,8 @@ const HomePageFilter = () => {
       const wethLoanToValue = !wethCollateralUsd
         ? '0'
         : new BigNumber(myWethBorrowedUsd)
-          .dividedBy(new BigNumber(wethCollateralUsd))
-          .toString()
+            .dividedBy(new BigNumber(wethCollateralUsd))
+            .toString()
       console.log('wethLoanToValue :>> ', wethLoanToValue)
       console.log('myWethBorrowed :>> ', myWethBorrowed)
       console.log('myWethBorrowedUsd :>> ', myWethBorrowedUsd)
@@ -314,7 +323,7 @@ const HomePageFilter = () => {
           yourBorrow: yourBorrow,
         })
       )
-    } catch (error) { }
+    } catch (error) {}
   }
 
   useEffect(() => {
@@ -444,7 +453,7 @@ const HomePageFilter = () => {
         })
       )
 
-      const netApy = await borrowWBTCContract.methods.getApr().call()
+      const netApy = await oldBorrowContract.methods.getApr().call()
       console.log('netApy :>> ', netApy)
       console.log(
         'netAPY :>> ',
@@ -475,10 +484,13 @@ const HomePageFilter = () => {
   if (isLoading) {
     return (
       <div className="">
-        <div className='rounded-full h-[160px] w-[160px] m-auto block md:hidden z-10' >
-          <SkeletonDefault className="w-full h-full !rounded-full z-10" width={'100%'} />
+        <div className="z-10 m-auto block h-[160px] w-[160px] rounded-full md:hidden">
+          <SkeletonDefault
+            className="z-10 h-full w-full !rounded-full"
+            width={'100%'}
+          />
         </div>
-        <div className='mt-[-80px] mt-0 md:mt-[-16px]'>
+        <div className="mt-0 mt-[-80px] md:mt-[-16px]">
           <SkeletonDefault className="h-[500px] md:h-[330px]" width={'100%'} />
         </div>
       </div>
@@ -524,9 +536,10 @@ const HomePageFilter = () => {
       <div
         className={
           `hidden h-[1px] w-full md:block ` +
-          `${theme === 'light'
-            ? `bg-gradient-divider-light`
-            : `bg-gradient-divider`
+          `${
+            theme === 'light'
+              ? `bg-gradient-divider-light`
+              : `bg-gradient-divider`
           }`
         }
       ></div>
@@ -608,8 +621,8 @@ const HomePageFilter = () => {
                     ? Number(aprBoost || 0) - Number(netAPY || 0) * 100
                     : Number(home?.yourBorrow) > 0 &&
                       Number(totalMyBoostSupply) <= 0
-                      ? -Number(netAPY || 0) * 100
-                      : 0
+                    ? -Number(netAPY || 0) * 100
+                    : 0
                   : 0
               }
               decimalScale={2}
