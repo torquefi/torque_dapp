@@ -112,6 +112,17 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         )
       }
 
+      if (item.borrowTokenSymbol === 'USDC') {
+        const maxMoreMinTable = await borrowContract.methods
+          .getMoreBorrowableUsdc(address)
+          .call()
+        setMaxMoreMinTable(
+          new BigNumber(
+            ethers.utils.formatUnits(maxMoreMinTable, tokenDecimal)
+          ).toString()
+        )
+      }
+
       if (item.borrowTokenSymbol === 'TUSD') {
         const borrowed = new BigNumber(tusdPrice || 0)
           .multipliedBy(
@@ -271,7 +282,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
     try {
       setButtonLoading(true)
       const tokenDecimal = await tokenContract.methods.decimals().call()
-      const tusdBorrowAmount = ethers.utils
+      const tokenBorrowAmount = ethers.utils
         .parseUnits(Number(inputValue).toFixed(tokenDecimal), tokenDecimal)
         .toString()
       const provider = new ethers.providers.Web3Provider(window.ethereum)
@@ -281,9 +292,17 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         item?.borrowContractInfo?.abi,
         signer
       )
-      console.log('tusdBorrowAmount :>> ', tusdBorrowAmount)
-      const tx = await borrowContract2.callMintTUSD(tusdBorrowAmount)
-      await tx.wait()
+      console.log('tokenBorrowAmount :>> ', tokenBorrowAmount)
+
+      if (item.borrowTokenSymbol === 'TUSD') {
+        const tx = await borrowContract2.callMintTUSD(tokenBorrowAmount)
+        await tx.wait()
+      }
+      if (item.borrowTokenSymbol === 'USDC') {
+        const tx = await borrowContract2.callBorrowMore(tokenBorrowAmount)
+        await tx.wait()
+      }
+
       toast.success('Borrow Successful')
       handleGetBorrowData()
       setIsLoading(false)
@@ -354,8 +373,8 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
   const collateralUsd = (
     Number(collateral || 0) * (usdPrice[item?.depositTokenSymbol] || 0)
   )?.toFixed(5)
-  console.log('collateralUsd :>> ', collateralUsd);
-  console.log('borrowed :>> ', borrowed);
+  console.log('collateralUsd :>> ', collateralUsd)
+  console.log('borrowed :>> ', borrowed)
 
   const summaryInfo = (
     <div className="flex w-full text-center md:w-[500px] lg:w-[600px] xl:w-[700px]">
