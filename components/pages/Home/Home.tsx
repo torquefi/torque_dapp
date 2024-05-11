@@ -59,10 +59,10 @@ const HomePageFilter = () => {
       const aprRes = await TokenApr.getListApr({})
       const aprs: any[] = aprRes?.data || []
       const aprWbtcBoost =
-        ((aprs?.find((apr) => apr?.name === 'BTC')?.apr || 0) + 5) / 2
+        ((aprs?.find((apr) => apr?.name === 'BTC')?.apr || 0))
       setAprWbtcBoost(aprWbtcBoost)
       const aprWethBoost =
-        ((aprs?.find((apr) => apr?.name === 'ETH')?.apr || 0) + 5) / 2
+        ((aprs?.find((apr) => apr?.name === 'ETH')?.apr || 0))
       setAprWethBoost(aprWethBoost)
       console.log('aprs :>> ', aprs)
     } catch (error) {
@@ -643,6 +643,8 @@ const HomePageFilter = () => {
   }
 
   console.log('totalMyBoostSupply :>> ', totalMyBoostSupply)
+  console.log('aprBoost :>> ', aprBoost);
+  console.log('netAPY :>> ', netAPY);
 
   return (
     <div className="relative mt-[80px] flex w-full flex-wrap items-center justify-center rounded-t-[10px] border-[1px] bg-white from-[#25252566] pt-[80px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br md:mt-[-16px] md:pt-0">
