@@ -308,7 +308,7 @@ export function BoostItem({
           </div>
 
           <div className="font-rogan-regular text-[14px] text-[#959595]">
-            Variable APY
+            Variable APR
           </div>
         </div>
       </div>
@@ -406,7 +406,7 @@ export function BoostItem({
           </div>
           <div className="">
             <BoostItemChart
-              label="Boost Apy"
+              label="Boost APR"
               contractAddress={item?.boostContractInfo.address}
               tokenDecimals={item?.tokenDecimals}
               tokenPrice={
