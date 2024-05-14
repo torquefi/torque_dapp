@@ -57,6 +57,8 @@ export function TokenPriceProvider({ children }: any) {
         const ethPrice = await getPriceToken('ETH')
         const btcPrice = await getPriceToken('BTC')
         const tusdPrice = await getPriceToken('USDC')
+        const linkPrice = await getPriceToken('LINK')
+        const uniPrice = await getPriceToken('UNI')
 
         usdPrice.eth = ethPrice || usdPrice.eth || 1800
         usdPrice.ETH = ethPrice || usdPrice.ETH || 1800
@@ -70,6 +72,11 @@ export function TokenPriceProvider({ children }: any) {
         usdPrice.WBTC = btcPrice || usdPrice.BTC || 28000
         usdPrice.weth = ethPrice || usdPrice.eth || 1800
         usdPrice.WETH = ethPrice || usdPrice.eth || 1800
+        usdPrice.UNI = uniPrice || usdPrice.UNI
+        usdPrice.uni = uniPrice || usdPrice.uni
+        usdPrice.LINK = linkPrice || usdPrice.LINK
+        usdPrice.link = linkPrice || usdPrice.link
+
         dispatch(updateAllUsdPrice(usdPrice))
       } catch (error) {
         console.log('TokenPriceProvider.handleGetUsdPrice', error)

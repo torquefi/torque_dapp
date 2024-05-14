@@ -95,7 +95,7 @@ export function ManageBoostVault({ isFetchBoostData, setIsFetchBoostLoading }: a
         APR:
           ((aprs?.find(
             (apr) =>
-              apr?.name === (item?.tokenSymbol === 'WBTC' ? 'BTC' : 'ETH')
+              apr?.name === item?.tokenSymbol
           )?.apr || 0) +
             5) /
           2,
