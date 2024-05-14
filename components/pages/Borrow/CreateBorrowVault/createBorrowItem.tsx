@@ -551,11 +551,18 @@ export default function CreateBorrowItem({
       >
         <div className="flex w-full items-center justify-between">
           <div className="ml-[-12px] flex items-center">
+            <div className="relative flex justify-center -space-x-14">
             <img
               className="w-[72px] md:w-24"
               src={dataBorrow.depositTokenIcon}
               alt=""
             />
+            <img
+              className="rounded-xl w-[18px] md:w-[24px] object-cover z-30 bottom-3 right-3 md:bottom-4 absolute md:right-4 shadow-md"
+              alt="img"
+              src={dataBorrow.borrowRowTokenIcon}
+            />
+            </div>
             <div className="font-rogan ml-[-6px] mt-[-4px] text-[20px] leading-tight text-[#030303] dark:text-white md:text-[22px] lg:text-[26px]">
               Supply {dataBorrow.depositTokenSymbol},<br /> Borrow{' '}
               {dataBorrow.borrowTokenSymbol}
