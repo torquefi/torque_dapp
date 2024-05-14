@@ -11,8 +11,12 @@ import { useAccount } from 'wagmi'
 import { arbitrum } from 'wagmi/chains'
 import Web3 from 'web3'
 import {
+  boostLinkContract,
+  boostUniContract,
   boostWbtcContract,
   boostWethContract,
+  linkContract,
+  uniContract,
 } from '../Boost/constants/contracts'
 import {
   borrowBtcContract,
@@ -27,6 +31,7 @@ import {
 } from '../Borrow/constants/contract'
 
 const RPC = arbitrum.rpcUrls.default.http[0]
+const EXTRA_RPC = 'https://arbitrum-one.publicnode.com'
 
 const HomePageFilter = () => {
   const { address } = useAccount()
@@ -53,16 +58,16 @@ const HomePageFilter = () => {
   const wbtcPrice = usdPrice['WBTC'] || 0
   const wethPrice = usdPrice['WETH'] || 0
   const tusdPrice = usdPrice['TUSD'] || 0
+  const linkPrice = usdPrice['LINK'] || 0
+  const uniPrice = usdPrice['UNI'] || 0
 
   const handleGetDepositApr = async () => {
     try {
       const aprRes = await TokenApr.getListApr({})
       const aprs: any[] = aprRes?.data || []
-      const aprWbtcBoost =
-        ((aprs?.find((apr) => apr?.name === 'WBTC')?.apr || 0))
+      const aprWbtcBoost = aprs?.find((apr) => apr?.name === 'WBTC')?.apr || 0
       setAprWbtcBoost(aprWbtcBoost)
-      const aprWethBoost =
-        ((aprs?.find((apr) => apr?.name === 'WETH')?.apr || 0))
+      const aprWethBoost = aprs?.find((apr) => apr?.name === 'WETH')?.apr || 0
       setAprWethBoost(aprWethBoost)
       console.log('aprs :>> ', aprs)
     } catch (error) {
@@ -93,7 +98,7 @@ const HomePageFilter = () => {
 
   // borrow
   const oldBorrowContract = useMemo(() => {
-    const web3 = new Web3(RPC)
+    const web3 = new Web3(EXTRA_RPC)
     const contract = new web3.eth.Contract(
       JSON.parse(borrowOldBtcContract?.abi),
       borrowOldBtcContract?.address
@@ -102,7 +107,7 @@ const HomePageFilter = () => {
   }, [Web3.givenProvider, borrowOldBtcContract])
 
   const borrowWBTCContract = useMemo(() => {
-    const web3 = new Web3(RPC)
+    const web3 = new Web3(EXTRA_RPC)
     const contract = new web3.eth.Contract(
       JSON.parse(borrowBtcContract?.abi),
       borrowBtcContract?.address
@@ -111,7 +116,7 @@ const HomePageFilter = () => {
   }, [Web3.givenProvider, borrowBtcContract])
 
   const borrowWETHContract = useMemo(() => {
-    const web3 = new Web3(RPC)
+    const web3 = new Web3(EXTRA_RPC)
     const contract = new web3.eth.Contract(
       JSON.parse(borrowEthContract?.abi),
       borrowEthContract?.address
@@ -120,7 +125,7 @@ const HomePageFilter = () => {
   }, [Web3.givenProvider, borrowEthContract])
 
   const borrowSimpleWETHContract = useMemo(() => {
-    const web3 = new Web3(RPC)
+    const web3 = new Web3(EXTRA_RPC)
     const contract = new web3.eth.Contract(
       JSON.parse(simpleBorrowEthContract?.abi),
       simpleBorrowEthContract?.address
@@ -129,7 +134,7 @@ const HomePageFilter = () => {
   }, [Web3.givenProvider, simpleBorrowEthContract])
 
   const borrowSimpleWBTCContract = useMemo(() => {
-    const web3 = new Web3(RPC)
+    const web3 = new Web3(EXTRA_RPC)
     const contract = new web3.eth.Contract(
       JSON.parse(simpleBorrowBtcContract?.abi),
       simpleBorrowBtcContract?.address
@@ -155,6 +160,24 @@ const HomePageFilter = () => {
     )
     return contract
   }, [Web3.givenProvider, boostWethContract])
+
+  const boostLINKContract = useMemo(() => {
+    const web3 = new Web3(RPC)
+    const contract = new web3.eth.Contract(
+      JSON.parse(boostLinkContract?.abi),
+      boostLinkContract?.address
+    )
+    return contract
+  }, [Web3.givenProvider, boostLinkContract])
+
+  const boostUNIContract = useMemo(() => {
+    const web3 = new Web3(RPC)
+    const contract = new web3.eth.Contract(
+      JSON.parse(boostUniContract?.abi),
+      boostUniContract?.address
+    )
+    return contract
+  }, [Web3.givenProvider, boostUniContract])
 
   // token
   const tokenWBTCContract = useMemo(() => {
@@ -193,6 +216,24 @@ const HomePageFilter = () => {
     return contract
   }, [Web3.givenProvider, tokenUsdcContract])
 
+  const tokenUNIContract = useMemo(() => {
+    const web3 = new Web3(RPC)
+    const contract = new web3.eth.Contract(
+      JSON.parse(uniContract?.abi),
+      uniContract?.address
+    )
+    return contract
+  }, [Web3.givenProvider, uniContract])
+
+  const tokenLINKContract = useMemo(() => {
+    const web3 = new Web3(RPC)
+    const contract = new web3.eth.Contract(
+      JSON.parse(linkContract?.abi),
+      linkContract?.address
+    )
+    return contract
+  }, [Web3.givenProvider, linkContract])
+
   const handleGetMyBorrowInfo = async () => {
     try {
       if (
@@ -203,6 +244,8 @@ const HomePageFilter = () => {
         !tokenTUSDContract ||
         !boostWBTCContract ||
         !boostWETHContract ||
+        !boostLINKContract ||
+        !boostUNIContract ||
         !address ||
         !borrowSimpleWBTCContract ||
         !borrowSimpleWETHContract
@@ -366,6 +409,31 @@ const HomePageFilter = () => {
 
       // boost
 
+      // LINK
+      const tokenLinkDecimal = await tokenLINKContract.methods.decimals().call()
+      const depositedLink = await boostLINKContract.methods
+        .balanceOf(address)
+        .call()
+      console.log('depositedLink link:>> ', depositedLink)
+      const depositedLinkUsd = new BigNumber(
+        ethers.utils.formatUnits(depositedLink, tokenLinkDecimal).toString()
+      )
+        .multipliedBy(new BigNumber(linkPrice || 0))
+        .toString()
+      // setDepositedWbtcUsd(depositedWbtcUsd)
+
+      // UNI
+      const tokenUniDecimal = await tokenUNIContract.methods.decimals().call()
+      const depositedUni = await boostUNIContract.methods
+        .balanceOf(address)
+        .call()
+      console.log('depositedUni uni:>> ', depositedUni)
+      const depositedUniUsd = new BigNumber(
+        ethers.utils.formatUnits(depositedUni, tokenUniDecimal).toString()
+      )
+        .multipliedBy(new BigNumber(uniPrice || 0))
+        .toString()
+
       // WBTC
       const tokenWbtcDecimal = await tokenWBTCContract.methods.decimals().call()
       const depositedWbtc = await boostWBTCContract.methods
@@ -400,6 +468,8 @@ const HomePageFilter = () => {
         .plus(new BigNumber(myWethSuppliedUsd))
         .plus(new BigNumber(depositedWethUsd))
         .plus(new BigNumber(depositedWbtcUsd))
+        .plus(new BigNumber(depositedLinkUsd))
+        .plus(new BigNumber(depositedUniUsd))
         .toString()
       // setTotalMySupplied(yourSupply)
 
@@ -444,12 +514,18 @@ const HomePageFilter = () => {
         !boostWBTCContract ||
         !boostWETHContract ||
         !borrowSimpleWBTCContract ||
-        !borrowSimpleWETHContract
+        !borrowSimpleWETHContract ||
+        !tokenUNIContract ||
+        !tokenLINKContract ||
+        !boostLINKContract ||
+        !boostUNIContract
       ) {
         return
       }
       const tusdDecimal = await tokenTUSDContract.methods.decimals().call()
       const usdcDecimal = await tokenUSDCContract.methods.decimals().call()
+      const uniDecimal = await tokenUNIContract.methods.decimals().call()
+      const linkDecimal = await tokenLINKContract.methods.decimals().call()
       // WBTC
       const wbtcDecimal = await tokenWBTCContract.methods.decimals().call()
 
@@ -578,6 +654,22 @@ const HomePageFilter = () => {
         .toString()
       // setTotalMyBoostSupply(depositedWethUsd)
 
+      // LINK
+      const depositedLink = await boostLINKContract.methods.totalSupply().call()
+      const depositedLinkUsd = new BigNumber(
+        ethers.utils.formatUnits(depositedLink, linkDecimal).toString()
+      )
+        .multipliedBy(new BigNumber(linkPrice || 0))
+        .toString()
+
+      // UNI
+      const depositedUni = await boostUNIContract.methods.totalSupply().call()
+      const depositedUniUsd = new BigNumber(
+        ethers.utils.formatUnits(depositedUni, uniDecimal).toString()
+      )
+        .multipliedBy(new BigNumber(uniPrice || 0))
+        .toString()
+
       // total supplied
       const totalSupply = new BigNumber(totalWbtcSuppliedUsd)
         .plus(new BigNumber(totalSimpleWbtcSuppliedUsd))
@@ -585,6 +677,8 @@ const HomePageFilter = () => {
         .plus(new BigNumber(totalSimpleWethSupplyUsd))
         .plus(new BigNumber(depositedWethUsd))
         .plus(new BigNumber(depositedWbtcUsd))
+        .plus(new BigNumber(depositedLinkUsd))
+        .plus(new BigNumber(depositedUniUsd))
         .toString()
       // setTotalSupplied(totalSupply)
 

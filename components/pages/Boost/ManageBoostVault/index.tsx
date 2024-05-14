@@ -6,10 +6,16 @@ import { useEffect, useState } from 'react'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 import {
+  boostLinkContract,
+  boostUniContract,
   boostWbtcContract,
   boostWethContract,
+  gmxLinkContract,
+  gmxUniContract,
   gmxWbtcContract,
   gmxWethContract,
+  linkContract,
+  uniContract,
   wbtcContract,
   wethContract,
 } from '../constants/contracts'
@@ -17,7 +23,10 @@ import { IBoostInfo } from '../types'
 import { BoostItem } from './BoostItem'
 import { EmptyBoost } from './EmptyBoost'
 
-export function ManageBoostVault({ isFetchBoostData, setIsFetchBoostLoading }: any) {
+export function ManageBoostVault({
+  isFetchBoostData,
+  setIsFetchBoostLoading,
+}: any) {
   const { address, isConnected } = useAccount()
   const [dataBoost, setDataBoost] = useState<IBoostInfo[]>(DATA_BOOST_VAULT)
   const [isSkeletonLoading, setSkeletonLoading] = useState(true)
@@ -49,21 +58,51 @@ export function ManageBoostVault({ isFetchBoostData, setIsFetchBoostLoading }: a
 
       if (item.tokenSymbol === 'WBTC') {
         const deposit = await gmxContract.methods.wbtcAmount(address).call()
-        const depositBalance = await boostContract.methods.balanceOf(address).call()
+        const depositBalance = await boostContract.methods
+          .balanceOf(address)
+          .call()
         item.deposited = Number(
           ethers.utils.formatUnits(deposit, tokenDecimal).toString()
         )
         item.depositedBalance = Number(
           ethers.utils.formatUnits(depositBalance, tokenDecimal).toString()
         )
-      } else {
+      }
+      if (item.tokenSymbol === 'WETH') {
         const deposit = await gmxContract.methods.wethAmount(address).call()
-        const depositBalance = await boostContract.methods.balanceOf(address).call()
+        const depositBalance = await boostContract.methods
+          .balanceOf(address)
+          .call()
         item.depositedBalance = Number(
           ethers.utils.formatUnits(depositBalance, tokenDecimal).toString()
         )
         item.deposited = Number(
           ethers.utils.formatUnits(deposit, tokenDecimal).toString()
+        )
+      }
+      
+      if (item.tokenSymbol === 'UNI') {
+        const deposit = await gmxContract.methods.uniAmount(address).call()
+        const depositBalance = await boostContract.methods
+          .balanceOf(address)
+          .call()
+        item.deposited = Number(
+          ethers.utils.formatUnits(deposit, tokenDecimal).toString()
+        )
+        item.depositedBalance = Number(
+          ethers.utils.formatUnits(depositBalance, tokenDecimal).toString()
+        )
+      }
+      if (item.tokenSymbol === 'LINK') {
+        const deposit = await gmxContract.methods.linkAmount(address).call()
+        const depositBalance = await boostContract.methods
+          .balanceOf(address)
+          .call()
+        item.deposited = Number(
+          ethers.utils.formatUnits(deposit, tokenDecimal).toString()
+        )
+        item.depositedBalance = Number(
+          ethers.utils.formatUnits(depositBalance, tokenDecimal).toString()
         )
       }
       console.log('=>>>', item)
@@ -92,13 +131,7 @@ export function ManageBoostVault({ isFetchBoostData, setIsFetchBoostLoading }: a
         label:
           labels?.find((label) => label?.tokenSymbol === item?.tokenSymbol)
             ?.name || item?.defaultLabel,
-        APR:
-          ((aprs?.find(
-            (apr) =>
-              apr?.name === item?.tokenSymbol
-          )?.apr || 0) +
-            5) /
-          2,
+        APR: aprs?.find((apr) => apr?.name === item?.tokenSymbol)?.apr || 0,
       }))
     } catch (error) {
       console.error('ManageBoostVault.handleUpdateBoostData.1', error)
@@ -119,7 +152,9 @@ export function ManageBoostVault({ isFetchBoostData, setIsFetchBoostLoading }: a
   }, [isConnected, address, isFetchBoostData])
 
   // const boostDisplayed = dataBoost
-  const boostDisplayed = dataBoost.filter((item) => Number(item.depositedBalance) > 0 || Number(item?.deposited) > 0)
+  const boostDisplayed = dataBoost.filter(
+    (item) => Number(item.depositedBalance) > 0 || Number(item?.deposited) > 0
+  )
 
   console.log('boostDisplayed :>> ', boostDisplayed)
 
@@ -152,7 +187,11 @@ export function ManageBoostVault({ isFetchBoostData, setIsFetchBoostLoading }: a
       <div className="text-[24px] dark:text-white">Manage Boost Vehicles</div>
       {boostDisplayed.map((item) => (
         <div className="">
-          <BoostItem item={item} onWithdrawSuccess={handleUpdateBoostData} setIsFetchBoostLoading={setIsFetchBoostLoading} />
+          <BoostItem
+            item={item}
+            onWithdrawSuccess={handleUpdateBoostData}
+            setIsFetchBoostLoading={setIsFetchBoostLoading}
+          />
         </div>
       ))}
     </div>
@@ -183,6 +222,32 @@ const DATA_BOOST_VAULT: IBoostInfo[] = [
     tokenContractInfo: wethContract,
     boostContractInfo: boostWethContract,
     gmxContractInfo: gmxWethContract,
+    depositedBalance: 0.0,
+    bonus: 0,
+  },
+  {
+    tokenSymbol: 'LINK',
+    tokenDecimals: 18,
+    defaultLabel: 'Vehicle #3',
+    deposited: 0.0,
+    earnings: 0.0,
+    APR: 0.0,
+    tokenContractInfo: linkContract,
+    boostContractInfo: boostLinkContract,
+    gmxContractInfo: gmxLinkContract,
+    depositedBalance: 0.0,
+    bonus: 0,
+  },
+  {
+    tokenSymbol: 'UNI',
+    tokenDecimals: 18,
+    defaultLabel: 'Vehicle #4',
+    deposited: 0.0,
+    earnings: 0.0,
+    APR: 0.0,
+    tokenContractInfo: uniContract,
+    boostContractInfo: boostUniContract,
+    gmxContractInfo: gmxUniContract,
     depositedBalance: 0.0,
     bonus: 0,
   },

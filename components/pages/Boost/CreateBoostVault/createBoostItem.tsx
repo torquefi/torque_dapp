@@ -220,14 +220,26 @@ export function CreateBoostItem({
           value: executionFeeAmount,
         })
         await tx.wait()
-      } else {
-        console.log('depositToken wbtc:>> ', depositToken)
-        console.log('fee wbtc:>> ', executionFeeAmount)
+      } 
+      if(item.token === 'WBTC') {
         const tx = await boostContract2.depositBTC(depositToken, {
           value: executionFeeAmount,
         })
         await tx.wait()
       }
+      if(item.token === 'LINK') {
+        const tx = await boostContract2.depositLINK(depositToken, {
+          value: executionFeeAmount,
+        })
+        await tx.wait()
+      }
+      if(item.token === 'UNI') {
+        const tx = await boostContract2.depositUNI(depositToken, {
+          value: executionFeeAmount,
+        })
+        await tx.wait()
+      }
+
       toast.success('Boost Successful')
       setIsFetchBoostLoading && setIsFetchBoostLoading((prev: any) => !prev)
       handleGetTotalSupply()

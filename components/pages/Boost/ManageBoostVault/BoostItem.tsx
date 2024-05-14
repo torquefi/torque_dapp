@@ -26,7 +26,12 @@ import { IBoostInfo } from '../types'
 import { BoostItemChart } from './BoostItemChart'
 import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
 import { AppState } from '@/lib/redux/store'
-import { updateCreatedWbtc, updateCreatedWeth } from '@/lib/redux/slices/boost'
+import {
+  updateCreatedLink,
+  updateCreatedUni,
+  updateCreatedWbtc,
+  updateCreatedWeth,
+} from '@/lib/redux/slices/boost'
 
 interface BoostItemProps {
   item: IBoostInfo
@@ -60,7 +65,7 @@ export function BoostItem({
   const { tokensData, pricesUpdatedAt } = useTokensDataRequest(chainId)
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
   const { gasPrice } = useGasPrice(chainId)
-  const { createdWbtc, createdWeth } = useSelector(
+  const { createdWbtc, createdWeth, createdLink, createdUni } = useSelector(
     (state: AppState) => state.boost
   )
 
@@ -178,8 +183,6 @@ export function BoostItem({
         //   )
         //   .send({ from: address })
       }
-      // const executionFee = await gmxContract.methods.executionFee().call()
-
       const estimateExecuteWithdrawalGasLimitValue =
         estimateExecuteWithdrawalGasLimit(gasLimits, {})
 
@@ -214,8 +217,21 @@ export function BoostItem({
           value: executionFeeAmount,
         })
         await tx.wait()
-      } else {
+      }
+      if (item.tokenSymbol === 'WBTC') {
         const tx = await boostContract2.withdrawBTC(withdrawAmount, {
+          value: executionFeeAmount,
+        })
+        await tx.wait()
+      }
+      if (item.tokenSymbol === 'LINK') {
+        const tx = await boostContract2.withdrawLINK(withdrawAmount, {
+          value: executionFeeAmount,
+        })
+        await tx.wait()
+      }
+      if (item.tokenSymbol === 'UNI') {
+        const tx = await boostContract2.withdrawUNI(withdrawAmount, {
           value: executionFeeAmount,
         })
         await tx.wait()
@@ -229,6 +245,12 @@ export function BoostItem({
       }
       if (item.tokenSymbol === 'WETH') {
         dispatch(updateCreatedWeth(true as any))
+      }
+      if (item.tokenSymbol === 'LINK') {
+        dispatch(updateCreatedLink(true as any))
+      }
+      if (item.tokenSymbol === 'UNI') {
+        dispatch(updateCreatedUni(true as any))
       }
     } catch (e) {
       toast.error('Withdraw Failed')
@@ -326,7 +348,9 @@ export function BoostItem({
 
   const isUnFirstCreated =
     (item.tokenSymbol === 'WBTC' && !createdWbtc) ||
-    (item.tokenSymbol === 'WETH' && !createdWeth)
+    (item.tokenSymbol === 'WETH' && !createdWeth) ||
+    (item.tokenSymbol === 'LINK' && !createdLink) ||
+    (item.tokenSymbol === 'UNI' && !createdUni)
 
   return (
     <>
