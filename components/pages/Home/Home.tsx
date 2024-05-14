@@ -59,10 +59,10 @@ const HomePageFilter = () => {
       const aprRes = await TokenApr.getListApr({})
       const aprs: any[] = aprRes?.data || []
       const aprWbtcBoost =
-        ((aprs?.find((apr) => apr?.name === 'BTC')?.apr || 0))
+        ((aprs?.find((apr) => apr?.name === 'WBTC')?.apr || 0))
       setAprWbtcBoost(aprWbtcBoost)
       const aprWethBoost =
-        ((aprs?.find((apr) => apr?.name === 'ETH')?.apr || 0))
+        ((aprs?.find((apr) => apr?.name === 'WETH')?.apr || 0))
       setAprWethBoost(aprWethBoost)
       console.log('aprs :>> ', aprs)
     } catch (error) {
