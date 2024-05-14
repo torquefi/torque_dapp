@@ -44,7 +44,7 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
       dataBoost = dataBoost?.map((item) => ({
         ...item,
         APR: (aprs?.find(
-          (apr) => apr?.name === (item?.token === 'WBTC' ? 'BTC' : 'ETH')
+          (apr) => apr?.name === item?.token
         )?.apr || 0)
       })
     )
