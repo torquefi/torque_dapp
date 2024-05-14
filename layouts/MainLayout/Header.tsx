@@ -200,9 +200,9 @@ export const Header = () => {
             >
               <div
                 // onClick={() => setIsOpenClaim(true)}
-                className="mr-[12px] hidden cursor-pointer items-center xs:flex"
+                className="mr-[10px] hidden cursor-pointer items-center xs:flex"
               >
-                <img className="h-[25px]" src="/assets/dots.svg" alt="" />
+                <img className="h-[24px]" src="/assets/dots.svg" alt="" />
                 {/* <p className="font-rogan ml-[6px] text-[16px] text-[#404040] dark:text-white">
                 $
                 <NumberFormat

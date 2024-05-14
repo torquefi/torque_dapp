@@ -262,7 +262,7 @@ export function CreateBoostItem({
               alt=""
               className="w-[72px] md:w-24"
             />
-            <div className="ml-[-4px] mt-[-4px] font-rogan text-[20px] leading-tight text-[#030303] md:text-[22px] lg:text-[26px] dark:text-white">
+            <div className="ml-[-6px] mt-[-4px] font-rogan text-[20px] leading-tight text-[#030303] md:text-[22px] lg:text-[26px] dark:text-white">
               Supply {item.token},<br className="" /> Earn {item.token}
             </div>
           </div>
@@ -270,7 +270,7 @@ export function CreateBoostItem({
             trigger="hover"
             placement="bottom-right"
             className={`font-rogan-regular mt-[8px] w-[210px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
-            content="The projected TORQ rewards after 1 year of $1,000 supplied."
+            content="The projected TORQ rewards after one year of $1,000 supplied."
           >
             <Link href="#" className="" target={'_blank'}>
               <div className="flex items-center rounded-full bg-[#AA5BFF] bg-opacity-20 p-1  text-[12px] xs:text-[14px]">
