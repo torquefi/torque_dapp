@@ -50,7 +50,7 @@ export const VotingPower = () => {
 
   return (
     <>
-      <div className="ml-0 mr-2 mt-6 h-full w-full rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-[16px] py-[12px] pb-[20px] pt-[16px] text-[#404040] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white md:ml-4 md:mr-0 md:mt-0 lg:max-w-[40%] xl:px-[32px]">
+      <div className="ml-0 mr-2 mt-6 h-full w-full rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-[16px] py-[12px] pb-[20px] pt-[16px] text-[#404040] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white md:ml-4 md:mr-0 md:mt-0 lg:max-w-[40%] xl:px-[24px]">
         <div className="flex items-center justify-between">
           <h2 className="font-rogan text-[#030303] dark:text-white text-[24px] font-[400] leading-[40px]">
             Vote Power
@@ -62,7 +62,7 @@ export const VotingPower = () => {
             content="Direct Torque by delegating votes to yourself or an aligned entity."
           >
             <button>
-              <img src="/assets/pages/vote/ic-info.svg" alt="information" />
+              <img src="/assets/pages/vote/ic-info.svg" alt="information" className="w-4" />
             </button>
           </Popover>
         </div>

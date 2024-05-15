@@ -14,11 +14,11 @@ export const ListPools = () => {
           <Popover
             trigger="hover"
             placement="bottom-right"
-            className={`font-rogan-regular text-[#030303] dark:text-white mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
+            className={`font-rogan-regular text-[#030303] dark:text-white mt-[8px] w-[200px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
             content="Earn Torque (TORQ) by providing liquidity across Torque pools."
           >
           <button>
-            <img src="/assets/pages/vote/ic-info.svg" alt="" />
+            <img src="/assets/pages/vote/ic-info.svg" alt="info" className="w-4" />
           </button>
           </Popover>
         </div>
