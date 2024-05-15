@@ -38,11 +38,11 @@ export const Description = () => {
           <Popover
             trigger="hover"
             placement="bottom-right"
-            className={`font-rogan-regular mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+            className={`font-rogan-regular mt-[8px] w-[200px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
             content="Community-driven proposals guide the future of Torque."
           >
             <button>
-              <img src="/assets/pages/vote/ic-info.svg" alt="information" />
+              <img src="/assets/pages/vote/ic-info.svg" alt="information" className="w-4" />
             </button>
           </Popover>
         </div>

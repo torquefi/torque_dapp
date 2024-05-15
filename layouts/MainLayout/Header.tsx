@@ -350,8 +350,8 @@ const menu = [
     iconLight: '/assets/main-layout/link-active.png',
   },
   {
-    label: 'Bridge',
-    path: '/bridge',
+    label: 'Vote',
+    path: '/vote',
     icon: '/assets/main-layout/network.svg',
     iconActive: '/assets/main-layout/network-active.svg',
     iconLight: '/assets/main-layout/network-active.png',

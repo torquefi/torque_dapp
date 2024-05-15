@@ -74,7 +74,7 @@ export const LeaderBoard = () => {
             content="Torque is governed by a global community of TORQ holders."
           >
             <button>
-              <img src="/assets/pages/vote/ic-info.svg" alt="" />
+              <img src="/assets/pages/vote/ic-info.svg" alt="info" className="w-4" />
             </button>
           </Popover>
         </div>
