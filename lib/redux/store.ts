@@ -10,7 +10,7 @@ const reducer = combineReducers(rootReducer)
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['auth', 'borrow', 'theme', 'home', 'layout'],
+  whitelist: ['auth', 'borrow', 'theme', 'layout'],
   blacklist: [usdPriceReducer.name],
 }
 

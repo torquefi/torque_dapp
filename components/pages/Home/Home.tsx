@@ -281,6 +281,7 @@ const HomePageFilter = () => {
         const myDataSimpleWbtcBorrow = await borrowSimpleWBTCContract.methods
           .getUserDetails(address)
           .call()
+        console.log('myDataSimpleWbtcBorrow :>> ', myDataSimpleWbtcBorrow)
         mySimpleWbtcSupply = myDataSimpleWbtcBorrow?.['0']
         mySimpleWbtcBorrowed = myDataSimpleWbtcBorrow?.['1']
       }
@@ -305,24 +306,24 @@ const HomePageFilter = () => {
 
       // my borrow wbtc
       const myWbtcBorrowedUsd = new BigNumber(
-        ethers.utils.formatUnits(myWbtcBorrowed || '0', tusdDecimal).toString()
+        ethers.utils.formatUnits(myWbtcBorrowed, tusdDecimal).toString()
       )
         .multipliedBy(new BigNumber(tusdPrice || 0))
         .toString()
       const mySimpleWbtcBorrowedUsd = new BigNumber(
         ethers.utils
-          .formatUnits(mySimpleWbtcBorrowed || '0', tusdDecimal)
+          .formatUnits(mySimpleWbtcBorrowed, usdcDecimal)
           .toString()
       )
         .multipliedBy(new BigNumber(tusdPrice || 0))
         .toString()
 
       const wbtcCollateral = new BigNumber(
-        ethers.utils.formatUnits(myWbtcSupply || '0', wbtcDecimal)
+        ethers.utils.formatUnits(myWbtcSupply, wbtcDecimal)
       )
         .plus(
           new BigNumber(
-            ethers.utils.formatUnits(mySimpleWbtcSupply || '0', wbtcDecimal)
+            ethers.utils.formatUnits(mySimpleWbtcSupply, wbtcDecimal)
           )
         )
         .toString()
@@ -340,6 +341,7 @@ const HomePageFilter = () => {
             .toString()
       console.log('wbtcLoanToValue :>> ', wbtcLoanToValue)
       console.log('myWbtcBorrowedUsd :>> ', myWbtcBorrowedUsd)
+      console.log('mySimpleWbtcBorrowedUsd :>> ', mySimpleWbtcBorrowedUsd);
 
       // WETH
       const wethDecimal = await tokenWETHContract.methods.decimals().call()
@@ -360,7 +362,7 @@ const HomePageFilter = () => {
       }
 
       const userSimpleBorrowWethAddressContract =
-        await borrowWETHContract.methods.userContract(address).call()
+        await borrowSimpleWETHContract.methods.userContract(address).call()
       let mySimpleWethSupply = '0'
       let mySimpleWethBorrowed = '0'
       if (
@@ -399,17 +401,19 @@ const HomePageFilter = () => {
         .multipliedBy(new BigNumber(tusdPrice || 0))
         .toString()
       const mySimpleWethBorrowedUsd = new BigNumber(
-        ethers.utils.formatUnits(mySimpleWethBorrowed || '0', usdcDecimal).toString()
+        ethers.utils
+          .formatUnits(mySimpleWethBorrowed || '0', usdcDecimal)
+          .toString()
       )
         .multipliedBy(new BigNumber(tusdPrice || 0))
         .toString()
 
       const wethCollateral = new BigNumber(
-        ethers.utils.formatUnits(myWethSupply || '0', wethDecimal)
+        ethers.utils.formatUnits(myWethSupply, wethDecimal)
       )
         .plus(
           new BigNumber(
-            ethers.utils.formatUnits(mySimpleWethSupply || '0', wethDecimal)
+            ethers.utils.formatUnits(mySimpleWethSupply, wethDecimal)
           )
         )
         .toString()
@@ -428,6 +432,7 @@ const HomePageFilter = () => {
       console.log('wethLoanToValue :>> ', wethLoanToValue)
       console.log('myWethBorrowed :>> ', myWethBorrowed)
       console.log('myWethBorrowedUsd :>> ', myWethBorrowedUsd)
+      console.log('wbtcLoanToValue :>> ', wbtcLoanToValue)
 
       let borrowedPercent = 0
       if (Number(wethLoanToValue) > 0 && Number(wbtcLoanToValue) > 0) {
@@ -517,6 +522,7 @@ const HomePageFilter = () => {
         .plus(new BigNumber(mySimpleWethBorrowedUsd))
         .toString()
       // setTotalMyBorrowed(yourBorrow)
+      console.log('yourBorrow :>> ', yourBorrow)
 
       dispatch(
         updateHomeInfo({
@@ -528,19 +534,6 @@ const HomePageFilter = () => {
       console.log('error :>> ', error)
     }
   }
-
-  // useEffect(() => {
-  //   return () => {
-  //     dispatch(
-  //       updateHomeInfo({
-  //         yourSupply: '',
-  //         yourBorrow: '',
-  //         totalSupply: '',
-  //         totalBorrow: '',
-  //       })
-  //     )
-  //   }
-  // }, [])
 
   useEffect(() => {
     handleGetMyBorrowInfo()
