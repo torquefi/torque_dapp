@@ -34,8 +34,8 @@ const RPC = arbitrum.rpcUrls.default.http[0]
 const EXTRA_RPC = 'https://arbitrum-one.publicnode.com'
 
 const HomePageFilter = () => {
-  // const { address } = useAccount()
-  const address = '0x57E622DF37c95ddc4a13c6f5a4af0E937D840F2b'
+  const { address } = useAccount()
+  // const address = '0x57E622DF37c95ddc4a13c6f5a4af0E937D840F2b'
   const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(true)
   const theme = useSelector((store: AppStore) => store.theme.theme)
