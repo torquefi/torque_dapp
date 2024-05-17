@@ -442,6 +442,7 @@ const HomePageFilter = () => {
         .multipliedBy(new BigNumber(wbtcPrice || 0))
         .toString()
       setDepositedWbtcUsd(depositedWbtcUsd)
+
       // WETH
       const tokenWethDecimal = await tokenWETHContract.methods.decimals().call()
       const depositedWeth = await boostWETHContract.methods
@@ -454,6 +455,7 @@ const HomePageFilter = () => {
         .multipliedBy(new BigNumber(wethPrice || 0))
         .toString()
       setDepositedWethUsd(depositedWethUsd)
+
       setTotalMyBoostSupply(
         new BigNumber(depositedWbtcUsd)
           .plus(new BigNumber(depositedWethUsd))
@@ -461,7 +463,9 @@ const HomePageFilter = () => {
       )
 
       const yourSupply = new BigNumber(myWbtcSuppliedUsd)
+        .plus(new BigNumber(mySimpleWbtcSuppliedUsd))
         .plus(new BigNumber(myWethSuppliedUsd))
+        .plus(new BigNumber(mySimpleWethSuppliedUsd))
         .plus(new BigNumber(depositedWethUsd))
         .plus(new BigNumber(depositedWbtcUsd))
         .plus(new BigNumber(depositedLinkUsd))
@@ -470,7 +474,9 @@ const HomePageFilter = () => {
       // setTotalMySupplied(yourSupply)
 
       const yourBorrow = new BigNumber(myWbtcBorrowedUsd)
+        .plus(new BigNumber(mySimpleWbtcBorrowedUsd))
         .plus(new BigNumber(myWethBorrowedUsd))
+        .plus(new BigNumber(mySimpleWethBorrowedUsd))
         .toString()
       // setTotalMyBorrowed(yourBorrow)
 
