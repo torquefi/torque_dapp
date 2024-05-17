@@ -35,6 +35,7 @@ const EXTRA_RPC = 'https://arbitrum-one.publicnode.com'
 
 const HomePageFilter = () => {
   const { address } = useAccount()
+  // const address = '0x57E622DF37c95ddc4a13c6f5a4af0E937D840F2b'
   const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(true)
   const theme = useSelector((store: AppStore) => store.theme.theme)
@@ -55,6 +56,8 @@ const HomePageFilter = () => {
   const tusdPrice = usdPrice['TUSD'] || 0
   const linkPrice = usdPrice['LINK'] || 0
   const uniPrice = usdPrice['UNI'] || 0
+
+  console.log('home :>> ', home)
 
   const handleGetDepositApr = async () => {
     try {
@@ -252,62 +255,83 @@ const HomePageFilter = () => {
 
       // WBTC
       const wbtcDecimal = await tokenWBTCContract.methods.decimals().call()
-      const myDataWbtcBorrow = await borrowWBTCContract.methods
-        .getUserDetails(address)
+      const userBorrowAddressContract = await borrowWBTCContract.methods
+        .userContract(address)
         .call()
-      const myDataSimpleWbtcBorrow = await borrowSimpleWBTCContract.methods
-        .getUserDetails(address)
-        .call()
-      console.log('myDataSimpleWbtcBorrow 1111:>> ', myDataSimpleWbtcBorrow)
+      let myWbtcSupply = '0'
+      let myWbtcBorrowed = '0'
+      if (
+        userBorrowAddressContract !==
+        '0x0000000000000000000000000000000000000000'
+      ) {
+        const myDataWbtcBorrow = await borrowWBTCContract.methods
+          .getUserDetails(address)
+          .call()
+        myWbtcBorrowed = myDataWbtcBorrow?.['2']
+        myWbtcSupply = myDataWbtcBorrow?.['0']
+      }
+
+      // user simple address borrow wbtc
+      const userSimpleBorrowAddressContract =
+        await borrowSimpleWBTCContract.methods.userContract(address).call()
+      let mySimpleWbtcSupply = '0'
+      let mySimpleWbtcBorrowed = '0'
+      if (
+        userSimpleBorrowAddressContract !==
+        '0x0000000000000000000000000000000000000000'
+      ) {
+        const myDataSimpleWbtcBorrow = await borrowSimpleWBTCContract.methods
+          .getUserDetails(address)
+          .call()
+        mySimpleWbtcSupply = myDataSimpleWbtcBorrow?.['0']
+        mySimpleWbtcBorrowed = myDataSimpleWbtcBorrow?.['1']
+      }
 
       // my supplied wbtc
-      const myWbtcSupply = myDataWbtcBorrow?.['0']
       const myWbtcSuppliedUsd = new BigNumber(
         ethers.utils.formatUnits(myWbtcSupply, wbtcDecimal)
       )
         .multipliedBy(wbtcPrice)
         .toString()
 
-      const mySimpleWbtcSupply = myDataSimpleWbtcBorrow?.['0']
       const mySimpleWbtcSuppliedUsd = new BigNumber(
-        ethers.utils.formatUnits(mySimpleWbtcSupply, wbtcDecimal)
+        ethers.utils.formatUnits(mySimpleWbtcSupply || '0', wbtcDecimal)
       )
         .multipliedBy(wbtcPrice)
         .toString()
 
-      console.log('myDataWBTCBorrow :>> ', myDataWbtcBorrow)
       console.log('myWbtcSupply :>> ', myWbtcSupply)
       console.log('myWbtcSuppliedUsd :>> ', myWbtcSuppliedUsd)
       console.log('mySimpleWbtcSupply :>> ', mySimpleWbtcSupply)
       console.log('mySimpleWbtcSuppliedUsd :>> ', mySimpleWbtcSuppliedUsd)
 
       // my borrow wbtc
-      const myWbtcBorrowed = myDataWbtcBorrow?.['2']
       const myWbtcBorrowedUsd = new BigNumber(
-        ethers.utils.formatUnits(myWbtcBorrowed, tusdDecimal).toString()
+        ethers.utils.formatUnits(myWbtcBorrowed || '0', tusdDecimal).toString()
       )
         .multipliedBy(new BigNumber(tusdPrice || 0))
         .toString()
-      const mySimpleWbtcBorrowed = myDataSimpleWbtcBorrow?.['1']
       const mySimpleWbtcBorrowedUsd = new BigNumber(
-        ethers.utils.formatUnits(mySimpleWbtcBorrowed, tusdDecimal).toString()
+        ethers.utils
+          .formatUnits(mySimpleWbtcBorrowed || '0', tusdDecimal)
+          .toString()
       )
         .multipliedBy(new BigNumber(tusdPrice || 0))
         .toString()
 
       const wbtcCollateral = new BigNumber(
-        ethers.utils.formatUnits(myDataWbtcBorrow?.['0'], wbtcDecimal)
+        ethers.utils.formatUnits(myWbtcSupply || '0', wbtcDecimal)
       )
         .plus(
           new BigNumber(
-            ethers.utils.formatUnits(myDataSimpleWbtcBorrow?.['0'], wbtcDecimal)
+            ethers.utils.formatUnits(mySimpleWbtcSupply || '0', wbtcDecimal)
           )
         )
         .toString()
       const wbtcCollateralUsd = new BigNumber(wbtcCollateral || '0')
         .multipliedBy(usdPrice['WBTC'] || 0)
         .toString()
-      const wbtcLoanToValue = !wbtcCollateralUsd
+      const wbtcLoanToValue = !Number(wbtcCollateralUsd)
         ? '0'
         : new BigNumber(
             new BigNumber(myWbtcBorrowedUsd).plus(
@@ -317,48 +341,65 @@ const HomePageFilter = () => {
             .dividedBy(new BigNumber(wbtcCollateralUsd))
             .toString()
       console.log('wbtcLoanToValue :>> ', wbtcLoanToValue)
-      console.log('wbtcCollateral :>> ', wbtcCollateral)
-      console.log('myWbtcBorrowed :>> ', myWbtcBorrowed)
       console.log('myWbtcBorrowedUsd :>> ', myWbtcBorrowedUsd)
 
       // WETH
       const wethDecimal = await tokenWETHContract.methods.decimals().call()
-      const myDataWethBorrow = await borrowWETHContract.methods
-        .getUserDetails(address)
+      const userBorrowWethAddressContract = await borrowWETHContract.methods
+        .userContract(address)
         .call()
-      const myDataSimpleWethBorrow = await borrowSimpleWETHContract.methods
-        .getUserDetails(address)
-        .call()
-      console.log('myDataSimpleWethBorrow :>> ', myDataSimpleWethBorrow)
+      let myWethSupply = '0'
+      let myWethBorrowed = '0'
+      if (
+        userBorrowWethAddressContract !==
+        '0x0000000000000000000000000000000000000000'
+      ) {
+        const myDataWethBorrow = await borrowWETHContract.methods
+          .getUserDetails(address)
+          .call()
+        myWethBorrowed = myDataWethBorrow?.['2']
+        myWethSupply = myDataWethBorrow?.['0']
+      }
+
+      const userSimpleBorrowWethAddressContract =
+        await borrowWETHContract.methods.userContract(address).call()
+      let mySimpleWethSupply = '0'
+      let mySimpleWethBorrowed = '0'
+      if (
+        userSimpleBorrowWethAddressContract !==
+        '0x0000000000000000000000000000000000000000'
+      ) {
+        const myDataSimpleWethBorrow = await borrowSimpleWETHContract.methods
+          .getUserDetails(address)
+          .call()
+        console.log('myDataSimpleWethBorrow :>> ', myDataSimpleWethBorrow)
+        mySimpleWethBorrowed = myDataSimpleWethBorrow?.['1']
+        mySimpleWethSupply = myDataSimpleWethBorrow?.['0']
+      }
 
       // my supplied weth
-      const myWethSupply = myDataWethBorrow?.['0']
       const myWethSuppliedUsd = new BigNumber(
         ethers.utils.formatUnits(myWethSupply, wethDecimal)
       )
         .multipliedBy(wethPrice)
         .toString()
-      const mySimpleWethSupply = myDataSimpleWethBorrow?.['0']
       const mySimpleWethSuppliedUsd = new BigNumber(
         ethers.utils.formatUnits(mySimpleWethSupply, wethDecimal)
       )
         .multipliedBy(wethPrice)
         .toString()
 
-      console.log('myDataWethBorrow :>> ', myDataWethBorrow)
       console.log('myWethSupply :>> ', myWethSupply)
       console.log('myWethSuppliedUsd :>> ', myWethSuppliedUsd)
       console.log('mySimpleWethSupply :>> ', mySimpleWethSupply)
       console.log('mySimpleWethSuppliedUsd :>> ', mySimpleWethSuppliedUsd)
 
       // my borrow weth
-      const myWethBorrowed = myDataWethBorrow?.['2']
       const myWethBorrowedUsd = new BigNumber(
         ethers.utils.formatUnits(myWethBorrowed, tusdDecimal).toString()
       )
         .multipliedBy(new BigNumber(tusdPrice || 0))
         .toString()
-      const mySimpleWethBorrowed = myDataSimpleWethBorrow?.['1']
       const mySimpleWethBorrowedUsd = new BigNumber(
         ethers.utils.formatUnits(mySimpleWethBorrowed, usdcDecimal).toString()
       )
@@ -366,18 +407,18 @@ const HomePageFilter = () => {
         .toString()
 
       const wethCollateral = new BigNumber(
-        ethers.utils.formatUnits(myDataWethBorrow?.['0'], wethDecimal)
+        ethers.utils.formatUnits(myWethSupply || '0', wethDecimal)
       )
         .plus(
           new BigNumber(
-            ethers.utils.formatUnits(myDataSimpleWethBorrow?.['0'], wethDecimal)
+            ethers.utils.formatUnits(mySimpleWethSupply || '0', wethDecimal)
           )
         )
         .toString()
       const wethCollateralUsd = new BigNumber(wethCollateral || '0')
         .multipliedBy(usdPrice['WETH'] || 0)
         .toString()
-      const wethLoanToValue = !wethCollateralUsd
+      const wethLoanToValue = !Number(wethCollateralUsd)
         ? '0'
         : new BigNumber(
             new BigNumber(myWethBorrowedUsd).plus(
@@ -435,7 +476,6 @@ const HomePageFilter = () => {
       const depositedWbtc = await boostWBTCContract.methods
         .balanceOf(address)
         .call()
-      console.log('depositedWbtc 1111:>> ', depositedWbtc)
       const depositedWbtcUsd = new BigNumber(
         ethers.utils.formatUnits(depositedWbtc, tokenWbtcDecimal).toString()
       )
@@ -486,21 +526,23 @@ const HomePageFilter = () => {
           yourBorrow: yourBorrow,
         })
       )
-    } catch (error) {}
+    } catch (error) {
+      console.log('error :>> ', error)
+    }
   }
 
-  useEffect(() => {
-    return () => {
-      dispatch(
-        updateHomeInfo({
-          yourSupply: '',
-          yourBorrow: '',
-          totalSupply: '',
-          totalBorrow: '',
-        })
-      )
-    }
-  }, [])
+  // useEffect(() => {
+  //   return () => {
+  //     dispatch(
+  //       updateHomeInfo({
+  //         yourSupply: '',
+  //         yourBorrow: '',
+  //         totalSupply: '',
+  //         totalBorrow: '',
+  //       })
+  //     )
+  //   }
+  // }, [])
 
   useEffect(() => {
     handleGetMyBorrowInfo()

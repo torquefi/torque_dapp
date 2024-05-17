@@ -54,8 +54,6 @@ export const borrowEthContract: IContractInfo = {
   abi: JSON.stringify(borrowEth),
 }
 
-// ======================================================================
-
 export const simpleBorrowBtcContract: IContractInfo = {
   address: '0x0eD2CF32cBf676Ad8D1202937aEE40FB3397d7bd',
   abi: JSON.stringify(simpleBorrowBtc),
