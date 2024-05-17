@@ -57,8 +57,6 @@ const HomePageFilter = () => {
   const linkPrice = usdPrice['LINK'] || 0
   const uniPrice = usdPrice['UNI'] || 0
 
-  console.log('home :>> ', home)
-
   const handleGetDepositApr = async () => {
     try {
       const aprRes = await TokenApr.getListApr({})
@@ -401,7 +399,7 @@ const HomePageFilter = () => {
         .multipliedBy(new BigNumber(tusdPrice || 0))
         .toString()
       const mySimpleWethBorrowedUsd = new BigNumber(
-        ethers.utils.formatUnits(mySimpleWethBorrowed, usdcDecimal).toString()
+        ethers.utils.formatUnits(mySimpleWethBorrowed || '0', usdcDecimal).toString()
       )
         .multipliedBy(new BigNumber(tusdPrice || 0))
         .toString()
