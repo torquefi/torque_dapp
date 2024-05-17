@@ -36,11 +36,6 @@ const HomePageFilter = () => {
   const [netAPY, setNetAPY] = useState('0')
   const home = useSelector((store: AppStore) => store.home)
 
-  // new
-  // const [totalBorrow, setTotalBorrow] = useState('0')
-  // const [totalSupplied, setTotalSupplied] = useState('0')
-  // const [totalMySupplied, setTotalMySupplied] = useState('0')
-  // const [totalMyBorrowed, setTotalMyBorrowed] = useState('0')
   const [borrowedPercent, setBorrowedPercent] = useState('0')
 
   const [totalMyBoostSupply, setTotalMyBoostSupply] = useState('0')
@@ -211,6 +206,7 @@ const HomePageFilter = () => {
       }
       const tusdDecimal = await tokenTUSDContract.methods.decimals().call()
       const usdcDecimal = await tokenUSDCContract.methods.decimals().call()
+
       // WBTC
       const wbtcDecimal = await tokenWBTCContract.methods.decimals().call()
       const myDataWbtcBorrow = await borrowWBTCContract.methods
@@ -219,6 +215,7 @@ const HomePageFilter = () => {
       const myDataSimpleWbtcBorrow = await borrowSimpleWBTCContract.methods
         .getUserDetails(address)
         .call()
+      console.log('myDataSimpleWbtcBorrow 1111:>> ', myDataSimpleWbtcBorrow)
 
       // my supplied wbtc
       const myWbtcSupply = myDataWbtcBorrow?.['0']
@@ -238,7 +235,6 @@ const HomePageFilter = () => {
       console.log('myDataWBTCBorrow :>> ', myDataWbtcBorrow)
       console.log('myWbtcSupply :>> ', myWbtcSupply)
       console.log('myWbtcSuppliedUsd :>> ', myWbtcSuppliedUsd)
-
       console.log('mySimpleWbtcSupply :>> ', mySimpleWbtcSupply)
       console.log('mySimpleWbtcSuppliedUsd :>> ', mySimpleWbtcSuppliedUsd)
 
@@ -416,6 +412,19 @@ const HomePageFilter = () => {
       )
     } catch (error) {}
   }
+
+  useEffect(() => {
+    return () => {
+      dispatch(
+        updateHomeInfo({
+          yourSupply: '',
+          yourBorrow: '',
+          totalSupply: '',
+          totalBorrow: '',
+        })
+      )
+    }
+  }, [])
 
   useEffect(() => {
     handleGetMyBorrowInfo()
