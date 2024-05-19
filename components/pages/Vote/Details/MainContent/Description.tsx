@@ -61,19 +61,19 @@ export const Description = () => {
         )}
         <div
           className={
-            `mt-8 block h-[1px] w-full` +
+            `mt-8 mb-[8px] block h-[1px] w-full` +
             `
       ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
             }`
           }
         ></div>
-        <Link href="https://www.tally.xyz/gov/torque/proposal/18585899958307960143826306669985715364177831864776206135796033016575588118082?chart=bubble" legacyBehavior>
-          <a target='_blank'>
-            <div className="mt-[12px] cursor-pointer text-center text-[13px] font-[500] uppercase text-[#959595]">
+        {tipDetails && tipDetails.url && (
+          <Link href={tipDetails.url} legacyBehavior>
+            <a target="_blank" rel="noopener noreferrer" className="cursor-pointer text-center text-[13px] font-[500] uppercase text-[#959595]">
               View on Tally
-            </div>
-          </a>
-        </Link>
+            </a>
+          </Link>
+        )}
       </div>
     </>
   )
