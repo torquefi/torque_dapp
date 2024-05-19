@@ -6,7 +6,7 @@ import { AppStore } from '@/types/store'
 import { useEffect, useState } from 'react'
 import { updateTheme } from '@/lib/redux/slices/theme'
 import Headroom from 'react-headroom'
-import InviteCodeModal from '../../components/common/modal/InviteCodeModal'
+import InviteCodeModal from '@/components/common/Modal/InviteCodeModal'
 
 interface MainLayoutProps {
   children: any
