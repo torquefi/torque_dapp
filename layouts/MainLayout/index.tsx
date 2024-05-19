@@ -3,9 +3,10 @@ import Footer from './Footer'
 import { Header } from './Header'
 // import { MenuMobile } from './MenuMobile'
 import { AppStore } from '@/types/store'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { updateTheme } from '@/lib/redux/slices/theme'
 import Headroom from 'react-headroom'
+import InviteCodeModal from '@/components/common/Modal/InviteCodeModal'
 
 interface MainLayoutProps {
   children: any
@@ -14,6 +15,7 @@ interface MainLayoutProps {
 export const MainLayout = ({ children }: MainLayoutProps) => {
   const dispatch = useDispatch()
   const theme = useSelector((store: AppStore) => store.theme.theme)
+  const [isInviteModalOpen, setIsInviteModalOpen] = useState(true)
 
   useEffect(() => {
     if (theme == '') {
@@ -33,18 +35,36 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
     }
   }, [theme])
 
+  const handleInviteModalClose = () => {
+    setIsInviteModalOpen(false)
+  }
+
   if (theme)
     return (
+      // <div className="font-rogan-regular min-h-screen bg-[#FFFFFF] text-white dark:bg-[#030303]">
+      //   <Headroom>
+      //     <Header />
+      //   </Headroom>
+      //   <div className="container mx-auto min-h-[calc(100vh-140px)] max-w-[1244px] p-4 lg:p-8">
+      //     {children}
+      //   </div>
+      //   <Footer />
+      //   {/* <MenuMobile /> */}
+      // </div>
       <div className="font-rogan-regular min-h-screen bg-[#FFFFFF] text-white dark:bg-[#030303]">
-        <Headroom>
-          <Header />
-        </Headroom>
-        <div className="container mx-auto min-h-[calc(100vh-140px)] max-w-[1244px] p-4 lg:p-8">
-          {children}
-        </div>
-        <Footer />
-        {/* <MenuMobile /> */}
-      </div>
+      <InviteCodeModal open={isInviteModalOpen} handleClose={() => {}} onConfirm={handleInviteModalClose} />
+      {!isInviteModalOpen && (
+        <>
+          <Headroom>
+            <Header />
+          </Headroom>
+          <div className="container mx-auto min-h-[calc(100vh-140px)] max-w-[1244px] p-4 lg:p-8">
+            {children}
+          </div>
+          <Footer />
+        </>
+      )}
+    </div>
     )
 
   return null
