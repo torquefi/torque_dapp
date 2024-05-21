@@ -43,7 +43,7 @@ const InviteCodeModal = ({ open, handleClose, onConfirm }: InviteCodeModalProps)
   };
 
   return (
-    <Modal open={open} handleClose={handleClose} className="max-w-[390px] rounded-none py-8 bg-white border border-[0px] border-[#efefef]">
+    <Modal open={open} handleClose={handleClose} className="max-w-[390px] mb-3 rounded-none py-8 bg-white border border-[0px] border-[#efefef]">
       <div className="flex flex-col items-center">
         <img className="h-[46px] rounded-[6px] mb-3 shadow-2xl" src="/assets/white-logo.png" alt="logo" />
         <h2 className="font-rogan text-[24px] font-[400] text-black">Early Access</h2>
