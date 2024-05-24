@@ -558,7 +558,7 @@ export default function CreateBorrowItem({
               alt=""
             />
             <img
-              className="rounded-xl w-[18px] md:w-[24px] object-cover z-30 bottom-3 right-3 md:bottom-4 absolute md:right-4 shadow-md"
+              className="rounded-xl w-[18px] md:w-[24px] object-cover z-1 bottom-3 right-3 md:bottom-4 absolute md:right-4 shadow-md"
               alt="img"
               src={dataBorrow.borrowRowTokenIcon}
             />
