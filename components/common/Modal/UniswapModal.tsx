@@ -153,7 +153,7 @@ export default function UniSwapModal({
         address
       )
       return amount
-    } catch (error) { }
+    } catch (error) {}
   }
 
   const handleGetListBalances = async () => {
@@ -169,7 +169,7 @@ export default function UniSwapModal({
         {}
       )
       setListBalances(convertListBalances)
-    } catch (error) { }
+    } catch (error) {}
   }
 
   const handleSwap = async () => {
@@ -318,8 +318,9 @@ export default function UniSwapModal({
           className={
             `mt-2 hidden h-[1px] w-full md:block` +
             `
-      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
-            }`
+      ${
+        theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+      }`
           }
         ></div>
         <div className="mt-[14px] w-full">
@@ -328,18 +329,19 @@ export default function UniSwapModal({
             <div className="rounded-[8px] border-[1px] border-solid border-[#ececec] bg-[#fff] px-[14px] pl-[12px] pr-[12px] pt-[9px] dark:border-[#181818] dark:bg-[linear-gradient(180deg,#0d0d0d_0%,#0e0e0e_100%)]">
               <div className="flex items-center justify-between">
                 <NumberFormat
-                  className={`${amountFrom
-                    ? 'text-[#030303] dark:text-[#fff]'
-                    : 'text-[#959595]'
-                    } w-full max-w-[60%] text-[20px] placeholder-[#959595] dark:bg-transparent dark:placeholder-[#959595]`}
+                  className={`${
+                    amountFrom
+                      ? 'text-[#030303] dark:text-[#fff]'
+                      : 'text-[#959595]'
+                  } w-full max-w-[60%] text-[20px] placeholder-[#959595] dark:bg-transparent dark:placeholder-[#959595]`}
                   value={amountFrom}
                   onChange={(event: any, value2: any) => {
                     setAmountFrom(value2)
                     setAmountTo(
                       value2
                         ? new BigNumber(value2)
-                          .multipliedBy(convertRate)
-                          .toString()
+                            .multipliedBy(convertRate)
+                            .toString()
                         : ''
                     )
                   }}
@@ -359,8 +361,8 @@ export default function UniSwapModal({
                       setAmountTo(
                         listBalances?.[coinFrom?.symbol]
                           ? new BigNumber(listBalances?.[coinFrom?.symbol])
-                            .multipliedBy(convertRate)
-                            .toString()
+                              .multipliedBy(convertRate)
+                              .toString()
                           : ''
                       )
                     }}
@@ -378,44 +380,52 @@ export default function UniSwapModal({
                         direction="vertical"
                         indicatorClassName="rounded-[6px]"
                       >
-                    {listSwapCoin?.map((coin) => (
-                      <div
-                        key={coin?.symbol}
-                        onClick={() => {
-                          let newCoinTo = coinTo
-                          if (coin?.symbol === coinTo?.symbol) {
-                            newCoinTo = coinFrom
-                            setCoinTo(coinFrom)
-                          }
-                          setCoinFrom(coin)
-                          const convertRate =
-                            Number(usdPrice[coin?.symbol]) /
-                            Number(usdPrice[newCoinTo?.symbol] || 1)
-                          setAmountTo(
-                            amountFrom
-                              ? new BigNumber(amountFrom)
-                                .multipliedBy(convertRate)
-                                .toString()
-                              : ''
-                          )
-                          setOpenPopover((openPopover) => !openPopover)
-                        }}
-                        className="flex py-1 pb-0 cursor-pointer items-center gap-[2px] text-[#030303] dark:text-[#959595]"
-                      >
-                        <img
-                          src={coin.symbol === 'USDC' ? `/icons/coin/${coin.symbol.toLocaleLowerCase()}.svg` : `/icons/coin/${coin.symbol.toLocaleLowerCase()}.png`}
-                          alt={`${coin.symbol} logo`}
-                          className="h-[32px]"
-                        />
-                        <p>{coin?.symbol}</p>
-                      </div>
-                    ))}
+                        {listSwapCoin?.map((coin) => (
+                          <div
+                            key={coin?.symbol}
+                            onClick={() => {
+                              let newCoinTo = coinTo
+                              if (coin?.symbol === coinTo?.symbol) {
+                                newCoinTo = coinFrom
+                                setCoinTo(coinFrom)
+                              }
+                              setCoinFrom(coin)
+                              const convertRate =
+                                Number(usdPrice[coin?.symbol]) /
+                                Number(usdPrice[newCoinTo?.symbol] || 1)
+                              setAmountTo(
+                                amountFrom
+                                  ? new BigNumber(amountFrom)
+                                      .multipliedBy(convertRate)
+                                      .toString()
+                                  : ''
+                              )
+                              setOpenPopover((openPopover) => !openPopover)
+                            }}
+                            className="flex cursor-pointer items-center gap-[2px] py-1 pb-0 text-[#030303] dark:text-[#959595]"
+                          >
+                            <img
+                              src={
+                                coin.symbol === 'USDC'
+                                  ? `/icons/coin/${coin.symbol.toLocaleLowerCase()}.svg`
+                                  : `/icons/coin/${coin.symbol.toLocaleLowerCase()}.png`
+                              }
+                              alt={`${coin.symbol} logo`}
+                              className="h-[32px]"
+                            />
+                            <p>{coin?.symbol}</p>
+                          </div>
+                        ))}
                       </HoverIndicator>
                     }
                   >
                     <div className="flex items-center gap-[2px] text-[#030303] dark:text-[#959595]">
                       <img
-                        src={`/icons/coin/${coinFrom.symbol.toLocaleLowerCase()}.png`}
+                        src={
+                          coinFrom.symbol === 'USDC'
+                            ? `/icons/coin/${coinFrom.symbol.toLocaleLowerCase()}.svg`
+                            : `/icons/coin/${coinFrom.symbol.toLocaleLowerCase()}.png`
+                        }
                         alt=""
                         className="h-[32px] rounded-full"
                       />
@@ -430,7 +440,7 @@ export default function UniSwapModal({
                     value={
                       amountFrom
                         ? Number(amountFrom || 0) *
-                        Number(usdPrice?.[coinFrom?.symbol] || 0)
+                          Number(usdPrice?.[coinFrom?.symbol] || 0)
                         : Number('0').toFixed(2)
                     }
                     displayType="text"
@@ -465,8 +475,8 @@ export default function UniSwapModal({
                 setAmountTo(
                   amountTo
                     ? new BigNumber(amountTo)
-                      .multipliedBy(convertRate)
-                      .toString()
+                        .multipliedBy(convertRate)
+                        .toString()
                     : ''
                 )
               }}
@@ -486,10 +496,11 @@ export default function UniSwapModal({
             <div className="mt-[5px] rounded-[8px] border-[1px] border-solid border-[#ececec] bg-[#fff] px-[14px] pl-[12px] pr-[12px] pt-[9px] dark:border-[#181818] dark:bg-[linear-gradient(180deg,#0d0d0d_0%,#0e0e0e_100%)]">
               <div className="flex items-center justify-between">
                 <NumberFormat
-                  className={`${amountTo
-                    ? 'text-[#030303] dark:text-[#fff]'
-                    : 'text-[#959595]'
-                    } w-full max-w-[60%] text-[20px] placeholder-[#959595] dark:bg-transparent`}
+                  className={`${
+                    amountTo
+                      ? 'text-[#030303] dark:text-[#fff]'
+                      : 'text-[#959595]'
+                  } w-full max-w-[60%] text-[20px] placeholder-[#959595] dark:bg-transparent`}
                   value={amountTo}
                   thousandSeparator
                   placeholder="0.00"
@@ -499,8 +510,8 @@ export default function UniSwapModal({
                     setAmountFrom(
                       value2
                         ? new BigNumber(value2)
-                          .dividedBy(convertRate || 1)
-                          .toString()
+                            .dividedBy(convertRate || 1)
+                            .toString()
                         : ''
                     )
                   }}
@@ -534,15 +545,19 @@ export default function UniSwapModal({
                               setAmountTo(
                                 amountFrom
                                   ? new BigNumber(amountFrom)
-                                    .multipliedBy(convertRate)
-                                    .toString()
+                                      .multipliedBy(convertRate)
+                                      .toString()
                                   : ''
                               )
                             }
                           }}
                         >
                           <img
-                            src={`/icons/coin/${coin.symbol.toLocaleLowerCase()}.png`}
+                            src={
+                              coin.symbol === 'USDC'
+                                ? `/icons/coin/${coin.symbol.toLocaleLowerCase()}.svg`
+                                : `/icons/coin/${coin.symbol.toLocaleLowerCase()}.png`
+                            }
                             alt="torque usd"
                             className="h-[32px]"
                           />
@@ -554,7 +569,11 @@ export default function UniSwapModal({
                 >
                   <div className="flex cursor-pointer items-center gap-[2px] text-[#030303] dark:text-[#959595]">
                     <img
-                      src={`/icons/coin/${coinTo.symbol.toLocaleLowerCase()}.png`}
+                      src={
+                        coinTo.symbol === 'USDC'
+                          ? `/icons/coin/${coinTo.symbol.toLocaleLowerCase()}.svg`
+                          : `/icons/coin/${coinTo.symbol.toLocaleLowerCase()}.png`
+                      }
                       alt="torque usd"
                       className="h-[32px]"
                     />
@@ -568,7 +587,7 @@ export default function UniSwapModal({
                     value={
                       amountTo
                         ? Number(amountTo || 0) *
-                        Number(usdPrice?.[coinTo?.symbol] || 0)
+                          Number(usdPrice?.[coinTo?.symbol] || 0)
                         : Number('0').toFixed(2)
                     }
                     displayType="text"

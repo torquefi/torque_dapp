@@ -14,6 +14,7 @@ import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 import LoadingCircle from '../Loading/LoadingCircle'
 import NumberFormat from '../NumberFormat'
+import { linkContract, uniContract } from '@/components/pages/Boost/constants/contracts'
 
 interface Detail {
   label: string
@@ -102,6 +103,21 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
           const amount = await getBalanceByContractToken(
             tokenTusdContract.abi,
             tokenTusdContract.address,
+            address
+          )
+          setBalanceWallet(amount)
+        }
+        else if (coinFrom.symbol === 'LINK') {
+          const amount = await getBalanceByContractToken(
+            linkContract.abi,
+            linkContract.address,
+            address
+          )
+          setBalanceWallet(amount)
+        } else if (coinFrom.symbol === 'UNI') {
+          const amount = await getBalanceByContractToken(
+            uniContract.abi,
+            uniContract.address,
             address
           )
           setBalanceWallet(amount)
