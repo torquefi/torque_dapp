@@ -6,7 +6,7 @@ import type { AppProps } from 'next/app'
 import { ReactElement, ReactNode, useEffect } from 'react'
 import 'react-loading-skeleton/dist/skeleton.css'
 import { MoralisProvider } from 'react-moralis'
-import { Provider } from 'react-redux'
+import { Provider, useSelector } from 'react-redux'
 import { PersistGate } from 'redux-persist/lib/integration/react'
 import { Toaster } from 'sonner'
 import SEO from '../next-seo.config'
@@ -18,6 +18,7 @@ import { Web3Modal } from '@web3modal/react'
 import { configureChains, createConfig, WagmiConfig } from 'wagmi'
 import { arbitrum } from 'wagmi/chains'
 import { TokenPriceProvider } from '../components/providers/TokenPriceProvider'
+import { AppStore } from '@/types/store'
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -40,6 +41,29 @@ const wagmiConfig = createConfig({
 })
 const ethereumClient = new EthereumClient(wagmiConfig, chains)
 
+function AppContent({ Component, pageProps, getLayout }: any) {
+  const theme = useSelector((store: AppStore) => store.theme.theme)
+  return (
+    <>
+      <DefaultSeo {...SEO} />
+      <WagmiConfig config={wagmiConfig}>
+        <PersistGate persistor={persistor}>
+          {() => (
+            <div>
+              <TokenPriceProvider />
+              <SettingsContextProvider>
+                {getLayout(<Component {...pageProps} />)}
+              </SettingsContextProvider>
+            </div>
+          )}
+        </PersistGate>
+      </WagmiConfig>
+      <Toaster theme={theme === 'dark' ? 'dark' : 'light'} richColors style={{ zIndex: 10000 }} />
+      <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
+    </>
+  )
+}
+
 export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const serverUrl = 'https://moralis.torque.fi/server'
   const appId = '1'
@@ -57,21 +81,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   return (
     <Provider store={store}>
       <MoralisProvider appId={appId} serverUrl={serverUrl}>
-        <DefaultSeo {...SEO} />
-        <WagmiConfig config={wagmiConfig}>
-          <PersistGate persistor={persistor}>
-            {() => (
-              <div>
-                <TokenPriceProvider />
-                <SettingsContextProvider>
-                  {getLayout(<Component {...pageProps} />)}
-                </SettingsContextProvider>
-              </div>
-            )}
-          </PersistGate>
-        </WagmiConfig>
-        <Toaster theme="dark" richColors style={{ zIndex: 10000 }} />
-        <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
+        <AppContent Component={Component} pageProps={pageProps} getLayout={getLayout} />
       </MoralisProvider>
     </Provider>
   )
