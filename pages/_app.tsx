@@ -41,6 +41,29 @@ const wagmiConfig = createConfig({
 })
 const ethereumClient = new EthereumClient(wagmiConfig, chains)
 
+function AppContent({ Component, pageProps, getLayout }: any) {
+  const theme = useSelector((store: AppStore) => store.theme.theme)
+  return (
+    <>
+      <DefaultSeo {...SEO} />
+      <WagmiConfig config={wagmiConfig}>
+        <PersistGate persistor={persistor}>
+          {() => (
+            <div>
+              <TokenPriceProvider />
+              <SettingsContextProvider>
+                {getLayout(<Component {...pageProps} />)}
+              </SettingsContextProvider>
+            </div>
+          )}
+        </PersistGate>
+      </WagmiConfig>
+      <Toaster theme={theme === 'dark' ? 'dark' : 'light'} richColors style={{ zIndex: 10000 }} />
+      <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
+    </>
+  )
+}
+
 export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const serverUrl = 'https://moralis.torque.fi/server'
   const appId = '1'
@@ -55,26 +78,10 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     // Moralis.enableWeb3()
   }, [])
 
-  const theme = useSelector((store: AppStore) => store.theme.theme)
-
   return (
     <Provider store={store}>
       <MoralisProvider appId={appId} serverUrl={serverUrl}>
-        <DefaultSeo {...SEO} />
-        <WagmiConfig config={wagmiConfig}>
-          <PersistGate persistor={persistor}>
-            {() => (
-              <div>
-                <TokenPriceProvider />
-                <SettingsContextProvider>
-                  {getLayout(<Component {...pageProps} />)}
-                </SettingsContextProvider>
-              </div>
-            )}
-          </PersistGate>
-        </WagmiConfig>
-        <Toaster theme={theme === 'dark' ? 'dark' : 'light'} richColors style={{ zIndex: 10000 }} />
-        <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
+        <AppContent Component={Component} pageProps={pageProps} getLayout={getLayout} />
       </MoralisProvider>
     </Provider>
   )
