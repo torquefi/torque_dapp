@@ -1,14 +1,27 @@
 import Tip0Md from '../description/tip-0.mdx'
 import Tip1Md from '../description/tip-1.mdx'
 import Tip2Md from '../description/tip-2.mdx'
+import Tip3Md from '../description/tip-3.mdx'
 
 export const tipsData = [
   {
-    title: 'Ecosystem Updates',
+    title: 'Increase Reward Rates',
     stage: 'Pending',
+    id: 3,
+    description: Tip3Md,
+    timeVote: 'Vote has not started',
+    voteRed: 0,
+    voteGreen: 0,
+    proposalId:
+      '14036077968512395217847549926072970934777976398701213955267528921957099027089',
+    url: 'https://www.tally.xyz/gov/torque/proposal/14036077968512395217847549926072970934777976398701213955267528921957099027089',
+  },
+  {
+    title: 'Ecosystem Updates',
+    stage: 'Passed',
     id: 2,
     description: Tip2Md,
-    timeVote: 'Vote has not started',
+    timeVote: 'Vote has finished',
     voteRed: 0,
     voteGreen: 0,
     proposalId:
