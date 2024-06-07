@@ -22,7 +22,7 @@ export const Proposals = () => {
             className="flex items-center gap-[4px]"
             onClick={() => setOpenCreateModal(true)}
           >
-            <p className="text-[14px] font-[500] uppercase text-[#AA5BFF]">
+            <p className="text-[16px] uppercase text-[#AA5BFF]">
               create
             </p>
             <img src="/assets/pages/vote/genover/next.svg" alt="info" className="w-3" />
@@ -36,7 +36,7 @@ export const Proposals = () => {
         ))}
         <Link href="https://www.tally.xyz/gov/torque/proposals" legacyBehavior>
           <a target='_blank'>
-            <div className="mt-[12px] cursor-pointer text-center text-[14px] font-[500] uppercase text-[#959595]">
+            <div className="mt-[12px] cursor-pointer text-center text-[16px] font-[500] uppercase text-[#959595]">
               view all
             </div>
           </a>
@@ -49,23 +49,3 @@ export const Proposals = () => {
     </>
   )
 }
-const menu = [
-  {
-    title: 'Initialize LP Program',
-    state: 'pending',
-    tip: 'TIP-1',
-    timeVote: 'Vote hasn’t started',
-    voteRed: 0,
-    voteGreen: 0,
-    id: 1
-  },
-  {
-    title: 'Hello World [Test Proposal]',
-    state: 'active',
-    tip: 'TIP-0',
-    timeVote: 'Vote has started',
-    voteRed: 0,
-    voteGreen: 0,
-    id: 0
-  },
-]

@@ -31,19 +31,19 @@ export const ProposalsItem = (props: any) => {
   const theme = useSelector((store: AppStore) => store.theme.theme)
 
   let classnamesState =
-    'rounded-[6px] bg-[#ff9c4155] px-[12px] py-[1px] text-[12px] font-[500] uppercase text-[#1EB26B]'
+    'rounded-[6px] bg-[#ff9c4155] px-[12px] py-[1px] text-[14px] font-[500] uppercase text-[#1EB26B]'
   if (menu.stage === 'Active') {
     classnamesState =
-      'rounded-[6px] bg-[#1eb26b55] px-[12px] py-[1px] text-[12px] font-[500] uppercase text-[#1EB26B]'
+      'rounded-[6px] bg-[#1eb26b55] px-[12px] py-[1px] text-[14px] font-[500] uppercase text-[#1EB26B]'
   } else if (menu.stage === 'Pending') {
     classnamesState =
-      'rounded-[6px] bg-[#ff9c4155] px-[12px] py-[1px] text-[12px] font-[500] uppercase text-[#FF9C41]'
+      'rounded-[6px] bg-[#ff9c4155] px-[12px] py-[1px] text-[14px] font-[500] uppercase text-[#FF9C41]'
   } else if (menu.stage === 'Complete') {
     classnamesState =
-      'rounded-[6px] bg-[#ff3e3e55] px-[12px] py-[1px] text-[12px] font-[500] uppercase text-[#F05858]'
+      'rounded-[6px] bg-[#ff3e3e55] px-[12px] py-[1px] text-[14px] font-[500] uppercase text-[#F05858]'
   } else if (menu.stage === 'Passed') {
     classnamesState =
-      'rounded-[6px] bg-[#aa5bff55] px-[12px] py-[1px] text-[12px] font-[500] uppercase text-[#C38BFF]'
+      'rounded-[6px] bg-[#aa5bff55] px-[12px] py-[1px] text-[14px] font-[500] uppercase text-[#C38BFF]'
   }
 
   const hamiltonContract = useMemo(() => {
@@ -79,18 +79,18 @@ export const ProposalsItem = (props: any) => {
       <div className="mt-[10px] cursor-pointer transition-all duration-100 ease-linear hover:opacity-70">
         <div className="items-center justify-between lg:flex">
           <div className="sm:mt-[0px] md:mt-0 lg:w-[60%]">
-            <h4 className="font-rogan text-[20px] truncate ... font-[400] leading-[40px] text-[#030303] dark:text-white">
+            <h4 className="font-rogan text-[24px] md:text-[20px] truncate ... font-[400] leading-[40px] text-[#030303] dark:text-white">
               {menu.title}
             </h4>
-            <div className="flex items-center gap-[8px]">
+            <div className="flex items-center gap-[8px] mt-2 md:mt-0">
               <div className={classnamesState}>
                 {menu.stage}
               </div>
-              <p className="text-[14px] font-[500] text-[#959595] md:text-[16px] whitespace-nowrap">
+              <p className="font-[500] text-[#959595] text-[16px] whitespace-nowrap">
                 TIP-{menu.id}
               </p>
               <div className="h-[5px] w-[5px] rounded-full bg-[#959595]"></div>
-              <p className="text-[14px] font-[500] text-[#959595] md:text-[16px] whitespace-nowrap">
+              <p className="font-[500] text-[#959595] text-[16px] whitespace-nowrap">
                 {menu.timeVote}
               </p>
             </div>
