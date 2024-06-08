@@ -52,18 +52,18 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
       //   {/* <MenuMobile /> */}
       // </div>
       <div className="font-rogan-regular min-h-screen bg-[#FFFFFF] text-white dark:bg-[#030303]">
-        {/* <InviteCodeModal open={isInviteModalOpen} handleClose={() => {}} onConfirm={handleInviteModalClose} /> */}
-        {/* {!isInviteModalOpen && ( */}
-        <>
-          <Headroom>
-            <Header />
-          </Headroom>
-          <div className="container mx-auto min-h-[calc(100vh-140px)] max-w-[1244px] p-4 lg:p-8">
-            {children}
-          </div>
-          <Footer />
-        </>
-        {/* )} */}
+        <InviteCodeModal open={isInviteModalOpen} handleClose={() => { }} onConfirm={handleInviteModalClose} />
+        {!isInviteModalOpen && (
+          <>
+            <Headroom>
+              <Header />
+            </Headroom>
+            <div className="container mx-auto min-h-[calc(100vh-140px)] max-w-[1244px] p-4 lg:p-8">
+              {children}
+            </div>
+            <Footer />
+          </>
+        )}
       </div>
     )
 
