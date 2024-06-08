@@ -319,7 +319,7 @@ export function BoostItem({
             </div>
           )}
         />
-        <div className="flex min-w-[130px] flex-col items-center justify-center gap-2">
+        <div className="mt-[5px] flex min-w-[130px] flex-col items-center justify-center gap-2">
           <div className="text-[22px]">
             <NumericFormat
               displayType="text"
@@ -329,7 +329,7 @@ export function BoostItem({
             />
           </div>
 
-          <div className="font-rogan-regular text-[14px] text-[#959595]">
+          <div className="font-rogan-regular text-[14px] text-[#959595] mt-[-4px]">
             Variable APR
           </div>
         </div>
@@ -440,9 +440,9 @@ export function BoostItem({
               aprPercent={item?.APR}
             />
           </div>
-          <div className="mt-10">
+          <div className="mt-8">
             <div className="text-[28px]">Withdraw {item?.tokenSymbol}</div>
-            <div className="mt-2 flex w-full items-center justify-between rounded-[12px] border bg-[#FFFFFF] px-2 py-4 dark:border-[#1A1A1A] dark:bg-[#161616]">
+            <div className="mt-4 flex w-full items-center justify-between rounded-[12px] border bg-[#FFFFFF] px-2 py-4 dark:border-[#1A1A1A] dark:bg-[#161616]">
               <NumericFormat
                 className="font-rogan-regular w-full bg-transparent bg-none px-2 focus:outline-none"
                 placeholder="Select amount"
