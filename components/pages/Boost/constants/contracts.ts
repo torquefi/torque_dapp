@@ -15,7 +15,7 @@ import {
 } from './abi'
 
 export const boostWbtcContract: IContractInfo = {
-  address: '0x279A237F074AC942AD3147834a3b8431b9a759dE',
+  address: '0xb0ca57F27374E51B2a2d7658440a3E762B13B59C',
   abi: JSON.stringify(boostBtcAbi),
 }
 
@@ -25,17 +25,17 @@ export const wbtcContract: IContractInfo = {
 }
 
 export const gmxWbtcContract: IContractInfo = {
-  address: '0xf4A597B9879b091270A9F4c07022ee7857A56A70',
+  address: '0x7e59F7Fc232f3282A2Fe646cA671077CC9C2db3C',
   abi: JSON.stringify(gmxWbtcAbi),
 }
 
 export const boostWethContract: IContractInfo = {
-  address: '0x36Ac52C415042Fbc6D7564f4ad1410094f214f92',
+  address: '0x87470f33458B37f4BaBf12FD55DD1Bb197113e47',
   abi: JSON.stringify(boostWethAbi),
 }
 
 export const gmxWethContract: IContractInfo = {
-  address: '0xd698D5F734E6be707B33f452A840BA56159A81aD',
+  address: '0xc6501fCbD04101E315679F5C4CEd81a8154e33d9',
   abi: JSON.stringify(gmxWethAbi),
 }
 
@@ -45,12 +45,12 @@ export const wethContract: IContractInfo = {
 }
 
 export const boostUniContract: IContractInfo = {
-  address: '0x2D422D47dB58cEB32D28E880e87fF673bb086544',
+  address: '0x1024966Bb292491328C8807Fb98D307cCbBFa0E8',
   abi: JSON.stringify(boostUniAbi),
 }
 
 export const gmxUniContract: IContractInfo = {
-  address: '0x82927257fAdB173AB78402D091c1080aA89fF6E4',
+  address: '0xF39A2C0c28f8bc1B0cb6154902B084bCcE4360E7',
   abi: JSON.stringify(gmxUniAbi),
 }
 
@@ -60,12 +60,12 @@ export const uniContract: IContractInfo = {
 }
 
 export const boostLinkContract: IContractInfo = {
-  address: '0x914DC0103E542FA3F823dbE3aaA67926d84B5178',
+  address: '0xb149266F2AdaF5f3b203997e9a4626e55667DAbB',
   abi: JSON.stringify(boostLinkAbi),
 }
 
 export const gmxLinkContract: IContractInfo = {
-  address: '0xbBdd2226AE13dbcc821f1fecE1E8aaF1587a9c99',
+  address: '0xA837Fa02444bF9c4b32B9719B5078EAcbB0aE19B',
   abi: JSON.stringify(gmxLinkAbi),
 }
 
