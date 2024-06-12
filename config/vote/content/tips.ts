@@ -6,10 +6,10 @@ import Tip3Md from '../description/tip-3.mdx'
 export const tipsData = [
   {
     title: 'Increase Reward Rates',
-    stage: 'Pending',
+    stage: 'Active',
     id: 3,
     description: Tip3Md,
-    timeVote: 'Vote has not started',
+    timeVote: 'Vote has started',
     voteRed: 0,
     voteGreen: 0,
     proposalId:
