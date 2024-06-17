@@ -10,7 +10,6 @@ type TipsData = {
   timeVote?: string
   voteRed?: number
   voteGreen?: number
-  description: ComponentType
 }
 
 interface ITipsState {
