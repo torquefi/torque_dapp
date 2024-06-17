@@ -326,7 +326,7 @@ export default function UniSwapModal({
         <div className="mt-[14px] w-full">
           <div className="relative">
             {/* from */}
-            <div className="rounded-[8px] border-[1px] border-solid border-[#ececec] bg-[#fff] px-[14px] pl-[12px] pr-[12px] pt-[9px] dark:border-[#181818] dark:bg-[linear-gradient(180deg,#0d0d0d_0%,#0e0e0e_100%)]">
+            <div className="z-200 relative rounded-[12px] pb-1 border-[1px] border-solid border-[#ececec] bg-[#fff] px-[14px] pl-[12px] pr-[12px] pt-[9px] dark:border-[#181818] dark:bg-[linear-gradient(180deg,#0d0d0d_0%,#0e0e0e_100%)]">
               <div className="flex items-center justify-between">
                 <NumberFormat
                   className={`${
@@ -351,7 +351,7 @@ export default function UniSwapModal({
                 />
                 <div className="flex items-center gap-[6px]">
                   <p
-                    className="cursor-pointer border-[#030303] text-[10px] uppercase text-[#030303] underline dark:text-white"
+                    className="cursor-pointer border-[#030303] text-[12px] uppercase text-[#030303] underline dark:text-white"
                     onClick={() => {
                       setAmountFrom(
                         listBalances?.[coinFrom?.symbol]
@@ -427,7 +427,7 @@ export default function UniSwapModal({
                             : `/icons/coin/${coinFrom.symbol.toLocaleLowerCase()}.png`
                         }
                         alt=""
-                        className="h-[32px] rounded-full"
+                        className="h-[32px] mt-1 rounded-full"
                       />
                       <p className="cursor-pointer">{coinFrom?.symbol}</p>
                     </div>
@@ -480,7 +480,7 @@ export default function UniSwapModal({
                     : ''
                 )
               }}
-              className="absolute left-1/2 top-[31%] w-full max-w-[26px] translate-x-[-50%] cursor-pointer rounded-md border-[1px] border-solid border-[#ececec] bg-[#fff] px-[5px] py-[4px] shadow-xl dark:border-[#181818] dark:bg-[linear-gradient(180deg,#0d0d0d_0%,#0e0e0e_100%)]"
+              className="absolute z-300 left-1/2 top-[31%] w-full max-w-[26px] translate-x-[-50%] cursor-pointer rounded-md border-[1px] border-solid border-[#ececec] bg-[#fff] px-[5px] py-[4px] shadow-xl dark:border-[#181818] dark:bg-[linear-gradient(180deg,#0d0d0d_0%,#0e0e0e_100%)]"
             >
               <img
                 src={
@@ -493,7 +493,7 @@ export default function UniSwapModal({
               />
             </button>
             {/* to */}
-            <div className="mt-[5px] rounded-[8px] border-[1px] border-solid border-[#ececec] bg-[#fff] px-[14px] pl-[12px] pr-[12px] pt-[9px] dark:border-[#181818] dark:bg-[linear-gradient(180deg,#0d0d0d_0%,#0e0e0e_100%)]">
+            <div className="z-1 relative mt-[-24px] pt-[30px] pb-1 rounded-t-[0px] rounded-b-[12px] border-[1px] border-solid border-[#ececec] bg-[#fff] px-[14px] pl-[12px] pr-[12p] dark:border-[#181818] dark:bg-[linear-gradient(180deg,#0d0d0d_0%,#0e0e0e_100%)]">
               <div className="flex items-center justify-between">
                 <NumberFormat
                   className={`${
@@ -574,8 +574,8 @@ export default function UniSwapModal({
                           ? `/icons/coin/${coinTo.symbol.toLocaleLowerCase()}.svg`
                           : `/icons/coin/${coinTo.symbol.toLocaleLowerCase()}.png`
                       }
-                      alt="torque usd"
-                      className="h-[32px]"
+                      alt=""
+                      className="h-[32px] mt-1"
                     />
                     <p>{coinTo?.symbol}</p>
                   </div>

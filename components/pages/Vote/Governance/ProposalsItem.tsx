@@ -20,13 +20,13 @@ export const ProposalsItem = (props: any) => {
         ethers.utils.formatUnits(votesInfo?.forVotes || 0, 18)
       )
     )
-  console.log('votesFor :>> ', votesFor);
+  console.log('votesFor :>> ', votesFor)
   const voteForAgainst = Number(
     new BigNumber(
       ethers.utils.formatUnits(votesInfo?.againstVotes || 0, 18)
     )
   )
-  console.log('voteForAgainst :>> ', voteForAgainst);
+  console.log('voteForAgainst :>> ', voteForAgainst)
 
   const theme = useSelector((store: AppStore) => store.theme.theme)
 
@@ -59,9 +59,9 @@ export const ProposalsItem = (props: any) => {
     try {
       const response = await hamiltonContract.methods.proposalVotes(menu?.proposalId).call()
       setVotesInfo(response)
-      console.log('response :>> ', response);
+      console.log('response :>> ', response)
     } catch (error) {
-      console.log('handleGetVotesInfo error :>> ', error);
+      console.log('handleGetVotesInfo error :>> ', error)
     }
   }
 
@@ -75,8 +75,8 @@ export const ProposalsItem = (props: any) => {
   const percentVoteAgainst = (votesFor + voteForAgainst) ? voteForAgainst / (voteForAgainst + votesFor) * 100 : 0
 
   return (
-    <Link href={`/vote/${menu?.id}`}>
-      <div className="mt-[10px] cursor-pointer transition-all duration-100 ease-linear hover:opacity-70">
+    <Link href={menu.url} legacyBehavior>
+      <a target="_blank" rel="noopener noreferrer" className="block mt-[10px] cursor-pointer transition-all duration-100 ease-linear hover:opacity-70">
         <div className="items-center justify-between lg:flex">
           <div className="sm:mt-[0px] md:mt-0 lg:w-[60%]">
             <h4 className="font-rogan text-[24px] md:text-[20px] truncate ... font-[400] leading-[40px] text-[#030303] dark:text-white">
@@ -165,7 +165,7 @@ export const ProposalsItem = (props: any) => {
             }`
           }
         ></div>
-      </div>
+      </a>
     </Link>
   )
 }
