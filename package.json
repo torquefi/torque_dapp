@@ -1,5 +1,5 @@
 {
-  "name": "doraemon",
+  "name": "torque",
   "private": true,
   "scripts": {
     "dev": "next dev -p 3888",
@@ -13,16 +13,12 @@
     "@headlessui/react": "^1.4.3",
     "@heroicons/react": "v1",
     "@hookform/resolvers": "^3.3.4",
-    "@mdx-js/loader": "^3.0.1",
-    "@mdx-js/react": "^3.0.1",
     "@moralisweb3/next": "^2.18.0",
-    "@next/mdx": "^14.1.0",
     "@popperjs/core": "^2.10.2",
     "@reduxjs/toolkit": "^1.9.3",
     "@tailwindcss/aspect-ratio": "^0.3.0",
     "@tippy.js/react": "^3.1.1",
     "@tippyjs/react": "^4.2.6",
-    "@types/mdx": "^2.0.11",
     "@web3-react/core": "^6.1.9",
     "@web3-react/injected-connector": "^6.0.7",
     "@web3-react/walletconnect-connector": "^6.2.13",

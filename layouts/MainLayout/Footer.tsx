@@ -93,7 +93,7 @@ const socials = [
     link: 'https://t.me/torquefi',
   },
   {
-    label: 'Github',
+    label: 'GitHub',
     link: 'https://github.com/torquefi',
   },
 ]

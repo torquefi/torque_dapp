@@ -182,7 +182,7 @@ export default function SwapModal({
                 ></div>
                 <div className="mt-[14px] w-full">
                     <div className="relative">
-                        <div className="rounded-[8px] border-[1px] border-solid border-[#ececec] bg-[#fff] px-[14px] pl-[12px] pr-[12px] pt-[9px] dark:border-[#181818] dark:bg-[linear-gradient(180deg,#0d0d0d_0%,#0e0e0e_100%)]">
+                        <div className="rounded-[0px] border-[1px] border-solid border-[#ececec] bg-[#fff] px-[14px] pl-[12px] pr-[12px] pt-[9px] dark:border-[#181818] dark:bg-[linear-gradient(180deg,#0d0d0d_0%,#0e0e0e_100%)]">
                             <div className="flex items-center justify-between">
                                 <NumericFormat
                                     className={`${coinFrom?.amount
@@ -256,7 +256,7 @@ export default function SwapModal({
                                 className={theme === 'light' ? 'invert' : ''}
                             />
                         </button>
-                        <div className="mt-[5px] rounded-[8px] border-[1px] border-solid border-[#ececec] bg-[#fff] px-[14px] pl-[12px] pr-[12px] pt-[9px] dark:border-[#181818] dark:bg-[linear-gradient(180deg,#0d0d0d_0%,#0e0e0e_100%)]">
+                        <div className="mt-[5px] rounded-[0px] border-[1px] border-solid border-[#ececec] bg-[#fff] px-[14px] pl-[12px] pr-[12px] pt-[9px] dark:border-[#181818] dark:bg-[linear-gradient(180deg,#0d0d0d_0%,#0e0e0e_100%)]">
                             <div className="flex items-center justify-between">
                                 {!coinTo?.amount && disabledOutput ? (
                                     <span className="text-[#959595] text-[20px]">0.00</span>

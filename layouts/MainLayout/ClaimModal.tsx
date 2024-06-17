@@ -212,7 +212,7 @@ export default function ClaimModal({
       </div>
       <div
         className={
-          `mt-2 hidden h-[1px] w-full md:block` +
+          `mt-3 hidden h-[1px] w-full md:block` +
           `
       ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
           }`
