@@ -152,7 +152,7 @@ export const Header = () => {
                   <div className="grid grid-cols-2 gap-4 p-3">
                     <div className="flex cursor-pointer flex-col items-center justify-center">
                       <a
-                        href="#"
+                        href="/vote/distribution"
                         className="text-[#959595] hover:text-[#030303] dark:hover:text-white"
                       >
                         <img src="/icons/pools.svg" className="h-10 w-10" />

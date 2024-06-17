@@ -17,7 +17,7 @@ export default function Banner() {
       />
       <Link
         href="/home"
-        className="absolute left-[20px] top-[18px] flex h-[28px] w-[28px] items-center justify-center rounded-full bg-[#FFFFFF] dark:bg-[#030303] lg:h-[48px] lg:w-[48px]"
+        className="absolute left-[10px] top-[10px] md:left-[18px] md:top-[16px] flex h-[28px] w-[28px] items-center justify-center rounded-full bg-[#FFFFFF] dark:bg-[#030303] lg:h-[48px] lg:w-[48px]"
       >
         <img
           className="w-[8px] lg:w-[12px]"
