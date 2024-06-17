@@ -16,29 +16,31 @@ export const Governance = () => {
   if (isLoading) {
     return (
       <>
-        <div className="mx-auto mb-4 w-[340px] rounded-full text-center">
+        <div className="mt-[-10px]">
+        <div className="mx-auto mb-4 w-[300px] rounded-full text-center">
           <SkeletonDefault className="h-[48px]" />
         </div>
-        <div className="mx-auto mb-4 w-[340px] rounded-full text-center">
+        <div className="mx-auto mb-4 w-[320px] rounded-full text-center">
           <SkeletonDefault className="h-[48px]" />
+        </div>
         </div>
 
-        <div className="mt-[32px] items-center justify-between rounded-full md:flex">
-          <div className="md:w-[32%] w-full">
-            <SkeletonDefault className="h-[110px] rounded-[32px]" />
+        <div className="mt-[46px] gap-[18px] items-center justify-between rounded-full md:flex">
+          <div className="w-full">
+            <SkeletonDefault className="h-[96px] rounded-[32px]" />
           </div>
-          <div className="md:w-[32%] w-full">
-            <SkeletonDefault className="h-[110px] rounded-[32px]" />
+          <div className="w-full">
+            <SkeletonDefault className="h-[96px] rounded-[32px]" />
           </div>
-          <div className="md:w-[32%] w-full">
-            <SkeletonDefault className="h-[110px] rounded-[32px]" />
+          <div className="w-full">
+            <SkeletonDefault className="h-[96px] rounded-[32px]" />
           </div>
         </div>
-        <div className="mt-[32px] items-start justify-between md:flex">
+        <div className="mt-[14px] items-start justify-between md:flex">
           <div className="md:w-[59%] w-full">
-            <SkeletonDefault className="h-[470px] rounded-[48px]" />
+            <SkeletonDefault className="h-[420px] rounded-[48px]" />
           </div>
-          <div className="md:w-[39%] w-full">
+          <div className="md:w-[39.4%] w-full">
             <SkeletonDefault className="h-[339px] rounded-[48px]" />
           </div>
         </div>
