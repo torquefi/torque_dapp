@@ -31,7 +31,7 @@ export const Distribution = () => {
             <SkeletonDefault className="h-[110px]" />
           </div>
         </div> */}
-        <div className="mt-[24px] w-full rounded-[48px]">
+        <div className="mt-[24px] mx-auto max-w-[700px] w-full rounded-[48px]">
           <SkeletonDefault className="h-[300px]" />
         </div>
       </div>

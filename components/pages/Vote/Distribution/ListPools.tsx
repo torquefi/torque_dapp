@@ -8,7 +8,7 @@ export const ListPools = () => {
 
   return (
     <div className="mt-[20px]">
-      <div className="w-full rounded-[12px] border border-[1px] border-solid border-[#E6E6E6] dark:border-[#1a1a1a] bg-[#ffffff] dark:bg-transparent dark:bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 text-[#404040] dark:text-white text-center px-[24px] pt-[12px] pb-[6px]">
+      <div className="max-w-[700px] mx-auto w-full rounded-[12px] border border-[1px] border-solid border-[#E6E6E6] dark:border-[#1a1a1a] bg-[#ffffff] dark:bg-transparent dark:bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 text-[#404040] dark:text-white text-center px-[24px] pt-[12px] pb-[6px]">
         <div className="flex items-center justify-between mt-1">
           <h2 className="font-rogan text-[24px]">Pools</h2>
           <Popover
@@ -116,7 +116,7 @@ const menu = [
     imgOld: '/assets/pages/vote/distribution/ic-torq.svg',
     name: 'Boost',
     ticker: 'tBTC',
-    dailySupply: '700',
+    dailySupply: '800,000',
     dailyBorrow: '0.00',
   },
   {
@@ -124,7 +124,7 @@ const menu = [
     imgOld: '/assets/pages/vote/distribution/ic-torq.svg',
     name: 'Boost',
     ticker: 'tETH',
-    dailySupply: '800',
+    dailySupply: '800,000',
     dailyBorrow: '0.00',
   },
   {
@@ -132,39 +132,39 @@ const menu = [
     imgOld: '/assets/pages/vote/distribution/ic-torq.svg',
     name: 'Borrow',
     ticker: 'TUSD',
-    dailySupply: '500',
-    dailyBorrow: '500',
+    dailySupply: '400,000',
+    dailyBorrow: '400,000',
   },
   {
     imgMain: '/icons/coin/aeth.png',
     imgOld: '/assets/pages/vote/distribution/ic-torq.svg',
     name: 'Borrow',
     ticker: 'TUSD',
-    dailySupply: '500',
-    dailyBorrow: '500',
+    dailySupply: '400,000',
+    dailyBorrow: '400,000',
   },
-  // {
-  //   imgMain: '/icons/coin/d-uni.png',
-  //   imgOld: '/assets/pages/vote/distribution/ic-torq.svg',
-  //   name: 'Uniswap',
-  //   ticker: 'TORQ',
-  //   dailySupply: '1,200',
-  //   dailyBorrow: '0.00',
-  // },
-  // {
-  //   imgMain: '/icons/coin/d-uni.png',
-  //   imgOld: '/assets/pages/vote/distribution/ic-torq.svg',
-  //   name: 'Uniswap',
-  //   ticker: 'TUSD',
-  //   dailySupply: '1,200',
-  //   dailyBorrow: '0.00',
-  // },
+  {
+    imgMain: '/icons/coin/d-uni.png',
+    imgOld: '/assets/pages/vote/distribution/ic-torq.svg',
+    name: 'Uniswap',
+    ticker: 'TORQ',
+    dailySupply: '10,000,000',
+    dailyBorrow: '0.00',
+  },
+  {
+    imgMain: '/icons/coin/d-uni.png',
+    imgOld: '/assets/pages/vote/distribution/ic-torq.svg',
+    name: 'Uniswap',
+    ticker: 'TUSD',
+    dailySupply: '10,000,000',
+    dailyBorrow: '0.00',
+  },
   // {
   //   imgMain: '/icons/coin/ajna-sm.svg',
   //   imgOld: '/assets/pages/vote/distribution/ic-torq.svg',
   //   name: 'Ajna',
   //   ticker: 'TUSD',
-  //   dailySupply: '800',
+  //   dailySupply: '0.00',
   //   dailyBorrow: '0.00',
   // },
   // {
@@ -172,7 +172,7 @@ const menu = [
   //   imgOld: '/assets/pages/vote/distribution/ic-torq.svg',
   //   name: 'Ajna',
   //   ticker: 'USDC',
-  //   dailySupply: '800',
+  //   dailySupply: '0.00',
   //   dailyBorrow: '0.00',
   // },
 ]
