@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
 import Footer from './Footer'
 import { Header } from './Header'
-// import { MenuMobile } from './MenuMobile'
 import { AppStore } from '@/types/store'
 import { useEffect, useState } from 'react'
 import { updateTheme } from '@/lib/redux/slices/theme'
@@ -23,9 +22,7 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
     }
 
     if (typeof window !== 'undefined') {
-      if (
-        theme === 'light'
-      ) {
+      if (theme === 'light') {
         document.documentElement.classList.remove('dark')
         document.documentElement.classList.add('light')
       } else {
@@ -41,18 +38,8 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
 
   if (theme)
     return (
-      // <div className="font-rogan-regular min-h-screen bg-[#FFFFFF] text-white dark:bg-[#030303]">
-      //   <Headroom>
-      //     <Header />
-      //   </Headroom>
-      //   <div className="container mx-auto min-h-[calc(100vh-140px)] max-w-[1244px] p-4 lg:p-8">
-      //     {children}
-      //   </div>
-      //   <Footer />
-      //   {/* <MenuMobile /> */}
-      // </div>
       <div className="font-rogan-regular min-h-screen bg-[#FFFFFF] text-white dark:bg-[#030303]">
-        <InviteCodeModal open={isInviteModalOpen} handleClose={() => { }} onConfirm={handleInviteModalClose} />
+        <InviteCodeModal open={isInviteModalOpen} handleClose={handleInviteModalClose} onConfirm={handleInviteModalClose} />
         {!isInviteModalOpen && (
           <>
             <Headroom>
