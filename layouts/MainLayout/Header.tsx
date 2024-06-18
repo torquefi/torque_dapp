@@ -1,7 +1,6 @@
 import HoverIndicator from '@/components/common/HoverIndicator'
 import NumberFormat from '@/components/common/NumberFormat'
 import Popover from '@/components/common/Popover'
-// import { torqContract } from '@/constants/contracts'
 import { requestSwitchNetwork } from '@/lib/helpers/network'
 import { shortenAddress } from '@/lib/helpers/utils'
 import { AppStore } from '@/types/store'
@@ -106,8 +105,7 @@ export const Header = () => {
     }
   }
 
-
-  console.log('balance 1111:>> ', torqueBalance);
+  console.log('balance 1111:>> ', torqueBalance)
   useEffect(() => {
     handleGetTorqueBalance()
   }, [address, tokenContract])
@@ -127,9 +125,7 @@ export const Header = () => {
         <div className="container relative mx-auto flex h-[66px] max-w-[1244px] items-center justify-between px-4 lg:px-8">
           <Link href="/" className="flex items-center">
             <img className="h-[26px]" src="/assets/logo.png" alt="" />
-            <h2
-              className="font-rogan ml-[8px] text-[26px] text-[#404040] dark:text-white"
-            >
+            <h2 className="font-rogan ml-[8px] text-[26px] text-[#404040] dark:text-white">
               Torque
             </h2>
           </Link>
@@ -151,14 +147,13 @@ export const Header = () => {
                 <HoverIndicatorGrid rows={2} cols={2}>
                   <div className="grid grid-cols-2 gap-4 p-3">
                     <div className="flex cursor-pointer flex-col items-center justify-center">
-                      <a
+                      <Link
                         href="/vote/distribution"
                         className="text-[#959595] hover:text-[#030303] dark:hover:text-white"
                       >
                         <img src="/icons/pools.svg" className="h-10 w-10" />
-                        {/* <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 dark:bg-[#1E1E1E]"></div> */}
                         Pools
-                      </a>
+                      </Link>
                     </div>
                     <div className="flex cursor-pointer flex-col items-center">
                       <a
@@ -166,7 +161,6 @@ export const Header = () => {
                         onClick={() => setOpenUniSwapModal(true)}
                       >
                         <img src="/icons/swap.svg" className="h-10 w-10" />
-                        {/* <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 dark:bg-[#1E1E1E]"></div> */}
                         Swap
                       </a>
                     </div>
@@ -176,7 +170,6 @@ export const Header = () => {
                         className="flex cursor-pointer flex-col items-center text-[#959595] hover:text-[#030303] dark:hover:text-white"
                       >
                         <img src="/icons/delegate.svg" className="h-10 w-10" />
-                        {/* <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 dark:bg-[#1E1E1E]"></div> */}
                         Delegate
                       </div>
                     </div>
@@ -186,7 +179,6 @@ export const Header = () => {
                         className="flex cursor-pointer flex-col items-center text-[#959595] hover:text-[#030303] dark:hover:text-white"
                       >
                         <img src="/icons/rewards.svg" className="h-10 w-10" />
-                        {/* <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 dark:bg-[#1E1E1E]"></div> */}
                         Rewards
                       </div>
                     </div>
@@ -194,21 +186,8 @@ export const Header = () => {
                 </HoverIndicatorGrid>
               }
             >
-              <div
-                // onClick={() => setIsOpenClaim(true)}
-                className="mr-[10px] hidden cursor-pointer items-center xs:flex"
-              >
+              <div className="mr-[10px] hidden cursor-pointer items-center xs:flex">
                 <img className="h-[24px]" src="/assets/dots.svg" alt="" />
-                {/* <p className="font-rogan ml-[6px] text-[16px] text-[#404040] dark:text-white">
-                $
-                <NumberFormat
-                  displayType="text"
-                  thousandSeparator
-                  value={tokenPrice}
-                  decimalScale={2}
-                  fixedDecimalScale
-                />
-              </p> */}
               </div>
             </Popover>
             {address ? (
@@ -273,7 +252,6 @@ export const Header = () => {
                     setActiveTabIndex(i)
                   }}
                   onMouseLeave={() => setActiveTabIndex(currentTabIndex)}
-                  // target={item.isExternal ? '_blank' : '_self'}
                 >
                   {theme === 'light' ? (
                     <img
@@ -351,6 +329,5 @@ const menu = [
     icon: '/assets/main-layout/network.svg',
     iconActive: '/assets/main-layout/network-active.svg',
     iconLight: '/assets/main-layout/network-active.png',
-    // isExternal: true,
   },
 ]
