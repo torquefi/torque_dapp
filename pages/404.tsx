@@ -2,8 +2,9 @@ import { useRouter } from "next/router"
 import Head from "next/head"
 import React from "react"
 import { MainLayout } from "@/layouts/MainLayout"
+import { NextPageWithLayout } from "@/types/next"
 
-const NotFound: React.FC = () => {
+const NotFound: NextPageWithLayout = () => {
   const router = useRouter()
 
   return (
