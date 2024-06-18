@@ -3,7 +3,7 @@ export const tipsData = [
     title: 'Increase Reward Rates',
     stage: 'Passed',
     id: 3,
-    timeVote: 'Vote has started',
+    timeVote: 'Vote has finished',
     voteRed: 0,
     voteGreen: 0,
     proposalId:
