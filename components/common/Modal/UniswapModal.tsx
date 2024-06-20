@@ -277,7 +277,7 @@ export default function UniSwapModal({
 
   useEffect(() => {
     if (!open) {
-      setCoinFrom(listSwapCoin[0])
+      setCoinFrom(listSwapCoin[1])
       setCoinTo(listSwapCoin[2])
       setAmountFrom('')
       setAmountTo('')
