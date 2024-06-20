@@ -419,7 +419,7 @@ export default function UniSwapModal({
                       </HoverIndicator>
                     }
                   >
-                    <div className="flex items-center gap-[2px] text-[#030303] dark:text-[#959595]">
+                    <div className="flex cursor-pointer items-center gap-[2px] text-[#030303] dark:text-[#959595]">
                       <img
                         src={
                           coinFrom.symbol === 'USDC'
@@ -429,7 +429,7 @@ export default function UniSwapModal({
                         alt=""
                         className="h-[32px] mt-1 rounded-full"
                       />
-                      <p className="cursor-pointer">{coinFrom?.symbol}</p>
+                      <p>{coinFrom?.symbol}</p>
                     </div>
                   </Popover>
                 </div>
