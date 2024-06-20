@@ -468,7 +468,7 @@ const BORROW_INFOS: IBorrowInfo[] = [
     tokenBorrowContractInfo: tokenUsdcContract,
     userAddressContractInfo: userBorrowAddressBtcContract,
     name: 'Bitcoin',
-    bonus: 365000,
+    bonus: 3650000,
     borrowRowTokenIcon: '/icons/coin/usdc.png',
   },
   {
@@ -486,7 +486,7 @@ const BORROW_INFOS: IBorrowInfo[] = [
     tokenBorrowContractInfo: tokenUsdcContract,
     userAddressContractInfo: userBorrowAddressEthContract,
     name: 'Ether',
-    bonus: 365000,
+    bonus: 3650000,
     borrowRowTokenIcon: '/icons/coin/usdc.png',
   },
   {
@@ -507,7 +507,7 @@ const BORROW_INFOS: IBorrowInfo[] = [
     userAddressContractInfo: userBorrowAddressBtcContract,
     oldBorrowContractInfo: borrowOldBtcContract,
     name: 'Bitcoin',
-    bonus: 365000,
+    bonus: 3650000,
     multiLoan: true,
   },
   {
@@ -527,7 +527,7 @@ const BORROW_INFOS: IBorrowInfo[] = [
     userAddressContractInfo: userBorrowAddressEthContract,
     oldBorrowContractInfo: borrowOldEthContract,
     name: 'Ether',
-    bonus: 365000,
+    bonus: 3650000,
     multiLoan: true,
     borrowRowTokenIcon: '/icons/coin/tusd.svg',
   },
