@@ -327,7 +327,7 @@ const BOOST_VAULTS = [
   {
     token: 'WBTC',
     earnToken: 'tBTC',
-    bonus: 255000,
+    bonus: 2550000,
     deposit: 0,
     threeYearValue: 0,
     APR: 0.0,
@@ -348,7 +348,7 @@ const BOOST_VAULTS = [
   {
     token: 'WETH',
     earnToken: 'tETH',
-    bonus: 292000,
+    bonus: 2920000,
     deposit: 0,
     threeYearValue: 0,
     APR: 0.0,
@@ -369,7 +369,7 @@ const BOOST_VAULTS = [
   {
     token: 'LINK',
     earnToken: 'tLINK',
-    bonus: 255000,
+    bonus: 2550000,
     deposit: 0,
     threeYearValue: 0,
     APR: 0.0,
@@ -390,7 +390,7 @@ const BOOST_VAULTS = [
   {
     token: 'UNI',
     earnToken: 'tUNI',
-    bonus: 255000,
+    bonus: 2550000,
     deposit: 0,
     threeYearValue: 0,
     APR: 0.0,
