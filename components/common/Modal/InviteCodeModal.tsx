@@ -60,7 +60,7 @@ const InviteCodeModal = ({ open, handleClose, onConfirm }: InviteCodeModalProps)
   };
 
   return (
-    <Modal open={open} handleClose={handleClose} className="max-w-[390px] mb-3 rounded-none py-8 bg-white border border-[0px] border-[#efefef]">
+    <Modal open={open} handleClose={handleClose} hideCloseIcon={true} className="max-w-[390px] mb-3 rounded-none py-8 bg-white dark:bg-[#030303] border border-[0px] border-[#efefef]">
       <motion.div
         className="flex flex-col items-center"
         initial="hidden"
@@ -73,7 +73,7 @@ const InviteCodeModal = ({ open, handleClose, onConfirm }: InviteCodeModalProps)
           alt="logo"
           variants={itemVariants}
         />
-        <motion.h2 className="font-rogan text-[24px] font-[400] text-black" variants={itemVariants}>
+        <motion.h2 className="font-rogan text-[24px] font-[400] text-black dark:text-white" variants={itemVariants}>
           Early Access
         </motion.h2>
         <motion.div className="mt-2 text-center" variants={itemVariants}>
@@ -90,7 +90,7 @@ const InviteCodeModal = ({ open, handleClose, onConfirm }: InviteCodeModalProps)
               value={char}
               onChange={(e) => handleChange(e.target.value, index)}
               onKeyDown={(e) => handleKeyDown(e, index)}
-              className="w-12 h-12 text-center bg-transparent text-black font-bold border border-[#efefef] rounded-md focus:outline-none shadow-md text-[18px]"
+              className="w-12 h-12 text-center bg-transparent text-black dark:text-white font-bold border border-[#efefef] dark:border-[#1a1a1a] rounded-md focus:outline-none shadow-md text-[18px]"
               variants={itemVariants}
             />
           ))}
