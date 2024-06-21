@@ -550,7 +550,7 @@ export default function CreateBorrowItem({
         key={dataBorrow.depositTokenSymbol}
       >
         <div className="flex w-full items-center justify-between">
-          <div className="ml-[-12px] flex items-center">
+          <div className="ml-[-12px] flex items-center w-full">
             <div className="relative flex justify-center -space-x-14">
             <img
               className="w-[72px] md:w-24"
@@ -568,7 +568,7 @@ export default function CreateBorrowItem({
               {dataBorrow.borrowTokenSymbol}
             </div>
           </div>
-          <Popover
+          {/* <Popover
             trigger="hover"
             placement="bottom-right"
             className={`mt-[8px] w-[210px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#161616]`}
@@ -586,7 +586,45 @@ export default function CreateBorrowItem({
                 </div>
               </div>
             </Link>
-          </Popover>
+          </Popover> */}
+          <div className="flex flex-col items-end justify-end mt-[8px] w-[210px] text-center text-sm leading-tight">
+            <Link href="#" className="" target={'_blank'}>
+              <div className="flex items-center rounded-full bg-[#AA5BFF] bg-opacity-20 p-1 text-[12px] xs:text-[14px]">
+                <img
+                  src="/assets/t-logo-circle.png"
+                  alt="torq"
+                  className="w-[18px] md:w-[22px]"
+                />
+                <div className="font-rogan-regular mx-1 uppercase text-[#AA5BFF] xs:mx-2">
+                  +{Number(item.bonus).toLocaleString()} TORQ
+                </div>
+              </div>
+            </Link>
+            <Link href="#" className="" target={'_blank'}>
+              <div className="flex items-center rounded-full bg-[#00BFFF] bg-opacity-20 p-1 text-[12px] xs:text-[14px] mt-2">
+                <img
+                  src="icons/coin/arb.png"
+                  alt="arb"
+                  className="w-[18px] md:w-[22px]"
+                />
+                <div className="font-rogan-regular mx-1 uppercase text-[#00BFFF] xs:mx-2">
+                  +{Number(item.arbBonus).toLocaleString()} ARB
+                </div>
+              </div>
+            </Link>
+            {/* <Link href="#" className="" target={'_blank'}>
+              <div className="flex items-center rounded-full bg-[#32CD32] bg-opacity-20 p-1 text-[12px] xs:text-[14px] mt-2">
+                <img
+                  src="/assets/comp-logo-circle.png"
+                  alt=""
+                  className="w-[24px]"
+                />
+                <div className="font-rogan-regular mx-1 uppercase text-[#32CD32] xs:mx-2">
+                  +{Number(item.compBonus).toLocaleString()} COMP
+                </div>
+              </div>
+            </Link> */}
+          </div>
         </div>
         <div className="font-rogan mb-1 mt-1 grid grid-cols-2 gap-4">
           <div className="flex w-full items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
