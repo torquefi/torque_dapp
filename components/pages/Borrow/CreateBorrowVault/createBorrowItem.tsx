@@ -588,8 +588,13 @@ export default function CreateBorrowItem({
             </Link>
           </Popover> */}
           <div className="flex flex-col items-end justify-end mt-[8px] w-[210px] text-center text-sm leading-tight">
-            <Link href="#" className="" target={'_blank'}>
-              <div className="flex items-center rounded-full bg-[#AA5BFF] bg-opacity-20 p-1 text-[12px] xs:text-[14px]">
+          <Popover
+              trigger="hover"
+              placement="bottom-right"
+              className={`mt-[8px] w-[200px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#161616]`}
+              content="The projected COMP rewards after 1 year of $1,000 supplied."
+              >
+              <div className="flex items-center cursor-pointer rounded-full bg-[#AA5BFF] bg-opacity-20 p-1 text-[12px] xs:text-[14px]">
                 <img
                   src="/assets/t-logo-circle.png"
                   alt="torq"
@@ -599,9 +604,14 @@ export default function CreateBorrowItem({
                   +{Number(item.bonus).toLocaleString()} TORQ
                 </div>
               </div>
-            </Link>
-            <Link href="#" className="" target={'_blank'}>
-              <div className="flex items-center rounded-full bg-[#00BFFF] bg-opacity-20 p-1 text-[12px] xs:text-[14px] mt-2">
+            </Popover>
+            <Popover
+              trigger="hover"
+              placement="bottom-right"
+              className={`mt-[8px] w-[200px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#161616]`}
+              content="The projected ARB rewards after 1 year of $1,000 supplied."
+              >
+              <div className="flex items-center cursor-pointer rounded-full bg-[#00BFFF] bg-opacity-20 p-1 text-[12px] xs:text-[14px] mt-2">
                 <img
                   src="icons/coin/arb.png"
                   alt="arb"
@@ -611,7 +621,7 @@ export default function CreateBorrowItem({
                   +{Number(item.arbBonus).toLocaleString()} ARB
                 </div>
               </div>
-            </Link>
+            </Popover>
             {/* <Link href="#" className="" target={'_blank'}>
               <div className="flex items-center rounded-full bg-[#32CD32] bg-opacity-20 p-1 text-[12px] xs:text-[14px] mt-2">
                 <img
