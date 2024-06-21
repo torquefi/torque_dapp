@@ -23,7 +23,8 @@ export interface IBorrowInfo {
   multiLoan?: boolean
   oldBorrowContractInfo?: IContractInfo,
   borrowTokenIcon?: string,
-  borrowRowTokenIcon?: string
+  borrowRowTokenIcon?: string,
+  arbBonus?: string
 }
 
 export interface IBorrowInfoManage {

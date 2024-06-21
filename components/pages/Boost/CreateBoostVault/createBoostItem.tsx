@@ -278,11 +278,11 @@ export function CreateBoostItem({
               Supply {item.token},<br className="" /> Earn {item.token}
             </div>
           </div>
-          <Popover
+          {/* <Popover
             trigger="hover"
             placement="bottom-right"
-            className={`font-rogan-regular mt-[8px] w-[210px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
-            content="The projected TORQ rewards after one year of $1,000 supplied."
+            className={`mt-[8px] w-[210px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#161616]`}
+            content="The projected TORQ rewards after 1 year of $1,000 supplied."
           >
             <Link href="#" className="" target={'_blank'}>
               <div className="flex items-center rounded-full bg-[#AA5BFF] bg-opacity-20 p-1  text-[12px] xs:text-[14px]">
@@ -291,13 +291,50 @@ export function CreateBoostItem({
                   alt=""
                   className="w-[24px]"
                 />
-
                 <div className="font-rogan-regular mx-1 uppercase text-[#AA5BFF] xs:mx-2">
                   +{Number(item.bonus).toLocaleString()} TORQ
                 </div>
               </div>
             </Link>
-          </Popover>
+          </Popover> */}
+          <div className="flex flex-col items-end justify-end mt-[8px] w-[210px] text-center text-sm leading-tight">
+            <Link href="#" className="" target={'_blank'}>
+              <div className="flex items-center rounded-full bg-[#AA5BFF] bg-opacity-20 p-1 text-[12px] xs:text-[14px]">
+                <img
+                  src="/assets/t-logo-circle.png"
+                  alt="torq"
+                  className="w-[18px] md:w-[22px]"
+                />
+                <div className="font-rogan-regular mx-1 uppercase text-[#AA5BFF] xs:mx-2">
+                  +{Number(item.bonus).toLocaleString()} TORQ
+                </div>
+              </div>
+            </Link>
+            <Link href="#" className="" target={'_blank'}>
+              <div className="flex items-center rounded-full bg-[#00BFFF] bg-opacity-20 p-1 text-[12px] xs:text-[14px] mt-2">
+                <img
+                  src="icons/coin/arb.png"
+                  alt="arb"
+                  className="w-[18px] md:w-[22px]"
+                />
+                <div className="font-rogan-regular mx-1 uppercase text-[#00BFFF] xs:mx-2">
+                  +{Number(item.arbBonus).toLocaleString()} ARB
+                </div>
+              </div>
+            </Link>
+            {/* <Link href="#" className="" target={'_blank'}>
+              <div className="flex items-center rounded-full bg-[#32CD32] bg-opacity-20 p-1 text-[12px] xs:text-[14px] mt-2">
+                <img
+                  src="/assets/comp-logo-circle.png"
+                  alt=""
+                  className="w-[24px]"
+                />
+                <div className="font-rogan-regular mx-1 uppercase text-[#32CD32] xs:mx-2">
+                  +{Number(item.compBonus).toLocaleString()} COMP
+                </div>
+              </div>
+            </Link> */}
+          </div>
         </div>
         <div className="font-rogan mb-1 mt-1 grid grid-cols-2 gap-4">
           <div className="flex w-full items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  lg:h-[140px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
