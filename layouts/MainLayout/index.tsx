@@ -39,7 +39,7 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
   if (theme)
     return (
       <div className="font-rogan-regular min-h-screen bg-[#FFFFFF] text-white dark:bg-[#030303]">
-        <InviteCodeModal open={isInviteModalOpen} handleClose={handleInviteModalClose} onConfirm={handleInviteModalClose} />
+        <InviteCodeModal open={isInviteModalOpen} handleClose={handleInviteModalClose} />
         {!isInviteModalOpen && (
           <>
             <Headroom>
