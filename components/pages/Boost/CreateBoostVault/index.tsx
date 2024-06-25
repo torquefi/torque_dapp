@@ -47,8 +47,7 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
           (apr) => apr?.name === item?.token
         )?.apr || 0)
       })
-    )
-      console.log('dataBoost :>> ', dataBoost)
+      )
       // dataBoost = await Promise.all(dataBoost?.map(getBoostData))
       setBoostVault(dataBoost)
     } catch (error) {

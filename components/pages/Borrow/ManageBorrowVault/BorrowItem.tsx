@@ -373,8 +373,6 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
   const collateralUsd = (
     Number(collateral || 0) * (usdPrice[item?.depositTokenSymbol] || 0)
   )?.toFixed(5)
-  console.log('collateralUsd :>> ', collateralUsd)
-  console.log('borrowed :>> ', borrowed)
 
   const summaryInfo = (
     <div className="flex w-full text-center md:w-[500px] lg:w-[600px] xl:w-[700px]">
@@ -413,8 +411,8 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
           {!Number(collateralUsd)
             ? 0
             : +((Number(borrowed || 0) / Number(collateralUsd)) * 100).toFixed(
-                2
-              ) || 0}
+              2
+            ) || 0}
           %
         </p>
         <p className="whitespace-nowrap text-[14px] text-[#959595]">
@@ -508,10 +506,9 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
           <div
             className={
               'flex flex-wrap overflow-hidden px-[16px] transition-all duration-300 sm:px-[24px]' +
-              ` ${
-                isExpand
-                  ? 'max-h-[1000px] py-[16px] ease-in'
-                  : 'max-h-0 py-0 ease-out'
+              ` ${isExpand
+                ? 'max-h-[1000px] py-[16px] ease-in'
+                : 'max-h-0 py-0 ease-out'
               }`
             }
           >
@@ -544,10 +541,9 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                         key={i}
                         className={
                           'w-[52px]  py-[8px] text-[10px] leading-none xs:w-[80px] xs:text-[12px]' +
-                          ` ${
-                            action === item
-                              ? 'rounded-md bg-[#F4F4F4] dark:bg-[#171717]'
-                              : 'text-[#959595]'
+                          ` ${action === item
+                            ? 'rounded-md bg-[#F4F4F4] dark:bg-[#171717]'
+                            : 'text-[#959595]'
                           }`
                         }
                         onClick={() => {
@@ -607,9 +603,8 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                 </div>
               </div>
               <button
-                className={`font-rogan-regular mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${
-                  buttonLoading && 'cursor-not-allowed opacity-50'
-                }`}
+                className={`font-rogan-regular mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
+                  }`}
                 disabled={buttonLoading}
                 onClick={handleAction}
               >

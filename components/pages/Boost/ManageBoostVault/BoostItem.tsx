@@ -109,7 +109,6 @@ export function BoostItem({
     try {
       const tokenDecimal = await tokenContract.methods.decimals().call()
       const deposited = await boostContract.methods.balanceOf(address).call()
-      console.log('deposited :>> ', deposited)
       setDeposited(
         new BigNumber(
           ethers.utils.formatUnits(deposited, tokenDecimal)
@@ -120,7 +119,6 @@ export function BoostItem({
     }
   }
 
-  console.log('deposited :>> ', deposited)
 
   useEffect(() => {
     handleGetBoostData()
@@ -344,7 +342,6 @@ export function BoostItem({
     return 'Create'
   }
 
-  console.log('amount :>> ', amount)
 
   const isUnFirstCreated =
     (item.tokenSymbol === 'WBTC' && !createdWbtc) ||

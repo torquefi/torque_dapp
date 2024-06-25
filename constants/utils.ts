@@ -13,6 +13,8 @@ export const getBalanceByContractToken = async (
     const contract = new web3.eth.Contract(JSON.parse(abi), contractAddress)
     const decimal = await contract.methods.decimals().call()
     const balance = await contract.methods.balanceOf(userWalletAddress).call()
+    console.log('balance :>> ', balance)
+    console.log('contractAddress :>> ', contractAddress)
     return ethers.utils.formatUnits(balance, decimal).toString()
   } catch (error) {
     console.log('error :>> ', error)
