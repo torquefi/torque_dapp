@@ -3,45 +3,44 @@ import { motion } from 'framer-motion'
 import Modal from '@/components/common/Modal'
 
 interface InviteCodeModalProps {
-  open: boolean;
-  handleClose: () => void;
-  onConfirm: () => void;
+  open: boolean
+  handleClose: () => void
 }
 
-const InviteCodeModal = ({ open, handleClose, onConfirm }: InviteCodeModalProps) => {
-  const [code, setCode] = useState(['', '', '', '', '']);
-  const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
+const InviteCodeModal = ({ open, handleClose }: InviteCodeModalProps) => {
+  const [code, setCode] = useState(['', '', '', '', ''])
+  const inputRefs = useRef<Array<HTMLInputElement | null>>([])
 
   const handleChange = (value: string, index: number) => {
-    const newCode = [...code];
-    newCode[index] = value;
-    setCode(newCode);
+    const newCode = [...code]
+    newCode[index] = value
+    setCode(newCode)
     if (value) {
       if (index < code.length - 1) {
-        inputRefs.current[index + 1]?.focus();
+        inputRefs.current[index + 1]?.focus()
       }
     } else {
       if (index > 0) {
-        inputRefs.current[index - 1]?.focus();
+        inputRefs.current[index - 1]?.focus()
       }
     }
-  };
+  }
 
   const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
     if (e.key === 'Backspace' && !code[index]) {
       if (index > 0) {
-        inputRefs.current[index - 1]?.focus();
+        inputRefs.current[index - 1]?.focus()
       }
     }
-  };
+  }
 
   const handleSubmit = () => {
     if (code.join('') === '77777') {
-      onConfirm();
+      handleClose()
     } else {
-      alert('Incorrect invite code');
+      alert('Incorrect invite code')
     }
-  };
+  }
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -52,15 +51,15 @@ const InviteCodeModal = ({ open, handleClose, onConfirm }: InviteCodeModalProps)
         duration: 0.3,
       },
     },
-  };
+  }
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     show: { opacity: 1, y: 0 },
-  };
+  }
 
   return (
-    <Modal open={open} handleClose={handleClose} hideCloseIcon={true} className="max-w-[390px] mb-3 rounded-none py-8 bg-white dark:bg-[#030303] border border-[0px] border-[#efefef]">
+    <Modal open={open} handleClose={() => {}} hideCloseIcon={true} className="max-w-[390px] mb-3 rounded-none py-8 bg-white dark:bg-[#030303] border border-[0px] border-[#efefef]">
       <motion.div
         className="flex flex-col items-center"
         initial="hidden"
@@ -109,7 +108,7 @@ const InviteCodeModal = ({ open, handleClose, onConfirm }: InviteCodeModalProps)
         </motion.button>
       </motion.div>
     </Modal>
-  );
-};
+  )
+}
 
 export default InviteCodeModal
