@@ -46,9 +46,9 @@ export const BorrowItemChart: FC<BorrowItemChartProps> = (props) => {
 
     if (active && payload && payload.length) {
       return (
-        <div className="z-10 rounded border-2 border-[#E6E6E6] px-4 py-2 text-left dark:border-[#1C1C1C] dark:bg-[#0E0E0E]">
+        <div className="z-10 rounded border-2 border-[#E6E6E6] dark:border-[#1C1C1C] dark:bg-[#0E0E0E] px-4 py-2 text-left">
           <NumericFormat
-            className="text-[20px] font-semibold text-[#AA5BFF]"
+            className="text-[20px] font-semibold dark:text-[#959595] text-black"
             displayType="text"
             value={+payload?.[1]?.payload?.value || 0}
             thousandSeparator
@@ -56,7 +56,7 @@ export const BorrowItemChart: FC<BorrowItemChartProps> = (props) => {
             prefix="$"
             fixedDecimalScale
           />
-          <div className="text-14 text-[#BCBBCA]">
+          <div className="text-14 dark:text-[#959595] text-black">
             {new Date(payload?.[1]?.payload?.time)
               .toISOString()
               .substring(0, 10)}

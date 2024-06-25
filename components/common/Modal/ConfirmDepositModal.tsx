@@ -84,7 +84,7 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
 
   useEffect(() => {
     if (address) {
-      ;(async () => {
+      ; (async () => {
         if (coinFrom.symbol === 'WBTC') {
           const amount = await getBalanceByContractToken(
             tokenBtcContract.abi,
@@ -146,9 +146,8 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
         className={
           `mt-2 hidden h-[1px] w-full md:block` +
           `
-      ${
-        theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
-      }`
+      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+          }`
         }
       ></div>
       <div className=" h-auto w-full   overflow-y-auto py-[18px]">
@@ -173,11 +172,11 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
           <div className="relative w-16">
             <img className="w-16 " src={coinTo?.icon} alt="" />
             {/* {coinTo.symbol === 'TUSD' && ( */}
-              <img
-                className="absolute bottom-3 right-3 w-5"
-                src="/assets/t-logo-circle.svg"
-                alt=""
-              />
+            <img
+              className="absolute bottom-3 right-3 w-5"
+              src="/assets/t-logo-circle.svg"
+              alt=""
+            />
             {/* )} */}
           </div>
         </div>
@@ -186,9 +185,8 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
         className={
           `mt-2 hidden h-[1px] w-full md:block` +
           `
-      ${
-        theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
-      }`
+      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+          }`
         }
       ></div>
       <div className="my-4 flex flex-wrap gap-3 text-[16px] text-[#959595]">
