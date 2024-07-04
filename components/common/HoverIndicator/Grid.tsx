@@ -47,22 +47,22 @@ export default function HoverIndicatorGrid({
     if (!indicator.current || !container.current) {
       return
     }
-    indicator.current.style.opacity = '1'
+    indicator.current.style.opacity = '0'
   }
 
   const handleEnter = (e: any) => {
     if (!indicator.current || !container.current) {
       return
     }
-    indicator.current.style.opacity = '0'
+    indicator.current.style.opacity = '1'
   }
 
   return (
     <div
       ref={container}
       onMouseMove={handleMove}
-      onMouseEnter={handleLeave}
-      onMouseLeave={handleEnter}
+      onMouseEnter={handleEnter}
+      onMouseLeave={handleLeave}
       className={'relative h-full w-full' + ` ${className}`}
     >
       <div

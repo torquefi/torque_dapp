@@ -105,7 +105,6 @@ export const Header = () => {
     }
   }
 
-  console.log('balance 1111:>> ', torqueBalance)
   useEffect(() => {
     handleGetTorqueBalance()
   }, [address, tokenContract])
