@@ -216,7 +216,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
           <div className="flex h-[36px] w-auto items-center justify-center rounded-[4px] border border-[#efefef] bg-transparent px-[3px] py-[4px] dark:border-[#1a1a1a]">
             <HoverIndicator
               activeIndex={layoutBorrow === 'row' ? 0 : 1}
-              className="flex w-full justify-between"
+              className="flex justify-between w-full"
             >
               <button
                 id="rowViewButton"
