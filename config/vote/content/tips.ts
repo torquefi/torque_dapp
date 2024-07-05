@@ -1,15 +1,15 @@
 export const tipsData = [
-  {
-    title: 'Deploy TUSD Reserves',
-    stage: 'Pending',
-    id: 4,
-    timeVote: 'Vote has not started',
-    voteRed: 0,
-    voteGreen: 0,
-    proposalId:
-      '12672721009139276835958054769874632581683365611135468538924687790318660465059',
-    url: 'https://www.tally.xyz/gov/torque/proposal/12672721009139276835958054769874632581683365611135468538924687790318660465059',
-  },
+  // {
+  //   title: 'Deploy TUSD Reserves',
+  //   stage: 'Passed',
+  //   id: 4,
+  //   timeVote: 'Vote has finished',
+  //   voteRed: 0,
+  //   voteGreen: 0,
+  //   proposalId:
+  //     '12672721009139276835958054769874632581683365611135468538924687790318660465059',
+  //   url: 'https://www.tally.xyz/gov/torque/proposal/12672721009139276835958054769874632581683365611135468538924687790318660465059',
+  // },
   {
     title: 'Increase Reward Rates',
     stage: 'Passed',
