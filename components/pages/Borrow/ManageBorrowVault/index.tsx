@@ -10,6 +10,8 @@ import {
   compoundUsdcContract as compoundUsdcContractData,
   simpleBorrowBtcContract,
   simpleBorrowEthContract,
+  simpleBtcBorrowUsdtContract,
+  simpleEthBorrowUsdtContract,
   tokenBtcContract,
   tokenEthContract,
   tokenTusdContract,

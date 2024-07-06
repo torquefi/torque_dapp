@@ -12,6 +12,8 @@ import {
   borrowOldEthContract,
   simpleBorrowBtcContract,
   simpleBorrowEthContract,
+  simpleBtcBorrowUsdtContract,
+  simpleEthBorrowUsdtContract,
   tokenBtcContract,
   tokenEthContract,
   tokenTusdContract,
