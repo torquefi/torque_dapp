@@ -48,6 +48,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
 
   const tusdPrice = usdPrice['TUSD']
   const usdcPrice = usdPrice['USDC']
+  const usdtPrice = usdPrice['USDT']
 
   const borrowAPR = useMemo(
     () =>
@@ -123,6 +124,17 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         )
       }
 
+      if (item.borrowTokenSymbol === 'USDT') {
+        const maxMoreMinTable = await borrowContract.methods
+          .getMoreBorrowableUsdt(address)
+          .call()
+        setMaxMoreMinTable(
+          new BigNumber(
+            ethers.utils.formatUnits(maxMoreMinTable, tokenDecimal)
+          ).toString()
+        )
+      }
+
       if (item.borrowTokenSymbol === 'TUSD') {
         const borrowed = new BigNumber(tusdPrice || 0)
           .multipliedBy(
@@ -132,9 +144,17 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         setBorrowed(borrowed)
       }
       if (item.borrowTokenSymbol === 'USDC') {
-        const borrowed = new BigNumber(tusdPrice || 0)
+        const borrowed = new BigNumber(usdcPrice || 0)
           .multipliedBy(
             ethers.utils.formatUnits(userDetails?.['1'], tokenDecimal)
+          )
+          .toString()
+        setBorrowed(borrowed)
+      }
+      if (item.borrowTokenSymbol === 'USDT') {
+        const borrowed = new BigNumber(usdtPrice || 0)
+          .multipliedBy(
+            ethers.utils.formatUnits(userDetails?.['3'], tokenDecimal)
           )
           .toString()
         setBorrowed(borrowed)
@@ -192,6 +212,18 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         } else {
           withdraw = await borrowContract.methods
             .getWethWithdrawWithSlippage(address, amountRepay, 0)
+            .call()
+        }
+      }
+
+      if (item.borrowTokenSymbol === 'USDT') {
+        if (item.depositTokenSymbol === 'WBTC') {
+          withdraw = await borrowContract.methods
+            .getWbtcWithdrawWithSlippageUsdt(address, amountRepay, 0)
+            .call()
+        } else {
+          withdraw = await borrowContract.methods
+            .getWethWithdrawWithSlippageUsdt(address, amountRepay, 0)
             .call()
         }
       }
@@ -300,6 +332,10 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       }
       if (item.borrowTokenSymbol === 'USDC') {
         const tx = await borrowContract2.callBorrowMore(tokenBorrowAmount)
+        await tx.wait()
+      }
+      if (item.borrowTokenSymbol === 'USDT') {
+        const tx = await borrowContract2.callBorrowMoreUsdt(tokenBorrowAmount)
         await tx.wait()
       }
 
@@ -454,7 +490,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                       alt=""
                     />
                     <img
-                      className="absolute bottom-0 right-0 z-1 w-[16px] md:w-[24px] object-cover rounded-xl md:bottom-4 md:right-4 shadow-md"
+                      className="absolute bottom-2 right-2 z-1 w-[18px] md:w-[24px] object-cover rounded-xl md:bottom-4 md:right-4 shadow-md"
                       src={`/icons/coin/${item.borrowTokenSymbol.toLowerCase()}${item.borrowTokenSymbol === 'USDC' ? '.svg' : '.png'}`}
                       alt=""
                     />

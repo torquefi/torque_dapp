@@ -40,6 +40,8 @@ export const BorrowItemChart: FC<BorrowItemChartProps> = (props) => {
   const chartContainerRef = useRef<HTMLDivElement>(null)
 
   const tusdPrice = usdPrice['TUSD']
+  const usdcPrice = usdPrice['USDC']
+  const usdtPrice = usdPrice['USDT']
 
   const CustomTooltip = (props: any) => {
     const { active, payload, label } = props
@@ -119,7 +121,6 @@ export const BorrowItemChart: FC<BorrowItemChartProps> = (props) => {
 
         let chartDataObj: any = {}
 
-
         for (let i = -14; i <= 0; i++) {
           const key = dayjs().add(i, 'd').format('YYYY-MM-DD')
           chartDataObj[key] = {
@@ -127,7 +128,6 @@ export const BorrowItemChart: FC<BorrowItemChartProps> = (props) => {
             valueBar: convertTransactions[key]?.value || 0,
           }
         }
-
 
         let lineValue = 50
         // transactions?.forEach((item) => {
@@ -172,13 +172,6 @@ export const BorrowItemChart: FC<BorrowItemChartProps> = (props) => {
           valueLine: lineValue * 2,
         }))
 
-        // console.log(
-        //   tokenAddress,
-        //   tusdPrice,
-        //   tokenDecimals,
-        //   aprPercent,
-        //   chartData
-        // )
         setChartData(chartData)
       } catch (error) {
         console.log(
@@ -221,12 +214,6 @@ export const BorrowItemChart: FC<BorrowItemChartProps> = (props) => {
                 position="top"
                 content={renderCustomizedLabel}
               />
-              {/* {chartData.map((entry, index) => (
-                <Cell
-                  key={`cell-${index}`}
-                  fill={index === chartData?.length - 1 ? '#AA5BFF' : '#959595'}
-                />
-              ))} */}
             </Bar>
           </ComposedChart>
         </ResponsiveContainer>

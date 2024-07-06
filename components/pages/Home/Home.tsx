@@ -24,10 +24,13 @@ import {
   borrowOldBtcContract,
   simpleBorrowBtcContract,
   simpleBorrowEthContract,
+  simpleBtcBorrowUsdtContract,
+  simpleEthBorrowUsdtContract,
   tokenBtcContract,
   tokenEthContract,
   tokenTusdContract,
   tokenUsdcContract,
+  tokenUsdtContract,
 } from '../Borrow/constants/contract'
 
 const RPC = arbitrum.rpcUrls.default.http[0]
@@ -35,7 +38,6 @@ const EXTRA_RPC = 'https://arbitrum-one.publicnode.com'
 
 const HomePageFilter = () => {
   const { address } = useAccount()
-  // const address = '0x57E622DF37c95ddc4a13c6f5a4af0E937D840F2b'
   const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(true)
   const theme = useSelector((store: AppStore) => store.theme.theme)
@@ -201,7 +203,7 @@ const HomePageFilter = () => {
       tokenTusdContract?.address
     )
     return contract
-  }, [Web3.givenProvider, tokenEthContract])
+  }, [Web3.givenProvider, tokenTusdContract])
 
   const tokenUSDCContract = useMemo(() => {
     const web3 = new Web3(RPC)
@@ -211,6 +213,15 @@ const HomePageFilter = () => {
     )
     return contract
   }, [Web3.givenProvider, tokenUsdcContract])
+
+  const tokenUSDTContract = useMemo(() => {
+    const web3 = new Web3(RPC)
+    const contract = new web3.eth.Contract(
+      JSON.parse(tokenUsdtContract?.abi),
+      tokenUsdtContract?.address
+    )
+    return contract
+  }, [Web3.givenProvider, tokenUsdtContract])
 
   const tokenUNIContract = useMemo(() => {
     const web3 = new Web3(RPC)
@@ -238,11 +249,14 @@ const HomePageFilter = () => {
         !tokenWBTCContract ||
         !tokenWETHContract ||
         !tokenTUSDContract ||
+        !tokenUSDTContract ||
         !boostWBTCContract ||
         !boostWETHContract ||
         !boostLINKContract ||
         !boostUNIContract ||
         !address ||
+        !simpleBtcBorrowUsdtContract ||
+        !simpleEthBorrowUsdtContract ||
         !borrowSimpleWBTCContract ||
         !borrowSimpleWETHContract
       ) {
@@ -250,6 +264,7 @@ const HomePageFilter = () => {
       }
       const tusdDecimal = await tokenTUSDContract.methods.decimals().call()
       const usdcDecimal = await tokenUSDCContract.methods.decimals().call()
+      const usdtDecimal = await tokenUSDTContract.methods.decimals().call()
 
       // WBTC
       const wbtcDecimal = await tokenWBTCContract.methods.decimals().call()
@@ -572,6 +587,7 @@ const HomePageFilter = () => {
       }
       const tusdDecimal = await tokenTUSDContract.methods.decimals().call()
       const usdcDecimal = await tokenUSDCContract.methods.decimals().call()
+      const usdtDecimal = await tokenUSDTContract.methods.decimals().call()
       const uniDecimal = await tokenUNIContract.methods.decimals().call()
       const linkDecimal = await tokenLINKContract.methods.decimals().call()
       // WBTC
