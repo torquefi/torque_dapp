@@ -490,7 +490,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                       alt=""
                     />
                     <img
-                      className="absolute bottom-0.5 right-0.5 z-1 w-[18px] md:w-[24px] object-cover rounded-xl md:bottom-2 md:right-2 shadow-md"
+                      className="absolute z-1 w-[18px] md:w-[24px] object-cover bottom-3 right-3"
                       src={`/icons/coin/${item.borrowTokenSymbol.toLowerCase()}${item.borrowTokenSymbol === 'USDC' ? '.svg' : '.png'}`}
                       alt=""
                     />
