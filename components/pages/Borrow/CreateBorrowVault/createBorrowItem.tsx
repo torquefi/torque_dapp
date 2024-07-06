@@ -100,7 +100,7 @@ export default function CreateBorrowItem({
     setOpenConfirmDepositModal(true)
   }
 
-  const approveToken = async (contract, spender, amount) => {
+  const approveToken = async (contract: any, spender: string, amount: string) => {
     const allowance = await contract.methods.allowance(address, spender).call()
     if (new BigNumber(allowance).lt(new BigNumber(amount))) {
       const provider = new ethers.providers.Web3Provider(window.ethereum)
@@ -115,7 +115,7 @@ export default function CreateBorrowItem({
     }
   }
 
-  const performBorrow = async (borrowAmount, usdtAmount) => {
+  const performBorrow = async (borrowAmount: string, usdtAmount: string) => {
     const provider = new ethers.providers.Web3Provider(window.ethereum)
     const signer = provider.getSigner(address)
     const borrowContractInstance = new ethers.Contract(
