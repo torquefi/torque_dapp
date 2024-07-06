@@ -14,6 +14,7 @@ import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 import { IBorrowInfo } from '../types'
 import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
+
 interface CreateBorrowItemProps {
   item: IBorrowInfo
   setIsFetchBorrowLoading?: any
@@ -31,8 +32,7 @@ export default function CreateBorrowItem({
   const [amountReceive, setAmountReceive] = useState(0)
   const [buttonLoading, setButtonLoading] = useState('')
   const { address, isConnected } = useAccount()
-  const [isOpenConfirmDepositModal, setOpenConfirmDepositModal] =
-    useState(false)
+  const [isOpenConfirmDepositModal, setOpenConfirmDepositModal] = useState(false)
   const [aprBorrow, setAprBorrow] = useState('')
   const [amountRaw, setAmountRaw] = useState(0)
   const [amountReceiveRaw, setAmountReceiveRaw] = useState(0)
@@ -40,6 +40,7 @@ export default function CreateBorrowItem({
   const [isUsdDepositToken, setIsUsdDepositToken] = useState(true)
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
   const isUsdcBorrowed = item.borrowTokenSymbol === 'USDC'
+  const isUsdtBorrowed = item.borrowTokenSymbol === 'USDT'
 
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1000)
@@ -113,7 +114,7 @@ export default function CreateBorrowItem({
     }
     try {
       setIsLoading(true)
-      if (!isUsdcBorrowed) {
+      if (!isUsdcBorrowed && !isUsdtBorrowed) {
         const web3 = new Web3(Web3.givenProvider)
         const oldBorrowContract = new web3.eth.Contract(
           JSON.parse(item?.oldBorrowContractInfo?.abi),
@@ -356,9 +357,9 @@ export default function CreateBorrowItem({
           console.log('tokenDecimal :>> ', tokenBorrowDecimal)
           console.log('amountReceive :>> ', amountReceive)
 
-          let usdcBorrowAmount = '0'
+          let usdtBorrowAmount = '0'
           if (amountReceive) {
-            usdcBorrowAmount = ethers.utils
+            usdtBorrowAmount = ethers.utils
               .parseUnits(
                 Number(amountReceive).toFixed(tokenBorrowDecimal).toString(),
                 tokenBorrowDecimal
@@ -385,7 +386,7 @@ export default function CreateBorrowItem({
 
             if (
               new BigNumber(allowance).lte(new BigNumber('0')) ||
-              new BigNumber(allowance).lte(new BigNumber(usdcBorrowAmount))
+              new BigNumber(allowance).lte(new BigNumber(usdtBorrowAmount))
             ) {
               const tx = await tokenContract1.approve(
                 item?.borrowContractInfo?.address,
@@ -401,7 +402,7 @@ export default function CreateBorrowItem({
             if (
               new BigNumber(allowanceUserContract).lte(new BigNumber('0')) ||
               new BigNumber(allowanceUserContract).lte(
-                new BigNumber(usdcBorrowAmount)
+                new BigNumber(usdtBorrowAmount)
               )
             ) {
               const tx = await tokenContract1.approve(
@@ -418,11 +419,11 @@ export default function CreateBorrowItem({
             signer
           )
 
-          console.log('params borrow:>> ', borrow.toString(), usdcBorrowAmount)
+          console.log('params borrow:>> ', borrow.toString(), usdtBorrowAmount)
 
           const tx = await borrowContract2.callBorrow(
             borrow.toString(),
-            usdcBorrowAmount
+            usdtBorrowAmount
           )
           await tx.wait()
           toast.success('Borrow Successful')
@@ -450,9 +451,9 @@ export default function CreateBorrowItem({
           console.log('tokenDecimal :>> ', tokenBorrowDecimal)
           console.log('amountReceive :>> ', amountReceive)
 
-          let usdcBorrowAmount = '0'
+          let usdtBorrowAmount = '0'
           if (amountReceive) {
-            usdcBorrowAmount = ethers.utils
+            usdtBorrowAmount = ethers.utils
               .parseUnits(
                 Number(amountReceive).toFixed(tokenBorrowDecimal).toString(),
                 tokenBorrowDecimal
@@ -479,7 +480,7 @@ export default function CreateBorrowItem({
 
             if (
               new BigNumber(allowance).lte(new BigNumber('0')) ||
-              new BigNumber(allowance).lte(new BigNumber(usdcBorrowAmount))
+              new BigNumber(allowance).lte(new BigNumber(usdtBorrowAmount))
             ) {
               const tx = await tokenContract1.approve(
                 item?.borrowContractInfo?.address,
@@ -495,7 +496,7 @@ export default function CreateBorrowItem({
             if (
               new BigNumber(allowanceUserContract).lte(new BigNumber('0')) ||
               new BigNumber(allowanceUserContract).lte(
-                new BigNumber(usdcBorrowAmount)
+                new BigNumber(usdtBorrowAmount)
               )
             ) {
               const tx = await tokenContract1.approve(
@@ -512,11 +513,11 @@ export default function CreateBorrowItem({
             signer
           )
 
-          console.log('params borrow:>> ', borrow.toString(), usdcBorrowAmount)
+          console.log('params borrow:>> ', borrow.toString(), usdtBorrowAmount)
 
           const tx = await borrowContract2.callBorrow(
             borrow.toString(),
-            usdcBorrowAmount
+            usdtBorrowAmount
           )
           await tx.wait()
           toast.success('Borrow Successful')
@@ -526,7 +527,6 @@ export default function CreateBorrowItem({
             setIsFetchBorrowLoading((prev: any) => !prev)
         }
       }
-      // dispatch(updateborrowTime(new Date().getTime() as any))
     } catch (e) {
       console.log('CreateBorrowItem.onBorrow', e)
       toast.error('Borrow Failed')
@@ -552,48 +552,29 @@ export default function CreateBorrowItem({
         <div className="flex w-full items-center justify-between">
           <div className="ml-[-12px] flex items-center w-full">
             <div className="relative flex justify-center -space-x-14">
-            <img
-              className="w-[72px] md:w-24"
-              src={dataBorrow.depositTokenIcon}
-              alt=""
-            />
-            <img
-              className="rounded-xl w-[18px] md:w-[24px] object-cover z-1 bottom-3 right-3 md:bottom-4 absolute md:right-4 shadow-md"
-              alt="img"
-              src={dataBorrow.borrowRowTokenIcon}
-            />
+              <img
+                className="w-[72px] md:w-24"
+                src={dataBorrow.depositTokenIcon}
+                alt=""
+              />
+              <img
+                className="rounded-xl w-[18px] md:w-[24px] object-cover z-1 bottom-3 right-3 md:bottom-4 absolute md:right-4 shadow-md"
+                alt="img"
+                src={dataBorrow.borrowRowTokenIcon}
+              />
             </div>
             <div className="font-rogan ml-[-6px] mt-[-4px] text-[20px] leading-tight text-[#030303] dark:text-white md:text-[22px] lg:text-[26px]">
               Supply {dataBorrow.depositTokenSymbol},<br /> Borrow{' '}
               {dataBorrow.borrowTokenSymbol}
             </div>
           </div>
-          {/* <Popover
-            trigger="hover"
-            placement="bottom-right"
-            className={`mt-[8px] w-[210px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#161616]`}
-            content="The projected TORQ rewards after 1 year of $1,000 borrowed."
-          >
-            <Link href="#" className="" target={'_blank'}>
-              <div className="flex items-center rounded-full bg-[#AA5BFF] bg-opacity-20 p-1  text-[12px] xs:text-[14px]">
-                <img
-                  src="/assets/t-logo-circle.png"
-                  alt=""
-                  className="w-[24px]"
-                />
-                <div className="font-rogan-regular mx-1 uppercase text-[#AA5BFF] xs:mx-2">
-                  +{Number(item.bonus).toLocaleString()} TORQ
-                </div>
-              </div>
-            </Link>
-          </Popover> */}
           <div className="flex flex-col items-end justify-end mt-[8px] w-[210px] text-center text-sm leading-tight">
-          <Popover
+            <Popover
               trigger="hover"
               placement="bottom-right"
               className={`mt-[8px] w-[200px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#161616]`}
               content="The projected TORQ rewards after 1 year of $1,000 supplied."
-              >
+            >
               <div className="flex items-center cursor-pointer rounded-full bg-[#AA5BFF] bg-opacity-20 p-1 text-[12px] xs:text-[14px]">
                 <img
                   src="/assets/t-logo-circle.png"
@@ -610,7 +591,7 @@ export default function CreateBorrowItem({
               placement="bottom-right"
               className={`mt-[8px] w-[200px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#161616]`}
               content="The projected ARB rewards after 1 year of $1,000 supplied."
-              >
+            >
               <div className="flex items-center cursor-pointer rounded-full bg-[#00BFFF] bg-opacity-20 p-1 text-[12px] xs:text-[14px] mt-2">
                 <img
                   src="icons/coin/arb.png"
@@ -622,18 +603,6 @@ export default function CreateBorrowItem({
                 </div>
               </div>
             </Popover>
-            {/* <Link href="#" className="" target={'_blank'}>
-              <div className="flex items-center rounded-full bg-[#32CD32] bg-opacity-20 p-1 text-[12px] xs:text-[14px] mt-2">
-                <img
-                  src="/assets/comp-logo-circle.png"
-                  alt=""
-                  className="w-[24px]"
-                />
-                <div className="font-rogan-regular mx-1 uppercase text-[#32CD32] xs:mx-2">
-                  +{Number(item.compBonus).toLocaleString()} COMP
-                </div>
-              </div>
-            </Link> */}
           </div>
         </div>
         <div className="font-rogan mb-1 mt-1 grid grid-cols-2 gap-4">
@@ -653,7 +622,7 @@ export default function CreateBorrowItem({
                     usdPrice?.[
                       `${dataBorrow.depositTokenSymbol.toLowerCase()}`
                     ] *
-                    (dataBorrow.loanToValue / 140)
+                    (dataBorrow.loanToValue / (isUsdtBorrowed ? 100 : 140)) // Adjusted value for USDT
                 )
               }}
               onSetShowUsd={setIsUsdDepositToken}
@@ -662,13 +631,7 @@ export default function CreateBorrowItem({
           <div className="font-rogan flex h-[110px] flex-col items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
             <InputCurrencySwitch
               tokenSymbol={item.borrowTokenSymbol}
-              // tokenValue={Number(amountReceive)}
               tokenValueChange={Number(amountReceive)}
-              // tokenValueChange={Number(
-              //   amountReceive *
-              //   usdPrice?.[`${dataBorrow.depositTokenSymbol.toLowerCase()}`] *
-              //   (dataBorrow.loanToValue / 140)
-              // )}
               usdDefault
               decimalScale={5}
               className="w-full py-4 text-[#030303] dark:text-white"
@@ -678,7 +641,6 @@ export default function CreateBorrowItem({
                 setAmountReceiveRaw(rawValue)
               }}
               onSetShowUsd={setIsUsdBorrowToken}
-              // displayType="text"
             />
           </div>
         </div>
