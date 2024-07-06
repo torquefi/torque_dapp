@@ -56,6 +56,7 @@ const HomePageFilter = () => {
   const wbtcPrice = usdPrice['WBTC'] || 0
   const wethPrice = usdPrice['WETH'] || 0
   const tusdPrice = usdPrice['TUSD'] || 0
+  const usdtPrice = usdPrice['USDT'] || 0
   const linkPrice = usdPrice['LINK'] || 0
   const uniPrice = usdPrice['UNI'] || 0
 
@@ -139,6 +140,24 @@ const HomePageFilter = () => {
     )
     return contract
   }, [Web3.givenProvider, simpleBorrowBtcContract])
+
+  const borrowSimpleUSDTContract = useMemo(() => {
+    const web3 = new Web3(EXTRA_RPC)
+    const contract = new web3.eth.Contract(
+      JSON.parse(simpleBtcBorrowUsdtContract?.abi),
+      simpleBtcBorrowUsdtContract?.address
+    )
+    return contract
+  }, [Web3.givenProvider, simpleBtcBorrowUsdtContract])
+
+  const borrowSimpleEthUSDTContract = useMemo(() => {
+    const web3 = new Web3(EXTRA_RPC)
+    const contract = new web3.eth.Contract(
+      JSON.parse(simpleEthBorrowUsdtContract?.abi),
+      simpleEthBorrowUsdtContract?.address
+    )
+    return contract
+  }, [Web3.givenProvider, simpleEthBorrowUsdtContract])
 
   // boost
   const boostWBTCContract = useMemo(() => {
@@ -449,16 +468,160 @@ const HomePageFilter = () => {
       console.log('myWethBorrowedUsd :>> ', myWethBorrowedUsd)
       console.log('wbtcLoanToValue :>> ', wbtcLoanToValue)
 
+      // USDT Borrowing
+      // WBTC
+      const userSimpleUsdtBorrowWbtcAddressContract =
+        await borrowSimpleUSDTContract.methods.userContract(address).call()
+      let mySimpleUsdtWbtcSupply = '0'
+      let mySimpleUsdtWbtcBorrowed = '0'
+      if (
+        userSimpleUsdtBorrowWbtcAddressContract !==
+        '0x0000000000000000000000000000000000000000'
+      ) {
+        const myDataSimpleUsdtWbtcBorrow =
+          await borrowSimpleUSDTContract.methods
+            .getUserDetails(address)
+            .call()
+        console.log(
+          'myDataSimpleUsdtWbtcBorrow :>> ',
+          myDataSimpleUsdtWbtcBorrow
+        )
+        mySimpleUsdtWbtcSupply = myDataSimpleUsdtWbtcBorrow?.['0']
+        mySimpleUsdtWbtcBorrowed = myDataSimpleUsdtWbtcBorrow?.['1']
+      }
+
+      // WETH
+      const userSimpleUsdtBorrowWethAddressContract =
+        await borrowSimpleEthUSDTContract.methods.userContract(address).call()
+      let mySimpleUsdtWethSupply = '0'
+      let mySimpleUsdtWethBorrowed = '0'
+      if (
+        userSimpleUsdtBorrowWethAddressContract !==
+        '0x0000000000000000000000000000000000000000'
+      ) {
+        const myDataSimpleUsdtWethBorrow =
+          await borrowSimpleEthUSDTContract.methods
+            .getUserDetails(address)
+            .call()
+        console.log(
+          'myDataSimpleUsdtWethBorrow :>> ',
+          myDataSimpleUsdtWethBorrow
+        )
+        mySimpleUsdtWethSupply = myDataSimpleUsdtWethBorrow?.['0']
+        mySimpleUsdtWethBorrowed = myDataSimpleUsdtWethBorrow?.['1']
+      }
+
+      // my supplied usdt
+      const mySimpleUsdtWbtcSuppliedUsd = new BigNumber(
+        ethers.utils.formatUnits(mySimpleUsdtWbtcSupply || '0', wbtcDecimal)
+      )
+        .multipliedBy(wbtcPrice)
+        .toString()
+      const mySimpleUsdtWethSuppliedUsd = new BigNumber(
+        ethers.utils.formatUnits(mySimpleUsdtWethSupply, wethDecimal)
+      )
+        .multipliedBy(wethPrice)
+        .toString()
+
+      // my borrow usdt
+      const mySimpleUsdtWbtcBorrowedUsd = new BigNumber(
+        ethers.utils
+          .formatUnits(mySimpleUsdtWbtcBorrowed, usdtDecimal)
+          .toString()
+      )
+        .multipliedBy(new BigNumber(usdtPrice || 0))
+        .toString()
+      const mySimpleUsdtWethBorrowedUsd = new BigNumber(
+        ethers.utils
+          .formatUnits(mySimpleUsdtWethBorrowed || '0', usdtDecimal)
+          .toString()
+      )
+        .multipliedBy(new BigNumber(usdtPrice || 0))
+        .toString()
+
+      // Total supplied and borrowed including USDT
+      const wbtcCollateralIncludingUsdt = new BigNumber(wbtcCollateral)
+        .plus(
+          new BigNumber(
+            ethers.utils.formatUnits(mySimpleUsdtWbtcSupply, wbtcDecimal)
+          )
+        )
+        .toString()
+
+      const wbtcCollateralUsdIncludingUsdt = new BigNumber(
+        wbtcCollateralIncludingUsdt || '0'
+      )
+        .multipliedBy(usdPrice['WBTC'] || 0)
+        .toString()
+
+      const wethCollateralIncludingUsdt = new BigNumber(wethCollateral)
+        .plus(
+          new BigNumber(
+            ethers.utils.formatUnits(mySimpleUsdtWethSupply, wethDecimal)
+          )
+        )
+        .toString()
+
+      const wethCollateralUsdIncludingUsdt = new BigNumber(
+        wethCollateralIncludingUsdt || '0'
+      )
+        .multipliedBy(usdPrice['WETH'] || 0)
+        .toString()
+
+      const wbtcLoanToValueIncludingUsdt = !Number(
+        wbtcCollateralUsdIncludingUsdt
+      )
+        ? '0'
+        : new BigNumber(
+            new BigNumber(myWbtcBorrowedUsd)
+              .plus(new BigNumber(mySimpleWbtcBorrowedUsd))
+              .plus(new BigNumber(mySimpleUsdtWbtcBorrowedUsd))
+          )
+            .dividedBy(new BigNumber(wbtcCollateralUsdIncludingUsdt))
+            .toString()
+
+      const wethLoanToValueIncludingUsdt = !Number(
+        wethCollateralUsdIncludingUsdt
+      )
+        ? '0'
+        : new BigNumber(
+            new BigNumber(myWethBorrowedUsd)
+              .plus(new BigNumber(mySimpleWethBorrowedUsd))
+              .plus(new BigNumber(mySimpleUsdtWethBorrowedUsd))
+          )
+            .dividedBy(new BigNumber(wethCollateralUsdIncludingUsdt))
+            .toString()
+
+      console.log(
+        'wbtcLoanToValueIncludingUsdt :>> ',
+        wbtcLoanToValueIncludingUsdt
+      )
+      console.log(
+        'wethLoanToValueIncludingUsdt :>> ',
+        wethLoanToValueIncludingUsdt
+      )
+
       let borrowedPercent = 0
-      if (Number(wethLoanToValue) > 0 && Number(wbtcLoanToValue) > 0) {
+      if (
+        Number(wethLoanToValueIncludingUsdt) > 0 &&
+        Number(wbtcLoanToValueIncludingUsdt) > 0
+      ) {
         borrowedPercent =
           100 -
-          (70 - Number(wbtcLoanToValue) * 100) -
-          (78 - Number(wethLoanToValue) * 100)
-      } else if (Number(wethLoanToValue) > 0 && !Number(wbtcLoanToValue)) {
-        borrowedPercent = 100 - (78 - Number(wethLoanToValue) * 100)
-      } else if (!Number(wethLoanToValue) && Number(wbtcLoanToValue) > 0) {
-        borrowedPercent = 100 - (70 - Number(wbtcLoanToValue) * 100)
+          (70 - Number(wbtcLoanToValueIncludingUsdt) * 100) -
+          (78 - Number(wethLoanToValueIncludingUsdt) * 100)
+      } else if (
+        Number(wethLoanToValueIncludingUsdt) > 0 &&
+        !Number(wbtcLoanToValueIncludingUsdt)
+      ) {
+        borrowedPercent =
+          100 - (78 - Number(wethLoanToValueIncludingUsdt) * 100)
+      } else if (
+        !Number(wethLoanToValueIncludingUsdt) &&
+        Number(wbtcLoanToValueIncludingUsdt) > 0
+      ) {
+        borrowedPercent =
+          100 - (70 - Number(wbtcLoanToValueIncludingUsdt) * 100)
       }
       setBorrowedPercent(borrowedPercent.toString())
 
@@ -528,6 +691,8 @@ const HomePageFilter = () => {
         .plus(new BigNumber(depositedWbtcUsd))
         .plus(new BigNumber(depositedLinkUsd))
         .plus(new BigNumber(depositedUniUsd))
+        .plus(new BigNumber(mySimpleUsdtWbtcSuppliedUsd))
+        .plus(new BigNumber(mySimpleUsdtWethSuppliedUsd))
         .toString()
       // setTotalMySupplied(yourSupply)
 
@@ -535,6 +700,8 @@ const HomePageFilter = () => {
         .plus(new BigNumber(mySimpleWbtcBorrowedUsd))
         .plus(new BigNumber(myWethBorrowedUsd))
         .plus(new BigNumber(mySimpleWethBorrowedUsd))
+        .plus(new BigNumber(mySimpleUsdtWbtcBorrowedUsd))
+        .plus(new BigNumber(mySimpleUsdtWethBorrowedUsd))
         .toString()
       // setTotalMyBorrowed(yourBorrow)
       console.log('yourBorrow :>> ', yourBorrow)
@@ -581,7 +748,9 @@ const HomePageFilter = () => {
         !tokenUNIContract ||
         !tokenLINKContract ||
         !boostLINKContract ||
-        !boostUNIContract
+        !boostUNIContract ||
+        !borrowSimpleUSDTContract ||
+        !borrowSimpleEthUSDTContract
       ) {
         return
       }
@@ -600,6 +769,9 @@ const HomePageFilter = () => {
       const totalSimpleWbtcSupply = await borrowSimpleWBTCContract.methods
         .totalSupplied()
         .call()
+      const totalSimpleUsdtWbtcSupply = await borrowSimpleUSDTContract.methods
+        .totalSupplied()
+        .call()
 
       const totalWbtcSuppliedUsd = new BigNumber(
         ethers.utils.formatUnits(totalWbtcSupply, wbtcDecimal).toString()
@@ -611,6 +783,11 @@ const HomePageFilter = () => {
       )
         .multipliedBy(new BigNumber(wbtcPrice || 0))
         .toString()
+      const totalSimpleUsdtWbtcSuppliedUsd = new BigNumber(
+        ethers.utils.formatUnits(totalSimpleUsdtWbtcSupply, wbtcDecimal)
+      )
+        .multipliedBy(wbtcPrice)
+        .toString()
 
       console.log('totalWbtcSupply :>> ', totalWbtcSupply)
       console.log('totalSimpleWbtcSupply :>> ', totalSimpleWbtcSupply)
@@ -618,6 +795,10 @@ const HomePageFilter = () => {
       console.log(
         'totalSimpleWbtcSuppliedUsd wbtc:>> ',
         totalSimpleWbtcSuppliedUsd
+      )
+      console.log(
+        'totalSimpleUsdtWbtcSuppliedUsd wbtc:>> ',
+        totalSimpleUsdtWbtcSuppliedUsd
       )
 
       // total borrow wbtc
@@ -627,6 +808,10 @@ const HomePageFilter = () => {
       const totalSimpleWbtcBorrowed = await borrowSimpleWBTCContract.methods
         .totalBorrow()
         .call()
+      const totalSimpleUsdtWbtcBorrowed = await borrowSimpleUSDTContract.methods
+        .totalBorrow()
+        .call()
+
       const totalWbtcBorrowedUsd = new BigNumber(
         ethers.utils.formatUnits(totalWbtcBorrowed, tusdDecimal).toString()
       )
@@ -639,12 +824,26 @@ const HomePageFilter = () => {
       )
         .multipliedBy(new BigNumber(tusdPrice || 0))
         .toString()
+      const totalSimpleUsdtWbtcBorrowedUsd = new BigNumber(
+        ethers.utils
+          .formatUnits(totalSimpleUsdtWbtcBorrowed, usdtDecimal)
+          .toString()
+      )
+        .multipliedBy(new BigNumber(usdtPrice || 0))
+        .toString()
 
       console.log('totalWbtcBorrowed :>> ', totalWbtcBorrowed)
       console.log('totalWbtcBorrowedUsd :>> ', totalWbtcBorrowedUsd)
 
       console.log('totalSimpleWbtcBorrowed :>> ', totalSimpleWbtcBorrowed)
-      console.log('totalSimpleWbtcBorrowedUsd :>> ', totalSimpleWbtcBorrowedUsd)
+      console.log(
+        'totalSimpleWbtcBorrowedUsd :>> ',
+        totalSimpleWbtcBorrowedUsd
+      )
+      console.log(
+        'totalSimpleUsdtWbtcBorrowedUsd :>> ',
+        totalSimpleUsdtWbtcBorrowedUsd
+      )
 
       // WETH
       const wethDecimal = await tokenWETHContract.methods.decimals().call()
@@ -666,12 +865,24 @@ const HomePageFilter = () => {
       )
         .multipliedBy(new BigNumber(wethPrice || 0))
         .toString()
+      const totalSimpleUsdtWethSupply = await borrowSimpleEthUSDTContract.methods
+        .totalSupplied()
+        .call()
+      const totalSimpleUsdtWethSupplyUsd = new BigNumber(
+        ethers.utils.formatUnits(totalSimpleUsdtWethSupply, wethDecimal)
+      )
+        .multipliedBy(wethPrice)
+        .toString()
 
       console.log('totalWethSupply :>> ', totalWbtcSupply)
       console.log('totalWethSuppliedUsd weth:>> ', totalWethSuppliedUsd)
 
       console.log('totalSimpleWethSupply :>> ', totalSimpleWethSupply)
       console.log('totalSimpleWethSupplyUsd weth:>> ', totalSimpleWethSupplyUsd)
+      console.log(
+        'totalSimpleUsdtWethSupplyUsd weth:>> ',
+        totalSimpleUsdtWethSupplyUsd
+      )
 
       // total borrowed weth
       const totalWethBorrowed = await borrowWETHContract.methods
@@ -692,12 +903,29 @@ const HomePageFilter = () => {
       )
         .multipliedBy(new BigNumber(tusdPrice || 0))
         .toString()
+      const totalSimpleUsdtWethBorrowed = await borrowSimpleEthUSDTContract.methods
+        .totalBorrow()
+        .call()
+      const totalSimpleUsdtWethBorrowedUsd = new BigNumber(
+        ethers.utils
+          .formatUnits(totalSimpleUsdtWethBorrowed, usdtDecimal)
+          .toString()
+      )
+        .multipliedBy(new BigNumber(usdtPrice || 0))
+        .toString()
 
       console.log('totalWethBorrowed :>> ', totalWethBorrowed)
       console.log('totalWethBorrowedUsd :>> ', totalWethBorrowedUsd)
 
       console.log('totalSimpleWethBorrowed :>> ', totalSimpleWethBorrowed)
-      console.log('totalSimpleWethBorrowedUsd :>> ', totalSimpleWethBorrowedUsd)
+      console.log(
+        'totalSimpleWethBorrowedUsd :>> ',
+        totalSimpleWethBorrowedUsd
+      )
+      console.log(
+        'totalSimpleUsdtWethBorrowedUsd :>> ',
+        totalSimpleUsdtWethBorrowedUsd
+      )
 
       // WBTC
       const tokenWbtcDecimal = await tokenWBTCContract.methods.decimals().call()
@@ -743,6 +971,8 @@ const HomePageFilter = () => {
         .plus(new BigNumber(depositedWbtcUsd))
         .plus(new BigNumber(depositedLinkUsd))
         .plus(new BigNumber(depositedUniUsd))
+        .plus(new BigNumber(totalSimpleUsdtWbtcSuppliedUsd))
+        .plus(new BigNumber(totalSimpleUsdtWethSupplyUsd))
         .toString()
       // setTotalSupplied(totalSupply)
 
@@ -751,6 +981,8 @@ const HomePageFilter = () => {
         .plus(new BigNumber(totalSimpleWbtcBorrowedUsd))
         .plus(new BigNumber(totalWethBorrowedUsd))
         .plus(new BigNumber(totalSimpleWethBorrowedUsd))
+        .plus(new BigNumber(totalSimpleUsdtWbtcBorrowedUsd))
+        .plus(new BigNumber(totalSimpleUsdtWethBorrowedUsd))
         .toString()
       // setTotalBorrow(totalBorrow)
 
