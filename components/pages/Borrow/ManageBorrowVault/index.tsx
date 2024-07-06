@@ -54,6 +54,13 @@ export default function ManageBorrowVault({ isFetchBorrowData }: any) {
               .toString()
           )
         }
+        if (item.borrowTokenSymbol === 'USDT') {
+          item.borrowed = Number(
+            new BigNumber(data?.['3'] || 0)
+              .div(10 ** item.borrowTokenDecimal)
+              .toString()
+          )
+        }
         console.log('item.borrowed :>> ', item.borrowed)
         console.log(
           '111',
@@ -205,7 +212,7 @@ const DATA_BORROW: IBorrowInfoManage[] = [
   },
   {
     depositTokenSymbol: 'WBTC',
-    depositTokenDecimal: 18,
+    depositTokenDecimal: 8,
     borrowTokenSymbol: 'USDC',
     borrowTokenDecimal: 6,
     label: 'Vault #3',
@@ -227,8 +234,8 @@ const DATA_BORROW: IBorrowInfoManage[] = [
     depositTokenDecimal: 18,
     borrowTokenSymbol: 'USDC',
     borrowTokenDecimal: 6,
-    label: 'Vault #3',
-    labelKey: 'name_borrow_vault_3',
+    label: 'Vault #4',
+    labelKey: 'name_borrow_vault_4',
     collateral: 0.0,
     supplied: 0.0,
     borrowed: 0.0,
@@ -247,14 +254,14 @@ const DATA_BORROW: IBorrowInfoManage[] = [
     borrowTokenSymbol: 'USDT',
     borrowTokenDecimal: 18,
     label: 'Vault #5',
-    labelKey: 'name_borrow_vault_2',
+    labelKey: 'name_borrow_vault_5',
     collateral: 0.0,
     supplied: 0.0,
     borrowed: 0.0,
     ltv: 0.0,
     apy: 0.0,
     borrowRate: 1359200263,
-    borrowContractInfo: borrowBtcContract,
+    borrowContractInfo: simpleBtcBorrowUsdt,
     tokenContractInfo: tokenUsdtContract,
     depositContractInfo: tokenBtcContract,
     borrowMax: 0.0,
@@ -266,14 +273,14 @@ const DATA_BORROW: IBorrowInfoManage[] = [
     borrowTokenSymbol: 'USDT',
     borrowTokenDecimal: 18,
     label: 'Vault #6',
-    labelKey: 'name_borrow_vault_1',
+    labelKey: 'name_borrow_vault_6',
     collateral: 0.0,
     supplied: 0.0,
     borrowed: 0.0,
     ltv: 0.0,
     apy: 0.0,
     borrowRate: 1359200263,
-    borrowContractInfo: borrowEthContract,
+    borrowContractInfo: simpleEthBorrowUsdt,
     tokenContractInfo: tokenUsdtContract,
     depositContractInfo: tokenEthContract,
     borrowMax: 0.0,
