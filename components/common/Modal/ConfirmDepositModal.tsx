@@ -3,6 +3,7 @@ import {
   tokenBtcContract,
   tokenEthContract,
   tokenTusdContract,
+  tokenUsdtContract,
 } from '@/components/pages/Borrow/constants/contract'
 import { getBalanceByContractToken } from '@/constants/utils'
 import { floorFraction } from '@/lib/helpers/number'
@@ -106,6 +107,13 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
             address
           )
           setBalanceWallet(amount)
+        } else if (coinFrom.symbol === 'USDT') {
+          const amount = await getBalanceByContractToken(
+            tokenUsdtContract.abi,
+            tokenUsdtContract.address,
+            address
+          )
+          setBalanceWallet(amount)
         }
         else if (coinFrom.symbol === 'LINK') {
           const amount = await getBalanceByContractToken(
@@ -144,7 +152,7 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
       </div>
       <div
         className={
-          `mt-2 hidden h-[1px] w-full md:block` +
+          `mt-3 hidden h-[1px] w-full md:block` +
           `
       ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
           }`
