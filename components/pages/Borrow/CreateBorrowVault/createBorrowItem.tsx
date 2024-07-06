@@ -263,7 +263,7 @@ export default function CreateBorrowItem({
                   usdPrice?.[
                   `${dataBorrow.depositTokenSymbol.toLowerCase()}`
                   ] *
-                  (dataBorrow.loanToValue / (isUsdtBorrowed ? 100 : 140))
+                  (dataBorrow.loanToValue / 120)
                 )
               }}
               onSetShowUsd={setIsUsdDepositToken}
