@@ -619,10 +619,12 @@ export default function CreateBorrowItem({
                 setAmountRaw(rawValue)
                 setAmountReceive(
                   tokenValue *
-                    usdPrice?.[
-                      `${dataBorrow.depositTokenSymbol.toLowerCase()}`
-                    ] *
-                    (dataBorrow.loanToValue / (isUsdtBorrowed ? 100 : 140)) // Adjusted value for USDT
+                  usdPrice?.[
+                  `${dataBorrow.depositTokenSymbol.toLowerCase()}`
+                  ] *
+                  (dataBorrow.loanToValue / 140) // Adjusted value for USDT
+
+                  // (dataBorrow.loanToValue / (isUsdtBorrowed ? 100 : 140)) // Adjusted value for USDT
                 )
               }}
               onSetShowUsd={setIsUsdDepositToken}
@@ -759,17 +761,16 @@ export default function CreateBorrowItem({
           </p>
         </div>
         <button
-          className={`font-rogan-regular mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${
-            buttonLoading && 'cursor-not-allowed opacity-50'
-          }`}
+          className={`font-rogan-regular mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
+            }`}
           disabled={buttonLoading != ''}
           onClick={() => {
             if (
               amountReceive /
-                (amount *
-                  usdPrice?.[
-                    `${dataBorrow.depositTokenSymbol.toLowerCase()}`
-                  ]) >
+              (amount *
+                usdPrice?.[
+                `${dataBorrow.depositTokenSymbol.toLowerCase()}`
+                ]) >
               item?.loanToValue
             ) {
               toast.error(`Loan-to-value exceeds ${item?.loanToValue}%`)
