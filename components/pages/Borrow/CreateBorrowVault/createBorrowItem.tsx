@@ -50,39 +50,32 @@ export default function CreateBorrowItem({
 
   const userAddressContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
-    const contract = new web3.eth.Contract(
+    return new web3.eth.Contract(
       JSON.parse(item?.userAddressContractInfo?.abi),
       item?.userAddressContractInfo?.address
     )
-    return contract
-  }, [Web3.givenProvider, item.userAddressContractInfo])
+  }, [web3.givenProvider, item.userAddressContractInfo])
 
   const tokenBorrowContract = useMemo(() => {
-    const web3 = new Web3(Web3.givenProvider)
-    const contract = new web3.eth.Contract(
+    return new web3.eth.Contract(
       JSON.parse(item?.tokenBorrowContractInfo?.abi),
       item?.tokenBorrowContractInfo?.address
     )
-    return contract
-  }, [Web3.givenProvider, item.tokenContractInfo])
+  }, [web3.givenProvider, item.tokenBorrowContractInfo])
 
   const tokenContract = useMemo(() => {
-    const web3 = new Web3(Web3.givenProvider)
-    const contract = new web3.eth.Contract(
+    return new web3.eth.Contract(
       JSON.parse(item?.tokenContractInfo?.abi),
       item?.tokenContractInfo?.address
     )
-    return contract
-  }, [Web3.givenProvider, item.tokenContractInfo])
+  }, [web3.givenProvider, item.tokenContractInfo])
 
   const borrowContract = useMemo(() => {
-    const web3 = new Web3(Web3.givenProvider)
-    const contract = new web3.eth.Contract(
+    return new web3.eth.Contract(
       JSON.parse(item?.borrowContractInfo?.abi),
       item?.borrowContractInfo?.address
     )
-    return contract
-  }, [Web3.givenProvider, item.borrowContractInfo])
+  }, [web3.givenProvider, item.borrowContractInfo])
 
   const handleGetApr = async () => {
     try {
@@ -107,6 +100,40 @@ export default function CreateBorrowItem({
     setOpenConfirmDepositModal(true)
   }
 
+  const approveToken = async (contract: any, spender: string, amount: string) => {
+    const allowance = await contract.methods.allowance(address, spender).call()
+    if (new BigNumber(allowance).lt(new BigNumber(amount))) {
+      const provider = new ethers.providers.Web3Provider(window.ethereum)
+      const signer = provider.getSigner(address)
+      const tokenContract = new ethers.Contract(
+        contract.options.address,
+        contract.options.jsonInterface,
+        signer
+      )
+      const tx = await tokenContract.approve(spender, amount)
+      await tx.wait()
+    }
+  }
+
+  const performBorrow = async (borrowAmount: string, usdtAmount: string) => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const signer = provider.getSigner(address)
+    const borrowContractInstance = new ethers.Contract(
+      item?.borrowContractInfo?.address,
+      item?.borrowContractInfo?.abi,
+      signer
+    )
+    const tx = await borrowContractInstance.callBorrow(
+      borrowAmount,
+      usdtAmount
+    )
+    await tx.wait()
+    toast.success('Borrow Successful')
+    setOpenConfirmDepositModal(false)
+    setIsLoading(false)
+    setIsFetchBorrowLoading && setIsFetchBorrowLoading((prev: any) => !prev)
+  }
+
   const onBorrow = async () => {
     if (amount <= 0) {
       toast.error(`You must supply ${item.depositTokenSymbol} to borrow`)
@@ -114,419 +141,34 @@ export default function CreateBorrowItem({
     }
     try {
       setIsLoading(true)
-      if (!isUsdcBorrowed && !isUsdtBorrowed) {
-        const web3 = new Web3(Web3.givenProvider)
-        const oldBorrowContract = new web3.eth.Contract(
-          JSON.parse(item?.oldBorrowContractInfo?.abi),
-          item?.oldBorrowContractInfo?.address
-        )
 
-        if (item.depositTokenSymbol == 'WBTC') {
-          const provider = new ethers.providers.Web3Provider(window.ethereum)
-          const signer = provider.getSigner(address)
-          const tokenDepositDecimals = await tokenContract.methods
-            .decimals()
-            .call()
-          const borrow = Number(
-            new BigNumber(Number(amount).toFixed(tokenDepositDecimals))
-              .multipliedBy(10 ** tokenDepositDecimals)
-              .toString()
-          )
-          const usdcBorrowAmount = await oldBorrowContract.methods
-            .getBorrowableUsdc(borrow)
-            .call()
-          const newUsdcBorrowAmount = new BigNumber(usdcBorrowAmount)
-            .multipliedBy(0.98)
-            .toFixed(0)
-            .toString()
+      const tokenDepositDecimals = await tokenContract.methods
+        .decimals()
+        .call()
+      const borrowAmount = new BigNumber(amount)
+        .multipliedBy(10 ** tokenDepositDecimals)
+        .toString()
 
-          const tokenBorrowDecimal = await tokenBorrowContract.methods
-            .decimals()
-            .call()
-          console.log('tokenDecimal :>> ', tokenBorrowDecimal)
-          console.log('amountReceive :>> ', amountReceive)
+      const tokenBorrowDecimals = await tokenBorrowContract.methods
+        .decimals()
+        .call()
+      const usdtAmount = amountReceive
+        ? ethers.utils.parseUnits(
+            Number(amountReceive).toFixed(tokenBorrowDecimals).toString(),
+            tokenBorrowDecimals
+          ).toString()
+        : '0'
 
-          let tusdBorrowAmount = '0'
-          if (amountReceive) {
-            tusdBorrowAmount = ethers.utils
-              .parseUnits(
-                Number(amountReceive).toFixed(tokenBorrowDecimal).toString(),
-                tokenBorrowDecimal
-              )
-              .toString()
-          }
+      const userContractAddress = await borrowContract.methods
+        .userContract(address)
+        .call()
 
-          const tokenContract1 = new ethers.Contract(
-            item?.tokenContractInfo?.address,
-            item?.tokenContractInfo?.abi,
-            signer
-          )
+      const spender = userContractAddress === '0x0000000000000000000000000000000000000000'
+        ? item.borrowContractInfo.address
+        : userContractAddress
 
-          const userAddressContract = await borrowContract.methods
-            .userContract(address)
-            .call()
-          if (
-            userAddressContract === '0x0000000000000000000000000000000000000000'
-          ) {
-            const allowance = await tokenContract.methods
-              .allowance(address, item.borrowContractInfo.address)
-              .call()
-            console.log('allowance :>> ', allowance)
-
-            if (
-              new BigNumber(allowance).lte(new BigNumber('0')) ||
-              new BigNumber(allowance).lte(new BigNumber(tusdBorrowAmount))
-            ) {
-              const tx = await tokenContract1.approve(
-                item?.borrowContractInfo?.address,
-                '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
-              )
-              await tx.wait()
-            }
-          } else {
-            const allowanceUserContract = await tokenContract.methods
-              .allowance(address, userAddressContract)
-              .call()
-            console.log('allowanceUserContract :>> ', allowanceUserContract)
-            if (
-              new BigNumber(allowanceUserContract).lte(new BigNumber('0')) ||
-              new BigNumber(allowanceUserContract).lte(
-                new BigNumber(tusdBorrowAmount)
-              )
-            ) {
-              const tx = await tokenContract1.approve(
-                userAddressContract,
-                '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
-              )
-              await tx.wait()
-            }
-          }
-
-          const borrowContract2 = new ethers.Contract(
-            item?.borrowContractInfo?.address,
-            item?.borrowContractInfo?.abi,
-            signer
-          )
-
-          console.log(
-            'params borrow:>> ',
-            borrow.toString(),
-            newUsdcBorrowAmount,
-            tusdBorrowAmount
-          )
-
-          const tx = await borrowContract2.callBorrow(
-            borrow.toString(),
-            newUsdcBorrowAmount,
-            tusdBorrowAmount
-          )
-          await tx.wait()
-          toast.success('Borrow Successful')
-          setOpenConfirmDepositModal(false)
-          setIsLoading(false)
-          setIsFetchBorrowLoading &&
-            setIsFetchBorrowLoading((prev: any) => !prev)
-        }
-
-        if (item.depositTokenSymbol == 'WETH') {
-          const tokenDepositDecimals = await tokenContract.methods
-            .decimals()
-            .call()
-          const borrow = Number(
-            new BigNumber(Number(amount).toFixed(tokenDepositDecimals))
-              .multipliedBy(10 ** tokenDepositDecimals)
-              .toString()
-          )
-          console.log('borrow :>> ', borrow)
-          const usdcBorrowAmount = await oldBorrowContract.methods
-            .getBorrowableUsdc(borrow)
-            .call()
-
-          const newUsdcBorrowAmount = new BigNumber(usdcBorrowAmount)
-            .multipliedBy(0.98)
-            .toFixed(0)
-            .toString()
-
-          const tokenBorrowDecimal = await tokenBorrowContract.methods
-            .decimals()
-            .call()
-
-          let tusdBorrowAmount = '0'
-
-          if (amountReceive) {
-            tusdBorrowAmount = ethers.utils
-              .parseUnits(
-                Number(amountReceive).toFixed(tokenBorrowDecimal).toString(),
-                tokenBorrowDecimal
-              )
-              .toString()
-          }
-
-          console.log(
-            'params :>> ',
-            borrow.toString(),
-            newUsdcBorrowAmount,
-            tusdBorrowAmount
-          )
-
-          const provider = new ethers.providers.Web3Provider(window.ethereum)
-          const signer = provider.getSigner(address)
-
-          const tokenContract1 = new ethers.Contract(
-            item?.tokenContractInfo?.address,
-            item?.tokenContractInfo?.abi,
-            signer
-          )
-
-          const userAddressContract = await borrowContract.methods
-            .userContract(address)
-            .call()
-
-          console.log('userAddressContract :>> ', userAddressContract)
-
-          if (
-            userAddressContract === '0x0000000000000000000000000000000000000000'
-          ) {
-            const allowance = await tokenContract.methods
-              .allowance(address, item.borrowContractInfo.address)
-              .call()
-            console.log('allowance :>> ', allowance)
-            if (
-              new BigNumber(allowance).lte(new BigNumber('0')) ||
-              new BigNumber(allowance).lte(new BigNumber(tusdBorrowAmount))
-            ) {
-              const tx = await tokenContract1.approve(
-                item?.borrowContractInfo?.address,
-                '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
-              )
-              await tx.wait()
-            }
-          } else {
-            const allowanceUserContract = await tokenContract.methods
-              .allowance(address, userAddressContract)
-              .call()
-            console.log('allowanceUserContract :>> ', allowanceUserContract)
-            if (
-              new BigNumber(allowanceUserContract).lte(new BigNumber('0')) ||
-              new BigNumber(allowanceUserContract).lte(
-                new BigNumber(tusdBorrowAmount)
-              )
-            ) {
-              const tx = await tokenContract1.approve(
-                userAddressContract,
-                '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
-              )
-              await tx.wait()
-            }
-          }
-
-          const borrowContract2 = new ethers.Contract(
-            item?.borrowContractInfo?.address,
-            item?.borrowContractInfo?.abi,
-            signer
-          )
-
-          const tx = await borrowContract2.callBorrow(
-            borrow.toString(),
-            newUsdcBorrowAmount,
-            tusdBorrowAmount
-          )
-          await tx.wait()
-          toast.success('Borrow Successful')
-          setOpenConfirmDepositModal(false)
-          setIsLoading(false)
-          setIsFetchBorrowLoading &&
-            setIsFetchBorrowLoading((prev: any) => !prev)
-        }
-      } else {
-        if (item.depositTokenSymbol == 'WBTC') {
-          const provider = new ethers.providers.Web3Provider(window.ethereum)
-          const signer = provider.getSigner(address)
-          const tokenDepositDecimals = await tokenContract.methods
-            .decimals()
-            .call()
-          const borrow = Number(
-            new BigNumber(Number(amount).toFixed(tokenDepositDecimals))
-              .multipliedBy(10 ** tokenDepositDecimals)
-              .toString()
-          )
-
-          const tokenBorrowDecimal = await tokenBorrowContract.methods
-            .decimals()
-            .call()
-          console.log('tokenDecimal :>> ', tokenBorrowDecimal)
-          console.log('amountReceive :>> ', amountReceive)
-
-          let usdtBorrowAmount = '0'
-          if (amountReceive) {
-            usdtBorrowAmount = ethers.utils
-              .parseUnits(
-                Number(amountReceive).toFixed(tokenBorrowDecimal).toString(),
-                tokenBorrowDecimal
-              )
-              .toString()
-          }
-
-          const tokenContract1 = new ethers.Contract(
-            item?.tokenContractInfo?.address,
-            item?.tokenContractInfo?.abi,
-            signer
-          )
-
-          const userAddressContract = await borrowContract.methods
-            .userContract(address)
-            .call()
-          if (
-            userAddressContract === '0x0000000000000000000000000000000000000000'
-          ) {
-            const allowance = await tokenContract.methods
-              .allowance(address, item.borrowContractInfo.address)
-              .call()
-            console.log('allowance :>> ', allowance)
-
-            if (
-              new BigNumber(allowance).lte(new BigNumber('0')) ||
-              new BigNumber(allowance).lte(new BigNumber(usdtBorrowAmount))
-            ) {
-              const tx = await tokenContract1.approve(
-                item?.borrowContractInfo?.address,
-                '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
-              )
-              await tx.wait()
-            }
-          } else {
-            const allowanceUserContract = await tokenContract.methods
-              .allowance(address, userAddressContract)
-              .call()
-            console.log('allowanceUserContract :>> ', allowanceUserContract)
-            if (
-              new BigNumber(allowanceUserContract).lte(new BigNumber('0')) ||
-              new BigNumber(allowanceUserContract).lte(
-                new BigNumber(usdtBorrowAmount)
-              )
-            ) {
-              const tx = await tokenContract1.approve(
-                userAddressContract,
-                '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
-              )
-              await tx.wait()
-            }
-          }
-
-          const borrowContract2 = new ethers.Contract(
-            item?.borrowContractInfo?.address,
-            item?.borrowContractInfo?.abi,
-            signer
-          )
-
-          console.log('params borrow:>> ', borrow.toString(), usdtBorrowAmount)
-
-          const tx = await borrowContract2.callBorrow(
-            borrow.toString(),
-            usdtBorrowAmount
-          )
-          await tx.wait()
-          toast.success('Borrow Successful')
-          setOpenConfirmDepositModal(false)
-          setIsLoading(false)
-          setIsFetchBorrowLoading &&
-            setIsFetchBorrowLoading((prev: any) => !prev)
-        }
-
-        if (item.depositTokenSymbol == 'WETH') {
-          const provider = new ethers.providers.Web3Provider(window.ethereum)
-          const signer = provider.getSigner(address)
-          const tokenDepositDecimals = await tokenContract.methods
-            .decimals()
-            .call()
-          const borrow = Number(
-            new BigNumber(Number(amount).toFixed(tokenDepositDecimals))
-              .multipliedBy(10 ** tokenDepositDecimals)
-              .toString()
-          )
-
-          const tokenBorrowDecimal = await tokenBorrowContract.methods
-            .decimals()
-            .call()
-          console.log('tokenDecimal :>> ', tokenBorrowDecimal)
-          console.log('amountReceive :>> ', amountReceive)
-
-          let usdtBorrowAmount = '0'
-          if (amountReceive) {
-            usdtBorrowAmount = ethers.utils
-              .parseUnits(
-                Number(amountReceive).toFixed(tokenBorrowDecimal).toString(),
-                tokenBorrowDecimal
-              )
-              .toString()
-          }
-
-          const tokenContract1 = new ethers.Contract(
-            item?.tokenContractInfo?.address,
-            item?.tokenContractInfo?.abi,
-            signer
-          )
-
-          const userAddressContract = await borrowContract.methods
-            .userContract(address)
-            .call()
-          if (
-            userAddressContract === '0x0000000000000000000000000000000000000000'
-          ) {
-            const allowance = await tokenContract.methods
-              .allowance(address, item.borrowContractInfo.address)
-              .call()
-            console.log('allowance :>> ', allowance)
-
-            if (
-              new BigNumber(allowance).lte(new BigNumber('0')) ||
-              new BigNumber(allowance).lte(new BigNumber(usdtBorrowAmount))
-            ) {
-              const tx = await tokenContract1.approve(
-                item?.borrowContractInfo?.address,
-                '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
-              )
-              await tx.wait()
-            }
-          } else {
-            const allowanceUserContract = await tokenContract.methods
-              .allowance(address, userAddressContract)
-              .call()
-            console.log('allowanceUserContract :>> ', allowanceUserContract)
-            if (
-              new BigNumber(allowanceUserContract).lte(new BigNumber('0')) ||
-              new BigNumber(allowanceUserContract).lte(
-                new BigNumber(usdtBorrowAmount)
-              )
-            ) {
-              const tx = await tokenContract1.approve(
-                userAddressContract,
-                '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
-              )
-              await tx.wait()
-            }
-          }
-
-          const borrowContract2 = new ethers.Contract(
-            item?.borrowContractInfo?.address,
-            item?.borrowContractInfo?.abi,
-            signer
-          )
-
-          console.log('params borrow:>> ', borrow.toString(), usdtBorrowAmount)
-
-          const tx = await borrowContract2.callBorrow(
-            borrow.toString(),
-            usdtBorrowAmount
-          )
-          await tx.wait()
-          toast.success('Borrow Successful')
-          setOpenConfirmDepositModal(false)
-          setIsLoading(false)
-          setIsFetchBorrowLoading &&
-            setIsFetchBorrowLoading((prev: any) => !prev)
-        }
-      }
+      await approveToken(tokenContract, spender, usdtAmount)
+      await performBorrow(borrowAmount, usdtAmount)
     } catch (e) {
       console.log('CreateBorrowItem.onBorrow', e)
       toast.error('Borrow Failed')
@@ -539,7 +181,6 @@ export default function CreateBorrowItem({
     if (!address) {
       return 'Connect Wallet'
     }
-    // return 'Deposit & Borrow'
     return 'Confirm Borrow'
   }
 
@@ -622,9 +263,7 @@ export default function CreateBorrowItem({
                   usdPrice?.[
                   `${dataBorrow.depositTokenSymbol.toLowerCase()}`
                   ] *
-                  (dataBorrow.loanToValue / 140) // Adjusted value for USDT
-
-                  // (dataBorrow.loanToValue / (isUsdtBorrowed ? 100 : 140)) // Adjusted value for USDT
+                  (dataBorrow.loanToValue / (isUsdtBorrowed ? 100 : 140))
                 )
               }}
               onSetShowUsd={setIsUsdDepositToken}
