@@ -454,7 +454,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                       alt=""
                     />
                     <img
-                      className="absolute bottom-3 right-3 z-1 w-[18px] md:w-[24px] object-cover rounded-xl md:bottom-4 md:right-4 shadow-md"
+                      className="absolute bottom-1 right-1 z-1 w-[18px] md:w-[24px] object-cover rounded-xl md:bottom-4 md:right-4 shadow-md"
                       src={`/icons/coin/${item.borrowTokenSymbol.toLowerCase()}.png`}
                       alt=""
                     />
