@@ -485,7 +485,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                 >
                   <div className="relative flex justify-center -space-x-14">
                     <img
-                      className="mr-1 w-[60px]"
+                      className="mr-1 w-[54px]"
                       src={`/icons/coin/${item.depositTokenSymbol.toLowerCase()}.png`}
                       alt=""
                     />
