@@ -447,11 +447,18 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                   className="flex min-w-max cursor-pointer items-center text-[22px]"
                   onClick={() => setEdit(!isEdit)}
                 >
-                  <img
-                    className="mr-1 w-[54px]"
-                    src={`/icons/coin/${item.depositTokenSymbol.toLowerCase()}.png`}
-                    alt=""
-                  />
+                  <div className="relative flex justify-center -space-x-14">
+                    <img
+                      className="mr-1 w-[54px]"
+                      src={`/icons/coin/${item.depositTokenSymbol.toLowerCase()}.png`}
+                      alt=""
+                    />
+                    <img
+                      className="absolute bottom-3 right-3 z-1 w-[18px] md:w-[24px] object-cover rounded-xl md:bottom-4 md:right-4 shadow-md"
+                      src={`/icons/coin/${item.borrowTokenSymbol.toLowerCase()}.png`}
+                      alt=""
+                    />
+                  </div>
                   <div className="min-w-[81px]">{label}</div>
                   <button className="ml-[8px]">
                     <AiOutlineEdit />
