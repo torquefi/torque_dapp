@@ -49,7 +49,6 @@ export default function CreateBorrowItem({
   const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
 
   const userAddressContract = useMemo(() => {
-    const web3 = new Web3(Web3.givenProvider)
     return new web3.eth.Contract(
       JSON.parse(item?.userAddressContractInfo?.abi),
       item?.userAddressContractInfo?.address
@@ -115,7 +114,7 @@ export default function CreateBorrowItem({
     }
   }
 
-  const performBorrow = async (borrowAmount: string, usdtAmount: string) => {
+  const performBorrow = async (collateralAmount: string, borrowAmount: string) => {
     const provider = new ethers.providers.Web3Provider(window.ethereum)
     const signer = provider.getSigner(address)
     const borrowContractInstance = new ethers.Contract(
@@ -124,8 +123,8 @@ export default function CreateBorrowItem({
       signer
     )
     const tx = await borrowContractInstance.callBorrow(
-      borrowAmount,
-      usdtAmount
+      collateralAmount,
+      borrowAmount
     )
     await tx.wait()
     toast.success('Borrow Successful')
@@ -148,7 +147,7 @@ export default function CreateBorrowItem({
         .toString()
 
       const tokenBorrowDecimals = await tokenBorrowContract.methods.decimals().call()
-      const usdtAmount = amountReceive
+      const borrowAmount = amountReceive
         ? ethers.utils.parseUnits(
             Number(amountReceive).toFixed(tokenBorrowDecimals).toString(),
             tokenBorrowDecimals
@@ -164,7 +163,7 @@ export default function CreateBorrowItem({
         : userContractAddress
 
       await approveToken(tokenContract, spender, collateralAmount)
-      await performBorrow(collateralAmount, usdtAmount)
+      await performBorrow(collateralAmount, borrowAmount)
     } catch (e) {
       console.log('CreateBorrowItem.onBorrow', e)
       toast.error('Borrow Failed')
