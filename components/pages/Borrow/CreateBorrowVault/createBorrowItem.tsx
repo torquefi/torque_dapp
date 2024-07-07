@@ -179,7 +179,7 @@ export default function CreateBorrowItem({
             ) {
               const tx = await tokenContract1.approve(
                 item?.borrowContractInfo?.address,
-                '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+                borrow.toString()
               )
               await tx.wait()
             }
@@ -196,7 +196,7 @@ export default function CreateBorrowItem({
             ) {
               const tx = await tokenContract1.approve(
                 userAddressContract,
-                '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+                borrow.toString()
               )
               await tx.wait()
             }
@@ -297,7 +297,7 @@ export default function CreateBorrowItem({
             ) {
               const tx = await tokenContract1.approve(
                 item?.borrowContractInfo?.address,
-                '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+                borrow.toString()
               )
               await tx.wait()
             }
@@ -314,7 +314,7 @@ export default function CreateBorrowItem({
             ) {
               const tx = await tokenContract1.approve(
                 userAddressContract,
-                '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+                borrow.toString()
               )
               await tx.wait()
             }
@@ -390,7 +390,7 @@ export default function CreateBorrowItem({
             ) {
               const tx = await tokenContract1.approve(
                 item?.borrowContractInfo?.address,
-                '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+                borrow.toString()
               )
               await tx.wait()
             }
@@ -407,7 +407,7 @@ export default function CreateBorrowItem({
             ) {
               const tx = await tokenContract1.approve(
                 userAddressContract,
-                '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+                borrow.toString() 
               )
               await tx.wait()
             }
@@ -484,7 +484,7 @@ export default function CreateBorrowItem({
             ) {
               const tx = await tokenContract1.approve(
                 item?.borrowContractInfo?.address,
-                '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+                borrow.toString() 
               )
               await tx.wait()
             }
@@ -501,7 +501,7 @@ export default function CreateBorrowItem({
             ) {
               const tx = await tokenContract1.approve(
                 userAddressContract,
-                '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+                borrow.toString() 
               )
               await tx.wait()
             }
