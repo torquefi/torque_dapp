@@ -142,16 +142,12 @@ export default function CreateBorrowItem({
     try {
       setIsLoading(true)
 
-      const tokenDepositDecimals = await tokenContract.methods
-        .decimals()
-        .call()
-      const borrowAmount = new BigNumber(amount)
+      const tokenDepositDecimals = await tokenContract.methods.decimals().call()
+      const collateralAmount = new BigNumber(amount)
         .multipliedBy(10 ** tokenDepositDecimals)
         .toString()
 
-      const tokenBorrowDecimals = await tokenBorrowContract.methods
-        .decimals()
-        .call()
+      const tokenBorrowDecimals = await tokenBorrowContract.methods.decimals().call()
       const usdtAmount = amountReceive
         ? ethers.utils.parseUnits(
             Number(amountReceive).toFixed(tokenBorrowDecimals).toString(),
@@ -167,8 +163,8 @@ export default function CreateBorrowItem({
         ? item.borrowContractInfo.address
         : userContractAddress
 
-      await approveToken(tokenContract, spender, usdtAmount)
-      await performBorrow(borrowAmount, usdtAmount)
+      await approveToken(tokenContract, spender, collateralAmount)
+      await performBorrow(collateralAmount, usdtAmount)
     } catch (e) {
       console.log('CreateBorrowItem.onBorrow', e)
       toast.error('Borrow Failed')
