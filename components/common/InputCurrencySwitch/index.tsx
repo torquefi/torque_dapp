@@ -20,10 +20,14 @@ interface InputCurrencySwitchProps {
 }
 
 export const getPriceToken = async (symbol: string) => {
-  let data = await axios.get(
-    `https://api.binance.us/api/v3/ticker/price?symbol=${symbol.toUpperCase()}USDT`
-  )
-  return (await Number(data?.data?.price)) || 0
+  try {
+    const pairSymbol = symbol.toUpperCase() === 'USDT' ? 'USDCUSDT' : `${symbol.toUpperCase()}USDT`;
+    const data = await axios.get(`https://api.binance.us/api/v3/ticker/price?symbol=${pairSymbol}`);
+    return Number(data?.data?.price) || 0;
+  } catch (error) {
+    console.error(`Failed to fetch price for ${symbol}:`, error);
+    return 0;
+  }
 }
 
 export default function InputCurrencySwitch({

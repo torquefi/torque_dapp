@@ -7,12 +7,12 @@ import { useDispatch } from 'react-redux'
 
 export const getPriceToken = async (symbol: string) => {
   try {
-    let data = await axios.get(
-      `https://api.binance.us/api/v3/ticker/price?symbol=${symbol.toUpperCase()}USDT`
-    )
-    return (await Number(data?.data?.price)) || 0
+    const pairSymbol = symbol.toUpperCase() === 'USDT' ? 'USDCUSDT' : `${symbol.toUpperCase()}USDT`;
+    const data = await axios.get(`https://api.binance.us/api/v3/ticker/price?symbol=${pairSymbol}`);
+    return Number(data?.data?.price) || 0;
   } catch (error) {
-    return 0
+    console.error(`Failed to fetch price for ${symbol}:`, error);
+    return 0;
   }
 }
 
@@ -51,8 +51,6 @@ export function TokenPriceProvider({ children }: any) {
         //   }
         //   return acc
         // }, {})
-
-
 
         const ethPrice = await getPriceToken('ETH')
         const btcPrice = await getPriceToken('BTC')
