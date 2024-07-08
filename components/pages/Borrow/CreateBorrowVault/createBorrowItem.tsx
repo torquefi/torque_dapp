@@ -338,6 +338,194 @@ export default function CreateBorrowItem({
           setIsFetchBorrowLoading &&
             setIsFetchBorrowLoading((prev: any) => !prev)
         }
+      } else if (isUsdtBorrowed) {
+        if (item.depositTokenSymbol == 'WBTC') {
+          const provider = new ethers.providers.Web3Provider(window.ethereum)
+          const signer = provider.getSigner(address)
+          const tokenDepositDecimals = await tokenContract.methods
+            .decimals()
+            .call()
+          const borrow = Number(
+            new BigNumber(Number(amount).toFixed(tokenDepositDecimals))
+              .multipliedBy(10 ** tokenDepositDecimals)
+              .toString()
+          )
+
+          const tokenBorrowDecimal = await tokenBorrowContract.methods
+            .decimals()
+            .call()
+          console.log('tokenDecimal :>> ', tokenBorrowDecimal)
+          console.log('amountReceive :>> ', amountReceive)
+
+          let usdtBorrowAmount = '0'
+          if (amountReceive) {
+            usdtBorrowAmount = ethers.utils
+              .parseUnits(
+                Number(amountReceive).toFixed(tokenBorrowDecimal).toString(),
+                tokenBorrowDecimal
+              )
+              .toString()
+          }
+
+          const tokenContract1 = new ethers.Contract(
+            item?.tokenContractInfo?.address,
+            item?.tokenContractInfo?.abi,
+            signer
+          )
+
+          const userAddressContract = await borrowContract.methods
+            .userContract(address)
+            .call()
+          if (
+            userAddressContract === '0x0000000000000000000000000000000000000000'
+          ) {
+            const allowance = await tokenContract.methods
+              .allowance(address, item.borrowContractInfo.address)
+              .call()
+            console.log('allowance :>> ', allowance)
+
+            if (
+              new BigNumber(allowance).lte(new BigNumber('0')) ||
+              new BigNumber(allowance).lte(new BigNumber(usdtBorrowAmount))
+            ) {
+              const tx = await tokenContract1.approve(
+                item?.borrowContractInfo?.address,
+                borrow.toString()
+              )
+              await tx.wait()
+            }
+          } else {
+            const allowanceUserContract = await tokenContract.methods
+              .allowance(address, userAddressContract)
+              .call()
+            console.log('allowanceUserContract :>> ', allowanceUserContract)
+            if (
+              new BigNumber(allowanceUserContract).lte(new BigNumber('0')) ||
+              new BigNumber(allowanceUserContract).lte(
+                new BigNumber(usdtBorrowAmount)
+              )
+            ) {
+              const tx = await tokenContract1.approve(
+                userAddressContract,
+                borrow.toString()
+              )
+              await tx.wait()
+            }
+          }
+
+          const borrowContract2 = new ethers.Contract(
+            item?.borrowContractInfo?.address,
+            item?.borrowContractInfo?.abi,
+            signer
+          )
+
+          console.log('params borrow:>> ', borrow.toString(), usdtBorrowAmount)
+
+          const tx = await borrowContract2.callBorrow(
+            borrow.toString(),
+            usdtBorrowAmount
+          )
+          await tx.wait()
+          toast.success('Borrow Successful')
+          setOpenConfirmDepositModal(false)
+          setIsLoading(false)
+          setIsFetchBorrowLoading &&
+            setIsFetchBorrowLoading((prev: any) => !prev)
+        }
+
+        if (item.depositTokenSymbol == 'WETH') {
+          const provider = new ethers.providers.Web3Provider(window.ethereum)
+          const signer = provider.getSigner(address)
+          const tokenDepositDecimals = await tokenContract.methods
+            .decimals()
+            .call()
+          const borrow = Number(
+            new BigNumber(Number(amount).toFixed(tokenDepositDecimals))
+              .multipliedBy(10 ** tokenDepositDecimals)
+              .toString()
+          )
+
+          const tokenBorrowDecimal = await tokenBorrowContract.methods
+            .decimals()
+            .call()
+          console.log('tokenDecimal :>> ', tokenBorrowDecimal)
+          console.log('amountReceive :>> ', amountReceive)
+
+          let usdtBorrowAmount = '0'
+          if (amountReceive) {
+            usdtBorrowAmount = ethers.utils
+              .parseUnits(
+                Number(amountReceive).toFixed(tokenBorrowDecimal).toString(),
+                tokenBorrowDecimal
+              )
+              .toString()
+          }
+
+          const tokenContract1 = new ethers.Contract(
+            item?.tokenContractInfo?.address,
+            item?.tokenContractInfo?.abi,
+            signer
+          )
+
+          const userAddressContract = await borrowContract.methods
+            .userContract(address)
+            .call()
+          if (
+            userAddressContract === '0x0000000000000000000000000000000000000000'
+          ) {
+            const allowance = await tokenContract.methods
+              .allowance(address, item.borrowContractInfo.address)
+              .call()
+            console.log('allowance :>> ', allowance)
+
+            if (
+              new BigNumber(allowance).lte(new BigNumber('0')) ||
+              new BigNumber(allowance).lte(new BigNumber(usdtBorrowAmount))
+            ) {
+              const tx = await tokenContract1.approve(
+                item?.borrowContractInfo?.address,
+                borrow.toString() 
+              )
+              await tx.wait()
+            }
+          } else {
+            const allowanceUserContract = await tokenContract.methods
+              .allowance(address, userAddressContract)
+              .call()
+            console.log('allowanceUserContract :>> ', allowanceUserContract)
+            if (
+              new BigNumber(allowanceUserContract).lte(new BigNumber('0')) ||
+              new BigNumber(allowanceUserContract).lte(
+                new BigNumber(usdtBorrowAmount)
+              )
+            ) {
+              const tx = await tokenContract1.approve(
+                userAddressContract,
+                borrow.toString() 
+              )
+              await tx.wait()
+            }
+          }
+
+          const borrowContract2 = new ethers.Contract(
+            item?.borrowContractInfo?.address,
+            item?.borrowContractInfo?.abi,
+            signer
+          )
+
+          console.log('params borrow:>> ', borrow.toString(), usdtBorrowAmount)
+
+          const tx = await borrowContract2.callBorrow(
+            borrow.toString(),
+            usdtBorrowAmount
+          )
+          await tx.wait()
+          toast.success('Borrow Successful')
+          setOpenConfirmDepositModal(false)
+          setIsLoading(false)
+          setIsFetchBorrowLoading &&
+            setIsFetchBorrowLoading((prev: any) => !prev)
+        }
       } else {
         if (item.depositTokenSymbol == 'WBTC') {
           const provider = new ethers.providers.Web3Provider(window.ethereum)
@@ -407,7 +595,7 @@ export default function CreateBorrowItem({
             ) {
               const tx = await tokenContract1.approve(
                 userAddressContract,
-                borrow.toString() 
+                borrow.toString()
               )
               await tx.wait()
             }
