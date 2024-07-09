@@ -31,6 +31,8 @@ const InviteCodeModal = ({ open, handleClose }: InviteCodeModalProps) => {
       if (index > 0) {
         inputRefs.current[index - 1]?.focus()
       }
+    } else if (e.key === 'Enter') {
+      handleSubmit()
     }
   }
 
