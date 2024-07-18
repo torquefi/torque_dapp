@@ -63,7 +63,7 @@ const InviteCodeModal = ({ open, handleClose }: InviteCodeModalProps) => {
   return (
     <Modal open={open} handleClose={() => {}} hideCloseIcon={true} className="max-w-[390px] mb-3 rounded-none py-8 bg-white dark:bg-[#030303] border border-[0px] border-[#efefef]">
       <motion.div
-        className="flex flex-col items-center"
+        className="flex mb-4 md:mb-0 flex-col items-center"
         initial="hidden"
         animate="show"
         variants={containerVariants}
