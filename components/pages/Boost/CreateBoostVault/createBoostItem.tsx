@@ -268,7 +268,7 @@ export function CreateBoostItem({
         }
       >
         <div className="flex w-full items-center justify-between">
-          <div className="ml-[-12px] flex items-center">
+          <div className="ml-[-12px] flex items-center w-full">
             <img
               src={`/icons/coin/${item.token.toLocaleLowerCase()}.png`}
               alt=""
