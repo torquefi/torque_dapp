@@ -419,7 +419,7 @@ const BridgeAssets: React.FC = () => {
             </button>
           </div>
         </div>
-        <AnimatePresence>
+        <AnimatePresence initial={false}>
           {showDestinationAddress && (
             <motion.div
               key="destinationAddress"
