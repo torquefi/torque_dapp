@@ -235,7 +235,7 @@ const BridgeAssets: React.FC = () => {
                       >
                         <img
                           src={`/icons/coin/${network.name.toLocaleLowerCase()}.png`}
-                          alt="torque usd"
+                          alt=""
                           className="h-[18px] w-[18px] rounded-[6px]"
                         />
                         <p>{network?.name}</p>
@@ -250,7 +250,7 @@ const BridgeAssets: React.FC = () => {
                       <>
                         <img
                           src={`/icons/coin/${fromNetwork.name.toLocaleLowerCase()}.png`}
-                          alt=""
+                          alt={`${fromNetwork.name} icon`}
                           className="h-[18px] w-[18px] rounded-[6px]"
                         />
                         <p className="w-[60%] cursor-pointer text-ellipsis">
@@ -302,7 +302,7 @@ const BridgeAssets: React.FC = () => {
                       >
                         <img
                           src={`/icons/coin/${token.symbol.toLocaleLowerCase()}.png`}
-                          alt="torque usd"
+                          alt={`${token.symbol} icon`}
                           className="h-[18px] w-[18px] rounded-full"
                         />
                         <p className="pt-[1px]">{token?.symbol}</p>
@@ -317,7 +317,7 @@ const BridgeAssets: React.FC = () => {
                       <>
                         <img
                           src={`/icons/coin/${toToken.symbol.toLocaleLowerCase()}.png`}
-                          alt=""
+                          alt={`${toToken.symbol} icon`}
                           className="h-[18px] w-[18px] rounded-full"
                         />
                         <p className="cursor-pointer">{toToken?.symbol}</p>
@@ -361,7 +361,7 @@ const BridgeAssets: React.FC = () => {
                       >
                         <img
                           src={`/icons/coin/${network.name.toLocaleLowerCase()}.png`}
-                          alt="torque usd"
+                          alt={`${network.name} icon`}
                           className="h-[18px] w-[18px] rounded-[6px]"
                         />
                         <p>{network?.name}</p>
@@ -376,7 +376,7 @@ const BridgeAssets: React.FC = () => {
                       <>
                         <img
                           src={`/icons/coin/${toNetwork.name.toLocaleLowerCase()}.png`}
-                          alt=""
+                          alt={`${toNetwork.name} icon`}
                           className="h-[18px] w-[18px] rounded-[6px]"
                         />
                         <p className="w-[60%] cursor-pointer text-ellipsis">
