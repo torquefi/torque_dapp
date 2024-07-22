@@ -181,6 +181,24 @@ export const Header = () => {
                         Rewards
                       </div>
                     </div>
+                    {/* <div className="flex flex-col items-center">
+                      <div
+                        onClick={() => setIsOpenClaim(true)}
+                        className="flex cursor-pointer flex-col items-center text-[#959595] hover:text-[#030303] dark:hover:text-white"
+                      >
+                        <img src="/icons/rewards.svg" className="h-10 w-10" />
+                        Transfer
+                      </div>
+                    </div> */}
+                    {/* <div className="flex flex-col items-center">
+                      <div
+                        onClick={() => router.push('/bridge')}
+                        className="flex cursor-pointer flex-col items-center text-[#959595] hover:text-[#030303] dark:hover:text-white"
+                      >
+                        <img src="/icons/rewards.svg" className="h-10 w-10" />
+                        Bridge
+                      </div>
+                    </div> */}
                   </div>
                 </HoverIndicatorGrid>
               }
