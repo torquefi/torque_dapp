@@ -235,7 +235,7 @@ const BridgeAssets: React.FC = () => {
                       >
                         <img
                           src={`/icons/coin/${network.name.toLocaleLowerCase()}.png`}
-                          alt=""
+                          alt={`${network.name} icon`}
                           className="h-[18px] w-[18px] rounded-[6px]"
                         />
                         <p>{network?.name}</p>
@@ -422,6 +422,7 @@ const BridgeAssets: React.FC = () => {
         <AnimatePresence>
           {showDestinationAddress && (
             <motion.div
+              key="destinationAddress"
               initial="collapsed"
               animate="open"
               exit="collapsed"
