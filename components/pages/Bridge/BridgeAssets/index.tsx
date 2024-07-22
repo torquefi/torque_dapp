@@ -176,7 +176,7 @@ const BridgeAssets: React.FC = () => {
                       >
                         <img
                           src={`/icons/coin/${token.symbol.toLocaleLowerCase()}.png`}
-                          alt="torque usd"
+                          alt={`${token.symbol} icon`}
                           className="h-[18px] w-[18px] rounded-full"
                         />
                         <p className="pt-[1px]">{token?.symbol}</p>
@@ -191,7 +191,7 @@ const BridgeAssets: React.FC = () => {
                       <>
                         <img
                           src={`/icons/coin/${fromToken.symbol.toLocaleLowerCase()}.png`}
-                          alt=""
+                          alt={`${fromToken.symbol} icon`}
                           className="h-[18px] w-[18px] rounded-full"
                         />
                         <p className="cursor-pointer">{fromToken?.symbol}</p>
