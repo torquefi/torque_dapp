@@ -10,7 +10,7 @@ import { useAccount } from 'wagmi';
 import { NumericFormat } from 'react-number-format';
 import { toast } from 'sonner';
 import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 interface Token {
   symbol: string;
@@ -419,28 +419,23 @@ const BridgeAssets: React.FC = () => {
             </button>
           </div>
         </div>
-        <AnimatePresence initial={false}>
-          {showDestinationAddress && (
-            <motion.div
-              key="destinationAddress"
-              initial="collapsed"
-              animate="open"
-              exit="collapsed"
-              variants={variants}
-              transition={{ duration: 0.2 }}
-              className="mb-4"
-            >
-              <label className="mb-[4px] block text-[14px] font-medium text-[#959595]">
-                Destination
-              </label>
-              <input
-                type="text"
-                className="block w-full truncate placeholder:text-[#959595] rounded-[8px] border border-[#efefef] bg-white pb-2 pl-[10px] pt-2 shadow-sm duration-100 ease-linear hover:ring-2 hover:ring-purple-500 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b dark:from-[#161616] dark:via-[#161616]/40 dark:to-[#0e0e0e]"
-                placeholder="0x123.."
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <motion.div
+          key="destinationAddress"
+          initial="collapsed"
+          animate={showDestinationAddress ? 'open' : 'collapsed'}
+          variants={variants}
+          transition={{ duration: 0.2 }}
+          className="mb-4"
+        >
+          <label className="mb-[4px] block text-[14px] font-medium text-[#959595]">
+            Destination
+          </label>
+          <input
+            type="text"
+            className="block w-full truncate placeholder:text-[#959595] rounded-[8px] border border-[#efefef] bg-white pb-2 pl-[10px] pt-2 shadow-sm duration-100 ease-linear hover:ring-2 hover:ring-purple-500 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b dark:from-[#161616] dark:via-[#161616]/40 dark:to-[#0e0e0e]"
+            placeholder="0x123.."
+          />
+        </motion.div>
         <div className="flex justify-end">
           <button
             className={`font-rogan-regular mt-1 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${
