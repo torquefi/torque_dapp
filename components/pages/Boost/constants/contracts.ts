@@ -45,12 +45,12 @@ export const wethContract: IContractInfo = {
 }
 
 export const boostUniContract: IContractInfo = {
-  address: '0x1024966Bb292491328C8807Fb98D307cCbBFa0E8',
+  address: '0x22BacE1E1D034b08610Ec0A7c6Cbce592807F302',
   abi: JSON.stringify(boostUniAbi),
 }
 
 export const gmxUniContract: IContractInfo = {
-  address: '0xF39A2C0c28f8bc1B0cb6154902B084bCcE4360E7',
+  address: '0x566496AA56d61eB194A47328B60589DaEC1841C9',
   abi: JSON.stringify(gmxUniAbi),
 }
 
