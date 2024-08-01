@@ -50,7 +50,7 @@ export const VotingPower = () => {
 
   return (
     <>
-      <div className="ml-0 mr-2 mt-6 h-full w-full rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-[16px] py-[12px] pb-[20px] pt-[16px] text-[#404040] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white md:ml-4 md:mr-0 md:mt-0 lg:max-w-[40%] xl:px-[24px]">
+      <div className="ml-0 mr-2 mt-6 h-full w-full rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-[16px] py-[12px] pb-[20px] pt-[16px] text-[#030303] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white md:ml-4 md:mr-0 md:mt-0 lg:max-w-[40%] xl:px-[24px]">
         <div className="flex items-center justify-between">
           <h2 className="font-rogan text-[#030303] dark:text-white text-[24px] font-[400] leading-[40px]">
             Vote Power
@@ -77,7 +77,7 @@ export const VotingPower = () => {
         ></div>
         <div className="grid w-full h-auto grid-cols-2 gap-4 py-2 mb-2 overflow-y-auto">
           <div className="flex h-[102px] flex-col items-center justify-center  rounded-[8px] rounded-md  border border-[1px] border-[#1A1A1A] border-[#E6E6E6] bg-[#FCFCFC] from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
-            <div className="font-rogan mt-1 text-[24px] text-[#404040] dark:text-white">
+            <div className="font-rogan mt-1 text-[24px] text-[#030303] dark:text-white">
               <NumericFormat
                 value={address ? torqueBalance || '0.00' : '0.00'}
                 displayType="text"
@@ -88,7 +88,7 @@ export const VotingPower = () => {
             <div className="mt-1 text-[15px] text-[#959595]">Your Power</div>
           </div>
           <div className="flex h-[102px] flex-col items-center justify-center rounded-[8px] rounded-md  border border-[1px] border-[#1A1A1A] border-[#E6E6E6] bg-[#FCFCFC] from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
-            <div className="font-rogan mt-1 text-[24px] text-[#404040] dark:text-white">
+            <div className="font-rogan mt-1 text-[24px] text-[#030303] dark:text-white">
               <NumericFormat
                 value={
                   address

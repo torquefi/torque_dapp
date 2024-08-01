@@ -183,7 +183,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
       />
 
       <div className="flex items-center justify-between">
-        <h3 className="font-rogan text-[24px] text-[#404040] dark:text-white">
+        <h3 className="font-rogan text-[24px] text-[#030303] dark:text-white">
           Create Borrow Vault
         </h3>
         <div className="flex items-center justify-center space-x-2">

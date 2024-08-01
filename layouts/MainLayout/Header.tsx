@@ -124,7 +124,7 @@ export const Header = () => {
         <div className="container relative mx-auto flex h-[66px] max-w-[1244px] items-center justify-between px-4 lg:px-8">
           <Link href="/" className="flex items-center">
             <img className="h-[26px]" src="/assets/logo.png" alt="" />
-            <h2 className="font-rogan ml-[8px] text-[26px] text-[#404040] dark:text-white">
+            <h2 className="font-rogan ml-[8px] text-[26px] text-[#030303] dark:text-white">
               Torque
             </h2>
           </Link>
@@ -261,7 +261,7 @@ export const Header = () => {
                     'font-rogan-regular relative flex h-[35px]  items-center justify-center pr-[4px] transition-all duration-200 ease-in' +
                     ` ${
                       activeTabIndex === i
-                        ? 'text-[#404040] dark:text-white '
+                        ? 'text-[#030303] dark:text-white '
                         : 'text-[#959595]'
                     }`
                   }

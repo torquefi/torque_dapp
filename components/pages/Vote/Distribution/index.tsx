@@ -13,7 +13,7 @@ export const Distribution = () => {
 
   if (isLoading) {
     return (
-      <div className="md:px-[15%]">
+      <div className="md:px-[20%]">
         <div className='w-[340px] rounded-full mx-auto mt-[-24px] mb-4'>
           <SkeletonDefault className="h-[48px] " />
         </div>
@@ -44,8 +44,7 @@ export const Distribution = () => {
           Distribution
         </h1>
         <p className="mx-auto w-full max-w-[360px] font-[500] leading-[24px] text-[#959595]">
-          Earn TORQ, the deflationary governance token of Torque & TUSD, by providing
-          liquidity.
+          Earn TORQ and ARB tokens by providing liquidity across Torque lending and borrowing pools.
         </p>
       </div>
       {/* <InforTORQ /> */}
