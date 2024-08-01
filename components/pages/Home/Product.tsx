@@ -17,7 +17,7 @@ export default function Product() {
           <SkeletonDefault height={'5vh'} width={'10%'} />
         </div>
       ) : (
-        <h3 className="font-rogan text-[27px] text-[#404040] dark:text-white">
+        <h3 className="font-rogan text-[27px] text-[#030303] dark:text-white">
           Products
         </h3>
       )}
@@ -36,7 +36,7 @@ export default function Product() {
                 href={item.path}
                 key={i}
                 className={
-                  `block overflow-hidden rounded-xl border text-[#404040] transition-opacity duration-300  hover:opacity-80 dark:border-[#1A1A1A]  dark:text-white` +
+                  `block overflow-hidden rounded-xl border text-[#030303] transition-opacity duration-300  hover:opacity-80 dark:border-[#1A1A1A]  dark:text-white` +
                   `
                 ${theme === 'light' ? ' bg-[#ffffff]' : 'bg-overview'}
                 `

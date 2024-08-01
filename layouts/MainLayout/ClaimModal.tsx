@@ -149,16 +149,6 @@ export default function ClaimModal({
 
   const infos = [
     {
-      // title: (
-      //   <NumericFormat
-      //     displayType="text"
-      //     value={rewards}
-      //     thousandSeparator
-      //     suffix=" TORQ"
-      //     decimalScale={2}
-      //   />
-      // ),
-      // title: `${toMetricUnits(Number(rewards) || 0)} TORQ`,
       title:
         Number(rewards) >= 1000 ? (
           `${toMetricUnits(Number(rewards) || 0)} TORQ`
@@ -167,31 +157,50 @@ export default function ClaimModal({
         ),
       content: 'Claimable',
     },
+    // {
+    //   title: `$${toMetricUnits(
+    //     Number(
+    //       new BigNumber(rewards || 0)
+    //         .multipliedBy(currentPair?.priceUsd || 0)
+    //         .toString()
+    //     ) || 0
+    //   )}`,
+    //   content: 'Dollar value',
+    // },
     {
-      title: `$${toMetricUnits(
-        Number(
-          new BigNumber(rewards || 0)
-            .multipliedBy(currentPair?.priceUsd || 0)
-            .toString()
-        ) || 0
-      )}`,
-      content: 'Dollar value',
+      title:
+        Number(rewards) >= 1000 ? (
+          `${toMetricUnits(Number(rewards) || 0)} ARB`
+        ) : (
+          <NumericFormat displayType='text' value={rewards} decimalScale={2} suffix=' ARB' />
+        ),
+      content: 'Claimable',
     },
-    {
-      title: (
-        <NumericFormat
-          value={currentPair?.priceUsd || 0}
-          displayType="text"
-          decimalScale={2}
-          prefix="$"
-        />
-      ),
-      content: 'Current price',
-    },
-    {
-      title: `$${toMetricUnits((currentPair?.fdv || 0) / 0.98)}`,
-      content: 'Market cap',
-    },
+    // {
+    //   title: `$${toMetricUnits(
+    //     Number(
+    //       new BigNumber(rewards || 0)
+    //         .multipliedBy(currentPair?.priceUsd || 0)
+    //         .toString()
+    //     ) || 0
+    //   )}`,
+    //   content: 'Dollar value',
+    // },
+    // {
+    //   title: (
+    //     <NumericFormat
+    //       value={currentPair?.priceUsd || 0}
+    //       displayType="text"
+    //       decimalScale={2}
+    //       prefix="$"
+    //     />
+    //   ),
+    //   content: 'Current price',
+    // },
+    // {
+    //   title: `$${toMetricUnits((currentPair?.fdv || 0) / 0.98)}`,
+    //   content: 'Market cap',
+    // },
   ]
 
   return (
@@ -238,6 +247,15 @@ export default function ClaimModal({
       >
         {loading && <LoadingCircle />}
         CLAIM TORQ
+      </button>
+      <button
+        className={`font-rogan-regular mt-2 w-full rounded-full border border-[#AA5BFF] bg-transparent py-1 text-center text-[14px] uppercase text-[#AA5BFF] transition-all
+         ${loading || !Number(rewards) ? ' cursor-not-allowed text-[#aa5bff]' : ' cursor-pointer'} `}
+        onClick={handleClaim}
+        disabled={loading || !Number(rewards)}
+      >
+        {loading && <LoadingCircle />}
+        CLAIM ARB
       </button>
       {/* <button
           className="font-rogan-regular hover:shadow-lg mt-2 w-full rounded-full border border-[#AA5BFF] bg-transparent py-1 text-center text-[16px] uppercase text-[#AA5BFF] transition-all"

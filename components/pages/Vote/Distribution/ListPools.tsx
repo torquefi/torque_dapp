@@ -8,7 +8,7 @@ export const ListPools = () => {
 
   return (
     <div className="mt-[20px]">
-      <div className="max-w-[700px] mx-auto w-full rounded-[12px] border border-[1px] border-solid border-[#E6E6E6] dark:border-[#1a1a1a] bg-[#ffffff] dark:bg-transparent dark:bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 text-[#404040] dark:text-white text-center px-[24px] pt-[12px] pb-[6px]">
+      <div className="max-w-[820px] mx-auto w-full rounded-[12px] border border-[1px] border-solid border-[#E6E6E6] dark:border-[#1a1a1a] bg-[#ffffff] dark:bg-transparent dark:bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 text-[#030303] dark:text-white text-center px-[24px] pt-[12px] pb-[6px]">
         <div className="flex items-center justify-between mt-1">
           <h2 className="font-rogan text-[24px]">Pools</h2>
           <Popover
@@ -17,14 +17,12 @@ export const ListPools = () => {
             className={`font-rogan-regular text-[#030303] dark:text-white mt-[8px] w-[200px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
             content="Earn Torque (TORQ) by providing liquidity across Torque pools."
           >
-          <button>
-            <img src="/assets/pages/vote/ic-info.svg" alt="info" className="w-4" />
-          </button>
+            <button>
+              <img src="/assets/pages/vote/ic-info.svg" alt="info" className="w-4" />
+            </button>
           </Popover>
         </div>
-        <div className={`mt-4 hidden h-[1px] w-full md:block` +`
-      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'}`
-        }></div>
+        <div className={`mt-4 hidden h-[1px] w-full md:block ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'}`}></div>
         {/* <div className="mx-auto w-full py-[58px]">
           <img
             src={
@@ -45,13 +43,13 @@ export const ListPools = () => {
         <table className="w-full">
           <thead>
             <tr>
-              <th className="font-rogan-regular w-[25%] pt-2 whitespace-nowrap text-left text-[12px] md:text-[16px] text-[#959595]">
+              <th className="font-rogan-regular w-[20%] pt-2 whitespace-nowrap text-left text-[12px] md:text-[16px] text-[#959595]">
                 Name
               </th>
-              <th className="font-rogan-regular w-[25%] pt-2 whitespace-nowrap text-left text-[12px] md:text-[16px] text-[#959595]">
+              <th className="font-rogan-regular w-[15%] pt-2 whitespace-nowrap text-left text-[12px] md:text-[16px] text-[#959595]">
                 Ticker
               </th>
-              <th className="w-[25%] whitespace-nowrap pt-2 text-left text-[12px] md:text-[16px] text-[#959595]">
+              <th className="w-[17%] whitespace-nowrap pt-2 text-left text-[12px] md:text-[16px] text-[#959595]">
                 <div className="flex items-center gap-[4px] md:gap-[6px]">
                   <img
                     src="/assets/pages/vote/distribution/ic-torq.svg"
@@ -61,7 +59,7 @@ export const ListPools = () => {
                   <p>Daily Supply</p>
                 </div>
               </th>
-              <th className="w-[25%] whitespace-nowrap pt-2 text-left text-[12px] md:text-[16px] text-[#959595]">
+              <th className="w-[17%] whitespace-nowrap pt-2 text-left text-[12px] md:text-[16px] text-[#959595]">
                 <div className="flex items-center gap-[4px] md:gap-[6px]">
                   <img
                     src="/assets/pages/vote/distribution/ic-torq.svg"
@@ -71,10 +69,30 @@ export const ListPools = () => {
                   <p>Daily Borrow</p>
                 </div>
               </th>
+              <th className="w-[17%] whitespace-nowrap pt-2 text-left text-[12px] md:text-[16px] text-[#959595]">
+                <div className="flex items-center gap-[4px] md:gap-[6px]">
+                  <img
+                    src="/icons/coin/arb.png"
+                    alt=""
+                    className="h-[14px] md:h-[18px]"
+                  />
+                  <p>Daily Supply</p>
+                </div>
+              </th>
+              <th className="w-[17%] whitespace-nowrap pt-2 text-left text-[12px] md:text-[16px] text-[#959595]">
+                <div className="flex items-center gap-[4px] md:gap-[6px]">
+                  <img
+                    src="/icons/coin/arb.png"
+                    alt=""
+                    className="h-[14px] md:h-[18px]"
+                  />
+                  <p>Daily Borrow</p>
+                </div>
+              </th>
             </tr>
           </thead>
           {menu.map((item, i) => (
-            <tbody>
+            <tbody key={i}>
               <tr className="relative ">
                 <td className="text-left text-[12px] md:text-[16px]">
                   <div className="flex items-center justify-start gap-[8px] md:gap-[16px]">
@@ -98,9 +116,13 @@ export const ListPools = () => {
                 <td className="font-rogan text-left pt-2 text-[12px] md:text-[18px]">
                   {item.dailyBorrow}
                 </td>
-                <div className={`absolute left-0 mt-[4px] hidden h-[1px] w-full md:block` +`
-                ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'}`
-                }></div>
+                <td className="font-rogan text-left pt-2 text-[12px] md:text-[18px]">
+                  {item.dailySupplyArb}
+                </td>
+                <td className="font-rogan text-left pt-2 text-[12px] md:text-[18px]">
+                  {item.dailyBorrowArb}
+                </td>
+                <div className={`absolute left-0 mt-[4px] hidden h-[1px] w-full md:block ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'}`}></div>
               </tr>
             </tbody>
           ))}
@@ -118,6 +140,8 @@ const menu = [
     ticker: 'tBTC',
     dailySupply: '800,000',
     dailyBorrow: '0.00',
+    dailySupplyArb: '0.00',
+    dailyBorrowArb: '0.00',
   },
   {
     imgMain: '/icons/coin/aeth.png',
@@ -126,6 +150,8 @@ const menu = [
     ticker: 'tETH',
     dailySupply: '800,000',
     dailyBorrow: '0.00',
+    dailySupplyArb: '0.00',
+    dailyBorrowArb: '0.00',
   },
   {
     imgMain: '/icons/coin/link.png',
@@ -134,6 +160,8 @@ const menu = [
     ticker: 'tLINK',
     dailySupply: '800,000',
     dailyBorrow: '0.00',
+    dailySupplyArb: '0.00',
+    dailyBorrowArb: '0.00',
   },
   {
     imgMain: '/icons/coin/uni.png',
@@ -142,6 +170,8 @@ const menu = [
     ticker: 'tUNI',
     dailySupply: '800,000',
     dailyBorrow: '0.00',
+    dailySupplyArb: '0.00',
+    dailyBorrowArb: '0.00',
   },
   {
     imgMain: '/icons/coin/wbtc.png',
@@ -150,6 +180,8 @@ const menu = [
     ticker: 'USDC',
     dailySupply: '400,000',
     dailyBorrow: '400,000',
+    dailySupplyArb: '0.00',
+    dailyBorrowArb: '0.00',
   },
   {
     imgMain: '/icons/coin/aeth.png',
@@ -158,7 +190,9 @@ const menu = [
     ticker: 'USDC',
     dailySupply: '400,000',
     dailyBorrow: '400,000',
-  },
+    dailySupplyArb: '0.00',
+    dailyBorrowArb: '0.00',
+  }
   // {
   //   imgMain: '/icons/coin/wbtc.png',
   //   imgOld: '/assets/pages/vote/distribution/ic-torq.svg',
@@ -175,14 +209,14 @@ const menu = [
   //   dailySupply: '400,000',
   //   dailyBorrow: '400,000',
   // },
-  {
-    imgMain: '/icons/coin/d-uni.png',
-    imgOld: '/assets/pages/vote/distribution/ic-torq.svg',
-    name: 'Uniswap',
-    ticker: 'TORQ',
-    dailySupply: '10,000,000',
-    dailyBorrow: '0.00',
-  },
+  // {
+  //   imgMain: '/icons/coin/d-uni.png',
+  //   imgOld: '/assets/pages/vote/distribution/ic-torq.svg',
+  //   name: 'Uniswap',
+  //   ticker: 'TORQ',
+  //   dailySupply: '10,000,000',
+  //   dailyBorrow: '0.00',
+  // },
   // {
   //   imgMain: '/icons/coin/d-uni.png',
   //   imgOld: '/assets/pages/vote/distribution/ic-torq.svg',
