@@ -1,4 +1,12 @@
-import { torqAbi, tusdAbi, rewardAbi, swapAbi } from './abi'
+import {
+  torqAbi,
+  tusdAbi,
+  rewardAbi,
+  swapAbi,
+  rewardTorqAbi,
+  rewardArbAbi,
+  tokenArbAbi,
+} from './abi'
 export interface IContractInfo {
   name?: string
   address: string
@@ -15,9 +23,24 @@ export const torqContract: IContractInfo = {
   abi: JSON.stringify(torqAbi),
 }
 
+export const arbContract: IContractInfo = {
+  address: '0xb56C29413AF8778977093B9B4947efEeA7136C36',
+  abi: JSON.stringify(tokenArbAbi),
+}
+
 export const rewardsContract: IContractInfo = {
   address: '0x36A04745c615722f369b2Fd2B3F719f1a611F7cA',
   abi: JSON.stringify(rewardAbi),
+}
+
+export const rewardsTorqContract: IContractInfo = {
+  address: '0x3452faA42fd613937dCd43E0f0cBf7d4205919c5',
+  abi: JSON.stringify(rewardTorqAbi),
+}
+
+export const rewardsArbContract: IContractInfo = {
+  address: '0x6965b496De9b7C0bF274F8f6D5Dfa359Ac7D3b72',
+  abi: JSON.stringify(rewardArbAbi),
 }
 
 export const swapContract: IContractInfo = {
