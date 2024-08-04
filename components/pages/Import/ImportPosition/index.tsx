@@ -279,7 +279,7 @@ const ImportPosition: React.FC = () => {
             <label className="mb-[4px] block text-[14px] font-medium text-[#959595]">
               Amount
             </label>
-            <AnimatePresence>
+            <AnimatePresence initial={false}>
               {!customInputVisible ? (
                 <div className="flex space-x-3">
                   {[0.5, 0.75, 1].map((percentage, index) => (
@@ -293,6 +293,7 @@ const ImportPosition: React.FC = () => {
                       }`}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
+                      layoutId={selectedTab === index ? 'selected' : undefined}
                     >
                       {percentage * 100}%
                     </motion.button>
@@ -311,35 +312,33 @@ const ImportPosition: React.FC = () => {
                   </motion.button>
                 </div>
               ) : (
-                <AnimatePresence>
-                  <motion.div
-                    className="relative flex"
-                    initial={{ opacity: 0, x: 100 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: 100 }}
-                    transition={{ duration: 0.2 }}
+                <motion.div
+                  className="relative flex"
+                  initial={{ opacity: 0, x: 100 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 100 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <NumericFormat
+                    className="transition-ease placeholder:text-[#959595] block w-full rounded-[8px] border border-[#efefef] bg-white pb-2 pl-[10px] pt-2 shadow-sm duration-100 ease-linear dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b dark:from-[#161616] dark:via-[#161616]/40 dark:to-[#0e0e0e]"
+                    value={amount}
+                    thousandSeparator
+                    onChange={(e) => {
+                      setAmount(e.target.value);
+                      handleResetProgress();
+                    }}
+                    placeholder="0.00"
+                  />
+                  <motion.button
+                    type="button"
+                    className="absolute inset-y-0 right-0 m-auto mr-2 max-h-[24px] rounded-[8px] bg-[#f8f8f8] px-2 text-[11px] uppercase text-[#aa5bff] focus:outline-none dark:bg-[#1E1E1E] dark:text-white"
+                    onClick={handleCloseCustomInput}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                   >
-                    <NumericFormat
-                      className="transition-ease placeholder:text-[#959595] block w-full rounded-[8px] border border-[#efefef] bg-white pb-2 pl-[10px] pt-2 shadow-sm duration-100 ease-linear dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b dark:from-[#161616] dark:via-[#161616]/40 dark:to-[#0e0e0e]"
-                      value={amount}
-                      thousandSeparator
-                      onChange={(e) => {
-                        setAmount(e.target.value);
-                        handleResetProgress();
-                      }}
-                      placeholder="0.00"
-                    />
-                    <motion.button
-                      type="button"
-                      className="absolute inset-y-0 right-0 m-auto mr-2 max-h-[24px] rounded-[8px] bg-[#f8f8f8] px-2 text-[11px] uppercase text-[#aa5bff] focus:outline-none dark:bg-[#1E1E1E] dark:text-white"
-                      onClick={handleCloseCustomInput}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      ✕
-                    </motion.button>
-                  </motion.div>
-                </AnimatePresence>
+                    ✕
+                  </motion.button>
+                </motion.div>
               )}
             </AnimatePresence>
           </motion.div>
