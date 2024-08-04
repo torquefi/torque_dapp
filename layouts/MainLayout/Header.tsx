@@ -221,7 +221,7 @@ export const Header = () => {
                 </HoverIndicatorGrid>
               }
             >
-              <div className="mr-[6px] hidden cursor-pointer items-center xs:flex bg-transparent hover:bg-[#f9f9f9] dark:hover:bg-[#141414] rounded-full transition-ease duration-100 p-1">
+              <div className="mr-[5px] p-[6px] hidden cursor-pointer items-center xs:flex bg-transparent hover:bg-[#f9f9f9] dark:hover:bg-[#141414] rounded-full transition-ease duration-100">
                 <img className="h-[24px]" src="/assets/dots.svg" alt="" />
               </div>
             </Popover>
@@ -251,13 +251,13 @@ export const Header = () => {
                   </HoverIndicator>
                 }
               >
-                <div className="font-rogan-regular cursor-pointer rounded-full border border-[#AA5BFF] px-[18px] py-[6px] pt-[8px] text-[13px] uppercase leading-none text-[#AA5BFF] transition-all duration-200 ease-in xs:px-[16px] xs:py-[4px] lg:px-[22px] lg:pb-[6px] lg:pt-[6px]">
+                <div className="font-rogan-regular cursor-pointer rounded-full border border-[#AA5BFF] px-[18px] py-[6px] pt-[8px] text-[13px] uppercase leading-none text-[#AA5BFF] transition-all duration-200 ease-in xs:px-[16px] xs:py-[4px] lg:pb-[6px] lg:pt-[6px]">
                   {shortenAddress(address)}
                 </div>
               </Popover>
             ) : (
               <div
-                className="font-rogan-regular cursor-pointer rounded-full border border-[#AA5BFF] px-[18px] py-[6px] pt-[8px] text-[13px] uppercase leading-none text-[#AA5BFF] transition-all duration-200 ease-in xs:px-[16px] xs:py-[4px] lg:px-[22px] lg:pb-[6px] lg:pt-[6px]"
+                className="font-rogan-regular cursor-pointer rounded-full border border-[#AA5BFF] px-[18px] py-[6px] pt-[8px] text-[13px] uppercase leading-none text-[#AA5BFF] transition-all duration-200 ease-in xs:px-[16px] xs:py-[4px] lg:pb-[6px] lg:pt-[6px]"
                 onClick={() =>
                   !address ? setOpenConnectWalletModal(true) : open()
                 }
