@@ -1,31 +1,33 @@
-import HoverIndicator from '@/components/common/HoverIndicator'
+import LoadingCircle from '@/components/common/Loading/LoadingCircle'
 import Modal from '@/components/common/Modal'
-import { AppStore } from '@/types/store'
-import { useWeb3Modal, useWeb3ModalTheme } from '@web3modal/react'
-import { useEffect, useMemo, useState } from 'react'
-import { AiOutlineClose } from 'react-icons/ai'
-import axios from 'axios'
-import { useSelector } from 'react-redux'
-import { useAccount, useConnect } from 'wagmi'
-import { rewardsContract, torqContract } from '@/constants/contracts'
-import { pairContract } from '@/lib/hooks/usePriceToken'
-import { NumericFormat } from 'react-number-format'
-import { toMetricUnits } from '@/lib/helpers/number'
-import Link from 'next/link'
-import Web3 from 'web3'
-import {
-  borrowBtcContract,
-  borrowEthContract,
-  tokenTusdContract,
-} from '@/components/pages/Borrow/constants/contract'
 import {
   boostWbtcContract,
   boostWethContract,
 } from '@/components/pages/Boost/constants/contracts'
+import {
+  borrowBtcContract,
+  borrowEthContract,
+} from '@/components/pages/Borrow/constants/contract'
+import {
+  arbContract,
+  rewardsArbContract,
+  rewardsTorqContract,
+  torqContract,
+} from '@/constants/contracts'
+import { toMetricUnits } from '@/lib/helpers/number'
+import { pairContract } from '@/lib/hooks/usePriceToken'
+import { AppStore } from '@/types/store'
+import axios from 'axios'
 import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
-import LoadingCircle from '@/components/common/Loading/LoadingCircle'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { AiOutlineClose } from 'react-icons/ai'
+import { NumericFormat } from 'react-number-format'
+import { useSelector } from 'react-redux'
 import { toast } from 'sonner'
+import { useAccount } from 'wagmi'
+import Web3 from 'web3'
+import { Contract } from 'web3-eth-contract'
 
 interface ClaimModalProps {
   openModal: boolean
@@ -39,29 +41,144 @@ export default function ClaimModal({
   const [currentPair, setCurrentPair] = useState<any>({})
   const theme = useSelector((store: AppStore) => store.theme.theme)
   const { address } = useAccount()
-  const [rewards, setRewards] = useState('0')
+  // const [rewards, setRewards] = useState('0')
+  const [torqReward, setTorqReward] = useState('0')
+  const [arbReward, setArbReward] = useState('0')
   const [loading, setLoading] = useState(false)
 
-  const rewardContract = useMemo(() => {
+  // const rewardContract = useMemo(() => {
+  //   const web3 = new Web3(Web3.givenProvider)
+  //   const contract = new web3.eth.Contract(
+  //     JSON.parse(rewardsContract?.abi),
+  //     rewardsContract?.address
+  //   )
+  //   return contract
+  // }, [Web3.givenProvider, rewardsContract])
+
+  // const tokenContract = useMemo(() => {
+  //   const web3 = new Web3(Web3.givenProvider)
+  //   const contract = new web3.eth.Contract(
+  //     JSON.parse(tokenTusdContract?.abi),
+  //     tokenTusdContract?.address
+  //   )
+  //   return contract
+  // }, [Web3.givenProvider, rewardsContract])
+
+  const rewardTorqContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
     const contract = new web3.eth.Contract(
-      JSON.parse(rewardsContract?.abi),
-      rewardsContract?.address
+      JSON.parse(rewardsTorqContract?.abi),
+      rewardsTorqContract?.address
     )
     return contract
-  }, [Web3.givenProvider, rewardsContract])
+  }, [Web3.givenProvider, rewardsTorqContract])
 
-  const tokenContract = useMemo(() => {
+  const rewardArbContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
     const contract = new web3.eth.Contract(
-      JSON.parse(tokenTusdContract?.abi),
-      tokenTusdContract?.address
+      JSON.parse(rewardsArbContract?.abi),
+      rewardsArbContract?.address
     )
     return contract
-  }, [Web3.givenProvider, rewardsContract])
+  }, [Web3.givenProvider, rewardsArbContract])
 
-  const handleGetRewards = async () => {
+  const tokenTorqContract = useMemo(() => {
+    const web3 = new Web3(Web3.givenProvider)
+    const contract = new web3.eth.Contract(
+      JSON.parse(torqContract?.abi),
+      torqContract?.address
+    )
+    return contract
+  }, [Web3.givenProvider, torqContract])
+
+  const tokenArbContract = useMemo(() => {
+    const web3 = new Web3(Web3.givenProvider)
+    const contract = new web3.eth.Contract(
+      JSON.parse(arbContract?.abi),
+      arbContract?.address
+    )
+    return contract
+  }, [Web3.givenProvider, arbContract])
+
+  const handleClaimTorq = useCallback(async () => {
+    if (!address) {
+      return
+    }
+    setLoading(true)
     try {
+      const provider = new ethers.providers.Web3Provider(window.ethereum)
+      const signer = provider.getSigner(address)
+      const rewardsContract = new ethers.Contract(
+        rewardsTorqContract?.address,
+        JSON.parse(rewardsTorqContract?.abi),
+        signer
+      )
+      const tx = await rewardsContract.claimReward([
+        borrowBtcContract.address,
+        borrowEthContract.address,
+        boostWbtcContract.address,
+        boostWethContract.address,
+      ])
+      console.log('handleClaimTorq tx :>> ', tx)
+      await tx.wait()
+      handleClose()
+      handleGetRewards()
+      toast.success('Claim Successfully')
+    } catch (error) {
+      console.log('error handleClaim reward :>> ', error)
+      toast.success('Claim Failed')
+    } finally {
+      setLoading(false)
+    }
+  }, [address])
+
+  const handleClaimArb = useCallback(async () => {
+    if (!address) {
+      return
+    }
+    setLoading(true)
+    try {
+      const provider = new ethers.providers.Web3Provider(window.ethereum)
+      const signer = provider.getSigner(address)
+      const rewardsContract = new ethers.Contract(
+        rewardsArbContract?.address,
+        JSON.parse(rewardsArbContract?.abi),
+        signer
+      )
+      const tx = await rewardsContract.claimReward([
+        borrowBtcContract.address,
+        borrowEthContract.address,
+        boostWbtcContract.address,
+        boostWethContract.address,
+      ])
+      console.log('handleClaimArb tx :>> ', tx)
+      await tx.wait()
+      handleClose()
+      handleGetRewards()
+      toast.success('Claim Successfully')
+    } catch (error) {
+      console.log('error handleClaim reward :>> ', error)
+      toast.success('Claim Failed')
+    } finally {
+      setLoading(false)
+    }
+  }, [address])
+
+  const handleGetRewards = useCallback(async () => {
+    if (
+      !rewardTorqContract ||
+      !tokenTorqContract ||
+      !rewardArbContract ||
+      !tokenArbContract ||
+      !address
+    ) {
+      return
+    }
+
+    const getRewardByContract = async (
+      rewardContract: Contract,
+      tokenContract: Contract
+    ) => {
       const borrowWbtcReward = await rewardContract.methods
         ._calculateReward(borrowBtcContract.address, address)
         .call()
@@ -80,20 +197,45 @@ export default function ClaimModal({
         .plus(new BigNumber(boostWbtcReward || 0))
         .plus(new BigNumber(boostWethReward || 0))
         .toString()
-      const rewards = new BigNumber(
+      const rewardFormatted = new BigNumber(
         ethers.utils.formatUnits(totalRewards, tokenDecimal)
       ).toString()
-      setRewards(rewards)
-    } catch (error) {
-      console.log('error1111 :>> ', error)
+
+      return rewardFormatted
     }
-  }
+
+    try {
+      const [torqReward, arbReward] = await Promise.all([
+        getRewardByContract(rewardTorqContract, tokenTorqContract),
+        getRewardByContract(rewardArbContract, tokenArbContract),
+      ])
+
+      console.log(torqReward, arbReward)
+
+      setTorqReward(torqReward)
+      setArbReward(arbReward)
+    } catch (error) {
+      console.log('handleGetRewards :>> ', error)
+    }
+  }, [
+    rewardTorqContract,
+    tokenTorqContract,
+    rewardArbContract,
+    tokenArbContract,
+    address,
+  ])
 
   useEffect(() => {
-    if (rewardContract && address) {
+    if (address) {
       handleGetRewards()
     }
-  }, [rewardContract, openModal])
+  }, [handleGetRewards, openModal])
+
+  // useEffect(() => {
+  //   if (rewardContract && address) {
+  //     handleGetRewards()
+  //   }
+  // }, [rewardContract, openModal])
 
   const handleGetTokenInfo = async () => {
     try {
@@ -115,45 +257,50 @@ export default function ClaimModal({
     handleGetTokenInfo()
   }, [openModal])
 
-  const handleClaim = async () => {
-    if (!address) {
-      return
-    }
-    setLoading(true)
-    try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum)
-      const signer = provider.getSigner(address)
-      const rewardContract = new ethers.Contract(
-        rewardsContract?.address,
-        JSON.parse(rewardsContract?.abi),
-        signer
-      )
-      const tx = await rewardContract.claimReward([
-        borrowBtcContract.address,
-        borrowEthContract.address,
-        boostWbtcContract.address,
-        boostWethContract.address,
-      ])
-      console.log('tx :>> ', tx)
-      await tx.wait()
-      handleClose()
-      handleGetRewards()
-      toast.success('Claim Successfully')
-    } catch (error) {
-      console.log('error handleClaim reward :>> ', error)
-      toast.success('Claim Failed')
-    } finally {
-      setLoading(false)
-    }
-  }
+  // const handleClaim = async () => {
+  //   if (!address) {
+  //     return
+  //   }
+  //   setLoading(true)
+  //   try {
+  //     const provider = new ethers.providers.Web3Provider(window.ethereum)
+  //     const signer = provider.getSigner(address)
+  //     const rewardContract = new ethers.Contract(
+  //       rewardsContract?.address,
+  //       JSON.parse(rewardsContract?.abi),
+  //       signer
+  //     )
+  //     const tx = await rewardContract.claimReward([
+  //       borrowBtcContract.address,
+  //       borrowEthContract.address,
+  //       boostWbtcContract.address,
+  //       boostWethContract.address,
+  //     ])
+  //     console.log('tx :>> ', tx)
+  //     await tx.wait()
+  //     handleClose()
+  //     handleGetRewards()
+  //     toast.success('Claim Successfully')
+  //   } catch (error) {
+  //     console.log('error handleClaim reward :>> ', error)
+  //     toast.success('Claim Failed')
+  //   } finally {
+  //     setLoading(false)
+  //   }
+  // }
 
   const infos = [
     {
       title:
-        Number(rewards) >= 1000 ? (
-          `${toMetricUnits(Number(rewards) || 0)} TORQ`
+        Number(torqReward) >= 1000 ? (
+          `${toMetricUnits(Number(torqReward) || 0)} TORQ`
         ) : (
-          <NumericFormat displayType='text' value={rewards} decimalScale={2} suffix=' TORQ' />
+          <NumericFormat
+            displayType="text"
+            value={torqReward}
+            decimalScale={2}
+            suffix=" TORQ"
+          />
         ),
       content: 'Claimable',
     },
@@ -169,10 +316,15 @@ export default function ClaimModal({
     // },
     {
       title:
-        Number(rewards) >= 1000 ? (
-          `${toMetricUnits(Number(rewards) || 0)} ARB`
+        Number(arbReward) >= 1000 ? (
+          `${toMetricUnits(Number(arbReward) || 0)} ARB`
         ) : (
-          <NumericFormat displayType='text' value={rewards} decimalScale={2} suffix=' ARB' />
+          <NumericFormat
+            displayType="text"
+            value={arbReward}
+            decimalScale={2}
+            suffix=" ARB"
+          />
         ),
       content: 'Claimable',
     },
@@ -223,13 +375,17 @@ export default function ClaimModal({
         className={
           `mt-3 hidden h-[1px] w-full md:block` +
           `
-      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
-          }`
+      ${
+        theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+      }`
         }
       ></div>
       <div className="grid h-auto w-full grid-cols-2 gap-[12px] overflow-y-auto py-[18px]">
         {infos.map((item, i) => (
-          <div key={i} className="flex h-[98px] pt-[6px] flex-col items-center justify-center rounded-[12px] border border-[1px] border-[#1A1A1A] border-[#E6E6E6] bg-[#FCFCFC] from-[#161616] to-[#161616]/0 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
+          <div
+            key={i}
+            className="flex h-[98px] flex-col items-center justify-center rounded-[12px] border border-[1px] border-[#1A1A1A] border-[#E6E6E6] bg-[#FCFCFC] from-[#161616] to-[#161616]/0 pt-[6px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b"
+          >
             <div className="font-rogan text-[24px] text-[#404040] dark:text-white">
               {item.title}
             </div>
@@ -240,19 +396,27 @@ export default function ClaimModal({
         ))}
       </div>
       <button
-        className={`font-rogan-regular w-full text-[14px] rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
-         ${loading || !Number(rewards) ? ' cursor-not-allowed text-[#eee]' : ' cursor-pointer'} `}
-        onClick={handleClaim}
-        disabled={loading || !Number(rewards)}
+        className={`font-rogan-regular w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
+         ${
+           loading || !Number(torqReward)
+             ? ' cursor-not-allowed text-[#eee]'
+             : ' cursor-pointer'
+         } `}
+        onClick={handleClaimTorq}
+        disabled={loading || !Number(torqReward)}
       >
         {loading && <LoadingCircle />}
         CLAIM TORQ
       </button>
       <button
         className={`font-rogan-regular mt-2 w-full rounded-full border border-[#AA5BFF] bg-transparent py-1 text-center text-[14px] uppercase text-[#AA5BFF] transition-all
-         ${loading || !Number(rewards) ? ' cursor-not-allowed text-[#aa5bff]' : ' cursor-pointer'} `}
-        onClick={handleClaim}
-        disabled={loading || !Number(rewards)}
+         ${
+           loading || !Number(arbReward)
+             ? ' cursor-not-allowed text-[#aa5bff]'
+             : ' cursor-pointer'
+         } `}
+        onClick={handleClaimArb}
+        disabled={loading || !Number(arbReward)}
       >
         {loading && <LoadingCircle />}
         CLAIM ARB
