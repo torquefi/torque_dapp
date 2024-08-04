@@ -281,7 +281,12 @@ const ImportPosition: React.FC = () => {
             </label>
             <AnimatePresence>
               {!customInputVisible ? (
-                <div className="flex space-x-3">
+                <motion.div
+                  className="flex space-x-3"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                >
                   {[0.5, 0.75, 1].map((percentage, index) => (
                     <motion.button
                       key={percentage}
@@ -293,7 +298,6 @@ const ImportPosition: React.FC = () => {
                       }`}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      layoutId={selectedTab === index ? 'selected' : undefined}
                     >
                       {percentage * 100}%
                     </motion.button>
@@ -307,11 +311,10 @@ const ImportPosition: React.FC = () => {
                     }`}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    layoutId={customInputVisible ? 'selected' : undefined}
                   >
                     Custom
                   </motion.button>
-                </div>
+                </motion.div>
               ) : (
                 <motion.div
                   className="relative flex"
@@ -336,7 +339,6 @@ const ImportPosition: React.FC = () => {
                     onClick={handleCloseCustomInput}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    layoutId="closeButton"
                   >
                     ✕
                   </motion.button>
