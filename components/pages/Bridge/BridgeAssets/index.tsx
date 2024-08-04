@@ -118,7 +118,7 @@ const BridgeAssets: React.FC = () => {
   if (isLoading) {
     return (
       <div className="m-auto w-full max-w-[360px] rounded-[12px]">
-        <SkeletonDefault className="h-[300px] w-full" />
+        <SkeletonDefault className="h-[330px] w-full" />
       </div>
     );
   }
@@ -402,7 +402,7 @@ const BridgeAssets: React.FC = () => {
           </label>
           <div className="relative flex">
             <NumericFormat
-              className="transition-ease placeholder:text-[#959595] block w-full rounded-[8px] border border-[#efefef] bg-white pb-2 pl-[10px] pt-2 shadow-sm duration-100 ease-linear hover:ring-2 hover:ring-purple-500 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b dark:from-[#161616] dark:via-[#161616]/40 dark:to-[#0e0e0e]"
+              className="transition-ease placeholder:text-[#959595] block w-full rounded-[8px] border border-[#efefef] bg-white pb-2 pl-[10px] pt-2 shadow-sm duration-100 ease-linear dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b dark:from-[#161616] dark:via-[#161616]/40 dark:to-[#0e0e0e]"
               value={amount}
               thousandSeparator
               onChange={(e) => {
@@ -432,7 +432,7 @@ const BridgeAssets: React.FC = () => {
           </label>
           <input
             type="text"
-            className="block w-full truncate placeholder:text-[#959595] rounded-[8px] border border-[#efefef] bg-white pb-2 pl-[10px] pt-2 shadow-sm duration-100 ease-linear hover:ring-2 hover:ring-purple-500 dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b dark:from-[#161616] dark:via-[#161616]/40 dark:to-[#0e0e0e]"
+            className="block w-full truncate placeholder:text-[#959595] rounded-[8px] border border-[#efefef] bg-white pb-2 pl-[10px] pt-2 shadow-sm duration-100 ease-linear dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b dark:from-[#161616] dark:via-[#161616]/40 dark:to-[#0e0e0e]"
             placeholder="0x123.."
           />
         </motion.div>
