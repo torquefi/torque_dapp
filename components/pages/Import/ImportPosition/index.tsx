@@ -152,7 +152,7 @@ const ImportPosition: React.FC = () => {
                 placement="bottom-left"
                 trigger="click"
                 wrapperClassName="w-full"
-                className={`z-[10] mt-[12px] w-full bg-white leading-none dark:bg-[#030303]`}
+                className={`z-[10] mt-[12px] max-h-[200px] overflow-y-auto w-full bg-white leading-none dark:bg-[#030303]`}
                 externalOpen={openPopover}
                 content={
                   <HoverIndicator
