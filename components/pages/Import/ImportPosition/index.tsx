@@ -279,7 +279,7 @@ const ImportPosition: React.FC = () => {
             <label className="mb-[4px] block text-[14px] font-medium text-[#959595]">
               Amount
             </label>
-            <AnimatePresence initial={false}>
+            <AnimatePresence>
               {!customInputVisible ? (
                 <div className="flex space-x-3">
                   {[0.5, 0.75, 1].map((percentage, index) => (
@@ -335,6 +335,7 @@ const ImportPosition: React.FC = () => {
                     onClick={handleCloseCustomInput}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
+                    layoutId="closeButton"
                   >
                     ✕
                   </motion.button>
