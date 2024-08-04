@@ -28,14 +28,13 @@ const markets: Market[] = [
   { name: 'Dolomite USDC.e' },
   { name: 'Lodestar USDC' },
   { name: 'Lodestar USDC.e' },
-  { name: 'Silo WBTC/USDC.e' },
-  { name: 'Silo ARB/USDC.e' },
+  { name: 'Silo USDC.e' },
 ];
 
 const collaterals: Collateral[] = [
   { name: 'WBTC' },
   { name: 'WETH' },
-  { name: 'ARB' },
+  // { name: 'ARB' },
 ];
 
 const ImportPosition: React.FC = () => {
