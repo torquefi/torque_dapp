@@ -472,7 +472,7 @@ const BORROW_INFOS: IBorrowInfo[] = [
     userAddressContractInfo: userBorrowAddressBtcContract,
     name: 'Bitcoin',
     bonus: 3650000,
-    // arbBonus: 0,
+    arbBonus: 777,
     borrowRowTokenIcon: '/icons/coin/usdc.png',
   },
   {
@@ -491,7 +491,7 @@ const BORROW_INFOS: IBorrowInfo[] = [
     userAddressContractInfo: userBorrowAddressEthContract,
     name: 'Ether',
     bonus: 3650000,
-    // arbBonus: 0,
+    arbBonus: 777,
     borrowRowTokenIcon: '/icons/coin/usdc.png',
   },
   // {
