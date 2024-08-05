@@ -120,8 +120,8 @@ export default function ClaimModal({
         simpleBorrowEthContract.address,
         // borrowBtcContract.address,
         // borrowEthContract.address,
-        // boostWbtcContract.address,
-        // boostWethContract.address,
+        boostWbtcContract.address,
+        boostWethContract.address,
       ])
       console.log('handleClaimTorq tx :>> ', tx)
       await tx.wait()
