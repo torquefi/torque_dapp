@@ -197,7 +197,10 @@ export default function ClaimModal({
       // const boostWethReward = await rewardContract.methods
       //   ._calculateReward(boostWethContract.address, address)
       //   .call()
-      const tokenDecimal = await tokenContract.methods.decimals().call()
+
+      const tokenDecimal = 5
+      // const tokenDecimal = await tokenContract.methods.decimals().call()
+
       const totalRewards = new BigNumber(borrowWbtcReward || 0)
         .plus(new BigNumber(borrowWethReward || 0))
         // .plus(new BigNumber(boostWbtcReward || 0))
