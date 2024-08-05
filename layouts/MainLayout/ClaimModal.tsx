@@ -7,6 +7,8 @@ import {
 import {
   borrowBtcContract,
   borrowEthContract,
+  simpleBorrowBtcContract,
+  simpleBorrowEthContract,
 } from '@/components/pages/Borrow/constants/contract'
 import {
   arbContract,
@@ -114,10 +116,12 @@ export default function ClaimModal({
         signer
       )
       const tx = await rewardsContract.claimReward([
-        borrowBtcContract.address,
-        borrowEthContract.address,
-        boostWbtcContract.address,
-        boostWethContract.address,
+        simpleBorrowBtcContract.address,
+        simpleBorrowEthContract.address,
+        // borrowBtcContract.address,
+        // borrowEthContract.address,
+        // boostWbtcContract.address,
+        // boostWethContract.address,
       ])
       console.log('handleClaimTorq tx :>> ', tx)
       await tx.wait()
@@ -146,10 +150,12 @@ export default function ClaimModal({
         signer
       )
       const tx = await rewardsContract.claimReward([
-        borrowBtcContract.address,
-        borrowEthContract.address,
-        boostWbtcContract.address,
-        boostWethContract.address,
+        simpleBorrowBtcContract.address,
+        simpleBorrowEthContract.address,
+        // borrowBtcContract.address,
+        // borrowEthContract.address,
+        // boostWbtcContract.address,
+        // boostWethContract.address,
       ])
       console.log('handleClaimArb tx :>> ', tx)
       await tx.wait()
@@ -180,22 +186,22 @@ export default function ClaimModal({
       tokenContract: Contract
     ) => {
       const borrowWbtcReward = await rewardContract.methods
-        ._calculateReward(borrowBtcContract.address, address)
+        ._calculateReward(simpleBorrowBtcContract.address, address)
         .call()
       const borrowWethReward = await rewardContract.methods
-        ._calculateReward(borrowEthContract.address, address)
+        ._calculateReward(simpleBorrowEthContract.address, address)
         .call()
-      const boostWbtcReward = await rewardContract.methods
-        ._calculateReward(boostWbtcContract.address, address)
-        .call()
-      const boostWethReward = await rewardContract.methods
-        ._calculateReward(boostWethContract.address, address)
-        .call()
+      // const boostWbtcReward = await rewardContract.methods
+      //   ._calculateReward(boostWbtcContract.address, address)
+      //   .call()
+      // const boostWethReward = await rewardContract.methods
+      //   ._calculateReward(boostWethContract.address, address)
+      //   .call()
       const tokenDecimal = await tokenContract.methods.decimals().call()
       const totalRewards = new BigNumber(borrowWbtcReward || 0)
         .plus(new BigNumber(borrowWethReward || 0))
-        .plus(new BigNumber(boostWbtcReward || 0))
-        .plus(new BigNumber(boostWethReward || 0))
+        // .plus(new BigNumber(boostWbtcReward || 0))
+        // .plus(new BigNumber(boostWethReward || 0))
         .toString()
       const rewardFormatted = new BigNumber(
         ethers.utils.formatUnits(totalRewards, tokenDecimal)
