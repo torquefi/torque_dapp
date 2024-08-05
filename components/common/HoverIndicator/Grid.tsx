@@ -35,22 +35,24 @@ export default function HoverIndicatorGrid({
     const indicatorW = width / cols
     const indicatorH = height / rows
 
-    indicator.current.style.width = indicatorW + 'px'
-    indicator.current.style.height = indicatorH + 'px'
-    indicator.current.style.left =
-      Math.floor(left / indicatorW) * indicatorW + 'px'
-    indicator.current.style.top =
-      Math.floor(top / indicatorH) * indicatorH + 'px'
+    const indicatorLeft = Math.floor(left / indicatorW) * indicatorW
+    const indicatorTop = Math.floor(top / indicatorH) * indicatorH
+
+    // Ensure the indicator stays within the bounds
+    indicator.current.style.width = `${indicatorW}px`
+    indicator.current.style.height = `${indicatorH}px`
+    indicator.current.style.left = `${Math.min(indicatorLeft, width - indicatorW)}px`
+    indicator.current.style.top = `${Math.min(indicatorTop, height - indicatorH)}px`
   }
 
-  const handleLeave = (e: any) => {
+  const handleLeave = () => {
     if (!indicator.current || !container.current) {
       return
     }
     indicator.current.style.opacity = '0'
   }
 
-  const handleEnter = (e: any) => {
+  const handleEnter = () => {
     if (!indicator.current || !container.current) {
       return
     }
