@@ -46,7 +46,8 @@ export default function ClaimModal({
   // const [rewards, setRewards] = useState('0')
   const [torqReward, setTorqReward] = useState('0')
   const [arbReward, setArbReward] = useState('0')
-  const [loading, setLoading] = useState(false)
+  const [loadingClaimTorq, setLoadingClaimTorq] = useState(false)
+  const [loadingClaimArb, setLoadingClaimArb] = useState(false)
 
   // const rewardContract = useMemo(() => {
   //   const web3 = new Web3(Web3.givenProvider)
@@ -106,7 +107,7 @@ export default function ClaimModal({
     if (!address) {
       return
     }
-    setLoading(true)
+    setLoadingClaimTorq(true)
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const signer = provider.getSigner(address)
@@ -132,7 +133,7 @@ export default function ClaimModal({
       console.log('error handleClaim reward :>> ', error)
       toast.success('Claim Failed')
     } finally {
-      setLoading(false)
+      setLoadingClaimTorq(false)
     }
   }, [address])
 
@@ -140,7 +141,7 @@ export default function ClaimModal({
     if (!address) {
       return
     }
-    setLoading(true)
+    setLoadingClaimArb(true)
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const signer = provider.getSigner(address)
@@ -166,7 +167,7 @@ export default function ClaimModal({
       console.log('error handleClaim reward :>> ', error)
       toast.success('Claim Failed')
     } finally {
-      setLoading(false)
+      setLoadingClaimArb(false)
     }
   }, [address])
 
@@ -183,7 +184,10 @@ export default function ClaimModal({
 
     const getRewardByContract = async (
       rewardContract: Contract,
-      tokenContract: Contract
+      tokenContract: Contract,
+      options: {
+        hasBoost: boolean
+      }
     ) => {
       const borrowWbtcReward = await rewardContract.methods
         ._calculateReward(simpleBorrowBtcContract.address, address)
@@ -191,21 +195,28 @@ export default function ClaimModal({
       const borrowWethReward = await rewardContract.methods
         ._calculateReward(simpleBorrowEthContract.address, address)
         .call()
-      // const boostWbtcReward = await rewardContract.methods
-      //   ._calculateReward(boostWbtcContract.address, address)
-      //   .call()
-      // const boostWethReward = await rewardContract.methods
-      //   ._calculateReward(boostWethContract.address, address)
-      //   .call()
 
-      const tokenDecimal = 5
-      // const tokenDecimal = await tokenContract.methods.decimals().call()
+      const tokenDecimal = await tokenContract.methods.decimals().call()
 
-      const totalRewards = new BigNumber(borrowWbtcReward || 0)
-        .plus(new BigNumber(borrowWethReward || 0))
-        // .plus(new BigNumber(boostWbtcReward || 0))
-        // .plus(new BigNumber(boostWethReward || 0))
-        .toString()
+      let totalRewardsBN = new BigNumber(borrowWbtcReward || 0).plus(
+        new BigNumber(borrowWethReward || 0)
+      )
+
+      if (options.hasBoost) {
+        const boostWbtcReward = await rewardContract.methods
+          ._calculateReward(boostWbtcContract.address, address)
+          .call()
+        const boostWethReward = await rewardContract.methods
+          ._calculateReward(boostWethContract.address, address)
+          .call()
+
+        totalRewardsBN = totalRewardsBN
+          .plus(new BigNumber(boostWbtcReward || 0))
+          .plus(new BigNumber(boostWethReward || 0))
+      }
+
+      const totalRewards = totalRewardsBN.toString()
+
       const rewardFormatted = new BigNumber(
         ethers.utils.formatUnits(totalRewards, tokenDecimal)
       ).toString()
@@ -215,8 +226,12 @@ export default function ClaimModal({
 
     try {
       const [torqReward, arbReward] = await Promise.all([
-        getRewardByContract(rewardTorqContract, tokenTorqContract),
-        getRewardByContract(rewardArbContract, tokenArbContract),
+        getRewardByContract(rewardTorqContract, tokenTorqContract, {
+          hasBoost: true,
+        }),
+        getRewardByContract(rewardArbContract, tokenArbContract, {
+          hasBoost: true,
+        }),
       ])
 
       console.log(torqReward, arbReward)
@@ -307,7 +322,7 @@ export default function ClaimModal({
           <NumericFormat
             displayType="text"
             value={torqReward}
-            decimalScale={2}
+            decimalScale={5}
             suffix=" TORQ"
           />
         ),
@@ -331,7 +346,7 @@ export default function ClaimModal({
           <NumericFormat
             displayType="text"
             value={arbReward}
-            decimalScale={2}
+            decimalScale={5}
             suffix=" ARB"
           />
         ),
@@ -407,27 +422,27 @@ export default function ClaimModal({
       <button
         className={`font-rogan-regular w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
          ${
-           loading || !Number(torqReward)
+           loadingClaimTorq || !Number(torqReward)
              ? ' cursor-not-allowed text-[#eee]'
              : ' cursor-pointer'
          } `}
         onClick={handleClaimTorq}
-        disabled={loading || !Number(torqReward)}
+        disabled={loadingClaimTorq || !Number(torqReward)}
       >
-        {loading && <LoadingCircle />}
+        {loadingClaimTorq && <LoadingCircle />}
         CLAIM TORQ
       </button>
       <button
         className={`font-rogan-regular mt-2 w-full rounded-full border border-[#AA5BFF] bg-transparent py-1 text-center text-[14px] uppercase text-[#AA5BFF] transition-all
          ${
-           loading || !Number(arbReward)
+           loadingClaimArb || !Number(arbReward)
              ? ' cursor-not-allowed text-[#aa5bff]'
              : ' cursor-pointer'
          } `}
         onClick={handleClaimArb}
-        disabled={loading || !Number(arbReward)}
+        disabled={loadingClaimArb || !Number(arbReward)}
       >
-        {loading && <LoadingCircle />}
+        {loadingClaimArb && <LoadingCircle />}
         CLAIM ARB
       </button>
       {/* <button
