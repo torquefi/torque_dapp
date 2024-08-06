@@ -202,18 +202,18 @@ export default function ClaimModal({
         new BigNumber(borrowWethReward || 0)
       )
 
-      if (options.hasBoost) {
-        const boostWbtcReward = await rewardContract.methods
-          ._calculateReward(boostWbtcContract.address, address)
-          .call()
-        const boostWethReward = await rewardContract.methods
-          ._calculateReward(boostWethContract.address, address)
-          .call()
+      // if (options.hasBoost) {
+      //   const boostWbtcReward = await rewardContract.methods
+      //     ._calculateReward(boostWbtcContract.address, address)
+      //     .call()
+      //   const boostWethReward = await rewardContract.methods
+      //     ._calculateReward(boostWethContract.address, address)
+      //     .call()
 
-        totalRewardsBN = totalRewardsBN
-          .plus(new BigNumber(boostWbtcReward || 0))
-          .plus(new BigNumber(boostWethReward || 0))
-      }
+      //   totalRewardsBN = totalRewardsBN
+      //     .plus(new BigNumber(boostWbtcReward || 0))
+      //     .plus(new BigNumber(boostWethReward || 0))
+      // }
 
       const totalRewards = totalRewardsBN.toString()
 
