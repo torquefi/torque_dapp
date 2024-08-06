@@ -230,7 +230,7 @@ export default function ClaimModal({
           hasBoost: true,
         }),
         getRewardByContract(rewardArbContract, tokenArbContract, {
-          hasBoost: true,
+          hasBoost: false,
         }),
       ])
 
