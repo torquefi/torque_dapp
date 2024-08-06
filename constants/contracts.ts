@@ -24,7 +24,7 @@ export const torqContract: IContractInfo = {
 }
 
 export const arbContract: IContractInfo = {
-  address: '0xb56C29413AF8778977093B9B4947efEeA7136C36',
+  address: '0x912ce59144191c1204e64559fe8253a0e49e6548',
   abi: JSON.stringify(tokenArbAbi),
 }
 
