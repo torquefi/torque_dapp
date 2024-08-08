@@ -408,12 +408,12 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
     setLabel(item?.label)
   }, [item?.label])
 
-  const handleSliderChange = (value) => {
+  const handleSliderChange = (value: number) => {
     setSliderValue(value)
     const collateralValue = parseFloat(collateral)
     const newCollateralWithdraw = (collateralValue * (value / 100)).toFixed(5)
     setCollateralWithdraw(newCollateralWithdraw)
-  }
+  }  
 
   const handlePercentageClick = (percent) => {
     if (action === Action.Repay) {
