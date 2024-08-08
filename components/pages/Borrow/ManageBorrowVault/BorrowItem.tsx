@@ -427,11 +427,11 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
   )?.toFixed(5)
 
   const summaryInfo = (
-    <div className="grid grid-cols-2 gap-[12px] md:grid-cols-4 w-full py-[18px] md:w-[500px] lg:w-[600px] xl:w-[700px]">
+    <div className="grid grid-cols-2 gap-[12px] md:grid-cols-4 w-full md:w-[500px] lg:w-[600px] xl:w-[700px] py-[10px]">
       <CurrencySwitch
         tokenSymbol={item.depositTokenSymbol}
         tokenValue={collateral ? Number(collateral) : 0}
-        className="font-rogan -my-4 w-full space-y-1 py-4"
+        className="font-rogan -my-4 w-full space-y-1 py-4 text-center flex flex-col items-center justify-center"
         decimalScale={5}
         render={(value) => (
           <div>
@@ -447,7 +447,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         tokenSymbol={item.borrowTokenSymbol}
         tokenValue={borrowed ? Number(borrowed) : 0}
         usdDefault
-        className="font-rogan -my-4 w-full space-y-1 py-4"
+        className="font-rogan -my-4 w-full space-y-1 py-4 text-center flex flex-col items-center justify-center"
         decimalScale={5}
         render={(value) => (
           <div>
@@ -458,7 +458,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
           </div>
         )}
       />
-      <div className="font-rogan -my-4 w-full space-y-1 py-4">
+      <div className="font-rogan -my-4 w-full space-y-1 py-4 text-center flex flex-col items-center justify-center">
         <p className="whitespace-nowrap text-[22px]">
           {!Number(collateralUsd)
             ? 0
@@ -469,7 +469,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
           Loan-to-value
         </p>
       </div>
-      <div className="font-rogan -my-4 w-full space-y-1 py-4">
+      <div className="font-rogan -my-4 w-full space-y-1 py-4 text-center flex flex-col items-center justify-center">
         <p className="whitespace-nowrap text-[22px]">
           {borrowAPR ? -borrowAPR.toFixed(2) : 0}%
         </p>
@@ -583,7 +583,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                 aprPercent={-borrowAPR}
               />
             </div>
-            <div className="w-full space-y-5 md:w-[60%] md:pl-[36px] lg:w-[50%] xl:w-[45%]">
+            <div className="w-full space-y-8 md:space-y-5 md:w-[60%] md:pl-[36px] lg:w-[50%] xl:w-[45%]">
               <div className="flex items-center justify-between">
                 <p className="font-rogan text-[24px]">
                   {action}{' '}
