@@ -36,6 +36,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
 
   const [isLoading, setIsLoading] = useState(true)
   const [inputValue, setInputValue] = useState('')
+  const [sliderValue, setSliderValue] = useState(0)
   const [buttonLoading, setButtonLoading] = useState(false)
   const [label, setLabel] = useState(item?.label)
   const [isEdit, setEdit] = useState(false)
@@ -191,6 +192,13 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         .parseUnits(Number(inputValue).toFixed(tokenDecimal), tokenDecimal)
         .toString()
 
+      const collateralWithdraw = ethers.utils
+        .parseUnits(
+          (Number(collateral) * (sliderValue / 100)).toFixed(tokenDecimal),
+          tokenDecimal
+        )
+        .toString()
+
       let withdraw = 0
       if (item.borrowTokenSymbol === 'TUSD') {
         if (item.depositTokenSymbol === 'WBTC') {
@@ -253,8 +261,8 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         signer
       )
 
-      console.log('params :>> ', amountRepay, withdraw)
-      const tx = await borrowContract2.callRepay(amountRepay, withdraw)
+      console.log('params :>> ', amountRepay, collateralWithdraw)
+      const tx = await borrowContract2.callRepay(amountRepay, collateralWithdraw)
       await tx.wait()
       toast.success('Repay Successful')
       handleGetBorrowData()
@@ -398,6 +406,14 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
   useEffect(() => {
     setLabel(item?.label)
   }, [item?.label])
+
+  useEffect(() => {
+    if (action === Action.Repay && collateral) {
+      const collateralValue = parseFloat(collateral)
+      const newInputValue = (collateralValue * (sliderValue / 100)).toFixed(5)
+      setInputValue(newInputValue)
+    }
+  }, [sliderValue, action, collateral])
 
   const renderSubmitText = () => {
     if (!address) {
@@ -645,6 +661,23 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                   ))}
                 </div>
               </div>
+              {action === Action.Repay && (
+                <div className="w-full">
+                  <p className="font-rogan text-[18px] mb-2">Collateral Withdraw Amount</p>
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={sliderValue}
+                    className="slider"
+                    onChange={(e) => setSliderValue(parseInt(e.target.value))}
+                    style={{
+                      background: `linear-gradient(to right, #AA5BFF ${sliderValue}%, ${theme === 'light' ? 'lightgray' : 'darkgray'} ${sliderValue}%)`,
+                    }}
+                  />
+                  <p className="font-rogan text-[14px] mt-2">{sliderValue}%</p>
+                </div>
+              )}
               <button
                 className={`font-rogan-regular mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
                   }`}
