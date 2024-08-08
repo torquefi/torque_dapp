@@ -46,6 +46,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
   const [collateral, setCollateral] = useState('0')
   const [depositedToken, setDepositedToken] = useState('0')
   const [maxMoreMinTable, setMaxMoreMinTable] = useState('0')
+  const [collateralWithdraw, setCollateralWithdraw] = useState('0')
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
 
   const tusdPrice = usdPrice['TUSD']
@@ -415,7 +416,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
     setCollateralWithdraw(newCollateralWithdraw)
   }  
 
-  const handlePercentageClick = (percent) => {
+  const handlePercentageClick = (percent: number) => {
     if (action === Action.Repay) {
       const newRepayValue = new BigNumber(borrowed)
         .multipliedBy(percent)
