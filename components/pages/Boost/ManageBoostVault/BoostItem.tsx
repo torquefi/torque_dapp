@@ -476,7 +476,7 @@ export function BoostItem({
             </div>
             <button
               className={
-                `font-rogan-regular mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]` +
+                `font-rogan-regular mt-2 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]` +
                 ` ${isSubmitLoading || isExecuteLoading
                   ? 'cursor-not-allowed opacity-70'
                   : ''
@@ -490,7 +490,7 @@ export function BoostItem({
             </button>
             <button
               className={
-                `font-rogan-regular mt-2 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-transparent to-transparent py-1 text-[14px] uppercase text-[#AA5BFF] transition-all hover:border hover:from-[#AA5BFF] hover:to-[#912BFF] hover:text-white` +
+                `font-rogan-regular mt-3 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-transparent to-transparent py-1 text-[14px] uppercase text-[#AA5BFF] transition-all hover:border hover:from-[#AA5BFF] hover:to-[#912BFF] hover:text-white` +
                 ` ${isUnFirstCreated || isSubmitLoading || isExecuteLoading
                   ? 'cursor-not-allowed opacity-70'
                   : ''

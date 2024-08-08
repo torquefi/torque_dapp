@@ -132,7 +132,7 @@ export default function ClaimModal({
       await tx.wait()
       handleClose()
       handleGetRewards()
-      toast.success('Claim Successfully')
+      toast.success('Claim Successful')
     } catch (error) {
       console.log('error handleClaim reward :>> ', error)
       toast.success('Claim Failed')
@@ -166,7 +166,7 @@ export default function ClaimModal({
       await tx.wait()
       handleClose()
       handleGetRewards()
-      toast.success('Claim Successfully')
+      toast.success('Claim Successful')
     } catch (error) {
       console.log('error handleClaim reward :>> ', error)
       toast.success('Claim Failed')
@@ -308,7 +308,7 @@ export default function ClaimModal({
   //     await tx.wait()
   //     handleClose()
   //     handleGetRewards()
-  //     toast.success('Claim Successfully')
+  //     toast.success('Claim Successful')
   //   } catch (error) {
   //     console.log('error handleClaim reward :>> ', error)
   //     toast.success('Claim Failed')

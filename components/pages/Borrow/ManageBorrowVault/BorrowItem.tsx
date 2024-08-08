@@ -20,7 +20,7 @@ import { BorrowItemChart } from './BorrowItemChart'
 import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
 
 enum Action {
-  Borrow = 'Borrow More',
+  Borrow = 'Borrow',
   Repay = 'Repay',
   Withdraw = 'Withdraw',
 }
@@ -427,11 +427,11 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
   )?.toFixed(5)
 
   const summaryInfo = (
-    <div className="flex w-full text-center md:w-[500px] lg:w-[600px] xl:w-[700px]">
+    <div className="grid grid-cols-2 gap-[12px] md:grid-cols-4 w-full py-[18px] md:w-[500px] lg:w-[600px] xl:w-[700px]">
       <CurrencySwitch
         tokenSymbol={item.depositTokenSymbol}
         tokenValue={collateral ? Number(collateral) : 0}
-        className="font-rogan -my-4 w-1/4 space-y-1 py-4"
+        className="font-rogan -my-4 w-full space-y-1 py-4"
         decimalScale={5}
         render={(value) => (
           <div>
@@ -447,7 +447,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         tokenSymbol={item.borrowTokenSymbol}
         tokenValue={borrowed ? Number(borrowed) : 0}
         usdDefault
-        className="font-rogan -my-4 w-1/4 space-y-1 py-4"
+        className="font-rogan -my-4 w-full space-y-1 py-4"
         decimalScale={5}
         render={(value) => (
           <div>
@@ -458,21 +458,19 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
           </div>
         )}
       />
-      <div className="w-1/4 space-y-1">
-        <p className="font-rogan whitespace-nowrap text-[22px]">
+      <div className="font-rogan -my-4 w-full space-y-1 py-4">
+        <p className="whitespace-nowrap text-[22px]">
           {!Number(collateralUsd)
             ? 0
-            : +((Number(borrowed || 0) / Number(collateralUsd)) * 100).toFixed(
-              2
-            ) || 0}
+            : +((Number(borrowed || 0) / Number(collateralUsd)) * 100).toFixed(2) || 0}
           %
         </p>
         <p className="whitespace-nowrap text-[14px] text-[#959595]">
           Loan-to-value
         </p>
       </div>
-      <div className="w-1/4 space-y-1">
-        <p className="font-rogan whitespace-nowrap text-[22px]">
+      <div className="font-rogan -my-4 w-full space-y-1 py-4">
+        <p className="whitespace-nowrap text-[22px]">
           {borrowAPR ? -borrowAPR.toFixed(2) : 0}%
         </p>
         <p className="whitespace-nowrap text-[14px] text-[#959595]">
@@ -480,7 +478,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         </p>
       </div>
     </div>
-  )
+  )  
 
   if (isLoading)
     return (
@@ -585,7 +583,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                 aprPercent={-borrowAPR}
               />
             </div>
-            <div className="w-full space-y-6 md:w-[60%] md:pl-[36px] lg:w-[50%] xl:w-[45%]">
+            <div className="w-full space-y-5 md:w-[60%] md:pl-[36px] lg:w-[50%] xl:w-[45%]">
               <div className="flex items-center justify-between">
                 <p className="font-rogan text-[24px]">
                   {action}{' '}
@@ -664,22 +662,24 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
               {action === Action.Repay && (
                 <div className="w-full">
                   <p className="font-rogan text-[18px] mb-2">Collateral Withdraw Amount</p>
-                  <input
-                    type="range"
-                    min="0"
-                    max="100"
-                    value={sliderValue}
-                    className="slider"
-                    onChange={(e) => setSliderValue(parseInt(e.target.value))}
-                    style={{
-                      background: `linear-gradient(to right, #AA5BFF ${sliderValue}%, ${theme === 'light' ? 'lightgray' : 'darkgray'} ${sliderValue}%)`,
-                    }}
-                  />
-                  <p className="font-rogan text-[14px] mt-2">{sliderValue}%</p>
+                  <div className="flex items-center space-x-2">
+                      <p className="font-rogan text-[14px]">{sliderValue}%</p>
+                      <input
+                          type="range"
+                          min="0"
+                          max="100"
+                          value={sliderValue}
+                          className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+                          onChange={(e) => setSliderValue(parseInt(e.target.value))}
+                          style={{
+                              background: `linear-gradient(to right, #AA5BFF ${sliderValue}%, ${theme === 'light' ? '#E5E7EB' : '#374151'} ${sliderValue}%)`,
+                          }}
+                      />
+                  </div>
                 </div>
               )}
               <button
-                className={`font-rogan-regular mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
+                className={`font-rogan-regular mt-3 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
                   }`}
                 disabled={buttonLoading}
                 onClick={handleAction}
