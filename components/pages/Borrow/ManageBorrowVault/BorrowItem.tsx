@@ -610,7 +610,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                 aprPercent={-borrowAPR}
               />
             </div>
-            <div className="w-full space-y-8 md:space-y-5 md:w-[60%] md:pl-[36px] lg:w-[50%] xl:w-[45%]">
+            <div className="w-full space-y-4 md:space-y-5 md:w-[60%] md:pl-[36px] lg:w-[50%] xl:w-[45%]">
               <div className="flex items-center justify-between">
                 <p className="font-rogan text-[24px]">
                   {action}{' '}
@@ -683,7 +683,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                 </div>
               )}
               <button
-                className={`font-rogan-regular mt-3 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
+                className={`font-rogan-regular mt-2 md:mt-3 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
                   }`}
                 disabled={buttonLoading}
                 onClick={handleAction}
