@@ -677,14 +677,6 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                           onChange={(e) => handleSliderChange(parseInt(e.target.value))}
                           style={{
                               background: `linear-gradient(to right, #AA5BFF ${sliderValue}%, ${theme === 'light' ? '#E5E7EB' : '#374151'} ${sliderValue}%)`,
-                              '--webkit-slider-thumb': {
-                                  backgroundColor: '#AA5BFF',
-                                  border: 'none',
-                                  width: '14px',
-                                  height: '14px',
-                                  borderRadius: '50%',
-                                  cursor: 'pointer',
-                              }
                           }}
                       />
                   </div>
