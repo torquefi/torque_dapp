@@ -221,7 +221,7 @@ export const Header = () => {
                 </HoverIndicatorGrid>
               }
             >
-              <div className="mr-[5px] p-[6px] hidden cursor-pointer items-center xs:flex bg-transparent hover:bg-[#f9f9f9] dark:hover:bg-[#141414] rounded-full transition-ease duration-100">
+              <div className="mr-[5px] p-[6px] cursor-pointer items-center xs:flex bg-transparent hover:bg-[#f9f9f9] dark:hover:bg-[#141414] rounded-full transition-ease duration-100">
                 <img className="h-[24px]" src="/assets/dots.svg" alt="" />
               </div>
             </Popover>
