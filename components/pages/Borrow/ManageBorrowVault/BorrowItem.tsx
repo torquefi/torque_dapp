@@ -454,11 +454,11 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
   )?.toFixed(5)
 
   const summaryInfo = (
-    <div className="grid grid-cols-2 gap-[12px] md:grid-cols-4 w-full md:w-[500px] lg:w-[600px] xl:w-[700px] py-[10px]">
+    <div className="grid grid-cols-2 gap-[12px] md:grid-cols-4 w-full md:w-[500px] lg:w-[600px] xl:w-[700px] py-[10px] mb-3 md:mb-0">
       <CurrencySwitch
         tokenSymbol={item.depositTokenSymbol}
         tokenValue={collateral ? Number(collateral) : 0}
-        className="font-rogan -my-4 w-full space-y-1 py-3 text-center flex flex-col items-center justify-center rounded-[12px] border border-[1px] border-[#E6E6E6] dark:border-[#1A1A1A] bg-[#FCFCFC] dark:bg-transparent md:border-none"
+        className="font-rogan w-full space-y-1 py-4 text-center flex flex-col items-center justify-center rounded-[12px] border border-[1px] border-[#E6E6E6] bg-[#FCFCFC] dark:bg-transparent dark:border-[#1A1A1A] md:-my-4 md:border-none md:bg-transparent"
         decimalScale={5}
         render={(value) => (
           <div>
@@ -474,7 +474,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         tokenSymbol={item.borrowTokenSymbol}
         tokenValue={borrowed ? Number(borrowed) : 0}
         usdDefault
-        className="font-rogan -my-4 w-full space-y-1 py-3 text-center flex flex-col items-center justify-center rounded-[12px] border border-[1px] border-[#E6E6E6] dark:border-[#1A1A1A] bg-[#FCFCFC] dark:bg-transparent md:border-none"
+        className="font-rogan w-full space-y-1 py-4 text-center flex flex-col items-center justify-center rounded-[12px] border border-[1px] border-[#E6E6E6] bg-[#FCFCFC] dark:bg-transparent dark:border-[#1A1A1A] md:-my-4 md:border-none md:bg-transparent"
         decimalScale={5}
         render={(value) => (
           <div>
@@ -485,7 +485,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
           </div>
         )}
       />
-      <div className="font-rogan -my-4 w-full space-y-1 py-3 text-center flex flex-col items-center justify-center rounded-[12px] border border-[1px] border-[#E6E6E6] dark:border-[#1A1A1A] bg-[#FCFCFC] dark:bg-transparent md:border-none">
+      <div className="font-rogan w-full space-y-1 py-4 text-center flex flex-col items-center justify-center rounded-[12px] border border-[1px] border-[#E6E6E6] bg-[#FCFCFC] dark:bg-transparent dark:border-[#1A1A1A] md:-my-4 md:border-none md:bg-transparent">
         <p className="whitespace-nowrap text-[22px]">
           {!Number(collateralUsd)
             ? 0
@@ -496,7 +496,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
           Loan-to-value
         </p>
       </div>
-      <div className="font-rogan -my-4 w-full space-y-1 py-3 text-center flex flex-col items-center justify-center rounded-[12px] border border-[1px] border-[#E6E6E6] dark:border-[#1A1A1A] bg-[#FCFCFC] dark:bg-transparent md:border-none">
+      <div className="font-rogan w-full space-y-1 py-4 text-center flex flex-col items-center justify-center rounded-[12px] border border-[1px] border-[#E6E6E6] bg-[#FCFCFC] dark:bg-transparent dark:border-[#1A1A1A] md:-my-4 md:border-none md:bg-transparent">
         <p className="whitespace-nowrap text-[22px]">
           {borrowAPR ? -borrowAPR.toFixed(2) : 0}%
         </p>
@@ -610,7 +610,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                 aprPercent={-borrowAPR}
               />
             </div>
-            <div className="w-full space-y-8 md:space-y-5 md:w-[60%] md:pl-[36px] lg:w-[50%] xl:w-[45%]">
+            <div className="w-full space-y-4 md:space-y-5 md:w-[60%] md:pl-[36px] lg:w-[50%] xl:w-[45%]">
               <div className="flex items-center justify-between">
                 <p className="font-rogan text-[24px]">
                   {action}{' '}
@@ -683,7 +683,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                 </div>
               )}
               <button
-                className={`font-rogan-regular mt-3 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
+                className={`font-rogan-regular mt-2 md:mt-3 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
                   }`}
                 disabled={buttonLoading}
                 onClick={handleAction}
