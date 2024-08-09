@@ -20,12 +20,13 @@ import { BorrowItemChart } from './BorrowItemChart'
 import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
 
 enum Action {
-  Borrow = 'Borrow More',
+  Borrow = 'Borrow',
   Repay = 'Repay',
   Withdraw = 'Withdraw',
 }
 
 const SECONDS_PER_YEAR = 60 * 60 * 24 * 365
+
 export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
   const { open } = useWeb3Modal()
   const refLabelInput = useRef<HTMLInputElement>(null)
@@ -45,6 +46,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
   const [collateral, setCollateral] = useState('0')
   const [depositedToken, setDepositedToken] = useState('0')
   const [maxMoreMinTable, setMaxMoreMinTable] = useState('0')
+  const [collateralWithdraw, setCollateralWithdraw] = useState('0')
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
 
   const tusdPrice = usdPrice['TUSD']
@@ -174,6 +176,22 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
     handleGetBorrowData()
   }, [borrowContract, usdPrice])
 
+  const approveSpending = async (amount: string) => {
+    const userAddressContract = await borrowContract.methods
+      .userContract(address)
+      .call()
+    const allowance = await tokenContract.methods
+      .allowance(address, userAddressContract)
+      .call()
+    if (new BigNumber(allowance).lt(new BigNumber(amount))) {
+      await tokenContract.methods
+        .approve(userAddressContract, amount)
+        .send({
+          from: address,
+        })
+    }
+  }
+
   const onRepay = async () => {
     setButtonLoading(true)
     try {
@@ -191,6 +209,8 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       const amountRepay = ethers.utils
         .parseUnits(Number(inputValue).toFixed(tokenDecimal), tokenDecimal)
         .toString()
+
+      await approveSpending(amountRepay)
 
       const collateralWithdraw = ethers.utils
         .parseUnits(
@@ -234,23 +254,6 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
             .getWethWithdrawWithSlippageUsdt(address, amountRepay, 0)
             .call()
         }
-      }
-
-      const userAddressContract = await borrowContract.methods
-        .userContract(address)
-        .call()
-      const allowance = await tokenContract.methods
-        .allowance(address, userAddressContract)
-        .call()
-      if (
-        new BigNumber(allowance).lte(new BigNumber('0')) ||
-        new BigNumber(allowance).lte(withdraw)
-      ) {
-        await tokenContract.methods
-          .approve(userAddressContract, MAX_UINT256)
-          .send({
-            from: address,
-          })
       }
 
       const provider = new ethers.providers.Web3Provider(window.ethereum)
@@ -325,6 +328,9 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       const tokenBorrowAmount = ethers.utils
         .parseUnits(Number(inputValue).toFixed(tokenDecimal), tokenDecimal)
         .toString()
+
+      await approveSpending(tokenBorrowAmount)
+
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const signer = provider.getSigner(address)
       const borrowContract2 = new ethers.Contract(
@@ -407,13 +413,34 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
     setLabel(item?.label)
   }, [item?.label])
 
-  useEffect(() => {
-    if (action === Action.Repay && collateral) {
-      const collateralValue = parseFloat(collateral)
-      const newInputValue = (collateralValue * (sliderValue / 100)).toFixed(5)
-      setInputValue(newInputValue)
+  const handleSliderChange = (value: number) => {
+    setSliderValue(value)
+    const collateralValue = parseFloat(collateral)
+    const newCollateralWithdraw = (collateralValue * (value / 100)).toFixed(5)
+    setCollateralWithdraw(newCollateralWithdraw)
+  }
+
+  const handlePercentageClick = (percent: number) => {
+    if (action === Action.Repay) {
+      const newRepayValue = new BigNumber(borrowed)
+        .multipliedBy(percent)
+        .dividedBy(100.01)
+        .toString()
+      setInputValue(newRepayValue)
+    } else if (action === Action.Borrow) {
+      const newBorrowValue = new BigNumber(maxMoreMinTable)
+        .multipliedBy(percent)
+        .dividedBy(100.01)
+        .toString()
+      setInputValue(newBorrowValue)
+    } else if (action === Action.Withdraw) {
+      const newWithdrawValue = new BigNumber(depositedToken)
+        .multipliedBy(percent)
+        .dividedBy(100.01)
+        .toString()
+      setInputValue(newWithdrawValue)
     }
-  }, [sliderValue, action, collateral])
+  }
 
   const renderSubmitText = () => {
     if (!address) {
@@ -427,11 +454,11 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
   )?.toFixed(5)
 
   const summaryInfo = (
-    <div className="flex w-full text-center md:w-[500px] lg:w-[600px] xl:w-[700px]">
+    <div className="grid grid-cols-2 gap-[12px] md:grid-cols-4 w-full md:w-[500px] lg:w-[600px] xl:w-[700px] py-[10px]">
       <CurrencySwitch
         tokenSymbol={item.depositTokenSymbol}
         tokenValue={collateral ? Number(collateral) : 0}
-        className="font-rogan -my-4 w-1/4 space-y-1 py-4"
+        className="font-rogan -my-4 w-full space-y-1 py-3 text-center flex flex-col items-center justify-center rounded-[12px] border border-[1px] border-[#E6E6E6] dark:border-[#1A1A1A] bg-[#FCFCFC] dark:bg-transparent md:border-none"
         decimalScale={5}
         render={(value) => (
           <div>
@@ -447,7 +474,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         tokenSymbol={item.borrowTokenSymbol}
         tokenValue={borrowed ? Number(borrowed) : 0}
         usdDefault
-        className="font-rogan -my-4 w-1/4 space-y-1 py-4"
+        className="font-rogan -my-4 w-full space-y-1 py-3 text-center flex flex-col items-center justify-center rounded-[12px] border border-[1px] border-[#E6E6E6] dark:border-[#1A1A1A] bg-[#FCFCFC] dark:bg-transparent md:border-none"
         decimalScale={5}
         render={(value) => (
           <div>
@@ -458,21 +485,19 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
           </div>
         )}
       />
-      <div className="w-1/4 space-y-1">
-        <p className="font-rogan whitespace-nowrap text-[22px]">
+      <div className="font-rogan -my-4 w-full space-y-1 py-3 text-center flex flex-col items-center justify-center rounded-[12px] border border-[1px] border-[#E6E6E6] dark:border-[#1A1A1A] bg-[#FCFCFC] dark:bg-transparent md:border-none">
+        <p className="whitespace-nowrap text-[22px]">
           {!Number(collateralUsd)
             ? 0
-            : +((Number(borrowed || 0) / Number(collateralUsd)) * 100).toFixed(
-              2
-            ) || 0}
+            : +((Number(borrowed || 0) / Number(collateralUsd)) * 100).toFixed(2) || 0}
           %
         </p>
         <p className="whitespace-nowrap text-[14px] text-[#959595]">
           Loan-to-value
         </p>
       </div>
-      <div className="w-1/4 space-y-1">
-        <p className="font-rogan whitespace-nowrap text-[22px]">
+      <div className="font-rogan -my-4 w-full space-y-1 py-3 text-center flex flex-col items-center justify-center rounded-[12px] border border-[1px] border-[#E6E6E6] dark:border-[#1A1A1A] bg-[#FCFCFC] dark:bg-transparent md:border-none">
+        <p className="whitespace-nowrap text-[22px]">
           {borrowAPR ? -borrowAPR.toFixed(2) : 0}%
         </p>
         <p className="whitespace-nowrap text-[14px] text-[#959595]">
@@ -480,7 +505,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         </p>
       </div>
     </div>
-  )
+  )  
 
   if (isLoading)
     return (
@@ -492,7 +517,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
     return (
       <>
         <div className="rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 text-[#404040] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white">
-          <div className="flex items-center px-[18px] md:px-[24px] py-[16px]">
+          <div className="flex items-center px-[18px] md:px-[24px] py-[10px]">
             <div className="xlg:w-[calc(100%-600px-64px)] font-rogan flex w-[calc(100%-64px)] items-center space-x-2 text-[22px] md:w-[calc(100%-400px-64px)] lg:w-[calc(100%-500px-64px)]">
               {!isEdit && (
                 <div
@@ -572,7 +597,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
             }
           >
             <div className="w-full md:hidden">{summaryInfo}</div>
-            <div className=" w-full md:w-[40%] lg:w-[50%] xl:w-[55%]">
+            <div className="w-full md:w-[40%] lg:w-[50%] xl:w-[55%] mb-[24px] md:mb-0">
               <BorrowItemChart
                 label="Borrow Apr"
                 tokenAddress={item?.borrowContractInfo.address}
@@ -585,7 +610,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                 aprPercent={-borrowAPR}
               />
             </div>
-            <div className="w-full space-y-6 md:w-[60%] md:pl-[36px] lg:w-[50%] xl:w-[45%]">
+            <div className="w-full space-y-8 md:space-y-5 md:w-[60%] md:pl-[36px] lg:w-[50%] xl:w-[45%]">
               <div className="flex items-center justify-between">
                 <p className="font-rogan text-[24px]">
                   {action}{' '}
@@ -630,30 +655,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                   {[25, 50, 100].map((percent, i) => (
                     <div
                       className="cursor-pointer rounded-md bg-[#F4F4F4]  px-[6px] py-[2px] transition active:scale-95 dark:bg-[#171717] xs:px-[8px] xs:py-[4px]"
-                      onClick={() => {
-                        if (action == Action.Withdraw) {
-                          setInputValue(
-                            new BigNumber(depositedToken)
-                              .multipliedBy(percent)
-                              .dividedBy(100.01)
-                              .toString()
-                          )
-                        } else if (action === Action.Repay) {
-                          setInputValue(
-                            new BigNumber(borrowed)
-                              .multipliedBy(percent)
-                              .dividedBy(100.01)
-                              .toString()
-                          )
-                        } else if (action === Action.Borrow) {
-                          setInputValue(
-                            new BigNumber(maxMoreMinTable)
-                              .multipliedBy(percent)
-                              .dividedBy(100.01)
-                              .toString()
-                          )
-                        } else return 0
-                      }}
+                      onClick={() => handlePercentageClick(percent)}
                       key={i}
                     >
                       {percent}%
@@ -664,22 +666,24 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
               {action === Action.Repay && (
                 <div className="w-full">
                   <p className="font-rogan text-[18px] mb-2">Collateral Withdraw Amount</p>
-                  <input
-                    type="range"
-                    min="0"
-                    max="100"
-                    value={sliderValue}
-                    className="slider"
-                    onChange={(e) => setSliderValue(parseInt(e.target.value))}
-                    style={{
-                      background: `linear-gradient(to right, #AA5BFF ${sliderValue}%, ${theme === 'light' ? 'lightgray' : 'darkgray'} ${sliderValue}%)`,
-                    }}
-                  />
-                  <p className="font-rogan text-[14px] mt-2">{sliderValue}%</p>
+                  <div className="flex items-center space-x-2">
+                      <p className="font-rogan text-[14px]">{sliderValue}%</p>
+                      <input
+                          type="range"
+                          min="0"
+                          max="100"
+                          value={sliderValue}
+                          className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+                          onChange={(e) => handleSliderChange(parseInt(e.target.value))}
+                          style={{
+                              background: `linear-gradient(to right, #AA5BFF ${sliderValue}%, ${theme === 'light' ? '#E5E7EB' : '#374151'} ${sliderValue}%)`,
+                          }}
+                      />
+                  </div>
                 </div>
               )}
               <button
-                className={`font-rogan-regular mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
+                className={`font-rogan-regular mt-3 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
                   }`}
                 disabled={buttonLoading}
                 onClick={handleAction}

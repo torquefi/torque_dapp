@@ -122,3 +122,29 @@
   }
 }
 
+input[type='range']::-webkit-slider-thumb {
+  background-color: #AA5BFF;
+  border: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+input[type='range']::-moz-range-thumb {
+  background-color: #AA5BFF;
+  border: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+input[type='range']::-ms-thumb {
+  background-color: #AA5BFF;
+  border: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  cursor: pointer;
+}
