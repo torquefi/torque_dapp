@@ -458,7 +458,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       <CurrencySwitch
         tokenSymbol={item.depositTokenSymbol}
         tokenValue={collateral ? Number(collateral) : 0}
-        className="font-rogan w-full space-y-2 py-3 text-center flex flex-col items-center justify-center rounded-[12px] border border-[1px] border-[#E6E6E6] bg-[#FCFCFC] dark:bg-transparent dark:border-[#1A1A1A] md:-my-4 md:border-none md:bg-transparent"
+        className="font-rogan w-full space-y-1 py-4 text-center flex flex-col items-center justify-center rounded-[12px] border border-[1px] border-[#E6E6E6] bg-[#FCFCFC] dark:bg-transparent dark:border-[#1A1A1A] md:-my-4 md:border-none md:bg-transparent"
         decimalScale={5}
         render={(value) => (
           <div>
@@ -474,7 +474,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         tokenSymbol={item.borrowTokenSymbol}
         tokenValue={borrowed ? Number(borrowed) : 0}
         usdDefault
-        className="font-rogan w-full space-y-2 py-3 text-center flex flex-col items-center justify-center rounded-[12px] border border-[1px] border-[#E6E6E6] bg-[#FCFCFC] dark:bg-transparent dark:border-[#1A1A1A] md:-my-4 md:border-none md:bg-transparent"
+        className="font-rogan w-full space-y-1 py-4 text-center flex flex-col items-center justify-center rounded-[12px] border border-[1px] border-[#E6E6E6] bg-[#FCFCFC] dark:bg-transparent dark:border-[#1A1A1A] md:-my-4 md:border-none md:bg-transparent"
         decimalScale={5}
         render={(value) => (
           <div>
@@ -485,7 +485,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
           </div>
         )}
       />
-      <div className="font-rogan w-full space-y-2 py-3 text-center flex flex-col items-center justify-center rounded-[12px] border border-[1px] border-[#E6E6E6] bg-[#FCFCFC] dark:bg-transparent dark:border-[#1A1A1A] md:-my-4 md:border-none md:bg-transparent">
+      <div className="font-rogan w-full space-y-1 py-4 text-center flex flex-col items-center justify-center rounded-[12px] border border-[1px] border-[#E6E6E6] bg-[#FCFCFC] dark:bg-transparent dark:border-[#1A1A1A] md:-my-4 md:border-none md:bg-transparent">
         <p className="whitespace-nowrap text-[22px]">
           {!Number(collateralUsd)
             ? 0
@@ -496,7 +496,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
           Loan-to-value
         </p>
       </div>
-      <div className="font-rogan w-full space-y-2 py-3 text-center flex flex-col items-center justify-center rounded-[12px] border border-[1px] border-[#E6E6E6] bg-[#FCFCFC] dark:bg-transparent dark:border-[#1A1A1A] md:-my-4 md:border-none md:bg-transparent">
+      <div className="font-rogan w-full space-y-1 py-4 text-center flex flex-col items-center justify-center rounded-[12px] border border-[1px] border-[#E6E6E6] bg-[#FCFCFC] dark:bg-transparent dark:border-[#1A1A1A] md:-my-4 md:border-none md:bg-transparent">
         <p className="whitespace-nowrap text-[22px]">
           {borrowAPR ? -borrowAPR.toFixed(2) : 0}%
         </p>
