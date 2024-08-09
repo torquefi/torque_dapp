@@ -176,6 +176,22 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
     handleGetBorrowData()
   }, [borrowContract, usdPrice])
 
+  const approveSpending = async (amount: string) => {
+    const userAddressContract = await borrowContract.methods
+      .userContract(address)
+      .call()
+    const allowance = await tokenContract.methods
+      .allowance(address, userAddressContract)
+      .call()
+    if (new BigNumber(allowance).lt(new BigNumber(amount))) {
+      await tokenContract.methods
+        .approve(userAddressContract, amount)
+        .send({
+          from: address,
+        })
+    }
+  }
+
   const onRepay = async () => {
     setButtonLoading(true)
     try {
@@ -193,6 +209,8 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       const amountRepay = ethers.utils
         .parseUnits(Number(inputValue).toFixed(tokenDecimal), tokenDecimal)
         .toString()
+
+      await approveSpending(amountRepay)
 
       const collateralWithdraw = ethers.utils
         .parseUnits(
@@ -236,23 +254,6 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
             .getWethWithdrawWithSlippageUsdt(address, amountRepay, 0)
             .call()
         }
-      }
-
-      const userAddressContract = await borrowContract.methods
-        .userContract(address)
-        .call()
-      const allowance = await tokenContract.methods
-        .allowance(address, userAddressContract)
-        .call()
-      if (
-        new BigNumber(allowance).lte(new BigNumber('0')) ||
-        new BigNumber(allowance).lte(withdraw)
-      ) {
-        await tokenContract.methods
-          .approve(userAddressContract, MAX_UINT256)
-          .send({
-            from: address,
-          })
       }
 
       const provider = new ethers.providers.Web3Provider(window.ethereum)
@@ -327,6 +328,9 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       const tokenBorrowAmount = ethers.utils
         .parseUnits(Number(inputValue).toFixed(tokenDecimal), tokenDecimal)
         .toString()
+
+      await approveSpending(tokenBorrowAmount)
+
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const signer = provider.getSigner(address)
       const borrowContract2 = new ethers.Contract(
@@ -414,7 +418,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
     const collateralValue = parseFloat(collateral)
     const newCollateralWithdraw = (collateralValue * (value / 100)).toFixed(5)
     setCollateralWithdraw(newCollateralWithdraw)
-  }  
+  }
 
   const handlePercentageClick = (percent: number) => {
     if (action === Action.Repay) {
@@ -454,7 +458,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       <CurrencySwitch
         tokenSymbol={item.depositTokenSymbol}
         tokenValue={collateral ? Number(collateral) : 0}
-        className="font-rogan -my-4 w-full space-y-1 py-3 text-center flex flex-col items-center justify-center"
+        className="font-rogan -my-4 w-full space-y-1 py-3 text-center flex flex-col items-center justify-center rounded-[12px] border border-[1px] border-[#E6E6E6] dark:border-[#1A1A1A] bg-[#FCFCFC] dark:bg-transparent md:border-none"
         decimalScale={5}
         render={(value) => (
           <div>
@@ -470,7 +474,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         tokenSymbol={item.borrowTokenSymbol}
         tokenValue={borrowed ? Number(borrowed) : 0}
         usdDefault
-        className="font-rogan -my-4 w-full space-y-1 py-3 text-center flex flex-col items-center justify-center"
+        className="font-rogan -my-4 w-full space-y-1 py-3 text-center flex flex-col items-center justify-center rounded-[12px] border border-[1px] border-[#E6E6E6] dark:border-[#1A1A1A] bg-[#FCFCFC] dark:bg-transparent md:border-none"
         decimalScale={5}
         render={(value) => (
           <div>
@@ -481,7 +485,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
           </div>
         )}
       />
-      <div className="font-rogan -my-4 w-full space-y-1 py-3 text-center flex flex-col items-center justify-center">
+      <div className="font-rogan -my-4 w-full space-y-1 py-3 text-center flex flex-col items-center justify-center rounded-[12px] border border-[1px] border-[#E6E6E6] dark:border-[#1A1A1A] bg-[#FCFCFC] dark:bg-transparent md:border-none">
         <p className="whitespace-nowrap text-[22px]">
           {!Number(collateralUsd)
             ? 0
@@ -492,7 +496,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
           Loan-to-value
         </p>
       </div>
-      <div className="font-rogan -my-4 w-full space-y-1 py-3 text-center flex flex-col items-center justify-center">
+      <div className="font-rogan -my-4 w-full space-y-1 py-3 text-center flex flex-col items-center justify-center rounded-[12px] border border-[1px] border-[#E6E6E6] dark:border-[#1A1A1A] bg-[#FCFCFC] dark:bg-transparent md:border-none">
         <p className="whitespace-nowrap text-[22px]">
           {borrowAPR ? -borrowAPR.toFixed(2) : 0}%
         </p>
@@ -501,7 +505,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         </p>
       </div>
     </div>
-  )
+  )  
 
   if (isLoading)
     return (
@@ -593,7 +597,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
             }
           >
             <div className="w-full md:hidden">{summaryInfo}</div>
-            <div className=" w-full md:w-[40%] lg:w-[50%] xl:w-[55%]">
+            <div className="w-full md:w-[40%] lg:w-[50%] xl:w-[55%] mb-[24px] md:mb-0">
               <BorrowItemChart
                 label="Borrow Apr"
                 tokenAddress={item?.borrowContractInfo.address}
@@ -673,6 +677,14 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                           onChange={(e) => handleSliderChange(parseInt(e.target.value))}
                           style={{
                               background: `linear-gradient(to right, #AA5BFF ${sliderValue}%, ${theme === 'light' ? '#E5E7EB' : '#374151'} ${sliderValue}%)`,
+                              '--webkit-slider-thumb': {
+                                  backgroundColor: '#AA5BFF',
+                                  border: 'none',
+                                  width: '14px',
+                                  height: '14px',
+                                  borderRadius: '50%',
+                                  cursor: 'pointer',
+                              }
                           }}
                       />
                   </div>
