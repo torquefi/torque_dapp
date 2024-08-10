@@ -26,8 +26,8 @@ export default function Product() {
         {products.map((item, i) => {
           if (isLoading)
             return (
-              <div className="">
-                <SkeletonDefault height={'50vh'} width={'100%'} key={i} />
+              <div className="" key={i}>
+                <SkeletonDefault height={'50vh'} width={'100%'} />
               </div>
             )
           else
@@ -36,17 +36,24 @@ export default function Product() {
                 href={item.path}
                 key={i}
                 className={
-                  `block overflow-hidden rounded-xl border text-[#030303] transition-opacity duration-300  hover:opacity-80 dark:border-[#1A1A1A]  dark:text-white` +
-                  `
-                ${theme === 'light' ? ' bg-[#ffffff]' : 'bg-overview'}
-                `
+                  `block overflow-hidden rounded-xl border text-[#030303] dark:border-[#1A1A1A] dark:text-white transition-opacity duration-200 hover:opacity-80`
                 }
               >
-                <img
-                  className="h-[170px] w-full object-cover"
-                  src={theme === 'light' ? item.coverLight : item.cover}
-                  alt=""
-                />
+                <div className="relative">
+                  <img
+                    className="h-[170px] w-full object-cover"
+                    src={theme === 'light' ? item.coverLight : item.cover}
+                    alt=""
+                  />
+                  <div
+                    className="absolute bottom-0 left-0 h-[50px] w-full pointer-events-none"
+                    style={{
+                      background: theme === 'light'
+                        ? 'linear-gradient(to bottom, transparent, white)'
+                        : 'linear-gradient(to bottom, transparent, #030303)',
+                    }}
+                  ></div>
+                </div>
                 <div className="space-y-[18px] p-[24px] xs:pl-[28px] xs:pt-[32px]">
                   <div className="flex items-center justify-start">
                     <div className="flex w-auto h-auto py-4 px-4 items-center justify-center rounded-full border from-[#232323] to-[#232323]/0 dark:border-[#1A1A1A] dark:bg-gradient-to-b">
