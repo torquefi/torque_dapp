@@ -24,7 +24,7 @@ export interface IBorrowInfo {
   oldBorrowContractInfo?: IContractInfo,
   borrowTokenIcon?: string,
   borrowRowTokenIcon?: string,
-  arbBonus?: string
+  arbBonus?: number
 }
 
 export interface IBorrowInfoManage {
