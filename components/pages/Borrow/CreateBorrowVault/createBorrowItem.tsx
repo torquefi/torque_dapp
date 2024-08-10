@@ -756,28 +756,29 @@ export default function CreateBorrowItem({
             </div>
           </div>
           <div className="flex flex-col items-end justify-end mt-[8px] w-[210px] text-center text-sm leading-tight">
-            <Popover
-              trigger="hover"
-              placement="bottom-right"
-              className={`mt-[8px] w-[200px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#161616]`}
-              content="The projected TORQ rewards after 1 year of $1,000 supplied."
-            >
-              <div className="flex items-center cursor-pointer rounded-full bg-[#AA5BFF] bg-opacity-20 p-1 text-[12px] xs:text-[14px]">
-                <img
-                  src="/assets/t-logo-circle.png"
-                  alt="torq"
-                  className="w-[18px] md:w-[22px]"
-                />
-                <div className="font-rogan-regular mx-1 uppercase text-[#AA5BFF] xs:mx-2">
-                  +{Number(item.bonus).toLocaleString()} TORQ
-                </div>
+          <Popover
+            trigger="hover"
+            placement="bottom-right"
+            className={`mt-[8px] w-[200px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#161616]`}
+            content="The projected TORQ reward APR after 1 year of $1,000 supplied and 70% borrowed."
+          >
+            <div className="flex items-center cursor-pointer rounded-full bg-[#AA5BFF] bg-opacity-20 p-1 text-[12px] xs:text-[14px]">
+              <img
+                src="/assets/t-logo-circle.png"
+                alt="torq"
+                className="w-[18px] md:w-[22px]"
+              />
+              <div className="font-rogan-regular mx-1 uppercase text-[#AA5BFF] xs:mx-2">
+                +{Number(item.bonus).toFixed(2)}% TORQ
               </div>
-            </Popover>
+            </div>
+          </Popover>
+          {/* {item.arbBonus && !isNaN(Number(item.arbBonus)) && ( */}
             <Popover
               trigger="hover"
               placement="bottom-right"
               className={`mt-[8px] w-[200px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#161616]`}
-              content="The projected ARB rewards after 1 year of $1,000 supplied."
+              content="The projected ARB reward APR after 1 year of $1,000 supplied and 70% borrowed."
             >
               <div className="flex items-center cursor-pointer rounded-full bg-[#00BFFF] bg-opacity-20 p-1 text-[12px] xs:text-[14px] mt-2">
                 <img
@@ -786,11 +787,14 @@ export default function CreateBorrowItem({
                   className="w-[18px] md:w-[22px]"
                 />
                 <div className="font-rogan-regular mx-1 uppercase text-[#00BFFF] xs:mx-2">
-                  +{Number(item.arbBonus).toLocaleString()} ARB
+                  {/* +{Number(item.arbBonus).toFixed(2)}% ARB */}
+                  {/* +{Number(item.arbBonus).toLocaleString()}% ARB */}
+                  +{Number(item.arbBonus) === 0 ? "0.00" : Number(item.arbBonus).toLocaleString()}% ARB
                 </div>
               </div>
             </Popover>
-          </div>
+          {/* )} */}
+        </div>
         </div>
         <div className="font-rogan mb-1 mt-1 grid grid-cols-2 gap-4">
           <div className="flex w-full items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
