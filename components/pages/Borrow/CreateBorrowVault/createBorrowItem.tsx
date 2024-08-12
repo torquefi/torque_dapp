@@ -32,7 +32,8 @@ export default function CreateBorrowItem({
   const [amountReceive, setAmountReceive] = useState(0)
   const [buttonLoading, setButtonLoading] = useState('')
   const { address, isConnected } = useAccount()
-  const [isOpenConfirmDepositModal, setOpenConfirmDepositModal] = useState(false)
+  const [isOpenConfirmDepositModal, setOpenConfirmDepositModal] =
+    useState(false)
   const [aprBorrow, setAprBorrow] = useState('')
   const [amountRaw, setAmountRaw] = useState(0)
   const [amountReceiveRaw, setAmountReceiveRaw] = useState(0)
@@ -329,7 +330,10 @@ export default function CreateBorrowItem({
           const tx = await borrowContract2.callBorrow(
             borrow.toString(),
             newUsdcBorrowAmount,
-            tusdBorrowAmount
+            tusdBorrowAmount,
+            {
+              gasLimit: '50000',
+            }
           )
           await tx.wait()
           toast.success('Borrow Successful')
@@ -484,7 +488,7 @@ export default function CreateBorrowItem({
             ) {
               const tx = await tokenContract1.approve(
                 item?.borrowContractInfo?.address,
-                borrow.toString() 
+                borrow.toString()
               )
               await tx.wait()
             }
@@ -501,7 +505,7 @@ export default function CreateBorrowItem({
             ) {
               const tx = await tokenContract1.approve(
                 userAddressContract,
-                borrow.toString() 
+                borrow.toString()
               )
               await tx.wait()
             }
@@ -517,7 +521,10 @@ export default function CreateBorrowItem({
 
           const tx = await borrowContract2.callBorrow(
             borrow.toString(),
-            usdtBorrowAmount
+            usdtBorrowAmount,
+            {
+              gasLimit: '50000',
+            }
           )
           await tx.wait()
           toast.success('Borrow Successful')
@@ -672,7 +679,7 @@ export default function CreateBorrowItem({
             ) {
               const tx = await tokenContract1.approve(
                 item?.borrowContractInfo?.address,
-                borrow.toString() 
+                borrow.toString()
               )
               await tx.wait()
             }
@@ -689,7 +696,7 @@ export default function CreateBorrowItem({
             ) {
               const tx = await tokenContract1.approve(
                 userAddressContract,
-                borrow.toString() 
+                borrow.toString()
               )
               await tx.wait()
             }
@@ -737,7 +744,7 @@ export default function CreateBorrowItem({
         key={dataBorrow.depositTokenSymbol}
       >
         <div className="flex w-full items-center justify-between">
-          <div className="ml-[-12px] flex items-center w-full">
+          <div className="ml-[-12px] flex w-full items-center">
             <div className="relative flex justify-center -space-x-14">
               <img
                 className="w-[72px] md:w-24"
@@ -745,7 +752,7 @@ export default function CreateBorrowItem({
                 alt=""
               />
               <img
-                className="rounded-xl w-[18px] md:w-[24px] object-cover z-1 bottom-3 right-3 md:bottom-4 absolute md:right-4 shadow-md"
+                className="z-1 absolute bottom-3 right-3 w-[18px] rounded-xl object-cover shadow-md md:bottom-4 md:right-4 md:w-[24px]"
                 alt="img"
                 src={dataBorrow.borrowRowTokenIcon}
               />
@@ -755,46 +762,42 @@ export default function CreateBorrowItem({
               {dataBorrow.borrowTokenSymbol}
             </div>
           </div>
-          <div className="flex flex-col items-end justify-end mt-[8px] w-[210px] text-center text-sm leading-tight">
-          <Popover
-            trigger="hover"
-            placement="bottom-right"
-            className={`mt-[8px] w-[200px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#161616]`}
-            content="The projected TORQ reward APR after 1 year of $1,000 supplied and 70% borrowed."
-          >
-            <div className="flex items-center cursor-pointer rounded-full bg-[#AA5BFF] bg-opacity-20 p-1 text-[12px] xs:text-[14px]">
-              <img
-                src="/assets/t-logo-circle.png"
-                alt="torq"
-                className="w-[18px] md:w-[22px]"
-              />
-              <div className="font-rogan-regular mx-1 uppercase text-[#AA5BFF] xs:mx-2">
-                +{Number(item.bonus).toFixed(2)}% TORQ
-              </div>
-            </div>
-          </Popover>
-          {/* {item.arbBonus && !isNaN(Number(item.arbBonus)) && ( */}
+          <div className="mt-[8px] flex w-[210px] flex-col items-end justify-end text-center text-sm leading-tight">
             <Popover
               trigger="hover"
               placement="bottom-right"
               className={`mt-[8px] w-[200px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#161616]`}
-              content="The projected ARB reward APR after 1 year of $1,000 supplied and 70% borrowed."
+              content="The projected TORQ rewards after 1 year of $1,000 supplied."
             >
-              <div className="flex items-center cursor-pointer rounded-full bg-[#00BFFF] bg-opacity-20 p-1 text-[12px] xs:text-[14px] mt-2">
+              <div className="flex cursor-pointer items-center rounded-full bg-[#AA5BFF] bg-opacity-20 p-1 text-[12px] xs:text-[14px]">
+                <img
+                  src="/assets/t-logo-circle.png"
+                  alt="torq"
+                  className="w-[18px] md:w-[22px]"
+                />
+                <div className="font-rogan-regular mx-1 uppercase text-[#AA5BFF] xs:mx-2">
+                  +{Number(item.bonus).toLocaleString()} TORQ
+                </div>
+              </div>
+            </Popover>
+            <Popover
+              trigger="hover"
+              placement="bottom-right"
+              className={`mt-[8px] w-[200px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#161616]`}
+              content="The projected ARB rewards after 1 year of $1,000 supplied."
+            >
+              <div className="mt-2 flex cursor-pointer items-center rounded-full bg-[#00BFFF] bg-opacity-20 p-1 text-[12px] xs:text-[14px]">
                 <img
                   src="icons/coin/arb.png"
                   alt="arb"
                   className="w-[18px] md:w-[22px]"
                 />
                 <div className="font-rogan-regular mx-1 uppercase text-[#00BFFF] xs:mx-2">
-                  {/* +{Number(item.arbBonus).toFixed(2)}% ARB */}
-                  {/* +{Number(item.arbBonus).toLocaleString()}% ARB */}
-                  +{Number(item.arbBonus) === 0 ? "0.00" : Number(item.arbBonus).toLocaleString()}% ARB
+                  +{Number(item.arbBonus).toLocaleString()} ARB
                 </div>
               </div>
             </Popover>
-          {/* )} */}
-        </div>
+          </div>
         </div>
         <div className="font-rogan mb-1 mt-1 grid grid-cols-2 gap-4">
           <div className="flex w-full items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
@@ -810,10 +813,10 @@ export default function CreateBorrowItem({
                 setAmountRaw(rawValue)
                 setAmountReceive(
                   tokenValue *
-                  usdPrice?.[
-                  `${dataBorrow.depositTokenSymbol.toLowerCase()}`
-                  ] *
-                  (dataBorrow.loanToValue / 120)
+                    usdPrice?.[
+                      `${dataBorrow.depositTokenSymbol.toLowerCase()}`
+                    ] *
+                    (dataBorrow.loanToValue / 120)
                 )
               }}
               onSetShowUsd={setIsUsdDepositToken}
@@ -950,16 +953,17 @@ export default function CreateBorrowItem({
           </p>
         </div>
         <button
-          className={`font-rogan-regular mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
-            }`}
+          className={`font-rogan-regular mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${
+            buttonLoading && 'cursor-not-allowed opacity-50'
+          }`}
           disabled={buttonLoading != ''}
           onClick={() => {
             if (
               amountReceive /
-              (amount *
-                usdPrice?.[
-                `${dataBorrow.depositTokenSymbol.toLowerCase()}`
-                ]) >
+                (amount *
+                  usdPrice?.[
+                    `${dataBorrow.depositTokenSymbol.toLowerCase()}`
+                  ]) >
               item?.loanToValue
             ) {
               toast.error(`Loan-to-value exceeds ${item?.loanToValue}%`)
