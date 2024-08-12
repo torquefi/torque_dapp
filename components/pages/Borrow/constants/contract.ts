@@ -14,6 +14,8 @@ import simpleBtcBorrowUsdt from './abi/simpleBtcBorrowUsdt.json'
 import simpleEthBorrowUsdt from './abi/simpleEthBorrowUsdt.json'
 import userAddressBtc from './abi/userAddressBtc.json'
 import userAddressEth from './abi/userAddressEth.json'
+import btcBorrowUsdtAbi from './abi/btcBorrowUsdt.json'
+import ethBorrowUsdtAbi from './abi/ethBorrowUsdt.json'
 
 export const tokenTusdContract: IContractInfo = {
   address: '0xf7F6718Cf69967203740cCb431F6bDBff1E0FB68',
@@ -51,6 +53,16 @@ export const tokenUsdtContract: IContractInfo = {
 }
 
 // ======================================================================
+
+export const btcBorrowUsdtContract: IContractInfo = {
+  address: '0x08be670F8ef77Dce87EaA144C4365a32564BF4D8',
+  abi: JSON.stringify(btcBorrowUsdtAbi),
+}
+
+export const ethBorrowUsdtContract: IContractInfo = {
+  address: '0xF5B662dF870f058A7726879DCaB1B2bA8D8D6377',
+  abi: JSON.stringify(ethBorrowUsdtAbi),
+}
 
 export const borrowBtcContract: IContractInfo = {
   address: '0xE307f7E20d86c26065466E1928362CB0f8Deb186',

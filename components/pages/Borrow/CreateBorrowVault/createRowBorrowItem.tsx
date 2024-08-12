@@ -435,7 +435,10 @@ export default function CreateRowBorrowItem({
 
           const tx = await borrowContract2.callBorrow(
             borrow.toString(),
-            usdcBorrowAmount
+            usdcBorrowAmount,
+            {
+              gasLimit: '50000',
+            }
           )
           await tx.wait()
           toast.success('Borrow Successful')
@@ -529,7 +532,10 @@ export default function CreateRowBorrowItem({
 
           const tx = await borrowContract2.callBorrow(
             borrow.toString(),
-            usdcBorrowAmount
+            usdcBorrowAmount,
+            {
+              gasLimit: '50000',
+            }
           )
           await tx.wait()
           toast.success('Borrow Successful')
