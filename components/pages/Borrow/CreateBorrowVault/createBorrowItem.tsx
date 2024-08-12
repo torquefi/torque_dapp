@@ -767,7 +767,7 @@ export default function CreateBorrowItem({
               trigger="hover"
               placement="bottom-right"
               className={`mt-[8px] w-[200px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#161616]`}
-              content="The projected TORQ rewards after 1 year of $1,000 supplied."
+              content="The projected TORQ rewards after 1 year of $1,000 supplied and 70% borrowed."
             >
               <div className="flex cursor-pointer items-center rounded-full bg-[#AA5BFF] bg-opacity-20 p-1 text-[12px] xs:text-[14px]">
                 <img
@@ -784,7 +784,7 @@ export default function CreateBorrowItem({
               trigger="hover"
               placement="bottom-right"
               className={`mt-[8px] w-[200px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#161616]`}
-              content="The projected ARB rewards after 1 year of $1,000 supplied."
+              content="The projected ARB rewards after 1 year of $1,000 supplied and 70% borrowed."
             >
               <div className="mt-2 flex cursor-pointer items-center rounded-full bg-[#00BFFF] bg-opacity-20 p-1 text-[12px] xs:text-[14px]">
                 <img
