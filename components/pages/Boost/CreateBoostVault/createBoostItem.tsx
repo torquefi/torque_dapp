@@ -459,7 +459,7 @@ export function CreateBoostItem({
             </Popover>
           </div>
           <div>
-            100:0
+            50:50
           </div>
         </div>
         <div className="font-rogan-regular flex w-full items-center justify-between text-[16px] text-[#959595]">
