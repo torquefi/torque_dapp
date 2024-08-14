@@ -1,97 +1,81 @@
-import React, { useEffect, useState } from 'react';
-import { ChevronDownIcon } from '@heroicons/react/outline';
-import Popover from '@/components/common/Popover';
-import HoverIndicator from '@/components/common/HoverIndicator';
-import { useSelector } from 'react-redux';
-import { AppStore } from '@/types/store';
-import SkeletonDefault from '@/components/skeleton';
-import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal';
-import { useAccount } from 'wagmi';
-import { NumericFormat } from 'react-number-format';
-import { toast } from 'sonner';
-import { motion } from 'framer-motion';
-
-interface Market {
-  name: string;
-}
-
-interface Collateral {
-  name: string;
-}
-
-const markets: Market[] = [
-  { name: 'Radiant USDC' },
-  { name: 'Radiant USDC.e' },
-  { name: 'Aave V3 USDC' },
-  { name: 'Aave V3 USDC.e' },
-  { name: 'Dolomite USDC' },
-  { name: 'Dolomite USDC.e' },
-  { name: 'Lodestar USDC' },
-  { name: 'Lodestar USDC.e' },
-  { name: 'Silo USDC.e' },
-];
-
-const collaterals: Collateral[] = [
-  { name: 'WBTC' },
-  { name: 'WETH' },
-  // { name: 'ARB' },
-];
+import SkeletonDefault from '@/components/skeleton'
+import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
+import { AppStore } from '@/types/store'
+import { ethers } from 'ethers'
+import { motion } from 'framer-motion'
+import React, { useEffect, useState } from 'react'
+import { NumericFormat } from 'react-number-format'
+import { useSelector } from 'react-redux'
+import { toast } from 'sonner'
+import { useAccount } from 'wagmi'
+import { radianUiPoolDataProviderCI } from '../constants/contract'
+import { marketOptions, providerAddress } from '../constants/provider'
+import {
+  Collateral,
+  ICollateralInfo,
+  IMarketInfo,
+  Market,
+} from '../constants/types'
+import { SelectCollateral } from './SelectCollateral'
+import { SelectMarket } from './SelectMarket'
+import BigNumber from 'bignumber.js'
+import LoadingCircle from '@/components/common/Loading/LoadingCircle'
 
 const ImportPosition: React.FC = () => {
-  const theme = useSelector((store: AppStore) => store.theme.theme);
-  const { address } = useAccount();
-  const [progressToMarket, setProgressToMarket] = useState(0);
-  const [progressFromMarket, setProgressFromMarket] = useState(0);
-  const [progressTransaction, setSetProgressTransaction] = useState(0);
-  const [completedTransaction, setCompletedTransaction] = useState(false);
+  const theme = useSelector((store: AppStore) => store.theme.theme)
+  const { address } = useAccount()
+  const [progressToMarket, setProgressToMarket] = useState(0)
+  const [progressFromMarket, setProgressFromMarket] = useState(0)
+  const [progressTransaction, setSetProgressTransaction] = useState(0)
+  const [completedTransaction, setCompletedTransaction] = useState(false)
 
-  const [selectedMarket, setSelectedMarket] = useState<Market>();
-  const [selectedCollateral, setSelectedCollateral] = useState<Collateral>();
-  const [amount, setAmount] = useState('');
-  const [btnLoading, setBtnLoading] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [openPopover, setOpenPopover] = useState(false);
-  const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false);
-  const [showBeneficiaryAddress, setShowBeneficiaryAddress] = useState(false);
-  const [customInputVisible, setCustomInputVisible] = useState(false);
+  const [selectedMarket, setSelectedMarket] = useState<IMarketInfo>()
+  const [selectedCollateral, setSelectedCollateral] =
+    useState<ICollateralInfo>()
+  const [amount, setAmount] = useState('')
+  const [loadingSubmit, setLoadingSubmit] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+  const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
+  const [showBeneficiaryAddress, setShowBeneficiaryAddress] = useState(false)
+  const [customInputVisible, setCustomInputVisible] = useState(false)
   const [infoItems, setInfoItems] = useState([
     { title: 'Current APR', content: '0.00%' },
     { title: 'Torque APR', content: '0.00%' },
     { title: 'Annual Savings', content: '$0.00' },
     { title: 'Monthly Savings', content: '$0.00' },
-  ]);
+  ])
 
-  const [selectedTab, setSelectedTab] = useState<number | null>(null);
+  const [selectedTab, setSelectedTab] = useState<number | null>(null)
 
   useEffect(() => {
     if (progressFromMarket > 0) {
       setTimeout(() => {
-        setSetProgressTransaction(10000);
-      }, 500);
+        setSetProgressTransaction(10000)
+      }, 500)
     }
-  }, [progressFromMarket]);
+  }, [progressFromMarket])
 
   useEffect(() => {
     if (progressTransaction > 0) {
       setTimeout(() => {
-        setProgressToMarket(500);
-      }, 10000);
+        setProgressToMarket(500)
+      }, 10000)
     }
-  }, [progressTransaction]);
+  }, [progressTransaction])
 
   useEffect(() => {
     if (progressToMarket > 0) {
       setTimeout(() => {
-        setCompletedTransaction(true);
-      }, 500);
+        setCompletedTransaction(true)
+      }, 500)
     }
-  }, [progressToMarket]);
+  }, [progressToMarket])
 
   useEffect(() => {
     setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-  }, []);
+      setIsLoading(false)
+    }, 1000)
+  }, [])
 
   const fetchInfoItems = () => {
     // Placeholder for actual fetching logic
@@ -100,56 +84,201 @@ const ImportPosition: React.FC = () => {
       { title: 'Torque APR', content: '0.00%' },
       { title: 'Annual Savings', content: '$0.00' },
       { title: 'Monthly Savings', content: '$0.00' },
-    ]);
-  };
+    ])
+  }
 
   const handleResetProgress = () => {
-    setProgressToMarket(0);
-    setProgressFromMarket(0);
-    setSetProgressTransaction(0);
-    setCompletedTransaction(false);
-  };
+    setProgressToMarket(0)
+    setProgressFromMarket(0)
+    setSetProgressTransaction(0)
+    setCompletedTransaction(false)
+  }
 
-  const handleSwap = () => {
+  const handleImport = async () => {
+    console.log('handleImport', selectedMarket, selectedCollateral)
     if (!address) {
-      setOpenConnectWalletModal(true);
-      return;
-    }
-    if (!amount) {
-      return toast.error('Please enter amount');
-    }
-    if (!selectedMarket || !selectedCollateral) {
-      return toast.error('Please fill full information');
+      setOpenConnectWalletModal(true)
+      return
     }
 
-    setProgressFromMarket(500);
-    console.log(
-      `Refinancing ${amount} on ${selectedMarket.name} with ${selectedCollateral.name}`
-    );
-    fetchInfoItems();
-  };
+    if (!selectedMarket || !selectedCollateral) {
+      return toast.error('Please fill full information')
+    }
+
+    if (!amount) {
+      return toast.error('Please enter amount')
+    }
+
+    if (
+      !selectedMarket.tokenCI ||
+      !selectedCollateral.tokenCI ||
+      !selectedCollateral.torqRefinanceCI
+    ) {
+      return toast.error('Lack Contract')
+    }
+
+    setLoadingSubmit(true)
+    try {
+      const provider = new ethers.providers.Web3Provider(window.ethereum)
+      const signer = provider.getSigner(address)
+
+      const marketTokenContract = new ethers.Contract(
+        selectedMarket.tokenCI.address,
+        selectedMarket.tokenCI.abi,
+        signer
+      )
+
+      const collateralTokenContract = new ethers.Contract(
+        selectedCollateral.tokenCI.address,
+        selectedCollateral.tokenCI.abi,
+        signer
+      )
+
+      const torqRefinanceContractAddress =
+        selectedCollateral.torqRefinanceCI.address
+      const torqRefinanceContract = new ethers.Contract(
+        selectedCollateral.torqRefinanceCI.address,
+        selectedCollateral.torqRefinanceCI.abi,
+        signer
+      )
+
+      const poolProviderContract = new ethers.Contract(
+        radianUiPoolDataProviderCI.address,
+        radianUiPoolDataProviderCI.abi,
+        signer
+      )
+
+      const userReservesData = await poolProviderContract.getUserReservesData(
+        providerAddress,
+        address
+      )
+      const amountRefinance = userReservesData[0]
+        ?.find?.(
+          (data: any) =>
+            data[0]?.toLowerCase() ===
+            selectedMarket.tokenCI.address?.toLowerCase()
+        )?.[1]
+        ?.toString()
+      console.log('userReservesData', userReservesData)
+      console.log('amountRefinance', amountRefinance)
+
+      const marketTokenAllowanceBN = await marketTokenContract.allowance(
+        address,
+        torqRefinanceContractAddress
+      )
+      const marketTokenAllowance = marketTokenAllowanceBN?.toString()
+
+      const collateralTokenAllowanceBN =
+        await collateralTokenContract.allowance(
+          address,
+          torqRefinanceContractAddress
+        )
+      const collateralTokenAllowance = collateralTokenAllowanceBN?.toString()
+
+      console.log('marketTokenAllowance :>> ', marketTokenAllowance)
+      console.log('collateralTokenAllowance :>> ', collateralTokenAllowance)
+
+      if (
+        new BigNumber(marketTokenAllowance).lte(
+          new BigNumber(amountRefinance || '0')
+        )
+      ) {
+        const maxAmount = ethers.BigNumber.from('2').pow(256).sub(1)
+        const tx = await marketTokenContract.approve(
+          torqRefinanceContractAddress,
+          maxAmount
+        )
+        await tx.wait()
+      }
+      if (
+        new BigNumber(collateralTokenAllowance).lte(
+          new BigNumber(amountRefinance || '0')
+        )
+      ) {
+        const maxAmount = ethers.BigNumber.from('2').pow(256).sub(1)
+        const tx = await collateralTokenContract.approve(
+          torqRefinanceContractAddress,
+          maxAmount
+        )
+        await tx.wait()
+      }
+
+      if (
+        selectedMarket.label === Market.RadiantUSDC &&
+        selectedCollateral.label === Collateral.WBTC
+      ) {
+        const tx = await torqRefinanceContract.torqRefinanceUSDC(
+          amountRefinance,
+          0
+        )
+        await tx.wait()
+      }
+
+      if (
+        selectedMarket.label === Market.RadiantUSDC &&
+        selectedCollateral.label === Collateral.WETH
+      ) {
+        const tx = await torqRefinanceContract.torqRefinanceUSDC(
+          amountRefinance,
+          0
+        )
+        await tx.wait()
+      }
+
+      if (
+        selectedMarket.label === Market.RadiantUSDCe &&
+        selectedCollateral.label === Collateral.WBTC
+      ) {
+        const tx = await torqRefinanceContract.torqRefinanceUSDCe(
+          amountRefinance,
+          0
+        )
+        await tx.wait()
+      }
+
+      if (
+        selectedMarket.label === Market.RadiantUSDCe &&
+        selectedCollateral.label === Collateral.WETH
+      ) {
+        const tx = await torqRefinanceContract.torqRefinanceUSDCe(
+          amountRefinance,
+          0
+        )
+        await tx.wait()
+      }
+
+      setProgressFromMarket(500)
+      console.log(
+        `Refinancing ${amount} on ${selectedMarket.label} with ${selectedCollateral.label}`
+      )
+      fetchInfoItems()
+    } catch (error) {
+      console.error('handleImport', error)
+    }
+    setLoadingSubmit(false)
+  }
 
   const handleAmountTabClick = (percentage: number, index: number) => {
-    setAmount((percentage * 100).toString());
-    setCustomInputVisible(false);
-    setSelectedTab(index);
-  };
+    setAmount((percentage * 100).toString())
+    setCustomInputVisible(false)
+    setSelectedTab(index)
+  }
 
   const handleCustomClick = () => {
-    setCustomInputVisible(true);
-    setSelectedTab(null);
-  };
+    setCustomInputVisible(true)
+    setSelectedTab(null)
+  }
 
   const handleCloseCustomInput = () => {
-    setCustomInputVisible(false);
-  };
+    setCustomInputVisible(false)
+  }
 
   if (isLoading) {
     return (
       <div className="m-auto w-full max-w-[360px] rounded-[12px]">
         <SkeletonDefault className="h-[280px] w-full" />
       </div>
-    );
+    )
   }
 
   const gridVariants = {
@@ -162,129 +291,60 @@ const ImportPosition: React.FC = () => {
       },
     },
     hidden: { opacity: 0, height: 0 },
-  };
+  }
 
   const itemVariants = {
     visible: { opacity: 1, y: 0 },
     hidden: { opacity: 0, y: 20 },
-  };
+  }
 
   return (
     <>
-      <div className="m-auto w-full max-w-[360px] rounded-[12px] border border-[#E6E6E6] bg-[#ffffff] from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pb-4 pt-3 text-[#030303] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white mb-4">
+      <div className="m-auto mb-4 w-full max-w-[360px] rounded-[12px] border border-[#E6E6E6] bg-[#ffffff] from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pb-4 pt-3 text-[#030303] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white">
         <div className="flex items-center justify-between">
           <p className="font-rogan mb-3 mt-2 text-[28px] text-[#030303] dark:text-white">
             Import
           </p>
           <div className="flex items-center justify-between">
             <button className="mt-[0px]">
-              <img src="/icons/slider.svg" alt="slider icon" className="w-[20px]" />
+              <img
+                src="/icons/slider.svg"
+                alt="slider icon"
+                className="w-[20px]"
+              />
             </button>
           </div>
         </div>
         <div
-          className={`mb-2 mt-[4px] h-[1px] w-full md:block ${
-            theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
-          }`}
+          className={
+            `mb-2 mt-[4px] h-[1px] w-full md:block ` +
+            ` ${
+              theme === 'light'
+                ? 'bg-gradient-divider-light'
+                : 'bg-gradient-divider'
+            }`
+          }
         ></div>
-        <div className="mb-3">
-          <label className="mb-1 block text-[14px] font-medium text-[#959595]">Market</label>
-          <div className="flex items-center">
-            <div className="transition-ease w-full rounded-[10px] border-[1px] border-solid border-[#ececec] duration-100 ease-linear dark:border-[#181818]">
-              <Popover
-                placement="bottom-left"
-                trigger="click"
-                wrapperClassName="w-full"
-                className={`z-[10] mt-[12px] max-h-[200px] overflow-y-auto w-full bg-white leading-none dark:bg-[#030303]`}
-                externalOpen={openPopover}
-                content={
-                  <HoverIndicator
-                    divider
-                    direction="vertical"
-                    indicatorClassName="rounded-[6px] w-full"
-                    className="w-full"
-                  >
-                    {markets?.map((market, index) => (
-                      <div
-                        key={market.name}
-                        className={`flex w-full cursor-pointer items-center gap-[4px] px-[8px] py-[12px] text-[#030303] dark:text-[#959595] ${
-                          index === 0 ? 'pt-[8px]' : ''
-                        } ${index === markets.length - 1 ? 'pb-[8px]' : ''}`}
-                        onClick={() => {
-                          setOpenPopover((openPopover) => !openPopover);
-                          setSelectedMarket(market);
-                          handleResetProgress();
-                        }}
-                      >
-                        <p className="pt-[1px]">{market?.name}</p>
-                      </div>
-                    ))}
-                  </HoverIndicator>
-                }
-              >
-                <div className="flex w-full cursor-pointer items-center justify-between px-[8px] pt-[8px] pb-[8px] text-[#030303] dark:text-[#959595]">
-                  <div className="inline-flex items-center gap-[4px]">
-                    {selectedMarket ? (
-                      <p className="cursor-pointer">{selectedMarket?.name}</p>
-                    ) : (
-                      <p className="cursor-pointer text-[#959595]">Select Market</p>
-                    )}
-                  </div>
-                  <ChevronDownIcon className="pointer-events-none h-4 w-4 text-[#030303] dark:text-white" />
-                </div>
-              </Popover>
-            </div>
-          </div>
-        </div>
-        <div className="mb-3">
-          <label className="mb-1 block text-[14px] font-medium text-[#959595]">Collateral</label>
-          <div className="flex items-center">
-            <div className="transition-ease w-full rounded-[10px] border-[1px] border-solid border-[#ececec] duration-100 ease-linear dark:border-[#181818]">
-              <Popover
-                placement="bottom-left"
-                trigger="click"
-                wrapperClassName="w-full"
-                className={`z-[10] mt-[12px] w-full bg-white leading-none dark:bg-[#030303]`}
-                externalOpen={openPopover}
-                content={
-                  <HoverIndicator
-                    divider
-                    direction="vertical"
-                    indicatorClassName="rounded-[6px] w-full"
-                    className="w-full"
-                  >
-                    {collaterals?.map((collateral, index) => (
-                      <div
-                        key={collateral.name}
-                        className={`flex w-full cursor-pointer items-center gap-[4px] px-[8px] py-[12px] text-[#030303] dark:text-[#959595] ${
-                          index === 0 ? 'pt-[8px]' : ''
-                        } ${index === collaterals.length - 1 ? 'pb-[8px]' : ''}`}
-                        onClick={() => {
-                          setOpenPopover((openPopover) => !openPopover);
-                          setSelectedCollateral(collateral);
-                          handleResetProgress();
-                        }}
-                      >
-                        <p className="pt-[1px]">{collateral?.name}</p>
-                      </div>
-                    ))}
-                  </HoverIndicator>
-                }
-              >
-                <div className="flex w-full cursor-pointer items-center justify-between px-[8px] pt-[8px] pb-[8px] text-[#030303] dark:text-[#959595]">
-                  <div className="inline-flex items-center gap-[4px]">
-                    {selectedCollateral ? (
-                      <p className="cursor-pointer">{selectedCollateral?.name}</p>
-                    ) : (
-                      <p className="cursor-pointer text-[#959595]">Select Collateral</p>
-                    )}
-                  </div>
-                  <ChevronDownIcon className="pointer-events-none h-4 w-4 text-[#030303] dark:text-white" />
-                </div>
-              </Popover>
-            </div>
-          </div>
-        </div>
+        <SelectMarket
+          wrapperClassName="mb-3"
+          options={marketOptions}
+          value={selectedMarket}
+          onSelect={(market) => {
+            setSelectedMarket(market)
+            setSelectedCollateral(undefined)
+            handleResetProgress()
+          }}
+        />
+        <SelectCollateral
+          wrapperClassName="mb-3"
+          options={selectedMarket?.collaterals}
+          value={selectedCollateral}
+          onSelect={(collateral) => {
+            setSelectedCollateral(collateral)
+            handleResetProgress()
+          }}
+        />
+
         {selectedMarket && selectedCollateral && (
           <motion.div
             className="relative mb-3"
@@ -306,9 +366,9 @@ const ImportPosition: React.FC = () => {
                   <motion.button
                     key={percentage}
                     onClick={() => handleAmountTabClick(percentage, index)}
-                    className={`flex-1 py-[6px] rounded-md text-[12px] xs:text-[14px] ${
+                    className={`flex-1 rounded-md py-[6px] text-[12px] xs:text-[14px] ${
                       selectedTab === index
-                        ? 'bg-[#AA5BFF] text-white border-1 border-[#AA5BFF]'
+                        ? 'border-1 border-[#AA5BFF] bg-[#AA5BFF] text-white'
                         : 'bg-[#AA5BFF] bg-opacity-20 text-[#AA5BFF]'
                     }`}
                     whileHover={{ scale: 1.05 }}
@@ -319,9 +379,9 @@ const ImportPosition: React.FC = () => {
                 ))}
                 <motion.button
                   onClick={handleCustomClick}
-                  className={`flex-1 py-[6px] rounded-md text-[12px] xs:text-[14px] ${
+                  className={`flex-1 rounded-md py-[6px] text-[12px] xs:text-[14px] ${
                     customInputVisible
-                      ? 'bg-[#AA5BFF] text-white border-1 border-[#AA5BFF]'
+                      ? 'border-1 border-[#AA5BFF] bg-[#AA5BFF] text-white'
                       : 'bg-[#AA5BFF] bg-opacity-20 text-[#AA5BFF]'
                   }`}
                   whileHover={{ scale: 1.05 }}
@@ -339,12 +399,12 @@ const ImportPosition: React.FC = () => {
                 transition={{ duration: 0.2 }}
               >
                 <NumericFormat
-                  className="transition-ease placeholder:text-[#959595] block w-full rounded-[8px] border border-[#efefef] bg-white pb-2 pl-[10px] pt-2 shadow-sm duration-100 ease-linear dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b dark:from-[#161616] dark:via-[#161616]/40 dark:to-[#0e0e0e]"
+                  className="transition-ease block w-full rounded-[8px] border border-[#efefef] bg-white pb-2 pl-[10px] pt-2 shadow-sm duration-100 ease-linear placeholder:text-[#959595] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b dark:from-[#161616] dark:via-[#161616]/40 dark:to-[#0e0e0e]"
                   value={amount}
                   thousandSeparator
                   onChange={(e) => {
-                    setAmount(e.target.value);
-                    handleResetProgress();
+                    setAmount(e.target.value)
+                    handleResetProgress()
                   }}
                   placeholder="0.00"
                 />
@@ -363,18 +423,21 @@ const ImportPosition: React.FC = () => {
         )}
         <div className="flex justify-end">
           <button
-            className={`font-rogan-regular mt-1 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${
-              btnLoading ? 'cursor-not-allowed text-[#eee]' : 'cursor-pointer '
+            className={`font-rogan-regular mt-1 flex w-full items-center justify-center rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${
+              loadingSubmit
+                ? 'cursor-not-allowed text-[#eee]'
+                : 'cursor-pointer '
             }`}
-            onClick={handleSwap}
+            onClick={handleImport}
           >
+            {!loadingSubmit && <LoadingCircle />}
             {address ? 'Import Position' : 'Connect Wallet'}
           </button>
         </div>
       </div>
       {selectedMarket && selectedCollateral && (
         <motion.div
-          className="grid max-w-[360px] mx-auto h-auto w-full grid-cols-2 gap-[14px]"
+          className="mx-auto grid h-auto w-full max-w-[360px] grid-cols-2 gap-[14px]"
           initial="hidden"
           animate="visible"
           exit="hidden"
@@ -401,7 +464,7 @@ const ImportPosition: React.FC = () => {
         handleClose={() => setOpenConnectWalletModal(false)}
       />
     </>
-  );
-};
+  )
+}
 
-export default ImportPosition;
+export default ImportPosition
