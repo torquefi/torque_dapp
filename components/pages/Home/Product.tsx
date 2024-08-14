@@ -45,14 +45,14 @@ export default function Product() {
                     src={theme === 'light' ? item.coverLight : item.cover}
                     alt=""
                   />
-                  <div
+                  {/* <div
                     className="absolute bottom-0 left-0 h-[50px] w-full pointer-events-none"
                     style={{
                       background: theme === 'light'
                         ? 'linear-gradient(to bottom, transparent, white)'
                         : 'linear-gradient(to bottom, transparent, #030303)',
                     }}
-                  ></div>
+                  ></div> */}
                 </div>
                 <div className="space-y-[18px] p-[24px] xs:pl-[28px] xs:pt-[32px]">
                   <div className="flex items-center justify-start">
