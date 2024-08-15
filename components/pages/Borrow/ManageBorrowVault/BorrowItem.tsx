@@ -492,7 +492,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
             : +((Number(borrowed || 0) / Number(collateralUsd)) * 100).toFixed(2) || 0}
           %
         </p>
-        <p className="whitespace-nowrap text-[14px] text-[#959595]">
+        <p className="whitespace-nowrap font-rogan-regular text-[14px] text-[#959595]">
           Loan-to-value
         </p>
       </div>
@@ -500,7 +500,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         <p className="whitespace-nowrap text-[22px]">
           {borrowAPR ? -borrowAPR.toFixed(2) : 0}%
         </p>
-        <p className="whitespace-nowrap text-[14px] text-[#959595]">
+        <p className="whitespace-nowrap font-rogan-regular text-[14px] text-[#959595]">
           Variable APR
         </p>
       </div>
