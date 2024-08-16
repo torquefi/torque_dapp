@@ -159,8 +159,16 @@ const ImportPosition: React.FC = () => {
             selectedMarket.tokenCI.address?.toLowerCase()
         )?.[1]
         ?.toString()
+      const amountCollateral = userReservesData[0]
+        ?.find?.(
+          (data: any) =>
+            data[0]?.toLowerCase() ===
+            selectedCollateral.tokenCI.address?.toLowerCase()
+        )?.[1]
+        ?.toString()
       console.log('userReservesData', userReservesData)
       console.log('amountRefinance', amountRefinance)
+      console.log('amountCollateral', amountCollateral)
 
       const marketTokenAllowanceBN = await marketTokenContract.allowance(
         address,
@@ -209,7 +217,10 @@ const ImportPosition: React.FC = () => {
       ) {
         const tx = await torqRefinanceContract.torqRefinanceUSDC(
           amountRefinance,
-          0
+          amountCollateral,
+          {
+            gasLimit: '50000',
+          }
         )
         await tx.wait()
       }
@@ -220,7 +231,10 @@ const ImportPosition: React.FC = () => {
       ) {
         const tx = await torqRefinanceContract.torqRefinanceUSDC(
           amountRefinance,
-          0
+          amountCollateral,
+          {
+            gasLimit: '50000',
+          }
         )
         await tx.wait()
       }
@@ -231,7 +245,10 @@ const ImportPosition: React.FC = () => {
       ) {
         const tx = await torqRefinanceContract.torqRefinanceUSDCe(
           amountRefinance,
-          0
+          amountCollateral,
+          {
+            gasLimit: '50000',
+          }
         )
         await tx.wait()
       }
@@ -242,7 +259,10 @@ const ImportPosition: React.FC = () => {
       ) {
         const tx = await torqRefinanceContract.torqRefinanceUSDCe(
           amountRefinance,
-          0
+          amountCollateral,
+          {
+            gasLimit: '50000',
+          }
         )
         await tx.wait()
       }
@@ -423,6 +443,7 @@ const ImportPosition: React.FC = () => {
         )}
         <div className="flex justify-end">
           <button
+            disabled={loadingSubmit}
             className={`font-rogan-regular mt-1 flex w-full items-center justify-center rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${
               loadingSubmit
                 ? 'cursor-not-allowed text-[#eee]'
@@ -430,7 +451,7 @@ const ImportPosition: React.FC = () => {
             }`}
             onClick={handleImport}
           >
-            {!loadingSubmit && <LoadingCircle />}
+            {loadingSubmit && <LoadingCircle />}
             {address ? 'Import Position' : 'Connect Wallet'}
           </button>
         </div>
