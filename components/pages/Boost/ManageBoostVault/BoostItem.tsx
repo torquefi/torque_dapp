@@ -119,7 +119,6 @@ export function BoostItem({
     }
   }
 
-
   useEffect(() => {
     handleGetBoostData()
   }, [boostContract, address, tokenContract])
@@ -304,7 +303,9 @@ export function BoostItem({
         />
         <CurrencySwitch
           tokenSymbol={item?.tokenSymbol}
-          tokenValue={Number(new BigNumber(deposited).multipliedBy(item.APR / 100).toString())}
+          tokenValue={Number(
+            new BigNumber(deposited).multipliedBy(item.APR / 100).toString()
+          )}
           usdDefault
           className="-my-4 flex h-full min-w-[130px] flex-col items-center justify-center gap-2 py-4"
           decimalScale={5}
@@ -327,7 +328,7 @@ export function BoostItem({
             />
           </div>
 
-          <div className="font-rogan-regular text-[14px] text-[#959595] mt-[-4px]">
+          <div className="font-rogan-regular mt-[-4px] text-[14px] text-[#959595]">
             Variable APR
           </div>
         </div>
@@ -341,7 +342,6 @@ export function BoostItem({
     }
     return 'Create'
   }
-
 
   const isUnFirstCreated =
     (item.tokenSymbol === 'WBTC' && !createdWbtc) ||
@@ -416,10 +416,11 @@ export function BoostItem({
           </div>
         </div>
         <div
-          className={`grid grid-cols-1 gap-8 overflow-hidden transition-all duration-300 lg:grid-cols-2 ${isOpen
-            ? 'max-h-[1000px] py-[16px] ease-in'
-            : 'max-h-0 py-0 opacity-0 ease-out'
-            }`}
+          className={`grid grid-cols-1 gap-8 overflow-hidden transition-all duration-300 lg:grid-cols-2 ${
+            isOpen
+              ? 'max-h-[1000px] py-[16px] ease-in'
+              : 'max-h-0 py-0 opacity-0 ease-out'
+          }`}
         >
           <div className="flex items-center justify-between gap-4 lg:hidden">
             {summaryInfo()}
@@ -427,6 +428,7 @@ export function BoostItem({
           <div className="">
             <BoostItemChart
               label="Boost APR"
+              item={item}
               contractAddress={item?.boostContractInfo.address}
               tokenDecimals={item?.tokenDecimals}
               tokenPrice={
@@ -477,9 +479,10 @@ export function BoostItem({
             <button
               className={
                 `font-rogan-regular mt-2 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]` +
-                ` ${isSubmitLoading || isExecuteLoading
-                  ? 'cursor-not-allowed opacity-70'
-                  : ''
+                ` ${
+                  isSubmitLoading || isExecuteLoading
+                    ? 'cursor-not-allowed opacity-70'
+                    : ''
                 }`
               }
               disabled={isSubmitLoading || isExecuteLoading}
@@ -491,9 +494,10 @@ export function BoostItem({
             <button
               className={
                 `font-rogan-regular mt-3 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-transparent to-transparent py-1 text-[14px] uppercase text-[#AA5BFF] transition-all hover:border hover:from-[#AA5BFF] hover:to-[#912BFF] hover:text-white` +
-                ` ${isUnFirstCreated || isSubmitLoading || isExecuteLoading
-                  ? 'cursor-not-allowed opacity-70'
-                  : ''
+                ` ${
+                  isUnFirstCreated || isSubmitLoading || isExecuteLoading
+                    ? 'cursor-not-allowed opacity-70'
+                    : ''
                 }`
               }
               // disabled={isUnFirstCreated || isSubmitLoading || isExecuteLoading}
