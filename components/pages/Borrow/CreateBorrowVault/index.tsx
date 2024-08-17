@@ -67,7 +67,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
 
   const getBorrowData = async (item: IBorrowInfo) => {
     const web3 = new Web3(Web3.givenProvider)
-
+  
     try {
       if (!item.tokenContract) {
         item.tokenContract = new web3.eth.Contract(
@@ -75,7 +75,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
           item.tokenContractInfo?.address
         )
       }
-
+  
       if (!item.borrowContract) {
         item.borrowContract = new web3.eth.Contract(
           JSON.parse(item.borrowContractInfo?.abi),
@@ -89,18 +89,29 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
         error
       )
     }
-
+  
     try {
-      const usdcContract = new web3.eth.Contract(
-        JSON.parse(tokenUsdcContract?.abi),
-        tokenUsdcContract?.address
+      const tokenContract = 
+        item.borrowTokenSymbol === 'USDC' || item.borrowTokenSymbol === 'TUSD'
+        ? tokenUsdcContract
+        : tokenUsdtContract
+  
+      const balanceAddress = 
+        item.borrowTokenSymbol === 'USDT' 
+        ? '0xd98Be00b5D27fc98112BdE293e487f8D4cA57d07' 
+        : '0x9c4ec768c28520b50860ea7a15bd7213a9ff58bf'
+  
+      const tokenContractInstance = new web3.eth.Contract(
+        JSON.parse(tokenContract?.abi),
+        tokenContract?.address
       )
-      if (usdcContract) {
-        let decimals = await usdcContract.methods
+  
+      if (tokenContractInstance) {
+        let decimals = await tokenContractInstance.methods
           .decimals()
           .call({ from: address })
-        let balance = await usdcContract.methods
-          .balanceOf('0x9c4ec768c28520b50860ea7a15bd7213a9ff58bf')
+        let balance = await tokenContractInstance.methods
+          .balanceOf(balanceAddress)
           .call({ from: address })
         item.liquidity = +ethers.utils.formatUnits(balance, decimals).toString()
         dispatch(
@@ -112,59 +123,49 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
       }
     } catch (error) {
       console.log(
-        'CreateBorrowVault.getBorrowData.usdc',
+        'CreateBorrowVault.getBorrowData.tokenContract',
         item?.depositTokenSymbol,
         error
       )
     }
+  
     try {
-      const compoundUsdcContract = new web3.eth.Contract(
-        JSON.parse(compoundUsdcContractData?.abi),
-        compoundUsdcContractData?.address
+      const compoundContract = 
+        item.borrowTokenSymbol === 'USDC' || item.borrowTokenSymbol === 'TUSD'
+        ? compoundUsdcContractData 
+        : compoundUsdtContractData
+  
+      const compoundContractInstance = new web3.eth.Contract(
+        JSON.parse(compoundContract?.abi),
+        compoundContract?.address
       )
-      if (compoundUsdcContract) {
-        const tokenAddress =
-          item?.depositTokenSymbol === 'WBTC'
-            ? tokenBtcContract.address
-            : tokenEthContract.address
-        let assets = await compoundUsdcContract.methods
-          .getAssetInfoByAddress(tokenAddress)
-          .call({ from: address })
-        item.loanToValue =
-          100 *
-          +ethers.utils
-            .formatUnits(assets?.borrowCollateralFactor, 18)
-            .toString()
-
-        let utilization = await compoundUsdcContract.methods
+  
+      if (compoundContractInstance) {
+        let utilization = await compoundContractInstance.methods
           .getUtilization()
-          .call({
-            from: address,
-          })
-        let borrowRate = await compoundUsdcContract.methods
+          .call({ from: address })
+        let borrowRate = await compoundContractInstance.methods
           .getBorrowRate(utilization)
-          .call({
-            from: address,
-          })
-        item.borrowRate = borrowRate
-
+          .call({ from: address })
+        item.borrowRate = +ethers.utils.formatUnits(borrowRate, 18).toString()
+  
         dispatch(
           updateBorrowInfo({
             depositTokenSymbol: item?.depositTokenSymbol,
-            loanToValue: item.loanToValue,
             borrowRate: item.borrowRate,
           })
         )
       }
     } catch (error) {
       console.log(
-        'CreateBorrowVault.getBorrowData.compoundUsdc',
+        'CreateBorrowVault.getBorrowData.compoundContract',
         item?.depositTokenSymbol,
         error
       )
     }
+
     return item
-  }
+  }  
 
   const handleUpdateBorrowData = async () => {
     try {
@@ -522,7 +523,7 @@ const BORROW_INFOS: IBorrowInfo[] = [
     borrowTokenSymbol: 'USDT',
     borrowTokenDecimal: 6,
     liquidity: 0,
-    loanToValue: 78,
+    loanToValue: 85,
     getTORQ: 32,
     borrowRate: 0,
     borrowContractInfo: simpleEthBorrowUsdtContract,
@@ -578,48 +579,4 @@ const BORROW_INFOS: IBorrowInfo[] = [
     multiLoan: true,
     borrowRowTokenIcon: '/icons/coin/tusd.svg',
   },
-  // {
-  //   depositTokenIcon: '/icons/coin/wbtc.png',
-  //   borrowTokenIcon: '/icons/coin/usdt.png',
-  //   depositTokenSymbol: 'WBTC',
-  //   depositTokenDecimal: 8,
-  //   borrowTokenSymbol: 'USDT',
-  //   borrowRowTokenIcon: '/icons/coin/usdt.png',
-  //   borrowTokenDecimal: 6,
-  //   liquidity: 0,
-  //   loanToValue: 70,
-  //   getTORQ: 28,
-  //   borrowRate: 0,
-  //   borrowContractInfo: btcBorrowUsdtContract,
-  //   tokenContractInfo: tokenBtcContract,
-  //   tokenBorrowContractInfo: tokenUsdtContract,
-  //   userAddressContractInfo: userBorrowAddressBtcContract,
-  //   oldBorrowContractInfo: null,
-  //   name: 'Bitcoin',
-  //   bonus: 529.63,
-  //   arbBonus: 0,
-  //   multiLoan: true,
-  // },
-  // {
-  //   depositTokenIcon: '/icons/coin/aeth.png',
-  //   borrowTokenIcon: '/icons/coin/usdt.png',
-  //   depositTokenSymbol: 'WETH',
-  //   depositTokenDecimal: 18,
-  //   borrowTokenSymbol: 'USDT',
-  //   borrowTokenDecimal: 6,
-  //   liquidity: 0,
-  //   loanToValue: 78,
-  //   getTORQ: 32,
-  //   borrowRate: 0,
-  //   borrowContractInfo: ethBorrowUsdtContract,
-  //   tokenContractInfo: tokenEthContract,
-  //   tokenBorrowContractInfo: tokenUsdtContract,
-  //   userAddressContractInfo: userBorrowAddressEthContract,
-  //   oldBorrowContractInfo: null,
-  //   name: 'Ether',
-  //   bonus: 529.63,
-  //   arbBonus: 0,
-  //   multiLoan: true,
-  //   borrowRowTokenIcon: '/icons/coin/usdt.png',
-  // },
 ]
