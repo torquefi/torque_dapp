@@ -24,7 +24,11 @@ import {
   btcBorrowUsdtContract,
   ethBorrowUsdtContract,
 } from '../constants/contract'
-import { compoundUsdcContract as compoundUsdcContractData } from '../constants/contract'
+// import { compoundUsdcContract as compoundUsdcContractData } from '../constants/contract'
+import { 
+  compoundUsdcContract as compoundUsdcContractData, 
+  compoundUsdtContract as compoundUsdtContractData 
+} from '../constants/contract'
 import { IBorrowInfo } from '../types'
 import CreateBorrowItem from './createBorrowItem'
 import HoverIndicator from '@/components/common/HoverIndicator'
