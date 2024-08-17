@@ -14,12 +14,14 @@ import {
   LabelList,
   Line,
   ResponsiveContainer,
-  Tooltip
+  Tooltip,
 } from 'recharts'
 import { boostWbtcContract, boostWethContract } from '../constants/contracts'
+import { IBoostInfo } from '../types'
 
 interface BoostItemChartProps {
   label?: string
+  item: IBoostInfo
   contractAddress?: string
   tokenDecimals?: number
   tokenPrice?: number
@@ -29,6 +31,7 @@ interface BoostItemChartProps {
 export const BoostItemChart: FC<BoostItemChartProps> = (props) => {
   const {
     label,
+    item: boostItem,
     contractAddress,
     tokenPrice = 1,
     tokenDecimals,
@@ -46,9 +49,9 @@ export const BoostItemChart: FC<BoostItemChartProps> = (props) => {
 
     if (active && payload && payload.length) {
       return (
-        <div className="z-10 rounded border-2 border-[#E6E6E6] dark:border-[#1C1C1C] dark:bg-[#0E0E0E] px-4 py-2 text-left bg-white">
+        <div className="z-10 rounded border-2 border-[#E6E6E6] bg-white px-4 py-2 text-left dark:border-[#1C1C1C] dark:bg-[#0E0E0E]">
           <NumericFormat
-            className="text-[20px] font-semibold dark:text-[#959595] text-black"
+            className="text-[20px] font-semibold text-black dark:text-[#959595]"
             displayType="text"
             value={+payload?.[1]?.payload?.value || 0}
             thousandSeparator
@@ -56,7 +59,7 @@ export const BoostItemChart: FC<BoostItemChartProps> = (props) => {
             prefix="$"
             fixedDecimalScale
           />
-          <div className="text-14 dark:text-[#959595] text-black">
+          <div className="text-14 text-black dark:text-[#959595]">
             {new Date(payload?.[1]?.payload?.time)
               .toISOString()
               .substring(0, 10)}
@@ -98,6 +101,9 @@ export const BoostItemChart: FC<BoostItemChartProps> = (props) => {
 
         const newPath = '/api/chart/get-data-by-address'
 
+        const contractAddress = boostItem?.boostContractInfo.address
+        const tokenDecimals = boostItem?.tokenDecimals
+
         const newRes = await axiosInstance.get(newPath, {
           params: {
             address: contractAddress,
@@ -106,18 +112,27 @@ export const BoostItemChart: FC<BoostItemChartProps> = (props) => {
         const transactions1 = newRes.data || []
 
         const convertTransactions = transactions1.reduce((acc, item) => {
-          acc[item?.date] = item;
-          return acc;
+          acc[item?.date] = item
+          return acc
         }, {})
 
-        let chartDataObj: any = {}
+        // let chartDataObj: any = {}
 
         // console.log('convertTransactions :>> ', convertTransactions);
+        let functionName = ''
+        if (boostItem.tokenSymbol === 'WETH') {
+          functionName = 'depositETH'
+        }
+        if (boostItem.tokenSymbol === 'WBTC') {
+          functionName = 'depositBTC'
+        }
+        if (boostItem.tokenSymbol === 'LINK') {
+          functionName = 'depositLINK'
+        }
+        if (boostItem.tokenSymbol === 'UNI') {
+          functionName = 'depositUNI'
+        }
 
-        const functionName =
-          contractAddress === boostWbtcContract?.address
-            ? 'depositBTC'
-            : 'depositETH'
         const res = await axiosInstance.post(path, {
           address: contractAddress,
           functionName: functionName,
@@ -125,7 +140,7 @@ export const BoostItemChart: FC<BoostItemChartProps> = (props) => {
         })
         const transactions: any[] = res?.data?.data || []
 
-        // let chartDataObj: any = {}
+        let chartDataObj: any = {}
 
         for (let i = -14; i <= 0; i++) {
           const key = dayjs().add(i, 'd').format('YYYY-MM-DD')
@@ -135,42 +150,44 @@ export const BoostItemChart: FC<BoostItemChartProps> = (props) => {
           }
         }
 
-        console.log('chartDataObj :>> ', chartDataObj);
+        // console.log('transactions', transactions)
 
         let lineValue = 50
-        // transactions?.forEach((item) => {
-        //   const key = dayjs(+item?.timeStamp * 1000).format('YYYY-MM-DD')
-        //   if (chartDataObj[key]) {
-        //     const abi = JSON.parse(
-        //       contractAddress === boostWbtcContract?.address
-        //         ? boostWbtcContract.abi
-        //         : boostWethContract.abi
-        //     )
+        transactions?.forEach((item) => {
+          const key = dayjs(+item?.timeStamp * 1000).format('YYYY-MM-DD')
+          if (chartDataObj[key]) {
+            const abi = JSON.parse(
+              contractAddress === boostWbtcContract?.address
+                ? boostWbtcContract.abi
+                : boostWethContract.abi
+            )
 
-        //     const inputs = new ethers.utils.AbiCoder().decode(
-        //       abi
-        //         ?.find((item) => item?.name === functionName)
-        //         ?.inputs?.map((item) => item?.type),
-        //       ethers.utils.hexDataSlice(item?.input, 4)
-        //     )
+            const inputs = new ethers.utils.AbiCoder().decode(
+              abi
+                ?.find((item) => item?.name === functionName)
+                ?.inputs?.map((item) => item?.type),
+              ethers.utils.hexDataSlice(item?.input, 4)
+            )
 
-        //     console.log('inputs', inputs)
+            // console.log('inputs', inputs)
 
-        //     const [amount] = inputs?.map((item) => item?.toString())
+            const [amount] = inputs?.map((item) => item?.toString())
 
-        //     console.log('amount', amount)
+            const tokenAmountFormatted = ethers.utils
+              .formatUnits(amount, tokenDecimals)
+              .toString()
 
-        //     const tokenAmountFormatted = ethers.utils
-        //       .formatUnits(amount, tokenDecimals)
-        //       .toString()
+            const tokenAmount = +tokenAmountFormatted
 
-        //     const tokenAmount = +tokenAmountFormatted
+            console.log('tokenAmount', boostItem.tokenSymbol, key, tokenAmount)
 
-        //     const value = +tokenAmount
-        //     chartDataObj[key].valueBar += value
-        //     lineValue = Math.max(lineValue, value)
-        //   }
-        // })
+            const value = +tokenAmount
+            chartDataObj[key].valueBar += value
+            lineValue = Math.max(lineValue, value)
+          }
+        })
+
+        // console.log('chartDataObj :>> ', chartDataObj)
 
         let chartData = Object.values(chartDataObj)?.map((item, i) => ({
           ...item,
@@ -180,7 +197,7 @@ export const BoostItemChart: FC<BoostItemChartProps> = (props) => {
         }))
 
         console.log(
-          contractAddress,
+          boostItem.tokenSymbol,
           tokenPrice,
           tokenDecimals,
           aprPercent,
@@ -195,7 +212,7 @@ export const BoostItemChart: FC<BoostItemChartProps> = (props) => {
       }
     }
     handleGetChartDataTransaction()
-  }, [contractAddress])
+  }, [boostItem])
 
   return (
     <>
