@@ -129,7 +129,6 @@ export function CreateBoostItem({
 
   const handleConfirmDeposit = async () => {
     if (!isConnected || !address) {
-      // await open()
       setOpenConnectWalletModal(true)
       return
     }
@@ -163,12 +162,6 @@ export function CreateBoostItem({
             (amount / 2).toFixed(tokenDecimal),
             tokenDecimal
           ),
-          // initialShortTokenAmount: ethers.utils.parseUnits(
-          //   (((amount / 2) * usdPrice[item?.token]) / usdPrice['USDC']).toFixed(
-          //     usdcDecimal
-          //   ),
-          //   usdcDecimal
-          // ),
           initialShortTokenAmount: bigNumberify(0),
         })
 
@@ -267,7 +260,7 @@ export function CreateBoostItem({
           `  ${theme === 'light' ? ' bg-[#FFFFFF]' : 'bg-overview'}`
         }
       >
-        <div className="flex w-full items-center justify-between">
+        <div className="flex items-center justify-between w-full">
           <div className="ml-[-12px] flex items-center w-full">
             <img
               src={`/icons/coin/${item.token.toLocaleLowerCase()}.png`}
@@ -278,25 +271,6 @@ export function CreateBoostItem({
               Supply {item.token},<br className="" /> Earn {item.token}
             </div>
           </div>
-          {/* <Popover
-            trigger="hover"
-            placement="bottom-right"
-            className={`mt-[8px] w-[210px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#161616]`}
-            content="The projected TORQ rewards after 1 year of $1,000 supplied."
-          >
-            <Link href="#" className="" target={'_blank'}>
-              <div className="flex items-center rounded-full bg-[#AA5BFF] bg-opacity-20 p-1  text-[12px] xs:text-[14px]">
-                <img
-                  src="/assets/t-logo-circle.png"
-                  alt=""
-                  className="w-[24px]"
-                />
-                <div className="font-rogan-regular mx-1 uppercase text-[#AA5BFF] xs:mx-2">
-                  +{Number(item.bonus).toLocaleString()} TORQ
-                </div>
-              </div>
-            </Link>
-          </Popover> */}
           <div className="flex flex-col items-end justify-end mt-[8px] w-[210px] text-center text-sm leading-tight">
             <Popover
               trigger="hover"
@@ -332,21 +306,9 @@ export function CreateBoostItem({
                 </div>
               </div>
             </Popover>
-            {/* <Link href="#" className="" target={'_blank'}>
-              <div className="flex items-center rounded-full bg-[#32CD32] bg-opacity-20 p-1 text-[12px] xs:text-[14px] mt-2">
-                <img
-                  src="/assets/comp-logo-circle.png"
-                  alt=""
-                  className="w-[24px]"
-                />
-                <div className="font-rogan-regular mx-1 uppercase text-[#32CD32] xs:mx-2">
-                  +{Number(item.compBonus).toLocaleString()} COMP
-                </div>
-              </div>
-            </Link> */}
           </div>
         </div>
-        <div className="font-rogan mb-1 mt-1 grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4 mt-1 mb-1 font-rogan">
           <div className="flex w-full items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  lg:h-[140px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
             <InputCurrencySwitch
               tokenSymbol={item?.token}
@@ -378,7 +340,6 @@ export function CreateBoostItem({
               tokenValueChange={
                 Number(amount) * Math.pow(1 + Number(item?.APR || 0) / 100, 3)
               }
-            // const
             />
           </div>
         </div>
@@ -459,7 +420,7 @@ export function CreateBoostItem({
             </Popover>
           </div>
           <div>
-            50:50
+          {['COMP', 'TORQ'].includes(item.token) ? '100:0' : '50:50'}
           </div>
         </div>
         <div className="font-rogan-regular flex w-full items-center justify-between text-[16px] text-[#959595]">
@@ -490,28 +451,6 @@ export function CreateBoostItem({
             displayType="text"
           />
         </div>
-        {/* <div className="font-rogan-regular flex w-full items-center justify-between text-[16px] text-[#959595]">
-          <div className="flex items-center justify-center">
-            <div>{`Your ${earnToken}`}</div>
-            <Popover
-              trigger="hover"
-              placement="top-left"
-              className={`font-rogan-regular mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
-              content="The current tToken balance of your connected account."
-            >
-              <button className="ml-[5px] mt-[7px]">
-                <img
-                  src="/assets/pages/vote/ic-info.svg"
-                  alt="info icon"
-                  className="w-[13px]"
-                />
-              </button>
-            </Popover>
-          </div>
-          <div>
-            {isConnected ? parseFloat(deposited || '0').toFixed(3) : '0.00'}
-          </div>
-        </div> */}
         <button
           className={`font-rogan-regular mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
           ${btnLoading ? 'cursor-not-allowed text-[#eee]' : 'cursor-pointer '}

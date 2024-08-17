@@ -4,14 +4,20 @@ import {
   boostWethAbi,
   boostUniAbi,
   boostLinkAbi,
+  boostCompAbi,
+  boostTorqAbi,
   btcAbi,
   ethAbi,
   uniAbi,
   linkAbi,
+  compAbi,
+  torqAbi,
   gmxWbtcAbi,
   gmxWethAbi,
   gmxUniAbi,
   gmxLinkAbi,
+  // gmxCompAbi,
+  // gmxTorqAbi,
 } from './abi'
 
 export const boostWbtcContract: IContractInfo = {
@@ -72,4 +78,34 @@ export const gmxLinkContract: IContractInfo = {
 export const linkContract: IContractInfo = {
   address: '0xf97f4df75117a78c1A5a0DBb814Af92458539FB4',
   abi: JSON.stringify(linkAbi),
+}
+
+export const boostCompContract: IContractInfo = {
+  address: '0x0D08442B2758a50aA8187D602bA8261C333d44B2',
+  abi: JSON.stringify(boostCompAbi),
+}
+
+// export const gmxCompContract: IContractInfo = {
+//   address: '0x000000000000000000000000000000000000dEaD',
+//   abi: JSON.stringify(gmxCompAbi),
+// }
+
+export const compContract: IContractInfo = {
+  address: '0x354A6dA3fcde098F8389cad84b0182725c6C91dE',
+  abi: JSON.stringify(compAbi),
+}
+
+export const boostTorqContract: IContractInfo = {
+  address: '0xA6c53eC2a3085994000E5B831F5ECCCD051ea02c',
+  abi: JSON.stringify(boostTorqAbi),
+}
+
+// export const gmxTorqContract: IContractInfo = {
+//   address: '0x000000000000000000000000000000000000dEaD',
+//   abi: JSON.stringify(gmxTorqAbi),
+// }
+
+export const torqContract: IContractInfo = {
+  address: '0xb56C29413AF8778977093B9B4947efEeA7136C36',
+  abi: JSON.stringify(torqAbi),
 }
