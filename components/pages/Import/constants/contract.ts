@@ -2,8 +2,10 @@ import { IContractInfo } from '@/constants/contracts'
 import radianUiPoolDataProvider from './abi/radianUiPoolDataProvider.json'
 import radiantWbtcRefinanceUsdc from './abi/radianWbtcRefinanceUsdc.json'
 import radianWethRefinanceUsdc from './abi/radianWethRefinanceUsdc.json'
-import tokenBtc from './abi/tokenBtc.json'
-import tokenEth from './abi/tokenEth.json'
+import tokenRwbtc from './abi/tokenWbtc.json'
+import tokenRweth from './abi/tokenWeth.json'
+import tokenWbtc from './abi/tokenWbtc.json'
+import tokenWeth from './abi/tokenWeth.json'
 import tokenUsdc from './abi/tokenUsdc.json'
 import tokenUsdce from './abi/tokenUsdce.json'
 
@@ -22,14 +24,24 @@ export const radianUiPoolDataProviderCI: IContractInfo = {
   abi: JSON.stringify(radianUiPoolDataProvider),
 }
 
+export const tokenRwbtcCI: IContractInfo = {
+  address: '0x727354712bdfcd8596a3852fd2065b3c34f4f770',
+  abi: JSON.stringify(tokenRwbtc),
+}
+
+export const tokenRwethCI: IContractInfo = {
+  address: '0x0df5dfd95966753f01cb80e76dc20ea958238c46',
+  abi: JSON.stringify(tokenRweth),
+}
+
 export const tokenWbtcCI: IContractInfo = {
   address: '0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f',
-  abi: JSON.stringify(tokenBtc),
+  abi: JSON.stringify(tokenWbtc),
 }
 
 export const tokenWethCI: IContractInfo = {
   address: '0x82aF49447D8a07e3bd95BD0d56f35241523fBab1',
-  abi: JSON.stringify(tokenEth),
+  abi: JSON.stringify(tokenWeth),
 }
 
 export const tokenUsdcCI: IContractInfo = {
