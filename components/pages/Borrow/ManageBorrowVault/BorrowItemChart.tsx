@@ -48,9 +48,9 @@ export const BorrowItemChart: FC<BorrowItemChartProps> = (props) => {
 
     if (active && payload && payload.length) {
       return (
-        <div className="z-10 rounded border-2 border-[#E6E6E6] dark:border-[#1C1C1C] dark:bg-[#0E0E0E] px-4 py-2 text-left bg-white">
+        <div className="z-10 rounded border-2 border-[#E6E6E6] bg-white px-4 py-2 text-left dark:border-[#1C1C1C] dark:bg-[#0E0E0E]">
           <NumericFormat
-            className="text-[20px] font-semibold dark:text-[#959595] text-black"
+            className="text-[20px] font-semibold text-black dark:text-[#959595]"
             displayType="text"
             value={+payload?.[1]?.payload?.value || 0}
             thousandSeparator
@@ -58,7 +58,7 @@ export const BorrowItemChart: FC<BorrowItemChartProps> = (props) => {
             prefix="$"
             fixedDecimalScale
           />
-          <div className="text-14 dark:text-[#959595] text-black">
+          <div className="text-14 text-black dark:text-[#959595]">
             {new Date(payload?.[1]?.payload?.time)
               .toISOString()
               .substring(0, 10)}
@@ -98,14 +98,32 @@ export const BorrowItemChart: FC<BorrowItemChartProps> = (props) => {
       try {
         const path = '/api/transaction-arbitrum/list-transaction-arbitrum'
 
-        const newPath = '/api/chart/get-data-by-address'
+        // const newPath = '/api/chart/get-data-by-address'
 
-        const newRes = await axiosInstance.get(newPath, {
-          params: {
-            address: tokenAddress,
-          },
-        })
-        const transactions1 = newRes.data || []
+        // const newRes = await axiosInstance.get(newPath, {
+        //   params: {
+        //     address: tokenAddress,
+        //   },
+        // })
+        // const transactions1 = newRes.data || []
+
+        // const convertTransactions = transactions1.reduce((acc, item) => {
+        //   acc[item?.date] = item
+        //   return acc
+        // }, {})
+
+        let chartDataObj: any = {}
+
+        for (let i = -14; i <= 0; i++) {
+          const key = dayjs().add(i, 'd').format('YYYY-MM-DD')
+          chartDataObj[key] = {
+            time: key,
+            // valueBar: convertTransactions[key]?.value || 0,
+            valueBar: 0,
+          }
+        }
+
+        let lineValue = 50
 
         const res = await axiosInstance.post(path, {
           address: tokenAddress,
@@ -114,59 +132,43 @@ export const BorrowItemChart: FC<BorrowItemChartProps> = (props) => {
         })
         const transactions: any[] = res?.data?.data || []
 
-        const convertTransactions = transactions1.reduce((acc, item) => {
-          acc[item?.date] = item
-          return acc
-        }, {})
+        transactions?.forEach((item) => {
+          const key = dayjs(+item?.timeStamp * 1000).format('YYYY-MM-DD')
+          if (chartDataObj[key]) {
+            const abi = JSON.parse(borrowBtcContract.abi)
 
-        let chartDataObj: any = {}
+            const inputs = new ethers.utils.AbiCoder().decode(
+              abi
+                ?.find((item) => item?.name === 'borrow')
+                ?.inputs?.map((item) => item?.type),
+              ethers.utils.hexDataSlice(item?.input, 4)
+            )
 
-        for (let i = -14; i <= 0; i++) {
-          const key = dayjs().add(i, 'd').format('YYYY-MM-DD')
-          chartDataObj[key] = {
-            time: key,
-            valueBar: convertTransactions[key]?.value || 0,
+            const [param1, param2, tusdAmount] = inputs?.map((item) =>
+              item?.toString()
+            )
+
+            const tusdDecimals = 18
+            const tusdAmountFormatted = ethers.utils
+              .formatUnits(tusdAmount, tusdDecimals)
+              .toString()
+
+            const tusdDollar = +tusdAmountFormatted
+
+            console.log(tusdAmount, tusdDollar)
+
+            // const value = +ethers.utils.formatUnits(item?.value, tokenDecimals)
+            const value = +tusdDollar
+            chartDataObj[key].valueBar += value
+            lineValue = Math.max(lineValue, value)
           }
-        }
-
-        let lineValue = 50
-        // transactions?.forEach((item) => {
-        //   const key = dayjs(+item?.timeStamp * 1000).format('YYYY-MM-DD')
-        //   if (chartDataObj[key]) {
-        //     const abi = JSON.parse(borrowBtcContract.abi)
-
-        //     const inputs = new ethers.utils.AbiCoder().decode(
-        //       abi
-        //         ?.find((item) => item?.name === 'borrow')
-        //         ?.inputs?.map((item) => item?.type),
-        //       ethers.utils.hexDataSlice(item?.input, 4)
-        //     )
-
-        //     const [param1, param2, tusdAmount] = inputs?.map((item) =>
-        //       item?.toString()
-        //     )
-
-        //     const tusdDecimals = 18
-        //     const tusdAmountFormatted = ethers.utils
-        //       .formatUnits(tusdAmount, tusdDecimals)
-        //       .toString()
-
-        //     const tusdDollar = +tusdAmountFormatted
-
-        //     console.log(tusdAmount, tusdDollar)
-
-        //     // const value = +ethers.utils.formatUnits(item?.value, tokenDecimals)
-        //     const value = +tusdDollar
-        //     chartDataObj[key].valueBar += value
-        //     lineValue = Math.max(lineValue, value)
-        //   }
-        // })
+        })
 
         const chartData = Object.values(chartDataObj)?.map((item, i) => ({
           ...item,
           value: item?.valueBar,
           valueBar:
-            (1 + item?.valueBar * tusdPrice) > 100
+            1 + item?.valueBar * tusdPrice > 100
               ? (1 + item?.valueBar * tusdPrice) / 4
               : 1 + item?.valueBar * tusdPrice,
           valueLine: lineValue * 2,
