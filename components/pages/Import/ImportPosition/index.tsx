@@ -128,9 +128,9 @@ const ImportPosition: React.FC = () => {
         signer
       )
 
-      const collateralTokenContract = new ethers.Contract(
-        selectedCollateral.tokenCI.address,
-        selectedCollateral.tokenCI.abi,
+      const collateralTokenRadianContract = new ethers.Contract(
+        selectedCollateral.tokenRadianCI.address,
+        selectedCollateral.tokenRadianCI.abi,
         signer
       )
 
@@ -152,21 +152,35 @@ const ImportPosition: React.FC = () => {
         providerAddress,
         address
       )
-      const amountRefinance = userReservesData[0]
+      const totalAmountRefinance = userReservesData[0]
         ?.find?.(
           (data: any) =>
             data[0]?.toLowerCase() ===
             selectedMarket.tokenCI.address?.toLowerCase()
         )?.[1]
         ?.toString()
-      const amountCollateral = userReservesData[0]
+      const totalAmountCollateral = userReservesData[0]
         ?.find?.(
           (data: any) =>
             data[0]?.toLowerCase() ===
             selectedCollateral.tokenCI.address?.toLowerCase()
         )?.[1]
         ?.toString()
+
       console.log('userReservesData', userReservesData)
+      console.log('totalAmountRefinance', totalAmountRefinance)
+      console.log('totalAmountCollateral', totalAmountCollateral)
+
+      const amountRefinance = new BigNumber(totalAmountRefinance)
+        .multipliedBy(new BigNumber(amount))
+        .dividedBy(new BigNumber(100))
+        .toString()
+
+      const amountCollateral = new BigNumber(totalAmountCollateral)
+        .multipliedBy(new BigNumber(amount))
+        .dividedBy(new BigNumber(100))
+        .toString()
+
       console.log('amountRefinance', amountRefinance)
       console.log('amountCollateral', amountCollateral)
 
@@ -177,7 +191,7 @@ const ImportPosition: React.FC = () => {
       const marketTokenAllowance = marketTokenAllowanceBN?.toString()
 
       const collateralTokenAllowanceBN =
-        await collateralTokenContract.allowance(
+        await collateralTokenRadianContract.allowance(
           address,
           torqRefinanceContractAddress
         )
@@ -204,7 +218,7 @@ const ImportPosition: React.FC = () => {
         )
       ) {
         const maxAmount = ethers.BigNumber.from('2').pow(256).sub(1)
-        const tx = await collateralTokenContract.approve(
+        const tx = await collateralTokenRadianContract.approve(
           torqRefinanceContractAddress,
           maxAmount
         )

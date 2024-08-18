@@ -21,6 +21,7 @@ export interface ICollateralInfo {
   label: Collateral
   torqRefinanceCI: IContractInfo
   tokenCI: IContractInfo
+  tokenRadianCI: IContractInfo
 }
 
 export interface IMarketInfo {
