@@ -119,26 +119,7 @@ export const BoostItemChart: FC<BoostItemChartProps> = (props) => {
         // let chartDataObj: any = {}
 
         // console.log('convertTransactions :>> ', convertTransactions);
-        let functionName = ''
-        if (boostItem.tokenSymbol === 'WETH') {
-          functionName = 'depositETH'
-        }
-        if (boostItem.tokenSymbol === 'WBTC') {
-          functionName = 'depositBTC'
-        }
-        if (boostItem.tokenSymbol === 'LINK') {
-          functionName = 'depositLINK'
-        }
-        if (boostItem.tokenSymbol === 'UNI') {
-          functionName = 'depositUNI'
-        }
-
-        const res = await axiosInstance.post(path, {
-          address: contractAddress,
-          functionName: functionName,
-          txreceipt_status: '1',
-        })
-        const transactions: any[] = res?.data?.data || []
+        
 
         let chartDataObj: any = {}
 
@@ -153,39 +134,61 @@ export const BoostItemChart: FC<BoostItemChartProps> = (props) => {
         // console.log('transactions', transactions)
 
         let lineValue = 50
-        transactions?.forEach((item) => {
-          const key = dayjs(+item?.timeStamp * 1000).format('YYYY-MM-DD')
-          if (chartDataObj[key]) {
-            const abi = JSON.parse(
-              contractAddress === boostWbtcContract?.address
-                ? boostWbtcContract.abi
-                : boostWethContract.abi
-            )
 
-            const inputs = new ethers.utils.AbiCoder().decode(
-              abi
-                ?.find((item) => item?.name === functionName)
-                ?.inputs?.map((item) => item?.type),
-              ethers.utils.hexDataSlice(item?.input, 4)
-            )
+        // let functionName = ''
+        // if (boostItem.tokenSymbol === 'WETH') {
+        //   functionName = 'depositETH'
+        // }
+        // if (boostItem.tokenSymbol === 'WBTC') {
+        //   functionName = 'depositBTC'
+        // }
+        // if (boostItem.tokenSymbol === 'LINK') {
+        //   functionName = 'depositLINK'
+        // }
+        // if (boostItem.tokenSymbol === 'UNI') {
+        //   functionName = 'depositUNI'
+        // }
 
-            // console.log('inputs', inputs)
+        // const res = await axiosInstance.post(path, {
+        //   address: contractAddress,
+        //   functionName: functionName,
+        //   txreceipt_status: '1',
+        // })
+        // const transactions: any[] = res?.data?.data || []
 
-            const [amount] = inputs?.map((item) => item?.toString())
+        // transactions?.forEach((item) => {
+        //   const key = dayjs(+item?.timeStamp * 1000).format('YYYY-MM-DD')
+        //   if (chartDataObj[key]) {
+        //     const abi = JSON.parse(
+        //       contractAddress === boostWbtcContract?.address
+        //         ? boostWbtcContract.abi
+        //         : boostWethContract.abi
+        //     )
 
-            const tokenAmountFormatted = ethers.utils
-              .formatUnits(amount, tokenDecimals)
-              .toString()
+        //     const inputs = new ethers.utils.AbiCoder().decode(
+        //       abi
+        //         ?.find((item) => item?.name === functionName)
+        //         ?.inputs?.map((item) => item?.type),
+        //       ethers.utils.hexDataSlice(item?.input, 4)
+        //     )
 
-            const tokenAmount = +tokenAmountFormatted
+        //     // console.log('inputs', inputs)
 
-            console.log('tokenAmount', boostItem.tokenSymbol, key, tokenAmount)
+        //     const [amount] = inputs?.map((item) => item?.toString())
 
-            const value = +tokenAmount
-            chartDataObj[key].valueBar += value
-            lineValue = Math.max(lineValue, value)
-          }
-        })
+        //     const tokenAmountFormatted = ethers.utils
+        //       .formatUnits(amount, tokenDecimals)
+        //       .toString()
+
+        //     const tokenAmount = +tokenAmountFormatted
+
+        //     console.log('tokenAmount', boostItem.tokenSymbol, key, tokenAmount)
+
+        //     const value = +tokenAmount
+        //     chartDataObj[key].valueBar += value
+        //     lineValue = Math.max(lineValue, value)
+        //   }
+        // })
 
         // console.log('chartDataObj :>> ', chartDataObj)
 

@@ -48,9 +48,9 @@ export const BorrowItemChart: FC<BorrowItemChartProps> = (props) => {
 
     if (active && payload && payload.length) {
       return (
-        <div className="z-10 rounded border-2 border-[#E6E6E6] dark:border-[#1C1C1C] dark:bg-[#0E0E0E] px-4 py-2 text-left bg-white">
+        <div className="z-10 rounded border-2 border-[#E6E6E6] bg-white px-4 py-2 text-left dark:border-[#1C1C1C] dark:bg-[#0E0E0E]">
           <NumericFormat
-            className="text-[20px] font-semibold dark:text-[#959595] text-black"
+            className="text-[20px] font-semibold text-black dark:text-[#959595]"
             displayType="text"
             value={+payload?.[1]?.payload?.value || 0}
             thousandSeparator
@@ -58,7 +58,7 @@ export const BorrowItemChart: FC<BorrowItemChartProps> = (props) => {
             prefix="$"
             fixedDecimalScale
           />
-          <div className="text-14 dark:text-[#959595] text-black">
+          <div className="text-14 text-black dark:text-[#959595]">
             {new Date(payload?.[1]?.payload?.time)
               .toISOString()
               .substring(0, 10)}
@@ -107,13 +107,6 @@ export const BorrowItemChart: FC<BorrowItemChartProps> = (props) => {
         })
         const transactions1 = newRes.data || []
 
-        const res = await axiosInstance.post(path, {
-          address: tokenAddress,
-          functionName: 'borrow',
-          txreceipt_status: '1',
-        })
-        const transactions: any[] = res?.data?.data || []
-
         const convertTransactions = transactions1.reduce((acc, item) => {
           acc[item?.date] = item
           return acc
@@ -130,6 +123,14 @@ export const BorrowItemChart: FC<BorrowItemChartProps> = (props) => {
         }
 
         let lineValue = 50
+
+        // const res = await axiosInstance.post(path, {
+        //   address: tokenAddress,
+        //   functionName: 'borrow',
+        //   txreceipt_status: '1',
+        // })
+        // const transactions: any[] = res?.data?.data || []
+
         // transactions?.forEach((item) => {
         //   const key = dayjs(+item?.timeStamp * 1000).format('YYYY-MM-DD')
         //   if (chartDataObj[key]) {
@@ -166,7 +167,7 @@ export const BorrowItemChart: FC<BorrowItemChartProps> = (props) => {
           ...item,
           value: item?.valueBar,
           valueBar:
-            (1 + item?.valueBar * tusdPrice) > 100
+            1 + item?.valueBar * tusdPrice > 100
               ? (1 + item?.valueBar * tusdPrice) / 4
               : 1 + item?.valueBar * tusdPrice,
           valueLine: lineValue * 2,
