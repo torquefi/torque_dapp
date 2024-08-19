@@ -21,10 +21,7 @@ import {
   tokenUsdcContract,
   userBorrowAddressBtcContract,
   userBorrowAddressEthContract,
-  btcBorrowUsdtContract,
-  ethBorrowUsdtContract,
 } from '../constants/contract'
-// import { compoundUsdcContract as compoundUsdcContractData } from '../constants/contract'
 import { 
   compoundUsdcContract as compoundUsdcContractData, 
   compoundUsdtContract as compoundUsdtContractData 
