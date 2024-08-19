@@ -60,15 +60,17 @@ export const tokenUsdtContract: IContractInfo = {
 
 // ======================================================================
 
-export const btcBorrowUsdtContract: IContractInfo = {
-  address: '0x08be670F8ef77Dce87EaA144C4365a32564BF4D8',
-  abi: JSON.stringify(btcBorrowUsdtAbi),
-}
+// export const btcBorrowUsdtContract: IContractInfo = {
+//   address: '0xE0981640E6420453b4e85a50aE7c0100363CfC25',
+//   // address: '0x08be670F8ef77Dce87EaA144C4365a32564BF4D8',
+//   abi: JSON.stringify(btcBorrowUsdtAbi),
+// }
 
-export const ethBorrowUsdtContract: IContractInfo = {
-  address: '0xF5B662dF870f058A7726879DCaB1B2bA8D8D6377',
-  abi: JSON.stringify(ethBorrowUsdtAbi),
-}
+// export const ethBorrowUsdtContract: IContractInfo = {
+//   address: '0x8E773D9be8852768B3C402815Ab48b00b1847461',
+//   // address: '0xF5B662dF870f058A7726879DCaB1B2bA8D8D6377',
+//   abi: JSON.stringify(ethBorrowUsdtAbi),
+// }
 
 export const borrowBtcContract: IContractInfo = {
   address: '0xE307f7E20d86c26065466E1928362CB0f8Deb186',
@@ -95,12 +97,14 @@ export const simpleBorrowEthContract: IContractInfo = {
 }
 
 export const simpleBtcBorrowUsdtContract: IContractInfo = {
-  address: '0x08be670F8ef77Dce87EaA144C4365a32564BF4D8',
+  address: '0xE0981640E6420453b4e85a50aE7c0100363CfC25',
+  // address: '0x08be670F8ef77Dce87EaA144C4365a32564BF4D8',
   abi: JSON.stringify(simpleBtcBorrowUsdt),
 }
 
 export const simpleEthBorrowUsdtContract: IContractInfo = {
-  address: '0xF5B662dF870f058A7726879DCaB1B2bA8D8D6377',
+  address: '0x8E773D9be8852768B3C402815Ab48b00b1847461',
+  // address: '0xF5B662dF870f058A7726879DCaB1B2bA8D8D6377',
   abi: JSON.stringify(simpleEthBorrowUsdt),
 }
 
