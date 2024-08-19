@@ -523,7 +523,7 @@ export default function CreateBorrowItem({
             borrow.toString(),
             usdtBorrowAmount,
             {
-              gasLimit: '3000000',
+              gasLimit: '50000',
             }
           )
           await tx.wait()
