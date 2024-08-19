@@ -452,10 +452,23 @@ export function CreateBoostItem({
           />
         </div>
         <button
-          className={`font-rogan-regular mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
-          ${btnLoading ? 'cursor-not-allowed text-[#eee]' : 'cursor-pointer '}
-        `}
-          onClick={handleConfirmDeposit}
+          className={`font-rogan-regular mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all ${
+            btnLoading || (isConnected && amount <= 0)
+              ? 'cursor-not-allowed opacity-60 duration-100 ease-linear transition-ease'
+              : 'hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]'
+          }`}
+          disabled={btnLoading || (isConnected && amount <= 0)}
+          onClick={() => {
+            if (!isConnected) {
+              handleConfirmDeposit()
+              return
+            }
+            if (amount <= 0) {
+              toast.error('Please add Your Supply input')
+              return
+            }
+            handleConfirmDeposit()
+          }}
         >
           {btnLoading && <LoadingCircle />}
           {renderSubmitText()}
