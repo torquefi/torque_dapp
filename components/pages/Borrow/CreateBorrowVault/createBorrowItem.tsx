@@ -523,7 +523,7 @@ export default function CreateBorrowItem({
             borrow.toString(),
             usdtBorrowAmount,
             {
-              gasLimit: '50000',
+              gasLimit: '3000000',
             }
           )
           await tx.wait()
@@ -958,11 +958,21 @@ export default function CreateBorrowItem({
           </p>
         </div>
         <button
-          className={`font-rogan-regular mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${
-            buttonLoading && 'cursor-not-allowed opacity-50'
+          className={`font-rogan-regular mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all ${
+            buttonLoading !== '' || (isConnected && (amount <= 0 || amountReceive <= 0))
+              ? 'cursor-not-allowed opacity-60 duration-100 ease-linear transition-ease'
+              : 'hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]'
           }`}
-          disabled={buttonLoading != ''}
+          disabled={buttonLoading !== '' || (isConnected && (amount <= 0 || amountReceive <= 0))}
           onClick={() => {
+            if (!isConnected) {
+              handleConfirmDeposit()
+              return
+            }
+            if (amount <= 0 || amountReceive <= 0) {
+              toast.error('Please add Your Supply input')
+              return
+            }
             if (
               amountReceive /
                 (amount *
@@ -977,8 +987,8 @@ export default function CreateBorrowItem({
             }
           }}
         >
-          {buttonLoading != '' && <LoadingCircle />}
-          {buttonLoading != '' ? buttonLoading : renderSubmitText()}
+          {buttonLoading !== '' && <LoadingCircle />}
+          {buttonLoading !== '' ? buttonLoading : renderSubmitText()}
         </button>
       </div>
       <ConfirmDepositModal
