@@ -43,18 +43,10 @@ export default function InputCurrencySwitch({
 }: InputCurrencySwitchProps) {
   const [isShowUsd, setShowUsd] = useState(usdDefault)
   const [inputAmount, setInputAmount] = useState(0)
+  const [isInputMade, setIsInputMade] = useState(false)
   const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
 
   const tokenPrice = usdPrice[tokenSymbol.toLocaleLowerCase()] || 0
-
-  // const valueToShow = isShowUsd
-  //   ? tokenValue * (usdPrice?.[tokenSymbol] || 1)
-  //   : tokenValue
-
-  // const strToShow =
-  //   (isShowUsd ? '$' : '') +
-  //   toMetricUnits(valueToShow, decimalScale) +
-  //   (isShowUsd ? '' : ' ' + tokenSymbol)
 
   useEffect(() => {
     if (onChange)
@@ -96,7 +88,9 @@ export default function InputCurrencySwitch({
         displayType={displayType}
         suffix={!isShowUsd ? ' ' + tokenSymbol : ''}
         prefix={isShowUsd ? '$' : ''}
-        className={`block max-w-full whitespace-nowrap bg-transparent pb-[3px] text-center text-[26px] leading-tight text-[#030303] placeholder-[#030303] dark:text-[#ffff] dark:placeholder-[#fff] md:text-[32px]`}
+        className={`block max-w-full whitespace-nowrap bg-transparent pb-[3px] text-center text-[26px] leading-tight text-[#030303] placeholder-[#030303] dark:text-[#ffff] dark:placeholder-[#fff] md:text-[32px] transition-opacity duration-100 ${
+          isInputMade || inputAmount !== 0 ? 'opacity-100' : 'opacity-60'
+        }`}
         value={
           +inputAmount
             ? floorFraction(inputAmount, isShowUsd ? 2 : 5)
@@ -106,6 +100,7 @@ export default function InputCurrencySwitch({
         }
         onChange={(event: any, value: any) => {
           setInputAmount(value)
+          setIsInputMade(true)
         }}
         decimalScale={isShowUsd ? 2 : 5}
         thousandSeparator
