@@ -176,7 +176,7 @@ export default function CreateBorrowItem({
 
             if (
               new BigNumber(allowance).lte(new BigNumber('0')) ||
-              new BigNumber(allowance).lte(new BigNumber(tusdBorrowAmount))
+              new BigNumber(allowance).lte(new BigNumber(borrow?.toString()))
             ) {
               const tx = await tokenContract1.approve(
                 item?.borrowContractInfo?.address,
@@ -192,7 +192,7 @@ export default function CreateBorrowItem({
             if (
               new BigNumber(allowanceUserContract).lte(new BigNumber('0')) ||
               new BigNumber(allowanceUserContract).lte(
-                new BigNumber(tusdBorrowAmount)
+                new BigNumber(borrow?.toString())
               )
             ) {
               const tx = await tokenContract1.approve(
@@ -294,7 +294,7 @@ export default function CreateBorrowItem({
             console.log('allowance :>> ', allowance)
             if (
               new BigNumber(allowance).lte(new BigNumber('0')) ||
-              new BigNumber(allowance).lte(new BigNumber(tusdBorrowAmount))
+              new BigNumber(allowance).lte(new BigNumber(borrow?.toString()))
             ) {
               const tx = await tokenContract1.approve(
                 item?.borrowContractInfo?.address,
@@ -310,7 +310,7 @@ export default function CreateBorrowItem({
             if (
               new BigNumber(allowanceUserContract).lte(new BigNumber('0')) ||
               new BigNumber(allowanceUserContract).lte(
-                new BigNumber(tusdBorrowAmount)
+                new BigNumber(borrow?.toString())
               )
             ) {
               const tx = await tokenContract1.approve(
@@ -390,7 +390,7 @@ export default function CreateBorrowItem({
 
             if (
               new BigNumber(allowance).lte(new BigNumber('0')) ||
-              new BigNumber(allowance).lte(new BigNumber(usdtBorrowAmount))
+              new BigNumber(allowance).lte(new BigNumber(borrow?.toString()))
             ) {
               const tx = await tokenContract1.approve(
                 item?.borrowContractInfo?.address,
@@ -406,7 +406,7 @@ export default function CreateBorrowItem({
             if (
               new BigNumber(allowanceUserContract).lte(new BigNumber('0')) ||
               new BigNumber(allowanceUserContract).lte(
-                new BigNumber(usdtBorrowAmount)
+                new BigNumber(borrow?.toString())
               )
             ) {
               const tx = await tokenContract1.approve(
@@ -427,7 +427,10 @@ export default function CreateBorrowItem({
 
           const tx = await borrowContract2.callBorrow(
             borrow.toString(),
-            usdtBorrowAmount
+            usdtBorrowAmount,
+            {
+              gasLimit: '500000',
+            }
           )
           await tx.wait()
           toast.success('Borrow Successful')
@@ -456,6 +459,7 @@ export default function CreateBorrowItem({
           console.log('amountReceive :>> ', amountReceive)
 
           let usdtBorrowAmount = '0'
+          console.log('amountReceive :>> ', amountReceive)
           if (amountReceive) {
             usdtBorrowAmount = ethers.utils
               .parseUnits(
@@ -464,6 +468,7 @@ export default function CreateBorrowItem({
               )
               .toString()
           }
+          console.log('usdtBorrowAmount :>> ', usdtBorrowAmount)
 
           const tokenContract1 = new ethers.Contract(
             item?.tokenContractInfo?.address,
@@ -481,10 +486,12 @@ export default function CreateBorrowItem({
               .allowance(address, item.borrowContractInfo.address)
               .call()
             console.log('allowance :>> ', allowance)
+            console.log('usdtBorrowAmount :>> ', usdtBorrowAmount)
+            console.log('userAddressContract :>> ', userAddressContract)
 
             if (
               new BigNumber(allowance).lte(new BigNumber('0')) ||
-              new BigNumber(allowance).lte(new BigNumber(usdtBorrowAmount))
+              new BigNumber(allowance).lte(new BigNumber(borrow.toString()))
             ) {
               const tx = await tokenContract1.approve(
                 item?.borrowContractInfo?.address,
@@ -500,7 +507,7 @@ export default function CreateBorrowItem({
             if (
               new BigNumber(allowanceUserContract).lte(new BigNumber('0')) ||
               new BigNumber(allowanceUserContract).lte(
-                new BigNumber(usdtBorrowAmount)
+                new BigNumber(borrow.toString())
               )
             ) {
               const tx = await tokenContract1.approve(
@@ -521,10 +528,7 @@ export default function CreateBorrowItem({
 
           const tx = await borrowContract2.callBorrow(
             borrow.toString(),
-            usdtBorrowAmount,
-            {
-              gasLimit: '50000',
-            }
+            usdtBorrowAmount
           )
           await tx.wait()
           toast.success('Borrow Successful')
@@ -581,7 +585,7 @@ export default function CreateBorrowItem({
 
             if (
               new BigNumber(allowance).lte(new BigNumber('0')) ||
-              new BigNumber(allowance).lte(new BigNumber(usdtBorrowAmount))
+              new BigNumber(allowance).lte(new BigNumber(borrow?.toString()))
             ) {
               const tx = await tokenContract1.approve(
                 item?.borrowContractInfo?.address,
@@ -597,7 +601,7 @@ export default function CreateBorrowItem({
             if (
               new BigNumber(allowanceUserContract).lte(new BigNumber('0')) ||
               new BigNumber(allowanceUserContract).lte(
-                new BigNumber(usdtBorrowAmount)
+                new BigNumber(borrow?.toString())
               )
             ) {
               const tx = await tokenContract1.approve(
@@ -675,7 +679,9 @@ export default function CreateBorrowItem({
 
             if (
               new BigNumber(allowance).lte(new BigNumber('0')) ||
-              new BigNumber(allowance).lte(new BigNumber(usdtBorrowAmount))
+              new BigNumber(allowance).lte(
+                new BigNumber(new BigNumber(borrow?.toString()))
+              )
             ) {
               const tx = await tokenContract1.approve(
                 item?.borrowContractInfo?.address,
@@ -793,12 +799,19 @@ export default function CreateBorrowItem({
                   className="w-[18px] md:w-[22px]"
                 />
                 <div className="font-rogan-regular mx-1 uppercase text-[#00BFFF] xs:mx-2">
-                +{item.arbBonus === 0 
-                  ? '0.00' 
-                  : Number(item.arbBonus) % 1 === 0 
-                  ? `${Number(item.arbBonus).toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}` 
-                  : Number(item.arbBonus).toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 })
-                }% ARB
+                  +
+                  {item.arbBonus === 0
+                    ? '0.00'
+                    : Number(item.arbBonus) % 1 === 0
+                    ? `${Number(item.arbBonus).toLocaleString(undefined, {
+                        minimumFractionDigits: 1,
+                        maximumFractionDigits: 1,
+                      })}`
+                    : Number(item.arbBonus).toLocaleString(undefined, {
+                        minimumFractionDigits: 1,
+                        maximumFractionDigits: 1,
+                      })}
+                  % ARB
                 </div>
               </div>
             </Popover>
@@ -959,11 +972,15 @@ export default function CreateBorrowItem({
         </div>
         <button
           className={`font-rogan-regular mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all ${
-            buttonLoading !== '' || (isConnected && (amount <= 0 || amountReceive <= 0))
-              ? 'cursor-not-allowed opacity-60 duration-100 ease-linear transition-ease'
+            buttonLoading !== '' ||
+            (isConnected && (amount <= 0 || amountReceive <= 0))
+              ? 'transition-ease cursor-not-allowed opacity-60 duration-100 ease-linear'
               : 'hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]'
           }`}
-          disabled={buttonLoading !== '' || (isConnected && (amount <= 0 || amountReceive <= 0))}
+          disabled={
+            buttonLoading !== '' ||
+            (isConnected && (amount <= 0 || amountReceive <= 0))
+          }
           onClick={() => {
             if (!isConnected) {
               handleConfirmDeposit()
