@@ -89,7 +89,7 @@ export default function InputCurrencySwitch({
         suffix={!isShowUsd ? ' ' + tokenSymbol : ''}
         prefix={isShowUsd ? '$' : ''}
         className={`block max-w-full whitespace-nowrap bg-transparent pb-[3px] text-center text-[26px] leading-tight text-[#030303] placeholder-[#030303] dark:text-[#ffff] dark:placeholder-[#fff] md:text-[32px] transition-opacity duration-100 ${
-          isInputMade || inputAmount !== 0 ? 'opacity-100' : 'opacity-60'
+          isInputMade || inputAmount !== 0 ? 'opacity-100' : 'opacity-20'
         }`}
         value={
           +inputAmount
