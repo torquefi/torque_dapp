@@ -20,6 +20,7 @@ import { SelectCollateral } from './SelectCollateral'
 import { SelectMarket } from './SelectMarket'
 import BigNumber from 'bignumber.js'
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
+import Popover from '@/components/common/Popover'
 
 const ImportPosition: React.FC = () => {
   const theme = useSelector((store: AppStore) => store.theme.theme)
@@ -46,6 +47,9 @@ const ImportPosition: React.FC = () => {
   ])
 
   const [selectedTab, setSelectedTab] = useState<number | null>(null)
+  const [slippage, setSlippage] = useState(0.5)
+  const [customSlippage, setCustomSlippage] = useState(0.5)
+  // const slippageOptions = [0.1, 0.5, 1]
 
   useEffect(() => {
     if (progressFromMarket > 0) {
@@ -78,7 +82,6 @@ const ImportPosition: React.FC = () => {
   }, [])
 
   const fetchInfoItems = () => {
-    // Placeholder for actual fetching logic
     setInfoItems([
       { title: 'Current APR', content: '0.00%' },
       { title: 'Torque APR', content: '0.00%' },
@@ -340,13 +343,63 @@ const ImportPosition: React.FC = () => {
             Import
           </p>
           <div className="flex items-center justify-between">
-            <button className="mt-[0px]">
-              <img
-                src="/icons/slider.svg"
-                alt="slider icon"
-                className="w-[20px]"
-              />
-            </button>
+          <Popover
+            trigger="click"
+            placement="bottom-right"
+            className="mt-[8px] w-[200px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#161616]"
+            content={
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-[16px] font-semibold dark:text-white">Slippage</span>
+                  <span className="text-[14px] font-medium dark:text-white">
+                    {slippage !== 'Auto' ? `${slippage}%` : ''}
+                  </span>
+                </div>
+                <div className="flex space-x-2">
+                  <button
+                    className={`flex-1 px-3 py-2 rounded-lg text-[14px] font-medium ${
+                      slippage === 'Auto'
+                        ? 'bg-[#F8F9FA] text-[#333] dark:bg-[#555] dark:text-white'
+                        : 'bg-[#f8f8f8] text-[#aaa] dark:bg-[#444] dark:text-[#bbb]'
+                    }`}
+                    onClick={() => setSlippage('Auto')}
+                  >
+                    Auto
+                  </button>
+                  <button
+                    className={`flex-1 px-3 py-2 rounded-lg text-[14px] font-medium ${
+                      slippage !== 'Auto'
+                        ? 'bg-[#F8F9FA] text-[#333] dark:bg-[#555] dark:text-white'
+                        : 'bg-[#f8f8f8] text-[#aaa] dark:bg-[#444] dark:text-[#bbb]'
+                    }`}
+                    onClick={() => setSlippage(customSlippage || 0.5)}
+                  >
+                    Custom
+                  </button>
+                </div>
+                {slippage !== 'Auto' && (
+                  <div className="mt-3 flex items-center">
+                    <NumericFormat
+                      className="w-full p-2 text-[14px] text-[#333] bg-[#f8f8f8] border border-[#F8F9FA] rounded-lg dark:bg-[#444] dark:border-[#555] dark:text-white"
+                      value={customSlippage}
+                      onValueChange={(e) => setCustomSlippage(e.floatValue || 0.5)}
+                      suffix="%"
+                      decimalScale={2}
+                      placeholder="0.50"
+                    />
+                  </div>
+                )}
+              </div>
+            }
+          >
+            <div className="p-[6px] cursor-pointer items-center xs:flex bg-transparent hover:bg-[#f9f9f9] dark:hover:bg-[#141414] rounded-full transition-ease duration-100">
+            <img
+              src="/icons/slider.svg"
+              alt="slider icon"
+              className="w-[20px] cursor-pointer"
+            />
+            </div>
+          </Popover>
           </div>
         </div>
         <div
