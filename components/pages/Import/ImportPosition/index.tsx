@@ -359,26 +359,31 @@ const ImportPosition: React.FC = () => {
                 <div className="flex space-x-2">
                   <button
                     className={`flex-1 px-3 py-2 rounded-lg text-[14px] font-medium ${
-                      slippage === 'Auto'
+                      isAutoSlippage
                         ? 'bg-[#F8F9FA] text-[#333] dark:bg-[#555] dark:text-white'
                         : 'bg-[#f8f8f8] text-[#aaa] dark:bg-[#444] dark:text-[#bbb]'
                     }`}
-                    onClick={() => setSlippage('Auto')}
+                    onClick={() => {
+                      setIsAutoSlippage(true)
+                    }}
                   >
                     Auto
                   </button>
                   <button
                     className={`flex-1 px-3 py-2 rounded-lg text-[14px] font-medium ${
-                      slippage !== 'Auto'
+                      !isAutoSlippage
                         ? 'bg-[#F8F9FA] text-[#333] dark:bg-[#555] dark:text-white'
                         : 'bg-[#f8f8f8] text-[#aaa] dark:bg-[#444] dark:text-[#bbb]'
                     }`}
-                    onClick={() => setSlippage(customSlippage || 0.5)}
+                    onClick={() => {
+                      setIsAutoSlippage(false)
+                      setSlippage(customSlippage || 0.5)
+                    }}
                   >
                     Custom
                   </button>
                 </div>
-                {slippage !== 'Auto' && (
+                {!isAutoSlippage && (
                   <div className="mt-3 flex items-center">
                     <NumericFormat
                       className="w-full p-2 text-[14px] text-[#333] bg-[#f8f8f8] border border-[#F8F9FA] rounded-lg dark:bg-[#444] dark:border-[#555] dark:text-white"
@@ -394,11 +399,11 @@ const ImportPosition: React.FC = () => {
             }
           >
             <div className="p-[6px] cursor-pointer items-center xs:flex bg-transparent hover:bg-[#f9f9f9] dark:hover:bg-[#141414] rounded-full transition-ease duration-100">
-            <img
-              src="/icons/slider.svg"
-              alt="slider icon"
-              className="w-[20px] cursor-pointer"
-            />
+              <img
+                src="/icons/slider.svg"
+                alt="slider icon"
+                className="w-[20px] cursor-pointer"
+              />
             </div>
           </Popover>
           </div>
