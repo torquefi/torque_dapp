@@ -353,7 +353,7 @@ const ImportPosition: React.FC = () => {
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-[16px] font-semibold dark:text-white">Slippage</span>
                   <span className="text-[14px] font-medium dark:text-white">
-                    {slippage !== 'Auto' ? `${slippage}%` : ''}
+                    {!isAutoSlippage ? `${slippage}%` : ''}
                   </span>
                 </div>
                 <div className="flex space-x-2">
