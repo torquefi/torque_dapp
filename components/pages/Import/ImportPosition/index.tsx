@@ -169,7 +169,7 @@ const ImportPosition: React.FC = () => {
           (data: any) =>
             data[0]?.toLowerCase() ===
             selectedMarket.tokenCI.address?.toLowerCase()
-        )?.[1]
+        )?.[4]
         ?.toString()
       const totalAmountCollateral = userReservesData[0]
         ?.find?.(
@@ -205,7 +205,14 @@ const ImportPosition: React.FC = () => {
             address = token
           }
 
-          map[address] = data[1]?.toString()
+          map[address] = [
+            data[1]?.toString(),
+            data[2],
+            data[3]?.toString(),
+            data[4]?.toString(),
+            data[5]?.toString(),
+            data[6]?.toString(),
+          ]
         }
         console.log('userReservesData', map)
       }
