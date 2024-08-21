@@ -8,7 +8,15 @@ import { NumericFormat } from 'react-number-format'
 import { useSelector } from 'react-redux'
 import { toast } from 'sonner'
 import { useAccount } from 'wagmi'
-import { radianUiPoolDataProviderCI } from '../constants/contract'
+import {
+  radianUiPoolDataProviderCI,
+  tokenRwbtcCI,
+  tokenRwethCI,
+  tokenUsdcCI,
+  tokenUsdceCI,
+  tokenWbtcCI,
+  tokenWethCI,
+} from '../constants/contract'
 import { marketOptions, providerAddress } from '../constants/provider'
 import {
   Collateral,
@@ -175,6 +183,33 @@ const ImportPosition: React.FC = () => {
       console.log('totalAmountRefinance', totalAmountRefinance)
       console.log('totalAmountCollateral', totalAmountCollateral)
 
+      {
+        // will delete
+        const tokens = [
+          tokenRwbtcCI,
+          tokenRwethCI,
+          tokenWbtcCI,
+          tokenWethCI,
+          tokenUsdcCI,
+          tokenUsdceCI,
+        ]
+        const map: any = {}
+        for (const data of userReservesData[0]) {
+          let address = data[0]
+
+          let token = tokens?.find(
+            (t) => t.address?.toLowerCase() === address?.toLowerCase()
+          )?.name
+
+          if (token) {
+            address = token
+          }
+
+          map[address] = data[1]?.toString()
+        }
+        console.log('userReservesData', map)
+      }
+
       const amountRefinance = new BigNumber(totalAmountRefinance)
         .multipliedBy(new BigNumber(amount))
         .dividedBy(new BigNumber(100))
@@ -184,9 +219,6 @@ const ImportPosition: React.FC = () => {
         .multipliedBy(new BigNumber(amount))
         .dividedBy(new BigNumber(100))
         .toString()
-
-      console.log('amountRefinance', amountRefinance)
-      console.log('amountCollateral', amountCollateral)
 
       const marketTokenAllowanceBN = await marketTokenContract.allowance(
         address,
@@ -229,60 +261,86 @@ const ImportPosition: React.FC = () => {
         await tx.wait()
       }
 
-      if (
-        selectedMarket.label === Market.RadiantUSDC &&
-        selectedCollateral.label === Collateral.WBTC
-      ) {
-        const tx = await torqRefinanceContract.torqRefinanceUSDC(
-          amountRefinance,
-          amountCollateral,
-          {
-            gasLimit: '50000',
-          }
-        )
-        await tx.wait()
+      console.log('params', amountRefinance, amountCollateral)
+
+      if (selectedMarket.label === Market.RadiantUSDC) {
+        if (selectedCollateral.label === Collateral.WBTC) {
+          const tx = await torqRefinanceContract.torqRefinanceUSDC(
+            amountRefinance,
+            amountCollateral,
+            { gasLimit: '50000' }
+          )
+          await tx.wait()
+        }
+
+        if (selectedCollateral.label === Collateral.WETH) {
+          const tx = await torqRefinanceContract.torqRefinanceUSDC(
+            amountRefinance,
+            amountCollateral,
+            { gasLimit: '50000' }
+          )
+          await tx.wait()
+        }
       }
 
-      if (
-        selectedMarket.label === Market.RadiantUSDC &&
-        selectedCollateral.label === Collateral.WETH
-      ) {
-        const tx = await torqRefinanceContract.torqRefinanceUSDC(
-          amountRefinance,
-          amountCollateral,
-          {
-            gasLimit: '50000',
-          }
-        )
-        await tx.wait()
+      if (selectedMarket.label === Market.RadiantUSDCe) {
+        if (selectedCollateral.label === Collateral.WBTC) {
+          const tx = await torqRefinanceContract.torqRefinanceUSDCe(
+            amountRefinance,
+            amountCollateral,
+            { gasLimit: '50000' }
+          )
+          await tx.wait()
+        }
+
+        if (selectedCollateral.label === Collateral.WETH) {
+          const tx = await torqRefinanceContract.torqRefinanceUSDCe(
+            amountRefinance,
+            amountCollateral,
+            { gasLimit: '50000' }
+          )
+          await tx.wait()
+        }
       }
 
-      if (
-        selectedMarket.label === Market.RadiantUSDCe &&
-        selectedCollateral.label === Collateral.WBTC
-      ) {
-        const tx = await torqRefinanceContract.torqRefinanceUSDCe(
-          amountRefinance,
-          amountCollateral,
-          {
-            gasLimit: '50000',
-          }
-        )
-        await tx.wait()
+      if (selectedMarket.label === Market.AaveV3USDC) {
+        if (selectedCollateral.label === Collateral.WBTC) {
+          const tx = await torqRefinanceContract.torqRefinanceUSDC(
+            amountRefinance,
+            amountCollateral,
+            { gasLimit: '50000' }
+          )
+          await tx.wait()
+        }
+
+        if (selectedCollateral.label === Collateral.WETH) {
+          const tx = await torqRefinanceContract.torqRefinanceUSDC(
+            amountRefinance,
+            amountCollateral,
+            { gasLimit: '50000' }
+          )
+          await tx.wait()
+        }
       }
 
-      if (
-        selectedMarket.label === Market.RadiantUSDCe &&
-        selectedCollateral.label === Collateral.WETH
-      ) {
-        const tx = await torqRefinanceContract.torqRefinanceUSDCe(
-          amountRefinance,
-          amountCollateral,
-          {
-            gasLimit: '50000',
-          }
-        )
-        await tx.wait()
+      if (selectedMarket.label === Market.AaveV3USDCe) {
+        if (selectedCollateral.label === Collateral.WBTC) {
+          const tx = await torqRefinanceContract.torqRefinanceUSDCe(
+            amountRefinance,
+            amountCollateral,
+            { gasLimit: '50000' }
+          )
+          await tx.wait()
+        }
+
+        if (selectedCollateral.label === Collateral.WETH) {
+          const tx = await torqRefinanceContract.torqRefinanceUSDCe(
+            amountRefinance,
+            amountCollateral,
+            { gasLimit: '50000' }
+          )
+          await tx.wait()
+        }
       }
 
       setProgressFromMarket(500)
@@ -344,68 +402,72 @@ const ImportPosition: React.FC = () => {
             Import
           </p>
           <div className="flex items-center justify-between">
-          <Popover
-            trigger="click"
-            placement="bottom-right"
-            className="mt-[8px] w-[200px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#161616]"
-            content={
-              <div>
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-[16px] font-semibold dark:text-white">Slippage</span>
-                  <span className="text-[14px] font-medium dark:text-white">
-                    {!isAutoSlippage ? `${slippage}%` : ''}
-                  </span>
-                </div>
-                <div className="flex space-x-2">
-                  <button
-                    className={`flex-1 px-3 py-2 rounded-lg text-[14px] font-medium ${
-                      isAutoSlippage
-                        ? 'bg-[#F8F9FA] text-[#333] dark:bg-[#555] dark:text-white'
-                        : 'bg-[#f8f8f8] text-[#aaa] dark:bg-[#444] dark:text-[#bbb]'
-                    }`}
-                    onClick={() => {
-                      setIsAutoSlippage(true)
-                    }}
-                  >
-                    Auto
-                  </button>
-                  <button
-                    className={`flex-1 px-3 py-2 rounded-lg text-[14px] font-medium ${
-                      !isAutoSlippage
-                        ? 'bg-[#F8F9FA] text-[#333] dark:bg-[#555] dark:text-white'
-                        : 'bg-[#f8f8f8] text-[#aaa] dark:bg-[#444] dark:text-[#bbb]'
-                    }`}
-                    onClick={() => {
-                      setIsAutoSlippage(false)
-                      setSlippage(customSlippage || 0.5)
-                    }}
-                  >
-                    Custom
-                  </button>
-                </div>
-                {!isAutoSlippage && (
-                  <div className="mt-3 flex items-center">
-                    <NumericFormat
-                      className="w-full p-2 text-[14px] text-[#333] bg-[#f8f8f8] border border-[#F8F9FA] rounded-lg dark:bg-[#444] dark:border-[#555] dark:text-white"
-                      value={customSlippage}
-                      onValueChange={(e) => setCustomSlippage(e.floatValue || 0.5)}
-                      suffix="%"
-                      decimalScale={2}
-                      placeholder="0.50"
-                    />
+            <Popover
+              trigger="click"
+              placement="bottom-right"
+              className="mt-[8px] w-[200px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#161616]"
+              content={
+                <div>
+                  <div className="mb-2 flex items-center justify-between">
+                    <span className="text-[16px] font-semibold dark:text-white">
+                      Slippage
+                    </span>
+                    <span className="text-[14px] font-medium dark:text-white">
+                      {!isAutoSlippage ? `${slippage}%` : ''}
+                    </span>
                   </div>
-                )}
+                  <div className="flex space-x-2">
+                    <button
+                      className={`flex-1 rounded-lg px-3 py-2 text-[14px] font-medium ${
+                        isAutoSlippage
+                          ? 'bg-[#F8F9FA] text-[#333] dark:bg-[#555] dark:text-white'
+                          : 'bg-[#f8f8f8] text-[#aaa] dark:bg-[#444] dark:text-[#bbb]'
+                      }`}
+                      onClick={() => {
+                        setIsAutoSlippage(true)
+                      }}
+                    >
+                      Auto
+                    </button>
+                    <button
+                      className={`flex-1 rounded-lg px-3 py-2 text-[14px] font-medium ${
+                        !isAutoSlippage
+                          ? 'bg-[#F8F9FA] text-[#333] dark:bg-[#555] dark:text-white'
+                          : 'bg-[#f8f8f8] text-[#aaa] dark:bg-[#444] dark:text-[#bbb]'
+                      }`}
+                      onClick={() => {
+                        setIsAutoSlippage(false)
+                        setSlippage(customSlippage || 0.5)
+                      }}
+                    >
+                      Custom
+                    </button>
+                  </div>
+                  {!isAutoSlippage && (
+                    <div className="mt-3 flex items-center">
+                      <NumericFormat
+                        className="w-full rounded-lg border border-[#F8F9FA] bg-[#f8f8f8] p-2 text-[14px] text-[#333] dark:border-[#555] dark:bg-[#444] dark:text-white"
+                        value={customSlippage}
+                        onValueChange={(e) =>
+                          setCustomSlippage(e.floatValue || 0.5)
+                        }
+                        suffix="%"
+                        decimalScale={2}
+                        placeholder="0.50"
+                      />
+                    </div>
+                  )}
+                </div>
+              }
+            >
+              <div className="transition-ease cursor-pointer items-center rounded-full bg-transparent p-[6px] duration-100 hover:bg-[#f9f9f9] dark:hover:bg-[#141414] xs:flex">
+                <img
+                  src="/icons/slider.svg"
+                  alt="slider icon"
+                  className="w-[20px] cursor-pointer"
+                />
               </div>
-            }
-          >
-            <div className="p-[6px] cursor-pointer items-center xs:flex bg-transparent hover:bg-[#f9f9f9] dark:hover:bg-[#141414] rounded-full transition-ease duration-100">
-              <img
-                src="/icons/slider.svg"
-                alt="slider icon"
-                className="w-[20px] cursor-pointer"
-              />
-            </div>
-          </Popover>
+            </Popover>
           </div>
         </div>
         <div

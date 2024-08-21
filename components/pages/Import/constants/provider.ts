@@ -1,4 +1,5 @@
 import {
+  aaveWbtcRefinanceUsdcCI,
   radiantWbtcRefinanceUsdcCI,
   radiantWethRefinanceUsdcCI,
   tokenRwbtcCI,
@@ -54,10 +55,40 @@ export const marketOptions: IMarketInfo[] = [
   {
     label: Market.AaveV3USDC,
     isEnable: false,
+    tokenCI: tokenUsdcCI,
+    collaterals: [
+      {
+        label: Collateral.WBTC,
+        torqRefinanceCI: aaveWbtcRefinanceUsdcCI,
+        tokenRadianCI: tokenRwbtcCI,
+        tokenCI: tokenWbtcCI,
+      },
+      {
+        label: Collateral.WETH,
+        torqRefinanceCI: radiantWethRefinanceUsdcCI,
+        tokenRadianCI: tokenRwethCI,
+        tokenCI: tokenWethCI,
+      },
+    ],
   },
   {
     label: Market.AaveV3USDCe,
     isEnable: false,
+    tokenCI: tokenUsdceCI,
+    collaterals: [
+      {
+        label: Collateral.WBTC,
+        torqRefinanceCI: aaveWbtcRefinanceUsdcCI,
+        tokenRadianCI: tokenRwbtcCI,
+        tokenCI: tokenWbtcCI,
+      },
+      {
+        label: Collateral.WETH,
+        torqRefinanceCI: radiantWethRefinanceUsdcCI,
+        tokenRadianCI: tokenRwethCI,
+        tokenCI: tokenWethCI,
+      },
+    ],
   },
   {
     label: Market.DolomiteUSDC,
