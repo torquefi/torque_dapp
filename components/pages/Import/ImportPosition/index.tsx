@@ -220,11 +220,13 @@ const ImportPosition: React.FC = () => {
       const amountRefinance = new BigNumber(totalAmountRefinance)
         .multipliedBy(new BigNumber(amount))
         .dividedBy(new BigNumber(100))
+        .integerValue()
         .toString()
 
       const amountCollateral = new BigNumber(totalAmountCollateral)
         .multipliedBy(new BigNumber(amount))
-        .dividedBy(new BigNumber(100))
+        .dividedBy(new BigNumber(100).decimalPlaces(0))
+        .integerValue()
         .toString()
 
       const marketTokenAllowanceBN = await marketTokenContract.allowance(
@@ -275,7 +277,7 @@ const ImportPosition: React.FC = () => {
           const tx = await torqRefinanceContract.torqRefinanceUSDC(
             amountRefinance,
             amountCollateral,
-            { gasLimit: '50000' }
+            { gasLimit: '1500000' }
           )
           await tx.wait()
         }
@@ -284,7 +286,7 @@ const ImportPosition: React.FC = () => {
           const tx = await torqRefinanceContract.torqRefinanceUSDC(
             amountRefinance,
             amountCollateral,
-            { gasLimit: '50000' }
+            { gasLimit: '1500000' }
           )
           await tx.wait()
         }
@@ -295,7 +297,7 @@ const ImportPosition: React.FC = () => {
           const tx = await torqRefinanceContract.torqRefinanceUSDCe(
             amountRefinance,
             amountCollateral,
-            { gasLimit: '50000' }
+            { gasLimit: '1500000' }
           )
           await tx.wait()
         }
@@ -304,7 +306,7 @@ const ImportPosition: React.FC = () => {
           const tx = await torqRefinanceContract.torqRefinanceUSDCe(
             amountRefinance,
             amountCollateral,
-            { gasLimit: '50000' }
+            { gasLimit: '1500000' }
           )
           await tx.wait()
         }
@@ -315,7 +317,7 @@ const ImportPosition: React.FC = () => {
           const tx = await torqRefinanceContract.torqRefinanceUSDC(
             amountRefinance,
             amountCollateral,
-            { gasLimit: '50000' }
+            { gasLimit: '1500000' }
           )
           await tx.wait()
         }
@@ -324,7 +326,7 @@ const ImportPosition: React.FC = () => {
           const tx = await torqRefinanceContract.torqRefinanceUSDC(
             amountRefinance,
             amountCollateral,
-            { gasLimit: '50000' }
+            { gasLimit: '1500000' }
           )
           await tx.wait()
         }
@@ -335,7 +337,7 @@ const ImportPosition: React.FC = () => {
           const tx = await torqRefinanceContract.torqRefinanceUSDCe(
             amountRefinance,
             amountCollateral,
-            { gasLimit: '50000' }
+            { gasLimit: '1500000' }
           )
           await tx.wait()
         }
@@ -344,7 +346,7 @@ const ImportPosition: React.FC = () => {
           const tx = await torqRefinanceContract.torqRefinanceUSDCe(
             amountRefinance,
             amountCollateral,
-            { gasLimit: '50000' }
+            { gasLimit: '1500000' }
           )
           await tx.wait()
         }
