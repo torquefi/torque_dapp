@@ -49,6 +49,7 @@ const ImportPosition: React.FC = () => {
   const [selectedTab, setSelectedTab] = useState<number | null>(null)
   const [slippage, setSlippage] = useState(0.5)
   const [customSlippage, setCustomSlippage] = useState(0.5)
+  const [isAutoSlippage, setIsAutoSlippage] = useState(true)
   // const slippageOptions = [0.1, 0.5, 1]
 
   useEffect(() => {
