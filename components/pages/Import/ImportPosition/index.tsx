@@ -366,8 +366,6 @@ const ImportPosition: React.FC = () => {
 
       console.log('params', amountRefinance, amountCollateral)
 
-      return
-
       if (selectedMarket.label === Market.RadiantUSDC) {
         if (selectedCollateral.label === Collateral.WBTC) {
           const tx = await torqRefinanceContract.torqRefinanceUSDC(
