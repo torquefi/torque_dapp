@@ -114,7 +114,8 @@ const ImportPosition: React.FC = () => {
 
       setInfoItems([
         { title: 'Current APR', content: '0.00%' },
-        { title: 'Torque APR', content: `${apr.toFixed(2)}%` },
+        // { title: 'Torque APR', content: `${apr.toFixed(2)}%` },
+        { title: 'Torque APR', content: `0.00%` },
         { title: 'Annual Savings', content: '$0.00' },
         { title: 'Monthly Savings', content: '$0.00' },
       ])
