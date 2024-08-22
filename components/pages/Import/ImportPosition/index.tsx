@@ -29,6 +29,7 @@ import { SelectMarket } from './SelectMarket'
 import BigNumber from 'bignumber.js'
 import LoadingCircle from '@/components/common/Loading/LoadingCircle'
 import Popover from '@/components/common/Popover'
+import { TokenApr } from '@/lib/api/TokenApr'
 
 const ImportPosition: React.FC = () => {
   const theme = useSelector((store: AppStore) => store.theme.theme)
@@ -105,13 +106,19 @@ const ImportPosition: React.FC = () => {
     }, 1000)
   }, [])
 
-  const fetchInfoItems = () => {
-    setInfoItems([
-      { title: 'Current APR', content: '0.00%' },
-      { title: 'Torque APR', content: '0.00%' },
-      { title: 'Annual Savings', content: '$0.00' },
-      { title: 'Monthly Savings', content: '$0.00' },
-    ])
+  const fetchInfoItems = async () => {
+    try {
+      const aprRes = await TokenApr.getListApr({})
+      const aprs: any[] = aprRes?.data || []
+      const apr = +aprs?.find((apr) => apr?.name === 'TORQ')?.apr || 0
+
+      setInfoItems([
+        { title: 'Current APR', content: '0.00%' },
+        { title: 'Torque APR', content: `${apr.toFixed(2)}%` },
+        { title: 'Annual Savings', content: '$0.00' },
+        { title: 'Monthly Savings', content: '$0.00' },
+      ])
+    } catch (error) {}
   }
 
   const handleResetProgress = () => {
@@ -476,6 +483,10 @@ const ImportPosition: React.FC = () => {
   useEffect(() => {
     handleGetUserReservesData()
   }, [address])
+
+  useEffect(() => {
+    fetchInfoItems()
+  }, [])
 
   if (isLoading) {
     return (
