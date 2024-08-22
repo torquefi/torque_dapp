@@ -58,6 +58,7 @@ export function TokenPriceProvider({ children }: any) {
         const linkPrice = await getPriceToken('LINK')
         const uniPrice = await getPriceToken('UNI')
         const usdtPrice = await getPriceToken('USDT')
+        const compPrice = await getPriceToken('COMP')
 
         usdPrice.eth = ethPrice || usdPrice.eth || 1800
         usdPrice.ETH = ethPrice || usdPrice.ETH || 1800
@@ -75,6 +76,8 @@ export function TokenPriceProvider({ children }: any) {
         usdPrice.uni = uniPrice || usdPrice.uni
         usdPrice.LINK = linkPrice || usdPrice.LINK
         usdPrice.link = linkPrice || usdPrice.link
+        usdPrice.COMP = compPrice || usdPrice.COMP
+        usdPrice.comp = compPrice || usdPrice.comp
         usdPrice.USDT = 1
         usdPrice.usdt = 1
 
