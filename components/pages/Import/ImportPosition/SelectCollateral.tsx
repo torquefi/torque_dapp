@@ -27,7 +27,7 @@ export const SelectCollateral: React.FC<ISelectCollateralProps> = (props) => {
           displayType="text"
           value={balance || 0}
           prefix="Balance: "
-          decimalScale={2}
+          decimalScale={5}
           fixedDecimalScale
         />
       </div>
