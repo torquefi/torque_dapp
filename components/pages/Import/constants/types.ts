@@ -5,11 +5,11 @@ export enum Market {
   RadiantUSDCe = 'Radiant USDC.e',
   AaveV3USDC = 'Aave V3 USDC',
   AaveV3USDCe = 'Aave V3 USDC.e',
-  DolomiteUSDC = 'Dolomite USDC',
-  DolomiteUSDCe = 'Dolomite USDC.e',
-  LodestarUSDC = 'Lodestar USDC',
-  LodestarUSDCe = 'Lodestar USDC.e',
-  SiloUSDCe = 'Silo USDC.e',
+  // DolomiteUSDC = 'Dolomite USDC',
+  // DolomiteUSDCe = 'Dolomite USDC.e',
+  // LodestarUSDC = 'Lodestar USDC',
+  // LodestarUSDCe = 'Lodestar USDC.e',
+  // SiloUSDCe = 'Silo USDC.e',
 }
 
 export enum Collateral {
