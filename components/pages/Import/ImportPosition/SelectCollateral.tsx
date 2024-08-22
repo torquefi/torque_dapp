@@ -3,8 +3,10 @@ import Popover from '@/components/common/Popover'
 import { ChevronDownIcon } from '@heroicons/react/outline'
 import React, { useState } from 'react'
 import { ICollateralInfo } from '../constants/types'
+import { NumericFormat } from 'react-number-format'
 
 interface ISelectCollateralProps {
+  balance?: number
   wrapperClassName?: string
   options?: ICollateralInfo[]
   value?: ICollateralInfo
@@ -12,16 +14,23 @@ interface ISelectCollateralProps {
 }
 
 export const SelectCollateral: React.FC<ISelectCollateralProps> = (props) => {
-  const { options, wrapperClassName, value, onSelect } = props
+  const { balance, options, wrapperClassName, value, onSelect } = props
   const [openPopover, setOpenPopover] = useState(false)
 
   const finalOptions = options || []
 
   return (
     <div className={wrapperClassName}>
-      <label className="mb-1 block text-[14px] font-medium text-[#959595]">
-        Collateral
-      </label>
+      <div className="mb-1 flex items-center justify-between text-[14px] font-medium text-[#959595]">
+        <label className="">Collateral</label>
+        <NumericFormat
+          displayType="text"
+          value={balance || 0}
+          prefix="Balance: "
+          decimalScale={2}
+          fixedDecimalScale
+        />
+      </div>
       <div className="flex items-center">
         <div className="transition-ease w-full rounded-[10px] border-[1px] border-solid border-[#ececec] duration-100 ease-linear dark:border-[#181818]">
           <Popover
