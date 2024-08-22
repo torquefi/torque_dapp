@@ -11,11 +11,15 @@ import { useAccount } from 'wagmi'
 import { arbitrum } from 'wagmi/chains'
 import Web3 from 'web3'
 import {
+  boostCompContract,
   boostLinkContract,
+  boostTorqContract,
   boostUniContract,
   boostWbtcContract,
   boostWethContract,
+  compContract,
   linkContract,
+  torqContract,
   uniContract,
 } from '../Boost/constants/contracts'
 import {
@@ -59,6 +63,8 @@ const HomePageFilter = () => {
   const usdtPrice = usdPrice['USDT'] || 0
   const linkPrice = usdPrice['LINK'] || 0
   const uniPrice = usdPrice['UNI'] || 0
+  const compPrice = usdPrice['COMP'] || 0
+  const torqPrice = usdPrice['TORQ'] || 0
 
   const handleGetDepositApr = async () => {
     try {
@@ -196,6 +202,24 @@ const HomePageFilter = () => {
     return contract
   }, [Web3.givenProvider, boostUniContract])
 
+  const boostCOMPContract = useMemo(() => {
+    const web3 = new Web3(RPC)
+    const contract = new web3.eth.Contract(
+      JSON.parse(boostCompContract?.abi),
+      boostCompContract?.address
+    )
+    return contract
+  }, [Web3.givenProvider, boostCompContract])
+
+  const boostTORQContract = useMemo(() => {
+    const web3 = new Web3(RPC)
+    const contract = new web3.eth.Contract(
+      JSON.parse(boostTorqContract?.abi),
+      boostTorqContract?.address
+    )
+    return contract
+  }, [Web3.givenProvider, boostTorqContract])
+
   // token
   const tokenWBTCContract = useMemo(() => {
     const web3 = new Web3(RPC)
@@ -260,6 +284,24 @@ const HomePageFilter = () => {
     return contract
   }, [Web3.givenProvider, linkContract])
 
+  const tokenCOMPContract = useMemo(() => {
+    const web3 = new Web3(RPC)
+    const contract = new web3.eth.Contract(
+      JSON.parse(compContract?.abi),
+      linkContract?.address
+    )
+    return contract
+  }, [Web3.givenProvider, linkContract])
+
+  const tokenTORQContract = useMemo(() => {
+    const web3 = new Web3(RPC)
+    const contract = new web3.eth.Contract(
+      JSON.parse(torqContract?.abi),
+      linkContract?.address
+    )
+    return contract
+  }, [Web3.givenProvider, linkContract])
+
   const handleGetMyBorrowInfo = async () => {
     try {
       if (
@@ -273,6 +315,7 @@ const HomePageFilter = () => {
         !boostWETHContract ||
         !boostLINKContract ||
         !boostUNIContract ||
+        !boostCOMPContract ||
         !address ||
         !simpleBtcBorrowUsdtContract ||
         !simpleEthBorrowUsdtContract ||
@@ -345,9 +388,7 @@ const HomePageFilter = () => {
         .multipliedBy(new BigNumber(tusdPrice || 0))
         .toString()
       const mySimpleWbtcBorrowedUsd = new BigNumber(
-        ethers.utils
-          .formatUnits(mySimpleWbtcBorrowed, usdcDecimal)
-          .toString()
+        ethers.utils.formatUnits(mySimpleWbtcBorrowed, usdcDecimal).toString()
       )
         .multipliedBy(new BigNumber(tusdPrice || 0))
         .toString()
@@ -375,7 +416,7 @@ const HomePageFilter = () => {
             .toString()
       console.log('wbtcLoanToValue :>> ', wbtcLoanToValue)
       console.log('myWbtcBorrowedUsd :>> ', myWbtcBorrowedUsd)
-      console.log('mySimpleWbtcBorrowedUsd :>> ', mySimpleWbtcBorrowedUsd);
+      console.log('mySimpleWbtcBorrowedUsd :>> ', mySimpleWbtcBorrowedUsd)
 
       // WETH
       const wethDecimal = await tokenWETHContract.methods.decimals().call()
@@ -479,9 +520,7 @@ const HomePageFilter = () => {
         '0x0000000000000000000000000000000000000000'
       ) {
         const myDataSimpleUsdtWbtcBorrow =
-          await borrowSimpleUSDTContract.methods
-            .getUserDetails(address)
-            .call()
+          await borrowSimpleUSDTContract.methods.getUserDetails(address).call()
         console.log(
           'myDataSimpleUsdtWbtcBorrow :>> ',
           myDataSimpleUsdtWbtcBorrow
@@ -652,6 +691,30 @@ const HomePageFilter = () => {
         .multipliedBy(new BigNumber(uniPrice || 0))
         .toString()
 
+      // COMP
+      const tokenCompDecimal = await tokenCOMPContract.methods.decimals().call()
+      const depositedComp = await boostCOMPContract.methods
+        .balanceOf(address)
+        .call()
+      console.log('depositedComp comp:>> ', depositedComp)
+      const depositedCompUsd = new BigNumber(
+        ethers.utils.formatUnits(depositedComp, tokenCompDecimal).toString()
+      )
+        .multipliedBy(new BigNumber(compPrice || 0))
+        .toString()
+
+      // TORQ
+      const tokenTorqDecimal = await tokenTORQContract.methods.decimals().call()
+      const depositedTorq = await boostTORQContract.methods
+        .balanceOf(address)
+        .call()
+      console.log('depositedTorq torq:>> ', depositedTorq)
+      const depositedTorqUsd = new BigNumber(
+        ethers.utils.formatUnits(depositedTorq, tokenTorqDecimal).toString()
+      )
+        .multipliedBy(new BigNumber(torqPrice || 0))
+        .toString()
+
       // WBTC
       const tokenWbtcDecimal = await tokenWBTCContract.methods.decimals().call()
       const depositedWbtc = await boostWBTCContract.methods
@@ -691,6 +754,8 @@ const HomePageFilter = () => {
         .plus(new BigNumber(depositedWbtcUsd))
         .plus(new BigNumber(depositedLinkUsd))
         .plus(new BigNumber(depositedUniUsd))
+        .plus(new BigNumber(depositedCompUsd))
+        .plus(new BigNumber(depositedTorqUsd))
         .plus(new BigNumber(mySimpleUsdtWbtcSuppliedUsd))
         .plus(new BigNumber(mySimpleUsdtWethSuppliedUsd))
         .toString()
@@ -759,6 +824,8 @@ const HomePageFilter = () => {
       const usdtDecimal = await tokenUSDTContract.methods.decimals().call()
       const uniDecimal = await tokenUNIContract.methods.decimals().call()
       const linkDecimal = await tokenLINKContract.methods.decimals().call()
+      const compDecimal = await tokenCOMPContract.methods.decimals().call()
+      const torqDecimal = await tokenTORQContract.methods.decimals().call()
       // WBTC
       const wbtcDecimal = await tokenWBTCContract.methods.decimals().call()
 
@@ -836,10 +903,7 @@ const HomePageFilter = () => {
       console.log('totalWbtcBorrowedUsd :>> ', totalWbtcBorrowedUsd)
 
       console.log('totalSimpleWbtcBorrowed :>> ', totalSimpleWbtcBorrowed)
-      console.log(
-        'totalSimpleWbtcBorrowedUsd :>> ',
-        totalSimpleWbtcBorrowedUsd
-      )
+      console.log('totalSimpleWbtcBorrowedUsd :>> ', totalSimpleWbtcBorrowedUsd)
       console.log(
         'totalSimpleUsdtWbtcBorrowedUsd :>> ',
         totalSimpleUsdtWbtcBorrowedUsd
@@ -865,9 +929,8 @@ const HomePageFilter = () => {
       )
         .multipliedBy(new BigNumber(wethPrice || 0))
         .toString()
-      const totalSimpleUsdtWethSupply = await borrowSimpleEthUSDTContract.methods
-        .totalSupplied()
-        .call()
+      const totalSimpleUsdtWethSupply =
+        await borrowSimpleEthUSDTContract.methods.totalSupplied().call()
       const totalSimpleUsdtWethSupplyUsd = new BigNumber(
         ethers.utils.formatUnits(totalSimpleUsdtWethSupply, wethDecimal)
       )
@@ -903,9 +966,8 @@ const HomePageFilter = () => {
       )
         .multipliedBy(new BigNumber(tusdPrice || 0))
         .toString()
-      const totalSimpleUsdtWethBorrowed = await borrowSimpleEthUSDTContract.methods
-        .totalBorrow()
-        .call()
+      const totalSimpleUsdtWethBorrowed =
+        await borrowSimpleEthUSDTContract.methods.totalBorrow().call()
       const totalSimpleUsdtWethBorrowedUsd = new BigNumber(
         ethers.utils
           .formatUnits(totalSimpleUsdtWethBorrowed, usdtDecimal)
@@ -918,10 +980,7 @@ const HomePageFilter = () => {
       console.log('totalWethBorrowedUsd :>> ', totalWethBorrowedUsd)
 
       console.log('totalSimpleWethBorrowed :>> ', totalSimpleWethBorrowed)
-      console.log(
-        'totalSimpleWethBorrowedUsd :>> ',
-        totalSimpleWethBorrowedUsd
-      )
+      console.log('totalSimpleWethBorrowedUsd :>> ', totalSimpleWethBorrowedUsd)
       console.log(
         'totalSimpleUsdtWethBorrowedUsd :>> ',
         totalSimpleUsdtWethBorrowedUsd
@@ -962,6 +1021,22 @@ const HomePageFilter = () => {
         .multipliedBy(new BigNumber(uniPrice || 0))
         .toString()
 
+      // COMP
+      const depositedComp = await boostCOMPContract.methods.totalSupply().call()
+      const depositedCompUsd = new BigNumber(
+        ethers.utils.formatUnits(depositedComp, compDecimal).toString()
+      )
+        .multipliedBy(new BigNumber(compPrice || 0))
+        .toString()
+
+      // TORQ
+      const depositedTorq = await boostTORQContract.methods.totalSupply().call()
+      const depositedTorqUsd = new BigNumber(
+        ethers.utils.formatUnits(depositedTorq, torqDecimal).toString()
+      )
+        .multipliedBy(new BigNumber(torqPrice || 0))
+        .toString()
+
       // total supplied
       const totalSupply = new BigNumber(totalWbtcSuppliedUsd)
         .plus(new BigNumber(totalSimpleWbtcSuppliedUsd))
@@ -971,6 +1046,8 @@ const HomePageFilter = () => {
         .plus(new BigNumber(depositedWbtcUsd))
         .plus(new BigNumber(depositedLinkUsd))
         .plus(new BigNumber(depositedUniUsd))
+        .plus(new BigNumber(depositedCompUsd))
+        .plus(new BigNumber(depositedTorqUsd))
         .plus(new BigNumber(totalSimpleUsdtWbtcSuppliedUsd))
         .plus(new BigNumber(totalSimpleUsdtWethSupplyUsd))
         .toString()
