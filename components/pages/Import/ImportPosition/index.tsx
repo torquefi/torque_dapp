@@ -53,12 +53,27 @@ const ImportPosition: React.FC = () => {
     { title: 'Annual Savings', content: '$0.00' },
     { title: 'Monthly Savings', content: '$0.00' },
   ])
+  const [userReservesData, setUserReservesData] = useState<any[]>([])
 
   const [selectedTab, setSelectedTab] = useState<number | null>(null)
   const [slippage, setSlippage] = useState(0.5)
   const [customSlippage, setCustomSlippage] = useState(0.5)
   const [isAutoSlippage, setIsAutoSlippage] = useState(true)
   // const slippageOptions = [0.1, 0.5, 1]
+
+  const amountMarket =
+    userReservesData?.find(
+      ({ data }) =>
+        data?.[0]?.toLowerCase() ===
+        selectedMarket?.tokenCI?.address?.toLowerCase()
+    )?.amount4 || 0
+
+  const amountCollateral =
+    userReservesData?.find(
+      ({ data }) =>
+        data?.[0]?.toLowerCase() ===
+        selectedCollateral?.tokenCI?.address?.toLowerCase()
+    )?.amount1 || 0
 
   useEffect(() => {
     if (progressFromMarket > 0) {
@@ -104,6 +119,119 @@ const ImportPosition: React.FC = () => {
     setProgressFromMarket(0)
     setSetProgressTransaction(0)
     setCompletedTransaction(false)
+  }
+
+  const handleGetUserReservesData = async () => {
+    if (!address) {
+      return
+    }
+
+    try {
+      const provider = new ethers.providers.Web3Provider(window.ethereum)
+      const signer = provider.getSigner(address)
+
+      const poolProviderContract = new ethers.Contract(
+        radianUiPoolDataProviderCI.address,
+        radianUiPoolDataProviderCI.abi,
+        signer
+      )
+
+      const userReservesData = await poolProviderContract.getUserReservesData(
+        providerAddress,
+        address
+      )
+
+      const tokens = [
+        tokenRwbtcCI,
+        tokenRwethCI,
+        tokenWbtcCI,
+        tokenWethCI,
+        tokenUsdcCI,
+        tokenUsdceCI,
+      ]
+
+      if (!Array.isArray(userReservesData[0])) {
+        setUserReservesData([])
+        return
+      }
+      const getDataPromise = userReservesData[0]?.map(async (data: any[]) => {
+        try {
+          let token = tokens?.find(
+            (t) => t.address?.toLowerCase() === data[0]?.toLowerCase()
+          )
+
+          if (!token) {
+            return {
+              tokenName: data[0],
+              data: [
+                data[0]?.toString(),
+                data[1]?.toString(),
+                data[2],
+                data[3]?.toString(),
+                data[4]?.toString(),
+                data[5]?.toString(),
+                data[6]?.toString(),
+              ],
+            }
+          }
+
+          const tokenName = token?.name || data[0]
+
+          const tokenContract = new ethers.Contract(
+            token.address,
+            token.abi,
+            signer
+          )
+
+          const tokenDecimals = await tokenContract.decimals()
+
+          const amount1 = new BigNumber(data[1]?.toString())
+            .div(new BigNumber(10).exponentiatedBy(tokenDecimals))
+            .toString()
+
+          const amount4 = new BigNumber(data[4]?.toString())
+            .div(new BigNumber(10).exponentiatedBy(tokenDecimals))
+            .toString()
+
+          return {
+            tokenName,
+            amount1,
+            amount4,
+            data: [
+              data[0]?.toString(),
+              data[1]?.toString(),
+              data[2],
+              data[3]?.toString(),
+              data[4]?.toString(),
+              data[5]?.toString(),
+              data[6]?.toString(),
+            ],
+          }
+        } catch (error) {
+          console.log('handleGetUserReservesData convert', data, error)
+          return {
+            tokenName: data[0],
+            data: [
+              data[0]?.toString(),
+              data[1]?.toString(),
+              data[2],
+              data[3]?.toString(),
+              data[4]?.toString(),
+              data[5]?.toString(),
+              data[6]?.toString(),
+            ],
+          }
+        }
+      })
+
+      const userData = await Promise.all(getDataPromise)
+
+      console.log('userReservesData', userData)
+      setUserReservesData(userData)
+    } catch (error) {
+      console.error('handleGetUserReservesData', error)
+      setUserReservesData([])
+    }
   }
 
   const handleImport = async () => {
@@ -183,40 +311,6 @@ const ImportPosition: React.FC = () => {
       console.log('totalAmountRefinance', totalAmountRefinance)
       console.log('totalAmountCollateral', totalAmountCollateral)
 
-      {
-        // will delete
-        const tokens = [
-          tokenRwbtcCI,
-          tokenRwethCI,
-          tokenWbtcCI,
-          tokenWethCI,
-          tokenUsdcCI,
-          tokenUsdceCI,
-        ]
-        const map: any = {}
-        for (const data of userReservesData[0]) {
-          let address = data[0]
-
-          let token = tokens?.find(
-            (t) => t.address?.toLowerCase() === address?.toLowerCase()
-          )?.name
-
-          if (token) {
-            address = token
-          }
-
-          map[address] = [
-            data[1]?.toString(),
-            data[2],
-            data[3]?.toString(),
-            data[4]?.toString(),
-            data[5]?.toString(),
-            data[6]?.toString(),
-          ]
-        }
-        console.log('userReservesData', map)
-      }
-
       const amountRefinance = new BigNumber(totalAmountRefinance)
         .multipliedBy(new BigNumber(amount))
         .dividedBy(new BigNumber(100))
@@ -271,6 +365,8 @@ const ImportPosition: React.FC = () => {
       }
 
       console.log('params', amountRefinance, amountCollateral)
+
+      return
 
       if (selectedMarket.label === Market.RadiantUSDC) {
         if (selectedCollateral.label === Collateral.WBTC) {
@@ -357,6 +453,7 @@ const ImportPosition: React.FC = () => {
         `Refinancing ${amount} on ${selectedMarket.label} with ${selectedCollateral.label}`
       )
       fetchInfoItems()
+      handleGetUserReservesData()
     } catch (error) {
       console.error('handleImport', error)
     }
@@ -377,6 +474,10 @@ const ImportPosition: React.FC = () => {
   const handleCloseCustomInput = () => {
     setCustomInputVisible(false)
   }
+
+  useEffect(() => {
+    handleGetUserReservesData()
+  }, [address])
 
   if (isLoading) {
     return (
@@ -490,6 +591,7 @@ const ImportPosition: React.FC = () => {
           }
         ></div>
         <SelectMarket
+          balance={amountMarket}
           wrapperClassName="mb-3"
           options={marketOptions}
           value={selectedMarket}
@@ -500,6 +602,7 @@ const ImportPosition: React.FC = () => {
           }}
         />
         <SelectCollateral
+          balance={amountCollateral}
           wrapperClassName="mb-3"
           options={selectedMarket?.collaterals}
           value={selectedCollateral}
