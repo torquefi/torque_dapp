@@ -90,24 +90,24 @@ export const marketOptions: IMarketInfo[] = [
       },
     ],
   },
-  {
-    label: Market.DolomiteUSDC,
-    isEnable: false,
-  },
-  {
-    label: Market.DolomiteUSDCe,
-    isEnable: false,
-  },
-  {
-    label: Market.LodestarUSDC,
-    isEnable: false,
-  },
-  {
-    label: Market.LodestarUSDCe,
-    isEnable: false,
-  },
-  {
-    label: Market.SiloUSDCe,
-    isEnable: false,
-  },
+  // {
+  //   label: Market.DolomiteUSDC,
+  //   isEnable: false,
+  // },
+  // {
+  //   label: Market.DolomiteUSDCe,
+  //   isEnable: false,
+  // },
+  // {
+  //   label: Market.LodestarUSDC,
+  //   isEnable: false,
+  // },
+  // {
+  //   label: Market.LodestarUSDCe,
+  //   isEnable: false,
+  // },
+  // {
+  //   label: Market.SiloUSDCe,
+  //   isEnable: false,
+  // },
 ]
