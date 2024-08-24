@@ -15,7 +15,12 @@ import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 import LoadingCircle from '../Loading/LoadingCircle'
 import NumberFormat from '../NumberFormat'
-import { linkContract, uniContract } from '@/components/pages/Boost/constants/contracts'
+import {
+  compContract,
+  linkContract,
+  uniContract,
+} from '@/components/pages/Boost/constants/contracts'
+import { torqContract } from '@/constants/contracts'
 
 interface Detail {
   label: string
@@ -85,7 +90,7 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
 
   useEffect(() => {
     if (address) {
-      ; (async () => {
+      ;(async () => {
         if (coinFrom.symbol === 'WBTC') {
           const amount = await getBalanceByContractToken(
             tokenBtcContract.abi,
@@ -114,8 +119,7 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
             address
           )
           setBalanceWallet(amount)
-        }
-        else if (coinFrom.symbol === 'LINK') {
+        } else if (coinFrom.symbol === 'LINK') {
           const amount = await getBalanceByContractToken(
             linkContract.abi,
             linkContract.address,
@@ -126,6 +130,20 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
           const amount = await getBalanceByContractToken(
             uniContract.abi,
             uniContract.address,
+            address
+          )
+          setBalanceWallet(amount)
+        } else if (coinFrom.symbol === 'COMP') {
+          const amount = await getBalanceByContractToken(
+            compContract.abi,
+            compContract.address,
+            address
+          )
+          setBalanceWallet(amount)
+        } else if (coinFrom.symbol === 'TORQ') {
+          const amount = await getBalanceByContractToken(
+            torqContract.abi,
+            torqContract.address,
             address
           )
           setBalanceWallet(amount)
@@ -154,8 +172,9 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
         className={
           `mt-3 h-[1px] w-full md:block` +
           `
-      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
-          }`
+      ${
+        theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+      }`
         }
       ></div>
       <div className=" h-auto w-full   overflow-y-auto py-[18px]">
@@ -193,8 +212,9 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
         className={
           `mt-2 h-[1px] w-full md:block` +
           `
-      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
-          }`
+      ${
+        theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+      }`
         }
       ></div>
       <div className="my-4 flex flex-wrap gap-3 text-[16px] text-[#959595]">
