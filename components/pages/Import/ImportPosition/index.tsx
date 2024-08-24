@@ -43,6 +43,7 @@ const ImportPosition: React.FC = () => {
   const [progressTransaction, setSetProgressTransaction] = useState(0)
   const [completedTransaction, setCompletedTransaction] = useState(false)
 
+  const [amountSelectedCollateral, setAmountSelectedCollateral] = useState('')
   const [selectedMarket, setSelectedMarket] = useState<IMarketInfo>()
   const [selectedCollateral, setSelectedCollateral] =
     useState<ICollateralInfo>()
@@ -50,7 +51,6 @@ const ImportPosition: React.FC = () => {
   const [loadingSubmit, setLoadingSubmit] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
-  const [showBeneficiaryAddress, setShowBeneficiaryAddress] = useState(false)
   const [customInputVisible, setCustomInputVisible] = useState(false)
   const [infoItems, setInfoItems] = useState([
     { title: 'Current APR', content: '0.00%' },
@@ -59,19 +59,22 @@ const ImportPosition: React.FC = () => {
     { title: 'Monthly Savings', content: '$0.00' },
   ])
   const [userReservesData, setUserReservesData] = useState<any[]>([])
-
   const [selectedTab, setSelectedTab] = useState<number | null>(null)
   const [slippage, setSlippage] = useState(0.5)
   const [customSlippage, setCustomSlippage] = useState(0.5)
   const [isAutoSlippage, setIsAutoSlippage] = useState(true)
   // const slippageOptions = [0.1, 0.5, 1]
 
+  const amountMarketSelected = userReservesData?.find(
+    ({ data }) =>
+      data?.[0]?.toLowerCase() ===
+      selectedMarket?.tokenCI?.address?.toLowerCase()
+  )
+
   const amountMarket =
-    userReservesData?.find(
-      ({ data }) =>
-        data?.[0]?.toLowerCase() ===
-        selectedMarket?.tokenCI?.address?.toLowerCase()
-    )?.amount4 || 0
+    amountMarketSelected?.tokenName === 'USDC'
+      ? amountMarketSelected?.amount4
+      : amountMarketSelected?.amount1 || 0
 
   const amountCollateral =
     userReservesData?.find(
@@ -322,13 +325,16 @@ const ImportPosition: React.FC = () => {
         providerAddress,
         address
       )
-      const totalAmountRefinance = userReservesData[0]
-        ?.find?.(
-          (data: any) =>
-            data[0]?.toLowerCase() ===
-            selectedMarket.tokenCI.address?.toLowerCase()
-        )?.[4]
-        ?.toString()
+      const refinance = userReservesData[0]?.find?.(
+        (data: any) =>
+          data[0]?.toLowerCase() ===
+          selectedMarket.tokenCI.address?.toLowerCase()
+      )
+      const totalAmountRefinance =
+        selectedMarket?.tokenCI?.name === 'USDC'
+          ? refinance?.[4]?.toString()
+          : refinance?.[1]?.toString()
+
       const totalAmountCollateral = userReservesData[0]
         ?.find?.(
           (data: any) =>
@@ -401,7 +407,7 @@ const ImportPosition: React.FC = () => {
           const tx = await torqRefinanceContract.torqRefinanceUSDC(
             amountRefinance,
             amountCollateral,
-            { gasLimit: '40000000' }
+            { gasLimit: '10000000' }
           )
           await tx.wait()
         }
@@ -410,7 +416,7 @@ const ImportPosition: React.FC = () => {
           const tx = await torqRefinanceContract.torqRefinanceUSDC(
             amountRefinance,
             amountCollateral,
-            { gasLimit: '40000000' }
+            { gasLimit: '10000000' }
           )
           await tx.wait()
         }
@@ -421,7 +427,7 @@ const ImportPosition: React.FC = () => {
           const tx = await torqRefinanceContract.torqRefinanceUSDCe(
             amountRefinance,
             amountCollateral,
-            { gasLimit: '40000000' }
+            { gasLimit: '10000000' }
           )
           await tx.wait()
         }
@@ -430,51 +436,51 @@ const ImportPosition: React.FC = () => {
           const tx = await torqRefinanceContract.torqRefinanceUSDCe(
             amountRefinance,
             amountCollateral,
-            { gasLimit: '40000000' }
+            { gasLimit: '10000000' }
           )
           await tx.wait()
         }
       }
 
-      if (selectedMarket.label === Market.AaveV3USDC) {
-        if (selectedCollateral.label === Collateral.WBTC) {
-          const tx = await torqRefinanceContract.torqRefinanceUSDC(
-            amountRefinance,
-            amountCollateral,
-            { gasLimit: '40000000' }
-          )
-          await tx.wait()
-        }
+      // if (selectedMarket.label === Market.AaveV3USDC) {
+      //   if (selectedCollateral.label === Collateral.WBTC) {
+      //     const tx = await torqRefinanceContract.torqRefinanceUSDC(
+      //       amountRefinance,
+      //       amountCollateral,
+      //       { gasLimit: '40000000' }
+      //     )
+      //     await tx.wait()
+      //   }
 
-        if (selectedCollateral.label === Collateral.WETH) {
-          const tx = await torqRefinanceContract.torqRefinanceUSDC(
-            amountRefinance,
-            amountCollateral,
-            { gasLimit: '40000000' }
-          )
-          await tx.wait()
-        }
-      }
+      //   if (selectedCollateral.label === Collateral.WETH) {
+      //     const tx = await torqRefinanceContract.torqRefinanceUSDC(
+      //       amountRefinance,
+      //       amountCollateral,
+      //       { gasLimit: '40000000' }
+      //     )
+      //     await tx.wait()
+      //   }
+      // }
 
-      if (selectedMarket.label === Market.AaveV3USDCe) {
-        if (selectedCollateral.label === Collateral.WBTC) {
-          const tx = await torqRefinanceContract.torqRefinanceUSDCe(
-            amountRefinance,
-            amountCollateral,
-            { gasLimit: '40000000' }
-          )
-          await tx.wait()
-        }
+      // if (selectedMarket.label === Market.AaveV3USDCe) {
+      //   if (selectedCollateral.label === Collateral.WBTC) {
+      //     const tx = await torqRefinanceContract.torqRefinanceUSDCe(
+      //       amountRefinance,
+      //       amountCollateral,
+      //       { gasLimit: '40000000' }
+      //     )
+      //     await tx.wait()
+      //   }
 
-        if (selectedCollateral.label === Collateral.WETH) {
-          const tx = await torqRefinanceContract.torqRefinanceUSDCe(
-            amountRefinance,
-            amountCollateral,
-            { gasLimit: '40000000' }
-          )
-          await tx.wait()
-        }
-      }
+      //   if (selectedCollateral.label === Collateral.WETH) {
+      //     const tx = await torqRefinanceContract.torqRefinanceUSDCe(
+      //       amountRefinance,
+      //       amountCollateral,
+      //       { gasLimit: '40000000' }
+      //     )
+      //     await tx.wait()
+      //   }
+      // }
 
       setProgressFromMarket(500)
       console.log(
@@ -734,7 +740,26 @@ const ImportPosition: React.FC = () => {
             {address ? 'Import Position' : 'Connect Wallet'}
           </button>
         </div>
+
+        {/* new */}
+        {amountSelectedCollateral && (
+          <div className="flex justify-end">
+            <button
+              disabled={loadingSubmit}
+              className={`font-rogan-regular mt-1 flex w-full items-center justify-center rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${
+                loadingSubmit
+                  ? 'cursor-not-allowed text-[#eee]'
+                  : 'cursor-pointer '
+              }`}
+              onClick={handleImport}
+            >
+              {loadingSubmit && <LoadingCircle />}
+              {address ? 'Supply & Borrow' : 'Connect Wallet'}
+            </button>
+          </div>
+        )}
       </div>
+
       {selectedMarket && selectedCollateral && (
         <motion.div
           className="mx-auto grid h-auto w-full max-w-[360px] grid-cols-2 gap-[14px]"
