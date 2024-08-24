@@ -92,6 +92,6 @@ const products = [
     coverLight: '/assets/banners/borrow-light-small.png',
     icon: '/assets/overview-page/borrow.svg',
     description:
-      'Collateralize your portfolio & borrow up to 78% of its value so you never have to sell assets.',
+      'Collateralize your portfolio & borrow up to 85% of its value so you never have to sell assets.',
   },
 ]
