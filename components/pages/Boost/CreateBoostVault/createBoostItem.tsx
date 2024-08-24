@@ -194,7 +194,7 @@ export function CreateBoostItem({
         new BigNumber(allowance?.toString()).lte(new BigNumber('0')) ||
         new BigNumber(allowance?.toString()).lte(new BigNumber(depositToken))
       ) {
-        console.log('allowance 11111:>> ', allowance);
+        console.log('allowance 11111:>> ', allowance)
         const tx = await tokenContract.approve(
           item?.boostContractInfo?.address,
           '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
@@ -213,21 +213,33 @@ export function CreateBoostItem({
           value: executionFeeAmount,
         })
         await tx.wait()
-      } 
-      if(item.token === 'WBTC') {
+      }
+      if (item.token === 'WBTC') {
         const tx = await boostContract2.depositBTC(depositToken, {
           value: executionFeeAmount,
         })
         await tx.wait()
       }
-      if(item.token === 'LINK') {
+      if (item.token === 'LINK') {
         const tx = await boostContract2.depositLINK(depositToken, {
           value: executionFeeAmount,
         })
         await tx.wait()
       }
-      if(item.token === 'UNI') {
+      if (item.token === 'UNI') {
         const tx = await boostContract2.depositUNI(depositToken, {
+          value: executionFeeAmount,
+        })
+        await tx.wait()
+      }
+      if (item.token === 'COMP') {
+        const tx = await boostContract2.depositCOMP(depositToken, {
+          value: executionFeeAmount,
+        })
+        await tx.wait()
+      }
+      if (item.token === 'TORQ') {
+        const tx = await boostContract2.depositTORQ(depositToken, {
           value: executionFeeAmount,
         })
         await tx.wait()
@@ -256,29 +268,29 @@ export function CreateBoostItem({
     <>
       <div
         className={
-          `rounded-[12px] border border-[#E6E6E6] bg-[#ffffff]  from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pb-5 pt-3  text-[#030303] lg:px-8 dark:border-[#1A1A1A] dark:bg-transparent  dark:bg-gradient-to-br dark:text-white` +
+          `rounded-[12px] border border-[#E6E6E6] bg-[#ffffff]  from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pb-5 pt-3  text-[#030303] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br  dark:text-white lg:px-8` +
           `  ${theme === 'light' ? ' bg-[#FFFFFF]' : 'bg-overview'}`
         }
       >
-        <div className="flex items-center justify-between w-full">
-          <div className="ml-[-12px] flex items-center w-full">
+        <div className="flex w-full items-center justify-between">
+          <div className="ml-[-12px] flex w-full items-center">
             <img
               src={`/icons/coin/${item.token.toLocaleLowerCase()}.png`}
               alt=""
               className="w-[72px] md:w-24"
             />
-            <div className="ml-[-6px] mt-[-4px] font-rogan text-[20px] leading-tight text-[#030303] md:text-[22px] lg:text-[26px] dark:text-white">
+            <div className="font-rogan ml-[-6px] mt-[-4px] text-[20px] leading-tight text-[#030303] dark:text-white md:text-[22px] lg:text-[26px]">
               Supply {item.token},<br className="" /> Earn {item.token}
             </div>
           </div>
-          <div className="flex flex-col items-end justify-end mt-[8px] w-[210px] text-center text-sm leading-tight">
+          <div className="mt-[8px] flex w-[210px] flex-col items-end justify-end text-center text-sm leading-tight">
             <Popover
               trigger="hover"
               placement="bottom-right"
               className={`mt-[8px] w-[200px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#161616]`}
               content="The projected TORQ rewards after 1 year of $1,000 supplied."
-              >
-              <div className="flex items-center cursor-pointer rounded-full bg-[#AA5BFF] bg-opacity-20 p-1 text-[12px] xs:text-[14px]">
+            >
+              <div className="flex cursor-pointer items-center rounded-full bg-[#AA5BFF] bg-opacity-20 p-1 text-[12px] xs:text-[14px]">
                 <img
                   src="/assets/t-logo-circle.png"
                   alt="torq"
@@ -294,8 +306,8 @@ export function CreateBoostItem({
               placement="bottom-right"
               className={`mt-[8px] w-[200px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#161616]`}
               content="The projected ARB rewards after 1 year of $1,000 supplied."
-              >
-              <div className="flex items-center cursor-pointer rounded-full bg-[#00BFFF] bg-opacity-20 p-1 text-[12px] xs:text-[14px] mt-2">
+            >
+              <div className="mt-2 flex cursor-pointer items-center rounded-full bg-[#00BFFF] bg-opacity-20 p-1 text-[12px] xs:text-[14px]">
                 <img
                   src="icons/coin/arb.png"
                   alt="arb"
@@ -308,25 +320,25 @@ export function CreateBoostItem({
             </Popover>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-4 mt-1 mb-1 font-rogan">
-          <div className="flex w-full items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  lg:h-[140px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
+        <div className="font-rogan mb-1 mt-1 grid grid-cols-2 gap-4">
+          <div className="flex w-full items-center justify-center rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
             <InputCurrencySwitch
               tokenSymbol={item?.token}
               tokenValue={Number(amount)}
-              className="w-full py-4 text-[#030303] lg:py-6 dark:text-white"
+              className="w-full py-4 text-[#030303] dark:text-white lg:py-6"
               subtitle="Your Supply"
               usdDefault
               decimalScale={5}
               onChange={(tokenValue, rawValue) => {
-                console.log('tokenValue :>> ', tokenValue);
-                console.log('rawValue :>> ', rawValue);
+                console.log('tokenValue :>> ', tokenValue)
+                console.log('rawValue :>> ', rawValue)
                 setAmount(tokenValue)
                 setAmountRaw(rawValue)
               }}
               onSetShowUsd={setIsUsdDepositToken}
             />
           </div>
-          <div className="flex h-[110px] w-full flex-col items-center justify-center gap-3 rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  lg:h-[140px]  dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
+          <div className="flex h-[110px] w-full flex-col items-center justify-center gap-3 rounded-md border bg-[#FCFCFC] from-[#161616] to-[#161616]/0  dark:border-[#1A1A1A]  dark:bg-transparent dark:bg-gradient-to-b lg:h-[140px]">
             <InputCurrencySwitch
               tokenSymbol={item?.token}
               tokenValue={
@@ -335,7 +347,7 @@ export function CreateBoostItem({
               subtitle="3-Year Value"
               usdDefault
               decimalScale={5}
-              className="w-full py-4 text-[#030303] lg:py-6 dark:text-white"
+              className="w-full py-4 text-[#030303] dark:text-white lg:py-6"
               displayType="text"
               tokenValueChange={
                 Number(amount) * Math.pow(1 + Number(item?.APR || 0) / 100, 3)
@@ -419,9 +431,7 @@ export function CreateBoostItem({
               </button>
             </Popover>
           </div>
-          <div>
-          {['COMP', 'TORQ'].includes(item.token) ? '100:0' : '50:50'}
-          </div>
+          <div>{['COMP', 'TORQ'].includes(item.token) ? '100:0' : '50:50'}</div>
         </div>
         <div className="font-rogan-regular flex w-full items-center justify-between text-[16px] text-[#959595]">
           <div className="flex items-center justify-center">
@@ -454,7 +464,7 @@ export function CreateBoostItem({
         <button
           className={`font-rogan-regular mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all ${
             btnLoading || (isConnected && amount <= 0)
-              ? 'cursor-not-allowed opacity-60 duration-100 ease-linear transition-ease'
+              ? 'transition-ease cursor-not-allowed opacity-60 duration-100 ease-linear'
               : 'hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]'
           }`}
           disabled={btnLoading || (isConnected && amount <= 0)}

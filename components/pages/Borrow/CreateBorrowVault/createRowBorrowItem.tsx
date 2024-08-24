@@ -187,7 +187,7 @@ export default function CreateRowBorrowItem({
 
             if (
               new BigNumber(allowance).lte(new BigNumber('0')) ||
-              new BigNumber(allowance).lte(new BigNumber(tusdBorrowAmount))
+              new BigNumber(allowance).lte(new BigNumber(borrow?.toString()))
             ) {
               const tx = await tokenContract1.approve(
                 item?.borrowContractInfo?.address,
@@ -202,7 +202,7 @@ export default function CreateRowBorrowItem({
             if (
               new BigNumber(allowanceUserContract).lte(new BigNumber('0')) ||
               new BigNumber(allowanceUserContract).lte(
-                new BigNumber(tusdBorrowAmount)
+                new BigNumber(borrow?.toString())
               )
             ) {
               const tx = await tokenContract1.approve(
@@ -304,7 +304,7 @@ export default function CreateRowBorrowItem({
             console.log('allowance :>> ', allowance)
             if (
               new BigNumber(allowance).lte(new BigNumber('0')) ||
-              new BigNumber(allowance).lte(new BigNumber(tusdBorrowAmount))
+              new BigNumber(allowance).lte(new BigNumber(borrow?.toString()))
             ) {
               const tx = await tokenContract1.approve(
                 item?.borrowContractInfo?.address,
@@ -320,7 +320,7 @@ export default function CreateRowBorrowItem({
             if (
               new BigNumber(allowanceUserContract).lte(new BigNumber('0')) ||
               new BigNumber(allowanceUserContract).lte(
-                new BigNumber(tusdBorrowAmount)
+                new BigNumber(borrow?.toString())
               )
             ) {
               const tx = await tokenContract1.approve(
@@ -349,8 +349,7 @@ export default function CreateRowBorrowItem({
           setIsFetchBorrowLoading &&
             setIsFetchBorrowLoading((prev: any) => !prev)
         }
-      }
-      else {
+      } else {
         if (item.depositTokenSymbol == 'WBTC') {
           const provider = new ethers.providers.Web3Provider(window.ethereum)
           const signer = provider.getSigner(address)
@@ -358,7 +357,9 @@ export default function CreateRowBorrowItem({
             .decimals()
             .call()
           const borrow = Number(
-            new BigNumber(Number(amountReceiveRaw).toFixed(tokenDepositDecimals))
+            new BigNumber(
+              Number(amountReceiveRaw).toFixed(tokenDepositDecimals)
+            )
               .multipliedBy(10 ** tokenDepositDecimals)
               .toString()
           )
@@ -398,7 +399,7 @@ export default function CreateRowBorrowItem({
 
             if (
               new BigNumber(allowance).lte(new BigNumber('0')) ||
-              new BigNumber(allowance).lte(new BigNumber(usdcBorrowAmount))
+              new BigNumber(allowance).lte(new BigNumber(borrow?.toString()))
             ) {
               const tx = await tokenContract1.approve(
                 item?.borrowContractInfo?.address,
@@ -414,7 +415,7 @@ export default function CreateRowBorrowItem({
             if (
               new BigNumber(allowanceUserContract).lte(new BigNumber('0')) ||
               new BigNumber(allowanceUserContract).lte(
-                new BigNumber(usdcBorrowAmount)
+                new BigNumber(borrow?.toString())
               )
             ) {
               const tx = await tokenContract1.approve(
@@ -455,7 +456,9 @@ export default function CreateRowBorrowItem({
             .decimals()
             .call()
           const borrow = Number(
-            new BigNumber(Number(amountReceiveRaw).toFixed(tokenDepositDecimals))
+            new BigNumber(
+              Number(amountReceiveRaw).toFixed(tokenDepositDecimals)
+            )
               .multipliedBy(10 ** tokenDepositDecimals)
               .toString()
           )
@@ -495,7 +498,7 @@ export default function CreateRowBorrowItem({
 
             if (
               new BigNumber(allowance).lte(new BigNumber('0')) ||
-              new BigNumber(allowance).lte(new BigNumber(usdcBorrowAmount))
+              new BigNumber(allowance).lte(new BigNumber(borrow?.toString()))
             ) {
               const tx = await tokenContract1.approve(
                 item?.borrowContractInfo?.address,
@@ -511,7 +514,7 @@ export default function CreateRowBorrowItem({
             if (
               new BigNumber(allowanceUserContract).lte(new BigNumber('0')) ||
               new BigNumber(allowanceUserContract).lte(
-                new BigNumber(usdcBorrowAmount)
+                new BigNumber(borrow?.toString())
               )
             ) {
               const tx = await tokenContract1.approve(
