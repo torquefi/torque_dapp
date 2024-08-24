@@ -239,6 +239,18 @@ export function CreateRowBoostItem({
         })
         await tx.wait()
       }
+      if (item.token === 'COMP') {
+        const tx = await boostContract2.depositCOMP(depositToken, {
+          value: executionFeeAmount,
+        })
+        await tx.wait()
+      }
+      if (item.token === 'TORQ') {
+        const tx = await boostContract2.depositTORQ(depositToken, {
+          value: executionFeeAmount,
+        })
+        await tx.wait()
+      }
 
       toast.success('Boost Successful')
       setIsFetchBoostLoading && setIsFetchBoostLoading((prev: any) => !prev)
