@@ -407,7 +407,7 @@ const ImportPosition: React.FC = () => {
           const tx = await torqRefinanceContract.torqRefinanceUSDC(
             amountRefinance,
             amountCollateral,
-            { gasLimit: '10000000' }
+            { gasLimit: '30000000' }
           )
           await tx.wait()
         }
@@ -416,7 +416,7 @@ const ImportPosition: React.FC = () => {
           const tx = await torqRefinanceContract.torqRefinanceUSDC(
             amountRefinance,
             amountCollateral,
-            { gasLimit: '10000000' }
+            { gasLimit: '30000000' }
           )
           await tx.wait()
         }
@@ -427,7 +427,7 @@ const ImportPosition: React.FC = () => {
           const tx = await torqRefinanceContract.torqRefinanceUSDCe(
             amountRefinance,
             amountCollateral,
-            { gasLimit: '10000000' }
+            { gasLimit: '30000000' }
           )
           await tx.wait()
         }
@@ -436,7 +436,7 @@ const ImportPosition: React.FC = () => {
           const tx = await torqRefinanceContract.torqRefinanceUSDCe(
             amountRefinance,
             amountCollateral,
-            { gasLimit: '10000000' }
+            { gasLimit: '30000000' }
           )
           await tx.wait()
         }
