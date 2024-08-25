@@ -775,6 +775,7 @@ const ImportPosition: React.FC = () => {
         setOpenConfirmDepositModal(false)
         setIsLoadingBorrow(false)
       }
+      setIsImported(false)
     } catch (e) {
       console.log('CreateBorrowItem.onBorrow', e)
       toast.error('Borrow Failed')
