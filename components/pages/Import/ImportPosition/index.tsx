@@ -503,7 +503,9 @@ const ImportPosition: React.FC = () => {
       fetchInfoItems()
       handleGetUserReservesData()
       setIsImported(true)
+      toast.success('Import Successful')
     } catch (error) {
+      toast.error('Import Failed')
       console.error('handleImport', error)
     }
     setLoadingSubmit(false)
