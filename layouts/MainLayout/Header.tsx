@@ -143,7 +143,7 @@ export const Header = () => {
               placement="bottom-right"
               className={`font-rogan-regular z-100 mt-[8px] h-auto w-[210px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
               content={
-                <HoverIndicatorGrid rows={3} cols={2}>
+                <HoverIndicatorGrid rows={2} cols={2}>
                   <div className="grid grid-cols-2 gap-4 p-3">
                     <div className="flex cursor-pointer flex-col items-center justify-center">
                       <Link
@@ -172,7 +172,7 @@ export const Header = () => {
                         Import
                       </Link>
                     </div>
-                    <div className="flex flex-col items-center">
+                    {/* <div className="flex flex-col items-center">
                       <Link
                         href="/bridge"
                         className="text-[#959595] hover:text-[#030303] dark:hover:text-white"
@@ -180,8 +180,8 @@ export const Header = () => {
                         <img src="/icons/bridge.svg" className="h-10 w-10" />
                         Bridge
                       </Link>
-                    </div>
-                    <div className="flex flex-col items-center">
+                    </div> */}
+                    {/* <div className="flex flex-col items-center">
                       <div
                         onClick={() => setOpenDelegateModal(true)}
                         className="flex cursor-pointer flex-col items-center text-[#959595] hover:text-[#030303] dark:hover:text-white"
@@ -189,7 +189,7 @@ export const Header = () => {
                         <img src="/icons/delegate.svg" className="h-10 w-10" />
                         Delegate
                       </div>
-                    </div>
+                    </div> */}
                     <div className="flex flex-col items-center">
                       <div
                         onClick={() => setIsOpenClaim(true)}
