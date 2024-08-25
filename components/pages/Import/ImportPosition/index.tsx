@@ -50,8 +50,7 @@ const ImportPosition: React.FC = () => {
   const [progressTransaction, setSetProgressTransaction] = useState(0)
   const [completedTransaction, setCompletedTransaction] = useState(false)
 
-  const [amountSelectedCollateral, setAmountSelectedCollateral] = useState('')
-  const [isImported, setIsImported] = useState(false)
+  const [amountSelectedCollateral, setAmountSelectedCollateral] = useState(0)
   const [selectedMarket, setSelectedMarket] = useState<IMarketInfo>()
   const [selectedCollateral, setSelectedCollateral] =
     useState<ICollateralInfo>()
@@ -500,9 +499,9 @@ const ImportPosition: React.FC = () => {
       console.log(
         `Refinancing ${amount} on ${selectedMarket.label} with ${selectedCollateral.label}`
       )
+      setAmountSelectedCollateral(+amountCollateral)
       fetchInfoItems()
       handleGetUserReservesData()
-      setIsImported(true)
       toast.success('Import Successful')
     } catch (error) {
       toast.error('Import Failed')
@@ -777,7 +776,7 @@ const ImportPosition: React.FC = () => {
         setOpenConfirmDepositModal(false)
         setIsLoadingBorrow(false)
       }
-      setIsImported(false)
+      setAmountSelectedCollateral(0)
     } catch (e) {
       console.log('CreateBorrowItem.onBorrow', e)
       toast.error('Borrow Failed')
@@ -929,7 +928,7 @@ const ImportPosition: React.FC = () => {
             setSelectedMarket(market)
             setSelectedCollateral(undefined)
             handleResetProgress()
-            setIsImported(false)
+            setAmountSelectedCollateral(0)
           }}
         />
         <SelectCollateral
@@ -940,7 +939,7 @@ const ImportPosition: React.FC = () => {
           onSelect={(collateral) => {
             setSelectedCollateral(collateral)
             handleResetProgress()
-            setIsImported(false)
+            setAmountSelectedCollateral(0)
           }}
         />
 
@@ -1035,7 +1034,7 @@ const ImportPosition: React.FC = () => {
           </button>
         </div>
 
-        {isImported && (
+        {!!amountSelectedCollateral && (
           <button
             className={
               `font-rogan-regular mt-3 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-transparent to-transparent py-1 text-[14px] uppercase text-[#AA5BFF] transition-all hover:border hover:from-[#AA5BFF] hover:to-[#912BFF] hover:text-white` +
@@ -1054,7 +1053,7 @@ const ImportPosition: React.FC = () => {
           onConfirm={() => onBorrow()}
           loading={isLoadingBorrow}
           coinFrom={{
-            amount: new BigNumber(amountCollateral)
+            amount: new BigNumber(amountSelectedCollateral)
               .multipliedBy(amount)
               .dividedBy(100)
               .decimalPlaces(5)
@@ -1064,7 +1063,7 @@ const ImportPosition: React.FC = () => {
             isUsd: false,
           }}
           coinTo={{
-            amount: new BigNumber(amountCollateral)
+            amount: new BigNumber(amountSelectedCollateral)
               .multipliedBy(amount)
               .dividedBy(100)
               .multipliedBy(
