@@ -27,7 +27,7 @@ export const OptionToken = () => {
       <div className="flex w-full items-center justify-between rounded-[12px] border-[1px] border-solid border-[#E6E6E6] dark:border-[#1a1a1a] bg-white dark:bg-transparent dark:from-[#0d0d0d] dark:to-[#0d0d0d]/0 px-[12px] xl:px-[24px] py-[10px] xl:py-[12px] dark:bg-gradient-to-br md:mt-0 md:w-[32.5%]">
         <div className="w-[50%]">
           <h4 className="font-rogan text-[#030303] dark:text-white text-[24px] font-[400] leading-[40px]">
-            16,000,000,000
+            10,342,550,762
           </h4>
           <p className="font-[500] text-[16px] leading-[24px] text-[#959595] whitespace-nowrap">
             TORQ Remaining
@@ -44,7 +44,7 @@ export const OptionToken = () => {
             <img src="/assets/pages/vote/genover/next.svg" alt="" className="w-3" />
           </Link>
           <div className="relative h-[4px] w-full bg-[#aa5bff33]">
-            <div className="absolute h-[4px] w-[95%] bg-[#AA5BFF]"></div>
+            <div className="absolute h-[4px] w-[60%] bg-[#AA5BFF]"></div>
           </div>
         </div>
       </div>

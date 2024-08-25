@@ -28,7 +28,7 @@ export const SelectMarket: React.FC<ISelectMarketProps> = (props) => {
           displayType="text"
           value={balance || 0}
           prefix="Balance: "
-          decimalScale={5}
+          decimalScale={4}
           fixedDecimalScale
         />
       </div>
