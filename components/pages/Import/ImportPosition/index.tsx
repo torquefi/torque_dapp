@@ -1033,7 +1033,7 @@ const ImportPosition: React.FC = () => {
           </button>
         </div>
 
-        {isImported || 1 && (
+        {isImported && (
           <button
             className={
               `font-rogan-regular mt-3 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-transparent to-transparent py-1 text-[14px] uppercase text-[#AA5BFF] transition-all hover:border hover:from-[#AA5BFF] hover:to-[#912BFF] hover:text-white` +
