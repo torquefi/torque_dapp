@@ -3,7 +3,7 @@ import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
 import { AppStore } from '@/types/store'
 import { ethers } from 'ethers'
 import { motion } from 'framer-motion'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { NumericFormat } from 'react-number-format'
 import { useSelector } from 'react-redux'
 import { toast } from 'sonner'
@@ -31,24 +31,33 @@ import LoadingCircle from '@/components/common/Loading/LoadingCircle'
 import Popover from '@/components/common/Popover'
 import { TokenApr } from '@/lib/api/TokenApr'
 import {
+  simpleBorrowBtcContract,
+  simpleBorrowEthContract,
+  tokenBtcContract,
+  tokenEthContract,
+  tokenUsdcContract,
   userBorrowAddressBtcContract,
   userBorrowAddressEthContract,
 } from '../../Borrow/constants/contract'
+import { ConfirmDepositModal } from '@/components/common/Modal/ConfirmDepositModal'
+import Web3 from 'web3'
 
 const ImportPosition: React.FC = () => {
   const theme = useSelector((store: AppStore) => store.theme.theme)
-  const { address } = useAccount()
+  const { address, isConnected } = useAccount()
   const [progressToMarket, setProgressToMarket] = useState(0)
   const [progressFromMarket, setProgressFromMarket] = useState(0)
   const [progressTransaction, setSetProgressTransaction] = useState(0)
   const [completedTransaction, setCompletedTransaction] = useState(false)
 
   const [amountSelectedCollateral, setAmountSelectedCollateral] = useState('')
+  const [isImported, setIsImported] = useState(false)
   const [selectedMarket, setSelectedMarket] = useState<IMarketInfo>()
   const [selectedCollateral, setSelectedCollateral] =
     useState<ICollateralInfo>()
   const [amount, setAmount] = useState('')
   const [loadingSubmit, setLoadingSubmit] = useState(false)
+  const [isLoadingBorrow, setIsLoadingBorrow] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
   const [customInputVisible, setCustomInputVisible] = useState(false)
@@ -60,10 +69,14 @@ const ImportPosition: React.FC = () => {
   ])
   const [userReservesData, setUserReservesData] = useState<any[]>([])
   const [selectedTab, setSelectedTab] = useState<number | null>(null)
+  const [apr, setApr] = useState(0)
   const [slippage, setSlippage] = useState(0.5)
   const [customSlippage, setCustomSlippage] = useState(0.5)
   const [isAutoSlippage, setIsAutoSlippage] = useState(true)
   // const slippageOptions = [0.1, 0.5, 1]
+  const [isOpenConfirmDepositModal, setOpenConfirmDepositModal] =
+    useState(false)
+  const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
 
   const amountMarketSelected = userReservesData?.find(
     ({ data }) =>
@@ -71,10 +84,7 @@ const ImportPosition: React.FC = () => {
       selectedMarket?.tokenCI?.address?.toLowerCase()
   )
 
-  const amountMarket =
-    amountMarketSelected?.tokenName === 'USDC'
-      ? amountMarketSelected?.amount4
-      : amountMarketSelected?.amount1 || 0
+  const amountMarket = amountMarketSelected?.amount4
 
   const amountCollateral =
     userReservesData?.find(
@@ -82,6 +92,8 @@ const ImportPosition: React.FC = () => {
         data?.[0]?.toLowerCase() ===
         selectedCollateral?.tokenCI?.address?.toLowerCase()
     )?.amount1 || 0
+
+  const loanToValue = selectedCollateral?.tokenCI?.name === 'WBTC' ? 75 : 83
 
   useEffect(() => {
     if (progressFromMarket > 0) {
@@ -132,6 +144,8 @@ const ImportPosition: React.FC = () => {
 
       const torqApr =
         +ethers.utils.formatUnits(torqAprRaw.toString(), 'ether') || 0
+
+      setApr(torqApr)
 
       setInfoItems([
         { title: 'Current APR', content: '0.00%' },
@@ -488,10 +502,285 @@ const ImportPosition: React.FC = () => {
       )
       fetchInfoItems()
       handleGetUserReservesData()
+      setIsImported(true)
     } catch (error) {
       console.error('handleImport', error)
     }
     setLoadingSubmit(false)
+  }
+
+  const handleConfirmBorrow = async () => {
+    if (!isConnected) {
+      setOpenConnectWalletModal(true)
+      return
+    }
+    setOpenConfirmDepositModal(true)
+  }
+
+  const onBorrow = async () => {
+    const borrowAmount = new BigNumber(amountCollateral)
+      .multipliedBy(amount)
+      .dividedBy(100)
+      .decimalPlaces(5)
+      .toNumber()
+    if (borrowAmount <= 0) {
+      toast.error(
+        `You must supply ${selectedCollateral.tokenCI.name} to borrow`
+      )
+      return
+    }
+
+    const web3 = new Web3(Web3.givenProvider)
+
+    const userAddressContractInfo =
+      selectedCollateral.tokenCI.name == 'WBTC'
+        ? userBorrowAddressBtcContract
+        : userBorrowAddressEthContract
+    const userAddressContract = new web3.eth.Contract(
+      JSON.parse(userAddressContractInfo?.abi),
+      userAddressContractInfo?.address
+    )
+
+    const tokenBorrowContract = new web3.eth.Contract(
+      JSON.parse(tokenUsdcContract?.abi),
+      tokenUsdcContract?.address
+    )
+
+    const tokenContractInfo =
+      selectedCollateral.tokenCI.name == 'WBTC'
+        ? tokenBtcContract
+        : tokenEthContract
+    const tokenContract = new web3.eth.Contract(
+      JSON.parse(tokenContractInfo?.abi),
+      tokenContractInfo?.address
+    )
+
+    const borrowContractInfo =
+      selectedCollateral.tokenCI.name == 'WBTC'
+        ? simpleBorrowBtcContract
+        : simpleBorrowEthContract
+    const borrowContract = new web3.eth.Contract(
+      JSON.parse(borrowContractInfo?.abi),
+      borrowContractInfo?.address
+    )
+
+    try {
+      setIsLoadingBorrow(true)
+
+      if (selectedCollateral.tokenCI.name == 'WBTC') {
+        const provider = new ethers.providers.Web3Provider(window.ethereum)
+        const signer = provider.getSigner(address)
+        const tokenDepositDecimals = await tokenContract.methods
+          .decimals()
+          .call()
+        const borrow = Number(
+          new BigNumber(Number(borrowAmount).toFixed(tokenDepositDecimals))
+            .multipliedBy(10 ** tokenDepositDecimals)
+            .toString()
+        )
+
+        const tokenBorrowDecimal = await tokenBorrowContract.methods
+          .decimals()
+          .call()
+        console.log('tokenDecimal :>> ', tokenBorrowDecimal)
+
+        const amountReceive = new BigNumber(amountCollateral)
+          .multipliedBy(amount)
+          .dividedBy(100)
+          .multipliedBy(
+            usdPrice?.[selectedCollateral.tokenCI.name] * (loanToValue / 120)
+          )
+          .decimalPlaces(5)
+          .toNumber()
+        console.log('amountReceive :>> ', amountReceive)
+
+        let usdtBorrowAmount = '0'
+        if (amountReceive) {
+          usdtBorrowAmount = ethers.utils
+            .parseUnits(
+              Number(amountReceive).toFixed(tokenBorrowDecimal).toString(),
+              tokenBorrowDecimal
+            )
+            .toString()
+        }
+
+        const tokenContract1 = new ethers.Contract(
+          tokenContractInfo?.address,
+          tokenContractInfo?.abi,
+          signer
+        )
+
+        const userAddressContract = await borrowContract.methods
+          .userContract(address)
+          .call()
+        if (
+          userAddressContract === '0x0000000000000000000000000000000000000000'
+        ) {
+          const allowance = await tokenContract.methods
+            .allowance(address, borrowContractInfo.address)
+            .call()
+          console.log('allowance :>> ', allowance)
+
+          if (
+            new BigNumber(allowance).lte(new BigNumber('0')) ||
+            new BigNumber(allowance).lte(new BigNumber(borrow?.toString()))
+          ) {
+            const tx = await tokenContract1.approve(
+              borrowContractInfo?.address,
+              borrow.toString()
+            )
+            await tx.wait()
+          }
+        } else {
+          const allowanceUserContract = await tokenContract.methods
+            .allowance(address, userAddressContract)
+            .call()
+          console.log('allowanceUserContract :>> ', allowanceUserContract)
+          if (
+            new BigNumber(allowanceUserContract).lte(new BigNumber('0')) ||
+            new BigNumber(allowanceUserContract).lte(
+              new BigNumber(borrow?.toString())
+            )
+          ) {
+            const tx = await tokenContract1.approve(
+              userAddressContract,
+              borrow.toString()
+            )
+            await tx.wait()
+          }
+        }
+
+        const borrowContract2 = new ethers.Contract(
+          borrowContractInfo?.address,
+          borrowContractInfo?.abi,
+          signer
+        )
+
+        console.log('params borrow:>> ', borrow.toString(), usdtBorrowAmount)
+
+        const tx = await borrowContract2.callBorrow(
+          borrow.toString(),
+          usdtBorrowAmount,
+          {
+            gasLimit: '500000',
+          }
+        )
+        await tx.wait()
+        toast.success('Borrow Successful')
+        setOpenConfirmDepositModal(false)
+        setIsLoadingBorrow(false)
+      }
+
+      if (selectedCollateral.tokenCI.name == 'WETH') {
+        const provider = new ethers.providers.Web3Provider(window.ethereum)
+        const signer = provider.getSigner(address)
+        const tokenDepositDecimals = await tokenContract.methods
+          .decimals()
+          .call()
+        const borrow = Number(
+          new BigNumber(Number(borrowAmount).toFixed(tokenDepositDecimals))
+            .multipliedBy(10 ** tokenDepositDecimals)
+            .toString()
+        )
+
+        const tokenBorrowDecimal = await tokenBorrowContract.methods
+          .decimals()
+          .call()
+        console.log('tokenDecimal :>> ', tokenBorrowDecimal)
+
+        const amountReceive = new BigNumber(amountCollateral)
+          .multipliedBy(amount)
+          .dividedBy(100)
+          .multipliedBy(
+            usdPrice?.[selectedCollateral.tokenCI.name] * (loanToValue / 120)
+          )
+          .decimalPlaces(5)
+          .toNumber()
+        console.log('amountReceive :>> ', amountReceive)
+
+        let usdtBorrowAmount = '0'
+        console.log('amountReceive :>> ', amountReceive)
+        if (amountReceive) {
+          usdtBorrowAmount = ethers.utils
+            .parseUnits(
+              Number(amountReceive).toFixed(tokenBorrowDecimal).toString(),
+              tokenBorrowDecimal
+            )
+            .toString()
+        }
+        console.log('usdtBorrowAmount :>> ', usdtBorrowAmount)
+
+        const tokenContract1 = new ethers.Contract(
+          tokenContractInfo?.address,
+          tokenContractInfo?.abi,
+          signer
+        )
+
+        const userAddressContract = await borrowContract.methods
+          .userContract(address)
+          .call()
+        if (
+          userAddressContract === '0x0000000000000000000000000000000000000000'
+        ) {
+          const allowance = await tokenContract.methods
+            .allowance(address, borrowContractInfo.address)
+            .call()
+          console.log('allowance :>> ', allowance)
+          console.log('usdtBorrowAmount :>> ', usdtBorrowAmount)
+          console.log('userAddressContract :>> ', userAddressContract)
+
+          if (
+            new BigNumber(allowance).lte(new BigNumber('0')) ||
+            new BigNumber(allowance).lte(new BigNumber(borrow.toString()))
+          ) {
+            const tx = await tokenContract1.approve(
+              borrowContractInfo?.address,
+              borrow.toString()
+            )
+            await tx.wait()
+          }
+        } else {
+          const allowanceUserContract = await tokenContract.methods
+            .allowance(address, userAddressContract)
+            .call()
+          console.log('allowanceUserContract :>> ', allowanceUserContract)
+          if (
+            new BigNumber(allowanceUserContract).lte(new BigNumber('0')) ||
+            new BigNumber(allowanceUserContract).lte(
+              new BigNumber(borrow.toString())
+            )
+          ) {
+            const tx = await tokenContract1.approve(
+              userAddressContract,
+              borrow.toString()
+            )
+            await tx.wait()
+          }
+        }
+
+        const borrowContract2 = new ethers.Contract(
+          borrowContractInfo?.address,
+          borrowContractInfo?.abi,
+          signer
+        )
+
+        console.log('params borrow:>> ', borrow.toString(), usdtBorrowAmount)
+
+        const tx = await borrowContract2.callBorrow(
+          borrow.toString(),
+          usdtBorrowAmount
+        )
+        await tx.wait()
+        toast.success('Borrow Successful')
+        setOpenConfirmDepositModal(false)
+        setIsLoadingBorrow(false)
+      }
+    } catch (e) {
+      console.log('CreateBorrowItem.onBorrow', e)
+      toast.error('Borrow Failed')
+    } finally {
+      setIsLoadingBorrow(false)
+    }
   }
 
   const handleAmountTabClick = (percentage: number, index: number) => {
@@ -637,6 +926,7 @@ const ImportPosition: React.FC = () => {
             setSelectedMarket(market)
             setSelectedCollateral(undefined)
             handleResetProgress()
+            setIsImported(false)
           }}
         />
         <SelectCollateral
@@ -647,6 +937,7 @@ const ImportPosition: React.FC = () => {
           onSelect={(collateral) => {
             setSelectedCollateral(collateral)
             handleResetProgress()
+            setIsImported(false)
           }}
         />
 
@@ -741,8 +1032,61 @@ const ImportPosition: React.FC = () => {
           </button>
         </div>
 
+        {isImported && (
+          <button
+            className={
+              `font-rogan-regular mt-3 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-transparent to-transparent py-1 text-[14px] uppercase text-[#AA5BFF] transition-all hover:border hover:from-[#AA5BFF] hover:to-[#912BFF] hover:text-white` +
+              ` ${isLoadingBorrow ? 'cursor-not-allowed opacity-70' : ''}`
+            }
+            onClick={handleConfirmBorrow}
+          >
+            {isLoadingBorrow && <LoadingCircle />}
+            {address ? 'Supply & Borrow' : 'Connect Wallet'}
+          </button>
+        )}
+        <ConfirmDepositModal
+          open={isOpenConfirmDepositModal}
+          handleClose={() => setOpenConfirmDepositModal(false)}
+          confirmButtonText="Supply & Borrow"
+          onConfirm={() => onBorrow()}
+          loading={isLoading}
+          coinFrom={{
+            amount: new BigNumber(amountCollateral)
+              .multipliedBy(amount)
+              .dividedBy(100)
+              .decimalPlaces(5)
+              .toNumber(),
+            icon: `/icons/coin/${selectedCollateral?.tokenCI?.name?.toLowerCase()}.png`,
+            symbol: selectedCollateral?.tokenCI?.name,
+            isUsd: false,
+          }}
+          coinTo={{
+            amount: new BigNumber(amountCollateral)
+              .multipliedBy(amount)
+              .dividedBy(100)
+              .multipliedBy(
+                usdPrice?.[selectedCollateral?.tokenCI?.name] *
+                  (loanToValue / 120)
+              )
+              .decimalPlaces(5)
+              .toNumber(),
+            icon: `/icons/coin/usdc.svg`,
+            symbol: 'USDC',
+            isUsd: false,
+          }}
+          details={[
+            {
+              label: 'Loan-to-value',
+              value: `<${loanToValue}%`,
+            },
+            {
+              label: 'Variable APR',
+              value: !apr ? '-0.00%' : -(Number(apr) * 100).toFixed(2) + '%',
+            },
+          ]}
+        />
         {/* new */}
-        {amountSelectedCollateral && (
+        {/* {amountSelectedCollateral && (
           <div className="flex justify-end">
             <button
               disabled={loadingSubmit}
@@ -757,7 +1101,7 @@ const ImportPosition: React.FC = () => {
               {address ? 'Supply & Borrow' : 'Connect Wallet'}
             </button>
           </div>
-        )}
+        )} */}
       </div>
 
       {selectedMarket && selectedCollateral && (
