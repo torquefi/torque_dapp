@@ -140,8 +140,8 @@ const menu = [
     ticker: 'USDC',
     dailySupply: '4,000,000',
     dailyBorrow: '4,000,000',
-    dailySupplyArb: '2,500',
-    dailyBorrowArb: '2,000',
+    dailySupplyArb: '500',
+    dailyBorrowArb: '200',
   },
   {
     imgMain: '/icons/coin/aeth.png',
@@ -150,8 +150,8 @@ const menu = [
     ticker: 'USDC',
     dailySupply: '4,000,000',
     dailyBorrow: '4,000,000',
-    dailySupplyArb: '2,500',
-    dailyBorrowArb: '2,000',
+    dailySupplyArb: '500',
+    dailyBorrowArb: '200',
   },
   {
     imgMain: '/icons/coin/wbtc.png',
