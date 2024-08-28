@@ -330,7 +330,7 @@ const BOOST_VAULTS = [
   {
     token: 'WBTC',
     earnToken: 'tBTC',
-    bonus: 249.56,
+    bonus: 149.56,
     arbBonus: 0,
     deposit: 0,
     threeYearValue: 0,
@@ -352,7 +352,7 @@ const BOOST_VAULTS = [
   {
     token: 'WETH',
     earnToken: 'tETH',
-    bonus: 249.56,
+    bonus: 149.56,
     arbBonus: 0,
     deposit: 0,
     threeYearValue: 0,
@@ -374,7 +374,7 @@ const BOOST_VAULTS = [
   {
     token: 'LINK',
     earnToken: 'tLINK',
-    bonus: 164.24,
+    bonus: 64.24,
     arbBonus: 0,
     deposit: 0,
     threeYearValue: 0,
@@ -396,7 +396,7 @@ const BOOST_VAULTS = [
   {
     token: 'UNI',
     earnToken: 'tUNI',
-    bonus: 164.24,
+    bonus: 64.24,
     arbBonus: 0,
     deposit: 0,
     threeYearValue: 0,
@@ -418,7 +418,7 @@ const BOOST_VAULTS = [
   {
     token: 'COMP',
     earnToken: 'tCOMP',
-    bonus: 164.24,
+    bonus: 64.24,
     arbBonus: 0,
     deposit: 0,
     threeYearValue: 0,
@@ -440,7 +440,7 @@ const BOOST_VAULTS = [
   {
     token: 'TORQ',
     earnToken: 'tTORQ',
-    bonus: 164.24,
+    bonus: 64.24,
     arbBonus: 0,
     deposit: 0,
     threeYearValue: 0,
