@@ -17,7 +17,7 @@ import {
   tokenWbtcCI,
   tokenWethCI,
 } from '../constants/contract'
-import { marketOptions, providerAddress } from '../constants/provider'
+import { marketOptions } from '../constants/provider'
 import {
   Collateral,
   ICollateralInfo,
@@ -172,18 +172,22 @@ const ImportPosition: React.FC = () => {
       return
     }
 
+    if (!selectedMarket?.providerAddress) {
+      return
+    }
+
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const signer = provider.getSigner(address)
 
       const poolProviderContract = new ethers.Contract(
-        radianUiPoolDataProviderCI.address,
-        radianUiPoolDataProviderCI.abi,
+        selectedMarket.poolDataProviderCI.address,
+        selectedMarket.poolDataProviderCI.abi,
         signer
       )
 
       const userReservesData = await poolProviderContract.getUserReservesData(
-        providerAddress,
+        selectedMarket.providerAddress,
         address
       )
 
@@ -315,8 +319,8 @@ const ImportPosition: React.FC = () => {
       )
 
       const collateralTokenRadianContract = new ethers.Contract(
-        selectedCollateral.tokenRadianCI.address,
-        selectedCollateral.tokenRadianCI.abi,
+        selectedCollateral.tokenMarketCI.address,
+        selectedCollateral.tokenMarketCI.abi,
         signer
       )
 
@@ -329,13 +333,13 @@ const ImportPosition: React.FC = () => {
       )
 
       const poolProviderContract = new ethers.Contract(
-        radianUiPoolDataProviderCI.address,
-        radianUiPoolDataProviderCI.abi,
+        selectedMarket.poolDataProviderCI.address,
+        selectedMarket.poolDataProviderCI.abi,
         signer
       )
 
       const userReservesData = await poolProviderContract.getUserReservesData(
-        providerAddress,
+        selectedMarket.providerAddress,
         address
       )
       const refinance = userReservesData[0]?.find?.(
@@ -455,45 +459,45 @@ const ImportPosition: React.FC = () => {
         }
       }
 
-      // if (selectedMarket.label === Market.AaveV3USDC) {
-      //   if (selectedCollateral.label === Collateral.WBTC) {
-      //     const tx = await torqRefinanceContract.torqRefinanceUSDC(
-      //       amountRefinance,
-      //       amountCollateral,
-      //       { gasLimit: '40000000' }
-      //     )
-      //     await tx.wait()
-      //   }
+      if (selectedMarket.label === Market.AaveV3USDC) {
+        if (selectedCollateral.label === Collateral.WBTC) {
+          const tx = await torqRefinanceContract.torqRefinanceUSDC(
+            amountRefinance,
+            amountCollateral,
+            { gasLimit: '30000000' }
+          )
+          await tx.wait()
+        }
 
-      //   if (selectedCollateral.label === Collateral.WETH) {
-      //     const tx = await torqRefinanceContract.torqRefinanceUSDC(
-      //       amountRefinance,
-      //       amountCollateral,
-      //       { gasLimit: '40000000' }
-      //     )
-      //     await tx.wait()
-      //   }
-      // }
+        if (selectedCollateral.label === Collateral.WETH) {
+          const tx = await torqRefinanceContract.torqRefinanceUSDC(
+            amountRefinance,
+            amountCollateral,
+            { gasLimit: '30000000' }
+          )
+          await tx.wait()
+        }
+      }
 
-      // if (selectedMarket.label === Market.AaveV3USDCe) {
-      //   if (selectedCollateral.label === Collateral.WBTC) {
-      //     const tx = await torqRefinanceContract.torqRefinanceUSDCe(
-      //       amountRefinance,
-      //       amountCollateral,
-      //       { gasLimit: '40000000' }
-      //     )
-      //     await tx.wait()
-      //   }
+      if (selectedMarket.label === Market.AaveV3USDCe) {
+        if (selectedCollateral.label === Collateral.WBTC) {
+          const tx = await torqRefinanceContract.torqRefinanceUSDCe(
+            amountRefinance,
+            amountCollateral,
+            { gasLimit: '30000000' }
+          )
+          await tx.wait()
+        }
 
-      //   if (selectedCollateral.label === Collateral.WETH) {
-      //     const tx = await torqRefinanceContract.torqRefinanceUSDCe(
-      //       amountRefinance,
-      //       amountCollateral,
-      //       { gasLimit: '40000000' }
-      //     )
-      //     await tx.wait()
-      //   }
-      // }
+        if (selectedCollateral.label === Collateral.WETH) {
+          const tx = await torqRefinanceContract.torqRefinanceUSDCe(
+            amountRefinance,
+            amountCollateral,
+            { gasLimit: '30000000' }
+          )
+          await tx.wait()
+        }
+      }
 
       setProgressFromMarket(500)
       console.log(
@@ -802,7 +806,7 @@ const ImportPosition: React.FC = () => {
 
   useEffect(() => {
     handleGetUserReservesData()
-  }, [address])
+  }, [address, selectedMarket?.providerAddress])
 
   useEffect(() => {
     fetchInfoItems()

@@ -21,12 +21,14 @@ export interface ICollateralInfo {
   label: Collateral
   torqRefinanceCI: IContractInfo
   tokenCI: IContractInfo
-  tokenRadianCI: IContractInfo
+  tokenMarketCI: IContractInfo
 }
 
 export interface IMarketInfo {
   label: Market
   isEnable: boolean
   tokenCI?: IContractInfo
+  poolDataProviderCI?: IContractInfo
+  providerAddress?: string
   collaterals?: ICollateralInfo[]
 }
