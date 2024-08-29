@@ -68,7 +68,7 @@ const ImportPosition: React.FC = () => {
   ])
   const [userReservesData, setUserReservesData] = useState<any[]>([])
   const [selectedTab, setSelectedTab] = useState<number | null>(null)
-  const [apr, setApr] = useState(0)
+  const [torqueApr, setTorqueApr] = useState(0)
   const [slippage, setSlippage] = useState(0.5)
   const [customSlippage, setCustomSlippage] = useState(0.5)
   const [isAutoSlippage, setIsAutoSlippage] = useState(true)
@@ -124,7 +124,7 @@ const ImportPosition: React.FC = () => {
     }, 1000)
   }, [])
 
-  const fetchInfoItems = async () => {
+  const fetchAprAndSavingInfo = async () => {
     try {
       // const aprRes = await TokenApr.getListApr({})
       // const aprs: any[] = aprRes?.data || []
@@ -133,6 +133,7 @@ const ImportPosition: React.FC = () => {
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const signer = provider.getSigner(address)
 
+      // TORQ APR
       const userWethBorrowUsdcContract = new ethers.Contract(
         userBorrowAddressEthContract.address,
         userBorrowAddressEthContract.abi,
@@ -142,21 +143,61 @@ const ImportPosition: React.FC = () => {
       const torqAprRaw = await userWethBorrowUsdcContract.getApr()
 
       const torqApr =
-        +ethers.utils.formatUnits(torqAprRaw.toString(), 'ether') || 0
+        (+ethers.utils.formatUnits(torqAprRaw.toString(), 'ether') || 0) * 100
 
-      setApr(torqApr)
+      setTorqueApr(torqApr)
+
+      // Current APR
+      const lendingPoolContract = new ethers.Contract(
+        selectedMarket.lendingPoolCI.address,
+        selectedMarket.lendingPoolCI.abi,
+        signer
+      )
+
+      const reserveData = await lendingPoolContract.getReserveData(
+        selectedMarket.tokenCI.address
+      )
+
+      const currentApr = new BigNumber(reserveData[4]?.toString())
+        .dividedBy(new BigNumber(10).exponentiatedBy(25))
+        .decimalPlaces(2)
+        .toNumber()
+      console.log('currentApr', selectedMarket.label, currentApr)
+
+      // Savings
+      const usdcPrice = usdPrice['usdc'] || 1
+      const loanAmount = amountMarket * usdcPrice
+
+      const currentMonthlyInterestRate = currentApr / 100 / 12
+      const currentLoanMonthlyInterest = loanAmount * currentMonthlyInterestRate
+
+      const torqueMonthlyInterestRate = torqueApr / 100 / 12
+      const torqueLoanMonthlyInterest = loanAmount * torqueMonthlyInterestRate
+
+      const monthlySavings =
+        currentLoanMonthlyInterest - torqueLoanMonthlyInterest
+      const annualSavings = monthlySavings * 12
+
+      console.log('fetchAprAndSavingInfo', selectedMarket.label, {
+        loanAmount,
+        torqApr,
+        currentApr,
+        currentMonthlyInterestRate,
+        currentLoanMonthlyInterest,
+        torqueMonthlyInterestRate,
+        torqueLoanMonthlyInterest,
+        monthlySavings,
+        annualSavings,
+      })
 
       setInfoItems([
-        { title: 'Current APR', content: '0.00%' },
-        {
-          title: 'Torque APR',
-          content: `${(-Number(torqApr) * 100).toFixed(2)}%`,
-        },
-        { title: 'Annual Savings', content: '$0.00' },
-        { title: 'Monthly Savings', content: '$0.00' },
+        { title: 'Current APR', content: `-${currentApr}%` },
+        { title: 'Torque APR', content: `${torqApr.toFixed(2)}%` },
+        { title: 'Annual Savings', content: `$${annualSavings.toFixed(2)}` },
+        { title: 'Monthly Savings', content: `$${monthlySavings.toFixed(2)}` },
       ])
     } catch (error) {
-      console.log('fetchInfoItems', error)
+      console.log('fetchAprAndSavingInfo', error)
     }
   }
 
@@ -181,8 +222,8 @@ const ImportPosition: React.FC = () => {
       const signer = provider.getSigner(address)
 
       const poolProviderContract = new ethers.Contract(
-        selectedMarket.poolDataProviderCI.address,
-        selectedMarket.poolDataProviderCI.abi,
+        selectedMarket.uiPoolDataProviderCI.address,
+        selectedMarket.uiPoolDataProviderCI.abi,
         signer
       )
 
@@ -333,8 +374,8 @@ const ImportPosition: React.FC = () => {
       )
 
       const poolProviderContract = new ethers.Contract(
-        selectedMarket.poolDataProviderCI.address,
-        selectedMarket.poolDataProviderCI.abi,
+        selectedMarket.uiPoolDataProviderCI.address,
+        selectedMarket.uiPoolDataProviderCI.abi,
         signer
       )
 
@@ -504,7 +545,7 @@ const ImportPosition: React.FC = () => {
         `Refinancing ${amount} on ${selectedMarket.label} with ${selectedCollateral.label}`
       )
       setAmountSelectedCollateral(+amountCollateral)
-      fetchInfoItems()
+      fetchAprAndSavingInfo()
       handleGetUserReservesData()
       toast.success('Import Successful')
     } catch (error) {
@@ -809,8 +850,8 @@ const ImportPosition: React.FC = () => {
   }, [address, selectedMarket?.providerAddress])
 
   useEffect(() => {
-    fetchInfoItems()
-  }, [])
+    fetchAprAndSavingInfo()
+  }, [address, selectedMarket?.providerAddress])
 
   if (isLoading) {
     return (
@@ -944,6 +985,7 @@ const ImportPosition: React.FC = () => {
             setSelectedCollateral(collateral)
             handleResetProgress()
             setAmountSelectedCollateral(0)
+            handleAmountTabClick(0.5, 0)
           }}
         />
 
@@ -1087,7 +1129,9 @@ const ImportPosition: React.FC = () => {
             },
             {
               label: 'Variable APR',
-              value: !apr ? '-0.00%' : -(Number(apr) * 100).toFixed(2) + '%',
+              value: !torqueApr
+                ? '-0.00%'
+                : -(Number(torqueApr) * 100).toFixed(2) + '%',
             },
           ]}
         />
