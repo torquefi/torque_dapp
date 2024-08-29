@@ -166,19 +166,18 @@ const ImportPosition: React.FC = () => {
 
       // Savings
       const usdcPrice = usdPrice['usdc'] || 1
-      const loanAmount = amountMarket * usdcPrice
-      console.log('loanAmount :>> ', loanAmount)
+      const loanAmount = Number(amountMarket || 0) * usdcPrice
 
-      const currentMonthlyInterestRate = currentApr / 100 / 12
+      const currentMonthlyInterestRate = Number(currentApr || 0) / 100 / 12
       const currentLoanMonthlyInterest =
         loanAmount * Number(currentMonthlyInterestRate || 0)
 
-      const torqueMonthlyInterestRate = torqueApr / 100 / 12
+      const torqueMonthlyInterestRate = Number(torqueApr || 0) / 100 / 12
       const torqueLoanMonthlyInterest = loanAmount * torqueMonthlyInterestRate
 
       const monthlySavings =
         currentLoanMonthlyInterest - torqueLoanMonthlyInterest
-      const annualSavings = monthlySavings * 12
+      const annualSavings = Number(monthlySavings || 0) * 12
 
       console.log('fetchAprAndSavingInfo', selectedMarket.label, {
         loanAmount,
