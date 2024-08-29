@@ -28,7 +28,8 @@ export interface IMarketInfo {
   label: Market
   isEnable: boolean
   tokenCI?: IContractInfo
-  poolDataProviderCI?: IContractInfo
+  uiPoolDataProviderCI?: IContractInfo
+  lendingPoolCI?: IContractInfo
   providerAddress?: string
   collaterals?: ICollateralInfo[]
 }

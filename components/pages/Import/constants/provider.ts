@@ -1,6 +1,8 @@
 import {
+  aaveLendingPoolCI,
   aaveUiPoolDataProviderCI,
   aaveWbtcRefinanceUsdcCI,
+  radianLendingPoolCI,
   radiantWbtcRefinanceUsdcCI,
   radiantWethRefinanceUsdcCI,
   radianUiPoolDataProviderCI,
@@ -22,7 +24,8 @@ export const marketOptions: IMarketInfo[] = [
     label: Market.RadiantUSDC,
     isEnable: true,
     tokenCI: tokenUsdcCI,
-    poolDataProviderCI: radianUiPoolDataProviderCI,
+    uiPoolDataProviderCI: radianUiPoolDataProviderCI,
+    lendingPoolCI: radianLendingPoolCI,
     providerAddress: radianProviderAddress,
     collaterals: [
       {
@@ -43,7 +46,8 @@ export const marketOptions: IMarketInfo[] = [
     label: Market.RadiantUSDCe,
     isEnable: true,
     tokenCI: tokenUsdceCI,
-    poolDataProviderCI: radianUiPoolDataProviderCI,
+    uiPoolDataProviderCI: radianUiPoolDataProviderCI,
+    lendingPoolCI: radianLendingPoolCI,
     providerAddress: radianProviderAddress,
     collaterals: [
       {
@@ -64,7 +68,8 @@ export const marketOptions: IMarketInfo[] = [
     label: Market.AaveV3USDC,
     isEnable: false,
     tokenCI: tokenUsdcCI,
-    poolDataProviderCI: aaveUiPoolDataProviderCI,
+    uiPoolDataProviderCI: aaveUiPoolDataProviderCI,
+    lendingPoolCI: aaveLendingPoolCI,
     providerAddress: aaveProviderAddress,
     collaterals: [
       {
@@ -85,7 +90,8 @@ export const marketOptions: IMarketInfo[] = [
     label: Market.AaveV3USDCe,
     isEnable: false,
     tokenCI: tokenUsdceCI,
-    poolDataProviderCI: aaveUiPoolDataProviderCI,
+    uiPoolDataProviderCI: aaveUiPoolDataProviderCI,
+    lendingPoolCI: aaveLendingPoolCI,
     providerAddress: aaveProviderAddress,
     collaterals: [
       {
