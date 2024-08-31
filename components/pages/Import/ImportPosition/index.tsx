@@ -180,6 +180,7 @@ const ImportPosition: React.FC = () => {
       const annualSavings = Number(monthlySavings || 0) * 12
 
       console.log('fetchAprAndSavingInfo', selectedMarket.label, {
+        amountMarket,
         loanAmount,
         torqApr,
         currentApr,
@@ -198,6 +199,12 @@ const ImportPosition: React.FC = () => {
         { title: 'Monthly Savings', content: `$${monthlySavings.toFixed(2)}` },
       ])
     } catch (error) {
+      setInfoItems([
+        { title: 'Current APR', content: `0.00%` },
+        { title: 'Torque APR', content: `0.00%` },
+        { title: 'Annual Savings', content: `$0.00` },
+        { title: 'Monthly Savings', content: `$0.00` },
+      ])
       console.log('fetchAprAndSavingInfo', error)
     }
   }
@@ -852,7 +859,7 @@ const ImportPosition: React.FC = () => {
 
   useEffect(() => {
     fetchAprAndSavingInfo()
-  }, [address, selectedMarket?.providerAddress])
+  }, [address, selectedMarket?.providerAddress, amountMarket])
 
   if (isLoading) {
     return (
