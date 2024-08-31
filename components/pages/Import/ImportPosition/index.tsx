@@ -168,12 +168,25 @@ const ImportPosition: React.FC = () => {
       const usdcPrice = usdPrice['usdc'] || 1
       const loanAmount = Number(amountMarket || 0) * usdcPrice
 
-      const currentMonthlyInterestRate = Number(currentApr || 0) / 100 / 12
-      const currentLoanMonthlyInterest =
-        loanAmount * Number(currentMonthlyInterestRate || 0)
+      const currentMonthlyInterestRate = new BigNumber(currentApr || 0)
+        .dividedBy(100)
+        .dividedBy(12)
+        .toNumber()
+      const currentLoanMonthlyInterest = new BigNumber(
+        currentMonthlyInterestRate || 0
+      )
+        .multipliedBy(loanAmount)
+        .toNumber()
 
-      const torqueMonthlyInterestRate = Number(torqueApr || 0) / 100 / 12
-      const torqueLoanMonthlyInterest = loanAmount * torqueMonthlyInterestRate
+      const torqueMonthlyInterestRate = new BigNumber(torqueApr || 0)
+        .dividedBy(100)
+        .dividedBy(12)
+        .toNumber()
+      const torqueLoanMonthlyInterest = new BigNumber(
+        torqueMonthlyInterestRate || 0
+      )
+        .multipliedBy(loanAmount)
+        .toNumber()
 
       const monthlySavings =
         currentLoanMonthlyInterest - torqueLoanMonthlyInterest
