@@ -903,7 +903,7 @@ const ImportPosition: React.FC = () => {
     <>
       <div className="m-auto mb-4 w-full max-w-[360px] rounded-[12px] border border-[#E6E6E6] bg-[#ffffff] from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pb-4 pt-3 text-[#030303] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white">
         <div className="flex items-center justify-between">
-          <p className="font-rogan mb-3 mt-2 text-[28px] text-[#030303] dark:text-white">
+          <p className="font-rogan mb-3 mt-1 text-[28px] text-[#030303] dark:text-white">
             Import
           </p>
           <div className="flex items-center justify-between">
@@ -965,13 +965,13 @@ const ImportPosition: React.FC = () => {
                 </div>
               }
             >
-              <div className="transition-ease cursor-pointer items-center rounded-full bg-transparent p-[6px] duration-100 hover:bg-[#f9f9f9] dark:hover:bg-[#141414] xs:flex">
-                <img
-                  src="/icons/slider.svg"
-                  alt="slider icon"
-                  className="w-[20px] cursor-pointer"
-                />
-              </div>
+            <div className="transition-ease cursor-pointer items-center rounded-full bg-transparent mr-[-6px] p-[6px] duration-100 hover:bg-[#f9f9f9] dark:hover:bg-[#141414] xs:flex">
+              <img
+                src="/icons/slider.svg"
+                alt="slider icon"
+                className="w-[20px] cursor-pointer"
+              />
+            </div>
             </Popover>
           </div>
         </div>
