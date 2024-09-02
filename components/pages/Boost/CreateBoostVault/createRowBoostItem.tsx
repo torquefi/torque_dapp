@@ -341,7 +341,7 @@ export function CreateRowBoostItem({
                 className="w-[18px]"
               />
               <div className="pt-[1px] text-[16px] font-[500] tracking-[0em] text-[#030303] dark:text-white">
-                {Number(item.bonus).toLocaleString()}
+                {Number(item.bonus).toLocaleString()}%
               </div>
             </div>
           </div>

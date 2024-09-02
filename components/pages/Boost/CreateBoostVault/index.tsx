@@ -178,7 +178,7 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
-                      className={`font-rogan-regular text-[#030303] dark:text-white py-1 items-center flex w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
+                      className={`font-rogan-regular text-[#030303] dark:text-white py-1 items-center flex w-[200px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
                       content="Select your preferred tokenized asset to be supplied."
                     >
                       <button className="ml-[5px]">
@@ -199,7 +199,7 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
-                      className={`font-rogan-regular text-[#030303] dark:text-white py-1 items-center flex w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
+                      className={`font-rogan-regular text-[#030303] dark:text-white py-1 items-center flex w-[210px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
                       content="Capture diversified yield within a single, seamless transaction."
                     >
                       <button className="ml-[5px]">
@@ -221,7 +221,7 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
                       trigger="hover"
                       placement="topLeft"
                       className={`font-rogan-regular text-[#030303] dark:text-white py-1 items-center flex w-[210px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
-                      content="Supplied assets are auto-routed to yield providers."
+                      content="Supplied assets are automatically routed across yield providers."
                     >
                       <button className="mt-[ ml-[5px]">
                         <img
@@ -241,7 +241,7 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
-                      className={`font-rogan-regular text-[#030303] dark:text-white py-1 items-center flex w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
+                      className={`font-rogan-regular text-[#030303] dark:text-white py-1 items-center flex w-[200px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
                       content="On-chain estimate based on prevailing market conditions."
                     >
                       <button className="ml-[5px]">

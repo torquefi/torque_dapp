@@ -292,8 +292,8 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
-                      className={`font-rogan-regular flex w-[220px] items-center border border-[#e5e7eb] bg-[#fff] py-1 text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
-                      content="Supply collateral assets to receive a TUSD loan."
+                      className={`font-rogan-regular flex w-[180px] items-center border border-[#e5e7eb] bg-[#fff] py-1 text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+                      content="Supply collateral assets and receive an instant loan."
                     >
                       <button className="ml-[5px]">
                         <img
@@ -313,7 +313,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
-                      className={`font-rogan-regular flex w-[220px] items-center border border-[#e5e7eb] bg-[#fff] py-1 text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+                      className={`font-rogan-regular flex w-[200px] items-center border border-[#e5e7eb] bg-[#fff] py-1 text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
                       content="Borrow Torque USD (TUSD) by supplying collateral assets."
                     >
                       <button className="ml-[5px]">
@@ -334,7 +334,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
-                      className={`font-rogan-regular flex w-[220px] items-center border border-[#e5e7eb] bg-[#fff] py-1 text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+                      className={`font-rogan-regular flex w-[210px] items-center border border-[#e5e7eb] bg-[#fff] py-1 text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
                       content="Max value of the loan you can take out against your collateral."
                     >
                       <button className="mt-[ ml-[5px]">
@@ -355,7 +355,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
-                      className={`font-rogan-regular flex w-[220px] items-center border border-[#e5e7eb] bg-[#fff] py-1 text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+                      className={`font-rogan-regular flex w-[210px] items-center border border-[#e5e7eb] bg-[#fff] py-1 text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
                       content="An interest rate determined by supply and demand of the asset."
                     >
                       <button className="ml-[5px]">
@@ -376,7 +376,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
-                      className={`font-rogan-regular flex w-[220px] items-center border border-[#e5e7eb] bg-[#fff] py-1 text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+                      className={`font-rogan-regular flex w-[210px] items-center border border-[#e5e7eb] bg-[#fff] py-1 text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
                       content="Available amount of borrowing power in the market at this time."
                     >
                       <button className="ml-[5px]">
@@ -418,7 +418,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topRight"
-                      className={`font-rogan-regular flex w-[220px] items-center border border-[#e5e7eb] bg-[#fff] py-1 text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
+                      className={`font-rogan-regular flex w-[180px] items-center border border-[#e5e7eb] bg-[#fff] py-1 text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
                       content="The total value of currently supplied tokenized assets."
                     >
                       <button className="ml-[5px]">
