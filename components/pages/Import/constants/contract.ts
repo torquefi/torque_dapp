@@ -15,12 +15,12 @@ import tokenUsdc from './abi/tokenUsdc.json'
 import tokenUsdce from './abi/tokenUsdce.json'
 
 export const radiantWbtcRefinanceUsdcCI: IContractInfo = {
-  address: '0x6b5c6C6a5223e1Ce30d24dedE62848bAd0845Fd2',
+  address: '0x380206E0D634630d1F47eCdA0A01e4B95409D9f7',
   abi: JSON.stringify(radiantWbtcRefinanceUsdc),
 }
 
 export const radiantWethRefinanceUsdcCI: IContractInfo = {
-  address: '0xB4C189f3697F21703AbbB6550e97D8dDF4c3DF3B',
+  address: '0x5c4DC1c9fbC4DDBb29680e1B6aE80432a3942e9b',
   abi: JSON.stringify(radiantWethRefinanceUsdc),
 }
 
@@ -35,12 +35,12 @@ export const radianLendingPoolCI: IContractInfo = {
 }
 
 export const aaveWbtcRefinanceUsdcCI: IContractInfo = {
-  address: '0xa4C46c137Be22E8fb6033509041917C70665fD24',
+  address: '0xe76686E8723E1cf300A43616B5249C144f43d485',
   abi: JSON.stringify(aaveWbtcRefinanceUsdc),
 }
 
 export const aaveWethRefinanceUsdcCI: IContractInfo = {
-  address: '0x1dBAEc382a74743504607FFe73aD22F9142396D0',
+  address: '0xeecbD33fA7b52834417fB73fF888cEC7C8B1f483',
   abi: JSON.stringify(aaveWethRefinanceUsdc),
 }
 
