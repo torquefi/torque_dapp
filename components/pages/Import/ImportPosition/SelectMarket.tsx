@@ -20,6 +20,11 @@ export const SelectMarket: React.FC<ISelectMarketProps> = (props) => {
 
   const finalOptions = options || marketOptions
 
+  // Function to extract the core market name (e.g., "Aave" or "Radiant")
+  const getMarketIconName = (label: string) => {
+    return label.split(' ')[0].toLocaleLowerCase()  // Extract the first word (market name) and convert to lowercase
+  }
+
   return (
     <div className={wrapperClassName}>
       <div className="mb-1 flex items-center justify-between text-[14px] font-medium text-[#959595]">
@@ -50,16 +55,19 @@ export const SelectMarket: React.FC<ISelectMarketProps> = (props) => {
                 {finalOptions?.map((market, index) => (
                   <div
                     key={market.label}
-                    className={
-                      `dark:text-[#959595 flex w-full cursor-pointer items-center gap-[4px] px-[8px] py-[12px] text-[#030303] ` +
-                      ` ${index === 0 ? 'pt-[8px]' : ''}` +
-                      ` ${index === finalOptions.length - 1 ? 'pb-[8px]' : ''}`
-                    }
+                    className={`flex w-full cursor-pointer items-center gap-[4px] px-[8px] py-[12px] text-[#030303] dark:text-[#959595] ${
+                      index === 0 ? 'pt-[8px]' : ''
+                    } ${index === finalOptions.length - 1 ? 'pb-[8px]' : ''}`}
                     onClick={() => {
                       setOpenPopover((openPopover) => !openPopover)
                       onSelect && onSelect(market)
                     }}
                   >
+                    <img
+                      src={`/icons/coin/${getMarketIconName(market.label)}.png`}  // Use extracted market name
+                      alt={`${market.label} icon`}
+                      className="h-[18px] w-[18px] rounded-[6px]"
+                    />
                     <p className="pt-[1px]">{market?.label}</p>
                   </div>
                 ))}
@@ -69,9 +77,19 @@ export const SelectMarket: React.FC<ISelectMarketProps> = (props) => {
             <div className="flex w-full cursor-pointer items-center justify-between px-[8px] pb-[8px] pt-[8px] text-[#030303] dark:text-[#959595]">
               <div className="inline-flex items-center gap-[4px]">
                 {value ? (
-                  <p className="cursor-pointer">{value?.label}</p>
+                  <>
+                    <img
+                      src={`/icons/coin/${getMarketIconName(value.label)}.png`}  // Use extracted market name
+                      alt={`${value.label} icon`}
+                      className="h-[18px] w-[18px] rounded-[6px]"
+                    />
+                    <p className="cursor-pointer">{value?.label}</p>
+                  </>
                 ) : (
-                  <p className="cursor-pointer text-[#959595]">Select Market</p>
+                  <>
+                    <div className="h-[18px] w-[18px] rounded-[4px] bg-[#E0E0E0] dark:bg-[#282828]" />
+                    <p className="cursor-pointer text-[#959595]">Select Market</p>
+                  </>
                 )}
               </div>
               <ChevronDownIcon className="pointer-events-none h-4 w-4 text-[#030303] dark:text-white" />

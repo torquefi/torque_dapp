@@ -57,6 +57,11 @@ export const SelectCollateral: React.FC<ISelectCollateralProps> = (props) => {
                       onSelect && onSelect(collateral)
                     }}
                   >
+                    <img
+                      src={`/icons/coin/${collateral.label.toLocaleLowerCase()}.svg`}
+                      alt={`${collateral.label} icon`}
+                      className="h-[18px] w-[18px] rounded-full"
+                    />
                     <p className="pt-[1px]">{collateral?.label}</p>
                   </div>
                 ))}
@@ -66,11 +71,19 @@ export const SelectCollateral: React.FC<ISelectCollateralProps> = (props) => {
             <div className="flex w-full cursor-pointer items-center justify-between px-[8px] pb-[8px] pt-[8px] text-[#030303] dark:text-[#959595]">
               <div className="inline-flex items-center gap-[4px]">
                 {value ? (
-                  <p className="cursor-pointer">{value?.label}</p>
+                  <>
+                    <img
+                      src={`/icons/coin/${value.label.toLocaleLowerCase()}.svg`}
+                      alt={`${value.label} icon`}
+                      className="h-[18px] w-[18px] rounded-full"
+                    />
+                    <p className="cursor-pointer">{value?.label}</p>
+                  </>
                 ) : (
-                  <p className="cursor-pointer text-[#959595]">
-                    Select Collateral
-                  </p>
+                  <>
+                    <div className="h-[18px] w-[18px] rounded-full bg-[#E0E0E0] dark:bg-[#282828]" />
+                    <p className="cursor-pointer text-[#959595]">Select Collateral</p>
+                  </>
                 )}
               </div>
               <ChevronDownIcon className="pointer-events-none h-4 w-4 text-[#030303] dark:text-white" />
