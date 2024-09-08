@@ -9,7 +9,6 @@ import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal';
 import { useAccount } from 'wagmi';
 import { NumericFormat } from 'react-number-format';
 import { toast } from 'sonner';
-import Link from 'next/link';
 import { motion } from 'framer-motion';
 
 interface Token {
@@ -51,6 +50,9 @@ const BridgeAssets: React.FC = () => {
   const [openPopover, setOpenPopover] = useState(false);
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false);
   const [showDestinationAddress, setShowDestinationAddress] = useState(false);
+  const [slippage, setSlippage] = useState(0.5);
+  const [customSlippage, setCustomSlippage] = useState(0.5);
+  const [isAutoSlippage, setIsAutoSlippage] = useState(true);
 
   useEffect(() => {
     if (progressFromNetwork > 0) {
@@ -131,12 +133,86 @@ const BridgeAssets: React.FC = () => {
             Bridge
           </p>
           <div className="flex items-center justify-between">
-            <button className="mt-[0px]" onClick={() => setShowDestinationAddress(!showDestinationAddress)}>
-              <img src="/icons/wallet.svg" alt="wallet icon" className="mr-[14px] w-[15px]" />
+            <button
+              className="mt-[0px]"
+              onClick={() =>
+                setShowDestinationAddress(!showDestinationAddress)
+              }
+            >
+              <div className="transition-ease cursor-pointer items-center rounded-full bg-transparent mr-[-6px] p-[6px] duration-100 hover:bg-[#f9f9f9] dark:hover:bg-[#141414] xs:flex">
+                <img
+                  src="/icons/wallet.svg"
+                  alt="wallet icon"
+                  className="mr-[6px] w-[15px]"
+                />
+              </div>
             </button>
-            <button className="mt-[0px]">
-              <img src="/icons/slider.svg" alt="slider icon" className="w-[20px]" />
-            </button>
+            <Popover
+              trigger="click"
+              placement="bottom-right"
+              className="mt-[8px] w-[200px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#161616]"
+              content={
+                <div>
+                  <div className="mb-2 flex items-center justify-between">
+                    <span className="text-[16px] font-semibold dark:text-white">
+                      Slippage
+                    </span>
+                    <span className="text-[14px] font-medium dark:text-white">
+                      {!isAutoSlippage ? `${slippage}%` : ''}
+                    </span>
+                  </div>
+                  <div className="flex space-x-2">
+                    <button
+                      className={`flex-1 rounded-lg px-3 py-2 text-[14px] font-medium ${
+                        isAutoSlippage
+                          ? 'bg-[#F8F9FA] text-[#333] dark:bg-[#555] dark:text-white'
+                          : 'bg-[#f8f8f8] text-[#aaa] dark:bg-[#444] dark:text-[#bbb]'
+                      }`}
+                      onClick={() => {
+                        setIsAutoSlippage(true);
+                      }}
+                    >
+                      Auto
+                    </button>
+                    <button
+                      className={`flex-1 rounded-lg px-3 py-2 text-[14px] font-medium ${
+                        !isAutoSlippage
+                          ? 'bg-[#F8F9FA] text-[#333] dark:bg-[#555] dark:text-white'
+                          : 'bg-[#f8f8f8] text-[#aaa] dark:bg-[#444] dark:text-[#bbb]'
+                      }`}
+                      onClick={() => {
+                        setIsAutoSlippage(false);
+                        setSlippage(customSlippage || 0.5);
+                      }}
+                    >
+                      Custom
+                    </button>
+                  </div>
+                  {!isAutoSlippage && (
+                    <div className="mt-3 flex items-center">
+                      <NumericFormat
+                        className="w-full rounded-lg border border-[#F8F9FA] bg-[#f8f8f8] p-2 text-[14px] text-[#333] dark:border-[#555] dark:bg-[#444] dark:text-white"
+                        value={customSlippage}
+                        onValueChange={(e) =>
+                          setCustomSlippage(e.floatValue || 0.5)
+                        }
+                        suffix="%"
+                        decimalScale={2}
+                        placeholder="0.50"
+                      />
+                    </div>
+                  )}
+                </div>
+              }
+            >
+              <div className="transition-ease cursor-pointer items-center rounded-full bg-transparent mr-[-6px] p-[6px] duration-100 hover:bg-[#f9f9f9] dark:hover:bg-[#141414] xs:flex">
+                <img
+                  src="/icons/slider.svg"
+                  alt="slider icon"
+                  className="w-[20px] cursor-pointer"
+                />
+              </div>
+            </Popover>
           </div>
         </div>
         <div
@@ -145,10 +221,14 @@ const BridgeAssets: React.FC = () => {
           }`}
         ></div>
         <div className="mb-3">
-          <label className="mb-1 block text-[14px] font-medium text-[#959595]">From</label>
+          <label className="mb-1 block text-[14px] font-medium text-[#959595]">
+            From
+          </label>
           <div className="flex items-center">
             <div className="transition-ease w-[60%] rounded-[10px] rounded-r-none border-[1px] border-solid border-[#ececec] duration-100 ease-linear dark:border-[#181818]">
-              <p className="ml-2 pb-[2px] pt-[2px] text-[12px] text-[#959595]">Token</p>
+              <p className="ml-2 pb-[2px] pt-[2px] text-[12px] text-[#959595]">
+                Token
+              </p>
               <Popover
                 placement="bottom-left"
                 trigger="click"
@@ -208,7 +288,9 @@ const BridgeAssets: React.FC = () => {
               </Popover>
             </div>
             <div className="w-[40%] rounded-[10px] rounded-l-none border-[1px] border-l-0 border-solid border-[#ececec] dark:border-[#181818]">
-              <p className="ml-2 pb-[2px] pt-[2px] text-[12px] text-[#959595]">Network</p>
+              <p className="ml-2 pb-[2px] pt-[2px] text-[12px] text-[#959595]">
+                Network
+              </p>
               <Popover
                 placement="bottom-right"
                 trigger="click"
@@ -271,10 +353,14 @@ const BridgeAssets: React.FC = () => {
           </div>
         </div>
         <div className="mb-3">
-          <label className="mb-1 block text-[14px] font-medium text-[#959595]">To</label>
+          <label className="mb-1 block text-[14px] font-medium text-[#959595]">
+            To
+          </label>
           <div className="flex">
             <div className="w-[60%] rounded-[10px] rounded-r-none border-[1px] border-solid border-[#ececec] dark:border-[#181818]">
-              <p className="ml-2 pb-[2px] pt-[2px] text-[12px] text-[#959595]">Token</p>
+              <p className="ml-2 pb-[2px] pt-[2px] text-[12px] text-[#959595]">
+                Token
+              </p>
               <Popover
                 placement="bottom-left"
                 trigger="click"
@@ -334,7 +420,9 @@ const BridgeAssets: React.FC = () => {
               </Popover>
             </div>
             <div className="w-[40%] rounded-[10px] rounded-l-none border-[1px] border-l-0 border-solid border-[#ececec] dark:border-[#181818]">
-              <p className="ml-2 text-ellipsis pb-[2px] pt-[2px] text-[12px] text-[#959595]">Network</p>
+              <p className="ml-2 text-ellipsis pb-[2px] pt-[2px] text-[12px] text-[#959595]">
+                Network
+              </p>
               <Popover
                 placement="bottom-right"
                 trigger="click"
