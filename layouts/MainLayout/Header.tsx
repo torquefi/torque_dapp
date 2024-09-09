@@ -145,13 +145,13 @@ export const Header = () => {
               content={
                 <HoverIndicatorGrid rows={2} cols={2}>
                   <div className="grid grid-cols-2 gap-4 p-3">
-                    <div className="flex cursor-pointer flex-col items-center justify-center">
+                    <div className="flex flex-col items-center">
                       <Link
-                        href="/vote/distribution"
+                        href="/import"
                         className="text-[#959595] hover:text-[#030303] dark:hover:text-white"
                       >
-                        <img src="/icons/pools.svg" className="h-10 w-10" />
-                        Pools
+                        <img src="/icons/import.svg" className="h-10 w-10" />
+                        Import
                       </Link>
                     </div>
                     <div className="flex cursor-pointer flex-col items-center">
@@ -163,13 +163,13 @@ export const Header = () => {
                         Swap
                       </a>
                     </div>
-                    <div className="flex flex-col items-center">
+                    <div className="flex cursor-pointer flex-col items-center justify-center">
                       <Link
-                        href="/import"
+                        href="/vote/distribution"
                         className="text-[#959595] hover:text-[#030303] dark:hover:text-white"
                       >
-                        <img src="/icons/import.svg" className="h-10 w-10" />
-                        Import
+                        <img src="/icons/pools.svg" className="h-10 w-10" />
+                        Pools
                       </Link>
                     </div>
                     {/* <div className="flex flex-col items-center">
