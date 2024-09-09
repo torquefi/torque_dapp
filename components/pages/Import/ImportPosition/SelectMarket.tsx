@@ -87,7 +87,7 @@ export const SelectMarket: React.FC<ISelectMarketProps> = (props) => {
                   </>
                 ) : (
                   <>
-                    <div className="h-[18px] w-[18px] rounded-[4px] bg-[#E0E0E0] dark:bg-[#282828]" />
+                    <div className="h-[18px] w-[18px] rounded-[6px] bg-[#E0E0E0] dark:bg-[#282828]" />
                     <p className="cursor-pointer text-[#959595]">Select Market</p>
                   </>
                 )}
