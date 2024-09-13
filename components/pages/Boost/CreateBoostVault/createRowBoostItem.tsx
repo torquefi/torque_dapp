@@ -24,6 +24,7 @@ import {
 import { useGasLimits } from '../hooks/useGasLimits'
 import { useGasPrice } from '../hooks/useGasPrice'
 import SwapModal from '@/components/common/Modal/SwapModal'
+import { RPC_PROVIDER } from '@/constants/networks'
 
 const RPC = 'https://arb1.arbitrum.io/rpc'
 
@@ -62,6 +63,18 @@ export function CreateRowBoostItem({
       item.tokenContractInfo.address
     )
   }, [Web3.givenProvider, item.tokenContractInfo])
+
+  const tokenReadContract = useMemo(() => {
+    const web3 = new Web3(RPC_PROVIDER)
+    if (!item?.tokenContractInfo?.abi) {
+      console.error('Token contract ABI is undefined')
+      return null
+    }
+    return new web3.eth.Contract(
+      JSON.parse(item.tokenContractInfo.abi),
+      item.tokenContractInfo.address
+    )
+  }, [item.tokenContractInfo])
 
   const boostContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
@@ -107,11 +120,11 @@ export function CreateRowBoostItem({
   }, [boostContract, address, tokenContract])
 
   const handleGetTotalSupply = async () => {
-    if (!tokenContract || !boostReadContract) {
+    if (!tokenReadContract || !boostReadContract) {
       return
     }
     try {
-      const tokenDecimal = await tokenContract.methods.decimals().call()
+      const tokenDecimal = await tokenReadContract.methods.decimals().call()
       const totalSupply = await boostReadContract.methods.totalSupply().call()
       setTotalSupply(
         new BigNumber(
@@ -125,7 +138,7 @@ export function CreateRowBoostItem({
 
   useEffect(() => {
     handleGetTotalSupply()
-  }, [boostReadContract, tokenContract])
+  }, [boostReadContract, tokenReadContract])
 
   const { gasLimits } = useGasLimits(arbitrum.id)
 

@@ -11,6 +11,7 @@ import { borrowBtcContract, borrowEthContract } from '../constants/contract'
 import { IBorrowInfo } from '../types'
 import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
 import SwapModal from '@/components/common/Modal/SwapModal'
+import { RPC_PROVIDER } from '@/constants/networks'
 interface CreateRowBorrowItemProps {
   item: IBorrowInfo
   setIsFetchBorrowLoading?: any
@@ -50,6 +51,15 @@ export default function CreateRowBorrowItem({
     return contract
   }, [Web3.givenProvider, item.tokenContractInfo])
 
+  const userAddressReadContract = useMemo(() => {
+    const web3 = new Web3(RPC_PROVIDER)
+    const contract = new web3.eth.Contract(
+      JSON.parse(item?.userAddressContractInfo?.abi),
+      item?.userAddressContractInfo?.address
+    )
+    return contract
+  }, [item.userAddressContractInfo])
+
   const tokenContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
     const contract = new web3.eth.Contract(
@@ -79,7 +89,7 @@ export default function CreateRowBorrowItem({
 
   const handleGetApr = async () => {
     try {
-      const response = await userAddressContract.methods.getApr().call()
+      const response = await userAddressReadContract.methods.getApr().call()
       setAprBorrow(web3.utils.fromWei(response.toString(), 'ether'))
     } catch (error) {
       console.log('error get apr :>> ', error)
@@ -87,10 +97,10 @@ export default function CreateRowBorrowItem({
   }
 
   useEffect(() => {
-    if (userAddressContract) {
+    if (userAddressReadContract) {
       handleGetApr()
     }
-  }, [userAddressContract])
+  }, [userAddressReadContract])
 
   const handleGetTotalSupply = async () => {
     if (!borrowContract || !tokenContract) {

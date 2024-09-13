@@ -41,6 +41,8 @@ import {
 } from '../../Borrow/constants/contract'
 import { ConfirmDepositModal } from '@/components/common/Modal/ConfirmDepositModal'
 import Web3 from 'web3'
+import { RPC_PROVIDER } from '@/constants/networks'
+import { arbitrum } from 'wagmi/dist/chains'
 
 const ImportPosition: React.FC = () => {
   const theme = useSelector((store: AppStore) => store.theme.theme)
@@ -130,14 +132,15 @@ const ImportPosition: React.FC = () => {
       // const aprs: any[] = aprRes?.data || []
       // const apr = +aprs?.find((apr) => apr?.name === 'TORQ')?.apr || 0
 
-      const provider = new ethers.providers.Web3Provider(window.ethereum)
-      const signer = provider.getSigner(address)
+      const providerRpc = new ethers.providers.JsonRpcProvider(
+        'https://arbitrum.llamarpc.com'
+      )
 
       // TORQ APR
       const userWethBorrowUsdcContract = new ethers.Contract(
         userBorrowAddressEthContract.address,
         userBorrowAddressEthContract.abi,
-        signer
+        providerRpc
       )
 
       const torqAprRaw = await userWethBorrowUsdcContract.getApr()
@@ -151,7 +154,7 @@ const ImportPosition: React.FC = () => {
       const lendingPoolContract = new ethers.Contract(
         selectedMarket.lendingPoolCI.address,
         selectedMarket.lendingPoolCI.abi,
-        signer
+        providerRpc
       )
 
       const reserveData = await lendingPoolContract.getReserveData(
@@ -218,7 +221,7 @@ const ImportPosition: React.FC = () => {
         { title: 'Annual Savings', content: `$0.00` },
         { title: 'Monthly Savings', content: `$0.00` },
       ])
-      console.log('fetchAprAndSavingInfo', error)
+      console.error('fetchAprAndSavingInfo', error)
     }
   }
 
@@ -965,13 +968,13 @@ const ImportPosition: React.FC = () => {
                 </div>
               }
             >
-            <div className="transition-ease cursor-pointer items-center rounded-full bg-transparent mr-[-6px] p-[6px] duration-100 hover:bg-[#f9f9f9] dark:hover:bg-[#141414] xs:flex">
-              <img
-                src="/icons/slider.svg"
-                alt="slider icon"
-                className="w-[20px] cursor-pointer"
-              />
-            </div>
+              <div className="transition-ease mr-[-6px] cursor-pointer items-center rounded-full bg-transparent p-[6px] duration-100 hover:bg-[#f9f9f9] dark:hover:bg-[#141414] xs:flex">
+                <img
+                  src="/icons/slider.svg"
+                  alt="slider icon"
+                  className="w-[20px] cursor-pointer"
+                />
+              </div>
             </Popover>
           </div>
         </div>

@@ -19,3 +19,5 @@ export const networks = [
     blockchainExplorer: 'https://goerli.arbiscan.io/',
   },
 ]
+
+export const RPC_PROVIDER = 'https://arb1.arbitrum.io/rpc'
