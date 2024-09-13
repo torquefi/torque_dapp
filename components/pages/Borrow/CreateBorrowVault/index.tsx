@@ -37,6 +37,7 @@ import {
   updateVisibilityBorrowBanner,
 } from '@/lib/redux/slices/layout'
 import UniSwapModal from '@/components/common/Modal/UniswapModal'
+import { RPC_PROVIDER } from '@/constants/networks'
 
 export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
   const { address, isConnected } = useAccount()
@@ -68,6 +69,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
 
   const getBorrowData = async (item: IBorrowInfo) => {
     const web3 = new Web3(Web3.givenProvider)
+    const web3Rpc = new Web3(RPC_PROVIDER)
   
     try {
       if (!item.tokenContract) {
@@ -102,7 +104,7 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
         ? '0xd98Be00b5D27fc98112BdE293e487f8D4cA57d07' 
         : '0x9c4ec768c28520b50860ea7a15bd7213a9ff58bf'
   
-      const tokenContractInstance = new web3.eth.Contract(
+      const tokenContractInstance = new web3Rpc.eth.Contract(
         JSON.parse(tokenContract?.abi),
         tokenContract?.address
       )

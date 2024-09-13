@@ -14,6 +14,7 @@ import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 import { IBorrowInfo } from '../types'
 import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
+import { RPC_PROVIDER } from '@/constants/networks'
 
 interface CreateBorrowItemProps {
   item: IBorrowInfo
@@ -58,6 +59,15 @@ export default function CreateBorrowItem({
     return contract
   }, [Web3.givenProvider, item.userAddressContractInfo])
 
+  const userAddressReadContract = useMemo(() => {
+    const web3 = new Web3(RPC_PROVIDER)
+    const contract = new web3.eth.Contract(
+      JSON.parse(item?.userAddressContractInfo?.abi),
+      item?.userAddressContractInfo?.address
+    )
+    return contract
+  }, [item.userAddressContractInfo])
+
   const tokenBorrowContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
     const contract = new web3.eth.Contract(
@@ -87,7 +97,7 @@ export default function CreateBorrowItem({
 
   const handleGetApr = async () => {
     try {
-      const response = await userAddressContract.methods.getApr().call()
+      const response = await userAddressReadContract.methods.getApr().call()
       setAprBorrow(web3.utils.fromWei(response.toString(), 'ether'))
     } catch (error) {
       console.log('error get apr :>> ', error)
@@ -95,10 +105,10 @@ export default function CreateBorrowItem({
   }
 
   useEffect(() => {
-    if (userAddressContract) {
+    if (userAddressReadContract) {
       handleGetApr()
     }
-  }, [userAddressContract])
+  }, [userAddressReadContract])
 
   const handleConfirmDeposit = async () => {
     if (!isConnected) {
