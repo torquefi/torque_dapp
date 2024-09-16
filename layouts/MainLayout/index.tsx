@@ -16,6 +16,7 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
   const theme = useSelector((store: AppStore) => store.theme.theme)
 
   const [isInviteModalOpen, setIsInviteModalOpen] = useState(false)
+  const [isModalChecked, setIsModalChecked] = useState(false)
 
   useEffect(() => {
     const inviteModalDismissed = localStorage.getItem('inviteModalDismissed')
@@ -23,6 +24,7 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
     if (!inviteModalDismissed) {
       setIsInviteModalOpen(true)
     }
+    setIsModalChecked(true)
   }, [])
 
   useEffect(() => {
@@ -46,23 +48,22 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
     localStorage.setItem('inviteModalDismissed', 'true')
   }
 
-  if (theme)
-    return (
-      <div className="font-rogan-regular min-h-screen bg-[#FFFFFF] text-white dark:bg-[#030303]">
-        <InviteCodeModal open={isInviteModalOpen} handleClose={handleInviteModalClose} />
-        {!isInviteModalOpen && (
-          <>
-            <Headroom>
-              <Header />
-            </Headroom>
-            <div className="container mx-auto min-h-[calc(100vh-140px)] max-w-[1244px] p-4 lg:p-8">
-              {children}
-            </div>
-            <Footer />
-          </>
-        )}
-      </div>
-    )
+  if (!isModalChecked) return null 
 
-  return null
+  return (
+    <div className="font-rogan-regular min-h-screen bg-[#FFFFFF] text-white dark:bg-[#030303]">
+      <InviteCodeModal open={isInviteModalOpen} handleClose={handleInviteModalClose} />
+      {!isInviteModalOpen && (
+        <>
+          <Headroom>
+            <Header />
+          </Headroom>
+          <div className="container mx-auto min-h-[calc(100vh-140px)] max-w-[1244px] p-4 lg:p-8">
+            {children}
+          </div>
+          <Footer />
+        </>
+      )}
+    </div>
+  )
 }
