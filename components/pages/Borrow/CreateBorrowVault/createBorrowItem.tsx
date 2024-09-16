@@ -792,7 +792,7 @@ export default function CreateBorrowItem({
                   className="w-[18px] md:w-[22px]"
                 />
                 <div className="font-rogan-regular mx-1 uppercase text-[#AA5BFF] xs:mx-2">
-                  +{Number(item.bonus).toLocaleString()}% TORQ
+                  +{Number(item.bonus).toFixed(2)}% TORQ
                 </div>
               </div>
             </Popover>
@@ -809,19 +809,7 @@ export default function CreateBorrowItem({
                   className="w-[18px] md:w-[22px]"
                 />
                 <div className="font-rogan-regular mx-1 uppercase text-[#00BFFF] xs:mx-2">
-                  +
-                  {item.arbBonus === 0
-                    ? '0.00'
-                    : Number(item.arbBonus) % 1 === 0
-                    ? `${Number(item.arbBonus).toLocaleString(undefined, {
-                        minimumFractionDigits: 1,
-                        maximumFractionDigits: 1,
-                      })}`
-                    : Number(item.arbBonus).toLocaleString(undefined, {
-                        minimumFractionDigits: 1,
-                        maximumFractionDigits: 1,
-                      })}
-                  % ARB
+                  +{Number(item.arbBonus).toFixed(2)}% ARB
                 </div>
               </div>
             </Popover>
