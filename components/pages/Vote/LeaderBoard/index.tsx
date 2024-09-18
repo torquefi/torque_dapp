@@ -62,7 +62,7 @@ export const LeaderBoard = () => {
   }
   return (
     <div className="pt-[20px] w-full max-w-[800px] m-auto">
-      <div className="w-full rounded-[12px] border border-[1px] border-solid border-[#E6E6E6] dark:border-[#1a1a1a] bg-[#ffffff] dark:bg-transparent dark:bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 text-[#030303] dark:text-white text-center px-[24px] pt-[24px] pb-[12px]">
+      <div className="w-full rounded-[12px] border border-[1px] border-solid border-[#E6E6E6] dark:border-[#1a1a1a] bg-[#ffffff] dark:bg-transparent dark:bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 text-[#030303] dark:text-white text-center px-[24px] pt-[16px] pb-[12px]">
         <div className="flex items-center justify-between">
           <h2 className="font-rogan text-[24px] font-[400]">
             Leaderboard

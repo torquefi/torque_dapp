@@ -22,7 +22,7 @@ export const BoostPage = () => {
 
   if (isLoading) {
     return (
-      <div className="mt-0 md:mt-[-16px]">
+      <div className="mt-[32px] md:mt-[16px]">
         {visibilityBoostBanner && (
           <>
             <div className="hidden lg:block">
@@ -52,7 +52,7 @@ export const BoostPage = () => {
           </div>
         )}
 
-        <div className="mt-[36px]">
+        <div className="mt-[32px]">
           <SkeletonDefault height={40} className="w-full max-w-[200px]" />
           <div className="mt-[24px]">
             <SkeletonDefault height={120} width={'100%'} />
@@ -63,7 +63,7 @@ export const BoostPage = () => {
   }
 
   return (
-    <div className="space-y-[36px] mt-0 md:mt-[-16px]">
+    <div className="space-y-[36px] mt-[32px] md:mt-[20px]">
       {visibilityBoostBanner && <Banner />}
       <CreateBoostVault setIsFetchBoostLoading={setIsFetchBoostLoading} />
       <ManageBoostVault

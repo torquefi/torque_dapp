@@ -22,7 +22,7 @@ export const BorrowPage = () => {
 
   if (isLoading) {
     return (
-      <div className="mt-0 md:mt-[-16px]">
+      <div className="mt-[32px] md:mt-[16px]">
         {visibilityBorrowBanner && (
           <>
             <div className="hidden lg:block">
@@ -50,7 +50,7 @@ export const BorrowPage = () => {
             </div>
           </div>
         )}
-        <div className="mt-[36px]">
+        <div className="mt-[32px]">
           <SkeletonDefault height={40} className="w-full max-w-[200px]" />
           <SkeletonDefault height={160} className="mt-[24px]" />
           <SkeletonDefault height={160} className="mt-[24px]" />
@@ -60,7 +60,7 @@ export const BorrowPage = () => {
   }
 
   return (
-    <div className="space-y-[36px] mt-0 md:mt-[-16px]">
+    <div className="space-y-[36px] mt-[32px] md:mt-[20px]">
       {visibilityBorrowBanner && <Banner />}
       <CreateBorrowVault setIsFetchBorrowLoading={setIsFetchBorrowLoading} />
       <ManageBorrowVault isFetchBorrowData={isFetchBorrowData} />

@@ -1095,7 +1095,7 @@ const HomePageFilter = () => {
 
   if (isLoading) {
     return (
-      <div className="">
+      <div className="mt-[32px]">
         <div className="z-10 m-auto block h-[160px] w-[160px] rounded-full md:hidden">
           <SkeletonDefault
             className="z-10 h-full w-full !rounded-full"
@@ -1110,9 +1110,9 @@ const HomePageFilter = () => {
   }
 
   return (
-    <div className="relative mt-[80px] flex w-full flex-wrap items-center justify-center rounded-t-[10px] border-[1px] bg-white from-[#25252566] pt-[80px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br md:mt-[-16px] md:pt-0">
+    <div className="relative mt-[110px] flex w-full flex-wrap items-center justify-center rounded-t-[10px] border-[1px] bg-white from-[#25252566] pt-[80px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br md:mt-[20px] md:pt-0">
       <div className="h-[100px] w-full md:h-[160px] md:w-[50%]">
-        <div className="flex h-full w-full flex-col items-center justify-center space-y-2">
+        <div className="flex flex-col items-center justify-center w-full h-full space-y-2">
           <div className="text-[16px] text-[#959595]">Total Supply</div>
           <NumberFormat
             className="font-rogan text-[32px] text-[#030303] dark:text-white"
@@ -1130,7 +1130,7 @@ const HomePageFilter = () => {
         </div>
       </div>
       <div className="h-[100px] w-full md:h-[160px] md:w-[50%]">
-        <div className="flex h-full w-full flex-col items-center justify-center space-y-2">
+        <div className="flex flex-col items-center justify-center w-full h-full space-y-2">
           <div className="text-[16px] text-[#959595]">Total Borrow</div>
           <NumberFormat
             className="font-rogan text-[32px] text-[#030303] dark:text-white"
@@ -1154,7 +1154,7 @@ const HomePageFilter = () => {
         }
       ></div>
       <div className="h-[100px] w-full md:h-[160px] md:w-[50%]">
-        <div className="flex h-full w-full flex-col items-center justify-center space-y-2">
+        <div className="flex flex-col items-center justify-center w-full h-full space-y-2">
           <div className="text-[16px] text-[#959595]">Your Supply</div>
           <NumberFormat
             className="font-rogan text-[32px] text-[#030303] dark:text-white"
@@ -1170,7 +1170,7 @@ const HomePageFilter = () => {
         </div>
       </div>
       <div className="h-[100px] w-full md:h-[160px] md:w-[50%]">
-        <div className="flex h-full w-full flex-col items-center justify-center space-y-2">
+        <div className="flex flex-col items-center justify-center w-full h-full space-y-2">
           <div className="text-[16px] text-[#959595]">Your Borrow</div>
           <NumberFormat
             className="font-rogan text-[32px] text-[#030303] dark:text-white"
@@ -1219,7 +1219,7 @@ const HomePageFilter = () => {
       </div>
       <div className="z-100000 absolute top-[-80px] h-[160px] w-[160px] rounded-full border-2 border-[#E6E6E6] bg-white p-2 dark:border-[#25252566] dark:bg-[#1A1A1A] md:top-auto">
         <div className="h-full w-full rounded-full border-4 border-[#C38BFF] dark:bg-[#0D0D0D66]">
-          <div className="flex h-full w-full flex-col items-center justify-center space-y-2">
+          <div className="flex flex-col items-center justify-center w-full h-full space-y-2">
             <div className="text-[16px] text-[#959595]">NET APY</div>
             <NumberFormat
               className="font-rogan text-[32px] text-[#030303] dark:text-white"

@@ -121,6 +121,13 @@ export const Header = () => {
         >
           Please switch to {arbitrumMainnetInfo.name} network.
         </div>
+        <Link href="https://twitter.com/torquefi" target="_blank">
+          <div
+            className="flex cursor-pointer items-center justify-center bg-[#aa5bff] text-center text-[12px] uppercase transition-all h-[36px]"
+          >
+            Stay tuned for Torque V2 announcements!💫
+          </div>
+        </Link>
         <div className="container relative mx-auto flex h-[66px] max-w-[1244px] items-center justify-between px-4 lg:px-8">
           <Link href="/" className="flex items-center">
             <img className="h-[26px]" src="/assets/logo.png" alt="" />
