@@ -16,16 +16,16 @@ export const Governance = () => {
   if (isLoading) {
     return (
       <>
-        <div className="mt-[-10px]">
-        <div className="mx-auto mb-4 w-[300px] rounded-full text-center">
+        <div className="mt-[-6px]">
+        <div className="mx-auto mb-2 w-[300px] rounded-full text-center">
           <SkeletonDefault className="h-[48px]" />
         </div>
-        <div className="mx-auto mb-4 w-[320px] rounded-full text-center">
-          <SkeletonDefault className="h-[48px]" />
+        <div className="mx-auto w-[260px] rounded-full text-center">
+          <SkeletonDefault className="h-[36px]" />
         </div>
         </div>
 
-        <div className="mt-[46px] gap-[18px] items-center justify-between rounded-full md:flex">
+        <div className="mt-[40px] gap-[18px] items-center justify-between rounded-full md:flex">
           <div className="w-full">
             <SkeletonDefault className="h-[96px] rounded-[32px]" />
           </div>
