@@ -25,13 +25,15 @@ Torque is a non-custodial smart contract automation protocol. It unifies the fin
 
 To use the interface, follow these simple steps:
 
-1. **Connect Your Wallet**
-   Start by connecting a compatible wallet (MetaMask, WalletConnect, etc.) to access Torque's features.
+1. **Logging In**
+   - Ensure you have a compatible web3 wallet.
+   - Press "Connect" to access Torque's features.
 
 2. **Choose Your Action**
    - **Boost**: Earn diversified yield with automated smart asset routing.
    - **Borrow**: Utilize supported collateral assets to access best-rate loans.
    - **Import**: Migrate loan positions from popular protocols to Torque.
+   - **Vote**: View pending and vote on active Torque DAO proposals.
 
 3. **Monitor and Manage**
    Use the dashboard to track and manage your portfolio.
