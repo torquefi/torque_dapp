@@ -36,7 +36,7 @@ To use the interface, follow these simple steps:
    - **Vote**: View pending and vote on active Torque DAO proposals.
 
 3. **Monitor and Manage**
-   Use the dashboard to track and manage your portfolio.
+   - Use the dashboard to track and manage your portfolio.
 
 ## Installation
 
