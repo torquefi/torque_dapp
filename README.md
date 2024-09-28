@@ -19,7 +19,7 @@ Torque is a non-custodial smart contract automation protocol. It unifies the fin
 - **Boost**: Supply assets across diversified liquidity pools, ensuring compound yield with minimized risk.
 - **Borrow**: Collateralize Bitcoin, Ethereum, or other supported assets and receive an onchain loan.
 - **Import**: Reduce interest burden by seamlessly transitioning into the best available rates.
-- **Vote**: Participate in protocol governance with the Torque (TORQ) token by proposing and voting on upgrades.
+- **Vote**: Participate in governance with the Torque (TORQ) token by voting on proposals.
 
 ## Getting Started
 
