@@ -6,8 +6,6 @@
 </p>
 
 ## Overview
-
-<!-- Torque is a non-custodial smart contract automation protocol. It unifies the finest onchain economic opportunities, beginning with yield and loans, and streamlines interaction with them while guaranteeing self-custody. -->
 Torque is a smart contract automation protocol to streamline saving while minimizing risk via dynamic routing. It unifies non-custodial yield and loan opportunities to satisfy the key components of wealth generation.
 
 - **Website**: [torque.fi](https://torque.fi)
