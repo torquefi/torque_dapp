@@ -34,11 +34,11 @@ To use the interface, follow these simple steps:
    - **Import**: Streamline loan migration from popular protocols into Compound.
 
 3. **Monitor and Manage**
-   Use the dashboard to keep track of your yield, collateral, loan health, and portfolio performance.
+   Use the dashboard to keep track of your loan health and performance.
 
 ## Installation
 
-If you're a developer interested in contributing to the Torque dApp or running it locally, you can check out our [documentation](https://docs.torque.fi/main/resources/contribute) for more details about contributing or get started with the following commands:
+If you're a developer interested in contributing to the Torque dApp, check out our contributor [docs](https://docs.torque.fi/main/resources/contribute). If you're interested in running this repository locally, get started with the following commands:
 
 ```bash
 # Clone the repository
