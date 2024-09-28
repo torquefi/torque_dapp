@@ -38,7 +38,7 @@ To use the interface, follow these simple steps:
 
 ## Installation
 
-If you're a developer interested in contributing to the Torque dApp or running it locally, you can get started with the following commands:
+If you're a developer interested in contributing to the Torque dApp or running it locally, you can check out our [documentation](https://docs.torque.fi/main/resources/contribute) for more details about contributing or get started with the following commands:
 
 ```bash
 # Clone the repository
