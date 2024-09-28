@@ -10,9 +10,9 @@
 Torque is a non-custodial smart contract automation protocol. It unifies the finest onchain economic opportunities, beginning with yield and loans, and streamlines interaction with them while guaranteeing self-custody.
 
 - **Website**: [torque.fi](https://torque.fi)
+- **Documentation**: [docs.torque.fi](https://docs.torque.fi)
 - **X (Twitter)**: [x.com/torquefi](https://x.com/torquefi)
 - **Telegram**: [t.me/torquefi](https://t.me/torquefi)
-- **Docs**: [docs.torque.fi](https://docs.torque.fi)
 
 ## Features
 
@@ -38,7 +38,7 @@ To use the interface, follow these simple steps:
 
 ## Installation
 
-If you're a developer interested in contributing to the Torque dApp, check out our contributor [docs](https://docs.torque.fi/main/resources/contribute). If you're interested in running this repository locally, get started with the following commands:
+If you're a developer interested in contributing to the Torque dApp, check out our contributor [documentation](https://docs.torque.fi/main/resources/contribute). If you're interested in running this repository for yourself locally, get started with the following commands:
 
 ```bash
 # Clone the repository
