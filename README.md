@@ -31,10 +31,10 @@ To use the interface, follow these simple steps:
 2. **Choose Your Action**
    - **Boost**: Earn diversified yield with automated smart asset routing.
    - **Borrow**: Utilize supported collateral assets to access best-rate loans.
-   - **Import**: Streamline loan migration from popular protocols into Compound.
+   - **Import**: Migrate loan positions from popular protocols to Torque.
 
 3. **Monitor and Manage**
-   Use the dashboard to keep track of your loan health and performance.
+   Use the dashboard to track and manage your portfolio.
 
 ## Installation
 
