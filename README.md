@@ -7,12 +7,13 @@
 
 ## Overview
 
-Torque is a non-custodial, smart contract protocol designed to automate and simplify smart contract interaction. It unifies the transaction execution experience and streamlines access to the finest onchain opportunities while ensuring self-custody.
+Torque is a non-custodial, smart contract automation protocol. It unifies the finest onchain opportunities while guaranteeing self-custody.
 
-- **Site**: [https://torque.fi](https://torque.fi)
-- **Twitter**: [https://twitter.com/torquefi](https://twitter.com/torquefi)
-- **Telegram**: [https://t.me/torquefi](https://t.me/torquefi)
-- **Docs**: [https://docs.torque.fi](https://docs.torque.fi)
+- **Website**: [torque.fi](https://torque.fi)
+- **X (Twitter)**: [x.com/torquefi](https://x.com/torquefi)
+- **Telegram**: [t.me/torquefi](https://t.me/torquefi)
+<!-- - **YouTube**: [youtube.com/@torquefi](https://www.youtube.com/@torquefi) -->
+- **Docs**: [docs.torque.fi](https://docs.torque.fi)
 
 ## Features
 
@@ -28,12 +29,12 @@ To use the interface, follow these simple steps:
 1. **Connect Your Wallet**  
    Start by connecting a compatible wallet (MetaMask, WalletConnect, etc.) to access Torque's features.
 
-2. **Choose Your Action**  
-   - **Boost**: Earn yield by routing your stablecoins to multiple major pools.
-   - **Borrow**: Use supported collateral assets to access onchain loans and keep your crypto working for you.
-   - **Import**: Streamline loan migration from protocols such as Aave and Radiant into Compound.
+2. **Choose Your Action**
+   - **Boost**: Earn diversified yield with automated smart asset routing.
+   - **Borrow**: Utilize supported collateral assets to access best-rate loans.
+   - **Import**: Streamline loan migration from popular protocols into Compound.
 
-3. **Monitor and Manage**  
+3. **Monitor and Manage**
    Use the dashboard to keep track of your yield, collateral, loan health, and portfolio performance.
 
 ## Installation
