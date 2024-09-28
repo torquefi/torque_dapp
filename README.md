@@ -1,7 +1,9 @@
-# ![Torque Logo](public/assets/torque-square.png)  
-**Flagship UI to access Torque Protocol**
-
----
+<p align="center">
+  <img src="public/assets/torque-square.png" alt="Torque Logo" style="max-width: 160px;">
+</p>
+<p align="center">
+  <i align="center">Flagship UI to access Torque Protoco</i>
+</p>
 
 ## Overview
 
