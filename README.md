@@ -25,7 +25,7 @@ Torque is a non-custodial smart contract automation protocol. It unifies the fin
 
 To use the interface, follow these simple steps:
 
-1. **Connect Your Wallet**  
+1. **Connect Your Wallet**
    Start by connecting a compatible wallet (MetaMask, WalletConnect, etc.) to access Torque's features.
 
 2. **Choose Your Action**
