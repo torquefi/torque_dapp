@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="public/assets/torque-square.png" alt="Torque Logo" width=15%>
+  <img src="public/assets/torque-square.png" alt="Torque Logo" width=13.4%>
 </p>
 <p align="center">
   <i align="center">Flagship UI to access Torque Protocol</i>
