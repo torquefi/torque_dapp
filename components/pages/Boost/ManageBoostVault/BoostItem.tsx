@@ -67,7 +67,7 @@ export function BoostItem({
   const { tokensData, pricesUpdatedAt } = useTokensDataRequest(chainId)
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
   const { gasPrice } = useGasPrice(chainId)
-  const { createdWbtc, createdWeth, createdLink, createdUni } = useSelector(
+  const { createdWbtc, createdWeth, createdLink, createdUni, createdComp, createdTorq } = useSelector(
     (state: AppState) => state.boost
   )
 
