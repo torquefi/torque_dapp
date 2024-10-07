@@ -31,6 +31,8 @@ import {
   updateCreatedUni,
   updateCreatedWbtc,
   updateCreatedWeth,
+  updateCreatedComp,
+  updateCreatedTorq,
 } from '@/lib/redux/slices/boost'
 
 interface BoostItemProps {
@@ -65,7 +67,7 @@ export function BoostItem({
   const { tokensData, pricesUpdatedAt } = useTokensDataRequest(chainId)
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
   const { gasPrice } = useGasPrice(chainId)
-  const { createdWbtc, createdWeth, createdLink, createdUni } = useSelector(
+  const { createdWbtc, createdWeth, createdLink, createdUni, createdComp, createdTorq } = useSelector(
     (state: AppState) => state.boost
   )
 
@@ -233,6 +235,18 @@ export function BoostItem({
         })
         await tx.wait()
       }
+      if (item.tokenSymbol === 'COMP') {
+        const tx = await boostContract2.withdrawUNI(withdrawAmount, {
+          value: executionFeeAmount,
+        })
+        await tx.wait()
+      }
+      if (item.tokenSymbol === 'TORQ') {
+        const tx = await boostContract2.withdrawUNI(withdrawAmount, {
+          value: executionFeeAmount,
+        })
+        await tx.wait()
+      }
       setAmount('')
       toast.success('Withdrawal Success')
       onWithdrawSuccess && onWithdrawSuccess()
@@ -247,6 +261,12 @@ export function BoostItem({
         dispatch(updateCreatedLink(true as any))
       }
       if (item.tokenSymbol === 'UNI') {
+        dispatch(updateCreatedUni(true as any))
+      }
+      if (item.tokenSymbol === 'COMP') {
+        dispatch(updateCreatedLink(true as any))
+      }
+      if (item.tokenSymbol === 'TORQ') {
         dispatch(updateCreatedUni(true as any))
       }
     } catch (e) {
@@ -347,7 +367,9 @@ export function BoostItem({
     (item.tokenSymbol === 'WBTC' && !createdWbtc) ||
     (item.tokenSymbol === 'WETH' && !createdWeth) ||
     (item.tokenSymbol === 'LINK' && !createdLink) ||
-    (item.tokenSymbol === 'UNI' && !createdUni)
+    (item.tokenSymbol === 'UNI' && !createdUni) ||
+    (item.tokenSymbol === 'COMP' && !createdComp) ||
+    (item.tokenSymbol === 'TORQ' && !createdTorq)
 
   return (
     <>
