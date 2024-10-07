@@ -587,7 +587,6 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                 alt=""
               />
             </div>
-          </div>
           <div
             className={
               'flex flex-wrap overflow-hidden px-[16px] transition-all duration-300 sm:px-[24px]' +
