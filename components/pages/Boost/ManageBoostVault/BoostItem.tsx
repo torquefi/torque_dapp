@@ -353,43 +353,40 @@ export function BoostItem({
     <>
       <div className="dark-text-[#000] mt-[24px] grid w-full rounded-[12px] border border-[#E6E6E6] bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-[24px] py-[20px] text-[#464646] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white">
         <div className="grid w-full grid-cols-2">
-        <div className="font-rogan flex w-[calc(100%-64px)] items-center space-x-2 text-[22px] md:w-[calc(100%-400px-64px)] lg:w-[calc(100%-500px-64px)] xl:w-[calc(100%-600px-64px)]">
-          <div className="flex items-center text-[22px]">
+          <div className="font-rogan flex w-[calc(100%-64px)] items-center space-x-2 text-[22px] md:w-[calc(100%-400px-64px)] lg:w-[calc(100%-500px-64px)] xl:w-[calc(100%-600px-64px)]">
             <img
               className="mr-1 w-[54px]"
               src={`/icons/coin/${item.tokenSymbol.toLowerCase()}.png`}
               alt=""
             />
-            {!isEdit ? (
-              <>
-                <div className="mr-1 flex-shrink-0">{label}</div>
-                <button
-                  className="ml-[4px] cursor-pointer flex items-center"
-                  onClick={() => setEdit(!isEdit)}
-                >
-                  <AiOutlineEdit />
-                </button>
-              </>
-            ) : (
-              <>
-                <AutowidthInput
-                  ref={refLabelInput}
-                  className="bg-transparent"
-                  value={label}
-                  onChange={(e) => setLabel(e.target.value)}
-                  onKeyUp={(e) => e.key === 'Enter' && updateBoostLabel()}
-                />
-                <button
-                  className="ml-[4px] cursor-pointer flex items-center"
-                  onClick={() => updateBoostLabel()}
-                >
-                  <AiOutlineCheck />
-                </button>
-              </>
-            )}
+            <div className="flex items-center text-[22px]">
+              <div className="mr-1 flex-shrink-0">
+                {!isEdit ? (
+                  <span>{label}</span>
+                ) : (
+                  <AutowidthInput
+                    ref={refLabelInput}
+                    className="bg-transparent"
+                    value={label}
+                    onChange={(e) => setLabel(e.target.value)}
+                    onKeyUp={(e) => e.key === 'Enter' && updateBoostLabel()}
+                  />
+                )}
+              </div>
+              <button
+                className="ml-[4px] cursor-pointer"
+                onClick={() => {
+                  if (isEdit) {
+                    updateBoostLabel();
+                  }
+                  setEdit(!isEdit);
+                }}
+                style={{ display: "inline-flex", alignItems: "center" }}
+              >
+                {isEdit ? <AiOutlineCheck /> : <AiOutlineEdit />}
+              </button>
+            </div>
           </div>
-        </div>
-        </div>
           <div className="flex items-center justify-end gap-14">
             <div className="hidden items-center justify-between gap-14 lg:flex">
               {summaryInfo()}
