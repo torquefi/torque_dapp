@@ -532,34 +532,39 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                   alt=""
                 />
               </div>
-              {!isEdit ? (
-                <>
-                  <div className="mr-1 flex-shrink-0">{label}</div>
-                  <button
-                    className="ml-[4px]"
-                    onClick={() => setEdit(!isEdit)}
-                  >
-                    <AiOutlineEdit />
-                  </button>
-                </>
-              ) : (
-                <>
-                  <AutowidthInput
-                    ref={refLabelInput}
-                    className="min-w-[60px] bg-transparent"
-                    value={label}
-                    onChange={(e) => setLabel(e.target.value)}
-                    onKeyUp={(e) => e.key === 'Enter' && updateBorrowLabel()}
-                  />
-                  <button
-                    className="ml-[4px]"
-                    onClick={() => updateBorrowLabel()}
-                  >
-                    <AiOutlineCheck />
-                  </button>
-                </>
-              )}
+              <div className="mr-1 flex-shrink-0">
+                {!isEdit ? (
+                  <>
+                    <span>{label}</span>
+                    <button
+                      className="ml-[4px]"
+                      onClick={() => setEdit(!isEdit)}
+                      style={{ display: "inline-flex", alignItems: "center" }}
+                    >
+                      <AiOutlineEdit />
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <AutowidthInput
+                      ref={refLabelInput}
+                      className="min-w-[60px] bg-transparent"
+                      value={label}
+                      onChange={(e) => setLabel(e.target.value)}
+                      onKeyUp={(e) => e.key === 'Enter' && updateBorrowLabel()}
+                    />
+                    <button
+                      className="ml-[4px]"
+                      onClick={() => updateBorrowLabel()}
+                      style={{ display: "inline-flex", alignItems: "center" }}
+                    >
+                      <AiOutlineCheck />
+                    </button>
+                  </>
+                )}
+              </div>
             </div>
+          </div>
           </div>
             <div className="hidden md:block">{summaryInfo}</div>
             <div

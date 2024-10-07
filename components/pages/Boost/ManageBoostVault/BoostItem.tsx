@@ -364,7 +364,7 @@ export function BoostItem({
               <>
                 <div className="mr-1 flex-shrink-0">{label}</div>
                 <button
-                  className="ml-[4px] cursor-pointer"
+                  className="ml-[4px] cursor-pointer flex items-center"
                   onClick={() => setEdit(!isEdit)}
                 >
                   <AiOutlineEdit />
@@ -380,7 +380,7 @@ export function BoostItem({
                   onKeyUp={(e) => e.key === 'Enter' && updateBoostLabel()}
                 />
                 <button
-                  className="ml-[4px] cursor-pointer"
+                  className="ml-[4px] cursor-pointer flex items-center"
                   onClick={() => updateBoostLabel()}
                 >
                   <AiOutlineCheck />
@@ -388,6 +388,7 @@ export function BoostItem({
               </>
             )}
           </div>
+        </div>
         </div>
           <div className="flex items-center justify-end gap-14">
             <div className="hidden items-center justify-between gap-14 lg:flex">
