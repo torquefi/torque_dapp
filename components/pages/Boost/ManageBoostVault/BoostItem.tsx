@@ -412,26 +412,25 @@ export function BoostItem({
             </div>
           </div>
         </div>
-          <div className="flex items-center justify-end gap-14">
-            <div className="hidden items-center justify-between gap-14 lg:flex">
-              {summaryInfo()}
-            </div>
-            <div className="flex flex-col items-center justify-center gap-2">
-              <button className="" onClick={() => setOpen(!isOpen)}>
-                <img
-                  className={
-                    'w-[18px] text-[#000] transition-all' +
-                    ` ${isOpen ? 'rotate-180' : ''}`
-                  }
-                  src={
-                    theme == 'light'
-                      ? '/icons/dropdow-dark.png'
-                      : '/icons/arrow-down.svg'
-                  }
-                  alt=""
-                />
-              </button>
-            </div>
+        <div className="flex items-center justify-end gap-14">
+          <div className="hidden items-center justify-between gap-14 lg:flex">
+            {summaryInfo()}
+          </div>
+          <div className="flex flex-col items-center justify-center gap-2">
+            <button className="" onClick={() => setOpen(!isOpen)}>
+              <img
+                className={
+                  'w-[18px] text-[#000] transition-all' +
+                  ` ${isOpen ? 'rotate-180' : ''}`
+                }
+                src={
+                  theme == 'light'
+                    ? '/icons/dropdow-dark.png'
+                    : '/icons/arrow-down.svg'
+                }
+                alt=""
+              />
+            </button>
           </div>
         </div>
         <div
