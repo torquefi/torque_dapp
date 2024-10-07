@@ -353,25 +353,30 @@ export function BoostItem({
     <>
       <div className="dark-text-[#000] mt-[24px] grid w-full rounded-[12px] border border-[#E6E6E6] bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-[24px] py-[20px] text-[#464646] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white">
         <div className="grid w-full grid-cols-2">
-        <div className="font-rogan flex w-[calc(100%-64px)] items-center space-x-2 text-[22px] md:w-[calc(100%-400px-64px)] lg:w-[calc(100%-500px-64px)] xl:w-[calc(100%-600px-64px)]">
-          <div className="flex items-center text-[22px]">
-            <img
-              className="mr-1 w-[54px]"
-              src={`/icons/coin/${item.tokenSymbol.toLowerCase()}.png`}
-              alt=""
-            />
-            {!isEdit ? (
-              <>
+          <div className="font-rogan flex w-[calc(100%-64px)] items-center space-x-2 text-[22px] md:w-[calc(100%-400px-64px)] lg:w-[calc(100%-500px-64px)] xl:w-[calc(100%-600px-64px)]">
+            {!isEdit && (
+              <div
+                className="flex min-w-max cursor-pointer items-center text-[22px]"
+                onClick={() => setEdit(!isEdit)}
+              >
+                <img
+                  className="mr-1 w-[54px]"
+                  src={`/icons/coin/${item.tokenSymbol.toLowerCase()}.png`}
+                  alt=""
+                />
                 <div className="mr-1 flex-shrink-0">{label}</div>
-                <button
-                  className="ml-[4px] cursor-pointer"
-                  onClick={() => setEdit(!isEdit)}
-                >
+                <button className="ml-[4px]">
                   <AiOutlineEdit />
                 </button>
-              </>
-            ) : (
-              <>
+              </div>
+            )}
+            {isEdit && (
+              <div className="flex cursor-pointer items-center text-[22px]">
+                <img
+                  className="mr-1 w-[54px]"
+                  src={`/icons/coin/${item.tokenSymbol.toLowerCase()}.png`}
+                  alt=""
+                />
                 <AutowidthInput
                   ref={refLabelInput}
                   className="bg-transparent"
@@ -379,16 +384,12 @@ export function BoostItem({
                   onChange={(e) => setLabel(e.target.value)}
                   onKeyUp={(e) => e.key === 'Enter' && updateBoostLabel()}
                 />
-                <button
-                  className="ml-[4px] cursor-pointer"
-                  onClick={() => updateBoostLabel()}
-                >
-                  <AiOutlineCheck />
+                <button>
+                  <AiOutlineCheck onClick={() => updateBoostLabel()} />
                 </button>
-              </>
+              </div>
             )}
           </div>
-        </div>
           <div className="flex items-center justify-end gap-14">
             <div className="hidden items-center justify-between gap-14 lg:flex">
               {summaryInfo()}
