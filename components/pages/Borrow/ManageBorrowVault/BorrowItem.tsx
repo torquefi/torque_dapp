@@ -518,7 +518,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       <>
         <div className="rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 text-[#404040] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white">
           <div className="flex items-center px-[18px] md:px-[24px] py-[10px]">
-            <div className="xlg:w-[calc(100%-600px-64px)] font-rogan flex w-[calc(100%-64px)] items-center space-x-2 text-[22px] md:w-[calc(100%-400px-64px)] lg:w-[calc(100%-500px-64px)]">
+            <div className="xl:w-[calc(100%-600px-64px)] font-rogan flex w-[calc(100%-64px)] items-center space-x-2 text-[22px] md:w-[calc(100%-400px-64px)] lg:w-[calc(100%-500px-64px)]">
               {!isEdit && (
                 <div
                   className="flex min-w-max cursor-pointer items-center text-[22px]"
@@ -536,8 +536,8 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                       alt=""
                     />
                   </div>
-                  <div className="min-w-[81px]">{label}</div>
-                  <button className="ml-[8px]">
+                  <div className="mr-1 flex-shrink-0">{label}</div>
+                  <button className="ml-[4px]">
                     <AiOutlineEdit />
                   </button>
                 </div>
@@ -549,6 +549,11 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                     src={`/icons/coin/${item.depositTokenSymbol.toLowerCase()}.png`}
                     alt=""
                   />
+                  <img
+                    className="absolute z-1 w-[20px] md:w-[28px] object-cover bottom-1 right-1"
+                    src={`/icons/coin/${item.borrowTokenSymbol.toLowerCase()}${item.borrowTokenSymbol === 'USDC' ? '.svg' : '.png'}`}
+                    alt=""
+                  />
                   <AutowidthInput
                     ref={refLabelInput}
                     className="min-w-[60px] bg-transparent"
@@ -556,11 +561,8 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                     onChange={(e) => setLabel(e.target.value)}
                     onKeyUp={(e) => e.key === 'Enter' && updateBorrowLabel()}
                   />
-                  <button>
-                    <AiOutlineCheck
-                      className=""
-                      onClick={() => updateBorrowLabel()}
-                    />
+                  <button className="ml-[4px]">
+                    <AiOutlineCheck onClick={() => updateBorrowLabel()} />
                   </button>
                 </div>
               )}

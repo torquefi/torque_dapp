@@ -364,8 +364,8 @@ export function BoostItem({
                   src={`/icons/coin/${item.tokenSymbol.toLowerCase()}.png`}
                   alt=""
                 />
-                <div className="">{label}</div>
-                <button className="ml-[8px]">
+                <div className="mr-1 flex-shrink-0">{label}</div>
+                <button className="ml-[4px]">
                   <AiOutlineEdit />
                 </button>
               </div>
@@ -384,11 +384,8 @@ export function BoostItem({
                   onChange={(e) => setLabel(e.target.value)}
                   onKeyUp={(e) => e.key === 'Enter' && updateBoostLabel()}
                 />
-                <button className="ml-[0]">
-                  <AiOutlineCheck
-                    className=""
-                    onClick={() => updateBoostLabel()}
-                  />
+                <button>
+                  <AiOutlineCheck onClick={() => updateBoostLabel()} />
                 </button>
               </div>
             )}
