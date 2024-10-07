@@ -31,8 +31,6 @@ import {
   updateCreatedUni,
   updateCreatedWbtc,
   updateCreatedWeth,
-  updateCreatedComp,
-  updateCreatedTorq,
 } from '@/lib/redux/slices/boost'
 
 interface BoostItemProps {
@@ -67,7 +65,7 @@ export function BoostItem({
   const { tokensData, pricesUpdatedAt } = useTokensDataRequest(chainId)
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
   const { gasPrice } = useGasPrice(chainId)
-  const { createdWbtc, createdWeth, createdLink, createdUni, createdComp, createdTorq } = useSelector(
+  const { createdWbtc, createdWeth, createdLink, createdUni } = useSelector(
     (state: AppState) => state.boost
   )
 
@@ -235,18 +233,6 @@ export function BoostItem({
         })
         await tx.wait()
       }
-      if (item.tokenSymbol === 'COMP') {
-        const tx = await boostContract2.withdrawUNI(withdrawAmount, {
-          value: executionFeeAmount,
-        })
-        await tx.wait()
-      }
-      if (item.tokenSymbol === 'TORQ') {
-        const tx = await boostContract2.withdrawUNI(withdrawAmount, {
-          value: executionFeeAmount,
-        })
-        await tx.wait()
-      }
       setAmount('')
       toast.success('Withdrawal Success')
       onWithdrawSuccess && onWithdrawSuccess()
@@ -262,12 +248,6 @@ export function BoostItem({
       }
       if (item.tokenSymbol === 'UNI') {
         dispatch(updateCreatedUni(true as any))
-      }
-      if (item.tokenSymbol === 'COMP') {
-        dispatch(updateCreatedComp(true as any))
-      }
-      if (item.tokenSymbol === 'TORQ') {
-        dispatch(updateCreatedTorq(true as any))
       }
     } catch (e) {
       toast.error('Withdraw Failed')
@@ -367,70 +347,68 @@ export function BoostItem({
     (item.tokenSymbol === 'WBTC' && !createdWbtc) ||
     (item.tokenSymbol === 'WETH' && !createdWeth) ||
     (item.tokenSymbol === 'LINK' && !createdLink) ||
-    (item.tokenSymbol === 'UNI' && !createdUni) ||
-    (item.tokenSymbol === 'COMP' && !createdComp) ||
-    (item.tokenSymbol === 'TORQ' && !createdTorq) 
+    (item.tokenSymbol === 'UNI' && !createdUni)
 
   return (
     <>
       <div className="dark-text-[#000] mt-[24px] grid w-full rounded-[12px] border border-[#E6E6E6] bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-[24px] py-[20px] text-[#464646] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white">
         <div className="grid w-full grid-cols-2">
-          <div className="font-rogan flex w-[calc(100%-64px)] items-center space-x-2 text-[22px] md:w-[calc(100%-400px-64px)] lg:w-[calc(100%-500px-64px)] xl:w-[calc(100%-600px-64px)]">
-            <div className="flex items-center text-[22px]">
-              <img
-                className="mr-1 w-[54px]"
-                src={`/icons/coin/${item.tokenSymbol.toLowerCase()}.png`}
-                alt=""
-              />
-              {!isEdit ? (
-                <>
-                  <div className="mr-1 flex-shrink-0">{label}</div>
-                  <button
-                    className="ml-[4px] cursor-pointer"
-                    onClick={() => setEdit(!isEdit)}
-                  >
-                    <AiOutlineEdit />
-                  </button>
-                </>
-              ) : (
-                <>
-                  <input
-                    ref={refLabelInput}
-                    className="min-w-[60px] bg-transparent"
-                    value={label}
-                    onChange={(e) => setLabel(e.target.value)}
-                    onKeyUp={(e) => e.key === 'Enter' && updateBoostLabel()}
-                  />
-                  <button
-                    className="ml-[4px] cursor-pointer"
-                    onClick={() => updateBoostLabel()}
-                  >
-                    <AiOutlineCheck />
-                  </button>
-                </>
-              )}
-            </div>
+        <div className="font-rogan flex w-[calc(100%-64px)] items-center space-x-2 text-[22px] md:w-[calc(100%-400px-64px)] lg:w-[calc(100%-500px-64px)] xl:w-[calc(100%-600px-64px)]">
+          <div className="flex items-center text-[22px]">
+            <img
+              className="mr-1 w-[54px]"
+              src={`/icons/coin/${item.tokenSymbol.toLowerCase()}.png`}
+              alt=""
+            />
+            {!isEdit ? (
+              <>
+                <div className="mr-1 flex-shrink-0">{label}</div>
+                <button
+                  className="ml-[4px] cursor-pointer"
+                  onClick={() => setEdit(!isEdit)}
+                >
+                  <AiOutlineEdit />
+                </button>
+              </>
+            ) : (
+              <>
+                <AutowidthInput
+                  ref={refLabelInput}
+                  className="bg-transparent"
+                  value={label}
+                  onChange={(e) => setLabel(e.target.value)}
+                  onKeyUp={(e) => e.key === 'Enter' && updateBoostLabel()}
+                />
+                <button
+                  className="ml-[4px] cursor-pointer"
+                  onClick={() => updateBoostLabel()}
+                >
+                  <AiOutlineCheck />
+                </button>
+              </>
+            )}
           </div>
         </div>
-        <div className="flex items-center justify-end gap-14">
-          <div className="hidden items-center justify-between gap-14 lg:flex">
-            {summaryInfo()}
-          </div>
-          <div className="flex flex-col items-center justify-center gap-2">
-            <button className="" onClick={() => setOpen(!isOpen)}>
-              <img
-                className={
-                  'w-[18px] text-[#000] transition-all' +
-                  ` ${isOpen ? 'rotate-180' : ''}`
-                }
-                src={
-                  theme == 'light'
-                    ? '/icons/dropdow-dark.png'
-                    : '/icons/arrow-down.svg'
-                }
-                alt=""
-              />
-            </button>
+          <div className="flex items-center justify-end gap-14">
+            <div className="hidden items-center justify-between gap-14 lg:flex">
+              {summaryInfo()}
+            </div>
+            <div className="flex flex-col items-center justify-center gap-2">
+              <button className="" onClick={() => setOpen(!isOpen)}>
+                <img
+                  className={
+                    'w-[18px] text-[#000] transition-all' +
+                    ` ${isOpen ? 'rotate-180' : ''}`
+                  }
+                  src={
+                    theme == 'light'
+                      ? '/icons/dropdow-dark.png'
+                      : '/icons/arrow-down.svg'
+                  }
+                  alt=""
+                />
+              </button>
+            </div>
           </div>
         </div>
         <div
