@@ -566,7 +566,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
               </div>
             </div>
           </div>
-            <div className="hidden md:block">{summaryInfo}</div>
+          <div className="hidden md:block">{summaryInfo}</div>
             <div
               className="flex h-[64px] w-[64px] cursor-pointer select-none items-center justify-center rounded-full"
               onClick={() => {
