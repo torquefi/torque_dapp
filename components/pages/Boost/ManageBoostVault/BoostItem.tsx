@@ -31,6 +31,8 @@ import {
   updateCreatedUni,
   updateCreatedWbtc,
   updateCreatedWeth,
+  updateCreatedComp,
+  updateCreatedTorq,
 } from '@/lib/redux/slices/boost'
 
 interface BoostItemProps {
@@ -65,7 +67,7 @@ export function BoostItem({
   const { tokensData, pricesUpdatedAt } = useTokensDataRequest(chainId)
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
   const { gasPrice } = useGasPrice(chainId)
-  const { createdWbtc, createdWeth, createdLink, createdUni } = useSelector(
+  const { createdWbtc, createdWeth, createdLink, createdUni, createdComp, createdTorq } = useSelector(
     (state: AppState) => state.boost
   )
 
@@ -249,6 +251,12 @@ export function BoostItem({
       if (item.tokenSymbol === 'UNI') {
         dispatch(updateCreatedUni(true as any))
       }
+      if (item.tokenSymbol === 'COMP') {
+        dispatch(updateCreatedComp(true as any))
+      }
+      if (item.tokenSymbol === 'TORQ') {
+        dispatch(updateCreatedTorq(true as any))
+      }
     } catch (e) {
       toast.error('Withdraw Failed')
       console.log(e)
@@ -347,7 +355,9 @@ export function BoostItem({
     (item.tokenSymbol === 'WBTC' && !createdWbtc) ||
     (item.tokenSymbol === 'WETH' && !createdWeth) ||
     (item.tokenSymbol === 'LINK' && !createdLink) ||
-    (item.tokenSymbol === 'UNI' && !createdUni)
+    (item.tokenSymbol === 'UNI' && !createdUni) ||
+    (item.tokenSymbol === 'COMP' && !createdComp) ||
+    (item.tokenSymbol === 'TORQ' && !createdTorq)
 
   return (
     <>
@@ -374,20 +384,18 @@ export function BoostItem({
                 )}
               </div>
               <button
-                className="ml-[4px] cursor-pointer"
+                className="ml-[4px] cursor-pointer w-[24px] h-[24px] flex items-center justify-center"
                 onClick={() => {
                   if (isEdit) {
-                    updateBoostLabel()
+                    updateBoostLabel();
                   }
-                  setEdit(!isEdit)
+                  setEdit(!isEdit);
                 }}
-                style={{ display: 'inline-flex', alignItems: 'center' }}
               >
                 {isEdit ? <AiOutlineCheck /> : <AiOutlineEdit />}
               </button>
             </div>
           </div>
-
           <div className="flex items-center justify-end gap-14">
             <div className="hidden items-center justify-between gap-14 lg:flex">
               {summaryInfo()}
@@ -410,7 +418,6 @@ export function BoostItem({
             </div>
           </div>
         </div>
-
         <div
           className={`grid grid-cols-1 gap-8 overflow-hidden transition-all duration-300 lg:grid-cols-2 ${
             isOpen
@@ -421,7 +428,6 @@ export function BoostItem({
           <div className="flex items-center justify-between gap-4 lg:hidden">
             {summaryInfo()}
           </div>
-
           <div className="">
             <BoostItemChart
               label="Boost APR"
@@ -436,7 +442,6 @@ export function BoostItem({
               aprPercent={item?.APR}
             />
           </div>
-
           <div className="mt-8">
             <div className="text-[28px]">Withdraw {item?.tokenSymbol}</div>
             <div className="mt-4 flex w-full items-center justify-between rounded-[12px] border bg-[#FFFFFF] px-2 py-4 dark:border-[#1A1A1A] dark:bg-[#161616]">
@@ -454,6 +459,13 @@ export function BoostItem({
                     key={i}
                     className="font-rogan-regular rounded bg-[#F4F4F4] px-2 py-1 text-sm text-[#959595] dark:bg-[#1A1A1A]"
                     onClick={() => {
+                      console.log(
+                        'object :>> ',
+                        new BigNumber(percent)
+                          .multipliedBy(new BigNumber(deposited || 0))
+                          .dividedBy(100)
+                          .toString()
+                      )
                       setAmount(
                         new BigNumber(percent)
                           .multipliedBy(new BigNumber(deposited || 0))
@@ -467,26 +479,31 @@ export function BoostItem({
                 ))}
               </div>
             </div>
-
             <button
-              className={`font-rogan-regular mt-2 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${
-                isSubmitLoading || isExecuteLoading
-                  ? 'cursor-not-allowed opacity-70'
-                  : ''
-              }`}
+              className={
+                `font-rogan-regular mt-2 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]` +
+                ` ${
+                  isSubmitLoading || isExecuteLoading
+                    ? 'cursor-not-allowed opacity-70'
+                    : ''
+                }`
+              }
               disabled={isSubmitLoading || isExecuteLoading}
               onClick={() => onCreate()}
             >
               {isSubmitLoading && <LoadingCircle />}
               {renderSubmitText()}
             </button>
-
             <button
-              className={`font-rogan-regular mt-3 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-transparent to-transparent py-1 text-[14px] uppercase text-[#AA5BFF] transition-all hover:border hover:from-[#AA5BFF] hover:to-[#912BFF] hover:text-white ${
-                isUnFirstCreated || isSubmitLoading || isExecuteLoading
-                  ? 'cursor-not-allowed opacity-70'
-                  : ''
-              }`}
+              className={
+                `font-rogan-regular mt-3 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-transparent to-transparent py-1 text-[14px] uppercase text-[#AA5BFF] transition-all hover:border hover:from-[#AA5BFF] hover:to-[#912BFF] hover:text-white` +
+                ` ${
+                  isUnFirstCreated || isSubmitLoading || isExecuteLoading
+                    ? 'cursor-not-allowed opacity-70'
+                    : ''
+                }`
+              }
+              // disabled={isUnFirstCreated || isSubmitLoading || isExecuteLoading}
               onClick={() => onWithdraw()}
             >
               {isExecuteLoading && <LoadingCircle />}
