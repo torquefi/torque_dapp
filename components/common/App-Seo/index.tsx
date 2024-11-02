@@ -33,9 +33,9 @@ const AppSeo: FC<AppSeoProps> = ({
     isDefaultPreview = false,
 }) => {
     const defaultPreviewImage =
-        'https://uploads-ssl.webflow.com/6556f6be06fc2abb8a8da998/65f7c8b013bde20c05c81a06_torque-finance.png';
+        'https://uploads-ssl.webflow.com/6556f6be06fc2abb8a8da998/668e0c1fe2e01cba33b85485_torque.png';
     const defaultTitle = 'Torque';
-    const defaultMetaDescription = 'Torque is a crypto wealth management platform that aggregates yield and loans from leading blockchain protocols while enabling one-click borrowing through non-custodial PBLOCs (portfolio-backed lines of credit). Torque utilizes smart contract automation to enable self-driving money. Our Vaults-as-a-Service model helps investors, institutions, and DAOs earn passive income and access crypto loans while retaining full custody.';
+    const defaultMetaDescription = 'Torque is an automation protocol to streamline smart contract interactions. It unifies the finest non-custodial opportunities on the blockchain to satisfy the key components of wealth generation while reducing friction, increasing transparency, and guaranteeing self-custody.';
 
     return (
         <NextSeo
