@@ -1,5 +1,4 @@
-import axiosInstance from "@/configs/axios.config"
-
+import axiosInstance from '@/configs/axios.config'
 
 export class TokenApr {
   static async getListApr(payload: Record<string, any> = {}) {

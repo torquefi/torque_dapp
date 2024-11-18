@@ -1,5 +1,5 @@
-import { NATIVE_TOKEN_ADDRESS } from '@/config/tokens'
-import { getChainName, getHighExecutionFee } from '@/config/chains'
+import { NATIVE_TOKEN_ADDRESS } from '@/configs/tokens'
+import { getChainName, getHighExecutionFee } from '@/configs/chains'
 import {
   convertToUsd,
   getTokenData,

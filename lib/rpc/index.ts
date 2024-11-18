@@ -4,7 +4,7 @@ import {
   FALLBACK_PROVIDERS,
   getFallbackRpcUrl,
   getRpcUrl,
-} from '@/config/chains'
+} from '@/configs/chains'
 import { ethers } from 'ethers'
 import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers'
 

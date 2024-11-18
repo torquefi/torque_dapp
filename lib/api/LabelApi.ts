@@ -1,5 +1,4 @@
-import axiosInstance from "@/configs/axios.config"
-
+import axiosInstance from '@/configs/axios.config'
 
 export class LabelApi {
   static async getListLabel(payload: Record<string, any> = {}) {

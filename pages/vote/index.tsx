@@ -3,7 +3,7 @@ import { MainLayout } from '@/layouts/MainLayout'
 import { updateTipsData } from '@/lib/redux/slices/tips'
 import Head from 'next/head'
 import { useDispatch } from 'react-redux'
-import { tipsData } from '@/config/vote/content/tips'
+import { tipsData } from '@/configs/vote/content/tips'
 import { useEffect } from 'react'
 import AppSeo from '@/components/common/App-Seo'
 export default function Page() {
