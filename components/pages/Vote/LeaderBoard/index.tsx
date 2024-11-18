@@ -20,11 +20,11 @@ export const LeaderBoard = () => {
   const handleGetTopHolders = async () => {
     try {
       const response = await axiosInstance.get('/api/vote/top-torq-holder')
-      console.log('response :>> ', response);
-      setTopHolders((response?.data?.data || []))
+      console.log('response :>> ', response)
+      setTopHolders(response?.data?.data || [])
 
-      const network_id = '42161';
-      const token_addr = '0xb56c29413af8778977093b9b4947efeea7136c36';
+      const network_id = '42161'
+      const token_addr = '0xb56c29413af8778977093b9b4947efeea7136c36'
 
       // const options = {
       //   url: `https://api.chainbase.online/v1/token/top-holders?chain_id=${network_id}&contract_address=${token_addr}&page=1&limit=13`,
@@ -38,7 +38,7 @@ export const LeaderBoard = () => {
       //   .then((response: any) => setTopHoldersX((response?.data?.data || [])?.slice(3, 13)))
       //   .catch((error: any) => console.log(error));
     } catch (error) {
-      console.log('error :>> ', error);
+      console.log('error :>> ', error)
     }
   }
 
@@ -46,8 +46,8 @@ export const LeaderBoard = () => {
     handleGetTopHolders()
   }, [])
 
-  console.log('topHolders :>> ', topHolders);
-  console.log('topHoldersX :>> ', topHoldersX);
+  console.log('topHolders :>> ', topHolders)
+  console.log('topHoldersX :>> ', topHoldersX)
 
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1000)
@@ -55,32 +55,40 @@ export const LeaderBoard = () => {
 
   if (isLoading) {
     return (
-      <div className="pt-[20px] w-full max-w-[800px] m-auto">
+      <div className="m-auto w-full max-w-[800px] pt-[20px]">
         <SkeletonDefault className="h-[430px] w-full rounded-xl" />
       </div>
     )
   }
   return (
-    <div className="pt-[20px] w-full max-w-[800px] m-auto">
-      <div className="w-full rounded-[12px] border border-[1px] border-solid border-[#E6E6E6] dark:border-[#1a1a1a] bg-[#ffffff] dark:bg-transparent dark:bg-gradient-to-br from-[#0d0d0d] to-[#0d0d0d]/0 text-[#030303] dark:text-white text-center px-[24px] pt-[16px] pb-[12px]">
+    <div className="m-auto w-full max-w-[800px] pt-[20px]">
+      <div className="w-full rounded-[12px] border border-[1px] border-solid border-[#E6E6E6] bg-[#ffffff] from-[#0d0d0d] to-[#0d0d0d]/0 px-[24px] pb-[12px] pt-[16px] text-center text-[#030303] dark:border-[#1a1a1a] dark:bg-transparent dark:bg-gradient-to-br dark:text-white">
         <div className="flex items-center justify-between">
-          <h2 className="font-rogan text-[24px] font-[400]">
-            Leaderboard
-          </h2>
+          <h2 className="font-rogan text-[24px] font-[400]">Leaderboard</h2>
           <Popover
             trigger="hover"
             placement="bottom-right"
-            className={`font-rogan-regular text-[#030303] dark:text-white mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
+            className={`font-rogan-regular mt-[8px] w-[230px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
             content="Torque is governed by a global community of TORQ holders."
           >
             <button>
-              <img src="/assets/pages/vote/ic-info.svg" alt="info" className="w-4" />
+              <img
+                src="/assets/pages/vote/ic-info.svg"
+                alt="info"
+                className="w-4"
+              />
             </button>
           </Popover>
         </div>
-        <div className={`mt-4 hidden h-[1px] w-full md:block` + `
-      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'}`
-        }></div>
+        <div
+          className={
+            `mt-4 hidden h-[1px] w-full md:block` +
+            `
+      ${
+        theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+      }`
+          }
+        ></div>
         <table className="w-full max-w-[800px]">
           <thead>
             <tr>
@@ -137,8 +145,9 @@ export const LeaderBoard = () => {
                   className={
                     `absolute left-0 h-[1px] w-full ` +
                     `
-      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
-                    }`
+      ${
+        theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+      }`
                   }
                 ></div>
                 {/* <div className="gradient-border absolute left-0 h-[1px] w-full"></div> */}
@@ -150,12 +159,16 @@ export const LeaderBoard = () => {
           className={
             `mt-1 hidden h-[1px] w-full md:block` +
             `
-      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
-            }`
+      ${
+        theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+      }`
           }
         ></div>
-        <Link href='https://arbiscan.io/token/0xb56c29413af8778977093b9b4947efeea7136c36#balances' legacyBehavior>
-          <a target='_blank'>
+        <Link
+          href="https://arbiscan.io/token/0xb56c29413af8778977093b9b4947efeea7136c36#balances"
+          legacyBehavior
+        >
+          <a target="_blank">
             <div className="mt-[12px] cursor-pointer text-center text-[14px] font-[500] uppercase text-[#959595]">
               view all
             </div>

@@ -119,7 +119,6 @@ export const BoostItemChart: FC<BoostItemChartProps> = (props) => {
         // let chartDataObj: any = {}
 
         // console.log('convertTransactions :>> ', convertTransactions);
-        
 
         let chartDataObj: any = {}
 

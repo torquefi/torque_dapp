@@ -1,4 +1,4 @@
-import { EXECUTION_FEE_CONFIG_V2, SUPPORTED_CHAIN_IDS } from '@/config/chains'
+import { EXECUTION_FEE_CONFIG_V2, SUPPORTED_CHAIN_IDS } from '@/configs/chains'
 import {
   getExecutionFeeBufferBpsKey,
   ORACLE_KEEPER_INSTANCES_CONFIG_KEY,

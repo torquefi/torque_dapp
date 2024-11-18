@@ -8,7 +8,7 @@ import {
   AVALANCHE_FUJI,
   getFallbackRpcUrl,
   getRpcUrl,
-} from '@/config/chains'
+} from '@/configs/chains'
 import { PublicClient, createPublicClient, http } from 'viem'
 import { arbitrum, arbitrumGoerli, avalanche, avalancheFuji } from 'viem/chains'
 import { MulticallRequestConfig, MulticallResult } from './types'

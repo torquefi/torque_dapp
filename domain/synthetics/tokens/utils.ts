@@ -7,7 +7,7 @@ import {
   TokensRatio,
 } from './types'
 import { expandDecimals } from '@/lib/numbers'
-import { NATIVE_TOKEN_ADDRESS } from '@/config/tokens'
+import { NATIVE_TOKEN_ADDRESS } from '@/configs/tokens'
 
 export function getTokenData(
   tokensData?: TokensData,
@@ -44,5 +44,5 @@ export function convertToUsd(
 }
 
 export function parseContractPrice(price: BigNumber, tokenDecimals: number) {
-  return price.mul(expandDecimals(1, tokenDecimals));
+  return price.mul(expandDecimals(1, tokenDecimals))
 }

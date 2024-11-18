@@ -1,4 +1,4 @@
-import { getContract } from '@/config/contracts'
+import { getContract } from '@/configs/contracts'
 import DataStore from '@/abis/DataStore.json'
 import { useMulticall } from '@/lib/multicall'
 import {
@@ -10,7 +10,7 @@ import {
   singleSwapGasLimitKey,
   swapOrderGasLimitKey,
   withdrawalGasLimitKey,
-} from '@/config/dataStore'
+} from '@/configs/dataStore'
 import { GasLimitsConfig } from './types'
 
 type GasLimitsResult = {
