@@ -5,7 +5,7 @@ import { LeaderBoard } from './LeaderBoard'
 
 export const VotePage = () => {
   return (
-    <div className="mt-[32px] md:mt-[24px]">
+    <div className="mt-[-16px]">
       <Governance />
       {/* <Distribution /> */}
       {/* <LeaderBoard /> */}

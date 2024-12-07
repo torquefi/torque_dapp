@@ -111,7 +111,7 @@ export const Header = () => {
 
   return (
     <div>
-      <header className="fixed inset-x-0 top-0 z-[100] bg-[#FFFFFF] dark:bg-[#030303] ">
+      <header className="fixed inset-x-0 top-0 z-[100] bg-[#FFFFFF] dark:bg-[#030303]">
         <div
           className={
             'flex cursor-pointer items-center justify-center bg-[#FF6969] text-center text-[9px] uppercase transition-all' +
@@ -121,14 +121,14 @@ export const Header = () => {
         >
           Please switch to {arbitrumMainnetInfo.name} network.
         </div>
-        <Link href="https://twitter.com/torquefi" target="_blank">
+        {/* <Link href="https://twitter.com/torquefi" target="_blank">
           <div
             className="flex cursor-pointer items-center justify-center bg-[#aa5bff] text-center text-[12px] uppercase transition-all h-[36px]"
           >
             Stay tuned for Torque V2 announcements!💫
           </div>
-        </Link>
-        <div className="container relative mx-auto flex h-[66px] max-w-[1244px] items-center justify-between px-4 lg:px-8">
+        </Link> */}
+        <div className="container relative mx-auto flex h-[64px] max-w-[1244px] items-center justify-between px-4 lg:px-8">
           <Link href="/" className="flex items-center">
             <img className="h-[26px]" src="/assets/logo.png" alt="" />
             <h2 className="font-rogan ml-[8px] text-[26px] text-[#030303] dark:text-white">

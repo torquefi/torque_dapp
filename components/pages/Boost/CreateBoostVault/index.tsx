@@ -67,11 +67,6 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
     setTimeout(() => setIsLoading(false), 1000)
   }, [])
 
-  // const tabs = [
-  //   { id: 0, name: 'Native', content: 'Content for Native' },
-  //   { id: 1, name: 'Stable', content: 'Content for Stable' },
-  // ];
-
   return (
     <div className="space-y-[18px]">
       <UniSwapModal
@@ -311,17 +306,12 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
           <div
             className={
               `h-[1px] w-full` +
-              `
-      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+              `${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
               }`
             }
           ></div>
         </div>
-
-
       )}
-
-
     </div>
   )
 }

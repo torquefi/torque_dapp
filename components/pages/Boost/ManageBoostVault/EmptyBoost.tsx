@@ -11,8 +11,8 @@ export const EmptyBoost = () => {
           'flex h-[280px] flex-col items-center justify-center bg-contain' +
           ` ${
             theme === 'light'
-              ? 'bg-[url(/images/bg-grid-light.png)]'
-              : 'bg-[url(/images/bg-grid-dark.png)]'
+              ? 'bg-[url(/images/bg-grid-light.png)] bg-[5px_center]'
+              : 'bg-[url(/images/bg-grid-dark.png)] bg-[5px_center]'
           }`
         }
       >
