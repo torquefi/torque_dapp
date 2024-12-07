@@ -139,11 +139,11 @@ const BridgeAssets: React.FC = () => {
                 setShowDestinationAddress(!showDestinationAddress)
               }
             >
-              <div className="transition-ease cursor-pointer items-center rounded-full bg-transparent mr-[-6px] p-[6px] duration-100 hover:bg-[#f9f9f9] dark:hover:bg-[#141414] xs:flex">
+              <div className="transition-ease cursor-pointer items-center rounded-full bg-transparent p-[8px] duration-100 hover:bg-[#f9f9f9] dark:hover:bg-[#141414] xs:flex">
                 <img
                   src="/icons/wallet.svg"
                   alt="wallet icon"
-                  className="mr-[6px] w-[15px]"
+                  className="w-[15px]"
                 />
               </div>
             </button>
@@ -209,7 +209,7 @@ const BridgeAssets: React.FC = () => {
                 <img
                   src="/icons/slider.svg"
                   alt="slider icon"
-                  className="w-[20px] cursor-pointer"
+                  className="w-[20px]"
                 />
               </div>
             </Popover>
@@ -507,23 +507,25 @@ const BridgeAssets: React.FC = () => {
             </button>
           </div>
         </div>
-        <motion.div
-          key="destinationAddress"
-          initial="collapsed"
-          animate={showDestinationAddress ? 'open' : 'collapsed'}
-          variants={variants}
-          transition={{ duration: 0.2 }}
-          className="mb-4"
-        >
-          <label className="mb-[4px] block text-[14px] font-medium text-[#959595]">
-            Destination
-          </label>
-          <input
-            type="text"
-            className="block w-full truncate placeholder:text-[#959595] rounded-[8px] border border-[#efefef] bg-white pb-2 pl-[10px] pt-2 shadow-sm duration-100 ease-linear dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b dark:from-[#161616] dark:via-[#161616]/40 dark:to-[#0e0e0e]"
-            placeholder="0x123.."
-          />
-        </motion.div>
+        {showDestinationAddress && (
+          <motion.div
+            key="destinationAddress"
+            initial="collapsed"
+            animate={showDestinationAddress ? 'open' : 'collapsed'}
+            variants={variants}
+            transition={{ duration: 0.2 }}
+            className="mb-4"
+          >
+            <label className="mb-[4px] block text-[14px] font-medium text-[#959595]">
+              Destination
+            </label>
+            <input
+              type="text"
+              className="block w-full truncate placeholder:text-[#959595] rounded-[8px] border border-[#efefef] bg-white pb-2 pl-[10px] pt-2 shadow-sm duration-100 ease-linear dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b dark:from-[#161616] dark:via-[#161616]/40 dark:to-[#0e0e0e]"
+              placeholder="0x123.."
+            />
+          </motion.div>
+        )}
         <div className="flex justify-end">
           <button
             className={`font-rogan-regular mt-1 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${

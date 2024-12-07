@@ -879,7 +879,7 @@ const ImportPosition: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="m-auto mt-[32px] md:mt-[20px] w-full max-w-[360px] rounded-[12px]">
+      <div className="m-auto w-full max-w-[360px] rounded-[12px]">
         <SkeletonDefault className="h-[280px] w-full" />
       </div>
     )
@@ -904,7 +904,7 @@ const ImportPosition: React.FC = () => {
 
   return (
     <>
-      <div className="m-auto mb-4 mt-[32px] md:mt-[20px] w-full max-w-[360px] rounded-[12px] border border-[#E6E6E6] bg-[#ffffff] from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pb-4 pt-3 text-[#030303] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white">
+      <div className="m-auto mb-4 w-full max-w-[360px] rounded-[12px] border border-[#E6E6E6] bg-[#ffffff] from-[#0d0d0d] to-[#0d0d0d]/0 px-4 pb-4 pt-3 text-[#030303] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white">
         <div className="flex items-center justify-between">
           <p className="font-rogan mb-3 mt-1 text-[28px] text-[#030303] dark:text-white">
             Import
