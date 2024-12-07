@@ -13,7 +13,7 @@ export const Distribution = () => {
 
   if (isLoading) {
     return (
-      <div className="md:px-[20%] mt-[46px] md:mt-[32px]">
+      <div className="md:px-[20%] mt-[-12px]">
         <div className='w-[340px] rounded-full mx-auto mt-[-24px] mb-4'>
           <SkeletonDefault className="h-[48px] " />
         </div>
@@ -38,7 +38,7 @@ export const Distribution = () => {
     )
   }
   return (
-    <div className="mt-[32px] md:mt-[24px] md:px-[15%]">
+    <div className="mt-[-12px] md:px-[15%]">
       <div className="w-full mx-auto text-center mt-[-24px]">
         <h1 className="font-rogan text-[#030303] dark:text-white text-[38px] font-[400] leading-[60px] md:text-[52px]">
           Distribution
