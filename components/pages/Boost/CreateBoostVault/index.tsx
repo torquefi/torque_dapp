@@ -90,7 +90,7 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
             />
           </button>
 
-          <button
+          {/* <button
             className='hidden focus:outline-none h-[34px] w-[34px] rounded-[4px] border-[1px] border-[solid] border-[#E6E6E6] dark:border-[#1a1a1a] md:inline-flex items-center justify-center cursor-pointer'>
             <img
               src={visibilityBoostBanner ? "/icons/visibility-off.svg" : "/icons/visibility-off.svg"}
@@ -98,7 +98,7 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
               className='w-[22px] text-[#959595]'
               onClick={() => dispatch(updateVisibilityBoostBanner(!visibilityBoostBanner as any))}
             />
-          </button>
+          </button> */}
 
           <div className="flex h-[36px] w-auto items-center justify-center rounded-[4px] border border-[#efefef] bg-transparent px-[3px] py-[4px] dark:border-[#1a1a1a]">
             <HoverIndicator
@@ -107,10 +107,10 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
             >
               <button
                 id="rowViewButton"
-                className="focus:outline-none"
-                onClick={() => {
-                  dispatch(updateLayoutBoost('row' as any))
-                }}
+                className="focus:outline-none cursor-not-allowed"
+                // onClick={() => {
+                //   dispatch(updateLayoutBoost('row' as any))
+                // }}
               >
                 <img
                   src="../icons/rows.svg"

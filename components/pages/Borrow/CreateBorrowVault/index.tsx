@@ -199,12 +199,12 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
           >
             <img
               src="/icons/swap-gray.svg"
-              alt="swap icon"
+              alt="swap"
               className="w-[22px] text-[#959595]"
             />
           </button>
 
-          <button
+          {/* <button
             onClick={() =>
               dispatch(
                 updateVisibilityBorrowBanner(!visibilityBorrowBanner as any)
@@ -221,7 +221,8 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
               alt="visibility icon"
               className="w-[22px] text-[#959595]"
             />
-          </button>
+          </button> */}
+
           <div className="flex h-[36px] w-auto items-center justify-center rounded-[4px] border border-[#efefef] bg-transparent px-[3px] py-[4px] dark:border-[#1a1a1a]">
             <HoverIndicator
               activeIndex={layoutBorrow === 'row' ? 0 : 1}
@@ -229,10 +230,10 @@ export default function CreateBorrowVault({ setIsFetchBorrowLoading }: any) {
             >
               <button
                 id="rowViewButton"
-                className="focus:outline-none"
-                onClick={() => {
-                  dispatch(updateLayoutBorrow('row' as any))
-                }}
+                className="focus:outline-none cursor-not-allowed"
+                // onClick={() => {
+                //   dispatch(updateLayoutBorrow('row' as any))
+                // }}
               >
                 <img
                   src="../icons/rows.svg"
