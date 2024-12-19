@@ -28,7 +28,7 @@ export default function Footer() {
   }
 
   return (
-    <div className="relative mt-[64px] flex w-full justify-center">
+    <div className="relative mt-[46px] flex w-full justify-center">
       <div
         className={
           ` absolute left-0 top-0 h-[1px] w-full` +

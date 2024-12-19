@@ -22,7 +22,7 @@ export default function Product() {
       {isLoading ? (
         <div className="flex items-center justify-between mb-4">
           <div className="flex-1">
-            <SkeletonDefault height={'5vh'} width={'10%'} />
+            <SkeletonDefault height={'34px'} width={'100px'} />
           </div>
           <div className="flex space-x-2">
             <SkeletonDefault height={'34px'} width={'34px'} />
@@ -87,7 +87,7 @@ export default function Product() {
           {products.map((item, i) =>
             isLoading ? (
               <div key={i}>
-                <SkeletonDefault height={'50vh'} width={'100%'} />
+                <SkeletonDefault height={'26vh'} width={'100%'} />
               </div>
             ) : (
               <Link
