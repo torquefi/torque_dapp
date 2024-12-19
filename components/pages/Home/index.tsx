@@ -6,11 +6,7 @@ import Product from './Product'
 export const HomePage = () => {
   return (
     <div>
-      <div className="">
-        {/* <PortfolioChart /> */}
-        {/* <NetApy /> */}
-        <HomePageFilter />
-      </div>
+      <HomePageFilter />
       <Product />
     </div>
   )
