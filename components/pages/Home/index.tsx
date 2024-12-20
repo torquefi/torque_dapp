@@ -1,6 +1,5 @@
 import HomePageFilter from './Home'
-import NetApy from './NetApy'
-import PortfolioChart from './PortfolioChart'
+import Position from './Position'
 import Product from './Product'
 
 export const HomePage = () => {
@@ -8,6 +7,7 @@ export const HomePage = () => {
     <div>
       <HomePageFilter />
       <Product />
+      <Position />
     </div>
   )
 }
