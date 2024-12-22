@@ -18,6 +18,7 @@ import Web3 from 'web3'
 import { IBorrowInfoManage } from '../types'
 import { BorrowItemChart } from './BorrowItemChart'
 import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
+import { cn } from '@/lib/helpers/utils'
 
 enum Action {
   Borrow = 'Borrow',
@@ -27,7 +28,12 @@ enum Action {
 
 const SECONDS_PER_YEAR = 60 * 60 * 24 * 365
 
-export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
+interface IBorrowItemProps {
+  item: IBorrowInfoManage
+  className?: string
+}
+
+export default function BorrowItem({ item, className }: IBorrowItemProps) {
   const { open } = useWeb3Modal()
   const refLabelInput = useRef<HTMLInputElement>(null)
   const theme = useSelector((store: AppStore) => store.theme.theme)
@@ -184,11 +190,9 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       .allowance(address, userAddressContract)
       .call()
     if (new BigNumber(allowance).lt(new BigNumber(amount))) {
-      await tokenContract.methods
-        .approve(userAddressContract, amount)
-        .send({
-          from: address,
-        })
+      await tokenContract.methods.approve(userAddressContract, amount).send({
+        from: address,
+      })
     }
   }
 
@@ -265,7 +269,10 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
       )
 
       console.log('params :>> ', amountRepay, collateralWithdraw)
-      const tx = await borrowContract2.callRepay(amountRepay, collateralWithdraw)
+      const tx = await borrowContract2.callRepay(
+        amountRepay,
+        collateralWithdraw
+      )
       await tx.wait()
       toast.success('Repay Successful')
       handleGetBorrowData()
@@ -454,11 +461,11 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
   )?.toFixed(5)
 
   const summaryInfo = (
-    <div className="grid grid-cols-2 gap-[12px] md:grid-cols-4 w-full md:w-[500px] lg:w-[600px] xl:w-[700px] py-[10px] mb-3 md:mb-0">
+    <div className="mb-3 grid w-full grid-cols-2 gap-[12px] py-[10px] md:mb-0 md:w-[500px] md:grid-cols-4 lg:w-[600px] xl:w-[700px]">
       <CurrencySwitch
         tokenSymbol={item.depositTokenSymbol}
         tokenValue={collateral ? Number(collateral) : 0}
-        className="font-rogan w-full space-y-1 py-4 text-center flex flex-col items-center justify-center rounded-[12px] border border-[1px] border-[#E6E6E6] bg-[#FCFCFC] dark:bg-transparent dark:border-[#1A1A1A] md:-my-4 md:border-none md:bg-transparent"
+        className="font-rogan flex w-full flex-col items-center justify-center space-y-1 rounded-[12px] border border-[1px] border-[#E6E6E6] bg-[#FCFCFC] py-4 text-center dark:border-[#1A1A1A] dark:bg-transparent md:-my-4 md:border-none md:bg-transparent"
         decimalScale={5}
         render={(value) => (
           <div>
@@ -474,7 +481,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
         tokenSymbol={item.borrowTokenSymbol}
         tokenValue={borrowed ? Number(borrowed) : 0}
         usdDefault
-        className="font-rogan w-full space-y-1 py-4 text-center flex flex-col items-center justify-center rounded-[12px] border border-[1px] border-[#E6E6E6] bg-[#FCFCFC] dark:bg-transparent dark:border-[#1A1A1A] md:-my-4 md:border-none md:bg-transparent"
+        className="font-rogan flex w-full flex-col items-center justify-center space-y-1 rounded-[12px] border border-[1px] border-[#E6E6E6] bg-[#FCFCFC] py-4 text-center dark:border-[#1A1A1A] dark:bg-transparent md:-my-4 md:border-none md:bg-transparent"
         decimalScale={5}
         render={(value) => (
           <div>
@@ -485,27 +492,29 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
           </div>
         )}
       />
-      <div className="font-rogan w-full space-y-1 py-4 text-center flex flex-col items-center justify-center rounded-[12px] border border-[1px] border-[#E6E6E6] bg-[#FCFCFC] dark:bg-transparent dark:border-[#1A1A1A] md:-my-4 md:border-none md:bg-transparent">
+      <div className="font-rogan flex w-full flex-col items-center justify-center space-y-1 rounded-[12px] border border-[1px] border-[#E6E6E6] bg-[#FCFCFC] py-4 text-center dark:border-[#1A1A1A] dark:bg-transparent md:-my-4 md:border-none md:bg-transparent">
         <p className="whitespace-nowrap text-[22px]">
           {!Number(collateralUsd)
             ? 0
-            : +((Number(borrowed || 0) / Number(collateralUsd)) * 100).toFixed(2) || 0}
+            : +((Number(borrowed || 0) / Number(collateralUsd)) * 100).toFixed(
+                2
+              ) || 0}
           %
         </p>
-        <p className="whitespace-nowrap font-rogan-regular text-[14px] text-[#959595]">
+        <p className="font-rogan-regular whitespace-nowrap text-[14px] text-[#959595]">
           Loan-to-value
         </p>
       </div>
-      <div className="font-rogan w-full space-y-1 py-4 text-center flex flex-col items-center justify-center rounded-[12px] border border-[1px] border-[#E6E6E6] bg-[#FCFCFC] dark:bg-transparent dark:border-[#1A1A1A] md:-my-4 md:border-none md:bg-transparent">
+      <div className="font-rogan flex w-full flex-col items-center justify-center space-y-1 rounded-[12px] border border-[1px] border-[#E6E6E6] bg-[#FCFCFC] py-4 text-center dark:border-[#1A1A1A] dark:bg-transparent md:-my-4 md:border-none md:bg-transparent">
         <p className="whitespace-nowrap text-[22px]">
           {borrowAPR ? -borrowAPR.toFixed(2) : 0}%
         </p>
-        <p className="whitespace-nowrap font-rogan-regular text-[14px] text-[#959595]">
+        <p className="font-rogan-regular whitespace-nowrap text-[14px] text-[#959595]">
           Variable APR
         </p>
       </div>
     </div>
-  )  
+  )
 
   if (isLoading)
     return (
@@ -516,9 +525,14 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
   else
     return (
       <>
-        <div className="rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 text-[#404040] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white">
-          <div className="flex items-center px-[18px] md:px-[24px] py-[10px]">
-            <div className="xl:w-[calc(100%-600px-64px)] font-rogan flex w-[calc(100%-64px)] items-center space-x-2 text-[22px] md:w-[calc(100%-400px-64px)] lg:w-[calc(100%-500px-64px)]">
+        <div
+          className={cn(
+            'rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 text-[#404040] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white',
+            className
+          )}
+        >
+          <div className="flex items-center px-[18px] py-[10px] md:px-[24px]">
+            <div className="font-rogan flex w-[calc(100%-64px)] items-center space-x-2 text-[22px] md:w-[calc(100%-400px-64px)] lg:w-[calc(100%-500px-64px)] xl:w-[calc(100%-600px-64px)]">
               <div className="flex items-center text-[22px]">
                 <div className="relative flex justify-center -space-x-14">
                   <img
@@ -527,8 +541,10 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                     alt=""
                   />
                   <img
-                    className="absolute z-1 w-[20px] md:w-[28px] object-cover bottom-1 right-1"
-                    src={`/icons/coin/${item.borrowTokenSymbol.toLowerCase()}${item.borrowTokenSymbol === 'USDC' ? '.svg' : '.png'}`}
+                    className="z-1 absolute bottom-1 right-1 w-[20px] object-cover md:w-[28px]"
+                    src={`/icons/coin/${item.borrowTokenSymbol.toLowerCase()}${
+                      item.borrowTokenSymbol === 'USDC' ? '.svg' : '.png'
+                    }`}
                     alt=""
                   />
                 </div>
@@ -538,7 +554,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                       <div className="mr-1 flex-shrink-0">{label}</div>
                       <div className="relative flex items-center">
                         <button
-                          className="ml-[4px] absolute"
+                          className="absolute ml-[4px]"
                           onClick={() => setEdit(true)}
                         >
                           <AiOutlineEdit />
@@ -552,11 +568,13 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                         className="min-w-[60px] bg-transparent"
                         value={label}
                         onChange={(e) => setLabel(e.target.value)}
-                        onKeyUp={(e) => e.key === 'Enter' && updateBorrowLabel()}
+                        onKeyUp={(e) =>
+                          e.key === 'Enter' && updateBorrowLabel()
+                        }
                       />
                       <div className="relative flex items-center">
                         <button
-                          className="ml-[4px] absolute"
+                          className="absolute ml-[4px]"
                           onClick={() => updateBorrowLabel()}
                         >
                           <AiOutlineCheck />
@@ -592,14 +610,15 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
           <div
             className={
               'flex flex-wrap overflow-hidden px-[16px] transition-all duration-300 sm:px-[24px]' +
-              ` ${isExpand
-                ? 'max-h-[1000px] py-[16px] ease-in'
-                : 'max-h-0 py-0 ease-out'
+              ` ${
+                isExpand
+                  ? 'max-h-[1000px] py-[16px] ease-in'
+                  : 'max-h-0 py-0 ease-out'
               }`
             }
           >
             <div className="w-full md:hidden">{summaryInfo}</div>
-            <div className="w-full md:w-[40%] lg:w-[50%] xl:w-[55%] mb-[24px] md:mb-0">
+            <div className="mb-[24px] w-full md:mb-0 md:w-[40%] lg:w-[50%] xl:w-[55%]">
               <BorrowItemChart
                 label="Borrow Apr"
                 tokenAddress={item?.borrowContractInfo.address}
@@ -612,7 +631,7 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                 aprPercent={-borrowAPR}
               />
             </div>
-            <div className="w-full space-y-4 md:space-y-5 md:w-[60%] md:pl-[36px] lg:w-[50%] xl:w-[45%]">
+            <div className="w-full space-y-4 md:w-[60%] md:space-y-5 md:pl-[36px] lg:w-[50%] xl:w-[45%]">
               <div className="flex items-center justify-between">
                 <p className="font-rogan text-[24px]">
                   {action}{' '}
@@ -627,9 +646,10 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
                         key={i}
                         className={
                           'w-[52px]  py-[8px] text-[10px] leading-none xs:w-[80px] xs:text-[12px]' +
-                          ` ${action === item
-                            ? 'rounded-md bg-[#F4F4F4] dark:bg-[#171717]'
-                            : 'text-[#959595]'
+                          ` ${
+                            action === item
+                              ? 'rounded-md bg-[#F4F4F4] dark:bg-[#171717]'
+                              : 'text-[#959595]'
                           }`
                         }
                         onClick={() => {
@@ -667,26 +687,33 @@ export default function BorrowItem({ item }: { item: IBorrowInfoManage }) {
               </div>
               {action === Action.Repay && (
                 <div className="w-full">
-                  <p className="font-rogan text-[18px] mb-2">Collateral Withdraw Amount</p>
+                  <p className="font-rogan mb-2 text-[18px]">
+                    Collateral Withdraw Amount
+                  </p>
                   <div className="flex items-center space-x-2">
-                      <p className="font-rogan text-[14px]">{sliderValue}%</p>
-                      <input
-                          type="range"
-                          min="0"
-                          max="100"
-                          value={sliderValue}
-                          className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
-                          onChange={(e) => handleSliderChange(parseInt(e.target.value))}
-                          style={{
-                              background: `linear-gradient(to right, #AA5BFF ${sliderValue}%, ${theme === 'light' ? '#E5E7EB' : '#374151'} ${sliderValue}%)`,
-                          }}
-                      />
+                    <p className="font-rogan text-[14px]">{sliderValue}%</p>
+                    <input
+                      type="range"
+                      min="0"
+                      max="100"
+                      value={sliderValue}
+                      className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 dark:bg-gray-700"
+                      onChange={(e) =>
+                        handleSliderChange(parseInt(e.target.value))
+                      }
+                      style={{
+                        background: `linear-gradient(to right, #AA5BFF ${sliderValue}%, ${
+                          theme === 'light' ? '#E5E7EB' : '#374151'
+                        } ${sliderValue}%)`,
+                      }}
+                    />
                   </div>
                 </div>
               )}
               <button
-                className={`font-rogan-regular mt-2 md:mt-3 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${buttonLoading && 'cursor-not-allowed opacity-50'
-                  }`}
+                className={`font-rogan-regular mt-2 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] md:mt-3 ${
+                  buttonLoading && 'cursor-not-allowed opacity-50'
+                }`}
                 disabled={buttonLoading}
                 onClick={handleAction}
               >
