@@ -16,15 +16,26 @@ export const EmptyPosition = () => {
           }`
         }
       >
-        <img
-          className="mt-[-6px] w-[112px]"
-          src={
-            theme === 'light'
-              ? '/images/ic-borrow-light.png'
-              : '/images/ic-borrow-dark.png'
-          }
-          alt=""
-        />
+        <div className="relative mt-[-6px] flex h-[112px] w-[112px] items-center justify-center">
+          <img
+            className="absolute inset-0 object-contain"
+            src={
+              theme === 'light'
+                ? '/images/ic-polygon-light.svg'
+                : '/images/ic-polygon-dark.svg'
+            }
+            alt=""
+          />
+          <img
+            className="relative w-[60%]"
+            src={
+              theme === 'light'
+                ? '/images/ic-positions.svg'
+                : '/images/ic-positions.svg'
+            }
+            alt=""
+          />
+        </div>
         <p className="font-rogan text-[24px] text-[#404040] dark:text-white">
           No positions yet
         </p>

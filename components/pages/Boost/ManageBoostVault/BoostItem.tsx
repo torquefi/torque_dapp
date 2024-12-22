@@ -34,17 +34,20 @@ import {
   updateCreatedComp,
   updateCreatedTorq,
 } from '@/lib/redux/slices/boost'
+import { cn } from '@/lib/helpers/utils'
 
 interface BoostItemProps {
   item: IBoostInfo
   onWithdrawSuccess?: VoidFunction
   setIsFetchBoostLoading?: any
+  className?: string
 }
 
 export function BoostItem({
   item,
   onWithdrawSuccess,
   setIsFetchBoostLoading,
+  className,
 }: BoostItemProps) {
   const { open } = useWeb3Modal()
   const chainId = useChainId()
@@ -67,9 +70,14 @@ export function BoostItem({
   const { tokensData, pricesUpdatedAt } = useTokensDataRequest(chainId)
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
   const { gasPrice } = useGasPrice(chainId)
-  const { createdWbtc, createdWeth, createdLink, createdUni, createdComp, createdTorq } = useSelector(
-    (state: AppState) => state.boost
-  )
+  const {
+    createdWbtc,
+    createdWeth,
+    createdLink,
+    createdUni,
+    createdComp,
+    createdTorq,
+  } = useSelector((state: AppState) => state.boost)
 
   const tokenContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
@@ -373,7 +381,12 @@ export function BoostItem({
 
   return (
     <>
-      <div className="dark-text-[#000] mt-[24px] grid w-full rounded-[12px] border border-[#E6E6E6] bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-[24px] py-[20px] text-[#464646] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white">
+      <div
+        className={cn(
+          'dark-text-[#000] mt-[24px] grid rounded-[12px] border border-[#E6E6E6] bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 px-[24px] py-[20px] text-[#464646] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white',
+          className
+        )}
+      >
         <div className="grid w-full grid-cols-2">
           <div className="font-rogan flex w-[calc(100%-64px)] items-center space-x-2 text-[22px] md:w-[calc(100%-400px-64px)] lg:w-[calc(100%-500px-64px)] xl:w-[calc(100%-600px-64px)]">
             <div className="flex items-center text-[22px]">
@@ -387,7 +400,7 @@ export function BoostItem({
                   <div className="mr-1 flex-shrink-0">{label}</div>
                   <div className="relative flex items-center">
                     <button
-                      className="ml-[4px] absolute"
+                      className="absolute ml-[4px]"
                       onClick={() => setEdit(true)}
                     >
                       <AiOutlineEdit />
@@ -405,7 +418,7 @@ export function BoostItem({
                   />
                   <div className="relative flex items-center">
                     <button
-                      className="ml-[4px] absolute"
+                      className="absolute ml-[4px]"
                       onClick={() => updateBoostLabel()}
                     >
                       <AiOutlineCheck />

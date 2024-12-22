@@ -1,15 +1,34 @@
-import { useAccount } from 'wagmi'
-import Web3 from 'web3'
-import { EmptyPosition } from './EmptyPosition'
-import { useSelector } from 'react-redux'
 import { AppStore } from '@/types/store'
+import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { useAccount } from 'wagmi'
+import { BoostItem } from '../../Boost/ManageBoostVault/BoostItem'
+import { useManageBoostData } from '../../Boost/ManageBoostVault/useManageBoostData'
+import BorrowItem from '../../Borrow/ManageBorrowVault/BorrowItem'
+import useManageBorrowData from '../../Borrow/ManageBorrowVault/useManageBorrowData'
+import { EmptyPosition } from './EmptyPosition'
+import { cn } from '@/lib/helpers/utils'
 
 export default function Position() {
   const theme = useSelector((store: AppStore) => store.theme.theme)
-  const web3 = new Web3(Web3.givenProvider)
+  const boost = useManageBoostData()
+  const borrow = useManageBorrowData()
+  const [rangePeriod, setRangePeriod] = useState('1D')
   const { address, isConnected } = useAccount()
 
-  if (0) {
+  const boostDisplayed = boost?.data?.filter(
+    (item) => Number(item.depositedBalance) > 0 || Number(item?.deposited) > 0
+  )
+  const borrowDisplayed = borrow?.data?.filter((item) => item?.borrowed > 0)
+  // const boostDisplayed = boost?.data
+  // const borrowDisplayed = borrow?.data
+
+  useEffect(() => {
+    boost.refresh()
+    borrow.refresh()
+  }, [address, isConnected])
+
+  if (!boostDisplayed?.length && !borrowDisplayed?.length) {
     return (
       <div className="mt-[40px] space-y-[18px]">
         <h3 className="font-rogan text-[12px] text-[#404040] dark:text-white">
@@ -21,86 +40,83 @@ export default function Position() {
     )
   }
 
-  const Item = () => {
-    return (
-      <div className="mx-[-1px] flex h-[106px] items-center space-x-[20px] rounded-[12px] border border-[#CDCDCD] bg-white px-[16px] dark:border-[#1D1D1D] dark:bg-[#030303] md:space-x-[36px] md:px-[32px]">
-        <div className="h-[32px] w-[32px] animate-pulse rounded-full bg-[#D9D9D9] dark:bg-[#535353] md:h-[48px] md:w-[48px]"></div>
-        <div className="flex-1">
-          <div className="h-[28px] w-[160px] animate-pulse rounded-full bg-[#D9D9D9] dark:bg-[#535353]"></div>
-        </div>
-        <div className="hidden space-x-[40px] md:flex">
-          <div className="h-[28px] w-[160px] animate-pulse rounded-full bg-[#D9D9D9] dark:bg-[#535353]"></div>
-          <div className="h-[28px] w-[160px] animate-pulse rounded-full bg-[#D9D9D9] dark:bg-[#535353]"></div>
-          <div className="h-[28px] w-[160px] animate-pulse rounded-full bg-[#D9D9D9] dark:bg-[#535353]"></div>
-        </div>
-        <img
-          className={'w-[18px] transition-all'}
-          src={
-            theme == 'light'
-              ? '/icons/dropdow-dark.png'
-              : '/icons/arrow-down.svg'
-          }
-          alt=""
-        />
-      </div>
-    )
-  }
-
   return (
     <div className="mt-[40px] space-y-[32px]">
-      <h3 className="font-rogan text-[28px] text-black dark:text-white">
-        Positions
-      </h3>
-
-      <div className="rounded-b-[12px] rounded-t-[8px] border-x border-[#CDCDCD] dark:border-[#1D1D1D]">
-        <div className="relative mb-[-32px]">
-          <div className="absolute inset-x-0 top-0 flex">
-            <div className="w-[calc(50%-100px)] bg-white dark:bg-[#030303]"></div>
-            <img
-              className="w-[200px]"
-              src={
-                theme == 'light'
-                  ? '/assets/pages/home/position-header-wrap.png'
-                  : '/assets/pages/home/position-header-wrap-dark.png'
-              }
-              alt=""
-            />
-            <div className="w-[calc(50%-100px)] bg-white dark:bg-[#030303]"></div>
-          </div>
-          <h4 className="pt-[8px] text-center font-bold text-black dark:text-white">
-            BOOST
-          </h4>
-        </div>
-        <div className="mx-[-1px] space-y-[32px] rounded-b-[12px] border-x border-[#CDCDCD] bg-[#F9F9F9] pt-[32px] dark:border-[#1D1D1D] dark:bg-[#141414]">
-          {[1, 2]?.map((item, i) => (
-            <Item key={i} />
+      <div className="flex items-center justify-between">
+        <h3 className="font-rogan text-[28px] text-black dark:text-white">
+          Positions
+        </h3>
+        <div className="flex space-x-[8px] rounded-[4px] border border-[#E6E6E6] p-[4px]">
+          {['1D', '1W', '1M', '1Y']?.map((item) => (
+            <button
+              className={cn(
+                'flex h-[32px] w-[32px] items-center justify-center rounded-[4px] text-[18px] text-[#959595]',
+                item === rangePeriod && 'bg-[#F5F5F5]'
+              )}
+              onClick={() => setRangePeriod(item)}
+            >
+              {item}
+            </button>
           ))}
         </div>
       </div>
 
-      <div className="rounded-b-[12px] rounded-t-[8px] border-x border-[#CDCDCD] dark:border-[#1D1D1D]">
-        <div className="relative mb-[-32px]">
-          <div className="absolute inset-x-0 top-0 flex">
-            <div className="w-[calc(50%-100px)] bg-white dark:bg-[#030303]"></div>
-            <img
-              className="w-[200px]"
-              src={
-                theme == 'light'
-                  ? '/assets/pages/home/position-header-wrap.png'
-                  : '/assets/pages/home/position-header-wrap-dark.png'
-              }
-              alt=""
-            />
-            <div className="w-[calc(50%-100px)] bg-white dark:bg-[#030303]"></div>
+      <div>
+        <div className="flex bg-[#F9F9F9] dark:bg-[#141414]">
+          <div className="w-[calc(50%-100px)] bg-white dark:bg-[#030303]"></div>
+          <img
+            className="w-[200px]"
+            src={
+              theme == 'light'
+                ? '/assets/pages/home/position-header-wrap.png'
+                : '/assets/pages/home/position-header-wrap-dark.png'
+            }
+            alt=""
+          />
+          <div className="w-[calc(50%-100px)] bg-white dark:bg-[#030303]"></div>
+        </div>
+        <div className="overflow-hidden rounded-[12px] border-x border-[#E6E6E6] bg-[#F9F9F9] dark:border-[#1D1D1D] dark:bg-[#141414]">
+          <h4 className="text-center font-bold text-black dark:text-white">
+            BOOST
+          </h4>
+          <div className="mx-[-1px] mt-[12px] space-y-[20px] rounded-b-[12px] border-x border-[#E6E6E6] dark:border-[#1D1D1D]">
+            {boostDisplayed.map((item, i) => (
+              <BoostItem
+                item={item}
+                onWithdrawSuccess={boost.refresh}
+                className="mx-[-1px] mt-0"
+              />
+            ))}
           </div>
-          <h4 className="pt-[8px] text-center font-bold text-black dark:text-white">
+        </div>
+      </div>
+
+      <div>
+        <div className="flex bg-[#F9F9F9] dark:bg-[#141414]">
+          <div className="w-[calc(50%-100px)] bg-white dark:bg-[#030303]"></div>
+          <img
+            className="w-[200px]"
+            src={
+              theme == 'light'
+                ? '/assets/pages/home/position-header-wrap.png'
+                : '/assets/pages/home/position-header-wrap-dark.png'
+            }
+            alt=""
+          />
+          <div className="w-[calc(50%-100px)] bg-white dark:bg-[#030303]"></div>
+        </div>
+        <div className="rounded-[12px] border-x border-[#E6E6E6] bg-[#F9F9F9] dark:border-[#1D1D1D] dark:bg-[#141414]">
+          <h4 className="text-center font-bold text-black dark:text-white">
             BORROW
           </h4>
-        </div>
-        <div className="mx-[-1px] space-y-[32px] rounded-b-[12px] border-x border-[#CDCDCD] bg-[#F9F9F9] pt-[32px] dark:border-[#1D1D1D] dark:bg-[#141414]">
-          {[1, 2]?.map((item, i) => (
-            <Item key={i} />
-          ))}
+          <div className="mx-[-1px] mt-[12px] space-y-[20px] rounded-b-[12px] border-x border-[#E6E6E6] dark:border-[#1D1D1D]">
+            {borrowDisplayed.map((item, i) => (
+              <BorrowItem key={i} item={item} className="mx-[-1px] mt-0" />
+            ))}
+            {/* {[1, 2]?.map((item, i) => (
+            <ItemSkeleton key={i} />
+          ))} */}
+          </div>
         </div>
       </div>
     </div>
