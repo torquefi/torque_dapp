@@ -1,3 +1,6 @@
+import HoverIndicator from '@/components/common/HoverIndicator'
+import SkeletonDefault from '@/components/skeleton'
+import { cn } from '@/lib/helpers/utils'
 import { AppStore } from '@/types/store'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -7,14 +10,13 @@ import { useManageBoostData } from '../../Boost/ManageBoostVault/useManageBoostD
 import BorrowItem from '../../Borrow/ManageBorrowVault/BorrowItem'
 import useManageBorrowData from '../../Borrow/ManageBorrowVault/useManageBorrowData'
 import { EmptyPosition } from './EmptyPosition'
-import { cn } from '@/lib/helpers/utils'
-import HoverIndicator from '@/components/common/HoverIndicator'
 
 export default function Position() {
   const theme = useSelector((store: AppStore) => store.theme.theme)
   const boost = useManageBoostData()
   const borrow = useManageBorrowData()
   const [rangePeriod, setRangePeriod] = useState('1Y')
+  const [isSkeletonLoading, setIsSkeletonLoading] = useState(true)
   const { address, isConnected } = useAccount()
 
   const boostDisplayed = boost?.data?.filter(
@@ -27,11 +29,15 @@ export default function Position() {
     borrow.refresh()
   }, [address, isConnected])
 
+  useEffect(() => {
+    setTimeout(() => setIsSkeletonLoading(false), 1000)
+  }, [])
+
   const timePeriodButtons = (
-    <div className="flex text-[#959595] w-auto items-center justify-center rounded-[4px] border border-[#efefef] bg-transparent px-[3px] py-[4px] dark:border-[#1a1a1a]">
+    <div className="flex w-auto items-center justify-center rounded-[4px] border border-[#efefef] bg-transparent px-[3px] py-[4px] text-[#959595] dark:border-[#1a1a1a]">
       <HoverIndicator
         activeIndex={['1D', '1W', '1M', '1Y'].indexOf(rangePeriod || '1Y')}
-        className="flex justify-between w-full"
+        className="flex w-full justify-between"
       >
         {['1D', '1W', '1M', '1Y'].map((item) => (
           <button
@@ -49,6 +55,26 @@ export default function Position() {
     </div>
   )
 
+  if (isSkeletonLoading || boost.isLoading || boost.isLoading) {
+    return (
+      <div className="mb-4 mt-[24px]">
+        <div className="flex items-center justify-between">
+          <div className="flex-1">
+            <SkeletonDefault height={'34px'} width={'100px'} />
+          </div>
+          <div className="flex space-x-2">
+            <SkeletonDefault height={'36px'} width={'160px'} />
+          </div>
+        </div>
+        <div className="mt-[24px] space-y-[24px]">
+          <SkeletonDefault height={'100px'} width={'100%'} className="block" />
+          <SkeletonDefault height={'100px'} width={'100%'} className="block" />
+          <SkeletonDefault height={'100px'} width={'100%'} className="block" />
+        </div>
+      </div>
+    )
+  }
+
   if (!boostDisplayed?.length && !borrowDisplayed?.length) {
     return (
       <div className="mt-[24px]">
@@ -64,7 +90,7 @@ export default function Position() {
   }
 
   return (
-    <div className="mt-[24px] mb-4">
+    <div className="mb-4 mt-[24px]">
       <div className="flex items-center justify-between">
         <h3 className="font-rogan text-[28px] text-black dark:text-white">
           Positions

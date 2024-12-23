@@ -23,7 +23,7 @@ export default function useManageBorrowData() {
   const web3 = new Web3(Web3.givenProvider)
   const { address, isConnected } = useAccount()
   const [dataBorrow, setDataBorrow] = useState(DATA_BORROW)
-  const [isSkeletonLoading, setSkeletonLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
 
   const getBorrowData = async (item: IBorrowInfoManage) => {
     try {
@@ -104,7 +104,7 @@ export default function useManageBorrowData() {
   }
 
   const handleUpdateBorrowData = async () => {
-    setSkeletonLoading(true)
+    setIsLoading(true)
     let dataBorrow: IBorrowInfoManage[] = []
 
     try {
@@ -135,12 +135,12 @@ export default function useManageBorrowData() {
     }
 
     setDataBorrow(dataBorrow)
-    setSkeletonLoading(false)
+    setIsLoading(false)
   }
 
   return {
     data: dataBorrow,
-    isLoading: isSkeletonLoading,
+    isLoading: isLoading,
     refresh: handleUpdateBorrowData,
   }
 }
