@@ -23,7 +23,7 @@ import { IBoostInfo } from '../types'
 export function useManageBoostData() {
   const { address, isConnected } = useAccount()
   const [dataBoost, setDataBoost] = useState<IBoostInfo[]>(DATA_BOOST_VAULT)
-  const [isSkeletonLoading, setSkeletonLoading] = useState(true)
+  const [isLoading, setLoading] = useState(false)
   // const address = '0xc67Ba1769fA080261A9E88a9548c3D09431c84D0'
   const getBoostData = async (item: (typeof DATA_BOOST_VAULT)[0]) => {
     if (!isConnected || !address) {
@@ -109,7 +109,7 @@ export function useManageBoostData() {
 
   const handleUpdateBoostData = async (loading = false) => {
     if (loading) {
-      setSkeletonLoading(true)
+      setLoading(true)
     }
     let dataBoost: IBoostInfo[] = DATA_BOOST_VAULT
     try {
@@ -137,13 +137,13 @@ export function useManageBoostData() {
     }
     setDataBoost(dataBoost)
     if (loading) {
-      setSkeletonLoading(false)
+      setLoading(false)
     }
   }
 
   return {
     data: dataBoost,
-    isLoading: isSkeletonLoading,
+    isLoading: isLoading,
     refresh: handleUpdateBoostData,
   }
 }
