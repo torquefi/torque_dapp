@@ -24,6 +24,7 @@ import {
 import { useGasLimits } from '../hooks/useGasLimits'
 import { useGasPrice } from '../hooks/useGasPrice'
 import { RPC_PROVIDER } from '@/constants/networks'
+import AllocationModal from './AllocationModal'
 
 const RPC = 'https://arb1.arbitrum.io/rpc'
 
@@ -39,6 +40,7 @@ export function CreateBoostItem({
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
   const [isOpenConfirmDepositModal, setOpenConfirmDepositModal] =
     useState(false)
+  const [isOpenAllocationModal, setIsOpenAllocationModal] = useState(false)
   const [isUsdDepositToken, setIsUsdDepositToken] = useState(true)
   const [amount, setAmount] = useState<number>(0)
   const [amountRaw, setAmountRaw] = useState(0)
@@ -148,7 +150,8 @@ export function CreateBoostItem({
     if (!+amount) {
       return toast.error('You must input amount to supply')
     }
-    setOpenConfirmDepositModal(true)
+    setIsOpenAllocationModal(true)
+    // setOpenConfirmDepositModal(true)
   }
 
   const onDeposit = async () => {
@@ -444,7 +447,10 @@ export function CreateBoostItem({
               </button>
             </Popover>
           </div>
-          <div>{['COMP', 'TORQ'].includes(item.token) ? '100:0' : '50:50'}</div>
+          {/* <div>{['COMP', 'TORQ'].includes(item.token) ? '100:0' : '50:50'}</div> */}
+          <div>
+            {item?.firstAllocation}:{item?.secondAllocation}
+          </div>
         </div>
         <div className="font-rogan-regular flex w-full items-center justify-between text-[16px] text-[#959595]">
           <div className="flex items-center justify-center">
@@ -501,6 +507,18 @@ export function CreateBoostItem({
       <ConnectWalletModal
         openModal={isOpenConnectWalletModal}
         handleClose={() => setOpenConnectWalletModal(false)}
+      />
+
+      <AllocationModal
+        open={isOpenAllocationModal}
+        handleClose={() => {
+          setIsOpenAllocationModal(false)
+        }}
+        item={item}
+        onConfirm={() => {
+          setIsOpenAllocationModal(false)
+          setOpenConfirmDepositModal(true)
+        }}
       />
 
       <ConfirmDepositModal

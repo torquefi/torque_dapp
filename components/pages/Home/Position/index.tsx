@@ -98,36 +98,40 @@ export default function Position() {
         {timePeriodButtons}
       </div>
 
-      <div>
-        <div className="overflow-hidden rounded-[12px] border-x border-[#E6E6E6] bg-[#F9F9F9] dark:border-[#1D1D1D] dark:bg-[#141414]">
-          <h4 className="text-center font-bold text-black dark:text-white">
-            BOOST
-          </h4>
-          <div className="mx-[-1px] mt-[12px] space-y-[20px] rounded-b-[12px] border-x border-[#E6E6E6] dark:border-[#1D1D1D]">
-            {boostDisplayed.map((item, i) => (
-              <BoostItem
-                key={i}
-                item={item}
-                onWithdrawSuccess={boost.refresh}
-                className="mx-[-1px] mt-0"
-              />
-            ))}
+      {boostDisplayed?.length > 0 && (
+        <div>
+          <div className="overflow-hidden rounded-[12px] border-x border-[#E6E6E6] bg-[#F9F9F9] dark:border-[#1D1D1D] dark:bg-[#141414]">
+            <h4 className="text-center font-bold text-black dark:text-white">
+              BOOST
+            </h4>
+            <div className="mx-[-1px] mt-[12px] space-y-[20px] rounded-b-[12px] border-x border-[#E6E6E6] dark:border-[#1D1D1D]">
+              {boostDisplayed.map((item, i) => (
+                <BoostItem
+                  key={i}
+                  item={item}
+                  onWithdrawSuccess={boost.refresh}
+                  className="mx-[-1px] mt-0"
+                />
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
-      <div>
-        <div className="overflow-hidden rounded-[12px] border-x border-[#E6E6E6] bg-[#F9F9F9] dark:border-[#1D1D1D] dark:bg-[#141414]">
-          <h4 className="text-center font-bold text-black dark:text-white">
-            BORROW
-          </h4>
-          <div className="mx-[-1px] mt-[12px] space-y-[20px] rounded-b-[12px] border-x border-[#E6E6E6] dark:border-[#1D1D1D]">
-            {borrowDisplayed.map((item, i) => (
-              <BorrowItem key={i} item={item} className="mx-[-1px] mt-0" />
-            ))}
+      {borrowDisplayed?.length > 0 && (
+        <div>
+          <div className="overflow-hidden rounded-[12px] border-x border-[#E6E6E6] bg-[#F9F9F9] dark:border-[#1D1D1D] dark:bg-[#141414]">
+            <h4 className="text-center font-bold text-black dark:text-white">
+              BORROW
+            </h4>
+            <div className="mx-[-1px] mt-[12px] space-y-[20px] rounded-b-[12px] border-x border-[#E6E6E6] dark:border-[#1D1D1D]">
+              {borrowDisplayed.map((item, i) => (
+                <BorrowItem key={i} item={item} className="mx-[-1px] mt-0" />
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }
