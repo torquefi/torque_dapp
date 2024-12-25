@@ -24,7 +24,10 @@ import RcTooltip from '@/components/common/RcTooltip'
 import { CreateRowBoostItem } from './createRowBoostItem'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppStore } from '@/types/store'
-import { updateLayoutBoost, updateVisibilityBoostBanner } from '@/lib/redux/slices/layout'
+import {
+  updateLayoutBoost,
+  updateVisibilityBoostBanner,
+} from '@/lib/redux/slices/layout'
 import UniSwapModal from '@/components/common/Modal/UniswapModal'
 
 export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
@@ -47,11 +50,8 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
       const aprs: any[] = aprRes?.data || []
       dataBoost = dataBoost?.map((item) => ({
         ...item,
-        APR: (aprs?.find(
-          (apr) => apr?.name === item?.token
-        )?.apr || 0)
-      })
-      )
+        APR: aprs?.find((apr) => apr?.name === item?.token)?.apr || 0,
+      }))
       // dataBoost = await Promise.all(dataBoost?.map(getBoostData))
       setBoostVault(dataBoost)
     } catch (error) {
@@ -103,11 +103,11 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
           <div className="flex h-[36px] w-auto items-center justify-center rounded-[4px] border border-[#efefef] bg-transparent px-[3px] py-[4px] dark:border-[#1a1a1a]">
             <HoverIndicator
               activeIndex={layoutBoost === 'row' ? 0 : 1}
-              className="flex justify-between w-full"
+              className="flex w-full justify-between"
             >
               <button
                 id="rowViewButton"
-                className="focus:outline-none cursor-not-allowed"
+                className="cursor-not-allowed focus:outline-none"
                 // onClick={() => {
                 //   dispatch(updateLayoutBoost('row' as any))
                 // }}
@@ -115,8 +115,9 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
                 <img
                   src="../icons/rows.svg"
                   alt="Row View"
-                  className={`ml-[6px] mr-[6px] h-6 w-6 ${layoutBoost === 'row' ? 'text-[#030303]' : 'text-[#959595]'
-                    } dark:text-white`}
+                  className={`ml-[6px] mr-[6px] h-6 w-6 ${
+                    layoutBoost === 'row' ? 'text-[#030303]' : 'text-[#959595]'
+                  } dark:text-white`}
                 />
               </button>
               <button
@@ -129,8 +130,9 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
                 <img
                   src="../icons/grid.svg"
                   alt="Grid View"
-                  className={`ml-[6px] mr-[6px] h-6 w-6 ${layoutBoost === 'grid' ? 'text-[#030303]' : 'text-[#959595]'
-                    } dark:text-white`}
+                  className={`ml-[6px] mr-[6px] h-6 w-6 ${
+                    layoutBoost === 'grid' ? 'text-[#030303]' : 'text-[#959595]'
+                  } dark:text-white`}
                 />
               </button>
             </HoverIndicator>
@@ -158,8 +160,9 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
             className={
               `h-[1px] w-full` +
               `
-      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
-              }`
+      ${
+        theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+      }`
             }
           ></div>
           <table className="min-w-[1000px] md:min-w-full">
@@ -173,7 +176,7 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
-                      className={`font-rogan-regular text-[#030303] dark:text-white py-1 items-center flex w-[200px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
+                      className={`font-rogan-regular flex w-[200px] items-center border border-[#e5e7eb] bg-[#fff] py-1 text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
                       content="Select your preferred tokenized asset to be supplied."
                     >
                       <button className="ml-[5px]">
@@ -194,7 +197,7 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
-                      className={`font-rogan-regular text-[#030303] dark:text-white py-1 items-center flex w-[210px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
+                      className={`font-rogan-regular flex w-[210px] items-center border border-[#e5e7eb] bg-[#fff] py-1 text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
                       content="Capture diversified yield within a single, seamless transaction."
                     >
                       <button className="ml-[5px]">
@@ -215,7 +218,7 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
-                      className={`font-rogan-regular text-[#030303] dark:text-white py-1 items-center flex w-[210px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
+                      className={`font-rogan-regular flex w-[210px] items-center border border-[#e5e7eb] bg-[#fff] py-1 text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
                       content="Supplied assets are automatically routed across yield providers."
                     >
                       <button className="mt-[ ml-[5px]">
@@ -236,7 +239,7 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
-                      className={`font-rogan-regular text-[#030303] dark:text-white py-1 items-center flex w-[200px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
+                      className={`font-rogan-regular flex w-[200px] items-center border border-[#e5e7eb] bg-[#fff] py-1 text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
                       content="On-chain estimate based on prevailing market conditions."
                     >
                       <button className="ml-[5px]">
@@ -257,7 +260,7 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
-                      className={`font-rogan-regular text-[#030303] dark:text-white py-1 items-center flex w-[220px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
+                      className={`font-rogan-regular flex w-[220px] items-center border border-[#e5e7eb] bg-[#fff] py-1 text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
                       content="The projected TORQ rewards after 1 year of $1,000 supplied."
                     >
                       <button className="ml-[5px]">
@@ -278,7 +281,7 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
                     <RcTooltip
                       trigger="hover"
                       placement="topLeft"
-                      className={`font-rogan-regular text-[#030303] dark:text-white py-1 items-center flex w-[220px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight dark:border-[#1A1A1A] dark:bg-[#0d0d0d]`}
+                      className={`font-rogan-regular flex w-[220px] items-center border border-[#e5e7eb] bg-[#fff] py-1 text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
                       content="The total value of currently supplied tokenized assets."
                     >
                       <button className="ml-[5px]">
@@ -306,7 +309,10 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
           <div
             className={
               `h-[1px] w-full` +
-              `${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+              `${
+                theme === 'light'
+                  ? 'bg-gradient-divider-light'
+                  : 'bg-gradient-divider'
               }`
             }
           ></div>
@@ -338,6 +344,12 @@ const BOOST_VAULTS = [
     boostContractInfo: boostWbtcContract,
     gmxContractInfo: gmxWbtcContract,
     routed: 'GMX/UNI',
+    firstAllocation: 50,
+    secondAllocation: 50,
+    firstRoute: 'GMX',
+    secondRoute: 'Uniswap',
+    firstVersionAllocation: 'V2 GM',
+    secondVersionAllocation: 'V2 ETH',
   },
   {
     token: 'WETH',
@@ -360,6 +372,12 @@ const BOOST_VAULTS = [
     boostContractInfo: boostWethContract,
     gmxContractInfo: gmxWethContract,
     routed: 'GMX/STG',
+    firstAllocation: 50,
+    secondAllocation: 50,
+    firstRoute: 'GMX',
+    secondRoute: 'Stargate',
+    firstVersionAllocation: 'V2 GM',
+    secondVersionAllocation: 'V2 ETH',
   },
   {
     token: 'LINK',
@@ -382,6 +400,12 @@ const BOOST_VAULTS = [
     boostContractInfo: boostLinkContract,
     gmxContractInfo: gmxLinkContract,
     routed: 'GMX/UNI',
+    firstAllocation: 50,
+    secondAllocation: 50,
+    firstRoute: 'GMX',
+    secondRoute: 'Uniswap',
+    firstVersionAllocation: 'V2 GM',
+    secondVersionAllocation: 'V2 ETH',
   },
   {
     token: 'UNI',
@@ -404,6 +428,12 @@ const BOOST_VAULTS = [
     boostContractInfo: boostUniContract,
     gmxContractInfo: gmxUniContract,
     routed: 'GMX/UNI',
+    firstAllocation: 50,
+    secondAllocation: 50,
+    firstRoute: 'GMX',
+    secondRoute: 'Uniswap',
+    firstVersionAllocation: 'V2 GM',
+    secondVersionAllocation: 'V2 ETH',
   },
   {
     token: 'COMP',
@@ -426,6 +456,12 @@ const BOOST_VAULTS = [
     boostContractInfo: boostCompContract,
     gmxContractInfo: gmxUniContract,
     routed: 'UNI/SUSHI',
+    firstAllocation: 100,
+    secondAllocation: 0,
+    firstRoute: 'Uniswap',
+    secondRoute: 'Sushi',
+    firstVersionAllocation: 'V2 ETH',
+    secondVersionAllocation: 'V2 ETH',
   },
   {
     token: 'TORQ',
@@ -448,5 +484,11 @@ const BOOST_VAULTS = [
     boostContractInfo: boostTorqContract,
     gmxContractInfo: gmxUniContract,
     routed: 'UNI/SUSHI',
+    firstAllocation: 100,
+    secondAllocation: 0,
+    firstRoute: 'Uniswap',
+    secondRoute: 'Sushi',
+    firstVersionAllocation: 'V2 ETH',
+    secondVersionAllocation: 'V2 ETH',
   },
 ]
