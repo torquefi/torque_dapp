@@ -84,7 +84,7 @@ const AllocationModal = ({
                 checked={isCheckedFirst}
                 className="peer sr-only"
               />
-              <div className="h-6 w-12 rounded-full border border-[#F4F4F4] bg-[#fff] shadow-inner after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-[#fff] after:transition-all after:content-[''] peer-checked:after:translate-x-[110%] dark:border-[#1D1D1D] dark:bg-[#141414] after:dark:bg-[#3B3B3B] peer-checked:dark:bg-[#AA5BFF]" />
+              <div className="h-6 w-12 rounded-full border border-[#F4F4F4] bg-[#D2D5DA] shadow-inner after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-[#fff] after:transition-all after:content-[''] peer-checked:after:translate-x-[110%] dark:border-[#1D1D1D] dark:bg-[#141414] after:dark:bg-[#3B3B3B] peer-checked:bg-[#AA5BFF]" />
             </label>
           </div>
           <div className="mt-[32px]">
@@ -169,7 +169,7 @@ const AllocationModal = ({
                 checked={isCheckedSecond}
                 className="peer sr-only"
               />
-              <div className="h-6 w-12 rounded-full border border-[#F4F4F4] bg-[#fff] shadow-inner after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-[#fff] after:transition-all after:content-[''] peer-checked:after:translate-x-[110%] dark:border-[#1D1D1D] dark:bg-[#141414] after:dark:bg-[#3B3B3B] peer-checked:dark:bg-[#AA5BFF]" />
+              <div className="h-6 w-12 rounded-full border border-[#F4F4F4] bg-[#D2D5DA] shadow-inner after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-[#fff] after:transition-all after:content-[''] peer-checked:after:translate-x-[110%] dark:border-[#1D1D1D] dark:bg-[#141414] after:dark:bg-[#3B3B3B] peer-checked:bg-[#AA5BFF]" />
             </label>
           </div>
           <div className="mt-[32px]">
