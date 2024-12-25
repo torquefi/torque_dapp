@@ -20,21 +20,38 @@ const AllocationModal = ({
   const [secondAllocation, setSecondAllocation] = useState(
     item?.secondAllocation
   )
+  const [editFirstAllocation, setEditFirstAllocation] = useState(
+    item?.firstAllocation
+  )
+  const [editSecondAllocation, setEditSecondAllocation] = useState(
+    item?.secondAllocation
+  )
   const [isCheckedFirst, setIsCheckedFirst] = useState(false)
   const [isCheckedSecond, setIsCheckedSecond] = useState(false)
 
   useEffect(() => {
     if (open && item) {
+      setEditFirstAllocation(item?.firstAllocation)
+      setEditSecondAllocation(item?.secondAllocation)
       setFirstAllocation(item?.firstAllocation)
       setSecondAllocation(item?.secondAllocation)
     }
-  }, [item])
+
+    if (!open) {
+      setIsEditFirst(false)
+      setIsEditSecond(false)
+    }
+  }, [item, open])
+
+  console.log('editFirstAllocation :>> ', editFirstAllocation)
 
   return (
     <Modal
       className="mx-auto w-[90%] max-w-[540px] bg-[#FFFFFF] px-[22px] dark:bg-[#030303]"
       open={open}
-      handleClose={handleClose}
+      handleClose={() => {
+        handleClose()
+      }}
       hideCloseIcon
     >
       <div className="flex items-center justify-between py-1">
@@ -56,12 +73,18 @@ const AllocationModal = ({
             />
             <label className="relative inline-flex cursor-pointer items-center">
               <input
-                onChange={(e) => setIsCheckedFirst(e.target.checked)}
+                onChange={(e) => {
+                  setIsCheckedSecond(false)
+                  setIsEditFirst(false)
+                  setIsCheckedFirst(e.target.checked)
+                  setFirstAllocation(item?.firstAllocation)
+                  setEditFirstAllocation(item?.firstAllocation)
+                }}
                 type="checkbox"
                 checked={isCheckedFirst}
                 className="peer sr-only"
               />
-              <div className="h-6 w-12 rounded-full border border-[#F4F4F4] bg-[#AA5BFF] shadow-inner after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-[#fff] after:transition-all after:content-[''] peer-checked:after:translate-x-[110%] dark:border-[#1D1D1D] after:dark:bg-[#3B3B3B] peer-checked:dark:bg-[#0D0D0D]" />
+              <div className="h-6 w-12 rounded-full border border-[#F4F4F4] bg-[#fff] shadow-inner after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-[#fff] after:transition-all after:content-[''] peer-checked:after:translate-x-[110%] dark:border-[#1D1D1D] dark:bg-[#141414] after:dark:bg-[#3B3B3B] peer-checked:dark:bg-[#AA5BFF]" />
             </label>
           </div>
           <div className="mt-[32px]">
@@ -71,9 +94,29 @@ const AllocationModal = ({
               </p>
               <p className="font-rogan cursor-pointer text-[16px] font-semibold text-[#959595] underline">
                 {!isEditFirst ? (
-                  <AiOutlineEdit onClick={() => setIsEditFirst(true)} />
+                  <AiOutlineEdit
+                    onClick={() => {
+                      if (isCheckedFirst) {
+                        setIsEditFirst(true)
+                        setIsEditSecond(false)
+                        setEditSecondAllocation(item?.secondAllocation)
+                        setSecondAllocation(item?.secondAllocation)
+                      }
+                    }}
+                  />
                 ) : (
-                  <AiOutlineCheck onClick={() => setIsEditFirst(false)} />
+                  <AiOutlineCheck
+                    onClick={() => {
+                      setFirstAllocation(editFirstAllocation)
+                      setSecondAllocation(
+                        100 - Number(editFirstAllocation) > 0
+                          ? 100 - Number(editFirstAllocation)
+                          : 0
+                      )
+                      setIsEditFirst(false)
+                      setIsEditSecond(false)
+                    }}
+                  />
                 )}
               </p>
             </div>
@@ -82,11 +125,23 @@ const AllocationModal = ({
                 {item?.firstRoute}
               </p>
               <p className="font-rogan text-[20px] font-semibold text-[#030303] dark:text-white">
-                {!isEditFirst ? (
+                {isEditFirst ? (
                   <NumericFormat
-                    value={firstAllocation}
+                    value={editFirstAllocation}
                     thousandSeparator
                     suffix="%"
+                    allowNegative={false}
+                    decimalScale={0}
+                    isAllowed={(values) => {
+                      const { floatValue } = values
+                      return floatValue <= 100
+                    }}
+                    onChange={(e) => {
+                      const newValue = e.target.value.replace(/[^0-9]/g, '')
+                      if (Number(newValue) > 100) return
+                      setEditFirstAllocation(newValue)
+                    }}
+                    className="w-full bg-transparent pl-[8px] text-right"
                   />
                 ) : (
                   `${firstAllocation}%`
@@ -104,12 +159,17 @@ const AllocationModal = ({
 
             <label className="relative inline-flex cursor-pointer items-center">
               <input
-                // onChange={(e) => handleDarkMode(e)}
+                onChange={(e) => {
+                  setIsCheckedSecond(e.target.checked)
+                  setIsEditSecond(false)
+                  setEditFirstAllocation(item?.firstAllocation)
+                  setFirstAllocation(item?.firstAllocation)
+                }}
                 type="checkbox"
                 checked={isCheckedSecond}
                 className="peer sr-only"
               />
-              <div className="h-6 w-12 rounded-full border border-[#F4F4F4] bg-[#AA5BFF] shadow-inner after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-[#fff] after:transition-all after:content-[''] peer-checked:after:translate-x-[110%] dark:border-[#1D1D1D] after:dark:bg-[#3B3B3B] peer-checked:dark:bg-[#0D0D0D]" />
+              <div className="h-6 w-12 rounded-full border border-[#F4F4F4] bg-[#fff] shadow-inner after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-[#fff] after:transition-all after:content-[''] peer-checked:after:translate-x-[110%] dark:border-[#1D1D1D] dark:bg-[#141414] after:dark:bg-[#3B3B3B] peer-checked:dark:bg-[#AA5BFF]" />
             </label>
           </div>
           <div className="mt-[32px]">
@@ -119,9 +179,20 @@ const AllocationModal = ({
               </p>
               <p className="font-rogan cursor-pointer text-[16px] font-semibold text-[#959595] underline">
                 {!isEditSecond ? (
-                  <AiOutlineEdit onClick={() => setIsEditSecond(true)} />
+                  <AiOutlineEdit
+                    onClick={() => {
+                      setIsEditSecond(true)
+                      setIsEditFirst(false)
+                      setEditFirstAllocation(item?.secondAllocation)
+                      setFirstAllocation(item?.secondAllocation)
+                    }}
+                  />
                 ) : (
-                  <AiOutlineCheck onClick={() => setIsEditSecond(false)} />
+                  <AiOutlineCheck
+                    onClick={() => {
+                      setIsEditSecond(false)
+                    }}
+                  />
                 )}
               </p>
             </div>
@@ -130,7 +201,27 @@ const AllocationModal = ({
                 {item?.secondRoute}
               </p>
               <p className="font-rogan text-[20px] font-semibold text-[#030303] dark:text-white">
-                {secondAllocation}%
+                {isEditSecond ? (
+                  <NumericFormat
+                    value={editSecondAllocation}
+                    thousandSeparator
+                    suffix="%"
+                    allowNegative={false}
+                    decimalScale={0}
+                    isAllowed={(values) => {
+                      const { floatValue } = values
+                      return floatValue <= 100
+                    }}
+                    onChange={(e) => {
+                      const newValue = e.target.value.replace(/[^0-9]/g, '')
+                      if (Number(newValue) > 100) return
+                      setEditSecondAllocation(newValue)
+                    }}
+                    className="w-full bg-transparent pl-[8px] text-right"
+                  />
+                ) : (
+                  `${secondAllocation}%`
+                )}
               </p>
             </div>
           </div>
