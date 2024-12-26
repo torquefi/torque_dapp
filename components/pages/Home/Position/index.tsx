@@ -10,6 +10,7 @@ import { useManageBoostData } from '../../Boost/ManageBoostVault/useManageBoostD
 import BorrowItem from '../../Borrow/ManageBorrowVault/BorrowItem'
 import useManageBorrowData from '../../Borrow/ManageBorrowVault/useManageBorrowData'
 import { EmptyPosition } from './EmptyPosition'
+import TitleDecorator from './TitleDecorator'
 
 export default function Position() {
   const theme = useSelector((store: AppStore) => store.theme.theme)
@@ -100,7 +101,8 @@ export default function Position() {
 
       {boostDisplayed?.length > 0 && (
         <div className="mt-[24px]">
-          <div className="overflow-hidden rounded-[12px] border-x border-[#E6E6E6] bg-[#F9F9F9] dark:border-[#1D1D1D] dark:bg-[#141414]">
+          <TitleDecorator />
+          <div className="overflow-hidden rounded-[12px] border-x border-t border-[#E6E6E6] bg-[#F9F9F9] dark:border-[#1D1D1D] dark:bg-[#141414]">
             <h4 className="text-center font-bold text-black dark:text-white">
               BOOST
             </h4>
@@ -120,7 +122,8 @@ export default function Position() {
 
       {borrowDisplayed?.length > 0 && (
         <div className="mt-[24px]">
-          <div className="overflow-hidden rounded-[12px] border-x border-[#E6E6E6] bg-[#F9F9F9] dark:border-[#1D1D1D] dark:bg-[#141414]">
+          <TitleDecorator />
+          <div className="overflow-hidden rounded-[12px] border-x border-t border-[#E6E6E6] bg-[#F9F9F9] dark:border-[#1D1D1D] dark:bg-[#141414]">
             <h4 className="text-center font-bold text-black dark:text-white">
               BORROW
             </h4>
