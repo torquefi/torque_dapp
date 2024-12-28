@@ -100,7 +100,7 @@ export default function Position() {
       </div>
 
       {boostDisplayed?.length > 0 && (
-        <div className="mt-[18px]">
+        <div className="mt-[6px]">
           <TitleDecorator />
           <div className="overflow-hidden rounded-[12px] border-x border-t border-[#E6E6E6] bg-[#F9F9F9] dark:border-[#1D1D1D] dark:bg-[#141414]">
             <h4 className="text-center font-bold text-black dark:text-white tracking-widest">
@@ -121,7 +121,7 @@ export default function Position() {
       )}
 
       {borrowDisplayed?.length > 0 && (
-        <div className="mt-[18px]">
+        <div className="mt-[6px]">
           <TitleDecorator />
           <div className="overflow-hidden rounded-[12px] border-x border-t border-[#E6E6E6] bg-[#F9F9F9] dark:border-[#1D1D1D] dark:bg-[#141414]">
             <h4 className="text-center font-bold text-black dark:text-white tracking-widest">
