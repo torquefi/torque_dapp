@@ -106,7 +106,7 @@ export default function Position() {
             <h4 className="text-center font-bold text-black dark:text-white tracking-widest">
               BOOST
             </h4>
-            <div className="mx-[-1px] mt-[12px] rounded-b-[12px] border-x border-[#E6E6E6] dark:border-[#1D1D1D]">
+            <div className="mx-[-1px] mt-[0px] space-y-[20px] rounded-b-[12px] border-x border-[#E6E6E6] dark:border-[#1D1D1D]">
               {boostDisplayed.map((item, i) => (
                 <BoostItem
                   key={i}
@@ -127,7 +127,7 @@ export default function Position() {
             <h4 className="text-center font-bold text-black dark:text-white tracking-widest">
               BORROW
             </h4>
-            <div className="mx-[-1px] mt-[12px] rounded-b-[12px] border-x border-[#E6E6E6] dark:border-[#1D1D1D]">
+            <div className="mx-[-1px] mt-[0px] space-y-[20px] rounded-b-[12px] border-x border-[#E6E6E6] dark:border-[#1D1D1D]">
               {borrowDisplayed.map((item, i) => (
                 <BorrowItem key={i} item={item} className="mx-[-1px] mt-0" />
               ))}
