@@ -103,7 +103,7 @@ export default function Position() {
         <div className="mt-[3px]">
           <TitleDecorator />
           <div className="overflow-hidden rounded-[12px] border-x border-t border-[#E6E6E6] bg-[#F9F9F9] dark:border-[#1D1D1D] dark:bg-[#141414]">
-            <h4 className="text-center font-bold text-black dark:text-white tracking-widest">
+            <h4 className="text-center mt-[-10px] font-bold text-black dark:text-white tracking-widest">
               BOOST
             </h4>
             <div className="mx-[-1px] mt-[0px] space-y-[20px] rounded-b-[12px] border-x border-[#E6E6E6] dark:border-[#1D1D1D]">
@@ -124,7 +124,7 @@ export default function Position() {
         <div className="mt-[3px]">
           <TitleDecorator />
           <div className="overflow-hidden rounded-[12px] border-x border-t border-[#E6E6E6] bg-[#F9F9F9] dark:border-[#1D1D1D] dark:bg-[#141414]">
-            <h4 className="text-center font-bold text-black dark:text-white tracking-widest">
+            <h4 className="text-center mt-[-10px] font-bold text-black dark:text-white tracking-widest">
               BORROW
             </h4>
             <div className="mx-[-1px] mt-[0px] space-y-[20px] rounded-b-[12px] border-x border-[#E6E6E6] dark:border-[#1D1D1D]">
