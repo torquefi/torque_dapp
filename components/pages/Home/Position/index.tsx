@@ -56,7 +56,7 @@ export default function Position() {
     </div>
   )
 
-  if (isSkeletonLoading || boost.isLoading || boost.isLoading) {
+  if (isSkeletonLoading) {
     return (
       <div className="mb-4 mt-[24px]">
         <div className="flex items-center justify-between">
@@ -102,8 +102,8 @@ export default function Position() {
       {boostDisplayed?.length > 0 && (
         <div className="mt-[3px]">
           <TitleDecorator />
-          <div className="overflow-hidden rounded-[12px] border-x border-t border-[#E6E6E6] bg-[#F9F9F9] dark:border-[#1D1D1D] dark:bg-[#141414]">
-            <h4 className="text-center mt-[-10px] font-bold text-black dark:text-white tracking-widest">
+          <div className="rounded-[12px] border-x border-t border-[#E6E6E6] bg-[#F9F9F9] dark:border-[#1D1D1D] dark:bg-[#141414]">
+            <h4 className="mt-[-10px] text-center font-bold tracking-widest text-black dark:text-white">
               BOOST
             </h4>
             <div className="mx-[-1px] mt-[0px] space-y-[20px] rounded-b-[12px] border-x border-[#E6E6E6] dark:border-[#1D1D1D]">
@@ -123,8 +123,8 @@ export default function Position() {
       {borrowDisplayed?.length > 0 && (
         <div className="mt-[3px]">
           <TitleDecorator />
-          <div className="overflow-hidden rounded-[12px] border-x border-t border-[#E6E6E6] bg-[#F9F9F9] dark:border-[#1D1D1D] dark:bg-[#141414]">
-            <h4 className="text-center mt-[-10px] font-bold text-black dark:text-white tracking-widest">
+          <div className="rounded-[12px] border-x border-t border-[#E6E6E6] bg-[#F9F9F9] dark:border-[#1D1D1D] dark:bg-[#141414]">
+            <h4 className="mt-[-10px] text-center font-bold tracking-widest text-black dark:text-white">
               BORROW
             </h4>
             <div className="mx-[-1px] mt-[0px] space-y-[20px] rounded-b-[12px] border-x border-[#E6E6E6] dark:border-[#1D1D1D]">
