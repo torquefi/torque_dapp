@@ -20,6 +20,8 @@ export default function Position() {
   const [isSkeletonLoading, setIsSkeletonLoading] = useState(true)
   const { address, isConnected } = useAccount()
 
+  // const boostDisplayed = boost?.data
+  // const borrowDisplayed = borrow?.data
   const boostDisplayed = boost?.data?.filter(
     (item) => Number(item.depositedBalance) > 0 || Number(item?.deposited) > 0
   )
@@ -103,10 +105,10 @@ export default function Position() {
         <div className="mt-[3px]">
           <TitleDecorator />
           <div className="rounded-[12px] border-x border-t border-[#E6E6E6] bg-[#F9F9F9] dark:border-[#1D1D1D] dark:bg-[#141414]">
-            <h4 className="mt-[-10px] text-center font-bold tracking-widest text-black dark:text-white">
+            <h4 className="mt-[-12px] pb-[4px] text-center font-bold tracking-widest text-black dark:text-white">
               BOOST
             </h4>
-            <div className="mx-[-1px] mt-[0px] space-y-[20px] rounded-b-[12px] border-x border-[#E6E6E6] dark:border-[#1D1D1D]">
+            <div className="mx-[-1px] space-y-[20px] rounded-b-[12px] border-x border-[#E6E6E6] dark:border-[#1D1D1D]">
               {boostDisplayed.map((item, i) => (
                 <BoostItem
                   key={i}
@@ -121,13 +123,13 @@ export default function Position() {
       )}
 
       {borrowDisplayed?.length > 0 && (
-        <div className="mt-[3px]">
+        <div className="mt-[8px]">
           <TitleDecorator />
           <div className="rounded-[12px] border-x border-t border-[#E6E6E6] bg-[#F9F9F9] dark:border-[#1D1D1D] dark:bg-[#141414]">
-            <h4 className="mt-[-10px] text-center font-bold tracking-widest text-black dark:text-white">
+            <h4 className="mt-[-12px] pb-[4px] text-center font-bold tracking-widest text-black dark:text-white">
               BORROW
             </h4>
-            <div className="mx-[-1px] mt-[0px] space-y-[20px] rounded-b-[12px] border-x border-[#E6E6E6] dark:border-[#1D1D1D]">
+            <div className="mx-[-1px] space-y-[20px] rounded-b-[12px] border-x border-[#E6E6E6] dark:border-[#1D1D1D]">
               {borrowDisplayed.map((item, i) => (
                 <BorrowItem key={i} item={item} className="mx-[-1px] mt-0" />
               ))}
