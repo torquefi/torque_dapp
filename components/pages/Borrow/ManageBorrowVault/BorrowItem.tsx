@@ -516,218 +516,217 @@ export default function BorrowItem({ item, className }: IBorrowItemProps) {
     </div>
   )
 
-  if (isLoading)
-    return (
-      <div className="">
-        <SkeletonDefault height={'10vh'} width={'100%'} />
-      </div>
-    )
-  else
-    return (
-      <>
-        <div
-          className={cn(
-            'rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 text-[#404040] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white',
-            className
-          )}
-        >
-          <div className="flex items-center px-[18px] py-[10px] md:px-[24px]">
-            <div className="font-rogan flex w-[calc(100%-64px)] items-center space-x-2 text-[22px] md:w-[calc(100%-400px-64px)] lg:w-[calc(100%-500px-64px)] xl:w-[calc(100%-600px-64px)]">
-              <div className="flex items-center text-[22px]">
-                <div className="relative flex justify-center -space-x-14">
-                  <img
-                    className="mr-1 w-[54px]"
-                    src={`/icons/coin/${item.depositTokenSymbol.toLowerCase()}.png`}
-                    alt=""
-                  />
-                  <img
-                    className="z-1 absolute bottom-1 right-1 w-[20px] object-cover md:w-[28px]"
-                    src={`/icons/coin/${item.borrowTokenSymbol.toLowerCase()}${
-                      item.borrowTokenSymbol === 'USDC' ? '.svg' : '.png'
-                    }`}
-                    alt=""
-                  />
-                </div>
-                <div className="flex items-center">
-                  {!isEdit ? (
-                    <>
-                      <div className="mr-1 flex-shrink-0">{label}</div>
-                      <div className="relative flex items-center">
-                        <button
-                          className="absolute ml-[4px]"
-                          onClick={() => setEdit(true)}
-                        >
-                          <AiOutlineEdit />
-                        </button>
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <AutowidthInput
-                        ref={refLabelInput}
-                        className="min-w-[60px] bg-transparent"
-                        value={label}
-                        onChange={(e) => setLabel(e.target.value)}
-                        onKeyUp={(e) =>
-                          e.key === 'Enter' && updateBorrowLabel()
-                        }
-                      />
-                      <div className="relative flex items-center">
-                        <button
-                          className="absolute ml-[4px]"
-                          onClick={() => updateBorrowLabel()}
-                        >
-                          <AiOutlineCheck />
-                        </button>
-                      </div>
-                    </>
-                  )}
-                </div>
+  // if (isLoading) {
+  //   return (
+  //     <div className="">
+  //       <SkeletonDefault height={'10vh'} width={'100%'} />
+  //     </div>
+  //   )
+  // }
+
+  return (
+    <>
+      <div
+        className={cn(
+          'rounded-xl border bg-[#FFFFFF] from-[#0d0d0d] to-[#0d0d0d]/0 text-[#404040] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br dark:text-white',
+          className
+        )}
+      >
+        <div className="flex items-center px-[18px] py-[10px] md:px-[24px]">
+          <div className="font-rogan flex w-[calc(100%-64px)] items-center space-x-2 text-[22px] md:w-[calc(100%-400px-64px)] lg:w-[calc(100%-500px-64px)] xl:w-[calc(100%-600px-64px)]">
+            <div className="flex items-center text-[22px]">
+              <div className="relative flex justify-center -space-x-14">
+                <img
+                  className="mr-1 w-[54px]"
+                  src={`/icons/coin/${item.depositTokenSymbol.toLowerCase()}.png`}
+                  alt=""
+                />
+                <img
+                  className="z-1 absolute bottom-1 right-1 w-[20px] object-cover md:w-[28px]"
+                  src={`/icons/coin/${item.borrowTokenSymbol.toLowerCase()}${
+                    item.borrowTokenSymbol === 'USDC' ? '.svg' : '.png'
+                  }`}
+                  alt=""
+                />
               </div>
-            </div>
-            <div className="hidden md:block">{summaryInfo}</div>
-            <div
-              className="flex h-[64px] w-[64px] cursor-pointer select-none items-center justify-center rounded-full"
-              onClick={() => {
-                setExpand(!isExpand)
-                setInputValue('')
-                setAction(Action.Borrow)
-              }}
-            >
-              <img
-                className={
-                  'w-[18px] transition-all' + ` ${isExpand ? 'rotate-180' : ''}`
-                }
-                src={
-                  theme == 'light'
-                    ? '/icons/dropdow-dark.png'
-                    : '/icons/arrow-down.svg'
-                }
-                alt=""
-              />
+              <div className="flex items-center">
+                {!isEdit ? (
+                  <>
+                    <div className="mr-1 flex-shrink-0">{label}</div>
+                    <div className="relative flex items-center">
+                      <button
+                        className="absolute ml-[4px]"
+                        onClick={() => setEdit(true)}
+                      >
+                        <AiOutlineEdit />
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <AutowidthInput
+                      ref={refLabelInput}
+                      className="min-w-[60px] bg-transparent"
+                      value={label}
+                      onChange={(e) => setLabel(e.target.value)}
+                      onKeyUp={(e) => e.key === 'Enter' && updateBorrowLabel()}
+                    />
+                    <div className="relative flex items-center">
+                      <button
+                        className="absolute ml-[4px]"
+                        onClick={() => updateBorrowLabel()}
+                      >
+                        <AiOutlineCheck />
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
           </div>
+          <div className="hidden md:block">{summaryInfo}</div>
           <div
-            className={
-              'flex flex-wrap overflow-hidden px-[16px] transition-all duration-300 sm:px-[24px]' +
-              ` ${
-                isExpand
-                  ? 'max-h-[1000px] py-[16px] ease-in'
-                  : 'max-h-0 py-0 ease-out'
-              }`
-            }
+            className="flex h-[64px] w-[64px] cursor-pointer select-none items-center justify-center rounded-full"
+            onClick={() => {
+              setExpand(!isExpand)
+              setInputValue('')
+              setAction(Action.Borrow)
+            }}
           >
-            <div className="w-full md:hidden">{summaryInfo}</div>
-            <div className="mb-[24px] w-full md:mb-0 md:w-[40%] lg:w-[50%] xl:w-[55%]">
-              <BorrowItemChart
-                label="Borrow Apr"
-                tokenAddress={item?.borrowContractInfo.address}
-                tokenDecimals={item?.depositTokenDecimal}
-                tokenPrice={
-                  item?.depositTokenSymbol === 'WBTC'
-                    ? usdPrice['wbtc']
-                    : usdPrice['weth']
-                }
-                aprPercent={-borrowAPR}
-              />
-            </div>
-            <div className="w-full space-y-4 md:w-[60%] md:space-y-5 md:pl-[36px] lg:w-[50%] xl:w-[45%]">
-              <div className="flex items-center justify-between">
-                <p className="font-rogan text-[24px]">
-                  {action}{' '}
-                  {action == Action.Repay || action === Action.Borrow
-                    ? item.borrowTokenSymbol
-                    : item.depositTokenSymbol}
-                </p>
-                <div className="rounded-md border from-[#161616] via-[#161616]/40 to-[#0e0e0e] dark:border-[#1A1A1A] dark:bg-gradient-to-b">
-                  {[Action.Borrow, Action.Repay, Action.Withdraw].map(
-                    (item, i) => (
-                      <button
-                        key={i}
-                        className={
-                          'w-[52px]  py-[8px] text-[10px] leading-none xs:w-[80px] xs:text-[12px]' +
-                          ` ${
-                            action === item
-                              ? 'rounded-md bg-[#F4F4F4] dark:bg-[#171717]'
-                              : 'text-[#959595]'
-                          }`
-                        }
-                        onClick={() => {
-                          setInputValue('')
-                          setAction(item)
-                        }}
-                      >
-                        {item}
-                      </button>
-                    )
-                  )}
-                </div>
-              </div>
-              <div className="flex justify-between rounded-xl border bg-[#FFFFFF] from-[#161616] via-[#161616]/40 to-[#0e0e0e] p-[12px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
-                <NumericFormat
-                  className="w-[200px] bg-transparent"
-                  placeholder="Select amount"
-                  value={inputValue || null}
-                  onChange={(e) => {
-                    setInputValue(e.target.value)
-                  }}
-                  decimalScale={5}
-                />
-                <div className="flex select-none justify-between space-x-1 text-[12px] text-[#959595] sm:text-[14px]">
-                  {[25, 50, 100].map((percent, i) => (
-                    <div
-                      className="cursor-pointer rounded-md bg-[#F4F4F4]  px-[6px] py-[2px] transition active:scale-95 dark:bg-[#171717] xs:px-[8px] xs:py-[4px]"
-                      onClick={() => handlePercentageClick(percent)}
-                      key={i}
-                    >
-                      {percent}%
-                    </div>
-                  ))}
-                </div>
-              </div>
-              {action === Action.Repay && (
-                <div className="w-full">
-                  <p className="font-rogan mb-2 text-[18px]">
-                    Collateral Withdraw Amount
-                  </p>
-                  <div className="flex items-center space-x-2">
-                    <p className="font-rogan text-[14px]">{sliderValue}%</p>
-                    <input
-                      type="range"
-                      min="0"
-                      max="100"
-                      value={sliderValue}
-                      className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 dark:bg-gray-700"
-                      onChange={(e) =>
-                        handleSliderChange(parseInt(e.target.value))
-                      }
-                      style={{
-                        background: `linear-gradient(to right, #AA5BFF ${sliderValue}%, ${
-                          theme === 'light' ? '#E5E7EB' : '#374151'
-                        } ${sliderValue}%)`,
-                      }}
-                    />
-                  </div>
-                </div>
-              )}
-              <button
-                className={`font-rogan-regular mt-2 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] md:mt-3 ${
-                  buttonLoading && 'cursor-not-allowed opacity-50'
-                }`}
-                disabled={buttonLoading}
-                onClick={handleAction}
-              >
-                {buttonLoading && <LoadingCircle />}
-                {renderSubmitText()}
-              </button>
-            </div>
+            <img
+              className={
+                'w-[18px] transition-all' + ` ${isExpand ? 'rotate-180' : ''}`
+              }
+              src={
+                theme == 'light'
+                  ? '/icons/dropdow-dark.png'
+                  : '/icons/arrow-down.svg'
+              }
+              alt=""
+            />
           </div>
         </div>
+        <div
+          className={
+            'flex flex-wrap overflow-hidden px-[16px] transition-all duration-300 sm:px-[24px]' +
+            ` ${
+              isExpand
+                ? 'max-h-[1000px] py-[16px] ease-in'
+                : 'max-h-0 py-0 ease-out'
+            }`
+          }
+        >
+          <div className="w-full md:hidden">{summaryInfo}</div>
+          <div className="mb-[24px] w-full md:mb-0 md:w-[40%] lg:w-[50%] xl:w-[55%]">
+            <BorrowItemChart
+              label="Borrow Apr"
+              tokenAddress={item?.borrowContractInfo.address}
+              tokenDecimals={item?.depositTokenDecimal}
+              tokenPrice={
+                item?.depositTokenSymbol === 'WBTC'
+                  ? usdPrice['wbtc']
+                  : usdPrice['weth']
+              }
+              aprPercent={-borrowAPR}
+            />
+          </div>
+          <div className="w-full space-y-4 md:w-[60%] md:space-y-5 md:pl-[36px] lg:w-[50%] xl:w-[45%]">
+            <div className="flex items-center justify-between">
+              <p className="font-rogan text-[24px]">
+                {action}{' '}
+                {action == Action.Repay || action === Action.Borrow
+                  ? item.borrowTokenSymbol
+                  : item.depositTokenSymbol}
+              </p>
+              <div className="rounded-md border from-[#161616] via-[#161616]/40 to-[#0e0e0e] dark:border-[#1A1A1A] dark:bg-gradient-to-b">
+                {[Action.Borrow, Action.Repay, Action.Withdraw].map(
+                  (item, i) => (
+                    <button
+                      key={i}
+                      className={
+                        'w-[52px]  py-[8px] text-[10px] leading-none xs:w-[80px] xs:text-[12px]' +
+                        ` ${
+                          action === item
+                            ? 'rounded-md bg-[#F4F4F4] dark:bg-[#171717]'
+                            : 'text-[#959595]'
+                        }`
+                      }
+                      onClick={() => {
+                        setInputValue('')
+                        setAction(item)
+                      }}
+                    >
+                      {item}
+                    </button>
+                  )
+                )}
+              </div>
+            </div>
+            <div className="flex justify-between rounded-xl border bg-[#FFFFFF] from-[#161616] via-[#161616]/40 to-[#0e0e0e] p-[12px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b">
+              <NumericFormat
+                className="w-[200px] bg-transparent"
+                placeholder="Select amount"
+                value={inputValue || null}
+                onChange={(e) => {
+                  setInputValue(e.target.value)
+                }}
+                decimalScale={5}
+              />
+              <div className="flex select-none justify-between space-x-1 text-[12px] text-[#959595] sm:text-[14px]">
+                {[25, 50, 100].map((percent, i) => (
+                  <div
+                    className="cursor-pointer rounded-md bg-[#F4F4F4]  px-[6px] py-[2px] transition active:scale-95 dark:bg-[#171717] xs:px-[8px] xs:py-[4px]"
+                    onClick={() => handlePercentageClick(percent)}
+                    key={i}
+                  >
+                    {percent}%
+                  </div>
+                ))}
+              </div>
+            </div>
+            {action === Action.Repay && (
+              <div className="w-full">
+                <p className="font-rogan mb-2 text-[18px]">
+                  Collateral Withdraw Amount
+                </p>
+                <div className="flex items-center space-x-2">
+                  <p className="font-rogan text-[14px]">{sliderValue}%</p>
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={sliderValue}
+                    className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 dark:bg-gray-700"
+                    onChange={(e) =>
+                      handleSliderChange(parseInt(e.target.value))
+                    }
+                    style={{
+                      background: `linear-gradient(to right, #AA5BFF ${sliderValue}%, ${
+                        theme === 'light' ? '#E5E7EB' : '#374151'
+                      } ${sliderValue}%)`,
+                    }}
+                  />
+                </div>
+              </div>
+            )}
+            <button
+              className={`font-rogan-regular mt-2 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] md:mt-3 ${
+                buttonLoading && 'cursor-not-allowed opacity-50'
+              }`}
+              disabled={buttonLoading}
+              onClick={handleAction}
+            >
+              {buttonLoading && <LoadingCircle />}
+              {renderSubmitText()}
+            </button>
+          </div>
+        </div>
+      </div>
 
-        <ConnectWalletModal
-          openModal={isOpenConnectWalletModal}
-          handleClose={() => setOpenConnectWalletModal(false)}
-        />
-      </>
-    )
+      <ConnectWalletModal
+        openModal={isOpenConnectWalletModal}
+        handleClose={() => setOpenConnectWalletModal(false)}
+      />
+    </>
+  )
 }
