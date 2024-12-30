@@ -14,7 +14,7 @@ const AllocationModal = ({
   open?: boolean
   handleClose: () => void
   item: any
-  onConfirm: () => void
+  onConfirm: (allocations: { firstAllocation: number; secondAllocation: number }) => void
 }) => {
   const theme = useSelector((store: AppStore) => store.theme.theme)
   const [isEditFirst, setIsEditFirst] = useState(false)
@@ -48,10 +48,13 @@ const AllocationModal = ({
     setIsCheckedFirst(checked)
     if (!checked) {
       setFirstAllocation(0)
-      setEditFirstAllocation(0)
+      setSecondAllocation(100)
+    } else if (isCheckedSecond) {
+      setFirstAllocation(50)
+      setSecondAllocation(50)
     } else {
-      setFirstAllocation(item?.firstAllocation)
-      setEditFirstAllocation(item?.firstAllocation)
+      setFirstAllocation(editFirstAllocation)
+      setSecondAllocation(100 - editFirstAllocation)
     }
   }
 
@@ -59,10 +62,13 @@ const AllocationModal = ({
     setIsCheckedSecond(checked)
     if (!checked) {
       setSecondAllocation(0)
-      setEditSecondAllocation(0)
+      setFirstAllocation(100)
+    } else if (isCheckedFirst) {
+      setFirstAllocation(50)
+      setSecondAllocation(50)
     } else {
-      setSecondAllocation(item?.secondAllocation)
-      setEditSecondAllocation(item?.secondAllocation)
+      setSecondAllocation(editSecondAllocation)
+      setFirstAllocation(100 - editSecondAllocation)
     }
   }
 
@@ -88,6 +94,7 @@ const AllocationModal = ({
         }`}
       ></div>
       <div className="mt-[16px] grid grid-cols-2 gap-[12px]">
+        {/* First Allocation Section */}
         <div className="bg-transparent dark:bg-[#141414] col-span-1 rounded-[12px] border border-solid border-[#efefef] p-[12px] dark:border-[#1a1a1a]">
           <div className="flex items-center justify-between">
             <img
@@ -123,11 +130,7 @@ const AllocationModal = ({
                   <AiOutlineCheck
                     onClick={() => {
                       setFirstAllocation(editFirstAllocation)
-                      setSecondAllocation(
-                        100 - Number(editFirstAllocation) > 0
-                          ? 100 - Number(editFirstAllocation)
-                          : 0
-                      )
+                      setSecondAllocation(100 - editFirstAllocation)
                       setIsEditFirst(false)
                       setIsEditSecond(false)
                     }}
@@ -136,7 +139,7 @@ const AllocationModal = ({
               </p>
             </div>
             <div className="flex items-center justify-between">
-              <p className="font-rogan text-[20px] font-semibold text-[#030303] dark:text-white">
+              <p className="font-rogan text-[20px] font-semibold text-[#030303] dark:text-white transition-transform duration-300 transform peer-checked:-translate-y-1">
                 {item?.firstRoute}
               </p>
               <p className="font-rogan text-[20px] font-semibold text-[#030303] dark:text-white">
@@ -154,7 +157,8 @@ const AllocationModal = ({
                     onChange={(e) => {
                       const newValue = e.target.value.replace(/[^0-9]/g, '')
                       if (Number(newValue) > 100) return
-                      setEditFirstAllocation(newValue)
+                      setEditFirstAllocation(Number(newValue))
+                      setSecondAllocation(100 - Number(newValue))
                     }}
                     className="w-full bg-transparent pl-[8px] text-right"
                   />
@@ -165,6 +169,8 @@ const AllocationModal = ({
             </div>
           </div>
         </div>
+
+        {/* Second Allocation Section */}
         <div className="bg-transparent dark:bg-[#141414] col-span-1 rounded-[12px] border border-solid border-[#efefef] p-[12px] dark:border-[#1a1a1a]">
           <div className="flex items-center justify-between">
             <img
@@ -222,7 +228,8 @@ const AllocationModal = ({
                     onChange={(e) => {
                       const newValue = e.target.value.replace(/[^0-9]/g, '')
                       if (Number(newValue) > 100) return
-                      setEditSecondAllocation(newValue)
+                      setEditSecondAllocation(Number(newValue))
+                      setFirstAllocation(100 - Number(newValue))
                     }}
                     className="w-full bg-transparent pl-[8px] text-right"
                   />
@@ -237,7 +244,12 @@ const AllocationModal = ({
 
       <button
         className="font-rogan-regular mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]"
-        onClick={onConfirm}
+        onClick={() =>
+          onConfirm({
+            firstAllocation,
+            secondAllocation,
+          })
+        }
       >
         Confirm Allocation
       </button>

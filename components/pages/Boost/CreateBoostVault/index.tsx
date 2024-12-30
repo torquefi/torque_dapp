@@ -148,6 +148,10 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
                 item={item}
                 setIsFetchBoostLoading={setIsFetchBoostLoading}
                 earnToken={item.earnToken}
+                firstAllocation={item.firstAllocation}
+                secondAllocation={item.secondAllocation}
+                firstRoute={item.firstRoute}
+                secondRoute={item.secondRoute}
               />
             )
           })}
@@ -302,6 +306,10 @@ export function CreateBoostVault({ setIsFetchBoostLoading }: any) {
                   item={item}
                   setIsFetchBoostLoading={setIsFetchBoostLoading}
                   earnToken={item.earnToken}
+                  firstAllocation={item.firstAllocation}
+                  secondAllocation={item.secondAllocation}
+                  firstRoute={item.firstRoute}
+                  secondRoute={item.secondRoute}
                 />
               ))}
             </tbody>

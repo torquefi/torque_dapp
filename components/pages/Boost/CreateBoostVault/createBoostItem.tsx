@@ -436,7 +436,7 @@ export function CreateBoostItem({
               trigger="hover"
               placement="top-left"
               className={`font-rogan-regular mt-[8px] w-[200px] border border-[#e5e7eb] bg-[#fff] text-center text-sm leading-tight text-[#030303] dark:border-[#1A1A1A] dark:bg-[#0d0d0d] dark:text-white`}
-              content="The current tToken balance of your connected account."
+              content="Adjust allocation percentages for yield providers."
             >
               <button className="ml-[5px] mt-[7px]">
                 <img
@@ -447,11 +447,24 @@ export function CreateBoostItem({
               </button>
             </Popover>
           </div>
-          {/* <div>{['COMP', 'TORQ'].includes(item.token) ? '100:0' : '50:50'}</div> */}
-          <div>
-            {item?.firstAllocation}:{item?.secondAllocation}
+          <div className="flex items-center">
+            <button
+              onClick={() => setIsOpenAllocationModal(true)}
+            >
+              {item?.firstAllocation}:{item?.secondAllocation}
+            </button>
           </div>
         </div>
+        <AllocationModal
+          open={isOpenAllocationModal}
+          handleClose={() => setIsOpenAllocationModal(false)}
+          item={item}
+          onConfirm={(updatedAllocations) => {
+            item.firstAllocation = updatedAllocations.firstAllocation
+            item.secondAllocation = updatedAllocations.secondAllocation
+            setIsOpenAllocationModal(false)
+          }}
+        />
         <div className="font-rogan-regular flex w-full items-center justify-between text-[16px] text-[#959595]">
           <div className="flex items-center justify-center">
             <div>Routed</div>

@@ -25,6 +25,7 @@ import { useGasLimits } from '../hooks/useGasLimits'
 import { useGasPrice } from '../hooks/useGasPrice'
 import SwapModal from '@/components/common/Modal/SwapModal'
 import { RPC_PROVIDER } from '@/constants/networks'
+import AllocationModal from './AllocationModal'
 
 const RPC = 'https://arb1.arbitrum.io/rpc'
 
@@ -38,8 +39,7 @@ export function CreateRowBoostItem({
   const chainId = useChainId()
   const [btnLoading, setBtnLoading] = useState(false)
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
-  const [isOpenConfirmDepositModal, setOpenConfirmDepositModal] =
-    useState(false)
+  const [isOpenConfirmDepositModal, setOpenConfirmDepositModal] = useState(false)
   const [isUsdDepositToken, setIsUsdDepositToken] = useState(true)
   const [amountRaw, setAmountRaw] = useState('')
   const [amountReceiveRaw, setAmountReceiveRaw] = useState('')
@@ -51,6 +51,7 @@ export function CreateRowBoostItem({
   const [deposited, setDeposited] = useState('')
   const [tokenHover, setTokenHover] = useState('')
   const [openSwapModal, setOpenSwapModal] = useState(false)
+  const [isOpenAllocationModal, setIsOpenAllocationModal] = useState(false)
 
   const tokenContract = useMemo(() => {
     const web3 = new Web3(Web3.givenProvider)
@@ -151,6 +152,12 @@ export function CreateRowBoostItem({
       return toast.error('You must input amount to supply')
     }
     setOpenConfirmDepositModal(true)
+  }
+
+  const handleConfirmAllocation = (updatedAllocations: any) => {
+    item.firstAllocation = updatedAllocations.firstAllocation
+    item.secondAllocation = updatedAllocations.secondAllocation
+    setIsOpenAllocationModal(false)
   }
 
   const onDeposit = async () => {
@@ -385,7 +392,15 @@ export function CreateRowBoostItem({
         openModal={isOpenConnectWalletModal}
         handleClose={() => setOpenConnectWalletModal(false)}
       />
-
+      <AllocationModal
+        open={isOpenAllocationModal}
+        onClose={() => setIsOpenAllocationModal(false)}
+        initialAllocations={{
+          firstAllocation: item.firstAllocation,
+          secondAllocation: item.secondAllocation,
+        }}
+        onConfirm={handleConfirmAllocation}
+      />
       <SwapModal
         open={openSwapModal}
         handleClose={() => {
