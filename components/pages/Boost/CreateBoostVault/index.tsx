@@ -357,7 +357,7 @@ const BOOST_VAULTS = [
     firstRoute: 'GMX',
     secondRoute: 'Uniswap',
     firstVersionAllocation: 'V2 GM',
-    secondVersionAllocation: 'V2 ETH',
+    secondVersionAllocation: 'V3 0.05',
   },
   {
     token: 'WETH',
@@ -413,7 +413,7 @@ const BOOST_VAULTS = [
     firstRoute: 'GMX',
     secondRoute: 'Uniswap',
     firstVersionAllocation: 'V2 GM',
-    secondVersionAllocation: 'V2 ETH',
+    secondVersionAllocation: 'V3 0.05',
   },
   {
     token: 'UNI',
@@ -441,7 +441,7 @@ const BOOST_VAULTS = [
     firstRoute: 'GMX',
     secondRoute: 'Uniswap',
     firstVersionAllocation: 'V2 GM',
-    secondVersionAllocation: 'V2 ETH',
+    secondVersionAllocation: 'V3 0.05',
   },
   {
     token: 'COMP',
@@ -469,7 +469,7 @@ const BOOST_VAULTS = [
     firstRoute: 'Uniswap',
     secondRoute: 'Sushi',
     firstVersionAllocation: 'V2 ETH',
-    secondVersionAllocation: 'V2 ETH',
+    secondVersionAllocation: 'V3 0.05',
   },
   {
     token: 'TORQ',
@@ -497,6 +497,6 @@ const BOOST_VAULTS = [
     firstRoute: 'Uniswap',
     secondRoute: 'Sushi',
     firstVersionAllocation: 'V2 ETH',
-    secondVersionAllocation: 'V2 ETH',
+    secondVersionAllocation: 'V3 0.05',
   },
 ]
