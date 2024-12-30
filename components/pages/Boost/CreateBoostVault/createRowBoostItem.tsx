@@ -394,12 +394,17 @@ export function CreateRowBoostItem({
       />
       <AllocationModal
         open={isOpenAllocationModal}
-        onClose={() => setIsOpenAllocationModal(false)}
-        initialAllocations={{
+        handleClose={() => setIsOpenAllocationModal(false)}
+        item={{
+          ...item,
           firstAllocation: item.firstAllocation,
           secondAllocation: item.secondAllocation,
         }}
-        onConfirm={handleConfirmAllocation}
+        onConfirm={(updatedAllocations) => {
+          item.firstAllocation = updatedAllocations.firstAllocation
+          item.secondAllocation = updatedAllocations.secondAllocation
+          setIsOpenAllocationModal(false)
+        }}
       />
       <SwapModal
         open={openSwapModal}
