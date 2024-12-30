@@ -4,6 +4,7 @@ import { AiOutlineCheck, AiOutlineClose, AiOutlineEdit } from 'react-icons/ai'
 import { NumericFormat } from 'react-number-format'
 import { useSelector } from 'react-redux'
 import { AppStore } from '@/types/store'
+import { motion } from 'framer-motion'
 
 const AllocationModal = ({
   open,
@@ -46,30 +47,42 @@ const AllocationModal = ({
 
   const handleFirstCheckboxChange = (checked: boolean) => {
     setIsCheckedFirst(checked)
-    if (!checked) {
+    if (!checked && !isCheckedSecond) {
+      setFirstAllocation(0)
+      setSecondAllocation(0)
+    } else if (!checked) {
       setFirstAllocation(0)
       setSecondAllocation(100)
-    } else if (isCheckedSecond) {
+    } else if (!isCheckedSecond) {
+      setFirstAllocation(100)
+      setSecondAllocation(0)
+    } else {
       setFirstAllocation(50)
       setSecondAllocation(50)
-    } else {
-      setFirstAllocation(editFirstAllocation)
-      setSecondAllocation(100 - editFirstAllocation)
     }
   }
 
   const handleSecondCheckboxChange = (checked: boolean) => {
     setIsCheckedSecond(checked)
-    if (!checked) {
+    if (!checked && !isCheckedFirst) {
+      setFirstAllocation(0)
+      setSecondAllocation(0)
+    } else if (!checked) {
       setSecondAllocation(0)
       setFirstAllocation(100)
-    } else if (isCheckedFirst) {
+    } else if (!isCheckedFirst) {
+      setSecondAllocation(100)
+      setFirstAllocation(0)
+    } else {
       setFirstAllocation(50)
       setSecondAllocation(50)
-    } else {
-      setSecondAllocation(editSecondAllocation)
-      setFirstAllocation(100 - editSecondAllocation)
     }
+  }
+
+  const percentageVariants = {
+    initial: { opacity: 0, y: 10 },
+    animate: { opacity: 1, y: 0, transition: { duration: 0.2 } },
+    exit: { opacity: 0, y: -10, transition: { duration: 0.2 } },
   }
 
   return (
@@ -142,7 +155,14 @@ const AllocationModal = ({
               <p className="font-rogan text-[20px] font-semibold text-[#030303] dark:text-white transition-transform duration-300 transform peer-checked:-translate-y-1">
                 {item?.firstRoute}
               </p>
-              <p className="font-rogan text-[20px] font-semibold text-[#030303] dark:text-white">
+              <motion.p
+                className="font-rogan text-[20px] font-semibold text-[#030303] dark:text-white"
+                key={firstAllocation}
+                variants={percentageVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+              >
                 {isEditFirst ? (
                   <NumericFormat
                     value={editFirstAllocation}
@@ -165,7 +185,7 @@ const AllocationModal = ({
                 ) : (
                   `${firstAllocation}%`
                 )}
-              </p>
+              </motion.p>
             </div>
           </div>
         </div>
@@ -213,7 +233,14 @@ const AllocationModal = ({
               <p className="font-rogan text-[20px] font-semibold text-[#030303] dark:text-white">
                 {item?.secondRoute}
               </p>
-              <p className="font-rogan text-[20px] font-semibold text-[#030303] dark:text-white">
+              <motion.p
+                className="font-rogan text-[20px] font-semibold text-[#030303] dark:text-white"
+                key={secondAllocation}
+                variants={percentageVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+              >
                 {isEditSecond ? (
                   <NumericFormat
                     value={editSecondAllocation}
@@ -236,7 +263,7 @@ const AllocationModal = ({
                 ) : (
                   `${secondAllocation}%`
                 )}
-              </p>
+              </motion.p>
             </div>
           </div>
         </div>
