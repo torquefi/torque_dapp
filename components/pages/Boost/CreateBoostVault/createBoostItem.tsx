@@ -458,7 +458,11 @@ export function CreateBoostItem({
         <AllocationModal
           open={isOpenAllocationModal}
           handleClose={() => setIsOpenAllocationModal(false)}
-          item={item}
+          item={{
+            ...item,
+            firstAllocation: item.firstAllocation,
+            secondAllocation: item.secondAllocation,
+          }}
           onConfirm={(updatedAllocations) => {
             item.firstAllocation = updatedAllocations.firstAllocation
             item.secondAllocation = updatedAllocations.secondAllocation
