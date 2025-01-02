@@ -18,8 +18,10 @@ export default function Footer() {
     const isDark = e.target.checked
     setIsChecked(isDark)
     document.documentElement.classList.toggle('dark', isDark)
-    dispatch(updateTheme(isDark ? ('dark' as typeof theme) : ('light' as typeof theme)))
-    window.localStorage.setItem('theme', isDark ? 'dark' : 'light')
+
+    const themeValue = isDark ? 'dark' : 'light'
+    dispatch(updateTheme(themeValue as typeof theme))
+    window.localStorage.setItem('theme', themeValue)
   }
 
   return (
