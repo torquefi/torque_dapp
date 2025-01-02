@@ -127,7 +127,7 @@ export default function Product() {
                     </div>
                     <p className="font-rogan ml-[10px] text-[26px]">{item.name}</p>
                   </div>
-                  <p className="max-w-[320px] text-[#959595] text-[18px] line-clamp-1 md:line-clamp-none">{item.description}</p>
+                  <p className="text-[#959595] text-[17px] line-clamp-1 md:line-clamp-none">{item.description}</p>
                 </div>
               </Link>
             )
@@ -179,7 +179,7 @@ export default function Product() {
                   <p className="font-rogan text-[26px] text-[#030303] dark:text-white mb-2">
                     {item.name}
                   </p>
-                  <p className="text-[#959595] text-[18px] line-clamp-1 md:line-clamp-none">{item.description}</p>
+                  <p className="text-[#959595] text-[17px] line-clamp-1 md:line-clamp-none">{item.description}</p>
                 </div>
               </Link>
             )
@@ -196,7 +196,7 @@ const products = [
     path: '/boost',
     icon: '/assets/overview-page/boost.svg',
     description:
-      'Collect daily compound yield via liquidity provisioning.',
+      'Earn daily compound yield by providing onchain liquidity.',
   },
   {
     name: 'Borrow',

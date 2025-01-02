@@ -6,22 +6,28 @@ import { useDispatch, useSelector } from 'react-redux'
 
 export default function Footer() {
   const dispatch = useDispatch()
+  const [isChecked, setIsChecked] = useState<boolean>(true)
   const theme = useSelector((store: AppStore) => store.theme.theme)
-  const [isChecked, setIsChecked] = useState(theme === 'dark')
-  const currentYear = new Date().getFullYear()
+  const [currentYear] = useState(new Date().getFullYear())
 
   useEffect(() => {
-    setIsChecked(theme === 'dark')
+    const status = theme === 'dark' ? true : false
+    setIsChecked(status)
   }, [theme])
 
-  const handleDarkMode = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const isDark = e.target.checked
-    setIsChecked(isDark)
-    document.documentElement.classList.toggle('dark', isDark)
-
-    const themeValue = isDark ? 'dark' : 'light'
-    dispatch(updateTheme(themeValue as typeof theme))
-    window.localStorage.setItem('theme', themeValue)
+  const handleDarkMode = (e: any) => {
+    setIsChecked(e.target.checked)
+    if (typeof window != 'undefined') {
+      if (e.target.checked) {
+        document.documentElement.classList.add('dark')
+        dispatch(updateTheme('dark' as any))
+        window.localStorage.setItem('theme', 'dark')
+      } else {
+        document.documentElement.classList.remove('dark')
+        dispatch(updateTheme('light' as any))
+        window.localStorage.setItem('theme', 'light')
+      }
+    }
   }
 
   return (
