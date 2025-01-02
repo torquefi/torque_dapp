@@ -249,7 +249,7 @@ const BridgeAssets: React.FC = () => {
               From
             </label>
             <p className="text-[14px] font-medium text-[#959595]">
-              Balance: 0.00
+              Balance: 0.0000
             </p>  
           </div>
           <div className="flex items-center">
@@ -394,7 +394,7 @@ const BridgeAssets: React.FC = () => {
                 To
               </label>
               <p className="text-[14px] font-medium text-[#959595]">
-                Balance: 0.00
+                Balance: 0.0000
               </p>  
             </div>
           <div className="flex">
