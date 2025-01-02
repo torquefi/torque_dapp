@@ -37,9 +37,11 @@ export function CreateRowBoostItem({
   const { open } = useWeb3Modal()
   const { address, isConnected } = useAccount()
   const chainId = useChainId()
+  const [boost, setBoost] = useState(item)
   const [btnLoading, setBtnLoading] = useState(false)
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
-  const [isOpenConfirmDepositModal, setOpenConfirmDepositModal] = useState(false)
+  const [isOpenConfirmDepositModal, setOpenConfirmDepositModal] =
+    useState(false)
   const [isUsdDepositToken, setIsUsdDepositToken] = useState(true)
   const [amountRaw, setAmountRaw] = useState('')
   const [amountReceiveRaw, setAmountReceiveRaw] = useState('')
@@ -396,14 +398,18 @@ export function CreateRowBoostItem({
         open={isOpenAllocationModal}
         handleClose={() => setIsOpenAllocationModal(false)}
         item={{
-          ...item,
-          firstAllocation: item.firstAllocation,
-          secondAllocation: item.secondAllocation,
+          ...boost,
+          firstAllocation: boost.firstAllocation,
+          secondAllocation: boost.secondAllocation,
         }}
         onConfirm={(updatedAllocations) => {
-          item.firstAllocation = updatedAllocations.firstAllocation
-          item.secondAllocation = updatedAllocations.secondAllocation
+          setBoost((boost: any) => ({
+            ...boost,
+            firstAllocation: updatedAllocations.firstAllocation,
+            secondAllocation: updatedAllocations.secondAllocation,
+          }))
           setIsOpenAllocationModal(false)
+          setOpenConfirmDepositModal(true)
         }}
       />
       <SwapModal
