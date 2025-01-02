@@ -3,79 +3,71 @@ import { AppStore } from '@/types/store'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+
 export default function Footer() {
   const dispatch = useDispatch()
-  const [isChecked, setIsChecked] = useState<boolean>(true)
   const theme = useSelector((store: AppStore) => store.theme.theme)
+  const [isChecked, setIsChecked] = useState(theme === 'dark')
+  const currentYear = new Date().getFullYear()
+
   useEffect(() => {
-    const status = theme === 'dark' ? true : false
-    setIsChecked(status)
+    setIsChecked(theme === 'dark')
   }, [theme])
 
-  const handleDarkMode = (e: any) => {
-    setIsChecked(e.target.checked)
-    if (typeof window != 'undefined') {
-      if (e.target.checked) {
-        document.documentElement.classList.add('dark')
-        dispatch(updateTheme('dark' as any))
-        window.localStorage.setItem('theme', 'dark')
-      } else {
-        document.documentElement.classList.remove('dark')
-        dispatch(updateTheme('light' as any))
-        window.localStorage.setItem('theme', 'light')
-      }
-    }
+  const handleDarkMode = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const isDark = e.target.checked
+    setIsChecked(isDark)
+    document.documentElement.classList.toggle('dark', isDark)
+    dispatch(updateTheme(isDark ? 'dark' : 'light'))
+    window.localStorage.setItem('theme', isDark ? 'dark' : 'light')
   }
 
   return (
-    <div className="relative mt-[46px] flex w-full justify-center">
+    <div className="container relative max-w-[1244px] mx-auto mt-[46px] flex w-full justify-center px-4 lg:px-8">
       <div
-        className={
-          ` absolute left-0 top-0 h-[1px] w-full` +
-          `
-      ${theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'}
-      `
-        }
+        className={`absolute left-0 top-0 h-[1px] w-full ${
+          theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+        }`}
       />
-      <footer className="flex w-full max-w-[1244px] justify-between px-4 pb-4 pt-6 text-[#959595] xs:text-[14px] sm:text-[14px] md:pb-[12px] md:pt-4 lg:px-8">
+      <footer className="flex w-full max-w-[1244px] justify-between pb-4 pt-6 text-[#959595] xs:text-[14px] sm:text-[14px] md:pb-[12px] md:pt-4">
         <Link
           href="https://torque.fi"
-          className="cursor-pointer transition-colors duration-100 ease-linear hover:text-gray-500 dark:hover:text-white"
+          className="cursor-pointer flex items-center transition-colors duration-100 ease-linear hover:text-gray-500 dark:hover:text-white"
           target="_blank"
         >
-          © 2024 Torque Inc.
+          <span className="this-year mr-1">© {currentYear}</span>Torque Inc.
         </Link>
         <div className="hidden space-x-0 text-[14px] md:flex md:space-x-8">
-          {socials.map((item, i) => (
+          {socials.map((item) => (
             <Link
               href={item.link}
-              key={i}
-              className="block transition-colors duration-300 ease-linear hover:text-gray-500 dark:hover:text-white"
+              key={item.label}
+              className="transition-colors duration-300 ease-linear hover:text-gray-500 dark:hover:text-white"
               target="_blank"
             >
               {item.label}
             </Link>
           ))}
-          {privacies.map((item, i) => (
+          {privacies.map((item) => (
             <Link
               href={item.link}
-              key={i}
-              className="hidden transition-colors duration-300 ease-linear hover:text-gray-500 dark:hover:text-white xs:block"
+              key={item.label}
+              className="hidden xs:block transition-colors duration-300 ease-linear hover:text-gray-500 dark:hover:text-white"
               target="_blank"
             >
               {item.label}
             </Link>
           ))}
         </div>
-        <div className="flex space-x-2 text-[10px] xs:text-[10px] sm:ml-12">
+        <div className="flex space-x-2 text-[10px] sm:ml-12">
           <label className="relative inline-flex cursor-pointer items-center">
             <input
-              onChange={(e) => handleDarkMode(e)}
+              onChange={handleDarkMode}
               type="checkbox"
               checked={isChecked}
               className="peer sr-only"
             />
-            <div className="h-6 w-16 shadow-inner rounded-full border border-[#F4F4F4] bg-[#F6F6F6] after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-[#fff] after:transition-all after:content-[''] peer-checked:after:translate-x-[200%] dark:border-[#1D1D1D] after:dark:bg-[#3B3B3B] peer-checked:dark:bg-[#0D0D0D]" />
+            <div className="h-6 w-16 shadow-inner rounded-full border border-[#F4F4F4] bg-[#F6F6F6] after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-[#fff] after:transition-all peer-checked:after:translate-x-[200%] dark:border-[#1D1D1D] peer-checked:bg-[#0D0D0D] after:dark:bg-[#3B3B3B]" />
           </label>
         </div>
       </footer>
@@ -84,23 +76,11 @@ export default function Footer() {
 }
 
 const socials = [
-  {
-    label: 'Blog',
-    link: 'https://medium.com/@torquefi',
-  },
-  {
-    label: 'Telegram',
-    link: 'https://t.me/torquefi',
-  },
-  {
-    label: 'GitHub',
-    link: 'https://github.com/torquefi',
-  },
+  { label: 'Blog', link: 'https://medium.com/@torquefi' },
+  { label: 'Telegram', link: 'https://t.me/torquefi' },
+  { label: 'GitHub', link: 'https://github.com/torquefi' },
 ]
 
 const privacies = [
-  {
-    label: 'Terms',
-    link: 'https://torque.fi/terms',
-  },
+  { label: 'Terms', link: 'https://torque.fi/terms' },
 ]
