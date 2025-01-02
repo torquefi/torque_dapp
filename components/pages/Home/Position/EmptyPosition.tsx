@@ -27,7 +27,7 @@ export const EmptyPosition = () => {
             alt=""
           />
           <img
-            className="relative w-[60%]"
+            className="relative w-[50%]"
             src={
               theme === 'light'
                 ? '/images/ic-positions.svg'
