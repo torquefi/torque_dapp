@@ -244,9 +244,14 @@ const BridgeAssets: React.FC = () => {
           }`}
         ></div>
         <div className="mb-3">
-          <label className="mb-1 block text-[14px] font-medium text-[#959595]">
-            From
-          </label>
+          <div className="flex justify-between items-center mb-1">
+            <label className="text-[14px] font-medium text-[#959595]">
+              From
+            </label>
+            <p className="text-[14px] font-medium text-[#959595]">
+              Balance: 0.00
+            </p>  
+          </div>
           <div className="flex items-center">
             <div className="transition-ease w-[60%] rounded-[10px] rounded-r-none border-[1px] border-solid border-[#ececec] duration-100 ease-linear dark:border-[#181818]">
               <p className="ml-2 pb-[2px] pt-[2px] text-[12px] text-[#959595]">
@@ -384,9 +389,14 @@ const BridgeAssets: React.FC = () => {
           </div>
         </div>
         <div className="mb-3">
-          <label className="mb-1 block text-[14px] font-medium text-[#959595]">
-            To
-          </label>
+          <div className="flex justify-between items-center mb-1">
+              <label className="text-[14px] font-medium text-[#959595]">
+                To
+              </label>
+              <p className="text-[14px] font-medium text-[#959595]">
+                Balance: 0.00
+              </p>  
+            </div>
           <div className="flex">
             <div className="w-[60%] rounded-[10px] rounded-r-none border-[1px] border-solid border-[#ececec] dark:border-[#181818]">
               <p className="ml-2 pb-[2px] pt-[2px] text-[12px] text-[#959595]">
