@@ -36,6 +36,7 @@ export function CreateBoostItem({
   const { open } = useWeb3Modal()
   const { address, isConnected } = useAccount()
   const chainId = useChainId()
+  const [boost, setBoost] = useState(item)
   const [btnLoading, setBtnLoading] = useState(false)
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
   const [isOpenConfirmDepositModal, setOpenConfirmDepositModal] =
@@ -451,11 +452,11 @@ export function CreateBoostItem({
             <button
               onClick={() => setIsOpenAllocationModal(true)}
             >
-              {item?.firstAllocation}:{item?.secondAllocation}
+              {boost?.firstAllocation}:{boost?.secondAllocation}
             </button>
           </div>
         </div>
-        <AllocationModal
+        {/* <AllocationModal
           open={isOpenAllocationModal}
           handleClose={() => setIsOpenAllocationModal(false)}
           item={{
@@ -468,7 +469,7 @@ export function CreateBoostItem({
             item.secondAllocation = updatedAllocations.secondAllocation
             setIsOpenAllocationModal(false)
           }}
-        />
+        /> */}
         <div className="font-rogan-regular flex w-full items-center justify-between text-[16px] text-[#959595]">
           <div className="flex items-center justify-center">
             <div>Routed</div>
@@ -531,8 +532,17 @@ export function CreateBoostItem({
         handleClose={() => {
           setIsOpenAllocationModal(false)
         }}
-        item={item}
-        onConfirm={() => {
+        item={{
+          ...boost,
+          firstAllocation: boost.firstAllocation,
+          secondAllocation: boost.secondAllocation,
+        }}
+        onConfirm={(updatedAllocations) => {
+          setBoost((boost: any) => ({
+            ...boost,
+            firstAllocation: updatedAllocations.firstAllocation,
+            secondAllocation: updatedAllocations.secondAllocation,
+          }))
           setIsOpenAllocationModal(false)
           setOpenConfirmDepositModal(true)
         }}

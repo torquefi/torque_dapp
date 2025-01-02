@@ -1,36 +1,49 @@
 import Modal from '@/components/common/Modal'
-import React, { useEffect, useState } from 'react'
+import { AppStore } from '@/types/store'
+import { motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
 import { AiOutlineCheck, AiOutlineClose, AiOutlineEdit } from 'react-icons/ai'
 import { NumericFormat } from 'react-number-format'
 import { useSelector } from 'react-redux'
-import { AppStore } from '@/types/store'
-import { motion } from 'framer-motion'
+
+interface IIAllocationItem {
+  firstAllocation: number
+  secondAllocation: number
+}
+
+interface IAllocationModalProps {
+  open?: boolean
+  handleClose: () => void
+  item: any
+  onConfirm: (allocations: IIAllocationItem) => void
+}
 
 const AllocationModal = ({
   open,
   handleClose,
   item,
   onConfirm,
-}: {
-  open?: boolean
-  handleClose: () => void
-  item: any
-  onConfirm: (allocations: { firstAllocation: number; secondAllocation: number }) => void
-}) => {
+}: IAllocationModalProps) => {
   const theme = useSelector((store: AppStore) => store.theme.theme)
-  const [isEditFirst, setIsEditFirst] = useState(false)
-  const [isEditSecond, setIsEditSecond] = useState(false)
+  const [firstAllocationInit, setFirstAllocationInit] = useState(
+    item?.firstAllocation
+  )
+  const [secondAllocationInit, setSecondAllocationInit] = useState(
+    item?.secondAllocation
+  )
   const [firstAllocation, setFirstAllocation] = useState(item?.firstAllocation)
-  const [secondAllocation, setSecondAllocation] = useState(item?.secondAllocation)
-  const [editFirstAllocation, setEditFirstAllocation] = useState(item?.firstAllocation)
-  const [editSecondAllocation, setEditSecondAllocation] = useState(item?.secondAllocation)
+  const [secondAllocation, setSecondAllocation] = useState(
+    item?.secondAllocation
+  )
+  const [isEditingFirst, setIsEditingFirst] = useState(false)
+  const [isEditingSecond, setIsEditingSecond] = useState(false)
   const [isCheckedFirst, setIsCheckedFirst] = useState(false)
   const [isCheckedSecond, setIsCheckedSecond] = useState(false)
 
   useEffect(() => {
     if (open && item) {
-      setEditFirstAllocation(item?.firstAllocation)
-      setEditSecondAllocation(item?.secondAllocation)
+      // setFirstAllocationInit(item?.firstAllocation)
+      // setSecondAllocationInit(item?.secondAllocation)
       setFirstAllocation(item?.firstAllocation)
       setSecondAllocation(item?.secondAllocation)
       setIsCheckedFirst(true)
@@ -38,25 +51,32 @@ const AllocationModal = ({
     }
 
     if (!open) {
-      setIsEditFirst(false)
-      setIsEditSecond(false)
+      setIsEditingFirst(false)
+      setIsEditingSecond(false)
       setIsCheckedFirst(false)
       setIsCheckedSecond(false)
     }
-  }, [item, open])
+  }, [item?.firstAllocation, item?.secondAllocation, open])
 
   const handleFirstCheckboxChange = (checked: boolean) => {
     setIsCheckedFirst(checked)
+    setIsEditingFirst(false)
+    setIsEditingSecond(false)
+
     if (!checked && !isCheckedSecond) {
       setFirstAllocation(0)
-      setSecondAllocation(0)
-    } else if (!checked) {
+      setSecondAllocation(100)
+      setIsCheckedSecond(true)
+    }
+    if (!checked && isCheckedSecond) {
       setFirstAllocation(0)
       setSecondAllocation(100)
-    } else if (!isCheckedSecond) {
+    }
+    if (checked && !isCheckedSecond) {
       setFirstAllocation(100)
       setSecondAllocation(0)
-    } else {
+    }
+    if (checked && isCheckedSecond) {
       setFirstAllocation(50)
       setSecondAllocation(50)
     }
@@ -64,16 +84,23 @@ const AllocationModal = ({
 
   const handleSecondCheckboxChange = (checked: boolean) => {
     setIsCheckedSecond(checked)
+    setIsEditingFirst(false)
+    setIsEditingSecond(false)
+
     if (!checked && !isCheckedFirst) {
-      setFirstAllocation(0)
-      setSecondAllocation(0)
-    } else if (!checked) {
-      setSecondAllocation(0)
       setFirstAllocation(100)
-    } else if (!isCheckedFirst) {
-      setSecondAllocation(100)
-      setFirstAllocation(0)
-    } else {
+      setSecondAllocation(0)
+      setIsCheckedFirst(true)
+    }
+    if (!checked && isCheckedFirst) {
+      setFirstAllocation(100)
+      setSecondAllocation(0)
+    }
+    if (checked && !isCheckedFirst) {
+      setFirstAllocation(100)
+      setSecondAllocation(0)
+    }
+    if (checked && isCheckedFirst) {
       setFirstAllocation(50)
       setSecondAllocation(50)
     }
@@ -103,12 +130,14 @@ const AllocationModal = ({
       </div>
       <div
         className={`mt-3 h-[1px] w-full md:block ${
-          theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+          theme === 'light'
+            ? 'bg-gradient-divider-light'
+            : 'bg-gradient-divider'
         }`}
       ></div>
       <div className="mt-[16px] grid grid-cols-2 gap-[12px]">
         {/* First Allocation Section */}
-        <div className="bg-transparent dark:bg-[#141414] col-span-1 rounded-[12px] border border-solid border-[#efefef] p-[12px] dark:border-[#1a1a1a]">
+        <div className="col-span-1 rounded-[12px] border border-solid border-[#efefef] bg-transparent p-[12px] dark:border-[#1a1a1a] dark:bg-[#141414]">
           <div className="flex items-center justify-between">
             <img
               src={item?.yield_provider1}
@@ -121,7 +150,7 @@ const AllocationModal = ({
                 onChange={(e) => handleFirstCheckboxChange(e.target.checked)}
                 className="peer sr-only"
               />
-              <div className="h-6 w-12 flex items-center rounded-full border border-[#F4F4F4] bg-[#D2D5DA] shadow-inner relative after:absolute after:top-1/2 after:left-[2px] after:h-5 after:w-5 after:rounded-full after:bg-[#fff] after:transition-all after:transform after:-translate-y-1/2 after:content-[''] peer-checked:after:translate-x-[110%] dark:border-[#1D1D1D] dark:bg-[#141414] after:dark:bg-[#3B3B3B] peer-checked:bg-[#AA5BFF]" />
+              <div className="relative flex h-6 w-12 items-center rounded-full border border-[#F4F4F4] bg-[#D2D5DA] shadow-inner after:absolute after:left-[2px] after:top-1/2 after:h-5 after:w-5 after:-translate-y-1/2 after:transform after:rounded-full after:bg-[#fff] after:transition-all after:content-[''] peer-checked:bg-[#AA5BFF] peer-checked:after:translate-x-[110%] dark:border-[#1D1D1D] dark:bg-[#141414] after:dark:bg-[#3B3B3B]" />
             </label>
           </div>
           <div className="mt-[32px]">
@@ -130,42 +159,42 @@ const AllocationModal = ({
                 {item?.firstVersionAllocation}
               </p>
               <p className="font-rogan cursor-pointer text-[16px] font-semibold text-[#959595] underline">
-                {!isEditFirst ? (
+                {!isEditingFirst ? (
                   <AiOutlineEdit
                     onClick={() => {
                       if (isCheckedFirst) {
-                        setIsEditFirst(true)
-                        setIsEditSecond(false)
+                        setIsEditingFirst(true)
+                        setIsEditingSecond(false)
                       }
                     }}
                   />
                 ) : (
                   <AiOutlineCheck
                     onClick={() => {
-                      setFirstAllocation(editFirstAllocation)
-                      setSecondAllocation(100 - editFirstAllocation)
-                      setIsEditFirst(false)
-                      setIsEditSecond(false)
+                      setFirstAllocation(firstAllocation)
+                      setSecondAllocation(100 - firstAllocation)
+                      setIsEditingFirst(false)
+                      setIsEditingSecond(false)
                     }}
                   />
                 )}
               </p>
             </div>
             <div className="flex items-center justify-between">
-              <p className="font-rogan text-[20px] font-semibold text-[#030303] dark:text-white transition-transform duration-300 transform peer-checked:-translate-y-1">
+              <p className="font-rogan transform text-[20px] font-semibold text-[#030303] transition-transform duration-300 peer-checked:-translate-y-1 dark:text-white">
                 {item?.firstRoute}
               </p>
               <motion.p
                 className="font-rogan text-[20px] font-semibold text-[#030303] dark:text-white"
-                key={firstAllocation}
+                key={!isEditingFirst ? firstAllocation : 'first'}
                 variants={percentageVariants}
                 initial="initial"
                 animate="animate"
                 exit="exit"
               >
-                {isEditFirst ? (
+                {isEditingFirst ? (
                   <NumericFormat
-                    value={editFirstAllocation}
+                    value={firstAllocation}
                     thousandSeparator
                     suffix="%"
                     allowNegative={false}
@@ -177,7 +206,7 @@ const AllocationModal = ({
                     onChange={(e) => {
                       const newValue = e.target.value.replace(/[^0-9]/g, '')
                       if (Number(newValue) > 100) return
-                      setEditFirstAllocation(Number(newValue))
+                      setFirstAllocation(Number(newValue))
                       setSecondAllocation(100 - Number(newValue))
                     }}
                     className="w-full bg-transparent pl-[8px] text-right"
@@ -191,7 +220,7 @@ const AllocationModal = ({
         </div>
 
         {/* Second Allocation Section */}
-        <div className="bg-transparent dark:bg-[#141414] col-span-1 rounded-[12px] border border-solid border-[#efefef] p-[12px] dark:border-[#1a1a1a]">
+        <div className="col-span-1 rounded-[12px] border border-solid border-[#efefef] bg-transparent p-[12px] dark:border-[#1a1a1a] dark:bg-[#141414]">
           <div className="flex items-center justify-between">
             <img
               src={item?.yield_provider2}
@@ -204,7 +233,7 @@ const AllocationModal = ({
                 onChange={(e) => handleSecondCheckboxChange(e.target.checked)}
                 className="peer sr-only"
               />
-              <div className="h-6 w-12 flex items-center rounded-full border border-[#F4F4F4] bg-[#D2D5DA] shadow-inner relative after:absolute after:top-1/2 after:left-[2px] after:h-5 after:w-5 after:rounded-full after:bg-[#fff] after:transition-all after:transform after:-translate-y-1/2 after:content-[''] peer-checked:after:translate-x-[110%] dark:border-[#1D1D1D] dark:bg-[#141414] after:dark:bg-[#3B3B3B] peer-checked:bg-[#AA5BFF]" />
+              <div className="relative flex h-6 w-12 items-center rounded-full border border-[#F4F4F4] bg-[#D2D5DA] shadow-inner after:absolute after:left-[2px] after:top-1/2 after:h-5 after:w-5 after:-translate-y-1/2 after:transform after:rounded-full after:bg-[#fff] after:transition-all after:content-[''] peer-checked:bg-[#AA5BFF] peer-checked:after:translate-x-[110%] dark:border-[#1D1D1D] dark:bg-[#141414] after:dark:bg-[#3B3B3B]" />
             </label>
           </div>
           <div className="mt-[32px]">
@@ -213,17 +242,17 @@ const AllocationModal = ({
                 {item?.secondVersionAllocation}
               </p>
               <p className="font-rogan cursor-pointer text-[16px] font-semibold text-[#959595] underline">
-                {!isEditSecond ? (
+                {!isEditingSecond ? (
                   <AiOutlineEdit
                     onClick={() => {
-                      setIsEditSecond(true)
-                      setIsEditFirst(false)
+                      setIsEditingSecond(true)
+                      setIsEditingFirst(false)
                     }}
                   />
                 ) : (
                   <AiOutlineCheck
                     onClick={() => {
-                      setIsEditSecond(false)
+                      setIsEditingSecond(false)
                     }}
                   />
                 )}
@@ -235,15 +264,15 @@ const AllocationModal = ({
               </p>
               <motion.p
                 className="font-rogan text-[20px] font-semibold text-[#030303] dark:text-white"
-                key={secondAllocation}
+                key={!isEditingSecond ? secondAllocation : 'second'}
                 variants={percentageVariants}
                 initial="initial"
                 animate="animate"
                 exit="exit"
               >
-                {isEditSecond ? (
+                {isEditingSecond ? (
                   <NumericFormat
-                    value={editSecondAllocation}
+                    value={secondAllocation}
                     thousandSeparator
                     suffix="%"
                     allowNegative={false}
@@ -255,7 +284,7 @@ const AllocationModal = ({
                     onChange={(e) => {
                       const newValue = e.target.value.replace(/[^0-9]/g, '')
                       if (Number(newValue) > 100) return
-                      setEditSecondAllocation(Number(newValue))
+                      setSecondAllocation(Number(newValue))
                       setFirstAllocation(100 - Number(newValue))
                     }}
                     className="w-full bg-transparent pl-[8px] text-right"
