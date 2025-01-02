@@ -18,12 +18,12 @@ export default function Footer() {
     const isDark = e.target.checked
     setIsChecked(isDark)
     document.documentElement.classList.toggle('dark', isDark)
-    dispatch(updateTheme(isDark ? 'dark' : 'light'))
+    dispatch(updateTheme(isDark ? ('dark' as typeof theme) : ('light' as typeof theme)))
     window.localStorage.setItem('theme', isDark ? 'dark' : 'light')
   }
 
   return (
-    <div className="container relative max-w-[1244px] mx-auto mt-[46px] flex w-full justify-center px-4 lg:px-8">
+    <div className="container relative mx-auto mt-[46px] flex max-w-[1244px] w-full justify-center px-4 lg:px-8">
       <div
         className={`absolute left-0 top-0 h-[1px] w-full ${
           theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
@@ -37,7 +37,7 @@ export default function Footer() {
         >
           <span className="this-year mr-1">© {currentYear}</span>Torque Inc.
         </Link>
-        <div className="hidden space-x-0 text-[14px] md:flex md:space-x-8">
+        <div className="hidden md:flex space-x-8 text-[14px]">
           {socials.map((item) => (
             <Link
               href={item.link}
@@ -67,7 +67,7 @@ export default function Footer() {
               checked={isChecked}
               className="peer sr-only"
             />
-            <div className="h-6 w-16 shadow-inner rounded-full border border-[#F4F4F4] bg-[#F6F6F6] after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-[#fff] after:transition-all peer-checked:after:translate-x-[200%] dark:border-[#1D1D1D] peer-checked:bg-[#0D0D0D] after:dark:bg-[#3B3B3B]" />
+            <div className="h-6 w-16 rounded-full border border-[#F4F4F4] bg-[#F6F6F6] shadow-inner after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-[#fff] after:transition-all peer-checked:after:translate-x-[200%] dark:border-[#1D1D1D] peer-checked:bg-[#0D0D0D] after:dark:bg-[#3B3B3B]" />
           </label>
         </div>
       </footer>
