@@ -23,6 +23,8 @@ interface Network {
 }
 
 const tokens: Token[] = [
+  { symbol: 'TORQ', name: 'Torque' },
+  { symbol: 'TUSD', name: 'Torque USD' },
   { symbol: 'USDC', name: 'USD Coin' },
   { symbol: 'USDT', name: 'Tether' },
 ];
@@ -110,6 +112,27 @@ const BridgeAssets: React.FC = () => {
     open: { opacity: 1, height: 'auto', marginBottom: '1rem' },
     collapsed: { opacity: 0, height: 0, marginBottom: 0 },
   };
+
+  useEffect(() => {
+    if (fromNetwork) {
+      const alternativeNetwork = networks.find(
+        (network) => network.chainId !== fromNetwork.chainId
+      );
+      setToNetwork(alternativeNetwork || null);
+    }
+  }, [fromNetwork]);
+
+  useEffect(() => {
+    if (fromToken) {
+      setToToken(fromToken);
+    }
+  }, [fromToken]);
+
+  useEffect(() => {
+    if (toToken) {
+      setFromToken(toToken);
+    }
+  }, [toToken]);  
 
   useEffect(() => {
     setTimeout(() => {
@@ -255,7 +278,11 @@ const BridgeAssets: React.FC = () => {
                         }}
                       >
                         <img
-                          src={`/icons/coin/${token.symbol.toLocaleLowerCase()}.png`}
+                          src={
+                            token.symbol === 'TUSD' || token.symbol === 'TORQ'
+                              ? `/icons/coin/${token.symbol.toLocaleLowerCase()}.svg`
+                              : `/icons/coin/${token.symbol.toLocaleLowerCase()}.png`
+                          }
                           alt={`${token.symbol} icon`}
                           className="h-[18px] w-[18px] rounded-full"
                         />
@@ -270,7 +297,11 @@ const BridgeAssets: React.FC = () => {
                     {fromToken ? (
                       <>
                         <img
-                          src={`/icons/coin/${fromToken.symbol.toLocaleLowerCase()}.png`}
+                          src={
+                            fromToken.symbol === 'TUSD' || fromToken.symbol === 'TORQ'
+                              ? `/icons/coin/${fromToken.symbol.toLocaleLowerCase()}.svg`
+                              : `/icons/coin/${fromToken.symbol.toLocaleLowerCase()}.png`
+                          }
                           alt={`${fromToken.symbol} icon`}
                           className="h-[18px] w-[18px] rounded-full"
                         />
@@ -387,7 +418,11 @@ const BridgeAssets: React.FC = () => {
                         }}
                       >
                         <img
-                          src={`/icons/coin/${token.symbol.toLocaleLowerCase()}.png`}
+                          src={
+                            token.symbol === 'TUSD' || token.symbol === 'TORQ'
+                              ? `/icons/coin/${token.symbol.toLocaleLowerCase()}.svg`
+                              : `/icons/coin/${token.symbol.toLocaleLowerCase()}.png`
+                          }
                           alt={`${token.symbol} icon`}
                           className="h-[18px] w-[18px] rounded-full"
                         />
@@ -402,7 +437,11 @@ const BridgeAssets: React.FC = () => {
                     {toToken ? (
                       <>
                         <img
-                          src={`/icons/coin/${toToken.symbol.toLocaleLowerCase()}.png`}
+                          src={
+                            toToken.symbol === 'TUSD' || toToken.symbol === 'TORQ'
+                              ? `/icons/coin/${toToken.symbol.toLocaleLowerCase()}.svg`
+                              : `/icons/coin/${toToken.symbol.toLocaleLowerCase()}.png`
+                          }
                           alt={`${toToken.symbol} icon`}
                           className="h-[18px] w-[18px] rounded-full"
                         />
