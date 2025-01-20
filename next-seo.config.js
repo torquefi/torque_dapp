@@ -11,7 +11,7 @@ export default {
         'Torque, crypto wealth managemen, yield, loans, blockchain, borrow, PBLOCs, portfolio-backed lines of credit, smart contract automation, self-driving money, Vaults-as-a-Service, investors, institutions, DAOs, passive income, crypto loans, self custody',
     },
     { name: 'robots', content: 'index, follow' },
-    { name: 'author', content: 'Torque Team' },
+    { name: 'author', content: 'Torque' },
   ],
   openGraph: {
     type: 'website',
