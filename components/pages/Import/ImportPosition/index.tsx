@@ -128,73 +128,70 @@ const ImportPosition: React.FC = () => {
 
   const fetchAprAndSavingInfo = async () => {
     try {
-      // const aprRes = await TokenApr.getListApr({})
-      // const aprs: any[] = aprRes?.data || []
-      // const apr = +aprs?.find((apr) => apr?.name === 'TORQ')?.apr || 0
-
       const providerRpc = new ethers.providers.JsonRpcProvider(
         'https://arbitrum.llamarpc.com'
-      )
-
+      );
+  
       // TORQ APR
       const userWethBorrowUsdcContract = new ethers.Contract(
         userBorrowAddressEthContract.address,
         userBorrowAddressEthContract.abi,
         providerRpc
-      )
-
-      const torqAprRaw = await userWethBorrowUsdcContract.getApr()
-
+      );
+  
+      const torqAprRaw = await userWethBorrowUsdcContract.getApr();
       const torqApr =
-        (+ethers.utils.formatUnits(torqAprRaw.toString(), 'ether') || 0) * 100
-
-      setTorqueApr(torqApr)
-
+        (+ethers.utils.formatUnits(torqAprRaw.toString(), 'ether') || 0) * 100;
+  
+      setTorqueApr(torqApr);
+  
       // Current APR
       const lendingPoolContract = new ethers.Contract(
         selectedMarket.lendingPoolCI.address,
         selectedMarket.lendingPoolCI.abi,
         providerRpc
-      )
-
+      );
+  
       const reserveData = await lendingPoolContract.getReserveData(
         selectedMarket.tokenCI.address
-      )
-
+      );
+  
       const currentApr = new BigNumber(reserveData[4]?.toString())
         .dividedBy(new BigNumber(10).exponentiatedBy(25))
         .decimalPlaces(2)
-        .toNumber()
-      console.log('currentApr', selectedMarket.label, currentApr)
-
+        .toNumber();
+  
       // Savings
-      const usdcPrice = usdPrice['usdc'] || 1
-      const loanAmount = Number(amountMarket || 0) * usdcPrice
-
+      const usdcPrice = usdPrice['usdc'] || 1;
+      const loanAmount = Number(amountMarket || 0) * usdcPrice;
+  
       const currentMonthlyInterestRate = new BigNumber(currentApr || 0)
         .dividedBy(100)
         .dividedBy(12)
-        .toNumber()
+        .toNumber();
       const currentLoanMonthlyInterest = new BigNumber(
         currentMonthlyInterestRate || 0
       )
         .multipliedBy(loanAmount)
-        .toNumber()
-
+        .toNumber();
+  
       const torqueMonthlyInterestRate = new BigNumber(torqueApr || 0)
         .dividedBy(100)
         .dividedBy(12)
-        .toNumber()
+        .toNumber();
       const torqueLoanMonthlyInterest = new BigNumber(
         torqueMonthlyInterestRate || 0
       )
         .multipliedBy(loanAmount)
-        .toNumber()
-
+        .toNumber();
+  
       const monthlySavings =
-        currentLoanMonthlyInterest - torqueLoanMonthlyInterest
-      const annualSavings = Number(monthlySavings || 0) * 12
-
+        currentLoanMonthlyInterest - torqueLoanMonthlyInterest;
+      const annualSavings = Number(monthlySavings || 0) * 12;
+  
+      const monthlySavingsPercentage = (monthlySavings / loanAmount) * 100;
+      const annualSavingsPercentage = (annualSavings / loanAmount) * 100;
+  
       console.log('fetchAprAndSavingInfo', selectedMarket.label, {
         amountMarket,
         loanAmount,
@@ -206,24 +203,32 @@ const ImportPosition: React.FC = () => {
         torqueLoanMonthlyInterest,
         monthlySavings,
         annualSavings,
-      })
-
+        monthlySavingsPercentage,
+        annualSavingsPercentage,
+      });
+  
       setInfoItems([
         { title: 'Current APR', content: `-${currentApr}%` },
         { title: 'Torque APR', content: `-${torqApr.toFixed(2)}%` },
-        { title: 'Annual Savings', content: `$${annualSavings.toFixed(2)}` },
-        { title: 'Monthly Savings', content: `$${monthlySavings.toFixed(2)}` },
-      ])
+        {
+          title: 'Annual Savings',
+          content: `${annualSavingsPercentage.toFixed(2)}%`,
+        },
+        {
+          title: 'Monthly Savings',
+          content: `${monthlySavingsPercentage.toFixed(2)}%`,
+        },
+      ]);
     } catch (error) {
       setInfoItems([
         { title: 'Current APR', content: `0.00%` },
         { title: 'Torque APR', content: `0.00%` },
-        { title: 'Annual Savings', content: `$0.00` },
-        { title: 'Monthly Savings', content: `$0.00` },
-      ])
-      console.error('fetchAprAndSavingInfo', error)
+        { title: 'Annual Savings', content: `0.00%` },
+        { title: 'Monthly Savings', content: `0.00%` },
+      ]);
+      console.error('fetchAprAndSavingInfo', error);
     }
-  }
+  };
 
   const handleResetProgress = () => {
     setProgressToMarket(0)
