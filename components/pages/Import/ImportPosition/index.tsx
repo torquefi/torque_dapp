@@ -189,8 +189,13 @@ const ImportPosition: React.FC = () => {
         currentLoanMonthlyInterest - torqueLoanMonthlyInterest;
       const annualSavings = Number(monthlySavings || 0) * 12;
   
-      const monthlySavingsPercentage = (monthlySavings / loanAmount) * 100;
-      const annualSavingsPercentage = (annualSavings / loanAmount) * 100;
+      let monthlySavingsPercentage = (monthlySavings / loanAmount) * 100;
+      let annualSavingsPercentage = (annualSavings / loanAmount) * 100;
+
+      if (!+loanAmount) {
+        monthlySavingsPercentage = 0
+        annualSavingsPercentage = 0
+      }
   
       console.log('fetchAprAndSavingInfo', selectedMarket.label, {
         amountMarket,
