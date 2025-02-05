@@ -36,7 +36,7 @@ export const BoostPage = () => {
 
         {layoutBoost === 'grid' && (
           <div className="mt-[36px]">
-            <SkeletonDefault height={40} className="w-full max-w-[120px]"/>
+            <SkeletonDefault height={40} className="w-full max-w-[180px]"/>
             <div className="mt-[24px] grid gap-4 md:grid-cols-2">
               <SkeletonDefault height={'50vh'} width={'100%'} />
               <SkeletonDefault height={'50vh'} width={'100%'} />
