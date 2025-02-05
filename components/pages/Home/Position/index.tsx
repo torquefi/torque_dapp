@@ -66,7 +66,7 @@ export default function Position() {
             <SkeletonDefault height={'34px'} width={'100px'} />
           </div>
           <div className="flex space-x-2">
-            <SkeletonDefault height={'36px'} width={'160px'} />
+            <SkeletonDefault height={'34px'} width={'120px'} />
           </div>
         </div>
         <div className="mt-[24px] space-y-[24px]">
