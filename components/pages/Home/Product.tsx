@@ -87,7 +87,7 @@ export default function Product() {
           {products.map((item, i) =>
             isLoading ? (
               <div key={i}>
-                <SkeletonDefault height={'26vh'} width={'100%'} />
+                <SkeletonDefault height={'12vh'} width={'100%'} />
               </div>
             ) : (
               <Link
