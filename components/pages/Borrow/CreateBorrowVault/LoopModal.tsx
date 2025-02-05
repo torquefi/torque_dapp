@@ -3,8 +3,6 @@ import { useSelector } from 'react-redux';
 import { AppStore } from '@/types/store';
 import { useEffect, useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
-import Slider from '@mui/material/Slider';
-// import { Button } from '@/components/common/Button';
 import { motion } from 'framer-motion';
 
 interface ILoopModalProps {
@@ -51,24 +49,17 @@ const LoopModal = ({ open, handleClose, onConfirm }: ILoopModalProps) => {
         }`}
       ></div>
       <div className="mt-4">
-        <Slider
-          aria-label="Loop"
-          defaultValue={1}
-          valueLabelDisplay="auto"
-          step={1}
-          marks
-          min={1}
-          max={10}
-          onChange={(e, newValue) => setLoop(newValue as number)}
-          sx={{
-            color: theme === 'dark' ? '#AA5BFF' : '#912BFF',
-            '& .MuiSlider-thumb': {
-              '&:hover, &.Mui-focusVisible': {
-                boxShadow: `0px 0px 0px 8px ${theme === 'dark' ? 'rgba(170, 91, 255, 0.16)' : 'rgba(145, 43, 255, 0.16)'}`,
-              },
-            },
-          }}
+        <input
+          type="range"
+          min="1"
+          max="10"
+          value={loop}
+          onChange={(e) => setLoop(Number(e.target.value))}
+          className={`w-full ${theme === 'dark' ? 'accent-[#AA5BFF]' : 'accent-[#912BFF]'}`}
         />
+        <div className={`text-center mt-2 ${theme === 'dark' ? 'text-white' : 'text-[#030303]'}`}>
+          {loop}
+        </div>
       </div>
       <motion.div
         className="flex justify-center mt-4"
