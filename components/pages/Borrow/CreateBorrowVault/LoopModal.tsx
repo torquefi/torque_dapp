@@ -4,7 +4,7 @@ import { AppStore } from '@/types/store';
 import { useEffect, useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import Slider from '@mui/material/Slider';
-import { Button } from '@/components/common/Button';
+// import { Button } from '@/components/common/Button';
 import { motion } from 'framer-motion';
 
 interface ILoopModalProps {
@@ -77,12 +77,12 @@ const LoopModal = ({ open, handleClose, onConfirm }: ILoopModalProps) => {
         animate="animate"
         exit="exit"
       >
-        <Button
+        <button
           onClick={() => onConfirm(loop)}
           className="w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]"
         >
           Confirm Loop
-        </Button>
+        </button>
       </motion.div>
     </Modal>
   );
