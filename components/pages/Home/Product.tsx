@@ -109,8 +109,8 @@ export default function Product() {
                   transition-opacity duration-200 group-hover:opacity-40"
                   ></span>
                 </div>
-                <div className="p-[24px]">
-                  <div className="flex items-center justify-start mb-3">
+                <div className="pl-[18px] pt-[15px] pb-[15px] pr-[16px]">
+                  <div className="flex items-center justify-start">
                     <div
                       className={`flex w-[56px] h-[56px] py-3 px-3 items-center justify-center rounded-full border 
                         from-[#232323] to-[#232323]/0 dark:border-[#1A1A1A] dark:bg-gradient-to-b`}
@@ -127,7 +127,7 @@ export default function Product() {
                     </div>
                     <p className="font-rogan ml-[10px] text-[26px]">{item.name}</p>
                   </div>
-                  <p className="text-[#959595] text-[17px] line-clamp-1 md:line-clamp-none">{item.description}</p>
+                  {/* <p className="text-[#959595] text-[17px] line-clamp-1 md:line-clamp-none">{item.description}</p> */}
                 </div>
               </Link>
             )
@@ -176,10 +176,10 @@ export default function Product() {
                   />
                 </div>
                 <div>
-                  <p className="font-rogan text-[26px] text-[#030303] dark:text-white mb-2">
+                  <p className="font-rogan text-[26px] text-[#030303] dark:text-white">
                     {item.name}
                   </p>
-                  <p className="text-[#959595] text-[17px] line-clamp-1 md:line-clamp-none">{item.description}</p>
+                  {/* <p className="text-[#959595] text-[17px] line-clamp-1 md:line-clamp-none">{item.description}</p> */}
                 </div>
               </Link>
             )
