@@ -83,7 +83,7 @@ export default function Product() {
         className={`transition-all duration-200 ease-in-out ${viewMode === 'grid' ? 'opacity-100 scale-100' : 'opacity-0 scale-95 h-0 overflow-hidden'
           }`}
       >
-        <div className="grid gap-4 md:grid-cols-4">
+        <div className="grid gap-3 md:gap-4 grid-cols-2 md:grid-cols-4">
           {products.map((item, i) =>
             isLoading ? (
               <div key={i}>
