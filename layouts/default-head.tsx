@@ -19,6 +19,7 @@ export function DefaultHead() {
       <meta property="telegram:image" content={`https://uploads-ssl.webflow.com/6556f6be06fc2abb8a8da998/65f7c8b013bde20c05c81a06_torque-finance.png`} />
       <link rel="shortcut icon" href="https://app.torque.fi/assets/logo.png" />
       <link rel="icon" type="image/png" href={'/favicon.png'} />
+      <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
       <link rel="preconnect" href="https://fonts.gstatic.com" />
       <link
         href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap"
