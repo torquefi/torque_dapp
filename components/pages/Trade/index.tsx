@@ -4,7 +4,10 @@ import { AppStore } from '@/types/store'
 import { useSelector } from 'react-redux'
 
 export const TradePage = () => {
-    const theme = useSelector((store: AppStore) => store.theme.theme)
+  
+  const router = useRouter()
+  const theme = useSelector((store: AppStore) => store.theme.theme)
+
   return (
     <div className="">
     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 mb-16 items-center justify-center text-center">
