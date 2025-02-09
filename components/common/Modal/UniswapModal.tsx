@@ -21,6 +21,7 @@ import LoadingCircle from '../Loading/LoadingCircle'
 import NumberFormat from '../NumberFormat'
 import Popover from '../Popover'
 import { listSwapCoin } from './constants'
+import { useRouter } from 'next/router';
 
 export const swapFee: any = {
   ['WBTC-WETH']: 500,
@@ -140,6 +141,9 @@ export default function UniSwapModal({
   const [listBalances, setListBalances] = useState<any>({})
   const [amountFrom, setAmountFrom] = useState('')
   const [amountTo, setAmountTo] = useState('')
+  const [mode, setMode] = useState('basic') // Default to 'basic'
+  const router = useRouter()
+
   const usdPrice = useSelector((store: AppStore) => store.usdPrice?.price)
 
   const convertRate =
@@ -294,7 +298,16 @@ export default function UniSwapModal({
     if (!address) {
       return 'Connect Wallet'
     }
-    return createButtonText ? createButtonText : 'Begin Swap'
+    return createButtonText ? createButtonText : 'Begin Trade'
+  }
+
+  const toggleMode = () => {
+    if (mode === 'basic') {
+      setMode('pro');
+      router.push('/trade');  // Navigate to the trade page when Pro mode is active
+    } else {
+      setMode('basic');  // Switch back to basic mode
+    }
   }
 
   return (
@@ -307,12 +320,32 @@ export default function UniSwapModal({
       >
         <div className="flex items-center justify-between py-1">
           <div className="font-rogan text-[24px] font-[400] text-[#030303] dark:text-white">
-            {title || 'Swap'}
+            {title || 'Trade'}
           </div>
-          <AiOutlineClose
-            className="cursor-pointer text-[#030303] dark:text-[#ffff]"
-            onClick={handleClose}
-          />
+          <div className="flex items-center">
+            <div className="flex p-1 mr-2 bg-gray-100 dark:bg-[#0e0e0e] rounded-full border border-[#efefef] dark:border-[#1c1c1c] overflow-x-auto">
+              <button
+                className={`py-[0px] px-[6px] rounded-full flex-1 ${
+                  mode === 'basic' ? 'bg-white dark:bg-[#282828] text-[#030303] dark:text-white shadow-sm' : 'text-[#959595] hover:text-[#030303] dark:hover:text-white duration-100 ease-linear transition-all'
+                }`}
+                onClick={() => setMode('basic')}
+              >
+                Basic
+              </button>
+              <button
+                className={`py-[0px] px-[8px] rounded-full flex-1 ${
+                  mode === 'pro' ? 'bg-white dark:bg-[#282828] text-[#030303] dark:text-white shadow-sm' : 'text-[#959595] hover:text-[#030303] dark:hover:text-white duration-100 ease-linear transition-all'
+                }`}
+                onClick={toggleMode}
+              >
+                Pro
+              </button>
+            </div>
+            <AiOutlineClose
+              onClick={handleClose}
+              className="cursor-pointer text-[#030303] dark:text-white"
+            />
+          </div>
         </div>
         <div
           className={

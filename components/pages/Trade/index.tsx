@@ -1,23 +1,23 @@
+import React from 'react'
 import { useRouter } from "next/router"
-import Head from "next/head"
-import React from "react"
-import { MainLayout } from "@/layouts/MainLayout"
-import { NextPageWithLayout } from "@/types/next"
+import { AppStore } from '@/types/store'
+import { useSelector } from 'react-redux'
 
-const NotFound: NextPageWithLayout = () => {
-  const router = useRouter()
-
+export const TradePage = () => {
+    const theme = useSelector((store: AppStore) => store.theme.theme)
   return (
-    <>
-      <Head>
-        <title>Not Found | Torque</title>
-      </Head>
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 mb-16 items-center justify-center text-center">
-        <span className="font-rogan text-[80px] font-[400] text-black dark:text-white">
-          404
+    <div className="">
+    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 mb-16 items-center justify-center text-center">
+    <img
+          className="w-[46px] rounded-lg mb-6 shadow-md mx-auto"
+          src="/assets/torque-square.png"
+          alt="Torque icon"
+        />
+        <span className="font-rogan text-[54px] text-black dark:text-white">
+          Coming Soon
         </span>
         <p className="text-[#959595] w-full max-w-none md:max-w-[320px] mt-3">
-          Sorry, the page you are looking for doesn&apos;t exist or has been recently moved. Thank you.
+          The page that you are looking for is under development. Check back again soon.
         </p>
         <div className="mt-3">
           <button 
@@ -33,10 +33,6 @@ const NotFound: NextPageWithLayout = () => {
           </button>
         </div>
       </div>
-    </>
+    </div>
   )
 }
-
-NotFound.getLayout = (page: React.ReactNode) => <MainLayout>{page}</MainLayout>
-
-export default NotFound
