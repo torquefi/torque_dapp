@@ -6,7 +6,7 @@
 </p>
 
 ## Overview
-Torque is an onchain aggregator specialized in non-custodial liquidity solutions. It unifies opportunities to satisfy key the components of wealth generation while minimizing risk.
+Torque is an onchain aggregator specialized in non-custodial liquidity solutions. It unifies opportunities to satisfy the key components of wealth generation while minimizing risk.
 
 - **Website**: [torque.fi](https://torque.fi)
 - **Documentation**: [docs.torque.fi](https://docs.torque.fi)
