@@ -15,10 +15,10 @@ Torque is an onchain aggregator specialized in non-custodial liquidity solutions
 
 ## Products
 
-- **Boost**: Supply assets across diversified pools and capture compound yield.
-- **Borrow**: Collateralize Bitcoin or Ether and receive an instant onchain loan.
-- **Import**: Reduce interest burden by seamlessly migrating into the best rates.
-- **Vote**: Participate in governance with the Torque (TORQ) token by voting.
+- **Trade**: Trade spot/perps markets in a non-custodial environment.
+- **Boost**: Supply assets to earn diversified yield across multiple pools.
+- **Borrow**: Collateralize a loan and receive instant, onchain liquidity.
+- **Import**: Reduce interest burden by migrating loan positions.
 
 ## Getting Started
 
@@ -29,10 +29,10 @@ To use the interface, follow these simple steps:
    - Press "Connect" to access Torque's features.
 
 2. **Choose Your Action**
-   - **Boost**: Earn diversified yield with automated smart asset routing.
-   - **Borrow**: Utilize supported collateral assets to access best-rate loans.
-   - **Import**: Migrate loan positions from popular protocols to Torque.
-   - **Vote**: View pending and vote on active Torque DAO proposals.
+   - **Trade**: Trade spot/perps markets in a non-custodial environment.
+   - **Boost**: Supply assets to earn diversified yield across multiple pools.
+   - **Borrow**: Collateralize a loan and receive instant, onchain liquidity.
+   - **Import**: Reduce interest burden by migrating loan positions.
 
 3. **Monitor and Manage**
    - Use the dashboard to track and manage your portfolio.
