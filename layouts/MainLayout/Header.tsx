@@ -161,14 +161,11 @@ export const Header = () => {
                         Import
                       </Link>
                     </div>
-                    <div className="flex cursor-pointer flex-col items-center">
-                      <a
-                        className="text-[#959595] hover:text-[#030303] dark:hover:text-white"
-                        onClick={() => setOpenUniSwapModal(true)}
-                      >
-                        <img src="/icons/swap.svg" className="h-10 w-10" />
-                        Swap
-                      </a>
+                    <div className="flex flex-col items-center">
+                      <Link href="/trade" className="text-[#959595] hover:text-[#030303] dark:hover:text-white">
+                          <img src="/icons/trade-1.svg" className="h-10 w-10" />
+                          Trade
+                      </Link>
                     </div>
                     <div className="flex cursor-pointer flex-col items-center justify-center">
                       <Link

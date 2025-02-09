@@ -58,8 +58,7 @@ export default function Product() {
                   <img
                     src="/icons/rows.svg"
                     alt="Row View"
-                    className={`ml-[6px] mr-[6px] h-6 w-6 ${viewMode === 'row' ? 'text-[#030303]' : 'text-[#959595]'
-                      } dark:text-white`}
+                    className={`ml-[6px] mr-[6px] h-6 w-6 ${viewMode === 'row' ? 'text-[#030303]' : 'text-[#959595]'} dark:text-white`}
                   />
                 </button>
                 <button
@@ -70,8 +69,7 @@ export default function Product() {
                   <img
                     src="/icons/grid.svg"
                     alt="Grid View"
-                    className={`ml-[6px] mr-[6px] h-6 w-6 ${viewMode === 'grid' ? 'text-[#030303]' : 'text-[#959595]'
-                      } dark:text-white`}
+                    className={`ml-[6px] mr-[6px] h-6 w-6 ${viewMode === 'grid' ? 'text-[#030303]' : 'text-[#959595]'} dark:text-white`}
                   />
                 </button>
               </HoverIndicator>
@@ -80,8 +78,7 @@ export default function Product() {
         </div>
       )}
       <div
-        className={`transition-all duration-200 ease-in-out ${viewMode === 'grid' ? 'opacity-100 scale-100' : 'opacity-0 scale-95 h-0 overflow-hidden'
-          }`}
+        className={`transition-all duration-200 ease-in-out ${viewMode === 'grid' ? 'opacity-100 scale-100' : 'opacity-0 scale-95 h-0 overflow-hidden'}`}
       >
         <div className="grid gap-3 md:gap-4 grid-cols-2 md:grid-cols-4">
           {products.map((item, i) =>
@@ -96,38 +93,45 @@ export default function Product() {
                 className={`relative block overflow-hidden rounded-xl border text-[#030303] 
                 dark:border-[#1A1A1A] dark:text-white transition-transform duration-200 group hover:scale-105`}
               >
-                <div
-                  className={`absolute inset-0 pointer-events-none`}
-                  aria-hidden="true"
-                >
-                  <span
-                    className="absolute top-0 left-1/2 transform -translate-x-1/2 h-[4px] w-[100%] bg-gradient-to-r from-[#C38BFF] to-[#AA5BFF] scale-x-0 
-                  transition-transform duration-200 group-hover:scale-x-100 origin-center"
-                  ></span>
-                  <span
-                    className="absolute top-[4px] left-1/2 transform -translate-x-1/2 h-[8px] w-[100%] bg-gradient-to-r from-[#C38BFF] to-[#AA5BFF] blur-lg opacity-0 
-                  transition-opacity duration-200 group-hover:opacity-40"
-                  ></span>
+                <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+                  <span className="absolute top-0 left-1/2 transform -translate-x-1/2 h-[4px] w-[100%] bg-gradient-to-r from-[#C38BFF] to-[#AA5BFF] scale-x-0 
+                    transition-transform duration-200 group-hover:scale-x-100 origin-center"></span>
+                  <span className="absolute top-[4px] left-1/2 transform -translate-x-1/2 h-[8px] w-[100%] bg-gradient-to-r from-[#C38BFF] to-[#AA5BFF] blur-lg opacity-0 
+                    transition-opacity duration-200 group-hover:opacity-40"></span>
                 </div>
-                <div className="pl-[18px] pt-[15px] pb-[15px] pr-[16px]">
-                  <div className="flex items-center justify-start">
-                    <div
-                      className={`flex w-[56px] h-[56px] py-3 px-3 items-center justify-center rounded-full border 
-                        from-[#232323] to-[#232323]/0 dark:border-[#1A1A1A] dark:bg-gradient-to-b`}
-                    >
-                      <img
-                        className={`${
-                          item.name === 'Bridge' || item.name === 'Import'
-                            ? 'w-[30px] h-[30px]' // Adjusted size for Bridge and Import
-                            : 'w-[26px] h-[26px]' // Default size for others
-                        }`}
-                        src={item.icon}
-                        alt={`${item.name} Icon`}
-                      />
+                <div className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center">
+                      <div className="flex w-[56px] h-[56px] py-3 px-3 items-center justify-center rounded-full border 
+                        from-[#232323] to-[#232323]/0 dark:border-[#1A1A1A] dark:bg-gradient-to-b">
+                        <img
+                          className={`${item.name === 'Import' ? 'w-[30px] h-[30px]' : 'w-[26px] h-[26px]'}`}
+                          src={item.icon}
+                          alt={`${item.name} Icon`}
+                        />
+                      </div>
+                      <p className="font-rogan ml-[10px] text-[26px]">{item.name}</p>
                     </div>
-                    <p className="font-rogan ml-[10px] text-[26px]">{item.name}</p>
+                    
+                    {item.name === 'Trade' ? (
+                      <div className="inline-flex items-center px-3 py-1 h-7 rounded-full bg-gradient-to-r from-[#C38BFF]/10 to-[#AA5BFF]/10">
+                        <span className="text-[#AA5BFF] text-sm font-medium">Coming Soon</span>
+                      </div>
+                    ) : (
+                      <div className="text-right">
+                        {/* <div className="flex flex-col space-y-1">
+                          <div className="flex items-center justify-end space-x-2">
+                            <span className="text-[#959595] text-sm">24h Vol</span>
+                            <span className="font-medium">${item.stats?.volume ?? '0.00'}</span>
+                          </div>
+                          <div className="flex items-center justify-end space-x-2">
+                            <span className="text-[#959595] text-sm">24h Fees</span>
+                            <span className="font-medium">${item.stats?.fees ?? '0.00'}</span>
+                          </div>
+                        </div> */}
+                      </div>
+                    )}
                   </div>
-                  {/* <p className="text-[#959595] text-[17px] line-clamp-1 md:line-clamp-none">{item.description}</p> */}
                 </div>
               </Link>
             )
@@ -135,8 +139,7 @@ export default function Product() {
         </div>
       </div>
       <div
-        className={`transition-all duration-200 ease-in-out ${viewMode === 'row' ? 'opacity-100 scale-100' : 'opacity-0 scale-95 h-0 overflow-hidden'
-          }`}
+        className={`transition-all duration-200 ease-in-out ${viewMode === 'row' ? 'opacity-100 scale-100' : 'opacity-0 scale-95 h-0 overflow-hidden'}`}
       >
         <div className="flex flex-col">
           {products.map((item, i) =>
@@ -150,36 +153,43 @@ export default function Product() {
                 key={i}
                 className="relative flex items-center overflow-hidden p-4 border mb-4 rounded-xl dark:border-[#1A1A1A] group transition-transform duration-200 hover:scale-[103%]"
               >
-                <div
-                  className="absolute inset-0 pointer-events-none"
-                  aria-hidden="true"
-                >
-                  <span
-                    className="absolute top-0 left-1/2 transform -translate-x-1/2 h-[4px] w-[100%] bg-gradient-to-r from-[#C38BFF] to-[#AA5BFF] scale-x-0 
-                  transition-transform duration-200 group-hover:scale-x-100 origin-center"
-                  ></span>
-                  <span
-                    className="absolute top-[4px] left-1/2 transform -translate-x-1/2 h-[8px] w-[100%] bg-gradient-to-r from-[#C38BFF] to-[#AA5BFF] blur-lg opacity-0 
-                  transition-opacity duration-200 group-hover:opacity-40"
-                  ></span>
+                <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+                  <span className="absolute top-0 left-1/2 transform -translate-x-1/2 h-[4px] w-[100%] bg-gradient-to-r from-[#C38BFF] to-[#AA5BFF] scale-x-0 
+                    transition-transform duration-200 group-hover:scale-x-100 origin-center"></span>
+                  <span className="absolute top-[4px] left-1/2 transform -translate-x-1/2 h-[8px] w-[100%] bg-gradient-to-r from-[#C38BFF] to-[#AA5BFF] blur-lg opacity-0 
+                    transition-opacity duration-200 group-hover:opacity-40"></span>
                 </div>
-                <div className="flex w-auto h-auto py-3 px-3 mr-4 items-center justify-center rounded-full border 
-                    from-[#232323] to-[#232323]/0 dark:border-[#1A1A1A] dark:bg-gradient-to-b">
-                  <img
-                    className={`${
-                      item.name === 'Bridge' || item.name === 'Import'
-                        ? 'w-[30px] h-[30px]'
-                        : 'w-[26px] h-[26px]'
-                    }`}
-                    src={item.icon}
-                    alt={`${item.name} Icon`}
-                  />
-                </div>
-                <div>
-                  <p className="font-rogan text-[26px] text-[#030303] dark:text-white">
-                    {item.name}
-                  </p>
-                  {/* <p className="text-[#959595] text-[17px] line-clamp-1 md:line-clamp-none">{item.description}</p> */}
+                <div className="flex items-center justify-between flex-1">
+                  <div className="flex items-center">
+                    <div className="flex w-auto h-auto py-3 px-3 mr-4 items-center justify-center rounded-full border 
+                      from-[#232323] to-[#232323]/0 dark:border-[#1A1A1A] dark:bg-gradient-to-b">
+                      <img
+                        className={`${item.name === 'Import' ? 'w-[30px] h-[30px]' : 'w-[26px] h-[26px]'}`}
+                        src={item.icon}
+                        alt={`${item.name} Icon`}
+                      />
+                    </div>
+                    <p className="font-rogan text-[26px] text-[#030303] dark:text-white">
+                      {item.name}
+                    </p>
+                  </div>
+                  
+                  {item.name === 'Trade' ? (
+                    <div className="inline-flex items-center px-3 py-1 h-7 rounded-full bg-gradient-to-r from-[#C38BFF]/10 to-[#AA5BFF]/10">
+                      <span className="text-[#AA5BFF] text-sm font-medium">Coming Soon</span>
+                    </div>
+                  ) : (
+                    <div className="flex space-x-6">
+                      <div className="flex items-center space-x-2">
+                        <span className="text-[#959595] text-sm">24h Vol</span>
+                        <span className="font-medium">${item.stats?.volume ?? '0.00'}</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <span className="text-[#959595] text-sm">24h Fees</span>
+                        <span className="font-medium">${item.stats?.fees ?? '0.00'}</span>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </Link>
             )
@@ -192,31 +202,39 @@ export default function Product() {
 
 const products = [
   {
+    name: 'Trade',
+    path: '/trade',
+    icon: '/assets/overview-page/trade.svg',
+    description: 'Trade spot/perps markets in a non-custodial environment.',
+  },
+  {
     name: 'Boost',
     path: '/boost',
     icon: '/assets/overview-page/boost.svg',
-    description:
-      'Earn daily compound yield by providing onchain liquidity.',
+    description: 'Earn compound yield by providing onchain liquidity.',
+    stats: {
+      volume: '0',
+      fees: '0'
+    }
   },
   {
     name: 'Borrow',
     path: '/borrow',
     icon: '/assets/overview-page/borrow.svg',
-    description:
-      'Unlock stored energy in your portfolio through leverage.',
-  },
-  {
-    name: 'Bridge',
-    path: '/bridge',
-    icon: '/assets/overview-page/earnings.svg',
-    description:
-      'Transport OFT assets across blockchains in an instant.',
+    description: 'Unlock liquidity through collateralized loans.',
+    stats: {
+      volume: '0',
+      fees: '0'
+    }
   },
   {
     name: 'Import',
     path: '/import',
     icon: '/icons/import.svg',
-    description:
-      'Migrate loan positions from major money markets.',
-  },
+    description: 'Migrate positions from major money markets.',
+    stats: {
+      volume: '0',
+      fees: '0'
+    }
+  }
 ]
