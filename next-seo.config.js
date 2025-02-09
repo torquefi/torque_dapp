@@ -13,6 +13,13 @@ export default {
     { name: 'robots', content: 'index, follow' },
     { name: 'author', content: 'Torque' },
   ],
+  additionalLinkTags: [
+    {
+      rel: 'apple-touch-icon',
+      href: '/apple-touch-icon.png',
+      sizes: '180x180',
+    },
+  ],
   openGraph: {
     type: 'website',
     locale: 'en_US',
@@ -34,7 +41,8 @@ export default {
     handle: '@torquefi',
     site: '@torquefi',
     cardType: 'summary_large_image',
-    image: 'https://uploads-ssl.webflow.com/6556f6be06fc2abb8a8da998/668e0c1fe2e01cba33b85485_torque.png',
+    image:
+      'https://uploads-ssl.webflow.com/6556f6be06fc2abb8a8da998/668e0c1fe2e01cba33b85485_torque.png',
     title: 'Torque',
     description:
       'Torque is an automation protocol to streamline smart contract interactions. It unifies the finest non-custodial opportunities on the blockchain to satisfy the key components of wealth generation while reducing friction, increasing transparency, and guaranteeing self-custody.',
