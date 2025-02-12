@@ -99,10 +99,10 @@ export default function Product() {
                   <span className="absolute top-[4px] left-1/2 transform -translate-x-1/2 h-[8px] w-[100%] bg-gradient-to-r from-[#C38BFF] to-[#AA5BFF] blur-lg opacity-0 
                     transition-opacity duration-200 group-hover:opacity-40"></span>
                 </div>
-                <div className="p-4">
+                <div className="p-3 md:p-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center">
-                      <div className="flex w-[56px] h-[56px] py-3 px-3 items-center justify-center rounded-full border 
+                      <div className="flex w-[56px] h-[56px] p-2 md:py-3 md:px-3 items-center justify-center rounded-full border 
                         from-[#232323] to-[#232323]/0 dark:border-[#1A1A1A] dark:bg-gradient-to-b">
                         <img
                           className={`${item.name === 'Import' ? 'w-[30px] h-[30px]' : 'w-[26px] h-[26px]'}`}
@@ -110,12 +110,13 @@ export default function Product() {
                           alt={`${item.name} Icon`}
                         />
                       </div>
-                      <p className="font-rogan ml-[10px] text-[26px]">{item.name}</p>
+                      <p className="font-rogan ml-[6px] md:ml-[10px] text-[26px]">{item.name}</p>
                     </div>
                     
                     {item.name === 'Trade' ? (
-                      <div className="inline-flex items-center px-3 py-1 h-7 rounded-full bg-gradient-to-r from-[#C38BFF]/10 to-[#AA5BFF]/10">
-                        <span className="text-[#AA5BFF] text-sm font-medium">Coming Soon</span>
+                      <div className="inline-flex items-center px-2 md:px-3 py-1 h-7 rounded-full bg-gradient-to-r from-[#C38BFF]/10 to-[#AA5BFF]/10">
+                        <span className="text-[#AA5BFF] text-sm font-medium hidden md:block">Coming Soon</span>
+                        <span className="text-[#AA5BFF] text-sm font-medium block md:hidden">Soon</span>
                       </div>
                     ) : (
                       <div className="text-right">
