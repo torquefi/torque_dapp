@@ -15,10 +15,10 @@ Torque is an onchain aggregator specialized in non-custodial liquidity solutions
 
 ## Products
 
-- **Trade**: Trade spot/perps markets in a non-custodial environment.
-- **Boost**: Supply assets to earn diversified yield across multiple pools.
+- **Trade**: Trade spot/perps markets while maintaining asset ownership (soon).
+- **Boost**: Supply assets to earn diversified yield across major liquidity pools.
 - **Borrow**: Collateralize a loan and receive instant, onchain liquidity.
-- **Import**: Reduce interest burden by migrating loan positions.
+- **Import**: Reduce interest burden by refinancing loan positions.
 
 ## Getting Started
 
@@ -29,10 +29,10 @@ To use the interface, follow these simple steps:
    - Press "Connect" to access Torque's features.
 
 2. **Choose Your Action**
-   - **Trade**: Trade spot/perps markets in a non-custodial environment.
-   - **Boost**: Supply assets to earn diversified yield across multiple pools.
+   - **Trade**: Trade spot/perps markets while maintaining asset ownership (soon).
+   - **Boost**: Supply assets to earn diversified yield across major liquidity pools.
    - **Borrow**: Collateralize a loan and receive instant, onchain liquidity.
-   - **Import**: Reduce interest burden by migrating loan positions.
+   - **Import**: Reduce interest burden by refinancing loan positions.
 
 3. **Monitor and Manage**
    - Use the dashboard to track and manage your portfolio.
