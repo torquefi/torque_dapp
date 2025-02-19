@@ -37,7 +37,7 @@ export default function Footer() {
   }, [theme]);
 
   const handleThemeChange = (value: ThemeValue) => {
-    dispatch(updateTheme(value));
+    dispatch(updateTheme(value as any));
     localStorage.setItem('theme', value);
     if (value === 'dark') {
       document.documentElement.classList.add('dark');
