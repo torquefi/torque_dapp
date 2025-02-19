@@ -4,6 +4,8 @@ import { updateTheme } from '@/lib/redux/slices/theme';
 import { AppStore } from '@/types/store';
 import Link from 'next/link';
 
+type ThemeValue = 'light' | 'dark' | 'auto';
+
 export default function Footer() {
   const dispatch = useDispatch();
   const theme = useSelector((store: AppStore) => store.theme.theme);
@@ -12,15 +14,15 @@ export default function Footer() {
   const THEME_LIST = [
     {
       icon: <img src="/assets/desktop-outlined.svg" className="h-4 w-4" alt="Auto Theme" />,
-      value: 'auto',
+      value: 'auto' as ThemeValue,
     },
     {
       icon: <img src="/assets/sun-outlined.svg" className="h-4 w-4" alt="Light Theme" />,
-      value: 'light',
+      value: 'light' as ThemeValue,
     },
     {
       icon: <img src="/assets/moon-outlined.svg" className="h-4 w-4" alt="Dark Theme" />,
-      value: 'dark',
+      value: 'dark' as ThemeValue,
     },
   ];
 
@@ -34,7 +36,7 @@ export default function Footer() {
     }
   }, [theme]);
 
-  const handleThemeChange = (value) => {
+  const handleThemeChange = (value: ThemeValue) => {
     dispatch(updateTheme(value));
     localStorage.setItem('theme', value);
     if (value === 'dark') {
@@ -81,13 +83,13 @@ export default function Footer() {
             </Link>
           ))}
         </div>
-        <div className="relative flex items-center rounded-full p-0.5 bg-gray-100 dark:bg-[#0e0e0e] transition-colors duration-300" role="radiogroup">
+        <div className="bg-gray-100 dark:bg-[#0e0e0e] relative flex items-center rounded-full p-0.5 transition-colors duration-300" role="radiogroup">
             <div
-                className={`absolute top-0.5 h-7 w-7 rounded-full bg-white dark:bg-[#1c1c1c] transition-all duration-300 ${themeSelectClasses}`}
+                className={`bg-white dark:bg-[#1c1c1c] transition-all duration-300 absolute top-0.5 h-7 w-7 rounded-full ${themeSelectClasses}`}
             ></div>
             {THEME_LIST.map((item) => (
                 <div
-                    className={`relative dark:invert opacity-80 inline-flex h-7 w-7 cursor-pointer items-center justify-center rounded-full transition-colors duration-300 ease-in-out ${item.value === theme ? 'text-black dark:text-white' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'}`}
+                    className={`relative inline-flex dark:invert h-7 w-7 cursor-pointer items-center justify-center rounded-full transition-colors duration-300 ease-in-out ${item.value === theme ? 'text-black dark:text-white' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'}`}
                     key={item.value}
                     onClick={() => handleThemeChange(item.value)}
                     tabIndex={0}
