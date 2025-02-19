@@ -15,7 +15,6 @@
     "@hookform/resolvers": "^3.3.4",
     "@moralisweb3/next": "^2.18.0",
     "@mui/material": "^6.4.3",
-    "@paperclip-labs/whisk-sdk": "^0.0.18",
     "@popperjs/core": "^2.10.2",
     "@reduxjs/toolkit": "^1.9.3",
     "@tailwindcss/aspect-ratio": "^0.3.0",

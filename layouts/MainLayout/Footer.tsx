@@ -1,40 +1,54 @@
-import { updateTheme } from '@/lib/redux/slices/theme'
-import { AppStore } from '@/types/store'
-import Link from 'next/link'
-import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useMemo, useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateTheme } from '@/lib/redux/slices/theme';
+import { AppStore } from '@/types/store';
+import Link from 'next/link';
 
 export default function Footer() {
-  const dispatch = useDispatch()
-  const [isChecked, setIsChecked] = useState<boolean>(true)
-  const theme = useSelector((store: AppStore) => store.theme.theme)
-  const [currentYear] = useState(new Date().getFullYear())
+  const dispatch = useDispatch();
+  const theme = useSelector((store: AppStore) => store.theme.theme);
+  const [currentYear] = useState(new Date().getFullYear());
 
-  useEffect(() => {
-    const status = theme === 'dark' ? true : false
-    setIsChecked(status)
-  }, [theme])
+  const THEME_LIST = [
+    {
+      icon: <img src="/assets/desktop-outlined.svg" className="h-4 w-4" alt="Auto Theme" />,
+      value: 'auto',
+    },
+    {
+      icon: <img src="/assets/sun-outlined.svg" className="h-4 w-4" alt="Light Theme" />,
+      value: 'light',
+    },
+    {
+      icon: <img src="/assets/moon-outlined.svg" className="h-4 w-4" alt="Dark Theme" />,
+      value: 'dark',
+    },
+  ];
 
-  const handleDarkMode = (e: any) => {
-    setIsChecked(e.target.checked)
-    if (typeof window != 'undefined') {
-      if (e.target.checked) {
-        document.documentElement.classList.add('dark')
-        dispatch(updateTheme('dark' as any))
-        window.localStorage.setItem('theme', 'dark')
-      } else {
-        document.documentElement.classList.remove('dark')
-        dispatch(updateTheme('light' as any))
-        window.localStorage.setItem('theme', 'light')
-      }
+  const themeSelectClasses = useMemo(() => {
+    if (theme === 'dark') {
+      return 'left-[58px]';
+    } else if (theme === 'light') {
+      return 'left-[30px]';
+    } else {
+      return 'left-0.5';
     }
-  }
+  }, [theme]);
+
+  const handleThemeChange = (value) => {
+    dispatch(updateTheme(value));
+    localStorage.setItem('theme', value);
+    if (value === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  };
 
   return (
     <div className="container relative mx-auto mt-[46px] flex max-w-[1244px] w-full justify-center px-4 lg:px-8">
       <div
         className={`absolute left-0 top-0 h-[1px] w-full ${
-          theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
+          theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider-dark'
         }`}
       />
       <footer className="flex w-full max-w-[1244px] justify-between pb-4 pt-6 text-[#959595] xs:text-[14px] sm:text-[14px] md:pb-[12px] md:pt-4">
@@ -67,28 +81,35 @@ export default function Footer() {
             </Link>
           ))}
         </div>
-        <div className="flex space-x-2 text-[10px] sm:ml-12">
-          <label className="relative inline-flex cursor-pointer items-center">
-            <input
-              onChange={handleDarkMode}
-              type="checkbox"
-              checked={isChecked}
-              className="peer sr-only"
-            />
-            <div className="h-6 w-16 rounded-full border border-[#F4F4F4] bg-[#F6F6F6] shadow-inner after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-[#fff] after:transition-all peer-checked:after:translate-x-[200%] dark:border-[#1D1D1D] peer-checked:bg-[#0D0D0D] after:dark:bg-[#3B3B3B]" />
-          </label>
+        <div className="relative flex items-center rounded-full p-0.5 bg-gray-100 dark:bg-[#0e0e0e] transition-colors duration-300" role="radiogroup">
+            <div
+                className={`absolute top-0.5 h-7 w-7 rounded-full bg-white dark:bg-[#1c1c1c] transition-all duration-300 ${themeSelectClasses}`}
+            ></div>
+            {THEME_LIST.map((item) => (
+                <div
+                    className={`relative dark:invert opacity-80 inline-flex h-7 w-7 cursor-pointer items-center justify-center rounded-full transition-colors duration-300 ease-in-out ${item.value === theme ? 'text-black dark:text-white' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'}`}
+                    key={item.value}
+                    onClick={() => handleThemeChange(item.value)}
+                    tabIndex={0}
+                    role="radio"
+                    aria-label={item.value}
+                    aria-checked={item.value === theme}
+                >
+                    {item.icon}
+                </div>
+            ))}
         </div>
       </footer>
     </div>
-  )
+  );
 }
 
 const socials = [
   { label: 'Blog', link: 'https://medium.com/@torquefi' },
   { label: 'Telegram', link: 'https://t.me/torquefi' },
   { label: 'GitHub', link: 'https://github.com/torquefi' },
-]
+];
 
 const privacies = [
   { label: 'Terms', link: 'https://torque.fi/terms' },
-]
+];
