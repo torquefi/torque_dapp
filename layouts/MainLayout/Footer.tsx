@@ -50,10 +50,10 @@ export default function Footer() {
     <div className="container relative mx-auto mt-[46px] flex max-w-[1244px] w-full justify-center px-4 lg:px-8">
       <div
         className={`absolute left-0 top-0 h-[1px] w-full ${
-          theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider-dark'
+          theme === 'light' ? 'bg-gradient-divider-light' : 'bg-gradient-divider'
         }`}
       />
-      <footer className="flex w-full max-w-[1244px] justify-between pb-4 pt-6 text-[#959595] xs:text-[14px] sm:text-[14px] md:pb-[12px] md:pt-4">
+      <footer className="flex w-full max-w-[1244px] justify-between pb-4 pt-6 text-[#959595] xs:text-[14px] sm:text-[14px] md:pb-[8px] md:pt-[14px]">
         <Link
           href="https://torque.fi"
           className="cursor-pointer flex items-center transition-colors duration-100 ease-linear hover:text-gray-500 dark:hover:text-white"
