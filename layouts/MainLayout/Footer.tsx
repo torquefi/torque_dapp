@@ -17,8 +17,8 @@ export default function Footer() {
   }, [theme]);
 
   const handleDarkMode = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newTheme = e.target.checked ? 'dark' : 'light';
-    dispatch(updateTheme(newTheme as ThemeValue));
+    const newTheme: ThemeValue = e.target.checked ? 'dark' : 'light';
+    dispatch(updateTheme(newTheme));
     localStorage.setItem('theme', newTheme);
     document.documentElement.classList.toggle('dark', e.target.checked);
   };
@@ -31,7 +31,7 @@ export default function Footer() {
           <span className="this-year mr-1">© {currentYear}</span>Torque Inc.
         </Link>
         <div className="space-x-6 ml-[-60px] hidden md:block">
-        {links.map((item) => (
+          {links.map((item) => (
             <Link href={item.link} key={item.label} className="transition-colors duration-300 ease-linear hover:text-gray-500 dark:hover:text-white" target="_blank">
               {item.label}
             </Link>
