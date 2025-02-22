@@ -9,7 +9,7 @@ export interface AppStore {
   usdPrice?: IUsdPrice
   auth?: IAuth
   borrow?: IBorrowStore
-  theme?: IthemeType
+  theme?: IThemeType
   home?: IHomeStore
   layout?: ILayoutType
 }
