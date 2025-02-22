@@ -244,11 +244,14 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
         onClick={onConfirm}
         disabled={loading}
         className={`font-rogan-regular w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]
-        ${loading ? ' cursor-not-allowed text-[#eee]' : ' cursor-pointer'}
-        `}
+          ${loading ? ' cursor-not-allowed' : ' cursor-pointer'}
+          `}
       >
-        {loading && <LoadingCircle />}
-        {confirmButtonText}
+        {loading ? (
+          <LoadingCircle />
+        ) : (
+          confirmButtonText
+        )}
       </button>
     </Modal>
   )

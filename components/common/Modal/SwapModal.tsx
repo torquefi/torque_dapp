@@ -314,16 +314,19 @@ export default function SwapModal({
                         <button
                             onClick={() => {
                                 if (!address) {
-                                    handleClose()
-                                    setOpenConnectWalletModal(true)
+                                    handleClose();
+                                    setOpenConnectWalletModal(true);
                                 } else {
-                                    onCreateVault()
+                                    onCreateVault();
                                 }
                             }}
                             className="font-rogan-regular mt-[12px] w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[12px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]"
                         >
-                            {loading && <LoadingCircle />}
-                            {renderSubmitText()}
+                            {loading ? (
+                                <LoadingCircle />
+                            ) : (
+                                renderSubmitText()
+                            )}
                         </button>
                     </div>
                 </div>
