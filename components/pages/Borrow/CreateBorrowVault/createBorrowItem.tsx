@@ -752,7 +752,7 @@ export default function CreateBorrowItem({
     setOpenLoopModal(true);
   };
   
-  const handleLoopConfirm = (loop) => {
+  const handleLoopConfirm = (loop: number) => {
     console.log("Loop selected:", loop);
     setOpenLoopModal(false);
     setOpenConfirmDepositModal(true);
