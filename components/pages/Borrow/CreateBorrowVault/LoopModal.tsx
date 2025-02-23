@@ -62,7 +62,7 @@ const LoopModal = ({ open, handleClose, onConfirm }: ILoopModalProps) => {
 
   return (
     <Modal
-      className={`mx-auto w-[90%] max-w-[360px] bg-[#FFFFFF] px-[22px] ${
+      className={`mx-auto w-[90%] max-w-[360px] bg-[#FFFFFF] px-[22px] py-3 ${
         isDark ? 'dark:bg-[#030303]' : ''
       }`}
       open={open}
