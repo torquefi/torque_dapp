@@ -162,12 +162,12 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
 
   return (
     <Modal
-      className="mx-auto w-[90%] max-w-[360px] bg-[#FFFFFF] px-[22px] dark:bg-[#030303]"
+      className="mx-auto w-[90%] max-w-[360px] bg-[#FFFFFF] px-[22px] py-4 dark:bg-[#030303]"
       open={open}
       handleClose={handleClose}
       hideCloseIcon
     >
-      <div className="flex items-center justify-between py-1">
+      <div className="flex items-center justify-between">
         <div className="font-rogan text-[24px] font-[400] text-[#030303] dark:text-white md:text-[28px]">
           Confirm
         </div>
@@ -185,7 +185,7 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
       }`
         }
       ></div>
-      <div className=" h-auto w-full   overflow-y-auto py-[18px]">
+      <div className=" h-auto w-full overflow-y-auto py-[18px]">
         <div className="flex items-center justify-between">
           <div>
             <span className="text-[16px] text-[#959595]">You supply</span>
