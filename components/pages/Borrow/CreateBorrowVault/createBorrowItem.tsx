@@ -15,6 +15,7 @@ import Web3 from 'web3'
 import { IBorrowInfo } from '../types'
 import ConnectWalletModal from '@/layouts/MainLayout/ConnectWalletModal'
 import { RPC_PROVIDER } from '@/constants/networks'
+import LoopModal from './LoopModal'
 
 interface CreateBorrowItemProps {
   item: IBorrowInfo
@@ -41,6 +42,7 @@ export default function CreateBorrowItem({
   const [isUsdBorrowToken, setIsUsdBorrowToken] = useState(true)
   const [isUsdDepositToken, setIsUsdDepositToken] = useState(true)
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
+  const [isOpenLoopModal, setOpenLoopModal] = useState(false)
   const isUsdcBorrowed = item.borrowTokenSymbol === 'USDC'
   const isUsdtBorrowed = item.borrowTokenSymbol === 'USDT'
 
@@ -115,7 +117,7 @@ export default function CreateBorrowItem({
       setOpenConnectWalletModal(true)
       return
     }
-    setOpenConfirmDepositModal(true)
+    handleOpenLoopModal()
   }
 
   const onBorrow = async () => {
@@ -746,6 +748,16 @@ export default function CreateBorrowItem({
     }
   }
 
+  const handleOpenLoopModal = () => {
+    setOpenLoopModal(true);
+  };
+  
+  const handleLoopConfirm = (loop) => {
+    console.log("Loop selected:", loop);
+    setOpenLoopModal(false);
+    setOpenConfirmDepositModal(true);
+  };  
+
   const renderSubmitText = () => {
     if (!address) {
       return 'Connect Wallet'
@@ -970,14 +982,12 @@ export default function CreateBorrowItem({
         </div>
         <button
           className={`font-rogan-regular mt-4 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all ${
-            buttonLoading !== '' ||
-            (isConnected && (amount <= 0 || amountReceive <= 0))
+            buttonLoading !== '' || (isConnected && (amount <= 0 || amountReceive <= 0))
               ? 'transition-ease cursor-not-allowed opacity-60 duration-100 ease-linear'
               : 'hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF]'
           }`}
           disabled={
-            buttonLoading !== '' ||
-            (isConnected && (amount <= 0 || amountReceive <= 0))
+            buttonLoading !== '' || (isConnected && (amount <= 0 || amountReceive <= 0))
           }
           onClick={() => {
             if (!isConnected) {
@@ -1002,16 +1012,25 @@ export default function CreateBorrowItem({
             }
           }}
         >
-          {buttonLoading !== '' && <LoadingCircle />}
-          {buttonLoading !== '' ? buttonLoading : renderSubmitText()}
+          {buttonLoading !== '' ? (
+            <LoadingCircle />
+          ) : (
+            renderSubmitText()
+          )}
         </button>
       </div>
+      <LoopModal
+        open={isOpenLoopModal}
+        handleClose={() => setOpenLoopModal(false)}
+        onConfirm={handleLoopConfirm}
+      />
       <ConfirmDepositModal
         open={isOpenConfirmDepositModal}
         handleClose={() => setOpenConfirmDepositModal(false)}
         confirmButtonText="Supply & Borrow"
         onConfirm={() => onBorrow()}
         loading={isLoading}
+        // loop={loop}
         coinFrom={{
           amount: amountRaw,
           icon: `/icons/coin/${item.depositTokenSymbol.toLocaleLowerCase()}.png`,

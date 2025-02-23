@@ -43,6 +43,7 @@ interface ConfirmDepositModalProps {
   coinTo: DepositCoinDetail
   details?: Detail[]
   loading?: boolean
+  loop?: number // Add loop prop
 }
 
 export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
@@ -55,19 +56,26 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
     coinTo,
     details = [],
     loading,
+    loop = 1, // Default to 1x if not provided
   } = props
   const web3 = new Web3(Web3.givenProvider)
   const { address } = useAccount()
   const theme = useSelector((store: AppStore) => store.theme.theme)
   const [balanceWallet, setBalanceWallet] = useState<any>(0)
 
+  // Adjust amounts based on loop value
+  const adjustedCoinFrom = {
+    ...coinFrom,
+    amount: coinFrom.amount * loop, // Multiply supply amount by loop
+  }
+
+  const adjustedCoinTo = {
+    ...coinTo,
+    amount: coinTo.amount * loop, // Multiply borrow amount by loop
+  }
+
   const renderAmount = (coin: DepositCoinDetail) => {
     let amount = coin?.amount?.toString()
-    // if (coin?.isUsd) {
-    //   amount = (+amount || 0)?.toFixed(2)
-    // } else {
-    //   amount = (+amount || 0).toFixed(5)
-    // }
     if (coin?.isUsd) {
       amount = floorFraction(amount, 2)?.toFixed(2)
     } else {
@@ -182,7 +190,7 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
           <div>
             <span className="text-[16px] text-[#959595]">You supply</span>
             <div className="font-rogan pt-2 text-[23px] text-[#030303] dark:text-white">
-              {renderAmount(coinFrom)}
+              {renderAmount(adjustedCoinFrom)} {/* Use adjustedCoinFrom */}
             </div>
           </div>
           <div>
@@ -193,7 +201,7 @@ export function ConfirmDepositModal(props: ConfirmDepositModalProps) {
           <div>
             <span className="text-[16px] text-[#959595]">You receive</span>
             <div className="font-rogan pt-2 text-[23px] text-[#030303] dark:text-white">
-              {renderAmount(coinTo)}
+              {renderAmount(adjustedCoinTo)} {/* Use adjustedCoinTo */}
             </div>
           </div>
           <div className="relative w-16">

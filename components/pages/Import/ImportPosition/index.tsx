@@ -1107,14 +1107,15 @@ const ImportPosition: React.FC = () => {
           <button
             disabled={loadingSubmit}
             className={`font-rogan-regular mt-1 flex w-full items-center justify-center rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${
-              loadingSubmit
-                ? 'cursor-not-allowed text-[#eee]'
-                : 'cursor-pointer '
+              loadingSubmit ? 'cursor-not-allowed' : 'cursor-pointer'
             }`}
             onClick={handleImport}
           >
-            {loadingSubmit && <LoadingCircle />}
-            {address ? 'Import Position' : 'Connect Wallet'}
+            {loadingSubmit ? (
+              <LoadingCircle />
+            ) : (
+              address ? 'Import Position' : 'Connect Wallet'
+            )}
           </button>
         </div>
 
@@ -1125,9 +1126,13 @@ const ImportPosition: React.FC = () => {
               ` ${isLoadingBorrow ? 'cursor-not-allowed opacity-70' : ''}`
             }
             onClick={handleConfirmBorrow}
+            disabled={isLoadingBorrow}
           >
-            {isLoadingBorrow && <LoadingCircle />}
-            {address ? 'Supply & Borrow' : 'Connect Wallet'}
+            {isLoadingBorrow ? (
+              <LoadingCircle />
+            ) : (
+              address ? 'Supply & Borrow' : 'Connect Wallet'
+            )}
           </button>
         )}
         <ConfirmDepositModal
