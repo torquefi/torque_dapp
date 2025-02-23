@@ -10,6 +10,7 @@ import { useAccount } from 'wagmi';
 import { NumericFormat } from 'react-number-format';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
+import LoadingCircle from '@/components/common/Loading/LoadingCircle';
 
 interface Token {
   symbol: string;
