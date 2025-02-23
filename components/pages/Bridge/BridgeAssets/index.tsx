@@ -578,11 +578,16 @@ const BridgeAssets: React.FC = () => {
         <div className="flex justify-end">
           <button
             className={`font-rogan-regular mt-1 w-full rounded-full border border-[#AA5BFF] bg-gradient-to-b from-[#AA5BFF] to-[#912BFF] py-1 text-[14px] uppercase text-white transition-all hover:border hover:border-[#AA5BFF] hover:from-transparent hover:to-transparent hover:text-[#AA5BFF] ${
-              btnLoading ? 'cursor-not-allowed text-[#eee]' : 'cursor-pointer '
+              btnLoading ? 'cursor-not-allowed text-[#eee]' : 'cursor-pointer'
             }`}
             onClick={handleSwap}
+            disabled={btnLoading}
           >
-            {address ? 'Bridge' : 'Connect Wallet'}
+            {btnLoading ? (
+              <LoadingCircle />
+            ) : (
+              address ? 'Bridge' : 'Connect Wallet'
+            )}
           </button>
         </div>
       </div>
