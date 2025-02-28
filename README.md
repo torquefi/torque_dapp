@@ -22,8 +22,8 @@ To use the interface, follow these simple steps:
    - Press "Connect" to access Torque's features.
 
 2. **Choose Action**
-   - **Trade**: Trade spot/perps markets while maintaining asset ownership (soon).
-   - **Boost**: Supply assets to earn diversified yield across major liquidity pools.
+   - **Trade**: Trade spot/perps markets while maintaining asset ownership.
+   - **Boost**: Supply assets to earn diversified yield across major pools.
    - **Borrow**: Collateralize a loan and receive instant, onchain liquidity.
    - **Import**: Reduce interest burden by refinancing loan positions.
 
