@@ -5,22 +5,15 @@
   <i align="center">Flagship UI to access Torque Protocol</i>
 </p>
 
-## Overview
-Torque is an onchain aggregator specialized in non-custodial liquidity solutions. It unifies opportunities to satisfy the key components of wealth generation while minimizing risk.
+## Under Construction
+We're developing V2 with learnings and feedback from V1. Stay tuned for the release.
 
 - **Website**: [torque.fi](https://torque.fi)
 - **Documentation**: [docs.torque.fi](https://docs.torque.fi)
 - **X (Twitter)**: [x.com/torquefi](https://x.com/torquefi)
 - **Telegram**: [t.me/torquefi](https://t.me/torquefi)
 
-## Products
-
-- **Trade**: Trade spot/perps markets while maintaining asset ownership (soon).
-- **Boost**: Supply assets to earn diversified yield across major liquidity pools.
-- **Borrow**: Collateralize a loan and receive instant, onchain liquidity.
-- **Import**: Reduce interest burden by refinancing loan positions.
-
-## Getting Started
+## Getting Started (V1)
 
 To use the interface, follow these simple steps:
 
@@ -28,13 +21,13 @@ To use the interface, follow these simple steps:
    - Ensure you have a compatible web3 wallet.
    - Press "Connect" to access Torque's features.
 
-2. **Choose Your Action**
+2. **Choose Action**
    - **Trade**: Trade spot/perps markets while maintaining asset ownership (soon).
    - **Boost**: Supply assets to earn diversified yield across major liquidity pools.
    - **Borrow**: Collateralize a loan and receive instant, onchain liquidity.
    - **Import**: Reduce interest burden by refinancing loan positions.
 
-3. **Monitor and Manage**
+3. **Monitor/Manage**
    - Use the dashboard to track and manage your portfolio.
 
 ## Installation
