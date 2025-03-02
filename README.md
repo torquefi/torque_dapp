@@ -6,7 +6,7 @@
 </p>
 
 ## Under Construction
-We're developing Torque V2 with learnings and feedback from V1 as we speak. Stay tuned for updates and information regarding the official release.
+We're developing Torque V2 with learnings and feedback from V1 right now. Stay tuned for updates and information regarding the official release. This documentation will be updated once V2 is live.
 
 - **Website**: [torque.fi](https://torque.fi)
 - **Documentation**: [docs.torque.fi](https://docs.torque.fi)
