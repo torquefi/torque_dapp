@@ -16,7 +16,7 @@ export const TradePage = () => {
           src="/assets/torque-square.png"
           alt="Torque icon"
         />
-        <span className="font-rogan text-[54px] text-black dark:text-white">
+        <span className="font-rogan tracking-tight text-[54px] text-black dark:text-white">
           Coming Soon
         </span>
         <p className="text-[#959595] w-full max-w-none md:max-w-[320px] mt-3">

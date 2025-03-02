@@ -6,7 +6,7 @@
 </p>
 
 ## Under Construction
-We're developing V2 with learnings and feedback from V1. Stay tuned for the release.
+We're developing Torque V2 with learnings and feedback from V1 as we speak. Stay tuned for updates and information regarding the official release.
 
 - **Website**: [torque.fi](https://torque.fi)
 - **Documentation**: [docs.torque.fi](https://docs.torque.fi)
@@ -15,18 +15,18 @@ We're developing V2 with learnings and feedback from V1. Stay tuned for the rele
 
 ## Getting Started (V1)
 
-To use the interface, follow these simple steps:
+To use the interface, follow these steps:
 
 1. **Logging In**
-   - Ensure you have a compatible web3 wallet.
-   - Press "Connect" to access Torque's features.
+   - Ensure you have a compatible wallet.
+   - Press "Connect" to access Torque.
 
 2. **Choose Action**
-   - **Trade**: Trade spot/perps markets while maintaining asset ownership.
    - **Boost**: Supply assets to earn diversified yield across major pools.
    - **Borrow**: Collateralize a loan and receive instant, onchain liquidity.
-   - **Import**: Reduce interest burden by refinancing loan positions.
-
+   - **Bridge**: Move assets cross-chain to maximize asset potential.
+   - **Import**: Refinance loan positions from major money markets.
+ 
 3. **Monitor/Manage**
    - Use the dashboard to track and manage your portfolio.
 

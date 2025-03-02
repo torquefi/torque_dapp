@@ -25,14 +25,28 @@ interface Network {
 
 const tokens: Token[] = [
   { symbol: 'TORQ', name: 'Torque' },
-  { symbol: 'TUSD', name: 'Torque USD' },
   { symbol: 'USDC', name: 'USD Coin' },
   { symbol: 'USDT', name: 'Tether' },
+  { symbol: 'torqUSDC', name: 'Torque USDC' },
+  { symbol: 'torqUSDT', name: 'Torque USDT' },
+  { symbol: 'torqUSDS', name: 'Torque USDS' },
+  { symbol: 'torqUSDe', name: 'Torque USDe' },
+  { symbol: 'torqGHO', name: 'Torque GHO' },
+  { symbol: 'torqDAI', name: 'Torque DAI' },
+  { symbol: 'torqWBTC', name: 'Torque WBTC' },
+  { symbol: 'torqWETH', name: 'Torque WETH' },
+  { symbol: 'torqCOMP', name: 'Torque COMP' },
+  { symbol: 'torqARB', name: 'Torque ARB' },
+  { symbol: 'torqS', name: 'Torque S' },
 ];
 
 const networks: Network[] = [
   { name: 'Ethereum', chainId: 1 },
   { name: 'Arbitrum', chainId: 42161 },
+  { name: 'Optimism', chainId: 10 },
+  { name: 'Polygon', chainId: 137 },
+  { name: 'Sonic', chainId: 146 },
+  { name: 'Base', chainId: 8453 },
 ];
 
 const BridgeAssets: React.FC = () => {
@@ -262,7 +276,7 @@ const BridgeAssets: React.FC = () => {
                 placement="bottom-left"
                 trigger="click"
                 wrapperClassName="w-full"
-                className={`z-[10] mt-[12px] w-full bg-white leading-none dark:bg-[#030303]`}
+                className={`z-[10] mt-[12px] w-full max-h-[200px] overflow-y-scroll bg-white leading-none dark:bg-[#030303]`}
                 externalOpen={openPopover}
                 content={
                   <HoverIndicator
@@ -331,7 +345,7 @@ const BridgeAssets: React.FC = () => {
               <Popover
                 placement="bottom-right"
                 trigger="click"
-                className={`z-[10] mt-[12px] w-full bg-white leading-none dark:bg-[#030303]`}
+                className={`z-[10] mt-[12px] w-full max-h-[200px] overflow-y-scroll bg-white leading-none dark:bg-[#030303]`}
                 wrapperClassName="w-full"
                 externalOpen={openPopover}
                 content={
@@ -353,11 +367,11 @@ const BridgeAssets: React.FC = () => {
                         }}
                       >
                         <img
-                          src={`/icons/coin/${network.name.toLocaleLowerCase()}.png`}
+                          src={`/icons/networks/${network.name.toLocaleLowerCase()}.png`}
                           alt={`${network.name} icon`}
                           className="h-[18px] w-[18px] rounded-[6px]"
                         />
-                        <p>{network?.name}</p>
+                        <p className="cursor-pointer">{network?.name}</p>
                       </div>
                     ))}
                   </HoverIndicator>
@@ -368,11 +382,11 @@ const BridgeAssets: React.FC = () => {
                     {fromNetwork ? (
                       <>
                         <img
-                          src={`/icons/coin/${fromNetwork.name.toLocaleLowerCase()}.png`}
+                          src={`/icons/networks/${fromNetwork.name.toLocaleLowerCase()}.png`}
                           alt={`${fromNetwork.name} icon`}
                           className="h-[18px] w-[18px] rounded-[6px]"
                         />
-                        <p className="w-[60%] cursor-pointer text-ellipsis">
+                        <p className="w-[50%] cursor-pointer">
                           {fromNetwork?.name}
                         </p>
                       </>
@@ -407,7 +421,7 @@ const BridgeAssets: React.FC = () => {
                 placement="bottom-left"
                 trigger="click"
                 wrapperClassName="w-full"
-                className={`z-[10] mt-[12px] w-full bg-white leading-none dark:bg-[#030303]`}
+                className={`z-[10] mt-[12px] w-full max-h-[200px] overflow-y-scroll bg-white leading-none dark:bg-[#030303]`}
                 externalOpen={openPopover}
                 content={
                   <HoverIndicator
@@ -470,13 +484,13 @@ const BridgeAssets: React.FC = () => {
               </Popover>
             </div>
             <div className="w-[40%] rounded-[10px] rounded-l-none border-[1px] border-l-0 border-solid border-[#ececec] dark:border-[#181818]">
-              <p className="ml-2 text-ellipsis pb-[2px] pt-[2px] text-[12px] text-[#959595]">
+              <p className="ml-2 pb-[2px] pt-[2px] text-[12px] text-[#959595]">
                 Network
               </p>
               <Popover
                 placement="bottom-right"
                 trigger="click"
-                className={`z-[10] mt-[12px] w-full bg-white leading-none dark:bg-[#030303]`}
+                className={`z-[10] mt-[12px] w-full max-h-[200px] overflow-y-scroll bg-white leading-none dark:bg-[#030303]`}
                 wrapperClassName="w-full"
                 externalOpen={openPopover}
                 content={
@@ -498,11 +512,11 @@ const BridgeAssets: React.FC = () => {
                         }}
                       >
                         <img
-                          src={`/icons/coin/${network.name.toLocaleLowerCase()}.png`}
+                          src={`/icons/networks/${network.name.toLocaleLowerCase()}.png`}
                           alt={`${network.name} icon`}
                           className="h-[18px] w-[18px] rounded-[6px]"
                         />
-                        <p>{network?.name}</p>
+                        <p className="cursor-pointer">{network?.name}</p>
                       </div>
                     ))}
                   </HoverIndicator>
@@ -513,11 +527,11 @@ const BridgeAssets: React.FC = () => {
                     {toNetwork ? (
                       <>
                         <img
-                          src={`/icons/coin/${toNetwork.name.toLocaleLowerCase()}.png`}
+                          src={`/icons/networks/${toNetwork.name.toLocaleLowerCase()}.png`}
                           alt={`${toNetwork.name} icon`}
                           className="h-[18px] w-[18px] rounded-[6px]"
                         />
-                        <p className="w-[60%] cursor-pointer text-ellipsis">
+                        <p className="w-[50%] cursor-pointer">
                           {toNetwork?.name}
                         </p>
                       </>
