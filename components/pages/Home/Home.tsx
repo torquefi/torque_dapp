@@ -1115,7 +1115,7 @@ const HomePageFilter = () => {
         <div className="flex flex-col items-center justify-center w-full h-full space-y-2">
           <div className="text-[16px] text-[#959595]">Total Supply</div>
           <NumberFormat
-            className="font-rogan text-[32px] text-[#030303] dark:text-white"
+            className="font-rogan tracking-tight text-[32px] text-[#030303] dark:text-white"
             displayType="text"
             thousandSeparator
             value={
@@ -1133,7 +1133,7 @@ const HomePageFilter = () => {
         <div className="flex flex-col items-center justify-center w-full h-full space-y-2">
           <div className="text-[16px] text-[#959595]">Total Borrow</div>
           <NumberFormat
-            className="font-rogan text-[32px] text-[#030303] dark:text-white"
+            className="font-rogan tracking-tight text-[32px] text-[#030303] dark:text-white"
             displayType="text"
             thousandSeparator
             value={home?.totalBorrow || 0}
@@ -1157,7 +1157,7 @@ const HomePageFilter = () => {
         <div className="flex flex-col items-center justify-center w-full h-full space-y-2">
           <div className="text-[16px] text-[#959595]">Your Supply</div>
           <NumberFormat
-            className="font-rogan text-[32px] text-[#030303] dark:text-white"
+            className="font-rogan tracking-tight text-[32px] text-[#030303] dark:text-white"
             displayType="text"
             thousandSeparator
             value={
@@ -1173,7 +1173,7 @@ const HomePageFilter = () => {
         <div className="flex flex-col items-center justify-center w-full h-full space-y-2">
           <div className="text-[16px] text-[#959595]">Your Borrow</div>
           <NumberFormat
-            className="font-rogan text-[32px] text-[#030303] dark:text-white"
+            className="font-rogan tracking-tight text-[32px] text-[#030303] dark:text-white"
             displayType="text"
             thousandSeparator
             value={address ? home?.yourBorrow || '0' : 0}
@@ -1222,7 +1222,7 @@ const HomePageFilter = () => {
           <div className="flex flex-col items-center justify-center w-full h-full space-y-2">
             <div className="text-[16px] text-[#959595]">NET APY</div>
             <NumberFormat
-              className="font-rogan text-[32px] text-[#030303] dark:text-white"
+              className="font-rogan tracking-tight text-[32px] text-[#030303] dark:text-white"
               displayType="text"
               thousandSeparator
               value={

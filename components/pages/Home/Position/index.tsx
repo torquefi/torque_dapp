@@ -82,7 +82,7 @@ export default function Position() {
     return (
       <div className="mt-[24px]">
         <div className="flex items-center justify-between">
-          <h3 className="font-rogan text-[28px] text-[#030303] dark:text-white">
+          <h3 className="font-rogan tracking-tight text-[28px] text-[#030303] dark:text-white">
             Positions
           </h3>
           {timePeriodButtons}
