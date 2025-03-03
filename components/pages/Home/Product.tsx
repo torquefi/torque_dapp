@@ -102,36 +102,15 @@ export default function Product() {
                 <div className="p-3 md:p-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center">
-                      <div className="flex w-[56px] h-[56px] p-2 md:py-3 md:px-3 items-center justify-center rounded-full border 
-                        from-[#232323] to-[#232323]/0 dark:border-[#1A1A1A] dark:bg-gradient-to-b">
+                      <div className="flex w-auto h-auto py-3 px-3 mr-[2px] items-center justify-center rounded-full border from-[#232323] to-[#232323]/0 dark:border-[#1A1A1A] dark:bg-gradient-to-b">
                         <img
-                          className={`${item.name === 'Import' ? 'w-[30px] h-[30px]' : 'w-[26px] h-[26px]'}`}
+                          className={`${item.name === 'Import' || item.name === 'Bridge' ? 'w-[30px] h-[30px]' : 'w-[26px] h-[26px]'}`}
                           src={item.icon}
                           alt={`${item.name} Icon`}
                         />
                       </div>
                       <p className="font-rogan ml-[6px] md:ml-[10px] text-[26px]">{item.name}</p>
                     </div>
-                    
-                    {item.name === 'Trade' ? (
-                      <div className="inline-flex items-center px-2 md:px-3 py-1 h-7 rounded-full bg-gradient-to-r from-[#C38BFF]/10 to-[#AA5BFF]/10">
-                        <span className="text-[#AA5BFF] text-sm font-medium hidden md:block">Coming Soon</span>
-                        <span className="text-[#AA5BFF] text-sm font-medium block md:hidden">Soon</span>
-                      </div>
-                    ) : (
-                      <div className="text-right">
-                        {/* <div className="flex flex-col space-y-1">
-                          <div className="flex items-center justify-end space-x-2">
-                            <span className="text-[#959595] text-sm">24h Vol</span>
-                            <span className="font-medium">${item.stats?.volume ?? '0.00'}</span>
-                          </div>
-                          <div className="flex items-center justify-end space-x-2">
-                            <span className="text-[#959595] text-sm">24h Fees</span>
-                            <span className="font-medium">${item.stats?.fees ?? '0.00'}</span>
-                          </div>
-                        </div> */}
-                      </div>
-                    )}
                   </div>
                 </div>
               </Link>
@@ -162,10 +141,9 @@ export default function Product() {
                 </div>
                 <div className="flex items-center justify-between flex-1">
                   <div className="flex items-center">
-                    <div className="flex w-auto h-auto py-3 px-3 mr-4 items-center justify-center rounded-full border 
-                      from-[#232323] to-[#232323]/0 dark:border-[#1A1A1A] dark:bg-gradient-to-b">
+                    <div className="flex w-auto h-auto py-3 px-3 mr-[2px] items-center justify-center rounded-full border from-[#232323] to-[#232323]/0 dark:border-[#1A1A1A] dark:bg-gradient-to-b">
                       <img
-                        className={`${item.name === 'Import' ? 'w-[30px] h-[30px]' : 'w-[26px] h-[26px]'}`}
+                        className={`${item.name === 'Import' || item.name === 'Bridge' ? 'w-[30px] h-[30px]' : 'w-[26px] h-[26px]'}`}
                         src={item.icon}
                         alt={`${item.name} Icon`}
                       />
@@ -174,23 +152,6 @@ export default function Product() {
                       {item.name}
                     </p>
                   </div>
-                  
-                  {item.name === 'Trade' ? (
-                    <div className="inline-flex items-center px-3 py-1 h-7 rounded-full bg-gradient-to-r from-[#C38BFF]/10 to-[#AA5BFF]/10">
-                      <span className="text-[#AA5BFF] text-sm font-medium">Coming Soon</span>
-                    </div>
-                  ) : (
-                    <div className="flex space-x-6">
-                      <div className="flex items-center space-x-2">
-                        <span className="text-[#959595] text-sm">24h Vol</span>
-                        <span className="font-medium">${item.stats?.volume ?? '0.00'}</span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <span className="text-[#959595] text-sm">24h Fees</span>
-                        <span className="font-medium">${item.stats?.fees ?? '0.00'}</span>
-                      </div>
-                    </div>
-                  )}
                 </div>
               </Link>
             )
@@ -202,12 +163,6 @@ export default function Product() {
 }
 
 const products = [
-  {
-    name: 'Trade',
-    path: '/trade',
-    icon: '/assets/overview-page/trade.svg',
-    description: 'Trade spot/perps markets in a non-custodial environment.',
-  },
   {
     name: 'Boost',
     path: '/boost',
@@ -227,6 +182,12 @@ const products = [
       volume: '0',
       fees: '0'
     }
+  },
+  {
+    name: 'Bridge',
+    path: '/bridge',
+    icon: '/icons/bridge.svg',
+    description: 'Move assets cross-chain to maximize ownership potential.',
   },
   {
     name: 'Import',
