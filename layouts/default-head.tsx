@@ -14,9 +14,9 @@ export function DefaultHead() {
                         style-src  'self' 'unsafe-inline' *"
       ></meta>
       <meta name="keywords" content="HTML, CSS, JavaScript" />
-      <meta property="og:image" content={`https://uploads-ssl.webflow.com/6556f6be06fc2abb8a8da998/65f7c8b013bde20c05c81a06_torque-finance.png`} />
-      <meta name="twitter:image" content={`https://uploads-ssl.webflow.com/6556f6be06fc2abb8a8da998/65f7c8b013bde20c05c81a06_torque-finance.png`} />
-      <meta property="telegram:image" content={`https://uploads-ssl.webflow.com/6556f6be06fc2abb8a8da998/65f7c8b013bde20c05c81a06_torque-finance.png`} />
+      <meta property="og:image" content={`https://uploads-ssl.webflow.com/6556f6be06fc2abb8a8da998/668e0c1fe2e01cba33b85485_torque.png`} />
+      <meta name="twitter:image" content={`https://uploads-ssl.webflow.com/6556f6be06fc2abb8a8da998/668e0c1fe2e01cba33b85485_torque.png`} />
+      <meta property="telegram:image" content={`https://uploads-ssl.webflow.com/6556f6be06fc2abb8a8da998/668e0c1fe2e01cba33b85485_torque.png`} />
       <link rel="shortcut icon" href="https://app.torque.fi/assets/logo.png" />
       <link rel="icon" type="image/png" href={'/favicon.png'} />
       <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />

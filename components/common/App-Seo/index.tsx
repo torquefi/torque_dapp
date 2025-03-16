@@ -35,7 +35,7 @@ const AppSeo: FC<AppSeoProps> = ({
     const defaultPreviewImage =
         'https://uploads-ssl.webflow.com/6556f6be06fc2abb8a8da998/668e0c1fe2e01cba33b85485_torque.png';
     const defaultTitle = 'Torque';
-    const defaultMetaDescription = 'Torque is an automation protocol to streamline smart contract interactions. It unifies the finest non-custodial opportunities on the blockchain to satisfy the key components of wealth generation while reducing friction, increasing transparency, and guaranteeing self-custody.';
+    const defaultMetaDescription = 'Torque is an onchain aggregator specialized in non-custodial liquidity solutions. It unifies opportunities to satisfy the key components of wealth generation while reducing friction, increasing transparency, and guaranteeing self-custody.';
 
     return (
         <NextSeo
