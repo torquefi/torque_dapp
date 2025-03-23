@@ -16,7 +16,7 @@ export const Governance = () => {
   if (isLoading) {
     return (
       <>
-        <div className="mt-[-16px]">
+        <div className="mt-[-16px] pt-8">
         <div className="mx-auto mb-2 w-[300px] rounded-full text-center">
           <SkeletonDefault className="h-[48px]" />
         </div>
@@ -49,7 +49,7 @@ export const Governance = () => {
   }
   return (
     <>
-      <div className="w-full mx-auto text-center mt-[-24px]">
+      <div className="w-full mx-auto text-center mt-[-24px] pt-8">
         <h1 className="font-rogan text-[38px] font-[400] leading-[60px] text-[#030303] md:text-[52px] dark:text-white">
           Governance
         </h1>

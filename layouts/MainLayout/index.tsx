@@ -1,11 +1,12 @@
-import { useDispatch, useSelector } from 'react-redux'
-import Footer from './Footer'
-import { Header } from './Header'
-import { AppStore } from '@/types/store'
-import { useEffect, useState } from 'react'
-import { updateTheme } from '@/lib/redux/slices/theme'
-import Headroom from 'react-headroom'
-import InviteCodeModal from '@/components/common/Modal/InviteCodeModal'
+"use client"
+
+import { useDispatch, useSelector } from "react-redux"
+import Footer from "./Footer"
+import { Sidebar } from "./Sidebar"
+import type { AppStore } from "@/types/store"
+import { useEffect, useState } from "react"
+import { updateTheme } from "@/lib/redux/slices/theme"
+import Announcement from "./Announcement"
 
 interface MainLayoutProps {
   children: any
@@ -14,101 +15,60 @@ interface MainLayoutProps {
 export const MainLayout = ({ children }: MainLayoutProps) => {
   const dispatch = useDispatch()
   const theme = useSelector((store: AppStore) => store.theme.theme)
-
-  const [isInviteModalOpen, setIsInviteModalOpen] = useState(false)
-  const [isModalChecked, setIsModalChecked] = useState(false)
+  const [sidebarExpanded, setSidebarExpanded] = useState(true)
 
   useEffect(() => {
-    const inviteModalDismissed = localStorage.getItem('inviteModalDismissed')
-
-    if (!inviteModalDismissed) {
-      setIsInviteModalOpen(true)
+    // Get sidebar state
+    const savedState = localStorage.getItem("sidebar:expanded")
+    if (savedState !== null) {
+      setSidebarExpanded(savedState === "true")
     }
-    setIsModalChecked(true)
+
+    // Listen for sidebar state changes
+    const handleStorageChange = (e) => {
+      if (e.key === "sidebar:expanded") {
+        setSidebarExpanded(e.newValue === "true")
+      }
+    }
+
+    window.addEventListener("storage", handleStorageChange)
+    return () => window.removeEventListener("storage", handleStorageChange)
   }, [])
 
   useEffect(() => {
-    if (theme === '') {
-      dispatch(updateTheme('light' as any))
+    if (theme === "") {
+      dispatch(updateTheme("light" as any))
     }
 
-    if (typeof window !== 'undefined') {
-      if (theme === 'light') {
-        document.documentElement.classList.remove('dark')
-        document.documentElement.classList.add('light')
+    if (typeof window !== "undefined") {
+      if (theme === "light") {
+        document.documentElement.classList.remove("dark")
+        document.documentElement.classList.add("light")
       } else {
-        document.documentElement.classList.add('dark')
-        document.documentElement.classList.remove('light')
+        document.documentElement.classList.add("dark")
+        document.documentElement.classList.remove("light")
       }
     }
   }, [theme, dispatch])
 
-  const handleInviteModalClose = () => {
-    setIsInviteModalOpen(false)
-    localStorage.setItem('inviteModalDismissed', 'true')
-  }
-
-  if (!isModalChecked) return null 
+  // Example logic to determine the number of positions
+  const positionsCount = 0; // Replace this with your actual logic to determine positions
 
   return (
-    <div className="font-rogan-regular min-h-screen bg-[#FFFFFF] text-white dark:bg-[#030303]">
-      <InviteCodeModal open={isInviteModalOpen} handleClose={handleInviteModalClose} />
-      {!isInviteModalOpen && (
-        <>
-          <Headroom>
-            <Header />
-          </Headroom>
-          <div className="container mx-auto min-h-[calc(100vh-140px)] max-w-[1244px] p-4 lg:p-8">
-            {children}
-          </div>
+    <div className="font-rogan-regular min-h-screen bg-[#FFFFFF] text-[#0A0B0D] dark:bg-[#0A0B0D] dark:text-white">
+      <div className="flex h-screen">
+        <Sidebar />
+        <div
+          className={`flex flex-1 flex-col transition-all duration-200 ${sidebarExpanded ? "md:ml-[170px]" : "md:ml-[60px]"}`}
+        >
+          {/* Announcement Bar */}
+          <Announcement positionsCount={positionsCount} />
+
+          {/* Content Area */}
+          <main className="flex-1 p-4 md:p-8">{children}</main>
           <Footer />
-        </>
-      )}
+        </div>
+      </div>
     </div>
   )
 }
-
-// import { useDispatch, useSelector } from 'react-redux'
-// import Footer from './Footer'
-// import { Header } from './Header'
-// import { AppStore } from '@/types/store'
-// import { useEffect } from 'react'
-// import { updateTheme } from '@/lib/redux/slices/theme'
-// import Headroom from 'react-headroom'
-
-// interface MainLayoutProps {
-//   children: any
-// }
-
-// export const MainLayout = ({ children }: MainLayoutProps) => {
-//   const dispatch = useDispatch()
-//   const theme = useSelector((store: AppStore) => store.theme.theme)
-
-//   useEffect(() => {
-//     if (theme === '') {
-//       dispatch(updateTheme('light' as any))
-//     }
-
-//     if (typeof window !== 'undefined') {
-//       if (theme === 'light') {
-//         document.documentElement.classList.remove('dark')
-//         document.documentElement.classList.add('light')
-//       } else {
-//         document.documentElement.classList.add('dark')
-//         document.documentElement.classList.remove('light')
-//       }
-//     }
-//   }, [theme, dispatch])
-
-//   return (
-//     <div className="font-rogan-regular min-h-screen bg-[#FFFFFF] text-white dark:bg-[#030303]">
-//       <Headroom>
-//         <Header />
-//       </Headroom>
-//       <div className="container mx-auto min-h-[calc(100vh-140px)] max-w-[1244px] p-4 lg:p-8">
-//         {children}
-//       </div>
-//       <Footer />
-//     </div>
-//   )
-// }

@@ -1110,7 +1110,7 @@ const HomePageFilter = () => {
   }
 
   return (
-    <div className="relative mt-[80px] flex w-full flex-wrap items-center justify-center rounded-t-[10px] border-[1px] bg-white from-[#25252566] pt-[80px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-br md:mt-[-16px] md:pt-0">
+    <div className="relative mt-[80px] flex w-full flex-wrap items-center justify-center rounded-t-[10px] border-[1px] bg-white from-[#25252566] pt-[80px] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-[#030303] md:mt-[-10px] md:pt-0">
       <div className="h-[100px] w-full md:h-[140px] md:w-[50%]">
         <div className="flex flex-col items-center justify-center w-full h-full space-y-2">
           <div className="text-[16px] text-[#959595]">Total Supply</div>

@@ -38,7 +38,7 @@ export const Distribution = () => {
     )
   }
   return (
-    <div className="mt-[-12px] md:px-[15%]">
+    <div className="mt-[-12px] md:px-[15%] pt-8">
       <div className="w-full mx-auto text-center mt-[-24px]">
         <h1 className="font-rogan text-[#030303] dark:text-white text-[38px] font-[400] leading-[60px] md:text-[52px]">
           Distribution
