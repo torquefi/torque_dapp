@@ -8,7 +8,7 @@ import { bigNumberify } from "@/lib/numbers"
 import type { AppStore } from "@/types/store"
 import BigNumber from "bignumber.js"
 import { ethers } from "ethers"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion } from "framer-motion"
 import { useEffect, useState } from "react"
 import { NumericFormat } from "react-number-format"
 import { useSelector } from "react-redux"
@@ -294,9 +294,9 @@ export default function UniSwapModal({ open, handleClose, title, createButtonTex
   const toggleMode = () => {
     if (mode === "basic") {
       setMode("pro")
-      router.push("/trade") // Navigate to the trade page when Pro mode is active
+      router.push("/trade")
     } else {
-      setMode("basic") // Switch back to basic mode
+      setMode("basic")
     }
   }
 
@@ -310,6 +310,7 @@ export default function UniSwapModal({ open, handleClose, title, createButtonTex
   const priceImpact = "0.05%"
   const minimumReceived = amountTo ? (Number(amountTo) * 0.995).toFixed(6) : "0.00"
 
+  // Token selection component
   const TokenSelector = ({ token, onClick }: { token: Token; onClick: () => void }) => (
     <div
       className="flex items-center gap-2 bg-gray-200 dark:bg-gray-700 rounded-lg px-2 py-1 cursor-pointer"
@@ -388,70 +389,68 @@ export default function UniSwapModal({ open, handleClose, title, createButtonTex
             </motion.div>
 
             {/* Settings Dropdown */}
-            <AnimatePresence>
-              {showSettings && (
-                <motion.div
-                  className="mb-4 p-3 bg-[#EFF2F5] dark:bg-[#1D2833] rounded-lg"
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-sm text-gray-600 dark:text-gray-300">Slippage Tolerance</span>
-                    <div className="flex items-center space-x-2">
-                      <motion.button
-                        className={`px-2 py-1 text-xs rounded-md ${slippage === "0.1" ? "bg-gray-200 dark:bg-[#353A45]" : "bg-gray-100 dark:bg-[#2A2D35]"}`}
-                        onClick={() => setSlippage("0.1")}
-                        whileTap={{ scale: 0.95 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        0.1%
-                      </motion.button>
-                      <motion.button
-                        className={`px-2 py-1 text-xs rounded-md ${slippage === "0.5" ? "bg-gray-200 dark:bg-[#353A45]" : "bg-gray-100 dark:bg-[#2A2D35]"}`}
-                        onClick={() => setSlippage("0.5")}
-                        whileTap={{ scale: 0.95 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        0.5%
-                      </motion.button>
-                      <motion.button
-                        className={`px-2 py-1 text-xs rounded-md ${slippage === "1.0" ? "bg-gray-200 dark:bg-[#353A45]" : "bg-gray-100 dark:bg-[#2A2D35]"}`}
-                        onClick={() => setSlippage("1.0")}
-                        whileTap={{ scale: 0.95 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        1.0%
-                      </motion.button>
-                      <div className="relative">
-                        <input
-                          type="text"
-                          value={slippage}
-                          onChange={(e) => setSlippage(e.target.value)}
-                          className="w-12 px-2 py-1 text-xs rounded-md bg-gray-100 dark:bg-[#2A2D35] text-right"
-                        />
-                        <span className="absolute right-2 top-1 text-xs">%</span>
-                      </div>
+            {showSettings && (
+              <motion.div
+                className="mb-4 p-3 bg-[#EFF2F5] dark:bg-[#1D2833] rounded-lg"
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-sm text-gray-600 dark:text-gray-300">Slippage Tolerance</span>
+                  <div className="flex items-center space-x-2">
+                    <motion.button
+                      className={`px-2 py-1 text-xs rounded-md ${slippage === "0.1" ? "bg-gray-200 dark:bg-[#353A45]" : "bg-gray-100 dark:bg-[#2A2D35]"}`}
+                      onClick={() => setSlippage("0.1")}
+                      whileTap={{ scale: 0.95 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      0.1%
+                    </motion.button>
+                    <motion.button
+                      className={`px-2 py-1 text-xs rounded-md ${slippage === "0.5" ? "bg-gray-200 dark:bg-[#353A45]" : "bg-gray-100 dark:bg-[#2A2D35]"}`}
+                      onClick={() => setSlippage("0.5")}
+                      whileTap={{ scale: 0.95 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      0.5%
+                    </motion.button>
+                    <motion.button
+                      className={`px-2 py-1 text-xs rounded-md ${slippage === "1.0" ? "bg-gray-200 dark:bg-[#353A45]" : "bg-gray-100 dark:bg-[#2A2D35]"}`}
+                      onClick={() => setSlippage("1.0")}
+                      whileTap={{ scale: 0.95 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      1.0%
+                    </motion.button>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        value={slippage}
+                        onChange={(e) => setSlippage(e.target.value)}
+                        className="w-12 px-2 py-1 text-xs rounded-md bg-gray-100 dark:bg-[#2A2D35] text-right"
+                      />
+                      <span className="absolute right-2 top-1 text-xs">%</span>
                     </div>
                   </div>
+                </div>
 
-                  {/* Destination Address Toggle */}
-                  <div className="flex justify-between items-center mt-3">
-                    <span className="text-sm text-gray-600 dark:text-gray-300">Custom Recipient</span>
-                    <label className="relative inline-flex items-center cursor-pointer">
-                      <input
-                        type="checkbox"
-                        className="sr-only peer"
-                        checked={showDestinationAddress}
-                        onChange={() => setShowDestinationAddress(!showDestinationAddress)}
-                      />
-                      <div className="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-[#AA5BFF]"></div>
-                    </label>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+                {/* Destination Address Toggle */}
+                <div className="flex justify-between items-center mt-3">
+                  <span className="text-sm text-gray-600 dark:text-gray-300">Custom Recipient</span>
+                  <label className="relative inline-flex items-center cursor-pointer">
+                    <input
+                      type="checkbox"
+                      className="sr-only peer"
+                      checked={showDestinationAddress}
+                      onChange={() => setShowDestinationAddress(!showDestinationAddress)}
+                    />
+                    <div className="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-[#AA5BFF]"></div>
+                  </label>
+                </div>
+              </motion.div>
+            )}
 
             {/* From Token */}
             <div className="relative">
@@ -702,78 +701,74 @@ export default function UniSwapModal({ open, handleClose, title, createButtonTex
               </motion.div>
 
               {/* Custom Recipient Address */}
-              <AnimatePresence>
-                {showDestinationAddress && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="mb-3"
-                  >
-                    <div className="flex justify-between mb-1">
-                      <span className="text-sm text-gray-500 font-medium dark:text-gray-400">Recipient Address</span>
-                    </div>
-                    <input
-                      type="text"
-                      placeholder="0x..."
-                      className="w-full rounded-lg border border-[#efefef] dark:border-[#28303e] bg-[#EFF2F5] dark:bg-[#1D2833] p-3 text-[#030303] dark:text-white outline-none"
-                      value={destinationAddress}
-                      onChange={(e) => setDestinationAddress(e.target.value)}
-                    />
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              {showDestinationAddress && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="mb-3"
+                >
+                  <div className="flex justify-between mb-1">
+                    <span className="text-sm text-gray-500 font-medium dark:text-gray-400">Recipient Address</span>
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="0x..."
+                    className="w-full rounded-lg border border-[#efefef] dark:border-[#28303e] bg-[#EFF2F5] dark:bg-[#1D2833] p-3 text-[#030303] dark:text-white outline-none"
+                    value={destinationAddress}
+                    onChange={(e) => setDestinationAddress(e.target.value)}
+                  />
+                </motion.div>
+              )}
 
               {/* Transaction Info */}
-              <AnimatePresence>
-                {amountFrom && amountTo && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="mb-3 p-3 rounded-lg bg-[#EFF2F5] dark:bg-[#1D2833] border border-[#efefef] dark:border-[#28303e]"
-                  >
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-sm text-gray-500 dark:text-gray-400">Rate</span>
-                      <div className="flex items-center">
-                        <span className="text-sm text-[#030303] dark:text-white">
-                          1 {coinFrom?.symbol} = {convertRate.toFixed(6)} {coinTo?.symbol}
-                        </span>
-                      </div>
-                    </div>
-
-                    {isCrossChain && (
-                      <div className="flex justify-between items-center mb-2">
-                        <span className="text-sm text-gray-500 dark:text-gray-400">Bridge Fee</span>
-                        <span className="text-sm text-[#030303] dark:text-white">~$2.50</span>
-                      </div>
-                    )}
-
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-sm text-gray-500 dark:text-gray-400">
-                        {isCrossChain ? "Gas Fee" : "Network Fee"}
+              {amountFrom && amountTo && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="mb-3 p-3 rounded-lg bg-[#EFF2F5] dark:bg-[#1D2833] border border-[#efefef] dark:border-[#28303e]"
+                >
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-sm text-gray-500 dark:text-gray-400">Rate</span>
+                    <div className="flex items-center">
+                      <span className="text-sm text-[#030303] dark:text-white">
+                        1 {coinFrom?.symbol} = {convertRate.toFixed(6)} {coinTo?.symbol}
                       </span>
-                      <span className="text-sm text-[#030303] dark:text-white">~$1.20</span>
                     </div>
+                  </div>
 
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-500 dark:text-gray-400">Slippage Tolerance</span>
-                      <span className="text-sm text-[#030303] dark:text-white">{slippage}%</span>
+                  {isCrossChain && (
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-sm text-gray-500 dark:text-gray-400">Bridge Fee</span>
+                      <span className="text-sm text-[#030303] dark:text-white">~$2.50</span>
                     </div>
+                  )}
 
-                    {isCrossChain && (
-                      <div className="mt-2 pt-2 border-t border-gray-200 dark:border-gray-700">
-                        <div className="flex items-center gap-1 text-xs text-amber-500">
-                          <Info size={12} />
-                          <span>Omnichain transfers typically take 10-30 minutes to complete</span>
-                        </div>
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-sm text-gray-500 dark:text-gray-400">
+                      {isCrossChain ? "Gas Fee" : "Network Fee"}
+                    </span>
+                    <span className="text-sm text-[#030303] dark:text-white">~$1.20</span>
+                  </div>
+
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-gray-500 dark:text-gray-400">Slippage Tolerance</span>
+                    <span className="text-sm text-[#030303] dark:text-white">{slippage}%</span>
+                  </div>
+
+                  {isCrossChain && (
+                    <div className="mt-2 pt-2 border-t border-gray-200 dark:border-gray-700">
+                      <div className="flex items-center gap-1 text-xs text-amber-500">
+                        <Info size={12} />
+                        <span>Omnichain transfers typically take 10-30 minutes to complete</span>
                       </div>
-                    )}
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                    </div>
+                  )}
+                </motion.div>
+              )}
             </div>
           </div>
 
