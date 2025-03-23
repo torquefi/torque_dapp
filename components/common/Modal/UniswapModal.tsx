@@ -294,9 +294,9 @@ export default function UniSwapModal({ open, handleClose, title, createButtonTex
   const toggleMode = () => {
     if (mode === "basic") {
       setMode("pro")
-      router.push("/trade")
+      router.push("/trade") // Navigate to the trade page when Pro mode is active
     } else {
-      setMode("basic")
+      setMode("basic") // Switch back to basic mode
     }
   }
 
@@ -310,7 +310,6 @@ export default function UniSwapModal({ open, handleClose, title, createButtonTex
   const priceImpact = "0.05%"
   const minimumReceived = amountTo ? (Number(amountTo) * 0.995).toFixed(6) : "0.00"
 
-  // Token selection component
   const TokenSelector = ({ token, onClick }: { token: Token; onClick: () => void }) => (
     <div
       className="flex items-center gap-2 bg-gray-200 dark:bg-gray-700 rounded-lg px-2 py-1 cursor-pointer"
