@@ -124,19 +124,27 @@ export interface UniSwapModalProps {
   createButtonText?: string
 }
 
+interface Token {
+  symbol: string;
+  tokenContractInfo?: {
+    abi: string;
+    address: string;
+  };
+}
+
 export default function UniSwapModal({ open, handleClose, title, createButtonText }: UniSwapModalProps) {
   const { address } = useAccount()
   const theme = useSelector((store: AppStore) => store.theme.theme)
   const [openPopover, setOpenPopover] = useState(false)
 
   const [loading, setLoading] = useState(false)
-  const [coinFrom, setCoinFrom] = useState<any>(listSwapCoin[0])
-  const [coinTo, setCoinTo] = useState<any>(listSwapCoin[2])
+  const [coinFrom, setCoinFrom] = useState<Token>(listSwapCoin[0])
+  const [coinTo, setCoinTo] = useState<Token>(listSwapCoin[2])
   const [isOpenConnectWalletModal, setOpenConnectWalletModal] = useState(false)
   const [listBalances, setListBalances] = useState<any>({})
   const [amountFrom, setAmountFrom] = useState("")
   const [amountTo, setAmountTo] = useState("")
-  const [mode, setMode] = useState("basic") // Default to 'basic'
+  const [mode, setMode] = useState("basic")
   const [showDetails, setShowDetails] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
   const [slippage, setSlippage] = useState("0.5")
@@ -150,11 +158,11 @@ export default function UniSwapModal({ open, handleClose, title, createButtonTex
 
   const convertRate = Number(usdPrice[coinFrom?.symbol]) / Number(usdPrice[coinTo?.symbol] || 1)
 
-  const handleGetBalanceToken = async (item: any) => {
+  const handleGetBalanceToken = async (item: Token) => {
     try {
       const amount = await getBalanceByContractToken(
-        item.tokenContractInfo.abi,
-        item.tokenContractInfo.address,
+        item.tokenContractInfo?.abi,
+        item.tokenContractInfo?.address,
         address,
       )
       return amount
@@ -225,27 +233,27 @@ export default function UniSwapModal({ open, handleClose, title, createButtonTex
           amountParsed,
           0,
           fee,
-          coinFrom.tokenContractInfo.address,
-          coinTo.tokenContractInfo.address,
+          coinFrom.tokenContractInfo?.address,
+          coinTo.tokenContractInfo?.address,
         )
 
         const tx = await swapContract1.swapExactInputSingleHop(
           amountParsed,
           0,
           fee,
-          coinFrom.tokenContractInfo.address,
-          coinTo.tokenContractInfo.address,
+          coinFrom.tokenContractInfo?.address,
+          coinTo.tokenContractInfo?.address,
         )
         await tx.wait()
       } else if (swapType?.type === "multi") {
         const path = await swapContract1.encoderPath(
-          coinFrom.tokenContractInfo.address,
+          coinFrom.tokenContractInfo?.address,
           swapType?.fee1,
           swapType?.tokenIntermediate,
           swapType?.fee2,
-          coinTo.tokenContractInfo.address,
+          coinTo.tokenContractInfo?.address,
         )
-        const tx = await swapContract1.swapExactInputMultiHop(amountParsed, 0, path, coinFrom.tokenContractInfo.address)
+        const tx = await swapContract1.swapExactInputMultiHop(amountParsed, 0, path, coinFrom.tokenContractInfo?.address)
         await tx.wait()
         console.log("path :>> ", path)
       }
@@ -286,9 +294,9 @@ export default function UniSwapModal({ open, handleClose, title, createButtonTex
   const toggleMode = () => {
     if (mode === "basic") {
       setMode("pro")
-      router.push("/trade") // Navigate to the trade page when Pro mode is active
+      router.push("/trade")
     } else {
-      setMode("basic") // Switch back to basic mode
+      setMode("basic")
     }
   }
 
@@ -303,7 +311,7 @@ export default function UniSwapModal({ open, handleClose, title, createButtonTex
   const minimumReceived = amountTo ? (Number(amountTo) * 0.995).toFixed(6) : "0.00"
 
   // Token selection component
-  const TokenSelector = ({ token, onClick }) => (
+  const TokenSelector = ({ token, onClick }: { token: Token; onClick: () => void }) => (
     <div
       className="flex items-center gap-2 bg-gray-200 dark:bg-gray-700 rounded-lg px-2 py-1 cursor-pointer"
       onClick={onClick}
@@ -808,4 +816,3 @@ export default function UniSwapModal({ open, handleClose, title, createButtonTex
     </>
   )
 }
-
