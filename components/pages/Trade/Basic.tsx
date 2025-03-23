@@ -109,7 +109,7 @@ export const BasicMode = () => {
     }
   }
 
-  const TokenDropdown = ({ tokens, currentSymbol, onChange }) => {
+  const TokenDropdown = ({ tokens, currentSymbol, onChange }: any) => {
     const [isOpen, setIsOpen] = useState(false)
 
     return (
@@ -139,7 +139,7 @@ export const BasicMode = () => {
               transition={{ duration: 0.2 }}
             >
               <div className="max-h-40 overflow-y-auto">
-                {tokens.map((token) => (
+                {tokens.map((token: any) => (
                   <div
                     key={token.symbol}
                     className={`flex items-center p-1.5 hover:bg-gray-50 dark:hover:bg-[#2A2D35] cursor-pointer ${
@@ -170,7 +170,7 @@ export const BasicMode = () => {
     )
   }
 
-  const NetworkSelector = ({ isFrom = true, network, setNetwork }) => {
+  const NetworkSelector = ({ isFrom = true, network, setNetwork }: any) => {
     const [isOpen, setIsOpen] = useState(false)
 
     return (
@@ -226,10 +226,12 @@ export const BasicMode = () => {
   }
 
   return (
-    <motion.div className="max-w-md mx-auto" initial="hidden" animate="visible" variants={fadeIn}>
+    <motion.div className="max-w-md mx-auto" initial="hidden" animate="visible" 
+    // variants={fadeIn}
+    >
       <motion.div
         className="bg-white dark:bg-[#1A1D21] rounded-xl shadow-sm border border-gray-100 dark:border-[#2A2D35] p-4"
-        variants={slideIn}
+        // variants={slideIn}
       >
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold text-[#030303] dark:text-white">Swap</h2>
@@ -331,7 +333,7 @@ export const BasicMode = () => {
                   placeholder="0.00"
                   className="w-full border-none font-semibold bg-transparent text-xl focus:outline-none dark:text-white"
                   value={fromTokens[0].amount}
-                  onChange={(e) => updateFromAmount(0, e.target.value)}
+                  // onChange={(e) => updateFromAmount(0, e.target.value)}
                 />
                 <span className="text-sm text-gray-500 font-medium dark:text-gray-400 mt-1">$0.00</span>
               </div>
@@ -342,7 +344,7 @@ export const BasicMode = () => {
                       (t) => !fromTokens.some((ft, i) => i !== 0 && ft.symbol === t.symbol),
                     )}
                     currentSymbol={fromTokens[0].symbol}
-                    onChange={(symbol) => changeFromToken(0, symbol)}
+                    // onChange={(symbol) => changeFromToken(0, symbol)}
                   />
                   {isCrossChain && (
                     <NetworkSelector isFrom={true} network={fromNetwork} setNetwork={setFromNetwork} />
@@ -367,7 +369,7 @@ export const BasicMode = () => {
             </motion.div>
           </div>
 
-          <div className="rounded-xl w-full items-center justify-center rounded-md border bg-transparent border-[#efefef] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b p-3 mb-3">
+          <div className="rounded-xl w-full items-center justify-center border bg-transparent border-[#efefef] dark:border-[#1A1A1A] dark:bg-transparent dark:bg-gradient-to-b p-3 mb-3">
             <div className="flex justify-between mb-1">
               <span className="text-sm text-gray-500 font-medium dark:text-gray-400">To</span>
             </div>
@@ -378,7 +380,7 @@ export const BasicMode = () => {
                   placeholder="0.00"
                   className="w-full border-none font-semibold bg-transparent text-xl focus:outline-none dark:text-white"
                   value={toTokens[0].amount}
-                  onChange={(e) => updateToAmount(0, e.target.value)}
+                  // onChange={(e) => updateToAmount(0, e.target.value)}
                 />
                 <span className="text-sm text-gray-500 font-medium dark:text-gray-400 mt-1">
                   Balance: {toTokens[0].balance}
@@ -391,7 +393,7 @@ export const BasicMode = () => {
                       (t) => !toTokens.some((tt, i) => i !== 0 && tt.symbol === t.symbol),
                     )}
                     currentSymbol={toTokens[0].symbol}
-                    onChange={(symbol) => changeToToken(0, symbol)}
+                    // onChange={(symbol) => changeToToken(0, symbol)}
                   />
                   {isCrossChain && <NetworkSelector isFrom={false} network={toNetwork} setNetwork={setToNetwork} />}
                 </div>

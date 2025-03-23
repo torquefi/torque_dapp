@@ -62,7 +62,7 @@ const arbitrumMainnetInfo = {
 }
 
 // Portal-based tooltip component
-const TooltipPortal = ({ children }) => {
+const TooltipPortal = ({ children }: any) => {
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -70,7 +70,7 @@ const TooltipPortal = ({ children }) => {
     return () => setMounted(false)
   }, [])
 
-  return mounted ? createPortal(children, document.body) : null
+  return mounted ? children : null
 }
 
 export const Sidebar = () => {
@@ -225,7 +225,7 @@ export const Sidebar = () => {
 
   // Close FAB menu when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (event: any) => {
       if (fabButtonRef.current && !fabButtonRef.current.contains(event.target) && fabMenuOpen) {
         setFabMenuOpen(false)
       }
@@ -258,7 +258,7 @@ export const Sidebar = () => {
   }
 
   // Check if a path is active
-  const isActive = (path) => {
+  const isActive = (path : string) => {
     return currentPath.includes(path)
   }
 
@@ -271,7 +271,7 @@ export const Sidebar = () => {
   }
 
   // Update tooltip position based on the element
-  const updateTooltipPosition = (index, type) => {
+  const updateTooltipPosition = (index: number, type: string) => {
     let ref
 
     if (type === "nav") {
@@ -292,7 +292,7 @@ export const Sidebar = () => {
   }
   
   // Toggle FAB menu
-  const toggleFabMenu = (e) => {
+  const toggleFabMenu = (e: any) => {
     e.stopPropagation()
     setFabMenuOpen(!fabMenuOpen)
   }

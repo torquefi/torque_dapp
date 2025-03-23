@@ -15,7 +15,7 @@ export const TradePage = () => {
         className="flex justify-between items-center mb-4"
         initial="hidden"
         animate="visible"
-        variants={fadeIn}
+        // variants={fadeIn}
       >
         <h1 className="text-2xl font-bold text-[#030303] dark:text-white">
           {mode === "basic" ? "Basic" : "Pro"}

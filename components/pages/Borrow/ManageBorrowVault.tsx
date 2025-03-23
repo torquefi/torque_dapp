@@ -6,7 +6,7 @@ import { useState } from "react"
 import SkeletonDefault from "@/components/skeleton"
 
 interface ManageBorrowVaultProps {
-  setIsFetchBorrowLoading: (value: React.SetStateAction<boolean>) => void
+  setIsFetchBorrowLoading?: (value: React.SetStateAction<boolean>) => void
 }
 
 const ManageBorrowVault = ({ setIsFetchBorrowLoading }: ManageBorrowVaultProps) => {

@@ -2,14 +2,14 @@
 
 import { useState } from "react"
 import { Search, ChevronDown } from "lucide-react"
-import type { IBorrowInfo } from "../../types"
 import { motion } from "framer-motion"
+import { IBorrowInfo } from "../types"
 
 interface SelectCollateralProps {
   availableCollaterals: IBorrowInfo[]
   selectedCollateral: IBorrowInfo | null
   onSelect: (collateral: IBorrowInfo) => void
-  onNext: () => void
+  onNext?: () => void
 }
 
 const SelectCollateral = ({ availableCollaterals, selectedCollateral, onSelect, onNext }: SelectCollateralProps) => {

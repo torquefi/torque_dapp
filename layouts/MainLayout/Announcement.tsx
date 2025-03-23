@@ -4,7 +4,7 @@ import { X } from 'lucide-react'; // Import the X icon from Lucide
 
 interface AnnouncementProps {
   positionsCount: number;
-  isWalletConnected: boolean;
+  isWalletConnected?: boolean;
 }
 
 const Announcement: React.FC<AnnouncementProps> = ({ positionsCount, isWalletConnected }) => {

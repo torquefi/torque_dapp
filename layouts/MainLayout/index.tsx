@@ -25,7 +25,7 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
     }
 
     // Listen for sidebar state changes
-    const handleStorageChange = (e) => {
+    const handleStorageChange = (e: any) => {
       if (e.key === "sidebar:expanded") {
         setSidebarExpanded(e.newValue === "true")
       }

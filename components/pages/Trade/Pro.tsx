@@ -3,10 +3,13 @@
 
 import { useState, useMemo } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { ChevronDown, Plus, Minus, X, TrendingUp, TrendingDown, Clock, BarChart3, Layers } from "lucide-react"
+import { ChevronDown, Plus, Minus, X, TrendingUp, TrendingDown, Clock, BarChart3, Layers, DollarSign, ChevronsDownUp } from "lucide-react"
 import { XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from "recharts"
+import { useSelector } from "react-redux"
+import { AppStore } from "@/types/store"
 
 export const ProMode = () => {
+  const theme = useSelector((store: AppStore) => store.theme.theme)
   const [selectedMarket, setSelectedMarket] = useState("ETH-USD")
   const [timeframe, setTimeframe] = useState("1D")
   const [position, setPosition] = useState("long")
@@ -105,7 +108,7 @@ export const ProMode = () => {
   const positionSize = useMemo(() => {
     if (!collateral || !marketPrice) return "0"
     const size =
-      (Number.parseFloat(collateral.replace(/,/g, "")) * leverage / Number.parseFloat(marketPrice.replace(/,/g, ""))
+      (Number.parseFloat(collateral.replace(/,/g, "")) * leverage / Number.parseFloat(marketPrice.replace(/,/g, "")))
     return size.toFixed(4)
   }, [collateral, marketPrice, leverage])
 
@@ -119,7 +122,7 @@ export const ProMode = () => {
     }
   }, [marketPrice, leverage, position])
 
-  const CustomTooltip = ({ active, payload, label }) => {
+  const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
         <div className="bg-white dark:bg-[#1A1D21] p-3 rounded-lg shadow-md border border-gray-100 dark:border-[#2A2D35]">
@@ -305,7 +308,7 @@ export const ProMode = () => {
             onClick={() => setShowDetails(!showDetails)}
           >
             Show {showDetails ? "less" : "more"}
-            <ChevronDownUp
+            <ChevronsDownUp
               size={14}
               className="ml-1 text-gray-500 group-hover:text-[#030303] dark:group-hover:text-white"
             />
@@ -535,12 +538,12 @@ export const ProMode = () => {
       className="grid grid-cols-1 lg:grid-cols-4 gap-4"
       initial="hidden"
       animate="visible"
-      variants={fadeIn}
+      // variants={fadeIn}
     >
       {/* Left Column - Chart */}
       <motion.div
         className="lg:col-span-3 bg-white dark:bg-[#1A1D21] rounded-xl shadow-sm border border-gray-100 dark:border-[#2A2D35] overflow-hidden"
-        variants={slideIn}
+        // variants={slideIn}
       >
         <div className="p-4 border-b border-gray-100 dark:border-[#2A2D35]">
           <div className="flex justify-between items-center">
@@ -630,7 +633,7 @@ export const ProMode = () => {
       {/* Right Column - Order Form */}
       <motion.div
         className="bg-white dark:bg-[#1A1D21] rounded-xl shadow-sm border border-gray-100 dark:border-[#2A2D35] p-4"
-        variants={slideIn}
+        // variants={slideIn}
       >
         <div className="flex mb-4">
           <motion.button
@@ -674,7 +677,7 @@ export const ProMode = () => {
       {/* Bottom Section - Positions/Orders/Trades */}
       <motion.div
         className="lg:col-span-4 bg-white dark:bg-[#1A1D21] rounded-xl shadow-sm border border-gray-100 dark:border-[#2A2D35] p-4"
-        variants={slideIn}
+        // variants={slideIn}
         transition={{ delay: 0.2 }}
       >
         <PositionTabs />
