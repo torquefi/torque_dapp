@@ -1,80 +1,63 @@
-import { AppStore } from '@/types/store'
-import { useRef } from 'react'
-import { useSelector } from 'react-redux'
+"use client"
+
+import React, { useEffect, useRef, useState } from "react"
 
 interface HoverIndicatorGridProps {
+  children: React.ReactNode
+  rows?: number
+  cols?: number
   className?: string
+  activeIndex?: number
   indicatorClassName?: string
-  children?: any
-  cols: number
-  rows: number
-  divider?: boolean
 }
 
-export default function HoverIndicatorGrid({
-  className = '',
-  indicatorClassName = '',
-  children = null,
-  rows = 1,
-  cols = 1,
-}: HoverIndicatorGridProps) {
-  const container = useRef<HTMLDivElement>(null)
-  const indicator = useRef<HTMLDivElement>(null)
-  const theme = useSelector((store: AppStore) => store.theme.theme)
+const HoverIndicatorGrid = ({
+  children,
+  rows = 2,
+  cols = 2,
+  className = "",
+  activeIndex = -1,
+  indicatorClassName = "",
+}: HoverIndicatorGridProps) => {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [hoveredIndex, setHoveredIndex] = useState(activeIndex)
+  const [indicatorStyle, setIndicatorStyle] = useState({})
 
-  const handleMove = (e: any) => {
-    if (!indicator.current || !container.current) {
-      return
+  useEffect(() => {
+    if (containerRef.current && hoveredIndex >= 0) {
+      const gridItems = containerRef.current.querySelectorAll(".grid-item")
+      if (hoveredIndex < gridItems.length) {
+        const item = gridItems[hoveredIndex] as HTMLElement
+        setIndicatorStyle({
+          width: `${item.offsetWidth}px`,
+          height: `${item.offsetHeight}px`,
+          transform: `translate(${item.offsetLeft}px, ${item.offsetTop}px)`,
+        })
+      }
     }
-    const menuRect = container.current.getBoundingClientRect()
-    const left = e.pageX - menuRect.left
-    const top = e.pageY - menuRect.top
-    const width = menuRect.width
-    const height = menuRect.height
-
-    const indicatorW = width / cols
-    const indicatorH = height / rows
-
-    const indicatorLeft = Math.floor(left / indicatorW) * indicatorW
-    const indicatorTop = Math.floor(top / indicatorH) * indicatorH
-
-    // Ensure the indicator stays within the bounds
-    indicator.current.style.width = `${indicatorW}px`
-    indicator.current.style.height = `${indicatorH}px`
-    indicator.current.style.left = `${Math.min(indicatorLeft, width - indicatorW)}px`
-    indicator.current.style.top = `${Math.min(indicatorTop, height - indicatorH)}px`
-  }
-
-  const handleLeave = () => {
-    if (!indicator.current || !container.current) {
-      return
-    }
-    indicator.current.style.opacity = '0'
-  }
-
-  const handleEnter = () => {
-    if (!indicator.current || !container.current) {
-      return
-    }
-    indicator.current.style.opacity = '1'
-  }
+  }, [hoveredIndex])
 
   return (
-    <div
-      ref={container}
-      onMouseMove={handleMove}
-      onMouseEnter={handleEnter}
-      onMouseLeave={handleLeave}
-      className={'relative h-full w-full' + ` ${className}`}
-    >
-      <div
-        className={
-          'pointer-events-none absolute w-0 rounded-[6px] bg-[#f9f9f9] opacity-0 transition-all duration-200 dark:bg-[#141414]' +
-          ` ${indicatorClassName}`
-        }
-        ref={indicator}
-      />
-      <div className="relative">{children}</div>
+    <div ref={containerRef} className={`relative ${className}`}>
+      {React.Children.map(children, (child, index) => (
+        <div
+          key={index}
+          className="grid-item"
+          onMouseEnter={() => setHoveredIndex(index)}
+          onMouseLeave={() => setHoveredIndex(activeIndex)}
+        >
+          {child}
+        </div>
+      ))}
+      {hoveredIndex >= 0 && (
+        <div
+          className={`absolute rounded-lg bg-[#f5f5f5] dark:bg-[#1A1A1A] transition-all duration-200 ease-in-out ${indicatorClassName}`}
+          style={indicatorStyle}
+        />
+      )}
     </div>
   )
 }
+
+export default HoverIndicatorGrid
+
