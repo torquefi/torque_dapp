@@ -5,7 +5,6 @@ import { useWeb3Modal, useWeb3ModalTheme } from '@web3modal/react'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useConnect } from 'wagmi'
-import { X } from 'lucide-react' // Import the close icon from Lucide React
 
 interface ConnectWalletModalProps {
   openModal: boolean
@@ -29,7 +28,7 @@ export default function ConnectWalletModal({
         '--w3m-accent-color': '#AA5BFF',
         '--w3m-background-color': '#AA5BFF',
         '--w3m-overlay-backdrop-filter': 'blur(4px)',
-        '--w3m-z-index': '999',
+        '--w3m-z-index': '999'
       },
     })
   }, [theme])
@@ -60,38 +59,40 @@ export default function ConnectWalletModal({
       className="w-full max-w-[500px] bg-[#FFFFFF] p-[12px] dark:bg-[#030303]"
       open={openModal}
       handleClose={handleClose}
+      hideCloseIcon
     >
-      {/* Connectors List */}
-      <div className="relative overflow-hidden"> {/* Parent container to prevent overflow */}
-        <HoverIndicator
-          direction="vertical"
-          divider
-          indicatorClassName="!rounded-[18px]"
-        >
-          {CONNECTORS.map((item, i) => (
-            <div
-              className="relative flex h-[200px] cursor-pointer flex-col items-center justify-center space-y-2 text-center text-[#030303] dark:text-white"
-              key={i}
-              onClick={item.action}
-            >
-              <img className="w-[64px]" src={item.icon} alt={item.name} />
-              <p className="font-rogan text-[20px]">{item.name}</p>
-              <p className="text-[12px] text-[#959595] xs:text-[14px] sm:text-[16px]">
-                {item.message}
-              </p>
-              {i === 0 && (
-                <div
-                  className={`absolute bottom-0 left-0 h-[1px] w-full ${
-                    theme === 'light'
-                      ? 'bg-gradient-divider-light'
-                      : 'bg-gradient-divider'
-                  }`}
-                />
-              )}
-            </div>
-          ))}
-        </HoverIndicator>
-      </div>
+      <HoverIndicator
+        direction="vertical"
+        divider
+        indicatorClassName="!rounded-[18px] "
+      >
+        {CONNECTORS.map((item, i) => (
+          <div
+            className="flex h-[200px] cursor-pointer  flex-col items-center justify-center space-y-2 text-center text-[#030303] dark:text-white"
+            key={i}
+            onClick={item.action}
+          >
+            <img className="w-[64px]" src={item.icon} alt="" />
+            <p className="font-rogan  text-[20px]">{item.name}</p>
+            <p className="text-[12px] text-[#959595] xs:text-[14px] sm:text-[16px]">
+              {item.message}
+            </p>
+            {i == 0 && (
+              <div
+                className={
+                  ` absolute bottom-0 left-0 h-[1px] w-full` +
+                  `
+              ${theme === 'light'
+                    ? 'bg-gradient-divider-light'
+                    : 'bg-gradient-divider'
+                  }
+               `
+                }
+              />
+            )}
+          </div>
+        ))}
+      </HoverIndicator>
     </Modal>
   )
 }
