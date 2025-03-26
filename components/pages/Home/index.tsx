@@ -4,7 +4,7 @@ import Product from './Product'
 
 export const HomePage = () => {
   return (
-    <div className="">
+    <div>
       <HomePageFilter />
       <Product />
       <Position />

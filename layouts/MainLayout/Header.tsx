@@ -124,7 +124,7 @@ export const Header = () => {
         <div className="container relative mx-auto flex h-[64px] max-w-[1244px] items-center justify-between px-4 lg:px-8">
           <Link href="/" className="flex items-center">
             <img className="h-[26px]" src="/assets/logo.png" alt="" />
-            <h2 className="font-rogan ml-[6px] font-bold tracking-tighter text-[26px] text-[#030303] dark:text-white">
+            <h2 className="font-rogan ml-[6px] text-[26px] text-[#030303] dark:text-white">
               Torque
             </h2>
             {/* <div className="w-[1px] ml-[12px] mt-1 h-[24px] bg-[#EAEAEA] dark:bg-[#1c1c1c]"></div>

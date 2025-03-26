@@ -3,7 +3,7 @@ import ImportPosition from './ImportPosition'
 
 export const ImportPage = () => {
   return (
-    <div className="pt-16">
+    <div className="">
       <ImportPosition/>
     </div>
   )
