@@ -23,7 +23,7 @@ export const BoostPage = () => {
         {visibilityBoostBanner && (
           <>
             <div className="hidden lg:block">
-              <SkeletonDefault height={'48vh'} />
+              <SkeletonDefault height={'40vh'} />
             </div>
             <div className="lg:hidden">
               <SkeletonDefault height={'15vh'} />
