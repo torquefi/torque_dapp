@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import type { AppStore } from "@/types/store"
@@ -8,13 +9,27 @@ import { useSelector } from "react-redux"
 export default function Banner() {
   const theme = useSelector((store: AppStore) => store.theme.theme)
 
+  // Preload both images to ensure they're in browser cache
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const lightImage = new window.Image()
+      lightImage.src = "/assets/banners/boost-light-compressed.png"
+      lightImage.crossOrigin = "anonymous"
+
+      const darkImage = new window.Image()
+      darkImage.src = "/assets/banners/boost-compressed.png"
+      darkImage.crossOrigin = "anonymous"
+    }
+  }, [])
+
+  const currentImageSrc =
+    theme === "light" ? "/assets/banners/boost-light-compressed.png" : "/assets/banners/boost-compressed.png"
+
   return (
     <div className="relative">
       <div className="relative w-full aspect-[4/1] rounded-xl overflow-hidden">
         <Image
-          src={
-            theme === "light" ? "/assets/banners/boost-light-compressed.png" : "/assets/banners/boost-compressed.png"
-          }
+          src={currentImageSrc || "/placeholder.svg"}
           alt="Torque Boost"
           fill
           priority
@@ -45,4 +60,3 @@ export default function Banner() {
     </div>
   )
 }
-
